@@ -38,6 +38,7 @@ function removeAD() {
     a = document.getElementsByClassName("SignBaseComponent-sign-ad");
     if (a != undefined) {
         for (let i = 0; i < a.length; i++) {
+            // a[i].style.display = "none";
             a[i].remove();
         }
     }
