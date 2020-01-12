@@ -1,0 +1,33 @@
+.ex-panel {
+	width: 450px;
+	height: 50px;
+	position: absolute;
+	bottom: 35px;
+	right: 100px;
+	background-color: rgba(255,255,255,0.9);
+	display: none;
+	border: 2px rgb(234,173,26) solid;
+}
+.ex-panel__wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+.ex-panel__icon {
+	margin: 0 10px;
+	display: block;
+	position: relative;
+	padding: 5px;
+}
+.ex-panel__tip {
+	display:none;
+	background:#f00;
+	border-radius:50%;
+	width:8px;
+	height:8px;
+	top:0px;
+	right:0px;
+	position:absolute;
+}
