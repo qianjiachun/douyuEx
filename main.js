@@ -33,7 +33,6 @@ function initStyles(){let style=document.createElement("style");style.appendChil
  bottom: 200px;
  display: none;
 }
-
 .bloop__switch {
  position: absolute;
  right: 0;
@@ -52,7 +51,6 @@ function initStyles(){let style=document.createElement("style");style.appendChil
  bottom: 200px;
  display: none;
 }
-
 .extool__switch {
  position: absolute;
  right: 0;
@@ -61,7 +59,6 @@ function initStyles(){let style=document.createElement("style");style.appendChil
 .extool__bsize,.extool__sendgift {
  margin-bottom: 5px;
 }
-
 .ex-panel {
  width: 450px;
  height: 50px;
