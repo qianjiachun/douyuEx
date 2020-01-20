@@ -54,6 +54,12 @@ function getToken() {
 	return ret;
 }
 
+function getDyDid() {
+	let cookie = document.cookie;
+	let ret = getStrMiddle(cookie, "dy_did=", ";");
+	return ret;
+}
+
 function showMessage(msg, type) {
 	// type: success[green] error[red] warning[orange] info[blue]
 	new NoticeJs({
@@ -69,15 +75,15 @@ function openPage(url, b) {
 	});
 }
 
-function closePage(){
-    if(navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") != -1){
-        window.location.href = "about:blank";
-        window.close();
-    }else{
-        window.opener = null;
-        window.open("", "_self");
-        window.close();
-    }
+function closePage() {
+	if (navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") != -1) {
+		window.location.href = "about:blank";
+		window.close();
+	} else {
+		window.opener = null;
+		window.open("", "_self");
+		window.close();
+	}
 }
 
 function getQueryString(name) {
@@ -89,3 +95,34 @@ function getQueryString(name) {
 	if (r != null) return decodeURIComponent(r[2]);
 	return null;
 }
+
+function dateFormat(fmt, date) {
+	var o = {
+		"M+": date.getMonth() + 1,
+		"d+": date.getDate(),
+		"h+": date.getHours(),
+		"m+": date.getMinutes(),
+		"s+": date.getSeconds(),
+		"q+": Math.floor((date.getMonth() + 3) / 3),
+		"S": date.getMilliseconds()
+	};
+	if (/(y+)/.test(fmt))
+		fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for (var k in o)
+		if (new RegExp("(" + k + ")").test(fmt))
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	return fmt;
+}
+
+function getRandom(min, max) {
+	return Math.floor(Math.random() * (max - min) + min);
+}
+
+function isRid(str) {
+	if (/^[0-9]+$/.test(str)) { //这是用正则表达是检查
+		return true;
+	} else {
+		return false;
+	}
+}
+

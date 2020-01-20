@@ -21,7 +21,11 @@ function ExpandTool_SendGift_insertFunc() {
         let gid = document.getElementById("extool__sendgift_id").value;
         let gcnt = document.getElementById("extool__sendgift_cnt").value;
         sendGift_any(gid, gcnt, rid).then(ret => {
-            showMessage("【送礼】" + ret.msg + " " + ret.data.gid + "送出" + ret.data.num + "个 贡献值" + ret.data.priceType, "success");
+			if (ret.data != null) {
+				showMessage("【送礼】" + ret.msg + " " + ret.data.gid + "送出" + ret.data.num + "个 贡献值" + ret.data.priceType, "success");
+			} else {
+				showMessage("【送礼】" + ret.msg, "error");
+			}
         }).catch(err => {
             console.log("请求失败!", err);
         })

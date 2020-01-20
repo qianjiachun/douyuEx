@@ -50,6 +50,7 @@ function getFishPond_TaskList_Day() {
 	}).then(res => {
 		return res.json();
 	}).then(ret => {
+		
 		for (let i = 0; i < ret.data.list.length; i++) {
 			if (ret.data.list[i].status == "2") {
 				FishPond_showTip(true);

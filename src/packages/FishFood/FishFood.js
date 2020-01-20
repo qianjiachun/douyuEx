@@ -25,30 +25,34 @@ function initPkg_FishFood_Func() {
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(res => {
 			return res.json();
-		}).then(ret =>{
+		}).then(async (ret) =>{
 			let cnt = Number(ret.data.dailyMaxLotteryTimes) - Number(ret.data.usedLotteryCount);
 			if (cnt == 0) {
 				showMessage("【寻宝】" + "今日寻宝次数已到达上限", "warning");
 				return;
 			}
 			for (let i = 0; i < cnt; i++) {
-				fetch("https://www.douyu.com/japi/activepointnc/api/dolottery", {
-					method: 'POST',
-					mode: 'no-cors',
-					credentials: 'include',
-					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-					body: 'rid=' + rid
-				}).then(res => {
-					return res.json();
-				}).then(ret => {
-					if (ret.data != null) {
-						if (Object.keys(ret.data).length != 0) {
-							showMessage("【寻宝】" + ret.data.msg, "success");
+				await sleep(1111).then(() => {
+					fetch("https://www.douyu.com/japi/activepointnc/api/dolottery", {
+						method: 'POST',
+						mode: 'no-cors',
+						credentials: 'include',
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+						body: 'rid=' + rid
+					}).then(res => {
+						return res.json();
+					}).then(ret => {
+						if (ret.data != null) {
+							if (Object.keys(ret.data).length != 0) {
+								showMessage("【寻宝】" + ret.data.msg, "success");
+							}
+						} else {
+							showMessage("【寻宝】" + ret.msg, "warning");
 						}
-					} else {
-						showMessage("【寻宝】" + ret.msg, "warning");
-					}
-					// console.log("【寻宝】" + ret.data.msg);
+						// console.log("【寻宝】" + ret.data.msg);
+					}).catch(err => {
+						console.log("请求失败!", err);
+					})
 				})
 			}
 		})

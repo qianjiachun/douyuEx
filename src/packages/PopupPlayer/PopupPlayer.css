@@ -1,0 +1,49 @@
+.videoDiv {
+    width: 400px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0);
+    position: absolute;
+    z-index: 7777;
+}
+
+.videoPlayer {
+    width: 100%;
+    height: 100%;
+    cursor: move;
+}
+
+.videoScale {
+    width: 10px;
+    height: 10px;
+    overflow: hidden;
+    cursor: se-resize;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(231, 57, 57);
+}
+
+.videoInfo {
+    width: 100%;
+    height: 30px;
+    background-color: gray;
+    position: absolute;
+    top: -30px;
+    line-height: 30px;
+}
+
+.videoClose {
+    width: 30px;
+    float: right;
+    color: white;
+}
+
+.videoClarity, .videoCDN {
+    margin-left: 5px;
+}
+
+.videoRID {
+    margin: 0px 5px;
+    font-weight: 800;
+    font-size: medium;
+}

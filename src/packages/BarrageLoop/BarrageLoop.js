@@ -7,6 +7,7 @@ let barrageOffset = 0;
 let barrageColorOffset = 0;
 let isChangeColor = true;
 let isMatch = false; //是否为赛事直播间
+let bloopStopTimer;
 
 function initPkg_BarrageLoop() {
 	initPkg_BarrageLoop_Dom();
@@ -20,7 +21,8 @@ function BarrageLoop_insertModal() {
 	a.className = "bloop";
 	html += '<div><label>弹幕(一行一个)：</label></div>';
 	html += '<textarea id="bloop__textarea" rows="5" cols="50"></textarea>';
-	html += '<div><label>速度(ms)：</label><input id="bloop__text_speed" type="text" style="width:50px;text-align:center;" value="2000" /></div>';
+	html += '<div><label>速度(ms)：</label><input id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
+	html += '<div><label>限时(min)：</label><input id="bloop__text_stoptime" type="text" style="width:50px;text-align:center;" value="1" /></div>';
 	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label></div>';
 	html += '<div class="bloop__switch"><label><input id="bloop__checkbox_startSend" type="checkbox">开始发送</label></div>';
 	
@@ -99,13 +101,30 @@ function sendBarrage(text) {
 }
 
 function getSpeed() {
-	return document.getElementById("bloop__text_speed").value;
+	let min = document.getElementById("bloop__text_speed1").value;
+	let max = document.getElementById("bloop__text_speed2").value;
+	let ret = getRandom(Number(min), Number(max));
+	return ret;
 }
 
 function saveData_BarrageLoop() {
+	let speed1 = document.getElementById("bloop__text_speed1").value;
+	let speed2 = document.getElementById("bloop__text_speed2").value;
+	let stopTime = document.getElementById("bloop__text_stoptime").value;
+	if (speed1 == "undefined") {
+		speed1 = 2000;
+	}
+	if (speed2 == "undefined") {
+		speed2 = 3000;
+	}
+	if (stopTime == "undefined") {
+		stopTime = 5;
+	}
 	let data = {
 		text: document.getElementById("bloop__textarea").value,
-		speed: getSpeed(),
+		speed1: speed1,
+		speed2: speed2,
+		stopTime: stopTime,
 		isChangeColor: isChangeColor,
 	}
 	
@@ -113,8 +132,26 @@ function saveData_BarrageLoop() {
 }
 
 
+function getStopTime() {
+	let a = document.getElementById("bloop__text_stoptime").value;
+	return Number(a) * 60 * 1000;
+}
 
-
+function doLoopBarrage() {
+	if (isChangeColor == true) {
+		selectBarrageColor(barrageColorOffset);
+		barrageColorOffset++;
+		if (barrageColorOffset > barrageColorLength) {
+			barrageColorOffset = 0;
+		}
+	}
+	sendBarrage(barrageArr[barrageOffset]);
+	barrageOffset++;
+	if (barrageOffset > barrageLength) {
+		barrageOffset = 0;
+	}
+	bloopTimer = setTimeout(doLoopBarrage, getSpeed());
+}
 
 
 function initPkg_BarrageLoop_Func() {
@@ -143,24 +180,16 @@ function initPkg_BarrageLoop_Func() {
 			getBarrageArr();
 			getBarrageColorArr();
 			saveData_BarrageLoop();
-			bloopTimer = setInterval(() => {
-				if (isChangeColor == true) {
-					selectBarrageColor(barrageColorOffset);
-					barrageColorOffset++;
-					if (barrageColorOffset > barrageColorLength) {
-						barrageColorOffset = 0;
-					}
-				}
-				sendBarrage(barrageArr[barrageOffset]);
-				barrageOffset++;
-				if (barrageOffset > barrageLength) {
-					barrageOffset = 0;
-				}
-				
-			}, getSpeed());
+			bloopTimer = setTimeout(doLoopBarrage, getSpeed());
+			bloopStopTimer = setTimeout(() => {
+				document.getElementById("bloop__checkbox_startSend").checked = false;
+				clearTimeout(bloopTimer);
+			}, getStopTime());
 		} else{
 			// 停止发送
-			clearInterval(bloopTimer);
+			clearTimeout(bloopTimer);
+			clearTimeout(bloopStopTimer);
+			// clearInterval(bloopTimer);
 		}
 	});
 }
@@ -174,11 +203,24 @@ function initPkg_BarrageLoop_Dom() {
 function initPkg_BarrageLoop_Set() {
 	// 设置初始化
 	let ret = localStorage.getItem("ExSave_BarrageLoop");
+	
 	if (ret != null) {
 		let retJson = JSON.parse(ret);
+		if (retJson.speed1 == undefined) {
+			retJson.speed1 = 2000;
+		}
+		if (retJson.speed2 == undefined) {
+			retJson.speed2 = 3000;
+		}
+		if (retJson.stopTime == undefined) {
+			retJson.stopTime = 5;
+		}
 		document.getElementById("bloop__textarea").value = retJson.text;
 		document.getElementById("bloop__checkbox_changeColor").checked = retJson.isChangeColor;
-		document.getElementById("bloop__text_speed").value = retJson.speed;
+		document.getElementById("bloop__text_speed1").value = retJson.speed1;
+		document.getElementById("bloop__text_speed2").value = retJson.speed2;
+		document.getElementById("bloop__text_stoptime").value = retJson.stopTime;
+		
 	}
 	
 }
