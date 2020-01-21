@@ -21,7 +21,7 @@ function PopupPlayer_insertIcon() {
 
 function initPkg_PopupPlayer_Func() {
     document.getElementsByClassName("popup-player")[0].addEventListener("click", function () {
-        let roomUrl = prompt("请输入直播间地址", "https://www.douyu.com/288016");
+        let roomUrl = prompt("请输入直播间地址", "https://www.douyu.com/5189167");
         if (roomUrl == null) {
             return;
         }
