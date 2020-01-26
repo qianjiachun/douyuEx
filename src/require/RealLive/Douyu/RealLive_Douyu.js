@@ -2,7 +2,7 @@
     Get Douyu Real Live URL (http/https)
     By: 小淳
 */
-function getRealLive(room_id, is_https, clarity, cdn, reallive_callback) {
+function getRealLive_Douyu(room_id, is_https, qn, cdn, reallive_callback) {
     // 第一个参数传入string,表示房间号（注意是真实房间号）
     // 第二个参数传入bool,表示是否返回https地址。注意https地址只能使用一次，使用过以后需要再次获取；http地址无限制
     // 第三个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:4)
@@ -18,12 +18,12 @@ function getRealLive(room_id, is_https, clarity, cdn, reallive_callback) {
             let c = b + String(a[2]);
             let tt2 = dateFormat("yyyyMMdd", new Date());
             let tt0 = String(Math.round(new Date().getTime()/1000).toString());
-            RealLive_get_sign_url(tt2, room_id, tt0, c, is_https, clarity, cdn, reallive_callback); // 传入参数无误
+            RealLive_get_sign_url(tt2, room_id, tt0, c, is_https, qn, cdn, reallive_callback); // 传入参数无误
         }
 	});
 }
 
-function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, clarity, cdn, reallive_callback) {
+function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, qn, cdn, reallive_callback) {
     let sign = RealLive_get_sign(r, post_v, tt, ub9);
     if (is_https != true) {
         let postData = 'v=2501' + post_v + '&did=10000000000000000000000000001501&tt=' + tt + '&sign=' + sign + '&ver=219032101&rid=' + r + '&rate=-1';
@@ -51,7 +51,7 @@ function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, clarity, cdn, reall
                     result = "0";
                 }
                 let cl = "";
-                switch (clarity) {
+                switch (qn) {
                     case "1":
                         cl = "550p"
                         break;
@@ -78,7 +78,7 @@ function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, clarity, cdn, reall
             mode: 'no-cors',
             credentials: 'include',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'v=220120200117&did=' + getDyDid() + '&tt=' + tt + '&sign=' + sign + '&cdn=' + cdn + '&rate=' + clarity + '&ver=Douyu_220011605&iar=1&ive=0'
+            body: 'v=220120200117&did=' + getDyDid() + '&tt=' + tt + '&sign=' + sign + '&cdn=' + cdn + '&rate=' + qn + '&ver=Douyu_220011605&iar=1&ive=0'
         }).then(res => {
             return res.json();
         }).then(ret => {

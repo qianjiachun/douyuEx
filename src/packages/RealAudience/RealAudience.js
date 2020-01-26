@@ -44,7 +44,7 @@ function initPkg_RealAudience_Dom() {
 	// html += "<div style='display: inline-block;margin-right:3px;' title='送礼人数'>" + real_giftIcon + '<span id="real-audience__gift">****</span></div>';
 	html += "<div id='real-audience__money' style='display: inline-block;margin-right:3px;' title='礼物价值'>" + real_money_yc + '<span id="real-audience__money_yc">****</span></div>';
 	
-	html += '<span id="real-audience__time" style="float:right">' + "已播:" + "****" + "</span>"
+	html += '<span id="real-audience__time" style="float:right">' + "已播:" + "****" + "</span>";
 	a.innerHTML = html;
 	
 	let b = document.getElementsByClassName("AnchorAnnounce")[0];
@@ -54,6 +54,9 @@ function initPkg_RealAudience_Dom() {
 function initPkg_RealAudience_Func() {
 	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseover", function() {document.querySelector(".AnchorAnnounce > h3").style.display="block"});
 	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseout", function() {document.querySelector(".AnchorAnnounce > h3").style.display="none"});
+	document.getElementsByClassName("real-audience")[0].addEventListener("click", function() {
+		openPage("https://www.xiaohulu.com/liveParticularsIndex/2/" + rid, true);
+	})
 }
 
 function getRealViewer() {

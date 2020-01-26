@@ -3,7 +3,7 @@
     By: 小淳
 */
 
-function getRealRid(url, realrid_callback) {
+function getRealRid_Douyu(url, realrid_callback) {
     fetch(url,{
         method: 'GET',
         mode: 'no-cors',
