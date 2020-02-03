@@ -46,6 +46,11 @@ function removeAD() {
     if (a != undefined) {
         a.remove();
     }
+    
+    a = document.getElementsByClassName("recommendView-3e8b62")[0]
+    if (a != undefined) {
+        a.remove();
+    }
     // a = document.getElementsByClassName("js-room-activity")[0];
     // if (a != undefined) {
     //     a.remove();

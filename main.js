@@ -3,7 +3,7 @@
 // @name         斗鱼骆歆直播间插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.01.26.01
+// @version      2020.02.03.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -18,7 +18,7 @@
 // @match			*://*.douyu.com/9*
 // @match			*://*.douyu.com/topic/*
 // @match        *://msg.douyu.com/*
-// @require      https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js
+// @require      https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
@@ -225,8 +225,10 @@ function saveData_BarrageSize(){let data={size:getBarrageSize()}
 localStorage.setItem("ExSave_BarrageSize",JSON.stringify(data));}
 function initPkg_ExpandTool_BarrageSize_Set(){let ret=localStorage.getItem("ExSave_BarrageSize");if(ret!=null){let retJson=JSON.parse(ret);document.getElementById("extool__bsize_value").value=retJson.size;}}
 function initPkg_ExpandTool_SendGift(){ExpandTool_SendGift_insertDom();ExpandTool_SendGift_insertFunc();}
-function ExpandTool_SendGift_insertDom(){let html="";html+='<label>送礼：[用于打榜,例如送出999个飞机]</label><a style="margin-left:10px;color:blue;" href="https://webconf.douyucdn.cn/resource/common/gift/gift_template/20033.json" target="_blank">礼物id示例</a><br />';html+='<label>礼物ID：</label><input id="extool__sendgift_id" type="text" style="width:50px;text-align:center;margin-right:10px;" value="20000" />';html+='<label>数量：</label><input id="extool__sendgift_cnt" type="text" style="width:30px;text-align:center;" value="1" />';html+='<input style="width:40px;margin-left:10px;" type="button" id="extool__sendgift_btn" value="送出" />';let a=document.createElement("div");a.className="extool__sendgift";a.innerHTML=html;let b=document.getElementsByClassName("extool")[0];b.insertBefore(a,b.childNodes[0]);}
-function ExpandTool_SendGift_insertFunc(){document.getElementById("extool__sendgift_btn").addEventListener("click",function(){let gid=document.getElementById("extool__sendgift_id").value;let gcnt=document.getElementById("extool__sendgift_cnt").value;sendGift_any(gid,gcnt,rid).then(ret=>{if(ret.data!=null){showMessage("【送礼】"+ret.msg+" "+ret.data.gid+"送出"+ret.data.num+"个 贡献值"+ret.data.priceType,"success");}else{showMessage("【送礼】"+ret.msg,"error");}}).catch(err=>{console.log("请求失败!",err);})});}
+function ExpandTool_SendGift_insertDom(){let html="";html+='<label>送礼：[用于打榜,例如送出999个飞机]</label><a style="margin-left:10px;color:blue;" href="http://open.douyucdn.cn/api/RoomApi/room/'+rid+'" target="_blank">礼物id示例</a><br />';html+='<label>礼物ID：</label><input id="extool__sendgift_id" type="text" style="width:50px;text-align:center;margin-right:10px;" value="20000" />';html+='<label>数量：</label><input id="extool__sendgift_cnt" type="text" style="width:30px;text-align:center;" value="1" />';html+='<input style="width:40px;margin-left:10px;" type="button" id="extool__sendgift_btn" value="送出" />';let a=document.createElement("div");a.className="extool__sendgift";a.innerHTML=html;let b=document.getElementsByClassName("extool")[0];b.insertBefore(a,b.childNodes[0]);}
+function ExpandTool_SendGift_insertFunc(){document.getElementById("extool__sendgift_btn").addEventListener("click",function(){let gid=document.getElementById("extool__sendgift_id").value;let gcnt=document.getElementById("extool__sendgift_cnt").value;let t_num=0;let t_price=0;for(let i=0;i<Number(gcnt);i++){sendGift_any(gid,1,rid).then(ret=>{if(ret.data!=null){if(ret.msg!="鱼翅不足"){t_num=t_num+1;t_price=t_price+Number(ret.data.priceType);}else{console.log("【送礼】"+gid+ret.msg);}}else{console.log("【送礼】"+gid+ret.msg);}
+if(i==Number(gcnt)-1){showMessage("【送礼】"+gid+"一共送出"+String(t_num)+"个 贡献值"+String(t_price),"success");console.log("【送礼】"+gid+"一共送出"+String(t_num)+"个 贡献值"+String(t_price));}}).catch(err=>{console.log("请求失败!",err);})}
+showMessage("【送礼】执行中...详细信息可以在F12控制台查看","success");});}
 function sendGift_any(gid,count,rid){return fetch("https://www.douyu.com/japi/gift/donate/mainsite/v1",{method:'POST',mode:'no-cors',credentials:'include',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'giftId='+gid+'&giftCount='+count+'&roomId='+rid+'&bizExt=%7B%22yzxq%22%3A%7B%7D%7D'}).then(res=>{return res.json();})}
 function initPkg_ExPanel(){pkg_ExPanel_insertDom();}
 function pkg_ExPanel_insertDom(){let a=document.createElement("div");a.className="ex-panel";a.innerHTML='<div class="ex-panel__wrap"></div>';let b=document.getElementsByClassName("PlayerToolbar-Wealth")[0];b.insertBefore(a,b.childNodes[0]);}
@@ -330,7 +332,9 @@ a=document.getElementsByClassName("Bottom-ad")[0];if(a!=undefined){a.style.displ
 a=document.getElementsByClassName("SignBarrage")[0];if(a!=undefined){a.remove();}
 a=document.getElementsByClassName("corner-ad-495ade")[0];if(a!=undefined){a.remove();}
 a=document.getElementsByClassName("SignBaseComponent-sign-ad");if(a!=undefined){for(let i=0;i<a.length;i++){a[i].remove();}}
-a=document.getElementsByClassName("SuperFansBubble")[0];if(a!=undefined){a.remove();}}
+a=document.getElementsByClassName("SuperFansBubble")[0];if(a!=undefined){a.remove();}
+a=document.getElementsByClassName("recommendView-3e8b62")[0]
+if(a!=undefined){a.remove();}}
 function initPkg_Sign(){initPkg_Sign_Dom();initPkg_Sign_Func();}
 function initPkg_Sign_Func(){document.getElementsByClassName("ex-sign")[0].addEventListener("click",function(){initPkg_Sign_Yuba();initPkg_Sign_Client();initPkg_Sign_Motorcade();initPkg_Sign_Room();})}
 function initPkg_Sign_Dom(){Sign_insertIcon();}
@@ -353,7 +357,7 @@ function signRoom(r){GM_xmlhttpRequest({method:"POST",url:"https://apiv2.douyucd
 function initPkg_Sign_Yuba(){signYubaList();}
 function signYuba(group_id,t){GM_xmlhttpRequest({method:"POST",url:"https://yuba.douyu.com/ybapi/topic/sign",data:'group_id='+group_id,responseType:"json",headers:{"Content-Type":"application/x-www-form-urlencoded","referer":"https://yuba.douyu.com/group/"+group_id,"dy-client":"pc","dy-token":t},onload:function(response){if(response.response.message==""){showMessage("【鱼吧】"+group_id+"签到成功! 连续"+response.response.data.count+"天 获得经验"+response.response.data.exp,"success");}else{showMessage("【鱼吧】"+group_id+response.response.message,"warning");}}});}
 function signYubaList(){GM_xmlhttpRequest({method:"GET",url:"https://yuba.douyu.com/wbapi/web/group/myFollow?page=1&limit=999",responseType:"json",headers:{"Content-Type":"application/x-www-form-urlencoded","dy-client":"pc","dy-token":dyToken},onload:function(response){for(let i=0;i<response.response.data.list.length;i++){signYuba(response.response.data.list[i].group_id,dyToken);}}});}
-var curVersion="2020.01.26.01"
+var curVersion="2020.02.03.01"
 function initPkg_Update(){initPkg_Update_Dom();initPkg_Update_Func();Update_checkVersion();}
 function initPkg_Update_Dom(){Update_insertIcon();}
 function Update_insertIcon(){let a=document.createElement("div");a.className="ex-update";a.innerHTML='<a class="ex-panel__icon" title="版本更新"><svg t="1578767541873" style="display:block;" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="23715" width="32" height="32"><path d="M768 810.7H512c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h256c94.1 0 170.7-76.6 170.7-170.7 0-89.6-70.1-164.3-159.5-170.1L754 383l-10.7-22.7c-42.2-89.3-133-147-231.3-147s-189.1 57.7-231.3 147L270 383l-25.1 1.6c-89.5 5.8-159.5 80.5-159.5 170.1 0 94.1 76.6 170.7 170.7 170.7 23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7c-141.2 0-256-114.8-256-256 0-126.1 92.5-232.5 214.7-252.4C274.8 195.7 388.9 128 512 128s237.2 67.7 297.3 174.2C931.5 322.1 1024 428.6 1024 554.7c0 141.1-114.8 256-256 256z" fill="#3688FF" p-id="23716"></path><path d="M554.7 938.7c-10.9 0-21.8-4.2-30.2-12.5l-128-128c-16.7-16.7-16.7-43.7 0-60.3l128-128c16.6-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L487 768l97.8 97.8c16.7 16.7 16.7 43.7 0 60.3-8.3 8.4-19.2 12.6-30.1 12.6z" fill="#5F6379" p-id="23717"></path></svg><i id="ex-update__tip" class="ex-panel__tip"></i></a>';let b=document.getElementsByClassName("ex-panel__wrap")[0];b.insertBefore(a,b.childNodes[0]);}
