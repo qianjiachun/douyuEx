@@ -217,11 +217,10 @@ function initPkg_BarrageLoop_Set() {
 		}
 		document.getElementById("bloop__textarea").value = retJson.text;
 		document.getElementById("bloop__checkbox_changeColor").checked = retJson.isChangeColor;
+		isChangeColor = Boolean(retJson.isChangeColor);
 		document.getElementById("bloop__text_speed1").value = retJson.speed1;
 		document.getElementById("bloop__text_speed2").value = retJson.speed2;
 		document.getElementById("bloop__text_stoptime").value = retJson.stopTime;
-		
 	}
-	
 }
 
