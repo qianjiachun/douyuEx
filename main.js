@@ -1,6 +1,6 @@
 "use strict";
 // ==UserScript==
-// @name         斗鱼骆歆直播间插件
+// @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
 // @version      2020.02.03.01
