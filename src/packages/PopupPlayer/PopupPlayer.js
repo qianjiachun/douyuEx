@@ -7,6 +7,7 @@ function initPkg_PopupPlayer() {
 
 function initPkg_PopupPlayer_Dom() {
     PopupPlayer_insertIcon();
+    PopupPlayer_insertPrompt();
 }
 
 function PopupPlayer_insertIcon() {
@@ -19,28 +20,68 @@ function PopupPlayer_insertIcon() {
 
 }
 
+function PopupPlayer_insertPrompt() {
+    let a = document.createElement("div");
+    let html = "";
+    a.className = "postbird-box-container";
+    a.id = "popup-player__prompt"
+    html += '<div class="postbird-box-dialog">';
+    html += '<div class="postbird-box-content">';
+    html += '<div class="postbird-box-header">';
+    html += '<span class="postbird-box-title"><span>请输入直播间地址：</span></span>';
+    html += '</div>'; // header
+    html += '<div class="postbird-box-text">';
+    html += '<input id="popup-player__url" value="https://www.douyu.com/5189167" style="height:30px" type="text" class="postbird-prompt-input" autofocus="true">';
+    html += '<label style="margin-right:30px" title="【直播流模式】&#10;1. 速度快&#10;2. 延迟低&#10;3. 占用少&#10;4. 不会进入直播间&#10;5. 支持斗鱼/虎牙/Bilibili"><input id="popup-player__noiframe" type="radio" name="sex" value="无弹幕" checked="checked">无弹幕(推荐)</label>';
+    html += '<label title="【框架模式】&#10;1. 速度慢&#10;2. 占用高&#10;3. 会进入直播间。&#10;4. 仅支持斗鱼&#10;此模式拖动不是很灵活，请尽量在标题栏小幅度拖动&#10;若拖动无反应请点击页面任意处触发移动"><input id="popup-player__iframe" type="radio" name="sex" value="有弹幕">有弹幕</label>';
+    html += '</div>'; // text
+    html += '<div class="postbird-box-footer"><button id="popup-player__cancel" class="btn-footer btn-left-footer btn-footer-cancel" style="color:undefined;">取消</button><button id="popup-player__ok" class="btn-footer btn-right-footer btn-footer-ok" style="color:#0e90d2;">确定</button></div></div>'
+
+    a.innerHTML = html;
+
+    let b = document.getElementsByClassName("layout-Main")[0];
+    b.insertBefore(a, b.childNodes[0]);
+}
+
 function initPkg_PopupPlayer_Func() {
     document.getElementsByClassName("popup-player")[0].addEventListener("click", function () {
-        let roomUrl = prompt("请输入直播间地址", "https://www.douyu.com/5189167");
-        if (roomUrl == null) {
-            return;
-        }
+        document.getElementById("popup-player__prompt").style.display = "block";
+    });
+    document.getElementById("popup-player__cancel").addEventListener("click", function() {
+        document.getElementById("popup-player__prompt").style.display = "none";
+    })
+    document.getElementById("popup-player__ok").addEventListener("click", function() {
+        let roomUrl = document.getElementById("popup-player__url").value;
         if (roomUrl != "") {
-            if (roomUrl.indexOf("douyu.com") != -1) {
-                getRealRid_Douyu(roomUrl, (rid) => {
-                    createNewVideo(videoPlayerArr.length, rid, "Douyu");
-                });
-            } else if (roomUrl.indexOf("bilibili.com") != -1) {
-                getRealRid_Bilibili(roomUrl, (rid) => {
-                    createNewVideo(videoPlayerArr.length, rid, "Bilibili");
-                });
-            } else if (roomUrl.indexOf("huya.com") != -1) {
-                createNewVideo(videoPlayerArr.length, roomUrl, "Huya");
+            let isIframe = document.getElementById("popup-player__noiframe").checked;
+            if (isIframe == true) {
+                if (roomUrl.indexOf("douyu.com") != -1) {
+                    getRealRid_Douyu(roomUrl, (rid) => {
+                        createNewVideo(videoPlayerArr.length, rid, "Douyu");
+                    });
+                } else if (roomUrl.indexOf("bilibili.com") != -1) {
+                    getRealRid_Bilibili(roomUrl, (rid) => {
+                        createNewVideo(videoPlayerArr.length, rid, "Bilibili");
+                    });
+                } else if (roomUrl.indexOf("huya.com") != -1) {
+                    createNewVideo(videoPlayerArr.length, roomUrl, "Huya");
+                }
+            } else {
+                createNewVideo_iframe(videoPlayerArr.length, roomUrl);
             }
+            
         } else {
             showMessage("请输入地址", "error");
         }
-    });
+        document.getElementById("popup-player__prompt").style.display = "none";
+    })
+    document.getElementById("popup-player__prompt").addEventListener("keydown", function(event) {
+        let theEvent = window.event || e;
+        let code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+        if (code == 13) {
+            document.getElementById("popup-player__ok").click();
+        }
+    })
 }
 
 function createNewVideo(id, rid, platform) {
@@ -167,6 +208,57 @@ function createNewVideo_Douyu(id, rid) {
             setElementVideo(id, lurl);
         }
     });
+}
+function createNewVideo_iframe(id, url) {
+    if (String(url).indexOf("douyu.com") == -1) {
+        showMessage("有弹幕模式仅支持斗鱼直播", "error");
+        return;
+    }
+    let rid_arr = String(url).split("/");
+    let rid = rid_arr[rid_arr.length - 1];
+    let a = document.createElement("div");
+    let html = "";
+    a.id = "videoDiv" + String(id);
+    a.rid = rid;
+    a.className = "videoDiv";
+    html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span>";
+    html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
+    html += "</div>";
+    html += "<iframe class='videoPlayer' id='videoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
+    html += "<div class='videoScale' id='videoScale" + String(id) + "'></div>";
+    a.innerHTML = html;
+    let b = document.getElementsByClassName("layout-Main")[0];
+    b.insertBefore(a, b.childNodes[0]);
+    setElementDrag(id);
+    setElementResize(id);
+    if (id > videoPlayerArr.length - 1) {
+        videoPlayerArr.push("iframe");
+    } else {
+        videoPlayerArr[id] = "iframe";
+    }
+    setElementFunc_iframe(id);
+}
+
+function setElementFunc_iframe(id) {
+    let box = document.getElementById("videoDiv" + String(id));
+    let videoClose = document.getElementById("videoClose" + String(id));
+    videoClose.onclick = function() {
+        box.remove();
+    }
+    box.onclick = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        for (let i = 0; i < videoPlayerArr.length; i++) {
+            let box = document.getElementById("videoDiv" + String(i));
+            if (box != null) {
+                if (i == id) {
+                    box.style.zIndex = 7778;
+                } else {
+                    box.style.zIndex = 7777;
+                }
+            }
+        }
+    }
 }
 
 function setElementFunc_Douyu(id, rid) {

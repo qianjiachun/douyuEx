@@ -35,14 +35,14 @@ function ExpandTool_SendGift_insertFunc() {
                     console.log("【送礼】" + gid + ret.msg);
                 }
                 if (i == Number(gcnt) - 1) {
-                    showMessage("【送礼】" + gid + "一共送出" + String(t_num) + "个 贡献值" + String(t_price), "success");
-                    console.log("【送礼】" + gid + "一共送出" + String(t_num) + "个 贡献值" + String(t_price));
+                    showMessage("【送礼】赠送完毕！详细信息可以在F12控制台查看", "success");
+                    console.log("【送礼】赠送完毕！详细信息可以在F12控制台查看");
                 }
             }).catch(err => {
                 console.log("请求失败!", err);
             })
         }
-        showMessage("【送礼】执行中...详细信息可以在F12控制台查看", "success");
+        showMessage("【送礼】执行中...", "success");
     });
 }
 

@@ -39,10 +39,10 @@ function initPkg_RealAudience_Dom() {
 	let html = "";
 	let a = document.createElement("div");
 	a.className = "real-audience";
-	html += "<div id='real-audience__t' style='display: inline-block;margin-right:3px;' title='观看人数'>" + real_viewIcon + '<span id="real-audience__total" style="color:red">****</span></div>';
+	html += "<div id='real-audience__t' style='display: inline-block;margin-right:3px;' title='今日累计观看人数'>" + real_viewIcon + '<span id="real-audience__total" style="color:red">****</span></div>';
 	html += "<div style='display: inline-block;margin-right:3px;' title='弹幕人数'>" + real_danmuIcon + '<span id="real-audience__barrage">****</span></div>';
 	// html += "<div style='display: inline-block;margin-right:3px;' title='送礼人数'>" + real_giftIcon + '<span id="real-audience__gift">****</span></div>';
-	html += "<div id='real-audience__money' style='display: inline-block;margin-right:3px;' title='礼物价值'>" + real_money_yc + '<span id="real-audience__money_yc">****</span></div>';
+	html += "<div id='real-audience__money' style='display: inline-block;margin-right:3px;' title='今日累计礼物价值'>" + real_money_yc + '<span id="real-audience__money_yc">****</span></div>';
 	
 	html += '<span id="real-audience__time" style="float:right">' + "已播:" + "****" + "</span>";
 	a.innerHTML = html;
