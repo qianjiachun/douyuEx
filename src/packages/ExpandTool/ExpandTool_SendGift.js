@@ -18,6 +18,9 @@ function ExpandTool_SendGift_insertDom() {
 
 function ExpandTool_SendGift_insertFunc() {
     document.getElementById("extool__sendgift_btn").addEventListener("click", function() {
+        if (confirm("确认送出？") != true) {
+            return;
+        }
         let gid = document.getElementById("extool__sendgift_id").value;
         let gcnt = document.getElementById("extool__sendgift_cnt").value;
         let t_num = 0;
