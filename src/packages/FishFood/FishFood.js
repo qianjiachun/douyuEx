@@ -32,7 +32,7 @@ function initPkg_FishFood_Func() {
 				return;
 			}
 			for (let i = 0; i < cnt; i++) {
-				await sleep(1111).then(() => {
+				await sleep(1300).then(() => {
 					fetch("https://www.douyu.com/japi/activepointnc/api/dolottery", {
 						method: 'POST',
 						mode: 'no-cors',

@@ -45,7 +45,7 @@ function ExpandTool_SendGift_insertFunc() {
                 console.log("请求失败!", err);
             })
         }
-        showMessage("【送礼】执行中...", "success");
+        showMessage("【送礼】执行中...", "info");
     });
 }
 
