@@ -68,7 +68,13 @@ function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, qn, cdn, reallive_c
                         cl = "1200p"
                         break;
                 }
-                let realLive = "http://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
+                let realLive = "";
+                if (result == "0") {
+                    realLive = "None";
+                } else {
+                    realLive = "https://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
+                }
+                
                 reallive_callback(realLive);
             }
         });
@@ -78,7 +84,7 @@ function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, qn, cdn, reallive_c
             mode: 'no-cors',
             credentials: 'include',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'v=220120200117&did=' + getDyDid() + '&tt=' + tt + '&sign=' + sign + '&cdn=' + cdn + '&rate=' + qn + '&ver=Douyu_220011605&iar=1&ive=0'
+            body: 'v=220120200219&did=' + getDyDid() + '&tt=' + tt + '&sign=' + sign + '&cdn=' + cdn + '&rate=' + qn + '&ver=Douyu_220021805&iar=0&ive=0'
         }).then(res => {
             return res.json();
         }).then(ret => {

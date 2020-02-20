@@ -186,8 +186,17 @@ function setElementDrag(id) {
 
 // Douyu
 function createNewVideo_Douyu(id, rid) {
-    getRealLive_Douyu(rid, true, "1", "1", (lurl) => {
+    getRealLive_Douyu(rid, false, "1", "1", (lurl) => {
         if (lurl != "" || lurl != null) {
+            if (lurl == "None") {
+                showMessage("房间未开播或其他错误", "error");
+                return;
+            }
+            let lurl_host_arr = String(lurl).split("/live");
+            let lurl_host = "";
+            if (lurl_host_arr.length > 0) {
+                lurl_host = lurl_host_arr[0];
+            }
             let a = document.createElement("div");
             let html = "";
             a.id = "videoDiv" + String(id);
@@ -195,8 +204,9 @@ function createNewVideo_Douyu(id, rid) {
             a.className = "videoDiv";
             html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><a title='复制直播流地址'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span></a>";
             html += "<select class='videoQn' id='videoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='4'>蓝光4M</option></select>";
-            html += "<select class='videoCDN' id='videoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路5</option><option value='3'>备用线路6</option></select>";
-            html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
+            html += "<select style='display:none' class='videoCDN' id='videoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路5</option><option value='3'>备用线路6</option></select>";
+            html += "<a style='margin-left:5px' href='" + lurl_host + "' target='_blank'>无视频？</a>";
+            html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>";
             html += "</div>";
             html += "<video controls='controls' class='videoPlayer' id='videoPlayer" + String(id) + "'></video><div class='videoScale' id='videoScale" + String(id) + "'></div>";
             a.innerHTML = html;
@@ -209,57 +219,7 @@ function createNewVideo_Douyu(id, rid) {
         }
     });
 }
-function createNewVideo_iframe(id, url) {
-    if (String(url).indexOf("douyu.com") == -1) {
-        showMessage("有弹幕模式仅支持斗鱼直播", "error");
-        return;
-    }
-    let rid_arr = String(url).split("/");
-    let rid = rid_arr[rid_arr.length - 1];
-    let a = document.createElement("div");
-    let html = "";
-    a.id = "videoDiv" + String(id);
-    a.rid = rid;
-    a.className = "videoDiv";
-    html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span>";
-    html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
-    html += "</div>";
-    html += "<iframe class='videoPlayer' id='videoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
-    html += "<div class='videoScale' id='videoScale" + String(id) + "'></div>";
-    a.innerHTML = html;
-    let b = document.getElementsByClassName("layout-Main")[0];
-    b.insertBefore(a, b.childNodes[0]);
-    setElementDrag(id);
-    setElementResize(id);
-    if (id > videoPlayerArr.length - 1) {
-        videoPlayerArr.push("iframe");
-    } else {
-        videoPlayerArr[id] = "iframe";
-    }
-    setElementFunc_iframe(id);
-}
 
-function setElementFunc_iframe(id) {
-    let box = document.getElementById("videoDiv" + String(id));
-    let videoClose = document.getElementById("videoClose" + String(id));
-    videoClose.onclick = function() {
-        box.remove();
-    }
-    box.onclick = function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        for (let i = 0; i < videoPlayerArr.length; i++) {
-            let box = document.getElementById("videoDiv" + String(i));
-            if (box != null) {
-                if (i == id) {
-                    box.style.zIndex = 7778;
-                } else {
-                    box.style.zIndex = 7777;
-                }
-            }
-        }
-    }
-}
 
 function setElementFunc_Douyu(id, rid) {
     let box = document.getElementById("videoDiv" + String(id));
@@ -291,13 +251,13 @@ function setElementFunc_Douyu(id, rid) {
     let videoCDN = document.getElementById("videoCDN" + String(id));
     let videoClose = document.getElementById("videoClose" + String(id));
     videoQn.onchange = function() {
-        getRealLive_Douyu(rid, true, videoQn.value, videoCDN.value, (lurl) => {
+        getRealLive_Douyu(rid, false, videoQn.value, videoCDN.value, (lurl) => {
             videoPlayerArr[id].destroy();
             setElementVideo(id, lurl);
         })
     }
     videoCDN.onchange = function() {
-        getRealLive_Douyu(rid, true, videoQn.value, videoCDN.value, (lurl) => {
+        getRealLive_Douyu(rid, false, videoQn.value, videoCDN.value, (lurl) => {
 			videoPlayerArr[id].destroy();
             setElementVideo(id, lurl);
         })
@@ -314,6 +274,8 @@ function setElementFunc_Douyu(id, rid) {
             showMessage("复制成功", "success");
         })
     }
+
+    
 }
 
 
@@ -492,5 +454,59 @@ function setElementFunc_Huya(id, rid) {
             GM_setClipboard(lurl);
             showMessage("复制成功", "success");
         })
+    }
+}
+
+
+// iframe
+function createNewVideo_iframe(id, url) {
+    if (String(url).indexOf("douyu.com") == -1) {
+        showMessage("有弹幕模式仅支持斗鱼直播", "error");
+        return;
+    }
+    let rid_arr = String(url).split("/");
+    let rid = rid_arr[rid_arr.length - 1];
+    let a = document.createElement("div");
+    let html = "";
+    a.id = "videoDiv" + String(id);
+    a.rid = rid;
+    a.className = "videoDiv";
+    html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span>";
+    html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
+    html += "</div>";
+    html += "<iframe class='videoPlayer' id='videoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
+    html += "<div class='videoScale' id='videoScale" + String(id) + "'></div>";
+    a.innerHTML = html;
+    let b = document.getElementsByClassName("layout-Main")[0];
+    b.insertBefore(a, b.childNodes[0]);
+    setElementDrag(id);
+    setElementResize(id);
+    if (id > videoPlayerArr.length - 1) {
+        videoPlayerArr.push("iframe");
+    } else {
+        videoPlayerArr[id] = "iframe";
+    }
+    setElementFunc_iframe(id);
+}
+
+function setElementFunc_iframe(id) {
+    let box = document.getElementById("videoDiv" + String(id));
+    let videoClose = document.getElementById("videoClose" + String(id));
+    videoClose.onclick = function() {
+        box.remove();
+    }
+    box.onclick = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        for (let i = 0; i < videoPlayerArr.length; i++) {
+            let box = document.getElementById("videoDiv" + String(i));
+            if (box != null) {
+                if (i == id) {
+                    box.style.zIndex = 7778;
+                } else {
+                    box.style.zIndex = 7777;
+                }
+            }
+        }
     }
 }
