@@ -60,6 +60,21 @@ function getDyDid() {
 	return ret;
 }
 
+function setCookie(cookiename,value){
+	var exp = new Date();
+	exp.setTime(exp.getTime() + 3*60*60*1000);
+	document.cookie = cookiename + "="+ escape (value) + "; path=/; expires=" + exp.toGMTString();
+}
+function getCCN() {
+	let cookie = document.cookie;
+	let ret = getStrMiddle(cookie, "acf_ccn=", ";");
+	if (ret == false) {
+		setCookie("acf_ccn", "1");
+		ret = "1";
+	}
+	return ret;
+}
+
 function showMessage(msg, type) {
 	// type: success[green] error[red] warning[orange] info[blue]
 	new NoticeJs({

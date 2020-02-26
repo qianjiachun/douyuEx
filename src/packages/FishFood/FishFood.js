@@ -38,7 +38,7 @@ function initPkg_FishFood_Func() {
 						mode: 'no-cors',
 						credentials: 'include',
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-						body: 'rid=' + rid
+						body: 'rid=' + rid + '&ctn=' + getCCN()
 					}).then(res => {
 						return res.json();
 					}).then(ret => {

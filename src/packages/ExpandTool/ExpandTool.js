@@ -3,6 +3,7 @@ function initPkg_ExpandTool() {
 	initPkg_ExpandTool_Dom();
     initPkg_ExpandTool_Func();
 
+	initPkg_ExpandTool_RedPacket_Room();
 	initPkg_ExpandTool_ClearBag();
     initPkg_ExpandTool_SendGift();
     initPkg_ExpandTool_BarrageSize();

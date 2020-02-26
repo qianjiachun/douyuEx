@@ -266,16 +266,13 @@ function setElementFunc_Douyu(id, rid) {
         box.remove();
     }
 
-
     let videoRID = document.getElementById("videoRID" + String(id));
     videoRID.onclick = function() {
         getRealLive_Douyu(rid, false, videoQn.value, videoCDN.value, (lurl) => {
-            GM_setClipboard(lurl);
+            GM_setClipboard(String(lurl).replace("https", "http"));
             showMessage("复制成功", "success");
         })
     }
-
-    
 }
 
 
