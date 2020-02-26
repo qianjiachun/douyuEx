@@ -6,7 +6,7 @@ function signYuba(group_id, t) {
 	GM_xmlhttpRequest({
 		method: "POST",
 		url: "https://yuba.douyu.com/ybapi/topic/sign",
-		data: 'group_id=' + group_id,
+		data: 'group_id=' + group_id + '&ctn=' + getCCN(),
 		responseType: "json",
 		headers: {
 		  "Content-Type": "application/x-www-form-urlencoded",

@@ -56,4 +56,12 @@ function removeAD() {
     //     a.remove();
     // }
     
+    a = document.getElementsByClassName("is-noLogin")[0];
+    if (a != undefined) {
+        a.style.display = "none"
+    }
+    a = document.getElementsByClassName("ChatSend-button")[0];
+    if (a != undefined) {
+        a.className = "ChatSend-button";
+    }
 }

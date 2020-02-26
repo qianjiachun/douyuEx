@@ -45,7 +45,7 @@ function signRoom(r) {
 	GM_xmlhttpRequest({
 		method: "POST",
 		url: "https://apiv2.douyucdn.cn/japi/roomuserlevel/apinc/checkIn",
-		data: 'rid=' + r,
+		data: 'rid=' + r + '&ctn=' + getCCN(),
 		responseType: "json",
 		headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
