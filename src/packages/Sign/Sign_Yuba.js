@@ -12,7 +12,8 @@ function signYuba(group_id, t) {
 		  "Content-Type": "application/x-www-form-urlencoded",
 		  "referer": "https://yuba.douyu.com/group/" + group_id,
 		  "dy-client": "pc",
-		  "dy-token": t
+		  "dy-token": t,
+		  'cookie': document.cookie
 		},
 		onload: function(response) {
 			if (response.response.message == "") {

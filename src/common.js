@@ -140,4 +140,3 @@ function isRid(str) {
 		return false;
 	}
 }
-

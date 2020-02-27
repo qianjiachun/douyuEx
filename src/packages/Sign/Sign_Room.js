@@ -50,8 +50,10 @@ function signRoom(r) {
 		headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'token': dyToken,
+            'cookie': document.cookie
 		},
 		onload: function(response) {
+            console.log(response.response)
         }
 	});
 }

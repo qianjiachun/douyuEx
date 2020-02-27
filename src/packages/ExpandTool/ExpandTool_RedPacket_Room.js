@@ -57,9 +57,13 @@ function getRoomRedPacketsList(room_id) {
                     if (to > 0) {
                         setTimeout(() => {
                             getRoomRedPacket(rpid);
+                            getRoomRedPacket(rpid);
+                            getRoomRedPacket(rpid);
                             showMessage("【礼物红包】抢红包执行完毕！", "success");
                         }, to);
                     } else {
+                        getRoomRedPacket(rpid);
+                        getRoomRedPacket(rpid);
                         getRoomRedPacket(rpid);
                         showMessage("【礼物红包】抢红包执行完毕！", "success");
                     }
