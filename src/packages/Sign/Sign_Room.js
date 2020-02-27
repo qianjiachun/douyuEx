@@ -53,7 +53,6 @@ function signRoom(r) {
             'cookie': document.cookie
 		},
 		onload: function(response) {
-            console.log(response.response)
         }
 	});
 }

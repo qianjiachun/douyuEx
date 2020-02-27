@@ -51,7 +51,7 @@ function getRoomRedPacketsList(room_id) {
                 let offset = checkRedPacket(rpid);
                 let startTime = ret.data.list[i].startTime;
                 let to = Number(startTime) - Math.round(new Date().getTime()/1000);
-                to = 1000 * to;
+                to = 1000 * to - 2000;
                 if (offset == -1) {
                     redpackets_arr.push(ret.data.list[i].activityid);
                     if (to > 0) {
@@ -98,7 +98,6 @@ function getRoomRedPacket(rpid) {
     }).then(res => {
         return res.json();
     }).then((ret) =>{
-        console.log(ret);
         if (ret.data.isSuc == 2) {
             getRoomRedPacket(rpid);
         }

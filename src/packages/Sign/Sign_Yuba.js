@@ -6,14 +6,13 @@ function signYuba(group_id, t) {
 	GM_xmlhttpRequest({
 		method: "POST",
 		url: "https://yuba.douyu.com/ybapi/topic/sign",
-		data: 'group_id=' + group_id + '&ctn=' + getCCN(),
+		data: 'group_id=' + group_id,
 		responseType: "json",
 		headers: {
 		  "Content-Type": "application/x-www-form-urlencoded",
-		  "referer": "https://yuba.douyu.com/group/" + group_id,
 		  "dy-client": "pc",
 		  "dy-token": t,
-		  'cookie': document.cookie
+		  'Referer': 'https://yuba.douyu.com/group/' + group_id
 		},
 		onload: function(response) {
 			if (response.response.message == "") {
