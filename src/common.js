@@ -43,32 +43,72 @@ function formatSeconds(value) {
 	return result;
 }
 
+async function verifyFans(room_id, level) {
+	let ret = false;
+	let doc = await fetch('https://www.douyu.com/member/cp/getFansBadgeList',{
+		method: 'GET',
+		mode: 'no-cors',
+		cache: 'default',
+		credentials: 'include',
+	}).then(res => {
+		return res.text();
+	}).catch(err => {
+		console.log("请求失败!", err);
+	})
+	doc = (new DOMParser()).parseFromString(doc, 'text/html');
+	let a = doc.getElementsByClassName("fans-badge-list")[0].lastElementChild;
+	let n = a.children.length;
+	for (let i = 0; i < n; i++) {
+		let rid = a.children[i].getAttribute("data-fans-room");
+		let rlv = a.children[i].getAttribute("data-fans-level");
+		if (rid == room_id && rlv >= level) {
+			ret = true;
+			break;
+		} else {
+			ret = false;
+		}
+	}
+	return ret;
+}
+
+
 function getStrMiddle(str, before, after) {
 	let m = str.match(new RegExp(before + '(.*?)' + after));
 	return m ? m[1] : false;
 }
 
 function getToken() {
-	let cookie = document.cookie;
-	let ret = getStrMiddle(cookie, "acf_uid=", ";") + "_" + getStrMiddle(cookie, "acf_biz=", ";") + "_" + getStrMiddle(cookie, "acf_stk=", ";") + "_" + getStrMiddle(cookie, "acf_ct=", ";") + "_" + getStrMiddle(cookie, "acf_ltkid=", ";");
+	// let cookie = document.cookie;
+	// let ret = getStrMiddle(cookie, "acf_uid=", ";") + "_" + getStrMiddle(cookie, "acf_biz=", ";") + "_" + getStrMiddle(cookie, "acf_stk=", ";") + "_" + getStrMiddle(cookie, "acf_ct=", ";") + "_" + getStrMiddle(cookie, "acf_ltkid=", ";");
+	let ret = getCookieValue("acf_uid") + "_" + getCookieValue("acf_biz") + "_" + getCookieValue("acf_stk") + "_" + getCookieValue("acf_ct") + "_" + getCookieValue("acf_ltkid");
 	return ret;
 }
 
 function getDyDid() {
-	let cookie = document.cookie;
-	let ret = getStrMiddle(cookie, "dy_did=", ";");
+	// let cookie = document.cookie;
+	// let ret = getStrMiddle(cookie, "dy_did=", ";");
+	let ret = getCookieValue("dy_did");
 	return ret;
 }
 
-function setCookie(cookiename,value){
+function setCookie(cookiename, value){
 	var exp = new Date();
 	exp.setTime(exp.getTime() + 3*60*60*1000);
 	document.cookie = cookiename + "="+ escape (value) + "; path=/; expires=" + exp.toGMTString();
 }
+function getCookieValue(name){
+   let arr,reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg)) {
+        return unescape(arr[2]);
+    } else {
+        return null;
+    }
+}
 function getCCN() {
-	let cookie = document.cookie;
-	let ret = getStrMiddle(cookie, "acf_ccn=", ";");
-	if (ret == false) {
+	// let cookie = document.cookie;
+	// let ret = getStrMiddle(cookie, "acf_ccn=", ";");
+	let ret = getCookieValue("acf_ccn");
+	if (ret == null) {
 		setCookie("acf_ccn", "1");
 		ret = "1";
 	}

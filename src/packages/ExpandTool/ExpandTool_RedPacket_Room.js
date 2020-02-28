@@ -20,17 +20,24 @@ function ExpandTool_RedPacket_Room_insertDom() {
 }
 function ExpandTool_RedPacket_Room_insertFunc() {
     document.getElementById("extool__redpacekt_room_start").addEventListener("click", function() {
-		let ischecked = document.getElementById("extool__redpacekt_room_start").checked;
-		if (ischecked == true) {
-			// 开始自动抢红包
-			redpacketTimer = setInterval(() => {
-                getRoomRedPacketsList(rid);
-            }, 1100);
-		} else{
-			// 停止自动抢红包
-			clearInterval(redpacketTimer);
-        }
-        saveData_RedPacket_Room();
+        verifyFans("5189167", 3).then(r => {
+            if (r == true) {
+                let ischecked = document.getElementById("extool__redpacekt_room_start").checked;
+                if (ischecked == true) {
+                    // 开始自动抢红包
+                    redpacketTimer = setInterval(() => {
+                        getRoomRedPacketsList(rid);
+                    }, 1100);
+                } else{
+                    // 停止自动抢红包
+                    clearInterval(redpacketTimer);
+                }
+                saveData_RedPacket_Room();
+            } else {
+                document.getElementById("extool__redpacekt_room_start").checked = false;
+                showMessage("本功能需拥有3级歆崽粉丝牌(5189167)才可使用", "error");
+            }
+        })
 	});
 
 }
@@ -51,7 +58,7 @@ function getRoomRedPacketsList(room_id) {
                 let offset = checkRedPacket(rpid);
                 let startTime = ret.data.list[i].startTime;
                 let to = Number(startTime) - Math.round(new Date().getTime()/1000);
-                to = 1000 * to - 2000;
+                to = 1000 * to - 2500;
                 if (offset == -1) {
                     redpackets_arr.push(ret.data.list[i].activityid);
                     if (to > 0) {
@@ -120,7 +127,13 @@ function ExpandTool_RedPacket_Room_Set() {
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         if (retJson.isGetRedPacket == true) {
-            document.getElementById("extool__redpacekt_room_start").click();
+            verifyFans("5189167", 3).then(r => {
+                if (r == true) {
+                    document.getElementById("extool__redpacekt_room_start").click();
+                } else {
+                    showMessage("本功能需拥有3级歆崽粉丝牌(5189167)才可使用", "error");
+                }
+            })
         }
 	}
 }

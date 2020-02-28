@@ -26,7 +26,12 @@ function initPkg_FishFood_Func() {
 		}).then(res => {
 			return res.json();
 		}).then(async (ret) =>{
-			let cnt = Number(ret.data.dailyMaxLotteryTimes) - Number(ret.data.usedLotteryCount);
+			let cnt = Math.floor(Number(ret.data.userActivePoint) / Number(ret.data.onceLotteryActivePoint));
+			if (cnt == 0) {
+				showMessage("【寻宝】" + "鱼粮不足", "warning");
+				return;
+			}
+			cnt = Number(ret.data.dailyMaxLotteryTimes) - Number(ret.data.usedLotteryCount);
 			if (cnt == 0) {
 				showMessage("【寻宝】" + "今日寻宝次数已到达上限", "warning");
 				return;
