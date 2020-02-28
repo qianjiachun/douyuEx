@@ -131,6 +131,10 @@ function ExpandTool_RedPacket_Room_Set() {
                 if (r == true) {
                     document.getElementById("extool__redpacekt_room_start").click();
                 } else {
+                    let data = {
+                        isGetRedPacket: false
+                    }
+                    localStorage.setItem("ExSave_RedPacket_Room", JSON.stringify(data)); // 存储弹幕列表
                     showMessage("本功能需拥有3级歆崽粉丝牌(5189167)才可使用", "error");
                 }
             })
