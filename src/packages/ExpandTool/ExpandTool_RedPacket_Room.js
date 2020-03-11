@@ -1,5 +1,5 @@
-let redpackets_arr = [];
-let redpacketTimer; // 时钟句柄
+let redpackets_room_arr = [];
+let redpacket_room_timer; // 时钟句柄
 function initPkg_ExpandTool_RedPacket_Room() {
     ExpandTool_RedPacket_Room_insertDom();
     ExpandTool_RedPacket_Room_insertFunc();
@@ -25,12 +25,12 @@ function ExpandTool_RedPacket_Room_insertFunc() {
                 let ischecked = document.getElementById("extool__redpacekt_room_start").checked;
                 if (ischecked == true) {
                     // 开始自动抢红包
-                    redpacketTimer = setInterval(() => {
+                    redpacket_room_timer = setInterval(() => {
                         getRoomRedPacketsList(rid);
                     }, 1100);
                 } else{
                     // 停止自动抢红包
-                    clearInterval(redpacketTimer);
+                    clearInterval(redpacket_room_timer);
                 }
                 saveData_RedPacket_Room();
             } else {
@@ -55,12 +55,12 @@ function getRoomRedPacketsList(room_id) {
         if (ret.data.list.length > 0) {
             for (let i = 0; i < ret.data.list.length; i++) {
                 let rpid = ret.data.list[i].activityid;
-                let offset = checkRedPacket(rpid);
+                let offset = redpackets_room_arr.indexOf(rpid);
                 let startTime = ret.data.list[i].startTime;
                 let to = Number(startTime) - Math.round(new Date().getTime()/1000);
                 to = 1000 * to - 2000;
                 if (offset == -1) {
-                    redpackets_arr.push(ret.data.list[i].activityid);
+                    redpackets_room_arr.push(ret.data.list[i].activityid);
                     if (to > 0) {
                         setTimeout(() => {
                             getRoomRedPacket(rpid);
@@ -82,18 +82,7 @@ function getRoomRedPacketsList(room_id) {
     })
 }
 
-function checkRedPacket(a) {
-    let ret = -1;
-    for (let i = 0; i < redpackets_arr.length; i++) {
-        if (redpackets_arr[i] == a) {
-            ret = i;
-            break;
-        } else {
-            res =  -1;
-        }
-    }
-    return ret;
-}
+
 
 function getRoomRedPacket(rpid) {
     fetch("https://www.douyu.com/japi/interactnc/web/propredpacket/grab_prp", {

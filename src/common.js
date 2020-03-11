@@ -114,6 +114,10 @@ function getCCN() {
 	}
 	return ret;
 }
+function getUID() {
+	let ret = getCookieValue("acf_uid");
+	return ret;
+}
 
 function showMessage(msg, type) {
 	// type: success[green] error[red] warning[orange] info[blue]

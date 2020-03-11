@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.03.01.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 不绑定手机发送弹幕
+// @version      2020.03.11.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -331,6 +331,10 @@ function getCCN() {
 		setCookie("acf_ccn", "1");
 		ret = "1";
 	}
+	return ret;
+}
+function getUID() {
+	let ret = getCookieValue("acf_uid");
 	return ret;
 }
 
@@ -660,6 +664,7 @@ function initPkg_ExpandTool() {
 	initPkg_ExpandTool_Dom();
     initPkg_ExpandTool_Func();
 
+	// initPkg_ExpandTool_RedPacket_Motorcade();
 	initPkg_ExpandTool_RedPacket_Room();
 	initPkg_ExpandTool_ClearBag();
     initPkg_ExpandTool_SendGift();
@@ -884,8 +889,8 @@ async function clearBagGifts(bagGiftsJson, room_id) {
         showMessage("背包礼物为空", "error");
     }
 }
-let redpackets_arr = [];
-let redpacketTimer; // 时钟句柄
+let redpackets_room_arr = [];
+let redpacket_room_timer; // 时钟句柄
 function initPkg_ExpandTool_RedPacket_Room() {
     ExpandTool_RedPacket_Room_insertDom();
     ExpandTool_RedPacket_Room_insertFunc();
@@ -911,12 +916,12 @@ function ExpandTool_RedPacket_Room_insertFunc() {
                 let ischecked = document.getElementById("extool__redpacekt_room_start").checked;
                 if (ischecked == true) {
                     // 开始自动抢红包
-                    redpacketTimer = setInterval(() => {
+                    redpacket_room_timer = setInterval(() => {
                         getRoomRedPacketsList(rid);
                     }, 1100);
                 } else{
                     // 停止自动抢红包
-                    clearInterval(redpacketTimer);
+                    clearInterval(redpacket_room_timer);
                 }
                 saveData_RedPacket_Room();
             } else {
@@ -941,12 +946,12 @@ function getRoomRedPacketsList(room_id) {
         if (ret.data.list.length > 0) {
             for (let i = 0; i < ret.data.list.length; i++) {
                 let rpid = ret.data.list[i].activityid;
-                let offset = checkRedPacket(rpid);
+                let offset = redpackets_room_arr.indexOf(rpid);
                 let startTime = ret.data.list[i].startTime;
                 let to = Number(startTime) - Math.round(new Date().getTime()/1000);
                 to = 1000 * to - 2000;
                 if (offset == -1) {
-                    redpackets_arr.push(ret.data.list[i].activityid);
+                    redpackets_room_arr.push(ret.data.list[i].activityid);
                     if (to > 0) {
                         setTimeout(() => {
                             getRoomRedPacket(rpid);
@@ -968,18 +973,7 @@ function getRoomRedPacketsList(room_id) {
     })
 }
 
-function checkRedPacket(a) {
-    let ret = -1;
-    for (let i = 0; i < redpackets_arr.length; i++) {
-        if (redpackets_arr[i] == a) {
-            ret = i;
-            break;
-        } else {
-            res =  -1;
-        }
-    }
-    return ret;
-}
+
 
 function getRoomRedPacket(rpid) {
     fetch("https://www.douyu.com/japi/interactnc/web/propredpacket/grab_prp", {
@@ -1432,6 +1426,21 @@ function initPkg_FishPond_Task_Timer() {
 }
 
 function getFishPond_Task() {
+	fetch('https://www.douyu.com/japi/tasksys/ytxb/batchGetPrize',{
+		method: 'POST',
+		mode: 'no-cors',
+		credentials: 'include',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		body: 'ids=1182%2C1183%2C1184%2C1185%2C1186' + '&rid=' + rid
+	}).then(res => {
+		return res.json();
+	}).then(ret => {
+		for (let i = 0; i < ret.data.length; i++) {
+			showMessage("【鱼塘任务】领取结果:成功领取" + ret.data[i].name + ret.data[i].num + "个", "success");
+		}
+	}).catch(err => {
+		console.log("请求失败!", err);
+	})
 	if (taskList.length == 0) {
 		showMessage("【鱼塘任务】暂无可领取的鱼粮", "info");
 		return;
@@ -1447,8 +1456,8 @@ function getFishPond_Task() {
 		}).then(res => {
 			return res.json();
 		}).then(ret => {
+			// console.log("【鱼塘任务】领取结果:", ret);
 			showMessage("【鱼塘任务】领取结果:" + ret.data.msg, "success");
-			// console.log("【鱼塘任务】领取结果:" + ret.data.msg, ret);
 		}).catch(err => {
 			console.log("请求失败!", err);
 		})
@@ -1463,6 +1472,7 @@ function getFishPond_TaskList() {
 	getFishPond_TaskList_Day();
 	getFishPond_TaskList_Week();
 	getFishPond_TaskList_Ytzb();
+	// getFishPond_TaskList_Client();
 }
 
 
@@ -1523,6 +1533,28 @@ function getFishPond_TaskList_Ytzb() {
 	})
 }
 
+// function getFishPond_TaskList_Client() {
+// 	console.log("哦嚯嚯",dyToken);
+// 	GM_xmlhttpRequest({
+// 		method: "POST",
+// 		url: "https://pcapi.douyucdn.cn/japi/tasksys/ytxb/userStatusV2",
+// 		data: "cycleType=26&roomId=" + rid + "&tagId=1&token=" + dyToken,
+// 		responseType: "json",
+// 		headers: {
+// 			'Content-Type': 'application/x-www-form-urlencoded'
+// 		},
+// 		onload: function(response) {
+// 			let ret = response.response;
+// 			console.log("哈哈哈哈：",ret);
+// 			for (let i = 0; i < ret.data.list.length; i++) {
+// 				if (ret.data.list[i].status == "2") {
+// 					FishPond_showTip(true);
+// 					taskList.push(ret.data.list[i].id);
+// 				}
+// 			}
+// 		}
+// 	});
+// }
 let videoPlayerArr = [];
 
 function initPkg_PopupPlayer() {
@@ -2221,6 +2253,8 @@ function initPkg_Sign_Func() {
 		initPkg_Sign_Client();
 		initPkg_Sign_Motorcade();
 		initPkg_Sign_Room();
+		initPkg_Sign_Ad_666();
+		initPkg_Sign_Ad_Sign();
 	})
 }
 function initPkg_Sign_Dom() {
@@ -2235,6 +2269,179 @@ function Sign_insertIcon() {
 	
 }
 
+function initPkg_Sign_Ad_666() {
+	getFishBall_Ad_666();
+}
+
+function getFishBall_Ad_666() {
+    let cnt = 0;
+    fetch("https://www.douyu.com/japi/tasksys/userStatus?ids=1033&token=" + dyToken + "&client_sys=android", {
+		method: 'GET',
+		mode: 'no-cors',
+		credentials: 'include'
+	}).then(res => {
+		return res.json();
+	}).then(async (retData) => {
+        cnt = Number(retData.data.list[0].taskLimitNum) - Number(retData.data.list[0].curCompleteNum);
+        if (cnt <= 0) {
+            showMessage("【挑战鱼丸】今日次数已用完", "warning");
+            return;
+        }
+        for (let i = 0; i < cnt; i++) {
+            let posid_ad_666 = "1114318";
+            let token = dyToken;
+            let uid = getUID();
+            let info = await getFishBall_Ad_666_info(posid_ad_666, token, uid);
+            let mid = info.mid;
+            let infoBack = info.infoBack;
+            let isStart = await getFishBall_Ad_666_start(posid_ad_666, token, uid, mid, infoBack);
+            if (isStart == true) {
+                showMessage("【挑战鱼丸】开始领取挑战鱼丸，需等待15秒", "info");
+                await sleep(15555).then(async () => {
+                    let isFinish = await getFishBall_Ad_666_finish(posid_ad_666, token, uid, mid, infoBack);
+                    if (isFinish == true) {
+                        await getFishBall_Ad_666_Bubble(token);
+                    }
+                })
+            }
+        }
+	}).catch(err => {
+		console.log("请求失败!", err);
+	})
+}
+
+
+
+function getFishBall_Ad_666_info(posid_ad_666, token, uid) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
+            data: "posid=" + posid_ad_666 + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30",
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    mid = ret.data[0].mid;
+                    infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    resolve({mid: mid, infoBack: infoBack});
+                }
+            }
+        });
+    })
+}
+
+function getFishBall_Ad_666_start(posid_ad_666, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_ad_666 + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_666_finish(posid_ad_666, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_ad_666 + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_666_Bubble(token) {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/japi/tasksys/getPrize?client_sys=android", {
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: "id=1033&roomId=" + rid + "&token=" + token
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            if (ret.error == "0") {
+                let retJson = JSON.parse(ret.data.ext);
+                showMessage("【挑战鱼丸】已领取" + retJson.data.items[1].prizeNum + "个" + retJson.data.items[1].prizeName, "success");
+            } else {
+                showMessage(ret.msg, "error");
+            }
+            resolve();
+        })
+    })
+}
+function initPkg_Sign_Ad_Sign() {
+	getFishBall_Ad_Sign();
+}
+
+function getFishBall_Ad_Sign() {
+    let fishBallNum = "0";
+    let posid_ad_sign = "1064246";
+    GM_xmlhttpRequest({
+		method: "GET",
+		url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/inspire/getFishBallNum?posId=" + posid_ad_sign + "&ct=1&token=" + dyToken,
+		responseType: "json",
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		onload: function(response) {
+            let ret = response.response;
+            if (ret.error == "0") {
+                fishBallNum = ret.data.num;
+                GM_xmlhttpRequest({
+                    method: "GET",
+                    url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/inspire/sendFishBall?uid=" + getUID() + "&posCode=" + posid_ad_sign + "&ct=1&token=" + dyToken,
+                    responseType: "json",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    onload: function(response) {
+                        let ret = response.response;
+                        if (ret.error == "0") {
+                            showMessage("【签到鱼丸】成功领取" + fishBallNum + "个鱼丸", "success");
+                        } else {
+                            if (ret.msg == "null") {
+                                showMessage("【签到鱼丸】未绑定手机" , "warning");
+                            } else {
+                                showMessage("【签到鱼丸】" + ret.msg, "warning");
+                            }
+                        }
+                    }
+                });
+            }
+		}
+	});
+    
+    
+	
+}
 function initPkg_Sign_Client() {
 	signClient();
 }
@@ -2461,7 +2668,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.03.01.01"
+var curVersion = "2020.03.11.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
