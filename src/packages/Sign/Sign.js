@@ -13,6 +13,7 @@ function initPkg_Sign_Func() {
 		initPkg_Sign_Room();
 		initPkg_Sign_Ad_666();
 		initPkg_Sign_Ad_Sign();
+		initPkg_Sign_Ad_FishPond();
 	})
 }
 function initPkg_Sign_Dom() {

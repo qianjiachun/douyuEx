@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.03.15.01
+// @version      2020.03.29.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -2294,6 +2294,7 @@ function initPkg_Sign_Func() {
 		initPkg_Sign_Room();
 		initPkg_Sign_Ad_666();
 		initPkg_Sign_Ad_Sign();
+		initPkg_Sign_Ad_FishPond();
 	})
 }
 function initPkg_Sign_Dom() {
@@ -2434,6 +2435,136 @@ function getFishBall_Ad_666_Bubble(token) {
             }
             resolve();
         })
+    })
+}
+function initPkg_Sign_Ad_FishPond() {
+	getFishBall_Ad_FishPond();
+}
+
+function getFishBall_Ad_FishPond() {
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://apiv2.douyucdn.cn/japi/tasksys/ytxb/userStatusV3?client_sys=android",
+        data: "roomId=" + rid + "&token=" + dyToken,
+        responseType: "json",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        onload: async function(response) {
+            let ret = response.response.data.taskList;
+            for (let i = 0; i < ret.length; i++) {
+                if (ret[i].task.id == "182") {
+                    if (ret[i].task.status == "3") {
+                        showMessage("【鱼塘鱼丸】已领取", "warning");
+                    } else {
+                        let posid_Ad_FishPond = "1114268";
+                        let token = dyToken;
+                        let uid = getUID();
+                        let info = await getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid);
+                        let mid = info.mid;
+                        let infoBack = info.infoBack;
+                        let isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                        if (isStart == true) {
+                            showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待20秒", "info");
+                            await sleep(20000).then(async () => {
+                                let isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                if (isFinish == true) {
+                                    await getFishBall_Ad_FishPond_Bubble(token);
+                                }
+                            })
+                        }
+                    }
+                }
+                
+            }
+        }
+    });
+}
+
+function getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
+            data: "posid=" + posid_Ad_FishPond + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30",
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    mid = ret.data[0].mid;
+                    infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    resolve({mid: mid, infoBack: infoBack});
+                }
+            }
+        });
+    })
+}
+
+function getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_FishPond + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_FishPond + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_FishPond_Bubble(token) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/tasksys/ytxb/getPrize?client_sys=android",
+            data: "token=" + token + "&id=182",
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    showMessage("【鱼塘鱼丸】" + ret.data.msg, "success");
+                } else {
+                    showMessage("【鱼塘鱼丸】" + ret.msg, "error");
+                }
+                resolve();
+            }
+        });
     })
 }
 function initPkg_Sign_Ad_Sign() {
@@ -2707,7 +2838,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.03.15.01"
+var curVersion = "2020.03.29.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
