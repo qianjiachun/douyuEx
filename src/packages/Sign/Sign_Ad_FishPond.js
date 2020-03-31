@@ -25,12 +25,28 @@ function getFishBall_Ad_FishPond() {
                         let mid = info.mid;
                         let infoBack = info.infoBack;
                         let isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                        if (isStart == false) {
+                            isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                            if (isStart == false) {
+                                isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                // 偷个懒，直接三次重试
+                            }
+                        }
                         if (isStart == true) {
-                            showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待20秒", "info");
-                            await sleep(20000).then(async () => {
+                            showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待15秒", "info");
+                            await sleep(15555).then(async () => {
                                 let isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                if (isFinish == false) {
+                                    isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                    if (isFinish == false) {
+                                        isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                    }
+                                }
                                 if (isFinish == true) {
-                                    await getFishBall_Ad_FishPond_Bubble(token);
+                                    let isGet = await getFishBall_Ad_FishPond_Bubble(token);
+                                    if (isGet != "0") {
+                                        isGet = await getFishBall_Ad_FishPond_Bubble(token);
+                                    }
                                 }
                             })
                         }
@@ -123,7 +139,7 @@ function getFishBall_Ad_FishPond_Bubble(token) {
                 } else {
                     showMessage("【鱼塘鱼丸】" + ret.msg, "error");
                 }
-                resolve();
+                resolve(ret.error);
             }
         });
     })

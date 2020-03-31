@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.03.29.01
+// @version      2020.03.31.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -28,6 +28,7 @@ function initPkg() {
 	initPkg_ExPanel();
 	initPkg_RemoveAD();
 	initPkg_RealAudience();
+	initPkg_CopyRealLive();
 	initPkg_Update();
 	initPkg_FirePower();
 	initPkg_PopupPlayer();
@@ -62,6 +63,9 @@ function initStyles() {
 	position: absolute;
 	right: 0;
 	bottom: 0;
+}
+#copy-real-live {
+    cursor: pointer;
 }
 .ex-icon {
 	display: inline-block;
@@ -629,6 +633,39 @@ function initPkg_BarrageLoop_Set() {
 		document.getElementById("bloop__text_speed2").value = retJson.speed2;
 		document.getElementById("bloop__text_stoptime").value = retJson.stopTime;
 	}
+}
+
+
+function initPkg_CopyRealLive() {
+	initPkg_CopyRealLive_Dom();
+	initPkg_CopyRealLive_Func();
+}
+
+function initPkg_CopyRealLive_Dom() {
+	CopyRealLive_insertIcon();
+}
+function CopyRealLive_insertIcon() {
+	let a = document.createElement("div");
+    a.className = "Title-blockInline";
+    a.id = "copy-real-live";
+	a.innerHTML = '<div class="TitleShare"><div class="TitleShare-shareBox "><div class="Title-row-span  is-right"><span class="Title-row-icon "><svg t="1585641756842" class="icon" viewBox="0 0 1237 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5646" width="16" height="16"><path d="M648.448 946.347l0.256-1.622-0.256 1.622z m84.31 13.354c-0.769 4.608-0.769 4.608-4.182 13.483-8.533 16.768-8.533 16.768-49.835 22.784-24.149-14.293-24.149-14.293-27.605-22.613-2.475-5.718-2.475-5.718-3.541-9.387L476.416 335.36l-103.083 499.2c-1.109 5.12-1.109 5.12-4.821 13.27-6.827 12.117-6.827 12.117-35.285 22.527-30.294-7.253-30.294-7.253-38.742-19.37-4.522-8.15-4.522-8.15-6.058-13.227l-74.582-262.357H0v-85.334h278.272l45.781 161.11 104.022-503.424c1.024-4.694 1.024-4.694 4.394-12.502 6.102-11.989 6.102-11.989 35.968-23.338 31.83 8.533 31.83 8.533 39.254 20.736 4.053 7.808 4.053 7.808 5.376 12.544l165.888 609.237 113.92-716.885c0.896-5.248 0.896-5.248 4.864-14.592 9.088-15.574 9.088-15.574 44.928-22.4C868.48 12.587 868.48 12.587 873.6 22.443c3.285 6.912 3.285 6.912 4.523 11.52l112 446.549h221.738v85.333H923.563l-78.507-312.917-112.299 706.773z" p-id="5647"></path></svg></span><span class="Title-row-text ">复制直播流</span></div></div></div>';
+	let b = document.getElementsByClassName("Title-col")[4];
+	b.insertBefore(a, b.childNodes[1]);
+	
+}
+
+function initPkg_CopyRealLive_Func() {
+	document.getElementById("copy-real-live").addEventListener("click",function() {
+        getRealLive_Douyu(rid, false, "777", "1", (lurl) => {
+            if (lurl == "None") {
+                showMessage("房间未开播或其他错误", "error");
+            } else {
+                GM_setClipboard(String(lurl).replace("https", "http"));
+                showMessage("复制成功", "success");
+            }
+            
+        })
+    });
 }
 
 
@@ -2464,12 +2501,28 @@ function getFishBall_Ad_FishPond() {
                         let mid = info.mid;
                         let infoBack = info.infoBack;
                         let isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                        if (isStart == false) {
+                            isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                            if (isStart == false) {
+                                isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                // 偷个懒，直接三次重试
+                            }
+                        }
                         if (isStart == true) {
-                            showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待20秒", "info");
-                            await sleep(20000).then(async () => {
+                            showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待15秒", "info");
+                            await sleep(15555).then(async () => {
                                 let isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                if (isFinish == false) {
+                                    isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                    if (isFinish == false) {
+                                        isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                    }
+                                }
                                 if (isFinish == true) {
-                                    await getFishBall_Ad_FishPond_Bubble(token);
+                                    let isGet = await getFishBall_Ad_FishPond_Bubble(token);
+                                    if (isGet != "0") {
+                                        isGet = await getFishBall_Ad_FishPond_Bubble(token);
+                                    }
                                 }
                             })
                         }
@@ -2562,7 +2615,7 @@ function getFishBall_Ad_FishPond_Bubble(token) {
                 } else {
                     showMessage("【鱼塘鱼丸】" + ret.msg, "error");
                 }
-                resolve();
+                resolve(ret.error);
             }
         });
     })
@@ -2787,58 +2840,85 @@ function signRoom(r) {
 	});
 }
 function initPkg_Sign_Yuba() {
-	signYubaList();
+    signYubaList();
+}
+
+function signYubaFast() {
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://mapi-yuba.douyu.com/wb/v3/fastSign",
+        responseType: "json",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "client": "android",
+            "token": dyToken,
+        },
+        onload: function (response) {
+            if (response.response.message == "" && response.response.data != 0) {
+                showMessage("【鱼吧】一键签到成功! 获得经验" + response.response.data, "success");
+                // console.log("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp);
+            } else if (response.response.data == 0) {
+                showMessage("【鱼吧】没有7级以上的鱼吧或极速签到已完成", "warning");
+                // console.log("【鱼吧】" + group_id + response.response.message);
+            } else {
+                showMessage("【鱼吧】" + response.response.message, "warning");
+            }
+
+        }
+    });
 }
 
 function signYuba(group_id, t) {
-	GM_xmlhttpRequest({
-		method: "POST",
-		url: "https://yuba.douyu.com/ybapi/topic/sign",
-		data: 'group_id=' + group_id,
-		responseType: "json",
-		headers: {
-		  "Content-Type": "application/x-www-form-urlencoded",
-		  "dy-client": "pc",
-		  "dy-token": t,
-		  'Referer': 'https://yuba.douyu.com/group/' + group_id
-		},
-		onload: function(response) {
-			if (response.response.message == "") {
-				showMessage("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp, "success");
-				// console.log("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp);
-			} else {
-				showMessage("【鱼吧】" + group_id + response.response.message, "warning");
-				// console.log("【鱼吧】" + group_id + response.response.message);
-			}
-		 
-		}
-	});
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://yuba.douyu.com/ybapi/topic/sign",
+        data: 'group_id=' + group_id,
+        responseType: "json",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "dy-client": "pc",
+            "dy-token": t,
+            'Referer': 'https://yuba.douyu.com/group/' + group_id
+        },
+        onload: function (response) {
+            if (response.response.message == "") {
+                showMessage("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp, "success");
+                // console.log("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp);
+            } else {
+                showMessage("【鱼吧】" + group_id + response.response.message, "warning");
+                // console.log("【鱼吧】" + group_id + response.response.message);
+            }
+
+        }
+    });
 }
 
 function signYubaList() {
-	GM_xmlhttpRequest({
-		method: "GET",
-		url: "https://yuba.douyu.com/wbapi/web/group/myFollow?page=1&limit=999",
-		responseType: "json",
-		headers: {
-		  "Content-Type": "application/x-www-form-urlencoded",
-		  "dy-client": "pc",
-		  "dy-token": dyToken
-		},
-		onload: function(response) {
-			for (let i = 0; i < response.response.data.list.length; i++) {
-				signYuba(response.response.data.list[i].group_id, dyToken);
-			}
-		 
-		}
-	});
-	
-}
+    GM_xmlhttpRequest({
+        method: "GET",
+        url: "https://mapi-yuba.douyu.com/wb/v3/signAggregation?page=1",
+        responseType: "json",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "client": "android",
+            "token": dyToken
+        },
+        onload: function (response) {
+            signYubaFast();
+            for (let i = 0; i < response.response.data.list.length; i++) {
+                if (response.response.data.list[i].level < 7) {
+                    signYuba(response.response.data.list[i].group_id, dyToken);
+                }
+            }
 
+        }
+    });
+
+}
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.03.29.01"
+var curVersion = "2020.03.31.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -2982,7 +3062,7 @@ function getRealRid_Bilibili(url, realrid_callback) {
 function getRealLive_Douyu(room_id, is_https, qn, cdn, reallive_callback) {
     // 第一个参数传入string,表示房间号（注意是真实房间号）
     // 第二个参数传入bool,表示是否返回https地址。注意https地址只能使用一次，使用过以后需要再次获取；http地址无限制
-    // 第三个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:4)
+    // 第三个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:4) 填写777则返回默认清晰度
     // 第四个参数传入string(1,2,3,4),表示线路 1:主线路(ws-h5) 2:备用线路1(tct-h5) 3:备用线路2(ali-h5) 此参数只对HTTPS有效
     // 第五个参数传入回调函数，最好是箭头函数，用于处理返回的地址，例: (url) => {console.log(url)}
     GM_xmlhttpRequest({
@@ -3040,7 +3120,7 @@ function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, qn, cdn, reallive_c
                         break;    
                     case "4":
                         cl = "4000p"
-                        break;               
+                        break;              
                     default:
                         cl = "1200p"
                         break;
@@ -3049,7 +3129,12 @@ function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, qn, cdn, reallive_c
                 if (result == "0") {
                     realLive = "None";
                 } else {
-                    realLive = "https://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
+                    if (qn == "777") {
+                        // qn写777则不返回清晰度，即默认
+                        realLive = "https://tx2play1.douyucdn.cn/live/" + result + ".flv?uuid=";
+                    } else {
+                        realLive = "https://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
+                    }
                 }
                 
                 reallive_callback(realLive);

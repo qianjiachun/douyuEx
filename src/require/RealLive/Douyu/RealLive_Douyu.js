@@ -5,7 +5,7 @@
 function getRealLive_Douyu(room_id, is_https, qn, cdn, reallive_callback) {
     // 第一个参数传入string,表示房间号（注意是真实房间号）
     // 第二个参数传入bool,表示是否返回https地址。注意https地址只能使用一次，使用过以后需要再次获取；http地址无限制
-    // 第三个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:4)
+    // 第三个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:4) 填写777则返回默认清晰度
     // 第四个参数传入string(1,2,3,4),表示线路 1:主线路(ws-h5) 2:备用线路1(tct-h5) 3:备用线路2(ali-h5) 此参数只对HTTPS有效
     // 第五个参数传入回调函数，最好是箭头函数，用于处理返回的地址，例: (url) => {console.log(url)}
     GM_xmlhttpRequest({
@@ -63,7 +63,7 @@ function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, qn, cdn, reallive_c
                         break;    
                     case "4":
                         cl = "4000p"
-                        break;               
+                        break;              
                     default:
                         cl = "1200p"
                         break;
@@ -72,7 +72,12 @@ function RealLive_get_sign_url(post_v, r, tt, ub9, is_https, qn, cdn, reallive_c
                 if (result == "0") {
                     realLive = "None";
                 } else {
-                    realLive = "https://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
+                    if (qn == "777") {
+                        // qn写777则不返回清晰度，即默认
+                        realLive = "https://tx2play1.douyucdn.cn/live/" + result + ".flv?uuid=";
+                    } else {
+                        realLive = "https://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
+                    }
                 }
                 
                 reallive_callback(realLive);
