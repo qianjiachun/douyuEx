@@ -54,23 +54,20 @@ function signYuba(group_id, t) {
 
 function signYubaList() {
     GM_xmlhttpRequest({
-        method: "GET",
-        url: "https://mapi-yuba.douyu.com/wb/v3/signAggregation?page=1",
-        responseType: "json",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "client": "android",
-            "token": dyToken
-        },
-        onload: function (response) {
+		method: "GET",
+		url: "https://yuba.douyu.com/wbapi/web/group/myFollow?page=1&limit=999",
+		responseType: "json",
+		headers: {
+		  "Content-Type": "application/x-www-form-urlencoded",
+		  "dy-client": "pc",
+		  "dy-token": dyToken
+		},
+		onload: function(response) {
             signYubaFast();
-            for (let i = 0; i < response.response.data.list.length; i++) {
-                if (response.response.data.list[i].level < 7) {
-                    signYuba(response.response.data.list[i].group_id, dyToken);
-                }
-            }
-
-        }
-    });
-
+			for (let i = 0; i < response.response.data.list.length; i++) {
+				signYuba(response.response.data.list[i].group_id, dyToken);
+			}
+		 
+		}
+	});
 }
