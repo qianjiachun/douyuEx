@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.03.31.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间
+// @version      2020.04.10.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -29,6 +29,7 @@ function initPkg() {
 	initPkg_RemoveAD();
 	initPkg_RealAudience();
 	initPkg_CopyRealLive();
+	initPkg_BagInfo();
 	initPkg_Update();
 	initPkg_FirePower();
 	initPkg_PopupPlayer();
@@ -50,6 +51,15 @@ function initTimer() {
 function initStyles() {
 	let style = document.createElement("style");
 	style.appendChild(document.createTextNode(`
+.bag-info {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 20px;
+    font-weight: 800;
+    height: 20px;
+    text-align: center;
+}
 .bloop {
 	background-color: rgba(255,255,255,0.9);
 	width: 100%;
@@ -210,7 +220,7 @@ function initStyles() {
             }, 1000);
         } else {
             let intID = setInterval(() => {
-                if (typeof(document.getElementsByClassName("ChatToolBar")[0]) != "undefined") {
+                if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined") {
                     setTimeout(() => {
                         initStyles();
                         initPkg();
@@ -402,11 +412,48 @@ function getRandom(min, max) {
 }
 
 function isRid(str) {
-	if (/^[0-9]+$/.test(str)) { //这是用正则表达是检查
+	if (/^[0-9]+$/.test(str)) {
 		return true;
 	} else {
 		return false;
 	}
+}
+
+function initPkg_BagInfo() {
+	initPkg_BagInfo_Func();
+}
+
+function initPkg_BagInfo_Func() {
+	document.getElementsByClassName("BackpackButton")[0].addEventListener("click", function() {
+        setTimeout(() => {
+            if (document.getElementsByClassName("Backpack JS_Backpack").length > 0) {
+                getBagGifts(rid, (ret) => {
+                    let chunkNum = ret.data.list.length;
+                    if (chunkNum > 0) {
+                        let totalPrice = 0;
+                        let totalIntimate = 0;
+                        for (let i = 0; i < chunkNum; i++) {
+                            let chunk = document.getElementsByClassName("Backpack-prop")[i];
+                            let isValuable = ret.data.list[i].isValuable; // 判断是否是有价值的礼物
+                            let expiry = ret.data.list[i].expiry; // 过期时间
+                            let price = ret.data.list[i].price; // 注意这个要除100才是真实价格，否则是亲密度
+                            let intimate = ret.data.list[i].intimate; // 亲密度
+                            let count = ret.data.list[i].count; // 数量
+                            if (isValuable == "1") {
+                                totalPrice = totalPrice + Number(price) * Number(count);
+                            }
+                            totalIntimate = totalIntimate + Number(intimate) * Number(count);
+                            let expiryDiv = document.createElement("div");
+                            expiryDiv.className = "bag-info";
+                            expiryDiv.innerHTML = expiry;
+                            chunk.insertBefore(expiryDiv, chunk.childNodes[0]);
+                        }
+                        document.getElementsByClassName("Backpack-space")[0].innerText = "总价值：" + String(Number(totalPrice / 100).toFixed(2)) + " 总亲密度：" + String(totalIntimate);
+                    }
+                });
+            }
+        }, 300);
+    });
 }
 
 let barrageColorArr = [];
@@ -655,7 +702,7 @@ function CopyRealLive_insertIcon() {
 }
 
 function initPkg_CopyRealLive_Func() {
-	document.getElementById("copy-real-live").addEventListener("click",function() {
+	document.getElementById("copy-real-live").addEventListener("click", function() {
         getRealLive_Douyu(rid, false, "777", "1", (lurl) => {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
@@ -666,6 +713,19 @@ function initPkg_CopyRealLive_Func() {
             
         })
     });
+    document.getElementsByClassName("Title-header")[0].addEventListener("click", function() {
+        getRealLive_Douyu(rid, false, "777", "1", (lurl) => {
+            if (lurl == "None") {
+                showMessage("房间未开播或其他错误", "error");
+            } else {
+                GM_setClipboard(String(lurl).replace("https", "http"));
+                showMessage("复制成功", "success");
+            }
+            
+        })
+    });
+    document.getElementsByClassName("Title-header")[0].style.cursor = "pointer";
+    document.getElementsByClassName("Title-header")[0].title = "复制直播流地址"
 }
 
 
@@ -702,7 +762,7 @@ function initPkg_ExpandTool() {
 	initPkg_ExpandTool_Dom();
     initPkg_ExpandTool_Func();
 
-	initPkg_ExpandTool_RedPacket_Motorcade();
+	// initPkg_ExpandTool_RedPacket_Motorcade();
 	initPkg_ExpandTool_RedPacket_Room();
 	initPkg_ExpandTool_ClearBag();
     initPkg_ExpandTool_SendGift();
@@ -926,190 +986,6 @@ async function clearBagGifts(bagGiftsJson, room_id) {
     } else {
         showMessage("背包礼物为空", "error");
     }
-}
-let redpacketsID_motorcade_arr = [];
-let redpacket_motorcade_timer;
-// let redpredpacket_motorcade_number = 0;
-function initPkg_ExpandTool_RedPacket_Motorcade() {
-    ExpandTool_RedPacket_Motorcade_insertDom();
-    ExpandTool_RedPacket_Motorcade_insertFunc();
-    ExpandTool_RedPacket_Motorcade_Set();
-}
-
-
-function ExpandTool_RedPacket_Motorcade_insertDom() {
-    let html = "";
-    html += '<label><input style="margin-top:5px" id="extool__redpacekt_motorcade_start" type="checkbox">自动抢车队红包</label>';
-    
-    let a = document.createElement("div");
-    a.className = "extool__redpacket_motorcade";
-    a.innerHTML = html;
-    let b = document.getElementsByClassName("extool")[0];
-    b.insertBefore(a, b.childNodes[0]);
-
-}
-function ExpandTool_RedPacket_Motorcade_insertFunc() {
-    document.getElementById("extool__redpacekt_motorcade_start").addEventListener("click", function() {
-        verifyFans("5189167", 0).then(async (r) => {
-            if (r == true || r == false) {
-                let ischecked = document.getElementById("extool__redpacekt_motorcade_start").checked;
-                if (ischecked == true) {
-                    // 开始自动抢红包
-                    let retConnect = await motorcadeConnect(dyToken);
-                    let retConnect2 = await motorcadeConnect2(retConnect.data.uid, retConnect.data.sig);
-                    let motorcadeID = await getMotorcadeID(retConnect2.TinyId, retConnect2.A2Key, retConnect.data.uid);
-                    redpacket_motorcade_timer = setInterval(async() => {
-                        let msglist = await getMotorcadeMessage(motorcadeID, retConnect2.TinyId, retConnect2.A2Key, 3);
-                        let isArr = msglist.RspMsgList instanceof Array;
-                        if (isArr == true) {
-                            for (let i = 0; i < msglist.RspMsgList.length; i++) {
-                                let eachMsg = msglist.RspMsgList[i].MsgBody[0].MsgContent.Data;
-                                let redpacketID = getStrMiddle(String(eachMsg), 'RedPacketId":"', '",');
-                                if (redpacketID != false) {
-                                    if (redpacketsID_motorcade_arr.length > 3) {
-                                        redpacketsID_motorcade_arr.length = 0;
-                                    }
-                                    if (redpacketsID_motorcade_arr.indexOf(redpacketID) == -1) {
-                                        redpacketsID_motorcade_arr.push(redpacketID);
-                                        // redpredpacket_motorcade_number++;
-                                        // if (redpredpacket_motorcade_number >= 6) {
-                                        //     getMotorcadeRedPacket(dyToken, redpacketID);
-                                        // }
-                                        getMotorcadeRedPacket(dyToken, redpacketID);
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }, 20);
-                } else {
-                    // 停止自动抢红包
-                    clearInterval(redpacket_motorcade_timer);
-                }
-                saveData_RedPacket_Motorcade();
-            } else {
-                document.getElementById("extool__redpacekt_motorcade_start").checked = false;
-                showMessage("本功能需拥有13级歆崽粉丝牌(5189167)才可使用", "error");
-            }
-        })
-	});
-
-}
-
-function saveData_RedPacket_Motorcade() {
-	let isGetRedPacket = document.getElementById("extool__redpacekt_motorcade_start").checked;
-	let data = {
-		isGetRedPacket: isGetRedPacket
-	}
-	localStorage.setItem("ExSave_RedPacket_Motorcade", JSON.stringify(data)); // 存储弹幕列表
-}
-function ExpandTool_RedPacket_Motorcade_Set() {
-	// 设置初始化
-    let ret = localStorage.getItem("ExSave_RedPacket_Motorcade");
-	if (ret != null) {
-        let retJson = JSON.parse(ret);
-        if (retJson.isGetRedPacket == true) {
-            verifyFans("5189167", 0).then(r => {
-                if (r == true || r == false) {
-                    document.getElementById("extool__redpacekt_motorcade_start").click();
-                } else {
-                    let data = {
-                        isGetRedPacket: false
-                    }
-                    localStorage.setItem("ExSave_RedPacket_Motorcade", JSON.stringify(data)); // 存储弹幕列表
-                    showMessage("本功能需拥有13级歆崽粉丝牌(5189167)才可使用", "error");
-                }
-            })
-        }
-	}
-}
-
-function motorcadeConnect(token) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "GET",
-            url: "https://msg.douyu.com/v3/login/getusersig",
-            responseType: "json",
-            headers: {
-                "dy-token": token,
-                "dy-client": "pc"
-            },
-            onload: function(response) {
-                resolve(response.response);
-            }
-        });
-    })
-}
-
-function motorcadeConnect2(identifier, sig) {
-    let url = "https://webim.tim.qq.com/v4/openim/login?identifier=" + identifier + "&usersig=" + sig +"&contenttype=json&sdkappid=1400029396";
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: url,
-            data: '{"State":"Online"}',
-            responseType: "json",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            },
-            onload: function(response) {
-                resolve(response.response);
-            }
-        });
-    })
-}
-
-function getMotorcadeMessage(motorcadeID, tinyid, a2, msgNum) {
-    let url = "https://webim.tim.qq.com/v4/group_open_http_svc/group_msg_get?tinyid=" + tinyid + "&a2=" + a2 + "&contenttype=json&sdkappid=1400029396"
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: url,
-            data: '{"GroupId":"' + motorcadeID + '","ReqMsgNumber":' + String(msgNum) + '}',
-            responseType: "json",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            },
-            onload: function(response) {
-                resolve(response.response);
-            }
-        });
-    })
-}
-
-function getMotorcadeID(tinyid, a2, identifier) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://webim.tim.qq.com/v4/group_open_http_svc/get_joined_group_list?tinyid=" + tinyid + "&a2=" + a2 + "&contenttype=json&sdkappid=1400029396",
-            data: '{"Member_Account":"' + identifier + '"}',
-            responseType: "json",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            onload: function(response) {
-                resolve(response.response.GroupIdList[0].GroupId);
-            }
-        });
-    })
-}
-
-
-function getMotorcadeRedPacket(token, redpacketID) {
-    GM_xmlhttpRequest({
-        method: "POST",
-        url: "https://msg.douyu.com/v3/motorcade/red_packet/obtain",
-        data: 'red_packet_id=' + redpacketID,
-        responseType: "json",
-        headers: {
-            "dy-client": "android",
-            "dy-token": token,
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        onload: function(response) {
-            console.log(response.response);
-        }
-    });
 }
 let redpackets_room_arr = [];
 let redpacket_room_timer; // 时钟句柄
@@ -2513,7 +2389,7 @@ function initPkg_Sign_Func() {
 		initPkg_Sign_Client();
 		initPkg_Sign_Motorcade();
 		initPkg_Sign_Room();
-		initPkg_Sign_Ad_666();
+		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
 		initPkg_Sign_Ad_Sign();
 		initPkg_Sign_Ad_FishPond();
 	})
@@ -2704,16 +2580,14 @@ function getFishBall_Ad_FishPond() {
                                 }
                                 if (isFinish == true) {
                                     let isGet = await getFishBall_Ad_FishPond_Bubble(token);
-                                    if (isGet != "0") {
-                                        isGet = await getFishBall_Ad_FishPond_Bubble(token);
-                                    }
                                 }
+                                initPkg_Sign_Ad_666();
                             })
                         }
                     }
                 }
-                
             }
+            
         }
     });
 }
@@ -3099,7 +2973,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.03.31.02"
+var curVersion = "2020.04.10.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

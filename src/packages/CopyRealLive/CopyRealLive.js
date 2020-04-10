@@ -17,7 +17,7 @@ function CopyRealLive_insertIcon() {
 }
 
 function initPkg_CopyRealLive_Func() {
-	document.getElementById("copy-real-live").addEventListener("click",function() {
+	document.getElementById("copy-real-live").addEventListener("click", function() {
         getRealLive_Douyu(rid, false, "777", "1", (lurl) => {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
@@ -28,5 +28,18 @@ function initPkg_CopyRealLive_Func() {
             
         })
     });
+    document.getElementsByClassName("Title-header")[0].addEventListener("click", function() {
+        getRealLive_Douyu(rid, false, "777", "1", (lurl) => {
+            if (lurl == "None") {
+                showMessage("房间未开播或其他错误", "error");
+            } else {
+                GM_setClipboard(String(lurl).replace("https", "http"));
+                showMessage("复制成功", "success");
+            }
+            
+        })
+    });
+    document.getElementsByClassName("Title-header")[0].style.cursor = "pointer";
+    document.getElementsByClassName("Title-header")[0].title = "复制直播流地址"
 }
 

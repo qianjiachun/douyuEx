@@ -44,16 +44,14 @@ function getFishBall_Ad_FishPond() {
                                 }
                                 if (isFinish == true) {
                                     let isGet = await getFishBall_Ad_FishPond_Bubble(token);
-                                    if (isGet != "0") {
-                                        isGet = await getFishBall_Ad_FishPond_Bubble(token);
-                                    }
                                 }
+                                initPkg_Sign_Ad_666();
                             })
                         }
                     }
                 }
-                
             }
+            
         }
     });
 }

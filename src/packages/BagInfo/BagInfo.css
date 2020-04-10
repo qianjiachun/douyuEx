@@ -1,0 +1,9 @@
+.bag-info {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 20px;
+    font-weight: 800;
+    height: 20px;
+    text-align: center;
+}

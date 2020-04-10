@@ -11,7 +11,7 @@ function initPkg_Sign_Func() {
 		initPkg_Sign_Client();
 		initPkg_Sign_Motorcade();
 		initPkg_Sign_Room();
-		initPkg_Sign_Ad_666();
+		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
 		initPkg_Sign_Ad_Sign();
 		initPkg_Sign_Ad_FishPond();
 	})

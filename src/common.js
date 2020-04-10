@@ -178,7 +178,7 @@ function getRandom(min, max) {
 }
 
 function isRid(str) {
-	if (/^[0-9]+$/.test(str)) { //这是用正则表达是检查
+	if (/^[0-9]+$/.test(str)) {
 		return true;
 	} else {
 		return false;
