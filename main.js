@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.04.18.01
+// @version      2020.04.19.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -2313,9 +2313,24 @@ function getRealViewer() {
 function initPkg_Refresh() {
 	initPkg_Refresh_BarrageFrame();
 }
+
+function saveData_Refresh() {
+	// 此处为保存简洁模式的数据，请在每次操作后都调用这个函数以保存状态
+	// 数据结构
+	// {功能1:{子功能1:{}}}
+	// 每个子模块需要提供相应的返回数据函数
+	let data = {
+		barrageFrame: {
+			status: refresh_BarrageFrame_getStatus(),
+		}
+	}
+	
+	localStorage.setItem("ExSave_Refresh", JSON.stringify(data)); // 存储弹幕列表
+}
 function initPkg_Refresh_BarrageFrame() {
 	initPkg_Refresh_BarrageFrame_Dom();
-	initPkg_Refresh_BarrageFrame_Func();
+    initPkg_Refresh_BarrageFrame_Func();
+    initPkg_Refresh_BarrageFrame_Set();
 }
 
 function initPkg_Refresh_BarrageFrame_Dom() {
@@ -2347,9 +2362,33 @@ function initPkg_Refresh_BarrageFrame_Func() {
             dom_barrage.style = "top:" + topHeight + "px";
             document.getElementById("refresh-barrage-frame__text").innerText = "恢复弹幕框";
         }
+        saveData_Refresh();
     });
 }
 
+function refresh_BarrageFrame_getStatus() {
+    let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
+    if (dom_rank.style.display == "none") {
+        // 被拉高
+        return true;
+    } else {
+        // 没拉高
+        return false;
+    }
+}
+
+function initPkg_Refresh_BarrageFrame_Set() {
+    let ret = localStorage.getItem("ExSave_Refresh");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if (retJson.barrageFrame.status == undefined) {
+            retJson.barrageFrame.status = false;
+        }
+        if (retJson.barrageFrame.status == true) {
+            document.getElementById("refresh-barrage-frame").click();
+        }
+    }
+}
 
 function initPkg_RemoveAD() {
     let t = setInterval(() => {
