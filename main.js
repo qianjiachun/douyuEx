@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.04.10.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展
+// @version      2020.04.18.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -29,6 +29,7 @@ function initPkg() {
 	initPkg_RemoveAD();
 	initPkg_RealAudience();
 	initPkg_CopyRealLive();
+	initPkg_Refresh();
 	initPkg_BagInfo();
 	initPkg_Update();
 	initPkg_FirePower();
@@ -2309,6 +2310,47 @@ function getRealViewer() {
 
 
 
+function initPkg_Refresh() {
+	initPkg_Refresh_BarrageFrame();
+}
+function initPkg_Refresh_BarrageFrame() {
+	initPkg_Refresh_BarrageFrame_Dom();
+	initPkg_Refresh_BarrageFrame_Func();
+}
+
+function initPkg_Refresh_BarrageFrame_Dom() {
+	Refresh_BarrageFrame_insertIcon();
+}
+function Refresh_BarrageFrame_insertIcon() {
+	let a = document.createElement("a");
+    a.className = "Barrage-toolbarLock";
+    a.id = "refresh-barrage-frame";
+	a.innerHTML = '<i class="Barrage-toolbarIcon"></i><span id="refresh-barrage-frame__text" class="Barrage-toolbarText">拉高弹幕框</span>';
+	let b = document.getElementsByClassName("Barrage-toolbar")[0];
+	b.insertBefore(a, b.childNodes[0]);
+	
+}
+
+function initPkg_Refresh_BarrageFrame_Func() {
+	document.getElementById("refresh-barrage-frame").addEventListener("click", function() {
+        let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
+        let dom_barrage = document.getElementById("js-player-barrage");
+        if (dom_rank.style.display == "none") {
+            // 被拉高
+            dom_rank.style.display = "block";
+            dom_barrage.style = "";
+            document.getElementById("refresh-barrage-frame__text").innerText = "拉高弹幕框";
+        } else {
+            // 没拉高
+            let topHeight = document.getElementsByClassName("layout-Player-announce")[0].offsetHeight;
+            dom_rank.style.display = "none";
+            dom_barrage.style = "top:" + topHeight + "px";
+            document.getElementById("refresh-barrage-frame__text").innerText = "恢复弹幕框";
+        }
+    });
+}
+
+
 function initPkg_RemoveAD() {
     let t = setInterval(() => {
         let a = document.getElementsByClassName("PlayerToolbar-wealthNum")[0];
@@ -2454,7 +2496,7 @@ function getFishBall_Ad_666_info(posid_ad_666, token, uid) {
         GM_xmlhttpRequest({
             method: "POST",
             url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_ad_666 + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30",
+            data: "posid=" + posid_ad_666 + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
             responseType: "json",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -2597,7 +2639,7 @@ function getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid) {
         GM_xmlhttpRequest({
             method: "POST",
             url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_Ad_FishPond + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30",
+            data: "posid=" + posid_Ad_FishPond + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
             responseType: "json",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -2973,7 +3015,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.04.10.01"
+var curVersion = "2020.04.18.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

@@ -46,7 +46,7 @@ function getFishBall_Ad_666_info(posid_ad_666, token, uid) {
         GM_xmlhttpRequest({
             method: "POST",
             url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_ad_666 + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30",
+            data: "posid=" + posid_ad_666 + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
             responseType: "json",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
