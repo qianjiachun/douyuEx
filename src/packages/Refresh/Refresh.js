@@ -1,5 +1,6 @@
 function initPkg_Refresh() {
 	initPkg_Refresh_BarrageFrame();
+	initPkg_Refresh_Video();
 }
 
 function saveData_Refresh() {
@@ -10,6 +11,9 @@ function saveData_Refresh() {
 	let data = {
 		barrageFrame: {
 			status: refresh_BarrageFrame_getStatus(),
+		},
+		video: {
+			status: refresh_Video_getStatus(),
 		}
 	}
 	

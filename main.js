@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.04.19.01
+// @version      2020.04.19.03
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -191,6 +191,14 @@ function initStyles() {
 .postbird-box-container{width:100%;height:100%;overflow:hidden;position:fixed;top:0;left:0;z-index:9999;display:block;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.postbird-box-container.active{display:block}.postbird-box-content{width:400px;max-width:90%;min-height:170px;background-color:#fff;border:solid 1px #dfdfdf;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin-top:-100px}.postbird-box-header{width:100%;padding:10px 15px;position:relative;font-size:1.1em;letter-spacing:2px}.postbird-box-close-btn{cursor:pointer;font-weight:700;color:#000;float:right;opacity:.5;font-size:1.3em;margin-top:-3px;display:none}.postbird-box-close-btn:hover{opacity:1}.postbird-box-text{box-sizing: border-box;width:100%;padding:0 10%;text-align:center;line-height:40px;font-size:20px;letter-spacing:1px}.postbird-box-footer{width:100%;position:absolute;bottom:0;padding:0;margin:0;display:flex;display:-webkit-flex;justify-content:space-around;border-top:solid 1px #dfdfdf;align-items:flex-end}.postbird-box-footer .btn-footer{line-height:44px;border:0;cursor:pointer;background-color:#fff;color:#0e90d2;font-size:1.1em;letter-spacing:2px;transition:background-color .5s;-webkit-transition:background-color .5s;-o-transition:background-color .5s;-moz-transition:background-color .5s;outline:0}.postbird-box-footer .btn-footer:hover{background-color:#e5e5e5}.postbird-box-footer .btn-block-footer{width:100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer{position:relative;width:100%}.postbird-box-footer .btn-left-footer::after{content:"";position:absolute;right:0;top:0;background-color:#e5e5e5;height:100%;width:1px}.postbird-box-footer .btn-footer-cancel{color:#333}.postbird-prompt-input{width:100%;padding:5px;font-size:16px;border:1px solid #ccc;outline:0}
 .real-audience {
     cursor: pointer;
+}
+#refresh-video {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+    cursor: pointer;
+    background-size: contain;
 }
 /*
     Notice.css
@@ -2312,6 +2320,7 @@ function getRealViewer() {
 
 function initPkg_Refresh() {
 	initPkg_Refresh_BarrageFrame();
+	initPkg_Refresh_Video();
 }
 
 function saveData_Refresh() {
@@ -2322,6 +2331,9 @@ function saveData_Refresh() {
 	let data = {
 		barrageFrame: {
 			status: refresh_BarrageFrame_getStatus(),
+		},
+		video: {
+			status: refresh_Video_getStatus(),
 		}
 	}
 	
@@ -2350,21 +2362,26 @@ function initPkg_Refresh_BarrageFrame_Func() {
 	document.getElementById("refresh-barrage-frame").addEventListener("click", function() {
         let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
         let dom_barrage = document.getElementById("js-player-barrage");
+        let dom_activity = document.getElementById("js-room-activity");
         if (dom_rank.style.display == "none") {
             // 被拉高
             dom_rank.style.display = "block";
             dom_barrage.style = "";
+            dom_activity.style.display = "block";
             document.getElementById("refresh-barrage-frame__text").innerText = "拉高弹幕框";
+
         } else {
             // 没拉高
             let topHeight = document.getElementsByClassName("layout-Player-announce")[0].offsetHeight;
             dom_rank.style.display = "none";
+            dom_activity.style.display = "none";
             dom_barrage.style = "top:" + topHeight + "px";
             document.getElementById("refresh-barrage-frame__text").innerText = "恢复弹幕框";
         }
         saveData_Refresh();
     });
 }
+
 
 function refresh_BarrageFrame_getStatus() {
     let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
@@ -2385,7 +2402,73 @@ function initPkg_Refresh_BarrageFrame_Set() {
             retJson.barrageFrame.status = false;
         }
         if (retJson.barrageFrame.status == true) {
-            document.getElementById("refresh-barrage-frame").click();
+            let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
+            let dom_barrage = document.getElementById("js-player-barrage");
+            let dom_activity = document.getElementById("js-room-activity");
+            let topHeight = document.getElementsByClassName("layout-Player-announce")[0].offsetHeight;
+            dom_rank.style.display = "none";
+            dom_activity.style.display = "none";
+            dom_barrage.style = "top:" + topHeight + "px";
+            document.getElementById("refresh-barrage-frame__text").innerText = "恢复弹幕框";
+        }
+    }
+}
+
+function initPkg_Refresh_Video() {
+	initPkg_Refresh_Video_Dom();
+    initPkg_Refresh_Video_Func();
+    initPkg_Refresh_Video_Set();
+}
+
+function initPkg_Refresh_Video_Dom() {
+	Refresh_Video_insertIcon();
+}
+function Refresh_Video_insertIcon() {
+	let a = document.createElement("div");
+    a.id = "refresh-video";
+	a.innerHTML = '<svg t="1587295753406" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6410" width="22" height="22"><path d="M218.88 64l73.728 23.168c-9.792 20.608-18.432 41.216-25.792 61.824h224.896v73.408H362.688c19.648 25.728 39.36 54.08 59.008 84.992l-77.44 42.496a1235.456 1235.456 0 0 0-66.368-127.552h-47.936L189.376 288c-14.72 20.608-34.432 43.776-59.008 69.504L64 307.328C135.296 235.2 186.944 154.112 218.88 64z m383.488 0l70.08 23.168c-7.36 20.608-16 41.216-25.792 61.824h261.824v73.408h-151.168c19.648 25.728 36.864 52.8 51.648 81.088l-66.368 42.496a1440.32 1440.32 0 0 0-70.08-123.584h-59.072a594.816 594.816 0 0 1-95.872 131.264L451.2 303.424C520 231.36 570.432 151.552 602.368 64zM259.456 334.336a491.52 491.52 0 0 1 84.8 108.16l-70.08 38.592c-17.216-36.032-43.008-72.064-77.44-108.16l62.72-38.592z m125.376 48.832H832v472.576c0 33.472-7.36 59.2-22.144 77.248-14.72 17.984-36.864 27.008-66.368 27.008-24.576 0-44.352-1.28-78.784-3.84l-18.432-64c39.36 2.56 71.296 3.84 95.872 3.84 17.216 0 25.792-18.048 25.792-54.08V448.832H384.832V383.168zM128 448h64v512H128V448z m512 64.448V832H320V512.448h320zM576 640V576H384.832v64H576z m-191.168 64v64H576v-64H384.832z" p-id="6411" fill="#ffffff"></path></svg>';
+	let b = document.getElementsByClassName("right-e7ea5d")[0];
+	b.insertBefore(a, b.childNodes[0]);
+	
+}
+
+function initPkg_Refresh_Video_Func() {
+	document.getElementById("refresh-video").addEventListener("click", function() {
+        let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+        let dom_video = document.getElementsByClassName("layout-Player-video")[0];
+        if (dom_toolbar.style.visibility == "hidden") {
+            dom_toolbar.style.visibility = "visible";
+            dom_video.style = "";
+        } else {
+            dom_toolbar.style.visibility = "hidden";
+            dom_video.style = "bottom:0";
+        }
+        saveData_Refresh();
+    });
+}
+
+function refresh_Video_getStatus() {
+    let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+    if (dom_toolbar.style.visibility == "hidden") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function initPkg_Refresh_Video_Set() {
+    let ret = localStorage.getItem("ExSave_Refresh");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        console.log("这波啊，这波是：",retJson);
+        if (retJson.video.status == undefined) {
+            retJson.video.status = false;
+        }
+        if (retJson.video.status == true) {
+            let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+            let dom_video = document.getElementsByClassName("layout-Player-video")[0];
+            dom_toolbar.style.visibility = "hidden";
+            dom_video.style = "bottom:0";
         }
     }
 }
@@ -3054,7 +3137,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.04.18.01"
+var curVersion = "2020.04.19.03"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
