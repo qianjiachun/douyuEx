@@ -31,7 +31,7 @@ function initPkg_FansContinue_Func() {
 			let n = a.children.length;
 			for (let i = 0; i < n; i++) {
 				let rid = a.children[i].getAttribute("data-fans-room"); // 获取房间号
-				await sleep(200).then(() => {
+				await sleep(250).then(() => {
 					sendGift_bag(268, 1, rid).then(data => {
 						if (data.msg == "success") {
 							showMessage("【续牌】" + rid + "赠送一根荧光棒成功", "success");

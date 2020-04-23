@@ -14,7 +14,6 @@ function Refresh_BarrageFrame_insertIcon() {
 	a.innerHTML = '<i class="Barrage-toolbarIcon"></i><span id="refresh-barrage-frame__text" class="Barrage-toolbarText">拉高弹幕框</span>';
 	let b = document.getElementsByClassName("Barrage-toolbar")[0];
 	b.insertBefore(a, b.childNodes[0]);
-	
 }
 
 function initPkg_Refresh_BarrageFrame_Func() {

@@ -1,8 +1,10 @@
 var sheetIndex = 0;
+let roleIndex_barrageSize = 0;
 function initPkg_ExpandTool_BarrageSize() {
-    sheetIndex = getAvailableSheet();
+    sheetIndex = getAvailableSheet(0);
     if (sheetIndex != -1) {
         document.styleSheets[sheetIndex].addRule(".danmuItem-31f924",""); // 这里默认初始化页面的时候新增一个rule用于使自己的css生效
+        roleIndex_barrageSize = document.styleSheets[sheetIndex].rules.length - 1;
     }
     ExpandTool_BarrageSize_insertDom();
     ExpandTool_BarrageSize_insertFunc();
@@ -21,14 +23,15 @@ function ExpandTool_BarrageSize_insertDom() {
 }
 
 function setBarrageSize(s) {
-    let l = document.styleSheets[sheetIndex].rules.length;
-    document.styleSheets[sheetIndex].removeRule(l - 1);
+    // let l = document.styleSheets[sheetIndex].rules.length;
+    document.styleSheets[sheetIndex].removeRule(roleIndex_barrageSize);
     document.styleSheets[sheetIndex].addRule(".danmuItem-31f924","font-size:" + s + "px !important;");
+    roleIndex_barrageSize = document.styleSheets[sheetIndex].rules.length - 1;
 }
 
-function getAvailableSheet() {
+function getAvailableSheet(index) {
     let ret = -1;
-    for (let i = 0; i < document.styleSheets.length; i++) {
+    for (let i = index; i < document.styleSheets.length - index; i++) {
         if (document.styleSheets[i].href == null) {
             ret = i;
             break;

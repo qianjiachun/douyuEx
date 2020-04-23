@@ -64,4 +64,12 @@ function removeAD() {
     if (a != undefined) {
         a.className = "ChatSend-button";
     }
+    a = document.getElementsByClassName("ChatSend-txt")[0];
+    if (a != undefined) {
+        a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
+    }
+    a = document.getElementsByClassName(" PlayerToolbar-signCont")[0];
+    if (a != undefined) {
+        a.style.display = "none";
+    }
 }
