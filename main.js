@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.04.25.02
+// @version      2020.04.25.03
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -1909,7 +1909,7 @@ function setNightMode() {
     setGuessGuideListItemBoxBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;");
     setAnchorFriendFooterABackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;");
     setAnchorFriendFooterBorderColor("border-top:1px solid rgb(121,127,137) !important;");
-    setAnchorFriendPaneTitleBorderColor("border-bottom:1px solid rgb(121,127,137) !important;");
+    setAnchorFriendPaneTitleBorderColor("border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;");
     setAnchorFriendPaneTitleH3Color("color:rgb(153,153,153) !important;");
     setGiftExpandPanelBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
     setGiftExpandPanelDescNameColor("color:rgb(204,204,204) !important;");
@@ -1938,6 +1938,13 @@ function setNightMode() {
     setGuessMainPanelSliderItemBackgroundColor("background-color:rgb(47,48,53) !important;");
     setFansMedalInfoTitleColor("color:rgb(204,204,204) !important;");
     setFansMedalListItemHoverColor("background-color:rgb(37,38,42) !important;");
+    setTitleSvgColor("color:rgb(153,153,153) !important;");
+    setAnchorFriendContentBackgroundColor("background-color:rgb(35,36,39) !important;border-top:1px solid rgb(35,36,39) !important;");
+    setAnchorFriendPaneContentBorder("border:1px solid rgb(35,36,39) !important;");
+    setSociatyLabelPopContentBorder("border:1px solid rgb(35,36,39) !important;");
+    setSociatyLabelPopTitleBackgroundColor("border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;color:rgb(153,153,153) !important;");
+    setSociatyAnchorContentBackgroundColor("background-color:rgb(35,36,39) !important;border-top:1px solid rgb(35,36,39) !important;");
+    setSociatyAnchorCardInfoH3Color("color:rgb(204,204,204) !important;");
 }
 function cancelNightMode() {
     let a = document.styleSheets[sheetIndex2];
@@ -2374,6 +2381,40 @@ function setFansMedalInfoTitleColor(t) {
 
 function setFansMedalListItemHoverColor(t) {
     document.styleSheets[sheetIndex2].addRule(".FansMedalList-item:hover", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setTitleSvgColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Title svg", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setAnchorFriendContentBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".AnchorFriend-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setAnchorFriendPaneContentBorder(t) {
+    document.styleSheets[sheetIndex2].addRule(".AnchorFriendPane-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setSociatyLabelPopContentBorder(t) {
+    document.styleSheets[sheetIndex2].addRule(".SociatyLabelPop-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setSociatyLabelPopTitleBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".SociatyLabelPop-title", t);
+    num_css_night = num_css_night + 1;
+}
+function setSociatyAnchorContentBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".SociatyAnchor-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setSociatyAnchorCardInfoH3Color(t) {
+    document.styleSheets[sheetIndex2].addRule(".SociatyAnchorCard-info>h3", t);
     num_css_night = num_css_night + 1;
 }
 let videoPlayerArr = [];
@@ -3092,6 +3133,7 @@ function setRefreshBarrage() {
     setChatAchievement("display:none !important;");
     setBarrageHiIcon("display:none !important;");
     setMedal("display:none !important;");
+    setMatchSystemTeamMedal("display:none !important;");
 }
 
 function cancelRefreshBarrage() {
@@ -3145,6 +3187,12 @@ function setMedal(t) {
     document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Medal", t);
     num_css_barrage = num_css_barrage + 1;
 }
+
+function setMatchSystemTeamMedal(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .MatchSystemTeamMedal", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
 function initPkg_Refresh_BarrageFrame() {
 	initPkg_Refresh_BarrageFrame_Dom();
     initPkg_Refresh_BarrageFrame_Func();
@@ -4011,7 +4059,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.04.25.02"
+var curVersion = "2020.04.25.03"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

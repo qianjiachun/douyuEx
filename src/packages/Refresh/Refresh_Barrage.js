@@ -71,6 +71,7 @@ function setRefreshBarrage() {
     setChatAchievement("display:none !important;");
     setBarrageHiIcon("display:none !important;");
     setMedal("display:none !important;");
+    setMatchSystemTeamMedal("display:none !important;");
 }
 
 function cancelRefreshBarrage() {
@@ -122,5 +123,10 @@ function setBarrageHiIcon(t) {
 
 function setMedal(t) {
     document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Medal", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
+function setMatchSystemTeamMedal(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .MatchSystemTeamMedal", t);
     num_css_barrage = num_css_barrage + 1;
 }

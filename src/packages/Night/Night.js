@@ -123,7 +123,7 @@ function setNightMode() {
     setGuessGuideListItemBoxBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;");
     setAnchorFriendFooterABackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;");
     setAnchorFriendFooterBorderColor("border-top:1px solid rgb(121,127,137) !important;");
-    setAnchorFriendPaneTitleBorderColor("border-bottom:1px solid rgb(121,127,137) !important;");
+    setAnchorFriendPaneTitleBorderColor("border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;");
     setAnchorFriendPaneTitleH3Color("color:rgb(153,153,153) !important;");
     setGiftExpandPanelBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
     setGiftExpandPanelDescNameColor("color:rgb(204,204,204) !important;");
@@ -152,6 +152,13 @@ function setNightMode() {
     setGuessMainPanelSliderItemBackgroundColor("background-color:rgb(47,48,53) !important;");
     setFansMedalInfoTitleColor("color:rgb(204,204,204) !important;");
     setFansMedalListItemHoverColor("background-color:rgb(37,38,42) !important;");
+    setTitleSvgColor("color:rgb(153,153,153) !important;");
+    setAnchorFriendContentBackgroundColor("background-color:rgb(35,36,39) !important;border-top:1px solid rgb(35,36,39) !important;");
+    setAnchorFriendPaneContentBorder("border:1px solid rgb(35,36,39) !important;");
+    setSociatyLabelPopContentBorder("border:1px solid rgb(35,36,39) !important;");
+    setSociatyLabelPopTitleBackgroundColor("border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;color:rgb(153,153,153) !important;");
+    setSociatyAnchorContentBackgroundColor("background-color:rgb(35,36,39) !important;border-top:1px solid rgb(35,36,39) !important;");
+    setSociatyAnchorCardInfoH3Color("color:rgb(204,204,204) !important;");
 }
 function cancelNightMode() {
     let a = document.styleSheets[sheetIndex2];
@@ -588,5 +595,39 @@ function setFansMedalInfoTitleColor(t) {
 
 function setFansMedalListItemHoverColor(t) {
     document.styleSheets[sheetIndex2].addRule(".FansMedalList-item:hover", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setTitleSvgColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Title svg", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setAnchorFriendContentBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".AnchorFriend-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setAnchorFriendPaneContentBorder(t) {
+    document.styleSheets[sheetIndex2].addRule(".AnchorFriendPane-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setSociatyLabelPopContentBorder(t) {
+    document.styleSheets[sheetIndex2].addRule(".SociatyLabelPop-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setSociatyLabelPopTitleBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".SociatyLabelPop-title", t);
+    num_css_night = num_css_night + 1;
+}
+function setSociatyAnchorContentBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".SociatyAnchor-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setSociatyAnchorCardInfoH3Color(t) {
+    document.styleSheets[sheetIndex2].addRule(".SociatyAnchorCard-info>h3", t);
     num_css_night = num_css_night + 1;
 }
