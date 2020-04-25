@@ -11,7 +11,7 @@ function Refresh_BarrageFrame_insertIcon() {
 	let a = document.createElement("a");
     a.className = "Barrage-toolbarLock";
     a.id = "refresh-barrage-frame";
-	a.innerHTML = '<i class="Barrage-toolbarIcon"></i><span id="refresh-barrage-frame__text" class="Barrage-toolbarText">拉高弹幕框</span>';
+	a.innerHTML = '<i class="Barrage-toolbarIcon"></i><span id="refresh-barrage-frame__text" class="Barrage-toolbarText">拉高</span>';
 	let b = document.getElementsByClassName("Barrage-toolbar")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
@@ -26,7 +26,7 @@ function initPkg_Refresh_BarrageFrame_Func() {
             dom_rank.style.display = "block";
             dom_barrage.style = "";
             dom_activity.style.display = "block";
-            document.getElementById("refresh-barrage-frame__text").innerText = "拉高弹幕框";
+            document.getElementById("refresh-barrage-frame__text").innerText = "拉高";
 
         } else {
             // 没拉高
@@ -34,7 +34,7 @@ function initPkg_Refresh_BarrageFrame_Func() {
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
             dom_barrage.style = "top:" + topHeight + "px";
-            document.getElementById("refresh-barrage-frame__text").innerText = "恢复弹幕框";
+            document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
         saveData_Refresh();
     });
@@ -67,7 +67,7 @@ function initPkg_Refresh_BarrageFrame_Set() {
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
             dom_barrage.style = "top:" + topHeight + "px";
-            document.getElementById("refresh-barrage-frame__text").innerText = "恢复弹幕框";
+            document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
     }
 }

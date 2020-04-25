@@ -6,3 +6,18 @@
     cursor: pointer;
     background-size: contain;
 }
+
+.refresh-barrage {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 2px;
+    padding: 0 8px;
+    height: 22px;
+    line-height: 21px;
+    background-color: #fff;
+    border: 1px solid #e5e4e4;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+}

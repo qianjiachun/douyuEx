@@ -1,6 +1,7 @@
 function initPkg_Refresh() {
 	initPkg_Refresh_BarrageFrame();
 	initPkg_Refresh_Video();
+	initPkg_Refresh_Barrage();
 }
 
 function saveData_Refresh() {
@@ -14,6 +15,9 @@ function saveData_Refresh() {
 		},
 		video: {
 			status: refresh_Video_getStatus(),
+		},
+		barrage: {
+			status: refresh_Barrage_getStatus(),
 		}
 	}
 	

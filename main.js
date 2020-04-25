@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.04.24.01
+// @version      2020.04.25.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -29,13 +29,13 @@ function initPkg() {
 	initPkg_RemoveAD();
 	initPkg_RealAudience();
 	initPkg_CopyRealLive();
-	initPkg_Refresh();
 	initPkg_BagInfo();
 	initPkg_Update();
 	initPkg_FirePower();
 	initPkg_PopupPlayer();
 	initPkg_ExpandTool();
 	initPkg_Night();
+	initPkg_Refresh();
 	initPkg_BarrageLoop();
 	initPkg_FansContinue();
 	initPkg_FishFood();
@@ -111,6 +111,7 @@ function initStyles() {
 	background-color: rgba(255,255,255,0.9);
 	display: none;
 	border: 2px rgb(234,173,26) solid;
+	z-index: 7777;
 }
 .ex-panel__wrap {
 	display: flex;
@@ -201,6 +202,21 @@ function initStyles() {
     cursor: pointer;
     background-size: contain;
 }
+
+.refresh-barrage {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 2px;
+    padding: 0 8px;
+    height: 22px;
+    line-height: 21px;
+    background-color: #fff;
+    border: 1px solid #e5e4e4;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+}
 /*
     Notice.css
 */
@@ -228,6 +244,10 @@ function initStyles() {
                     clearInterval(intID);
                 }
             }, 1000);
+        } else if (String(location.href).indexOf("flag=aoligei") != -1) {
+            setTimeout(() => {
+                getAoligei();
+            }, 4000);
         } else {
             let intID = setInterval(() => {
                 if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined") {
@@ -1398,6 +1418,7 @@ function initPkg_FishPond_Timer() {
 	initPkg_FishPond_Bubble_Timer();
 	initPkg_FishPond_Box_Timer();
 	initPkg_FishPond_Task_Timer();
+	initPkg_FishPond_RoomSign_Timer();
 }
 function initPkg_FishPond_Func() {
 	document.getElementsByClassName("fish-pond")[0].addEventListener("click", function() {
@@ -1407,6 +1428,7 @@ function initPkg_FishPond_Func() {
 		initPkg_FishPond_Bubble();
 		initPkg_FishPond_Box();
 		initPkg_FishPond_Task();
+		initPkg_FishPond_RoomSign();
 	})
 }
 function initPkg_FishPond_Dom() {
@@ -1565,6 +1587,64 @@ function getFishPond_BubbleList() {
 
 
 
+var roomSignList = [];
+function initPkg_FishPond_RoomSign() {
+	getFishPond_RoomSign();
+}
+
+function initPkg_FishPond_RoomSign_Timer() {
+	getFishPond_RoomSignList();
+}
+
+function getFishPond_RoomSign() {
+	// 清空roomSignList内的气泡
+	if (roomSignList.length == 0) {
+		showMessage("【签到宝箱】暂无可领取的鱼粮", "info");
+		return;
+	}
+    let arr = roomSignList.concat();
+	for (let i = 0; i < arr.length; i++) {
+		fetch('https://www.douyu.com/japi/roomuserlevel/apinc/getPrize',{
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'rid=' + rid + '&ctn=' + getCCN()
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            if (ret.error == "0") {
+                showMessage("【签到宝箱】领取结果:" + ret.msg, "success");
+            }
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+	}
+	FishPond_showTip(false);
+	roomSignList.length = 0;
+}
+
+function getFishPond_RoomSignList() {
+    fetch('https://www.douyu.com/japi/roomuserlevel/apinc/levelInfo?rid=' + rid + '&clientType=0',{
+		method: 'GET',
+		mode: 'no-cors',
+		credentials: 'include'
+	}).then(res => {
+		return res.json();
+	}).then(ret => {
+        if (ret.error == "0" ) {
+            if (ret.data.treasure.status == "1") {
+                FishPond_showTip(true);
+                roomSignList.push("1");
+            }
+        }
+	}).catch(err => {
+		console.log("请求失败!", err);
+	})
+}
+
+
+
 var taskList = [];
 function initPkg_FishPond_Task() {
 	getFishPond_Task();
@@ -1707,7 +1787,7 @@ function getFishPond_TaskList_Ytzb() {
 var sheetIndex2 = 0; // 这里的sheetIndex2用的是弹幕大小的全局变量，所以这个模块包一定要在ExpanTool后面加载
 let svg_night  = '<svg t="1587640254282" class="icon" viewBox="0 0 1055 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5670" width="26" height="26"><path d="M388.06497 594.013091c-96.566303-167.253333-39.067152-381.889939 128.217212-478.487273a348.656485 348.656485 0 0 1 256.248242-36.864C623.491879-5.306182 435.417212-11.170909 276.542061 80.616727 37.236364 218.763636-44.776727 524.815515 93.401212 764.152242c138.146909 239.305697 444.198788 321.318788 683.535515 183.140849 158.875152-91.725576 247.870061-257.520485 249.669818-428.559515a348.656485 348.656485 0 0 1-160.085333 203.496727c-167.253333 96.566303-381.889939 39.036121-478.487273-128.217212" p-id="5671" fill="#8a8a8a"></path></svg>';
 let svg_day = '<svg t="1587640423416" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2270" width="26" height="26"><path d="M270.016 197.248l-83.84-84.544-69.76 70.464 83.776 84.544 69.76-70.4zM139.648 465.024H0v93.888h139.648V465.024zM558.528 0H465.472v136.192h93.056V0z m349.056 183.168l-69.76-70.464-83.84 84.544L819.2 263.04l88.384-79.872z m-153.6 643.584l83.84 84.48 65.28-65.728L819.2 760.96l-65.216 65.792z m130.368-267.84H1024V465.024h-139.648v93.888zM512.064 230.08C358.4 230.08 232.768 356.992 232.768 512c0 155.008 125.632 281.856 279.296 281.856 153.6 0 279.232-126.848 279.232-281.856 0-154.944-125.632-281.856-279.232-281.856zM465.472 1024h93.056v-136.256H465.472V1024z m-349.056-183.232l69.76 70.4 83.84-84.48L204.8 760.96 116.48 840.768z" p-id="2271" fill="#8a8a8a"></path></svg>';
-let num_css = 0; // 这个变量用于存储一共定义了多少个css
+let num_css_night = 0; // 这个变量用于存储一共定义了多少个css
 let currentMode = 0; // 0日间模式 1夜间模式
 function initPkg_Night() {
     sheetIndex2 = getAvailableSheet(sheetIndex + 1);
@@ -1820,120 +1900,158 @@ function setNightMode() {
     setFansMedalPanelBackgroundColor("color:black !important;");
     setAnchorLikeBorderColor("border:1px solid rgb(35,36,39) !important;");
     setAnchorFriendCardColor("color:rgb(204,204,204) !important;");
+    setFloatingBarrageBackgroundColor("background-color:rgba(37,38,42,1) !important;");
+    setGuessReturnYwFdSliderBackgroundColor("background:rgb(47,48,53); !important;border-left:1px solid rgb(35,36,39) !important;");
+
+    setBarrageFirstChargeBackgroundColor("background-color:rgba(37,38,42,1) !important;");
+    setBarrageNoticeReplyBarrageBackgroundColor("background-color:rgba(37,38,42,1) !important;");
+    setGuessGuideListItemBoxBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;");
+    setAnchorFriendFooterABackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;");
+    setAnchorFriendFooterBorderColor("border-top:1px solid rgb(121,127,137) !important;");
+    setAnchorFriendPaneTitleBorderColor("border-bottom:1px solid rgb(121,127,137) !important;");
+    setAnchorFriendPaneTitleH3Color("color:rgb(153,153,153) !important;");
+    setGiftExpandPanelBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
+    setGiftExpandPanelDescNameColor("color:rgb(204,204,204) !important;");
+    setGiftInfoPanelBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
+    setGiftInfoPanelNameColor("color:rgb(204,204,204) !important;");
+    setBatchGiveFormNumBackgroundColor("background-color:rgb(35,36,39) !important;");
+    setBatchGiveFormInputBackgroundColor("background-color:rgb(35,36,39) !important;color:rgb(149,149,149) !important;");
+    setBatchGiveFormBtnBackgroundColor("background-color:rgb(47,48,53) !important;");
+    
+    setBackpackBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
+    setBackpackNameBackgroundColor("color:rgb(187,187,187) !important;");
+    setBackpackPropPageBackgroundColor("background-color:rgb(35,36,39) !important;");
+    setBackpackPropIsBlankBackgroundColor("background-color:rgb(47,48,53) !important;");
+    setBackpackInfoPanelBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
+    setBackpackInfoPanelNameBackgroundColor("color:rgb(187,187,187) !important;");
+    setBatchPropContentBackgroundColor("background-color:rgb(35,36,39) !important;");
+    setBatchPropCustomIptColor("color:rgb(149,149,149) !important;");
+
+    setGuessReturnYwFdSliderNumIptBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(149,149,149) !important;");
+    setGuessReturnYwFdSliderGiftName("color:rgb(160,160,160) !important;");
+    setNormalCardCommonBackgroundColor("background-color:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;");
+    setNormalCardNameColor("color:rgb(187,187,187) !important;");
+    setGuessRankPanelBackgroundColor("background-color:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;");
+    setFansMedalPanelOwnerInfoBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(187,187,187) !important;");
+    setFansMedalPanelListBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(187,187,187) !important;");
+    setGuessMainPanelSliderItemBackgroundColor("background-color:rgb(47,48,53) !important;");
+    setFansMedalInfoTitleColor("color:rgb(204,204,204) !important;");
+    setFansMedalListItemHoverColor("background-color:rgb(37,38,42) !important;");
 }
 function cancelNightMode() {
     let a = document.styleSheets[sheetIndex2];
     let idx = a.rules.length - 1;
-    for (let i = 0; i < num_css; i++) {
+    for (let i = 0; i < num_css_night; i++) {
         a.removeRule(idx);
         idx = idx - 1;
     }
+    num_css_night = 0;
 }
 
 function setBarrageLayoutBackgroundColor(t) {
     // background:rgb(37,38,42) !important;
     // document.styleSheets[sheetIndex2].removeRule(roleIndex_barrageLayout);
     document.styleSheets[sheetIndex2].addRule(".layout-Player-barrage", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setBarrageUserEnterBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".Barrage-userEnter", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setBarrageContentColor(t) {
     // color:rgb(187,187,187) !important;
     // document.styleSheets[sheetIndex2].removeRule(roleIndex_barrageContent);
     document.styleSheets[sheetIndex2].addRule(".Barrage-content", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setBarrageTextColor(t) {
     // color:rgb(187,187,187) !important;
     // document.styleSheets[sheetIndex2].removeRule(roleIndex_barrageText);
     document.styleSheets[sheetIndex2].addRule(".Barrage-text", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setBarrageNoticeBackgroundColor(t) {
     // color:rgb(187,187,187) !important;
     // document.styleSheets[sheetIndex2].removeRule(roleIndex_barrageNotice);
     document.styleSheets[sheetIndex2].addRule(".Barrage-notice--noble", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setLayoutPlayerTitleBackgroundColor(t) {
     // background:rgb(37,38,42) !important;
     document.styleSheets[sheetIndex2].addRule(".layout-Player-title", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 
 function setTitleHeaderColor(t) {
     document.styleSheets[sheetIndex2].addRule(".Title-header", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("Title-header")[0].style.color = t;
 }
 
 function setFollowNumColor(t) {
     document.styleSheets[sheetIndex2].addRule(".Title-followNum", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("Title-followNum")[0].style.color = t;
 }
 
 function setTitleAnchorTextColor(t) {
     document.styleSheets[sheetIndex2].addRule(".Title-anchorText", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("Title-anchorText")[0].style.color = t;
 }
 
 function setAnchorNameColor(t) {
     document.styleSheets[sheetIndex2].addRule(".Title-anchorName", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("Title-anchorName")[0].style.color = t;
 }
 
 function setTitleRowTextColor(t) {
     // background:rgb(37,38,42) !important;
     document.styleSheets[sheetIndex2].addRule(".Title-row-text", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setLayoutPlayerToolbarBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule("#js-player-toolbar", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementById("js-player-toolbar").style.backgroundColor = t;
 }
 
 
 function setWealthNumColor(t) {
     document.styleSheets[sheetIndex2].addRule(".PlayerToolbar-wealthNum", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 
 function setLayoutMainBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".layout-Main", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("layout-Main")[0].style.backgroundColor = t;
 }
 
 function setRankWrapBackgroundColor(t) {
     // 47,48,53
     document.styleSheets[sheetIndex2].addRule(".ChatRank-rankWraper", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setBgIconBackgroundDisplay(t) {
     document.styleSheets[sheetIndex2].addRule(".bg-icon", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setChatRankWeekBackgroundColor(t) {
     // ChatRankWeek-headerContent is-active
     document.styleSheets[sheetIndex2].addRule(".ChatRankWeek-headerContent", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("ChatRankWeek-headerContent")[0].style.backgroundColor = t;
 }
 
@@ -1941,14 +2059,14 @@ function setNobleRankBackgroundColor(t) {
     // document.getElementsByClassName("NobleRank")[0].style.backgroundColor = t;
     // document.getElementsByClassName("NobleRankTips")[0].style.backgroundColor = t;
     document.styleSheets[sheetIndex2].addRule(".NobleRank", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     document.styleSheets[sheetIndex2].addRule(".NobleRankTips", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setAsideMainBorderColor(t) {
     document.styleSheets[sheetIndex2].addRule("#js-player-asideMain", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementById("js-player-asideMain").style.border = t;
 }
 
@@ -1956,19 +2074,19 @@ function setChatBackgroundColor(t) {
     // document.getElementsByClassName("Chat")[0].style.background = t;
     // document.getElementsByClassName("ChatSend-txt")[0].style.background = t;
     document.styleSheets[sheetIndex2].addRule(".Chat", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     document.styleSheets[sheetIndex2].addRule(".ChatSend-txt", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setChatTabBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".ChatTabContainer-titleWraper--tabLi", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setChatTabActiveBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".ChatTabContainer-titleWraper--tabLi.is-active", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 
@@ -1976,7 +2094,7 @@ function setFansRankInfoBackgroundColor(t) {
     // #fff9f3 原
     // 37,43,51
     document.styleSheets[sheetIndex2].addRule(".FansRankInfo", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("FansRankInfo")[0].style.background = t;
 }
 
@@ -1984,25 +2102,25 @@ function setFansRankInfoTxtColor(t) {
     // #3c3c3c 原
     // 121,127,137
     document.styleSheets[sheetIndex2].addRule(".FansRankInfo-txt", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setBarrageBorderColor(t) {
     // .Barrage
     document.styleSheets[sheetIndex2].addRule(".Barrage", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("Barrage")[0].style.border = t;
 }
 
 function setLayoutPlayerChatBorderColor(t) {
     document.styleSheets[sheetIndex2].addRule(".layout-Player-chat", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("layout-Player-chat")[0].style.borderTop = t;
 }
 
 function setLayoutPlayerAnnounceBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".layout-Player-announce", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("layout-Player-announce")[0].style.backgroundColor = t;
 }
 
@@ -2010,27 +2128,27 @@ function setLayoutPlayerAnnounceBackgroundColor(t) {
 function setFansRankBottomBorderColor(t) {
     // 1px solid #e8e8e8; 原版
     document.styleSheets[sheetIndex2].addRule(".FansRankBottom", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 
 function setChatBarrageCollectTipBackgroundColor(t) {
     // #ffe9d5原版
     document.styleSheets[sheetIndex2].addRule(".ChatBarrageCollect-tip", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("ChatBarrageCollect-tip")[0].style.background = t;
 }
 
 function setTitleOfficialBackgroundColor(t) {
     // #fff0e2原版
     document.styleSheets[sheetIndex2].addRule(".Title-official", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("Title-official")[0].style.background = t;
 }
 
 function setHeaderBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".Header-wrap", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
     // document.getElementsByClassName("Header-wrap")[0].style.background = t;
 }
 
@@ -2040,56 +2158,223 @@ function setHeaderTxtColor(t) {
     document.styleSheets[sheetIndex2].addRule(".Header-wrap .Header-menu-link>a", t);
     document.styleSheets[sheetIndex2].addRule(".public-DropMenu-link", t);
     document.styleSheets[sheetIndex2].addRule(".Header-icon", t);
-    num_css = num_css + 3;
+    num_css_night = num_css_night + 3;
 }
 
 
 function setSuperMenuBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".layout-Menu", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setGuessMainPanelBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".GuessMainPanel", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setDanmuDivBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".danmudiv-32f498", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setDanmuAuthorBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".danmuAuthor-3d7b4a", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setDanmuContentBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".danmuContent-25f266", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setDanmuWordBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".word-89c053", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setFansMedalPanelBackgroundColor(t) {
     document.styleSheets[sheetIndex2].addRule(".FansMedalPanel-Panel", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setAnchorLikeBorderColor(t) {
     document.styleSheets[sheetIndex2].addRule(".AnchorLike-ItemBox", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
 }
 
 function setAnchorFriendCardColor(t) {
     document.styleSheets[sheetIndex2].addRule(".AnchorFriendCard-info>h3", t);
-    num_css = num_css + 1;
+    num_css_night = num_css_night + 1;
+}
+
+function setFloatingBarrageBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Barrage--paddedBarrage", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setGuessReturnYwFdSliderBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GuessReturnYwFdSlider", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setBarrageFirstChargeBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Barrage-firstCharge", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setBarrageNoticeReplyBarrageBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Barrage-notice--replyBarrage", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setGuessGuideListItemBoxBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GuessGuideList-itemBox", t);
+    document.styleSheets[sheetIndex2].addRule(".GuessGuideList-moreGuess", t);
+    num_css_night = num_css_night + 2;
+}
+
+function setAnchorFriendPaneTitleH3Color(t) {
+    document.styleSheets[sheetIndex2].addRule(".AnchorLike-friendList .AnchorFriendPane-title h3", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setAnchorFriendFooterABackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".AnchorFriend-footer a", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setAnchorFriendFooterBorderColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".AnchorFriend-footer", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setAnchorFriendPaneTitleBorderColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".AnchorFriendPane-title", t);
+    num_css_night = num_css_night + 1;
 }
 
 
+function setGiftExpandPanelBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GiftExpandPanel", t);
+    num_css_night = num_css_night + 1;
+}
+function setGiftExpandPanelDescNameColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GiftExpandPanel-descName", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setGiftInfoPanelBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GiftInfoPanel-cont", t);
+    num_css_night = num_css_night + 1;
+}
+function setGiftInfoPanelNameColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GiftInfoPanel-name", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setBatchGiveFormNumBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".BatchGiveForm-num", t);
+    num_css_night = num_css_night + 1;
+}
+function setBatchGiveFormInputBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".BatchGiveForm-input", t);
+    num_css_night = num_css_night + 1;
+}
+function setBatchGiveFormBtnBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".BatchGiveForm-btn", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setBackpackBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Backpack", t);
+    num_css_night = num_css_night + 1;
+}
+function setBackpackNameBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Backpack-name", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setBackpackPropPageBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Backpack-propPage", t);
+    num_css_night = num_css_night + 1;
+}
+function setBackpackPropIsBlankBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".Backpack-prop.is-blank", t);
+    num_css_night = num_css_night + 1;
+}
+
+
+function setBackpackInfoPanelBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".BackpackInfoPanel", t);
+    num_css_night = num_css_night + 1;
+}
+function setBackpackInfoPanelNameBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".BackpackInfoPanel-name", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setBatchPropContentBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".BatchProp-content", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setBatchPropCustomIptColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".BatchProp-customIpt", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setGuessReturnYwFdSliderNumIptBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GuessReturnYwFdSlider-numIptWrap", t);
+    document.styleSheets[sheetIndex2].addRule(".GuessReturnYwFdSlider-numIpt", t);
+    num_css_night = num_css_night + 2;
+}
+
+function setGuessReturnYwFdSliderGiftName(t) {
+    document.styleSheets[sheetIndex2].addRule(".GuessReturnYwFdSlider-giftName", t);
+    num_css_night = num_css_night + 1;
+}
+
+
+function setNormalCardCommonBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".NormalCard-common", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setNormalCardNameColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".NormalCard-name", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setGuessRankPanelBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GuessRankPanel", t);
+    num_css_night = num_css_night + 1;
+}
+
+
+function setFansMedalPanelOwnerInfoBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".FansMedalPanel-OwnerInfo", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setFansMedalPanelListBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".FansMedalPanel-list", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setGuessMainPanelSliderItemBackgroundColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".GuessMainPanel-sliderItem", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setFansMedalInfoTitleColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".FansMedalInfo-titleL", t);
+    num_css_night = num_css_night + 1;
+}
+
+function setFansMedalListItemHoverColor(t) {
+    document.styleSheets[sheetIndex2].addRule(".FansMedalList-item:hover", t);
+    num_css_night = num_css_night + 1;
+}
 let videoPlayerArr = [];
 
 function initPkg_PopupPlayer() {
@@ -2600,7 +2885,7 @@ function setElementFunc_iframe(id) {
     }
 }
 let real_viewIcon = '<svg style="width:16px;height:16px" t="1566119680547" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3494" width="128" height="128"><path d="M712.820909 595.224609C807.907642 536.686746 870.40537 437.74751 870.40537 325.549212 870.400378 145.753547 709.943392 0 511.997503 0 314.055363 0 153.599626 145.753547 153.599626 325.549212 153.599626 437.74751 216.092361 536.686746 311.179092 595.219615 149.961841 657.72608 31.268214 793.205446 5.334335 955.968198 1.926253 962.195123 0 969.212275 0 976.638899 0 1002.324352 22.919038 1023.151098 51.198627 1023.151098 79.476967 1023.151098 102.396005 1002.324352 102.396005 976.638899L102.396005 1023.151098C102.396005 817.669984 285.787009 651.099674 511.997503 651.099674 738.212992 651.099674 921.602746 817.669984 921.602746 1023.151098L921.602746 976.638899C921.602746 1002.324352 944.523034 1023.151098 972.801376 1023.151098 1001.07472 1023.151098 1024 1002.324352 1024 976.638899 1024 969.212275 1022.073747 962.195123 1018.659424 955.968198 992.731789 793.205446 874.038157 657.72608 712.820909 595.224609ZM511.997503 558.080262C370.618285 558.080262 256.000624 453.967732 256.000624 325.545467 256.000624 197.121954 370.618285 93.009424 511.997503 93.009424 653.386707 93.009424 767.993133 197.121954 767.993133 325.545467 767.993133 453.972726 653.386707 558.080262 511.997503 558.080262L511.997503 558.080262Z" p-id="3495"></path></svg>'
-let real_danmuIcon = '<svg t="1576951281876" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6314" width="16" height="16"><path d="M500.622222 324.266667s0 5.688889-5.688889 5.688889v62.577777h91.022223v-56.888889H506.311111c-5.688889-17.066667-5.688889-17.066667-5.688889-11.377777zM733.866667 324.266667c5.688889 0 0-5.688889 0 0h-91.022223v56.888889h91.022223v-56.888889zM494.933333 523.377778c0 5.688889 0 5.688889 5.688889 5.688889 0 0 5.688889 0 5.688889 5.688889h79.644445v-56.888889H494.933333v45.511111zM733.866667 529.066667v-51.2h-91.022223v56.888889h85.333334c5.688889 0 5.688889 0 5.688889-5.688889z" p-id="6315" fill="#1296db"></path><path d="M796.444444 0H227.555556C102.4 0 0 102.4 0 227.555556v568.888888c0 125.155556 102.4 227.555556 227.555556 227.555556h568.888888c125.155556 0 227.555556-102.4 227.555556-227.555556V227.555556c0-125.155556-102.4-227.555556-227.555556-227.555556zM381.155556 711.111111c-5.688889 34.133333-11.377778 56.888889-22.755556 73.955556-11.377778 17.066667-22.755556 34.133333-34.133333 39.822222s-28.444444 11.377778-45.511111 11.377778c-17.066667 0-39.822222-5.688889-62.577778-22.755556-17.066667-11.377778-28.444444-17.066667-34.133334-28.444444-5.688889-11.377778-5.688889-22.755556 5.688889-39.822223 5.688889-11.377778 11.377778-17.066667 22.755556-17.066666s22.755556 0 34.133333 11.377778c11.377778 5.688889 17.066667 11.377778 22.755556 17.066666 5.688889 0 11.377778 5.688889 17.066666 0 5.688889 0 11.377778-5.688889 11.377778-5.688889 5.688889-5.688889 5.688889-11.377778 11.377778-17.066666 5.688889-11.377778 5.688889-22.755556 5.688889-39.822223 0-17.066667 5.688889-39.822222 5.688889-73.955555 0-11.377778 0-22.755556-5.688889-22.755556 0-5.688889-11.377778 0-11.377778 0H210.488889c-5.688889 0-17.066667-5.688889-22.755556-11.377777-5.688889-5.688889-5.688889-11.377778-11.377777-22.755556v-39.822222l11.377777-91.022222c0-11.377778 5.688889-22.755556 5.688889-34.133334 0-11.377778 5.688889-17.066667 11.377778-22.755555 5.688889-5.688889 11.377778-11.377778 17.066667-11.377778 5.688889 0 17.066667-5.688889 28.444444-5.688889h51.2c5.688889 0 11.377778 0 11.377778-5.688889 0 0 5.688889-5.688889 5.688889-17.066667v-39.822222s0-11.377778-5.688889-17.066666l-11.377778-11.377778H210.488889c-11.377778 0-22.755556 0-28.444445-5.688889-5.688889-5.688889-5.688889-17.066667-5.688888-28.444445 0-17.066667 5.688889-22.755556 11.377777-28.444444 5.688889-5.688889 17.066667-5.688889 28.444445-22.755556h108.088889c22.755556 11.377778 39.822222 17.066667 45.511111 34.133334 11.377778 11.377778 5.688889 56.888889 5.688889 56.888889V341.333333c0 28.444444-5.688889 51.2-17.066667 62.577778-11.377778 11.377778-22.755556 17.066667-45.511111 17.066667h-56.888889c-5.688889 0-11.377778 0-17.066667 5.688889 0 0-5.688889 5.688889-5.688889 11.377777l-5.688888 56.888889v11.377778h91.022222s22.755556 5.688889 28.444444 5.688889c5.688889 0 17.066667 5.688889 17.066667 11.377778s11.377778 11.377778 11.377778 22.755555 5.688889 22.755556 5.688889 39.822223c5.688889 51.2 5.688889 91.022222 0 125.155555z m455.111111 17.066667c-5.688889 5.688889-22.755556 11.377778-34.133334 17.066666h-125.155555v62.577778c-17.066667 17.066667-22.755556 28.444444-28.444445 34.133334-5.688889 5.688889-17.066667 11.377778-34.133333 11.377777-11.377778 0-22.755556-5.688889-28.444444-11.377777-5.688889-5.688889-11.377778-17.066667 0-34.133334v-62.577778H420.977778c-5.688889-11.377778-11.377778-11.377778-11.377778-11.377777-5.688889 0-5.688889-5.688889-5.688889-11.377778v-22.755556c-5.688889-17.066667-5.688889-28.444444 5.688889-34.133333 5.688889-5.688889 17.066667-5.688889 34.133333-11.377778h142.222223v-56.888889H500.622222c-22.755556 0-45.511111-5.688889-51.2-17.066666-11.377778-11.377778-11.377778-28.444444-11.377778-56.888889V312.888889c0-28.444444 5.688889-45.511111 17.066667-56.888889 11.377778-11.377778 28.444444-17.066667 51.2-17.066667 0 0 0-5.688889-5.688889-5.688889L494.933333 227.555556c-11.377778-17.066667-11.377778-22.755556-11.377777-34.133334 0-11.377778 5.688889-17.066667 17.066666-28.444444 11.377778-5.688889 22.755556-11.377778 34.133334-11.377778 11.377778 0 22.755556 11.377778 28.444444 22.755556 5.688889 11.377778 5.688889 22.755556 11.377778 34.133333 5.688889 11.377778 11.377778 17.066667 11.377778 28.444444h79.644444c11.377778-11.377778 17.066667-17.066667 17.066667-28.444444 5.688889-11.377778 11.377778-17.066667 11.377777-28.444445 5.688889-17.066667 17.066667-22.755556 22.755556-28.444444 11.377778-5.688889 17.066667 0 28.444444 5.688889s17.066667 17.066667 22.755556 22.755555c5.688889 11.377778 0 22.755556-5.688889 34.133334 0 5.688889-5.688889 5.688889-5.688889 11.377778s-5.688889 5.688889-5.688889 11.377777c22.755556 0 39.822222 5.688889 51.2 17.066667 11.377778 11.377778 11.377778 28.444444 11.377778 56.888889v204.8c0 28.444444-5.688889 45.511111-11.377778 56.888889s-28.444444 17.066667-51.2 17.066666h-85.333333v56.888889h125.155556c17.066667 0 28.444444 5.688889 34.133333 11.377778 5.688889 5.688889 11.377778 17.066667 11.377778 28.444445 11.377778 22.755556 11.377778 34.133333 0 39.822222z" p-id="6316" fill="#1296db"></path></svg>'
+let real_danmuIcon = '<svg t="1587796804183" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20780" width="16" height="16"><path d="M811.8272 62.6176H212.1728c-79.9232 0-149.8624 69.9392-149.8624 149.9136v599.6032a150.3232 150.3232 0 0 0 149.8624 149.9136h599.6544a150.3232 150.3232 0 0 0 149.8624-149.9136V212.5312c0-79.9744-69.9392-149.9136-149.8624-149.9136zM263.5264 367.104c30.0032 0 49.9712 19.968 49.9712 49.9712s-19.968 49.92-49.9712 49.92-49.9712-19.968-49.9712-49.92 20.0192-49.9712 49.9712-49.9712z m449.6896 294.8096H263.5264c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h449.6896c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.9712-49.9712 49.9712z m99.9424-199.68H463.4112c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h349.7472c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.7664-49.9712 49.7664z" p-id="20781" fill="#1296db"></path></svg>'
 // let real_giftIcon = '<svg t="1576950815993" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3618" width="16" height="16"><path d="M554.957 829.848l-85.905 0 0-463.89c0-18.978 15.384-34.363 34.362-34.363l17.182 0c18.978 0 34.362 15.38499999 34.362 34.363l0 463.89z" fill="#d4237a" p-id="3619"></path><path d="M889.985 494.814l-755.97 0c-37.902 0-68.724-30.82999999-68.724-68.725L65.291 323.003c0-56.846 46.241-103.087 103.087-103.087l687.245 0c56.846 0 103.087 46.24 103.087 103.087l0 103.086c-0.001 37.894-30.823 68.725-68.725 68.725z m0-68.725l0 34.363 0.016-34.363-0.016 0zM168.377 288.64c-18.94300001 0-34.363 15.412-34.363 34.364l0 103.086 755.87 0 0.1-103.086c0-18.952-15.42-34.363-34.363-34.363L168.377 288.641z" fill="#d4237a" p-id="3620"></path><path d="M821.26 958.712L202.74 958.712c-37.903 0-68.725-30.838-68.725-68.732L134.015 494.814c0-37.89400001 30.822-68.725 68.724-68.725l618.522 0c37.902 0 68.724 30.82999999 68.724 68.725L889.985 889.98c0 37.89400001-30.822 68.73199999-68.724 68.732z m0-68.732l0 34.362 0.017-34.362-0.016 0zM202.74 494.814L202.74 889.98l618.42 0 0.1-395.166L202.74 494.814z m281.358-240.537c-9.93399999 0-19.78200001-4.278-26.578-12.55L358.728 121.46c-12.03-14.664-9.916-36.317 4.748-48.363 14.648-12.038 36.326-9.924 48.373 4.74l98.79199999 120.268c12.03 14.664 9.916 36.317-4.74799999 48.363a34.213 34.213 0 0 1-21.795 7.81z" fill="#d4237a" p-id="3621"></path><path d="M539.902 254.277a34.212 34.212 0 0 1-21.795-7.81c-14.664-12.047-16.778-33.7-4.748-48.363L612.15 77.836c12.047-14.664 33.708-16.77799999 48.373-4.74 14.664 12.047 16.778 33.7 4.748 48.363l-98.792 120.268c-6.795 8.272-16.644 12.55-26.577 12.55z" fill="#d4237a" p-id="3622"></path></svg>'
 let real_money_yc = '<svg t="1579155265981" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6949" width="16" height="16"><path d="M136.96 67.413h181.76L512 452.693l193.28-385.28h181.76l-245.76 445.44h163.84v84.48h-211.2l-1.28 1.28v106.24h212.48v84.48H592.64v192H431.36v-192h-211.2v-84.48h211.2v-106.24l-1.28-1.28H220.16v-84.48h162.56z" fill="#F54330" p-id="6950"></path></svg>'
 let real_info = {
@@ -2640,7 +2925,7 @@ function initPkg_RealAudience_Dom() {
 	let html = "";
 	let a = document.createElement("div");
 	a.className = "real-audience";
-	html += "<div id='real-audience__t' style='display: inline-block;margin-right:3px;' title='今日累计观看人数'>" + real_viewIcon + '<span id="real-audience__total" style="color:red">****</span></div>';
+	html += "<div id='real-audience__t' style='display: inline-block;margin-right:3px;' title='今日累计观看人数'>" + real_viewIcon + '<span id="real-audience__total" style="color:#ed5a65">****</span></div>';
 	html += "<div style='display: inline-block;margin-right:3px;' title='弹幕人数'>" + real_danmuIcon + '<span id="real-audience__barrage">****</span></div>';
 	// html += "<div style='display: inline-block;margin-right:3px;' title='送礼人数'>" + real_giftIcon + '<span id="real-audience__gift">****</span></div>';
 	html += "<div id='real-audience__money' style='display: inline-block;margin-right:3px;' title='今日累计礼物价值'>" + real_money_yc + '<span id="real-audience__money_yc">****</span></div>';
@@ -2711,6 +2996,7 @@ function getRealViewer() {
 function initPkg_Refresh() {
 	initPkg_Refresh_BarrageFrame();
 	initPkg_Refresh_Video();
+	initPkg_Refresh_Barrage();
 }
 
 function saveData_Refresh() {
@@ -2724,10 +3010,139 @@ function saveData_Refresh() {
 		},
 		video: {
 			status: refresh_Video_getStatus(),
+		},
+		barrage: {
+			status: refresh_Barrage_getStatus(),
 		}
 	}
 	
 	localStorage.setItem("ExSave_Refresh", JSON.stringify(data)); // 存储弹幕列表
+}
+var sheetIndex3 = 0; // 请在Night模块后加载
+let num_css_barrage = 0;
+let current_barrage_status = 0; // 0没被简化 1被简化
+function initPkg_Refresh_Barrage() {
+    sheetIndex3 = getAvailableSheet(sheetIndex2 + 1);
+    if (sheetIndex3 == -1) {
+        return;
+    }
+	initPkg_Refresh_Barrage_Dom();
+    initPkg_Refresh_Barrage_Func();
+    initPkg_Refresh_Barrage_Set();
+}
+
+function initPkg_Refresh_Barrage_Dom() {
+	Refresh_Barrage_insertIcon();
+}
+function Refresh_Barrage_insertIcon() {
+	let a = document.createElement("a");
+    a.className = "refresh-barrage";
+    a.id = "refresh-barrage";
+	a.innerHTML = '<i class="Barrage-toolbarIcon"></i><span id="refresh-barrage__text" class="Barrage-toolbarText">去除前缀</span>';
+	let b = document.getElementsByClassName("Barrage-toolbar")[0];
+	b.insertBefore(a, b.childNodes[0]);
+}
+
+function initPkg_Refresh_Barrage_Func() {
+	document.getElementById("refresh-barrage").addEventListener("click", function() {
+        if (current_barrage_status == 0) {
+            // 简化
+            current_barrage_status = 1;
+            setRefreshBarrage();
+        } else {
+            current_barrage_status = 0;
+            cancelRefreshBarrage();
+        }
+        saveData_Refresh();
+    });
+}
+
+
+function refresh_Barrage_getStatus() {
+    if (current_barrage_status == 1) {
+        // 被简化
+        return true;
+    } else {
+        // 没被简化
+        return false;
+    }
+}
+
+function initPkg_Refresh_Barrage_Set() {
+    let ret = localStorage.getItem("ExSave_Refresh");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if (retJson.barrage.status == undefined) {
+            retJson.barrage.status = false;
+        }
+        if (retJson.barrage.status == true) {
+            current_barrage_status = 1;
+            setRefreshBarrage();
+        }
+    }
+}
+ 
+function setRefreshBarrage() {
+    setBarrageIcon("display:none !important;");
+    setFansMedalIsMade("display:none !important;");
+    setUserLevel("display:none !important;");
+    setRoomLevel("display:none !important;");
+    setMotor("display:none !important;");
+    setChatAchievement("display:none !important;");
+    setBarrageHiIcon("display:none !important;");
+    setMedal("display:none !important;");
+}
+
+function cancelRefreshBarrage() {
+    let a = document.styleSheets[sheetIndex3];
+    let idx = a.rules.length - 1;
+    for (let i = 0; i < num_css_barrage; i++) {
+        a.removeRule(idx);
+        idx = idx - 1;
+    }
+    num_css_barrage = 0;
+}
+
+
+
+function setBarrageIcon(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Barrage-icon", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
+function setFansMedalIsMade(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .FansMedal.is-made", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
+function setUserLevel(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .UserLevel", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
+function setRoomLevel(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .RoomLevel", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
+function setMotor(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Motor", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
+function setChatAchievement(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .ChatAchievement", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
+function setBarrageHiIcon(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Barrage-hiIcon", t);
+    num_css_barrage = num_css_barrage + 1;
+}
+
+function setMedal(t) {
+    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Medal", t);
+    num_css_barrage = num_css_barrage + 1;
 }
 function initPkg_Refresh_BarrageFrame() {
 	initPkg_Refresh_BarrageFrame_Dom();
@@ -2742,7 +3157,7 @@ function Refresh_BarrageFrame_insertIcon() {
 	let a = document.createElement("a");
     a.className = "Barrage-toolbarLock";
     a.id = "refresh-barrage-frame";
-	a.innerHTML = '<i class="Barrage-toolbarIcon"></i><span id="refresh-barrage-frame__text" class="Barrage-toolbarText">拉高弹幕框</span>';
+	a.innerHTML = '<i class="Barrage-toolbarIcon"></i><span id="refresh-barrage-frame__text" class="Barrage-toolbarText">拉高</span>';
 	let b = document.getElementsByClassName("Barrage-toolbar")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
@@ -2757,7 +3172,7 @@ function initPkg_Refresh_BarrageFrame_Func() {
             dom_rank.style.display = "block";
             dom_barrage.style = "";
             dom_activity.style.display = "block";
-            document.getElementById("refresh-barrage-frame__text").innerText = "拉高弹幕框";
+            document.getElementById("refresh-barrage-frame__text").innerText = "拉高";
 
         } else {
             // 没拉高
@@ -2765,7 +3180,7 @@ function initPkg_Refresh_BarrageFrame_Func() {
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
             dom_barrage.style = "top:" + topHeight + "px";
-            document.getElementById("refresh-barrage-frame__text").innerText = "恢复弹幕框";
+            document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
         saveData_Refresh();
     });
@@ -2798,7 +3213,7 @@ function initPkg_Refresh_BarrageFrame_Set() {
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
             dom_barrage.style = "top:" + topHeight + "px";
-            document.getElementById("refresh-barrage-frame__text").innerText = "恢复弹幕框";
+            document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
     }
 }
@@ -2956,6 +3371,7 @@ function initPkg_Sign_Func() {
 		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
 		initPkg_Sign_Ad_Sign();
 		initPkg_Sign_Ad_FishPond();
+		initPkg_Sign_Aoligei();
 	})
 }
 function initPkg_Sign_Dom() {
@@ -3287,6 +3703,63 @@ function getFishBall_Ad_Sign() {
     
 	
 }
+function initPkg_Sign_Aoligei() {
+	getAoligei_todo();
+}
+
+function getAoligei_todo() {
+    verifyFans("5189167", 1).then(r => {
+        if (r == true) {
+            fetch("https://www.douyu.com/japi/carnival/nc/actTask/userStatus", {
+                method: 'POST',
+                mode: 'no-cors',
+                credentials: 'include',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'tasks=20200415cc_T1&token=' + dyToken
+            }).then(res => {
+                return res.json();
+            }).then(ret => {
+                if (ret.error == "0") {
+                    let deliverNum = Number(ret.data['20200415cc_T1'].curDeliverNum);
+                    let completeNum = Number(ret.data['20200415cc_T1'].curCompleteNum);
+                    let limitNum = Number(ret.data['20200415cc_T1'].taskLimitNum);
+                    if (deliverNum == limitNum) {
+                        if (completeNum == limitNum) {
+                            showMessage("【和平精英周年庆】奥利给已领取", "warning");
+                            return;
+                        }
+                    }
+                    showMessage("【和平精英周年庆】即将打开领取界面，领取后自动关闭", "info");
+                    openPage("https://www.douyu.com/topic/tzbjnh?flag=aoligei", false);
+                }
+            }).catch(err => {
+                console.log("请求失败!", err);
+            })
+        }
+    })
+}
+function getAoligei() {
+    fetch("https://www.douyu.com/japi/carnival/nc/actTask/takePrize", {
+        method: 'POST',
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'token=' + dyToken + '&aid=android&taskAlias=20200415cc_T1'
+    }).then(res => {
+        return res.json();
+    }).then(ret => {
+        console.log("dsadsadassad:",ret);
+        if (ret.error == "0") {
+            showMessage("【和平精英周年庆】成功领取" + ret.data.sendRes.bagName, "success");
+        } else {
+            showMessage(ret.msg, "error");
+        }
+        closePage();
+    }).catch(err => {
+        console.log("请求失败!", err);
+        closePage();
+    })
+}
 function initPkg_Sign_Client() {
 	signClient();
 }
@@ -3537,7 +4010,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.04.24.01"
+var curVersion = "2020.04.25.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

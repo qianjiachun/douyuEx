@@ -8,6 +8,7 @@ function initPkg_FishPond_Timer() {
 	initPkg_FishPond_Bubble_Timer();
 	initPkg_FishPond_Box_Timer();
 	initPkg_FishPond_Task_Timer();
+	initPkg_FishPond_RoomSign_Timer();
 }
 function initPkg_FishPond_Func() {
 	document.getElementsByClassName("fish-pond")[0].addEventListener("click", function() {
@@ -17,6 +18,7 @@ function initPkg_FishPond_Func() {
 		initPkg_FishPond_Bubble();
 		initPkg_FishPond_Box();
 		initPkg_FishPond_Task();
+		initPkg_FishPond_RoomSign();
 	})
 }
 function initPkg_FishPond_Dom() {
