@@ -56,8 +56,8 @@ function initPkg_Refresh_BarrageFrame_Set() {
     let ret = localStorage.getItem("ExSave_Refresh");
     if (ret != null) {
         let retJson = JSON.parse(ret);
-        if (retJson.barrageFrame.status == undefined) {
-            retJson.barrageFrame.status = false;
+        if ("barrageFrame" in retJson == false) {
+            retJson.barrageFrame = {status: false};
         }
         if (retJson.barrageFrame.status == true) {
             let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];

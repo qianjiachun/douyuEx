@@ -48,8 +48,8 @@ function initPkg_Refresh_Video_Set() {
     let ret = localStorage.getItem("ExSave_Refresh");
     if (ret != null) {
         let retJson = JSON.parse(ret);
-        if (retJson.video.status == undefined) {
-            retJson.video.status = false;
+        if ("video" in retJson == false) {
+            retJson.video = {status: false};
         }
         if (retJson.video.status == true) {
             let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];

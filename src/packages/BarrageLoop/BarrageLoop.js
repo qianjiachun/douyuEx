@@ -206,13 +206,13 @@ function initPkg_BarrageLoop_Set() {
 	
 	if (ret != null) {
 		let retJson = JSON.parse(ret);
-		if (retJson.speed1 == undefined) {
+		if ("speed1" in retJson == false) {
 			retJson.speed1 = 2000;
 		}
-		if (retJson.speed2 == undefined) {
+		if ("speed2" in retJson == false) {
 			retJson.speed2 = 3000;
 		}
-		if (retJson.stopTime == undefined) {
+		if ("stopTime" in retJson == false) {
 			retJson.stopTime = 5;
 		}
 		document.getElementById("bloop__textarea").value = retJson.text;

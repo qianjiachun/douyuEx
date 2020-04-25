@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.04.25.01
+// @version      2020.04.25.02
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -694,13 +694,13 @@ function initPkg_BarrageLoop_Set() {
 	
 	if (ret != null) {
 		let retJson = JSON.parse(ret);
-		if (retJson.speed1 == undefined) {
+		if ("speed1" in retJson == false) {
 			retJson.speed1 = 2000;
 		}
-		if (retJson.speed2 == undefined) {
+		if ("speed2" in retJson == false) {
 			retJson.speed2 = 3000;
 		}
-		if (retJson.stopTime == undefined) {
+		if ("stopTime" in retJson == false) {
 			retJson.stopTime = 5;
 		}
 		document.getElementById("bloop__textarea").value = retJson.text;
@@ -1824,7 +1824,8 @@ function initPkg_Night_Set() {
     let a = document.getElementById("ex-night");
     if (ret != null) {
         let retJson = JSON.parse(ret);
-        if (retJson.mode == undefined) {
+        
+        if ("mode" in retJson == false) {
             retJson.mode = 0;
         }
         if (retJson.mode == 1) {
@@ -3072,8 +3073,8 @@ function initPkg_Refresh_Barrage_Set() {
     let ret = localStorage.getItem("ExSave_Refresh");
     if (ret != null) {
         let retJson = JSON.parse(ret);
-        if (retJson.barrage.status == undefined) {
-            retJson.barrage.status = false;
+        if ("barrage" in retJson == false) {
+            retJson.barrage = {status: false};
         }
         if (retJson.barrage.status == true) {
             current_barrage_status = 1;
@@ -3202,8 +3203,8 @@ function initPkg_Refresh_BarrageFrame_Set() {
     let ret = localStorage.getItem("ExSave_Refresh");
     if (ret != null) {
         let retJson = JSON.parse(ret);
-        if (retJson.barrageFrame.status == undefined) {
-            retJson.barrageFrame.status = false;
+        if ("barrageFrame" in retJson == false) {
+            retJson.barrageFrame = {status: false};
         }
         if (retJson.barrageFrame.status == true) {
             let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
@@ -3268,8 +3269,8 @@ function initPkg_Refresh_Video_Set() {
     let ret = localStorage.getItem("ExSave_Refresh");
     if (ret != null) {
         let retJson = JSON.parse(ret);
-        if (retJson.video.status == undefined) {
-            retJson.video.status = false;
+        if ("video" in retJson == false) {
+            retJson.video = {status: false};
         }
         if (retJson.video.status == true) {
             let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
@@ -4010,7 +4011,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.04.25.01"
+var curVersion = "2020.04.25.02"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

@@ -52,8 +52,8 @@ function initPkg_Refresh_Barrage_Set() {
     let ret = localStorage.getItem("ExSave_Refresh");
     if (ret != null) {
         let retJson = JSON.parse(ret);
-        if (retJson.barrage.status == undefined) {
-            retJson.barrage.status = false;
+        if ("barrage" in retJson == false) {
+            retJson.barrage = {status: false};
         }
         if (retJson.barrage.status == true) {
             current_barrage_status = 1;

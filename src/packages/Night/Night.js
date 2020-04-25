@@ -38,7 +38,8 @@ function initPkg_Night_Set() {
     let a = document.getElementById("ex-night");
     if (ret != null) {
         let retJson = JSON.parse(ret);
-        if (retJson.mode == undefined) {
+        
+        if ("mode" in retJson == false) {
             retJson.mode = 0;
         }
         if (retJson.mode == 1) {
