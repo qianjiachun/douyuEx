@@ -22,14 +22,14 @@ function Refresh_Video_insertIcon() {
 
 function initPkg_Refresh_Video_Func() {
 	document.getElementById("refresh-video").addEventListener("click", function() {
-        let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+        let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
         let dom_video = document.getElementsByClassName("layout-Player-video")[0];
         if (dom_toolbar.style.visibility == "hidden") {
             dom_toolbar.style.visibility = "visible";
             dom_video.style = "";
         } else {
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0";
+            dom_video.style = "bottom:0;z-index:7777";
         }
         saveData_Refresh();
     });
@@ -52,10 +52,10 @@ function initPkg_Refresh_Video_Set() {
             retJson.video = {status: false};
         }
         if (retJson.video.status == true) {
-            let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+            let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
             let dom_video = document.getElementsByClassName("layout-Player-video")[0];
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0";
+            dom_video.style = "bottom:0;z-index:7777";
         }
     }
 }

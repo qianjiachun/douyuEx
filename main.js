@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.04.25.03
+// @version      2020.04.28.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -217,6 +217,9 @@ function initStyles() {
     border-radius: 4px;
     cursor: pointer;
 }
+#refresh-barrage__svg {
+    vertical-align: middle;
+}
 /*
     Notice.css
 */
@@ -247,7 +250,7 @@ function initStyles() {
         } else if (String(location.href).indexOf("flag=aoligei") != -1) {
             setTimeout(() => {
                 getAoligei();
-            }, 4000);
+            }, 5000);
         } else {
             let intID = setInterval(() => {
                 if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined") {
@@ -3063,6 +3066,7 @@ function saveData_Refresh() {
 var sheetIndex3 = 0; // 请在Night模块后加载
 let num_css_barrage = 0;
 let current_barrage_status = 0; // 0没被简化 1被简化
+
 function initPkg_Refresh_Barrage() {
     sheetIndex3 = getAvailableSheet(sheetIndex2 + 1);
     if (sheetIndex3 == -1) {
@@ -3080,7 +3084,7 @@ function Refresh_Barrage_insertIcon() {
 	let a = document.createElement("a");
     a.className = "refresh-barrage";
     a.id = "refresh-barrage";
-	a.innerHTML = '<i class="Barrage-toolbarIcon"></i><span id="refresh-barrage__text" class="Barrage-toolbarText">去除前缀</span>';
+	a.innerHTML = '<svg t="1588051109604" id="refresh-barrage__svg" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3095" width="16" height="16"><path d="M588.416 516.096L787.2 317.312a54.016 54.016 0 1 0-76.416-76.416L512 439.68 313.216 241.024A54.016 54.016 0 1 0 236.8 317.376l198.784 198.848-198.016 197.888a54.016 54.016 0 1 0 76.416 76.416L512 592.576l197.888 197.952a54.016 54.016 0 1 0 76.416-76.416L588.416 516.096z" fill="#AFAFAF" p-id="3096"></path></svg><i class="Barrage-toolbarIcon"></i><span id="refresh-barrage__text" class="Barrage-toolbarText">前缀</span>';
 	let b = document.getElementsByClassName("Barrage-toolbar")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
@@ -3291,14 +3295,14 @@ function Refresh_Video_insertIcon() {
 
 function initPkg_Refresh_Video_Func() {
 	document.getElementById("refresh-video").addEventListener("click", function() {
-        let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+        let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
         let dom_video = document.getElementsByClassName("layout-Player-video")[0];
         if (dom_toolbar.style.visibility == "hidden") {
             dom_toolbar.style.visibility = "visible";
             dom_video.style = "";
         } else {
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0";
+            dom_video.style = "bottom:0;z-index:7777";
         }
         saveData_Refresh();
     });
@@ -3321,10 +3325,10 @@ function initPkg_Refresh_Video_Set() {
             retJson.video = {status: false};
         }
         if (retJson.video.status == true) {
-            let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+            let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
             let dom_video = document.getElementsByClassName("layout-Player-video")[0];
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0";
+            dom_video.style = "bottom:0;z-index:7777";
         }
     }
 }
@@ -3779,7 +3783,7 @@ function getAoligei_todo() {
                         }
                     }
                     showMessage("【和平精英周年庆】即将打开领取界面，领取后自动关闭", "info");
-                    openPage("https://www.douyu.com/topic/tzbjnh?flag=aoligei", false);
+                    openPage("https://www.douyu.com/topic/tzbjnh?flag=aoligei", true);
                 }
             }).catch(err => {
                 console.log("请求失败!", err);
@@ -3797,7 +3801,6 @@ function getAoligei() {
     }).then(res => {
         return res.json();
     }).then(ret => {
-        console.log("dsadsadassad:",ret);
         if (ret.error == "0") {
             showMessage("【和平精英周年庆】成功领取" + ret.data.sendRes.bagName, "success");
         } else {
@@ -4059,7 +4062,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.04.25.03"
+var curVersion = "2020.04.28.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

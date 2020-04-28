@@ -25,7 +25,7 @@ function getAoligei_todo() {
                         }
                     }
                     showMessage("【和平精英周年庆】即将打开领取界面，领取后自动关闭", "info");
-                    openPage("https://www.douyu.com/topic/tzbjnh?flag=aoligei", false);
+                    openPage("https://www.douyu.com/topic/tzbjnh?flag=aoligei", true);
                 }
             }).catch(err => {
                 console.log("请求失败!", err);
@@ -43,7 +43,6 @@ function getAoligei() {
     }).then(res => {
         return res.json();
     }).then(ret => {
-        console.log("dsadsadassad:",ret);
         if (ret.error == "0") {
             showMessage("【和平精英周年庆】成功领取" + ret.data.sendRes.bagName, "success");
         } else {

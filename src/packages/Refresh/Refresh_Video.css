@@ -21,3 +21,6 @@
     border-radius: 4px;
     cursor: pointer;
 }
+#refresh-barrage__svg {
+    vertical-align: middle;
+}
