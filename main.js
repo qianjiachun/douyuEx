@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.04.28.01
+// @version      2020.05.01.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -75,6 +75,10 @@ function initStyles() {
 	position: absolute;
 	right: 0;
 	bottom: 0;
+}
+
+.bloop__mode {
+	display: inline-block;
 }
 #copy-real-live {
     cursor: pointer;
@@ -510,8 +514,9 @@ function BarrageLoop_insertModal() {
 	let html = "";
 	let a = document.createElement("div");
 	a.className = "bloop";
-	html += '<div><label>弹幕(一行一个)：</label></div>';
-	html += '<textarea id="bloop__textarea" rows="5" cols="50"></textarea>';
+	html += '<div style="display:inline-block"><label>弹幕：</label></div>';
+	html += '<div class="bloop__mode"><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label></div>';
+	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50"></textarea>';
 	html += '<div><label>速度(ms)：</label><input id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
 	html += '<div><label>限时(min)：</label><input id="bloop__text_stoptime" type="text" style="width:50px;text-align:center;" value="1" /></div>';
 	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label></div>';
@@ -602,6 +607,7 @@ function saveData_BarrageLoop() {
 	let speed1 = document.getElementById("bloop__text_speed1").value;
 	let speed2 = document.getElementById("bloop__text_speed2").value;
 	let stopTime = document.getElementById("bloop__text_stoptime").value;
+	let tiangouMode = document.getElementById("bloop__checkbox_tiangou").checked;
 	if (speed1 == "undefined") {
 		speed1 = 2000;
 	}
@@ -617,6 +623,7 @@ function saveData_BarrageLoop() {
 		speed2: speed2,
 		stopTime: stopTime,
 		isChangeColor: isChangeColor,
+		isTiangouMode: tiangouMode,
 	}
 	
 	localStorage.setItem("ExSave_BarrageLoop", JSON.stringify(data)); // 存储弹幕列表
@@ -628,7 +635,7 @@ function getStopTime() {
 	return Number(a) * 60 * 1000;
 }
 
-function doLoopBarrage() {
+async function doLoopBarrage() {
 	if (isChangeColor == true) {
 		selectBarrageColor(barrageColorOffset);
 		barrageColorOffset++;
@@ -636,11 +643,17 @@ function doLoopBarrage() {
 			barrageColorOffset = 0;
 		}
 	}
-	sendBarrage(barrageArr[barrageOffset]);
-	barrageOffset++;
-	if (barrageOffset > barrageLength) {
-		barrageOffset = 0;
+	if (document.getElementById("bloop__checkbox_tiangou").checked == true) {
+		let tiangouBarrage = await getBarrageTxt_Tiangou();
+		sendBarrage(tiangouBarrage);
+	} else {
+		sendBarrage(barrageArr[barrageOffset]);
+		barrageOffset++;
+		if (barrageOffset > barrageLength) {
+			barrageOffset = 0;
+		}
 	}
+	
 	bloopTimer = setTimeout(doLoopBarrage, getSpeed());
 }
 
@@ -683,6 +696,18 @@ function initPkg_BarrageLoop_Func() {
 			// clearInterval(bloopTimer);
 		}
 	});
+
+	document.getElementById("bloop__checkbox_tiangou").addEventListener("click", function() {
+		let ischecked = document.getElementById("bloop__checkbox_tiangou").checked;
+		if (ischecked == true) {
+			// 开启舔狗模式
+			document.getElementById("bloop__textarea").disabled = true;
+		} else{
+			// 关闭舔狗模式
+			document.getElementById("bloop__textarea").disabled = false;
+		}
+		saveData_BarrageLoop();
+	});
 }
 
 function initPkg_BarrageLoop_Dom() {
@@ -706,16 +731,38 @@ function initPkg_BarrageLoop_Set() {
 		if ("stopTime" in retJson == false) {
 			retJson.stopTime = 5;
 		}
+		if ("isTiangouMode" in retJson == false) {
+			retJson.isTiangouMode = false;
+		}
 		document.getElementById("bloop__textarea").value = retJson.text;
 		document.getElementById("bloop__checkbox_changeColor").checked = retJson.isChangeColor;
 		isChangeColor = Boolean(retJson.isChangeColor);
 		document.getElementById("bloop__text_speed1").value = retJson.speed1;
 		document.getElementById("bloop__text_speed2").value = retJson.speed2;
 		document.getElementById("bloop__text_stoptime").value = retJson.stopTime;
+		if (retJson.isTiangouMode == true) {
+			document.getElementById("bloop__checkbox_tiangou").checked = retJson.isTiangouMode;
+			document.getElementById("bloop__textarea").disabled = true;
+		}
 	}
 }
 
 
+function getBarrageTxt_Tiangou() {
+	return new Promise(resolve => {
+		GM_xmlhttpRequest({
+            method: "GET",
+            url: "https://chp.shadiao.app/api.php",
+            responseType: "text",
+            onload: function(response) {
+                let ret = response.response;
+                if (ret != "") {
+					resolve(ret);
+				}
+            }
+        });
+	})
+}
 function initPkg_CopyRealLive() {
 	initPkg_CopyRealLive_Dom();
 	initPkg_CopyRealLive_Func();
@@ -4062,7 +4109,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.04.28.01"
+var curVersion = "2020.05.01.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

@@ -19,8 +19,9 @@ function BarrageLoop_insertModal() {
 	let html = "";
 	let a = document.createElement("div");
 	a.className = "bloop";
-	html += '<div><label>弹幕(一行一个)：</label></div>';
-	html += '<textarea id="bloop__textarea" rows="5" cols="50"></textarea>';
+	html += '<div style="display:inline-block"><label>弹幕：</label></div>';
+	html += '<div class="bloop__mode"><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label></div>';
+	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50"></textarea>';
 	html += '<div><label>速度(ms)：</label><input id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
 	html += '<div><label>限时(min)：</label><input id="bloop__text_stoptime" type="text" style="width:50px;text-align:center;" value="1" /></div>';
 	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label></div>';
@@ -111,6 +112,7 @@ function saveData_BarrageLoop() {
 	let speed1 = document.getElementById("bloop__text_speed1").value;
 	let speed2 = document.getElementById("bloop__text_speed2").value;
 	let stopTime = document.getElementById("bloop__text_stoptime").value;
+	let tiangouMode = document.getElementById("bloop__checkbox_tiangou").checked;
 	if (speed1 == "undefined") {
 		speed1 = 2000;
 	}
@@ -126,6 +128,7 @@ function saveData_BarrageLoop() {
 		speed2: speed2,
 		stopTime: stopTime,
 		isChangeColor: isChangeColor,
+		isTiangouMode: tiangouMode,
 	}
 	
 	localStorage.setItem("ExSave_BarrageLoop", JSON.stringify(data)); // 存储弹幕列表
@@ -137,7 +140,7 @@ function getStopTime() {
 	return Number(a) * 60 * 1000;
 }
 
-function doLoopBarrage() {
+async function doLoopBarrage() {
 	if (isChangeColor == true) {
 		selectBarrageColor(barrageColorOffset);
 		barrageColorOffset++;
@@ -145,11 +148,17 @@ function doLoopBarrage() {
 			barrageColorOffset = 0;
 		}
 	}
-	sendBarrage(barrageArr[barrageOffset]);
-	barrageOffset++;
-	if (barrageOffset > barrageLength) {
-		barrageOffset = 0;
+	if (document.getElementById("bloop__checkbox_tiangou").checked == true) {
+		let tiangouBarrage = await getBarrageTxt_Tiangou();
+		sendBarrage(tiangouBarrage);
+	} else {
+		sendBarrage(barrageArr[barrageOffset]);
+		barrageOffset++;
+		if (barrageOffset > barrageLength) {
+			barrageOffset = 0;
+		}
 	}
+	
 	bloopTimer = setTimeout(doLoopBarrage, getSpeed());
 }
 
@@ -192,6 +201,18 @@ function initPkg_BarrageLoop_Func() {
 			// clearInterval(bloopTimer);
 		}
 	});
+
+	document.getElementById("bloop__checkbox_tiangou").addEventListener("click", function() {
+		let ischecked = document.getElementById("bloop__checkbox_tiangou").checked;
+		if (ischecked == true) {
+			// 开启舔狗模式
+			document.getElementById("bloop__textarea").disabled = true;
+		} else{
+			// 关闭舔狗模式
+			document.getElementById("bloop__textarea").disabled = false;
+		}
+		saveData_BarrageLoop();
+	});
 }
 
 function initPkg_BarrageLoop_Dom() {
@@ -215,12 +236,35 @@ function initPkg_BarrageLoop_Set() {
 		if ("stopTime" in retJson == false) {
 			retJson.stopTime = 5;
 		}
+		if ("isTiangouMode" in retJson == false) {
+			retJson.isTiangouMode = false;
+		}
 		document.getElementById("bloop__textarea").value = retJson.text;
 		document.getElementById("bloop__checkbox_changeColor").checked = retJson.isChangeColor;
 		isChangeColor = Boolean(retJson.isChangeColor);
 		document.getElementById("bloop__text_speed1").value = retJson.speed1;
 		document.getElementById("bloop__text_speed2").value = retJson.speed2;
 		document.getElementById("bloop__text_stoptime").value = retJson.stopTime;
+		if (retJson.isTiangouMode == true) {
+			document.getElementById("bloop__checkbox_tiangou").checked = retJson.isTiangouMode;
+			document.getElementById("bloop__textarea").disabled = true;
+		}
 	}
 }
 
+
+function getBarrageTxt_Tiangou() {
+	return new Promise(resolve => {
+		GM_xmlhttpRequest({
+            method: "GET",
+            url: "https://chp.shadiao.app/api.php",
+            responseType: "text",
+            onload: function(response) {
+                let ret = response.response;
+                if (ret != "") {
+					resolve(ret);
+				}
+            }
+        });
+	})
+}

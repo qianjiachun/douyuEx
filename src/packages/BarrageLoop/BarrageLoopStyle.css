@@ -12,3 +12,7 @@
 	right: 0;
 	bottom: 0;
 }
+
+.bloop__mode {
+	display: inline-block;
+}
