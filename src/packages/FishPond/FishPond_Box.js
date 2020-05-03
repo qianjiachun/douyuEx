@@ -1,4 +1,4 @@
-var boxList = [];
+let boxList = [];
 function initPkg_FishPond_Box() {
 	getFishPond_Box();
 }

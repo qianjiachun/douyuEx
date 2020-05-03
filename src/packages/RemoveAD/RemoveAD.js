@@ -68,8 +68,16 @@ function removeAD() {
     if (a != undefined) {
         a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
     }
-    a = document.getElementsByClassName(" PlayerToolbar-signCont")[0];
+    a = document.getElementsByClassName("PlayerToolbar-signCont")[0];
     if (a != undefined) {
         a.style.display = "none";
+    }
+    a = document.getElementById("js-widget");
+    if (a != undefined) {
+        a.style.display = "none";
+    }
+    a = document.getElementsByClassName("Barrage-topFloater")[0];
+    if (a != undefined) {
+        a.style.zIndex = "999";
     }
 }

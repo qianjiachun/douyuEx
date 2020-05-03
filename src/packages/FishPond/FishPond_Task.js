@@ -1,4 +1,4 @@
-var taskList = [];
+let taskList = [];
 function initPkg_FishPond_Task() {
 	getFishPond_Task();
 }

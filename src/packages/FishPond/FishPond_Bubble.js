@@ -1,4 +1,4 @@
-var bubbleList = [];
+let bubbleList = [];
 function initPkg_FishPond_Bubble() {
 	getFishPond_Bubble();
 }

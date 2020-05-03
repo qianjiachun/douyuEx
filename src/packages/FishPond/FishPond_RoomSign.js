@@ -1,4 +1,4 @@
-var roomSignList = [];
+let roomSignList = [];
 function initPkg_FishPond_RoomSign() {
 	getFishPond_RoomSign();
 }

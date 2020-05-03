@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.05.01.01
+// @version      2020.05.03.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -1505,7 +1505,7 @@ function FishPond_showTip(a) {
 		d.style.display = "none";
 	}
 }
-var boxList = [];
+let boxList = [];
 function initPkg_FishPond_Box() {
 	getFishPond_Box();
 }
@@ -1566,7 +1566,7 @@ function getFishPond_BoxList() {
 
 
 
-var bubbleList = [];
+let bubbleList = [];
 function initPkg_FishPond_Bubble() {
 	getFishPond_Bubble();
 }
@@ -1637,7 +1637,7 @@ function getFishPond_BubbleList() {
 
 
 
-var roomSignList = [];
+let roomSignList = [];
 function initPkg_FishPond_RoomSign() {
 	getFishPond_RoomSign();
 }
@@ -1695,7 +1695,7 @@ function getFishPond_RoomSignList() {
 
 
 
-var taskList = [];
+let taskList = [];
 function initPkg_FishPond_Task() {
 	getFishPond_Task();
 }
@@ -2976,10 +2976,6 @@ function setElementFunc_iframe(id) {
         }
     }
 }
-let real_viewIcon = '<svg style="width:16px;height:16px" t="1566119680547" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3494" width="128" height="128"><path d="M712.820909 595.224609C807.907642 536.686746 870.40537 437.74751 870.40537 325.549212 870.400378 145.753547 709.943392 0 511.997503 0 314.055363 0 153.599626 145.753547 153.599626 325.549212 153.599626 437.74751 216.092361 536.686746 311.179092 595.219615 149.961841 657.72608 31.268214 793.205446 5.334335 955.968198 1.926253 962.195123 0 969.212275 0 976.638899 0 1002.324352 22.919038 1023.151098 51.198627 1023.151098 79.476967 1023.151098 102.396005 1002.324352 102.396005 976.638899L102.396005 1023.151098C102.396005 817.669984 285.787009 651.099674 511.997503 651.099674 738.212992 651.099674 921.602746 817.669984 921.602746 1023.151098L921.602746 976.638899C921.602746 1002.324352 944.523034 1023.151098 972.801376 1023.151098 1001.07472 1023.151098 1024 1002.324352 1024 976.638899 1024 969.212275 1022.073747 962.195123 1018.659424 955.968198 992.731789 793.205446 874.038157 657.72608 712.820909 595.224609ZM511.997503 558.080262C370.618285 558.080262 256.000624 453.967732 256.000624 325.545467 256.000624 197.121954 370.618285 93.009424 511.997503 93.009424 653.386707 93.009424 767.993133 197.121954 767.993133 325.545467 767.993133 453.972726 653.386707 558.080262 511.997503 558.080262L511.997503 558.080262Z" p-id="3495"></path></svg>'
-let real_danmuIcon = '<svg t="1587796804183" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20780" width="16" height="16"><path d="M811.8272 62.6176H212.1728c-79.9232 0-149.8624 69.9392-149.8624 149.9136v599.6032a150.3232 150.3232 0 0 0 149.8624 149.9136h599.6544a150.3232 150.3232 0 0 0 149.8624-149.9136V212.5312c0-79.9744-69.9392-149.9136-149.8624-149.9136zM263.5264 367.104c30.0032 0 49.9712 19.968 49.9712 49.9712s-19.968 49.92-49.9712 49.92-49.9712-19.968-49.9712-49.92 20.0192-49.9712 49.9712-49.9712z m449.6896 294.8096H263.5264c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h449.6896c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.9712-49.9712 49.9712z m99.9424-199.68H463.4112c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h349.7472c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.7664-49.9712 49.7664z" p-id="20781" fill="#1296db"></path></svg>'
-// let real_giftIcon = '<svg t="1576950815993" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3618" width="16" height="16"><path d="M554.957 829.848l-85.905 0 0-463.89c0-18.978 15.384-34.363 34.362-34.363l17.182 0c18.978 0 34.362 15.38499999 34.362 34.363l0 463.89z" fill="#d4237a" p-id="3619"></path><path d="M889.985 494.814l-755.97 0c-37.902 0-68.724-30.82999999-68.724-68.725L65.291 323.003c0-56.846 46.241-103.087 103.087-103.087l687.245 0c56.846 0 103.087 46.24 103.087 103.087l0 103.086c-0.001 37.894-30.823 68.725-68.725 68.725z m0-68.725l0 34.363 0.016-34.363-0.016 0zM168.377 288.64c-18.94300001 0-34.363 15.412-34.363 34.364l0 103.086 755.87 0 0.1-103.086c0-18.952-15.42-34.363-34.363-34.363L168.377 288.641z" fill="#d4237a" p-id="3620"></path><path d="M821.26 958.712L202.74 958.712c-37.903 0-68.725-30.838-68.725-68.732L134.015 494.814c0-37.89400001 30.822-68.725 68.724-68.725l618.522 0c37.902 0 68.724 30.82999999 68.724 68.725L889.985 889.98c0 37.89400001-30.822 68.73199999-68.724 68.732z m0-68.732l0 34.362 0.017-34.362-0.016 0zM202.74 494.814L202.74 889.98l618.42 0 0.1-395.166L202.74 494.814z m281.358-240.537c-9.93399999 0-19.78200001-4.278-26.578-12.55L358.728 121.46c-12.03-14.664-9.916-36.317 4.748-48.363 14.648-12.038 36.326-9.924 48.373 4.74l98.79199999 120.268c12.03 14.664 9.916 36.317-4.74799999 48.363a34.213 34.213 0 0 1-21.795 7.81z" fill="#d4237a" p-id="3621"></path><path d="M539.902 254.277a34.212 34.212 0 0 1-21.795-7.81c-14.664-12.047-16.778-33.7-4.748-48.363L612.15 77.836c12.047-14.664 33.708-16.77799999 48.373-4.74 14.664 12.047 16.778 33.7 4.748 48.363l-98.792 120.268c-6.795 8.272-16.644 12.55-26.577 12.55z" fill="#d4237a" p-id="3622"></path></svg>'
-let real_money_yc = '<svg t="1579155265981" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6949" width="16" height="16"><path d="M136.96 67.413h181.76L512 452.693l193.28-385.28h181.76l-245.76 445.44h163.84v84.48h-211.2l-1.28 1.28v106.24h212.48v84.48H592.64v192H431.36v-192h-211.2v-84.48h211.2v-106.24l-1.28-1.28H220.16v-84.48h162.56z" fill="#F54330" p-id="6950"></path></svg>'
 let real_info = {
 	view: "",
 	showtime: 777,
@@ -3013,6 +3009,10 @@ function initPkg_RealAudience() {
 
 
 function initPkg_RealAudience_Dom() {
+	let real_viewIcon = '<svg style="width:16px;height:16px" t="1566119680547" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3494" width="128" height="128"><path d="M712.820909 595.224609C807.907642 536.686746 870.40537 437.74751 870.40537 325.549212 870.400378 145.753547 709.943392 0 511.997503 0 314.055363 0 153.599626 145.753547 153.599626 325.549212 153.599626 437.74751 216.092361 536.686746 311.179092 595.219615 149.961841 657.72608 31.268214 793.205446 5.334335 955.968198 1.926253 962.195123 0 969.212275 0 976.638899 0 1002.324352 22.919038 1023.151098 51.198627 1023.151098 79.476967 1023.151098 102.396005 1002.324352 102.396005 976.638899L102.396005 1023.151098C102.396005 817.669984 285.787009 651.099674 511.997503 651.099674 738.212992 651.099674 921.602746 817.669984 921.602746 1023.151098L921.602746 976.638899C921.602746 1002.324352 944.523034 1023.151098 972.801376 1023.151098 1001.07472 1023.151098 1024 1002.324352 1024 976.638899 1024 969.212275 1022.073747 962.195123 1018.659424 955.968198 992.731789 793.205446 874.038157 657.72608 712.820909 595.224609ZM511.997503 558.080262C370.618285 558.080262 256.000624 453.967732 256.000624 325.545467 256.000624 197.121954 370.618285 93.009424 511.997503 93.009424 653.386707 93.009424 767.993133 197.121954 767.993133 325.545467 767.993133 453.972726 653.386707 558.080262 511.997503 558.080262L511.997503 558.080262Z" p-id="3495"></path></svg>';
+	let real_danmuIcon = '<svg t="1587796804183" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20780" width="16" height="16"><path d="M811.8272 62.6176H212.1728c-79.9232 0-149.8624 69.9392-149.8624 149.9136v599.6032a150.3232 150.3232 0 0 0 149.8624 149.9136h599.6544a150.3232 150.3232 0 0 0 149.8624-149.9136V212.5312c0-79.9744-69.9392-149.9136-149.8624-149.9136zM263.5264 367.104c30.0032 0 49.9712 19.968 49.9712 49.9712s-19.968 49.92-49.9712 49.92-49.9712-19.968-49.9712-49.92 20.0192-49.9712 49.9712-49.9712z m449.6896 294.8096H263.5264c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h449.6896c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.9712-49.9712 49.9712z m99.9424-199.68H463.4112c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h349.7472c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.7664-49.9712 49.7664z" p-id="20781" fill="#1296db"></path></svg>';
+	// let real_giftIcon = '<svg t="1576950815993" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3618" width="16" height="16"><path d="M554.957 829.848l-85.905 0 0-463.89c0-18.978 15.384-34.363 34.362-34.363l17.182 0c18.978 0 34.362 15.38499999 34.362 34.363l0 463.89z" fill="#d4237a" p-id="3619"></path><path d="M889.985 494.814l-755.97 0c-37.902 0-68.724-30.82999999-68.724-68.725L65.291 323.003c0-56.846 46.241-103.087 103.087-103.087l687.245 0c56.846 0 103.087 46.24 103.087 103.087l0 103.086c-0.001 37.894-30.823 68.725-68.725 68.725z m0-68.725l0 34.363 0.016-34.363-0.016 0zM168.377 288.64c-18.94300001 0-34.363 15.412-34.363 34.364l0 103.086 755.87 0 0.1-103.086c0-18.952-15.42-34.363-34.363-34.363L168.377 288.641z" fill="#d4237a" p-id="3620"></path><path d="M821.26 958.712L202.74 958.712c-37.903 0-68.725-30.838-68.725-68.732L134.015 494.814c0-37.89400001 30.822-68.725 68.724-68.725l618.522 0c37.902 0 68.724 30.82999999 68.724 68.725L889.985 889.98c0 37.89400001-30.822 68.73199999-68.724 68.732z m0-68.732l0 34.362 0.017-34.362-0.016 0zM202.74 494.814L202.74 889.98l618.42 0 0.1-395.166L202.74 494.814z m281.358-240.537c-9.93399999 0-19.78200001-4.278-26.578-12.55L358.728 121.46c-12.03-14.664-9.916-36.317 4.748-48.363 14.648-12.038 36.326-9.924 48.373 4.74l98.79199999 120.268c12.03 14.664 9.916 36.317-4.74799999 48.363a34.213 34.213 0 0 1-21.795 7.81z" fill="#d4237a" p-id="3621"></path><path d="M539.902 254.277a34.212 34.212 0 0 1-21.795-7.81c-14.664-12.047-16.778-33.7-4.748-48.363L612.15 77.836c12.047-14.664 33.708-16.77799999 48.373-4.74 14.664 12.047 16.778 33.7 4.748 48.363l-98.792 120.268c-6.795 8.272-16.644 12.55-26.577 12.55z" fill="#d4237a" p-id="3622"></path></svg>'
+	let real_money_yc = '<svg t="1579155265981" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6949" width="16" height="16"><path d="M136.96 67.413h181.76L512 452.693l193.28-385.28h181.76l-245.76 445.44h163.84v84.48h-211.2l-1.28 1.28v106.24h212.48v84.48H592.64v192H431.36v-192h-211.2v-84.48h211.2v-106.24l-1.28-1.28H220.16v-84.48h162.56z" fill="#F54330" p-id="6950"></path></svg>';
 	document.querySelector(".AnchorAnnounce > h3").style.display = "none";
 	let html = "";
 	let a = document.createElement("div");
@@ -3178,7 +3178,7 @@ function initPkg_Refresh_Barrage_Set() {
 function setRefreshBarrage() {
     setBarrageIcon("display:none !important;");
     setFansMedalIsMade("display:none !important;");
-    setUserLevel("display:none !important;");
+    // setUserLevel("display:none !important;");
     setRoomLevel("display:none !important;");
     setMotor("display:none !important;");
     setChatAchievement("display:none !important;");
@@ -3325,7 +3325,7 @@ function initPkg_Refresh_Video() {
             initPkg_Refresh_Video_Func();
             initPkg_Refresh_Video_Set();
         }
-    }, 1000);
+    }, 1500);
 }
 
 function initPkg_Refresh_Video_Dom() {
@@ -3450,9 +3450,17 @@ function removeAD() {
     if (a != undefined) {
         a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
     }
-    a = document.getElementsByClassName(" PlayerToolbar-signCont")[0];
+    a = document.getElementsByClassName("PlayerToolbar-signCont")[0];
     if (a != undefined) {
         a.style.display = "none";
+    }
+    a = document.getElementById("js-widget");
+    if (a != undefined) {
+        a.style.display = "none";
+    }
+    a = document.getElementsByClassName("Barrage-topFloater")[0];
+    if (a != undefined) {
+        a.style.zIndex = "999";
     }
 }
 function initPkg_Sign() {
@@ -4109,7 +4117,7 @@ function signYubaList() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.05.01.01"
+var curVersion = "2020.05.03.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -4474,4 +4482,116 @@ function getRealLive_Huya(url, qn, cdn, reallive_callback) {
         }
 	});
 }
+
+/*
+   DouyuEx WebSocket
+    By: 小淳
+*/
+function Ex_WebSocket() {
+    // 自定义数据类型
+    // 调用方法：
+    // 连接：let a = new Ex_WebSocket(); a.WebSocket_Connect("房间号");
+    // 关闭连接: a.WebSocket_Close(); a = null; 记得null掉变量再重新连接
+    if ("WebSocket" in window) {
+        this.timer = 0;
+        this.ws = new WebSocket("wss://danmuproxy.douyu.com:8502");
+        this.ws.onopen = function() {
+            console.log("WebSocket已连接");
+        };
+        this.ws.onmessage = function (e) { 
+            let reader = new FileReader();
+            reader.onload = function() {
+                let content = reader.result;
+                console.log(content);
+            };
+            reader.readAsText(e.data);
+        };
+        this.ws.onclose = function() { 
+            console.log("WebSocket已关闭");
+        };
+        if (typeof this.WebSocket_Connect != "function") {
+            Ex_WebSocket.prototype.WebSocket_Connect = function(rid) {
+                this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + rid));
+                this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + rid + "/gid@=-9999/"));
+                this.timer = setInterval(() => {
+                    this.ws.send(WebSocket_Packet("type@=mrkl/"));
+                }, 40000)
+            };
+            Ex_WebSocket.prototype.WebSocket_Close = function() {
+                clearInterval(this.timer);
+                this.ws.close();
+            };
+        }
+    }
+}
+
+
+function WebSocket_Packet(str) {
+    const MSG_TYPE = 689;
+    let bytesArr = stringToByte(str);   
+    let buffer = new Uint8Array(bytesArr.length + 4 + 4 + 2 + 1 + 1 + 1);
+    let p_content = new Uint8Array(bytesArr.length); // 消息内容
+    for (let i = 0; i < p_content.length; i++) {
+        p_content[i] = bytesArr[i];
+    }
+    let p_length = new Uint32Array([bytesArr.length + 4 + 2 + 1 + 1 + 1]); // 消息长度
+    let p_type = new Uint32Array([MSG_TYPE]); // 消息类型
+
+    buffer.set(new Uint8Array(p_length.buffer), 0);
+    buffer.set(new Uint8Array(p_length.buffer), 4);
+    buffer.set(new Uint8Array(p_type.buffer), 8);
+    buffer.set(p_content, 12);
+
+    return buffer;
+}
+
+function stringToByte(str) {  
+    var bytes = new Array();  
+    var len, c;  
+    len = str.length;  
+    for(var i = 0; i < len; i++) {  
+        c = str.charCodeAt(i);  
+        if(c >= 0x010000 && c <= 0x10FFFF) {  
+            bytes.push(((c >> 18) & 0x07) | 0xF0);  
+            bytes.push(((c >> 12) & 0x3F) | 0x80);  
+            bytes.push(((c >> 6) & 0x3F) | 0x80);  
+            bytes.push((c & 0x3F) | 0x80);  
+        } else if(c >= 0x000800 && c <= 0x00FFFF) {  
+            bytes.push(((c >> 12) & 0x0F) | 0xE0);  
+            bytes.push(((c >> 6) & 0x3F) | 0x80);  
+            bytes.push((c & 0x3F) | 0x80);  
+        } else if(c >= 0x000080 && c <= 0x0007FF) {  
+            bytes.push(((c >> 6) & 0x1F) | 0xC0);  
+            bytes.push((c & 0x3F) | 0x80);  
+        } else {  
+            bytes.push(c & 0xFF);  
+        }  
+    }  
+    return bytes;  
+}
+
+function byteToString(arr) {
+    if(typeof arr === 'string') {
+        return arr;
+    }
+    var str = '',
+        _arr = arr;
+    for(var i = 0; i < _arr.length; i++) {
+        var one = _arr[i].toString(2),
+            v = one.match(/^1+?(?=0)/);
+        if(v && one.length == 8) {
+            var bytesLength = v[0].length;
+            var store = _arr[i].toString(2).slice(7 - bytesLength);
+            for(var st = 1; st < bytesLength; st++) {
+                store += _arr[st + i].toString(2).slice(2);
+            }
+            str += String.fromCharCode(parseInt(store, 2));
+            i += bytesLength - 1;
+        } else {
+            str += String.fromCharCode(_arr[i]);
+        }
+    }
+return str;
+}
+
 

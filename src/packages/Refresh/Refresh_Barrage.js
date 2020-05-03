@@ -66,7 +66,7 @@ function initPkg_Refresh_Barrage_Set() {
 function setRefreshBarrage() {
     setBarrageIcon("display:none !important;");
     setFansMedalIsMade("display:none !important;");
-    setUserLevel("display:none !important;");
+    // setUserLevel("display:none !important;");
     setRoomLevel("display:none !important;");
     setMotor("display:none !important;");
     setChatAchievement("display:none !important;");

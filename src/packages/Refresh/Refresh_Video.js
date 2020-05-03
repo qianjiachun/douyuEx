@@ -5,7 +5,7 @@ function initPkg_Refresh_Video() {
             initPkg_Refresh_Video_Func();
             initPkg_Refresh_Video_Set();
         }
-    }, 1000);
+    }, 1500);
 }
 
 function initPkg_Refresh_Video_Dom() {
