@@ -90,6 +90,7 @@ function LiveTool_Gift_insertFunc() {
 713|辣眼睛
 20620|魔法皇冠
 20832|奥利给
+20640|礼物红包办卡
         `);
         console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "进行查看");
         showMessage("请按F12到控制台(console)查看礼物id", "success");
