@@ -34,9 +34,9 @@ function Ex_WebSocket_UnLogin(rid, callback) {
             };
             reader.readAsText(e.data);
         };
-        // this.ws.onclose = () => { 
-        //     console.log("WebSocket已关闭");
-        // };
+        this.ws.onclose = () => { 
+            showMessage("服务器连接丢失，请尝试刷新页面", "error");
+        };
         if (typeof this.close != "function") {
             
             Ex_WebSocket_UnLogin.prototype.close = () => {

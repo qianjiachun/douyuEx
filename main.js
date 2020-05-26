@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.05.26.01
+// @version      2020.05.26.02
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -972,7 +972,6 @@ function ExpandTool_Gold_Set() {
 	}
 }
 
-
 function goldBarrageList() {
     let barrageArr = document.getElementsByClassName('Barrage-listItem');
     if (barrageArr.length < 1) {
@@ -981,6 +980,10 @@ function goldBarrageList() {
     for (let i = 0; i < barrageArr.length; i++) {
         let chatArea = barrageArr[i].lastElementChild;
         if (chatArea != null && chatArea.innerHTML.indexOf("is-self") != -1) {
+            if (barrageArr[i].id == "ex_gold") {
+                continue;
+            }
+            barrageArr[i].id = "ex_gold";
             barrageArr[i].className = "Barrage-listItem js-noblefloating-barrage";
             chatArea.className = "js-noblefloating-barragecont Barrage-notice--noble";
             chatArea.setAttribute('style','background-color: #fff3df');
@@ -998,10 +1001,47 @@ function goldBarrageList() {
                 roomLevelObj.setAttribute("title","房间等级：18");
             }
             let fansMedal = barrageArr[i].querySelector(".FansMedal");
+
             if(fansMedal!=null){
-                fansMedal.className = "FansMedal level-30 js-fans-hover js-fans-dysclick Barrage-icon";
-                fansMedal.setAttribute("粉丝牌等级", "等级：30");
+                fansMedal.style = "display:none;";
             }
+            let fansMedalName = document.getElementsByClassName("FansMedal-name")[0];//fans medal
+                let fansBackgroundImg = document.getElementsByClassName("FansRankList-item FansRankList-item--top")[0];
+                if(fansMedalName!=undefined && fansBackgroundImg!= undefined ){
+                    if(fansBackgroundImg.innerHTML.indexOf("background-image:")==-1){//common fans medal
+                        let fansTag = document.createElement("div");
+                        let fansSpan = document.createElement("span");
+                        fansTag.className="FansMedal level-30 js-fans-dysclick Barrage-icon";
+                        // fansTag.setAttribute("data-rid",roomId);//id is same to roomId
+                        fansSpan.className = "FansMedal-name js-fans-dysclick";
+                        // fansSpan.setAttribute("data-rid",roomId);
+                        fansSpan.innerHTML = fansMedalName.innerText;
+                        fansTag.appendChild(fansSpan);
+                        chatArea.insertBefore(fansTag,chatArea.querySelector(".UserLevel"));
+                    }else{//special fans medal
+                        let fansTag1 = document.createElement("div");
+                        fansTag1.className="FansMedal is-made js-fans-dysclick Barrage-icon";
+                        fansTag1.setAttribute("style", fansBackgroundImg.getElementsByClassName("FansMedal is-made")[0].getAttribute("style") );
+                        // fansTag1.setAttribute("data-rid",roomId);
+                        let fansSpan1 = document.createElement("span");
+                        fansSpan1.className = "FansMedal-name js-fans-dysclick";
+                        // fansSpan1.setAttribute("data-rid",roomId);
+                        fansSpan1.innerHTML = fansMedalName.innerText;
+                        fansTag1.appendChild(fansSpan1);
+                        chatArea.insertBefore(fansTag1,chatArea.querySelector(".UserLevel"));
+                    }
+                }else{//point to a fans medal when room have none of fans medal
+                    let fansTag2 = document.createElement("div");
+                    fansTag2.className="FansMedal level-30 js-fans-dysclick Barrage-icon";
+                    fansTag2.setAttribute("data-rid","5189167");
+                    let fansSpan2 = document.createElement("span");
+                    fansSpan2.className = "FansMedal-name js-fans-dysclick";
+                    fansSpan2.setAttribute("data-rid","5189167");
+                    fansSpan2.innerHTML = "歆崽";
+                    fansTag2.appendChild(fansSpan2);
+                    chatArea.insertBefore(fansTag2,chatArea.querySelector(".UserLevel"));
+                }
+
             let nobleIconObj = barrageArr[i].querySelector(".Barrage-nobleImg");
             if(nobleIconObj != null){
                 nobleIconObj.src = "//res.douyucdn.cn/resource/2019/08/15/common/4e85776071ffbae2867bb9d116e9a43c.gif";
@@ -1030,6 +1070,10 @@ function goldBarrage() {
     for(let i = fatherNode.children.length-1;i>=0;i--){
         if(fatherNode.children[i].className.indexOf("noble-bf13ad")==-1 && fatherNode.children[i].innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
             //transform parent node
+            if (fatherNode.children[i].id == "ex_goldbarrage") {
+                continue;
+            }
+            fatherNode.children[i].id = "ex_goldbarrage";
             let liStyle = fatherNode.children[i].getAttribute("style");
             let characterLength = liStyle.substring(liStyle.indexOf("translateX(-")+12,liStyle.indexOf("px); transition"));
             let transformLength = liStyle.substring(liStyle.indexOf("transform ")+10,liStyle.indexOf("s linear"));
@@ -1051,7 +1095,7 @@ function goldBarrage() {
                 userIconObj = userIconObj.getElementsByTagName("img")[0].getAttribute("src");
                 userIconTag.setAttribute("src", userIconObj.replace((new RegExp("_middle")),"_small"));
             }else{
-                console.error("未能获取到用户头像");
+                // console.error("未能获取到用户头像");
             }
             fatherNode.children[i].insertBefore(userIconTag,fatherNode.children[i].firstElementChild);
             //remove out tail tag
@@ -4507,7 +4551,7 @@ function getYubaPage(page) {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.05.26.01"
+var curVersion = "2020.05.26.02"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -5025,9 +5069,9 @@ function Ex_WebSocket_UnLogin(rid, callback) {
             };
             reader.readAsText(e.data);
         };
-        // this.ws.onclose = () => { 
-        //     console.log("WebSocket已关闭");
-        // };
+        this.ws.onclose = () => { 
+            showMessage("服务器连接丢失，请尝试刷新页面", "error");
+        };
         if (typeof this.close != "function") {
             
             Ex_WebSocket_UnLogin.prototype.close = () => {
