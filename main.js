@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.05.26.03
+// @version      2020.05.26.04
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -301,10 +301,10 @@ function getAvailableSheet(index) {
     return ret;
 }
 
-function showMessageWindow(icon, title, content, callback){
+function showMessageWindow(title, content, callback){
     if(window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission(function(status) {
-            var notice_ = new Notification(title, { body: content, icon: icon });
+            var notice_ = new Notification(title, { body: content });
             notice_.onclick = function() {
 				callback();
             }
@@ -2107,10 +2107,7 @@ function initPkg_LiveTool_Gift_Handle(text) {
     
 }
 
-let roomAvatar = "";
-
 function initPkg_LiveTool_LiveNotice() {
-	getRoomAvatar();
 }
 
 function initPkg_LiveTool_LiveNotice_Handle(text) {
@@ -2118,7 +2115,7 @@ function initPkg_LiveTool_LiveNotice_Handle(text) {
         let rid = getStrMiddle(text, "rid@=", "/");
         let ss = getStrMiddle(text, "ss@=", "/");
         if (ss == "1") {
-            showMessageWindow(roomAvatar, "开播提醒", "直播间：" + rid + "开播了，点我跳转并签到", () => {
+            showMessageWindow("开播提醒", "直播间：" + rid + "开播了，点我跳转并签到", () => {
                 signRoom(rid);
                 window.focus();
             });
@@ -4274,6 +4271,10 @@ async function signMotorcade_Sign() {
 	let retConnect = await motorcadeConnect();
 	let retConnect2 = await motorcadeConnect2(retConnect.data.uid, retConnect.data.sig);
 	let mid = await getMotorcadeID(retConnect2.TinyId, retConnect2.A2Key, retConnect.data.uid);
+	if (mid == "") {
+		closePage();
+		return;
+	}
 	console.log("mid是：", mid);
 	mid = encodeURIComponent(mid);
 	fetch('https://msg.douyu.com/v3/motorcade/signs/weekly?mid=' + mid + '&timestamp=' + Math.random().toFixed(17), {
@@ -4373,7 +4374,11 @@ function getMotorcadeID(tinyid, a2, identifier) {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
             onload: function(response) {
-                resolve(response.response.GroupIdList[0].GroupId);
+				if (response.response.GroupIdList.length > 0) {
+					resolve(response.response.GroupIdList[0].GroupId);
+				} else {
+					resolve("");
+				}
             }
         });
     })
@@ -4552,7 +4557,7 @@ function getYubaPage(page) {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.05.26.03"
+var curVersion = "2020.05.26.04"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

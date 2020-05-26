@@ -26,6 +26,10 @@ async function signMotorcade_Sign() {
 	let retConnect = await motorcadeConnect();
 	let retConnect2 = await motorcadeConnect2(retConnect.data.uid, retConnect.data.sig);
 	let mid = await getMotorcadeID(retConnect2.TinyId, retConnect2.A2Key, retConnect.data.uid);
+	if (mid == "") {
+		closePage();
+		return;
+	}
 	console.log("mid是：", mid);
 	mid = encodeURIComponent(mid);
 	fetch('https://msg.douyu.com/v3/motorcade/signs/weekly?mid=' + mid + '&timestamp=' + Math.random().toFixed(17), {
@@ -125,7 +129,11 @@ function getMotorcadeID(tinyid, a2, identifier) {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
             onload: function(response) {
-                resolve(response.response.GroupIdList[0].GroupId);
+				if (response.response.GroupIdList.length > 0) {
+					resolve(response.response.GroupIdList[0].GroupId);
+				} else {
+					resolve("");
+				}
             }
         });
     })

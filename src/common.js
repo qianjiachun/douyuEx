@@ -200,10 +200,10 @@ function getAvailableSheet(index) {
     return ret;
 }
 
-function showMessageWindow(icon, title, content, callback){
+function showMessageWindow(title, content, callback){
     if(window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission(function(status) {
-            var notice_ = new Notification(title, { body: content, icon: icon });
+            var notice_ = new Notification(title, { body: content });
             notice_.onclick = function() {
 				callback();
             }
