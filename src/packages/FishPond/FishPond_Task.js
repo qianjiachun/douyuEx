@@ -38,7 +38,7 @@ function getFishPond_Task() {
 		}).then(res => {
 			return res.json();
 		}).then(ret => {
-			// console.log("【鱼塘任务】领取结果:", ret);
+			console.log("【鱼塘任务】领取结果:", ret);
 			showMessage("【鱼塘任务】领取结果:" + ret.data.msg, "success");
 		}).catch(err => {
 			console.log("请求失败!", err);

@@ -2,64 +2,23 @@ function initPkg_RemoveAD() {
     let t = setInterval(() => {
         let a = document.getElementsByClassName("PlayerToolbar-wealthNum")[0];
         if (a != undefined) {
-            removeAD();
+            removeChatLimit();
             clearInterval(t);
         }
     }, 1000);
+    
 }
 
 function removeAD() {
+    StyleHook_set("Ex_Style_RemoveAD", `
+    .FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .Barrage-topFloater{z-index:999}
+    `);
+}
+
+function removeChatLimit() {
     let a;
-    a = document.getElementsByClassName("recommendAD-54569e")[0]; // 左
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("recommendApp-0e23eb")[0]; // 右
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("Title-ad")[0]; // 分享左
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("Bottom-ad")[0]; // 鱼吧ad
-    if (a != undefined) {
-        a.style.display = "none";
-    }
-    a = document.getElementsByClassName("SignBarrage")[0];
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("corner-ad-495ade")[0];
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("SignBaseComponent-sign-ad");
-    if (a != undefined) {
-        for (let i = 0; i < a.length; i++) {
-            // a[i].style.display = "none";
-            a[i].remove();
-        }
-    }
-    a = document.getElementsByClassName("SuperFansBubble")[0];
-    if (a != undefined) {
-        a.remove();
-    }
     
-    // a = document.getElementsByClassName("recommendView-3e8b62")[0]
-    // if (a != undefined) {
-    //     a.remove();
-    // }
-	
-    // a = document.getElementsByClassName("js-room-activity")[0];
-    // if (a != undefined) {
-    //     a.remove();
-    // }
-    
-    a = document.getElementsByClassName("is-noLogin")[0];
-    if (a != undefined) {
-        a.style.display = "none"
-    }
     a = document.getElementsByClassName("ChatSend-button")[0];
     if (a != undefined) {
         a.className = "ChatSend-button";
@@ -68,16 +27,5 @@ function removeAD() {
     if (a != undefined) {
         a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
     }
-    a = document.getElementsByClassName("PlayerToolbar-signCont")[0];
-    if (a != undefined) {
-        a.style.display = "none";
-    }
-    a = document.getElementById("js-widget");
-    if (a != undefined) {
-        a.style.display = "none";
-    }
-    a = document.getElementsByClassName("Barrage-topFloater")[0];
-    if (a != undefined) {
-        a.style.zIndex = "999";
-    }
+
 }

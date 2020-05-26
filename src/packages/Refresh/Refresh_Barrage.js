@@ -1,12 +1,6 @@
-var sheetIndex3 = 0; // 请在Night模块后加载
-let num_css_barrage = 0;
 let current_barrage_status = 0; // 0没被简化 1被简化
 
 function initPkg_Refresh_Barrage() {
-    sheetIndex3 = getAvailableSheet(sheetIndex2 + 1);
-    if (sheetIndex3 == -1) {
-        return;
-    }
 	initPkg_Refresh_Barrage_Dom();
     initPkg_Refresh_Barrage_Func();
     initPkg_Refresh_Barrage_Set();
@@ -64,70 +58,13 @@ function initPkg_Refresh_Barrage_Set() {
 }
  
 function setRefreshBarrage() {
-    setBarrageIcon("display:none !important;");
-    setFansMedalIsMade("display:none !important;");
-    // setUserLevel("display:none !important;");
-    setRoomLevel("display:none !important;");
-    setMotor("display:none !important;");
-    setChatAchievement("display:none !important;");
-    setBarrageHiIcon("display:none !important;");
-    setMedal("display:none !important;");
-    setMatchSystemTeamMedal("display:none !important;");
+    let cssText = `
+    .Barrage-listItem .Barrage-icon,.Barrage-listItem .FansMedal.is-made,.Barrage-listItem .RoomLevel,.Barrage-listItem .Motor,.Barrage-listItem .ChatAchievement,.Barrage-listItem .Barrage-hiIcon,.Barrage-listItem .Medal,.Barrage-listItem .MatchSystemTeamMedal{display:none !important;}
+    /*.Barrage-listItem .UserLevel{display:none !important;}*/
+    `;
+    StyleHook_set("Ex_Style_RefreshBarrage", cssText);
 }
 
 function cancelRefreshBarrage() {
-    let a = document.styleSheets[sheetIndex3];
-    let idx = a.rules.length - 1;
-    for (let i = 0; i < num_css_barrage; i++) {
-        a.removeRule(idx);
-        idx = idx - 1;
-    }
-    num_css_barrage = 0;
-}
-
-
-
-function setBarrageIcon(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Barrage-icon", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setFansMedalIsMade(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .FansMedal.is-made", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setUserLevel(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .UserLevel", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setRoomLevel(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .RoomLevel", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setMotor(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Motor", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setChatAchievement(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .ChatAchievement", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setBarrageHiIcon(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Barrage-hiIcon", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setMedal(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Medal", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setMatchSystemTeamMedal(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .MatchSystemTeamMedal", t);
-    num_css_barrage = num_css_barrage + 1;
+    StyleHook_remove("Ex_Style_RefreshBarrage");
 }

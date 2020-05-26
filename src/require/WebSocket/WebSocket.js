@@ -1,45 +1,8 @@
 /*
    DouyuEx WebSocket
     By: 小淳
+    此处为一些公共函数
 */
-function Ex_WebSocket() {
-    // 自定义数据类型
-    // 调用方法：
-    // 连接：let a = new Ex_WebSocket(); a.WebSocket_Connect("房间号");
-    // 关闭连接: a.WebSocket_Close(); a = null; 记得null掉变量再重新连接
-    if ("WebSocket" in window) {
-        this.timer = 0;
-        this.ws = new WebSocket("wss://danmuproxy.douyu.com:8502");
-        this.ws.onopen = function() {
-            console.log("WebSocket已连接");
-        };
-        this.ws.onmessage = function (e) { 
-            let reader = new FileReader();
-            reader.onload = function() {
-                let content = reader.result;
-                console.log(content);
-            };
-            reader.readAsText(e.data);
-        };
-        this.ws.onclose = function() { 
-            console.log("WebSocket已关闭");
-        };
-        if (typeof this.WebSocket_Connect != "function") {
-            Ex_WebSocket.prototype.WebSocket_Connect = function(rid) {
-                this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + rid));
-                this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + rid + "/gid@=-9999/"));
-                this.timer = setInterval(() => {
-                    this.ws.send(WebSocket_Packet("type@=mrkl/"));
-                }, 40000)
-            };
-            Ex_WebSocket.prototype.WebSocket_Close = function() {
-                clearInterval(this.timer);
-                this.ws.close();
-            };
-        }
-    }
-}
-
 
 function WebSocket_Packet(str) {
     const MSG_TYPE = 689;
@@ -61,11 +24,11 @@ function WebSocket_Packet(str) {
 }
 
 function stringToByte(str) {  
-    var bytes = new Array();  
-    var len, c;  
+    let bytes = new Array();  
+    let len, c;  
     len = str.length;  
-    for(var i = 0; i < len; i++) {  
-        c = str.charCodeAt(i);  
+    for(let i = 0; i < len; i++) {  
+        c = String(str).charCodeAt(i);  
         if(c >= 0x010000 && c <= 0x10FFFF) {  
             bytes.push(((c >> 18) & 0x07) | 0xF0);  
             bytes.push(((c >> 12) & 0x3F) | 0x80);  
@@ -89,15 +52,15 @@ function byteToString(arr) {
     if(typeof arr === 'string') {
         return arr;
     }
-    var str = '',
+    let str = '',
         _arr = arr;
-    for(var i = 0; i < _arr.length; i++) {
-        var one = _arr[i].toString(2),
+    for(let i = 0; i < _arr.length; i++) {
+        let one = _arr[i].toString(2),
             v = one.match(/^1+?(?=0)/);
         if(v && one.length == 8) {
-            var bytesLength = v[0].length;
-            var store = _arr[i].toString(2).slice(7 - bytesLength);
-            for(var st = 1; st < bytesLength; st++) {
+            let bytesLength = v[0].length;
+            let store = _arr[i].toString(2).slice(7 - bytesLength);
+            for(let st = 1; st < bytesLength; st++) {
                 store += _arr[st + i].toString(2).slice(2);
             }
             str += String.fromCharCode(parseInt(store, 2));
@@ -109,3 +72,23 @@ function byteToString(arr) {
 return str;
 }
 
+
+function hex2bin(e) {
+    if ("string" === typeof e && e.length % 8 === 0) {
+        for (let r = [], t = e.length, o = 0; o < t;) r.push(e.substr(o, 2)), o += 2;
+        for (let n = [], i = r.length, s = 0; s < i;) n.push(parseInt(r.slice(s, s + 4).reverse().join(""), 16)), s += 4;
+        return n
+    }
+    return null
+}
+
+function hex(e) {
+    if (Array.isArray(e)) {
+        let r = "0123456789abcdef".split("");
+        return e.map(function (e) {
+            for (let t = "", o = 0; o < 4; o++) t += r[e >> 8 * o + 4 & 15] + r[e >> 8 * o & 15];
+            return t
+        }).join("")
+    }
+    return ""
+}

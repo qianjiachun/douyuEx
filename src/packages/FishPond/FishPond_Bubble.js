@@ -1,4 +1,5 @@
 let bubbleList = [];
+
 function initPkg_FishPond_Bubble() {
 	getFishPond_Bubble();
 }
@@ -32,8 +33,8 @@ function getFishPond_Bubble() {
 		return res.json();
 	}).then(ret => {
 		let result = "";
-		for (let i = 0; i < ret.data.length; i++) {
-			result = result + ret.data[i].num + "个" + ret.data[i].name + ",";
+		for (let i = 0; i < ret.data.prizeList.length; i++) {
+			result = result + ret.data.prizeList[i].num + "个" + ret.data.prizeList[i].name + ",";
 		}
 		bubbleList.length = 0; // 此处领取完毕,小红点也要去掉
 		FishPond_showTip(false);

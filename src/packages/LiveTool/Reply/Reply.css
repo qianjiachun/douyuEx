@@ -1,0 +1,24 @@
+.reply__panel {
+    width: 100%;
+    display: none;
+    margin-top: 4px;
+}
+#reply__title {
+    cursor: pointer;
+
+}
+#reply__select {
+    width: 190px;
+}
+
+.reply__option {
+    margin-top: 5px;
+}
+
+#reply__word {
+    width: 70px;
+}
+
+#reply__reply {
+    width: 147px;
+}

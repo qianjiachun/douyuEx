@@ -1,0 +1,28 @@
+.mute__panel {
+    width: 100%;
+    display: none;
+    margin-top: 4px;
+}
+#mute__title {
+    cursor: pointer;
+
+}
+#mute__select {
+    width: 190px;
+}
+
+.mute__option {
+    margin-top: 5px;
+}
+
+#mute__word {
+    width: 70px;
+}
+
+#mute__count {
+    width: 30px;
+}
+
+#mute__time {
+    width: 65px;
+}

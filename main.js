@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.05.03.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式
+// @version      2020.05.26.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -23,16 +23,20 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
 // ==/UserScript==
+function init() {
+	initPkg_Night_Set_Fast();
+	removeAD();
+}
 function initPkg() {
 	initPkg_ExIcon();
 	initPkg_ExPanel();
-	initPkg_RemoveAD();
 	initPkg_RealAudience();
 	initPkg_CopyRealLive();
+	initPkg_RemoveAD();
 	initPkg_BagInfo();
 	initPkg_Update();
-	initPkg_FirePower();
 	initPkg_PopupPlayer();
+	initPkg_LiveTool();
 	initPkg_ExpandTool();
 	initPkg_Night();
 	initPkg_Refresh();
@@ -53,182 +57,7 @@ function initTimer() {
 function initStyles() {
 	let style = document.createElement("style");
 	style.appendChild(document.createTextNode(`
-.bag-info {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    width: 20px;
-    font-weight: 800;
-    height: 20px;
-    text-align: center;
-}
-.bloop {
-	background-color: rgba(255,255,255,0.9);
-	width: 100%;
-	height: 200px;
-	position: relative;
-	bottom: 200px;
-	display: none;
-}
-
-.bloop__switch {
-	position: absolute;
-	right: 0;
-	bottom: 0;
-}
-
-.bloop__mode {
-	display: inline-block;
-}
-#copy-real-live {
-    cursor: pointer;
-}
-.ex-icon {
-	display: inline-block;
-	vertical-align: middle;
-	margin-right: 8px;
-}
-.extool {
-	background-color: rgba(255,255,255,0.9);
-	width: 100%;
-	height: 200px;
-	position: relative;
-	bottom: 200px;
-	display: none;
-}
-
-.extool__switch {
-	position: absolute;
-	right: 0;
-	bottom: 0;
-}
-.extool__bsize,.extool__sendgift {
-	margin-bottom: 5px;
-}
-
-.ex-panel {
-	width: 550px;
-	height: 50px;
-	position: absolute;
-	bottom: 35px;
-	right: 50px;
-	background-color: rgba(255,255,255,0.9);
-	display: none;
-	border: 2px rgb(234,173,26) solid;
-	z-index: 7777;
-}
-.ex-panel__wrap {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 100%;
-}
-.ex-panel__icon {
-	margin: 0 10px;
-	display: block;
-	position: relative;
-	padding: 5px;
-}
-.ex-panel__tip {
-	display:none;
-	background:#f00;
-	border-radius:50%;
-	width:8px;
-	height:8px;
-	top:0px;
-	right:0px;
-	position:absolute;
-}
-.videoDiv {
-    width: 400px;
-    height: 200px;
-    background-color: rgba(255, 255, 255, 0);
-    position: absolute;
-    z-index: 7777;
-}
-
-.videoPlayer {
-    width: 100%;
-    height: 100%;
-    cursor: move;
-}
-
-.videoScale {
-    width: 10px;
-    height: 10px;
-    overflow: hidden;
-    cursor: se-resize;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    background-color: rgb(231, 57, 57);
-}
-
-.videoInfo {
-    width: 100%;
-    height: 30px;
-    background-color: gray;
-    position: absolute;
-    top: -30px;
-    line-height: 30px;
-}
-
-.videoClose {
-    width: 30px;
-    float: right;
-    color: white;
-}
-
-.videoQn, .videoCDN {
-    margin-left: 5px;
-}
-
-.videoRID {
-    margin: 0px 5px;
-    font-weight: 800;
-    font-size: medium;
-}
-
-#popup-player__prompt {
-    display: none;
-}
-
-.postbird-box-container{width:100%;height:100%;overflow:hidden;position:fixed;top:0;left:0;z-index:9999;display:block;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.postbird-box-container.active{display:block}.postbird-box-content{width:400px;max-width:90%;min-height:170px;background-color:#fff;border:solid 1px #dfdfdf;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin-top:-100px}.postbird-box-header{width:100%;padding:10px 15px;position:relative;font-size:1.1em;letter-spacing:2px}.postbird-box-close-btn{cursor:pointer;font-weight:700;color:#000;float:right;opacity:.5;font-size:1.3em;margin-top:-3px;display:none}.postbird-box-close-btn:hover{opacity:1}.postbird-box-text{box-sizing: border-box;width:100%;padding:0 10%;text-align:center;line-height:40px;font-size:20px;letter-spacing:1px}.postbird-box-footer{width:100%;position:absolute;bottom:0;padding:0;margin:0;display:flex;display:-webkit-flex;justify-content:space-around;border-top:solid 1px #dfdfdf;align-items:flex-end}.postbird-box-footer .btn-footer{line-height:44px;border:0;cursor:pointer;background-color:#fff;color:#0e90d2;font-size:1.1em;letter-spacing:2px;transition:background-color .5s;-webkit-transition:background-color .5s;-o-transition:background-color .5s;-moz-transition:background-color .5s;outline:0}.postbird-box-footer .btn-footer:hover{background-color:#e5e5e5}.postbird-box-footer .btn-block-footer{width:100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer{position:relative;width:100%}.postbird-box-footer .btn-left-footer::after{content:"";position:absolute;right:0;top:0;background-color:#e5e5e5;height:100%;width:1px}.postbird-box-footer .btn-footer-cancel{color:#333}.postbird-prompt-input{width:100%;padding:5px;font-size:16px;border:1px solid #ccc;outline:0}
-.real-audience {
-    cursor: pointer;
-}
-#refresh-video {
-    float: left;
-    width: 24px;
-    height: 24px;
-    margin-right: 20px;
-    cursor: pointer;
-    background-size: contain;
-}
-
-.refresh-barrage {
-    display: inline-block;
-    vertical-align: top;
-    margin: 0 2px;
-    padding: 0 8px;
-    height: 22px;
-    line-height: 21px;
-    background-color: #fff;
-    border: 1px solid #e5e4e4;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-#refresh-barrage__svg {
-    vertical-align: middle;
-}
-/*
-    Notice.css
-*/
-.noticejs-top{top:0;width:100%!important}.noticejs-top .item{border-radius:0!important;margin:0!important}.noticejs-topRight{top:10px;right:10px}.noticejs-topLeft{top:10px;left:10px}.noticejs-topCenter{top:10px;left:50%;transform:translate(-50%)}.noticejs-middleLeft,.noticejs-middleRight{right:10px;top:50%;transform:translateY(-50%)}.noticejs-middleLeft{left:10px}.noticejs-middleCenter{top:50%;left:50%;transform:translate(-50%,-50%)}.noticejs-bottom{bottom:0;width:100%!important}.noticejs-bottom .item{border-radius:0!important;margin:0!important}.noticejs-bottomRight{bottom:10px;right:10px}.noticejs-bottomLeft{bottom:10px;left:10px}.noticejs-bottomCenter{bottom:10px;left:50%;transform:translate(-50%)}.noticejs{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}.noticejs .item{margin:0 0 10px;border-radius:3px;overflow:hidden}.noticejs .item .close{float:right;font-size:18px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;opacity:1;margin-right:7px}.noticejs .item .close:hover{opacity:.5;color:#000}.noticejs .item a{color:#fff;border-bottom:1px dashed #fff}.noticejs .item a,.noticejs .item a:hover{text-decoration:none}.noticejs .success{background-color:#64ce83}.noticejs .success .noticejs-heading{background-color:#3da95c;color:#fff;padding:10px}.noticejs .success .noticejs-body{color:#fff;padding:10px}.noticejs .success .noticejs-body:hover{visibility:visible!important}.noticejs .success .noticejs-content{visibility:visible}.noticejs .info{background-color:#3ea2ff}.noticejs .info .noticejs-heading{background-color:#067cea;color:#fff;padding:10px}.noticejs .info .noticejs-body{color:#fff;padding:10px}.noticejs .info .noticejs-body:hover{visibility:visible!important}.noticejs .info .noticejs-content{visibility:visible}.noticejs .warning{background-color:#ff7f48}.noticejs .warning .noticejs-heading{background-color:#f44e06;color:#fff;padding:10px}.noticejs .warning .noticejs-body{color:#fff;padding:10px}.noticejs .warning .noticejs-body:hover{visibility:visible!important}.noticejs .warning .noticejs-content{visibility:visible}.noticejs .error{background-color:#e74c3c}.noticejs .error .noticejs-heading{background-color:#ba2c1d;color:#fff;padding:10px}.noticejs .error .noticejs-body{color:#fff;padding:10px}.noticejs .error .noticejs-body:hover{visibility:visible!important}.noticejs .error .noticejs-content{visibility:visible}.noticejs .progressbar{width:100%}.noticejs .progressbar .bar{width:1%;height:30px;background-color:#4caf50}.noticejs .success .noticejs-progressbar{width:100%;background-color:#64ce83;margin-top:-1px}.noticejs .success .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#3da95c}.noticejs .info .noticejs-progressbar{width:100%;background-color:#3ea2ff;margin-top:-1px}.noticejs .info .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#067cea}.noticejs .warning .noticejs-progressbar{width:100%;background-color:#ff7f48;margin-top:-1px}.noticejs .warning .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#f44e06}.noticejs .error .noticejs-progressbar{width:100%;background-color:#e74c3c;margin-top:-1px}.noticejs .error .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#ba2c1d}@keyframes noticejs-fadeOut{0%{opacity:1}to{opacity:0}}.noticejs-fadeOut{animation-name:noticejs-fadeOut}@keyframes noticejs-modal-in{to{opacity:.3}}@keyframes noticejs-modal-out{to{opacity:0}}.noticejs-rtl .noticejs-heading{direction:rtl}.noticejs-rtl .close{float:left!important;margin-left:7px;margin-right:0!important}.noticejs-rtl .noticejs-content{direction:rtl}.noticejs{position:fixed;z-index:10050;width:320px}.noticejs ::-webkit-scrollbar{width:8px}.noticejs ::-webkit-scrollbar-button{width:8px;height:5px}.noticejs ::-webkit-scrollbar-track{border-radius:10px}.noticejs ::-webkit-scrollbar-thumb{background:hsla(0,0%,100%,.5);border-radius:10px}.noticejs ::-webkit-scrollbar-thumb:hover{background:#fff}.noticejs-modal{position:fixed;width:100%;height:100%;background-color:#000;z-index:10000;opacity:.3;left:0;top:0}.noticejs-modal-open{opacity:0;animation:noticejs-modal-in .3s ease-out}.noticejs-modal-close{animation:noticejs-modal-out .3s ease-out;animation-fill-mode:forwards}
-
+.bag-info {    position: absolute;    background-color: rgba(0, 0, 0, 0.6);    color: white;    width: 20px;    font-weight: 800;    height: 20px;    text-align: center;}.bloop {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.bloop__switch {	position: absolute;	right: 0;	bottom: 0;}.bloop__mode {	display: inline-block;}#copy-real-live {    cursor: pointer;}.ex-icon {	display: inline-block;	vertical-align: middle;	margin-right: 8px;}.extool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.extool__switch {	position: absolute;	right: 0;	bottom: 0;}.extool__bsize,.extool__sendgift {	margin-bottom: 5px;}.ex-panel {	width: 550px;	height: 50px;	position: absolute;	bottom: 35px;	right: 50px;	background-color: rgba(255,255,255,0.9);	display: none;	border: 2px rgb(234,173,26) solid;	z-index: 7777;}.ex-panel__wrap {	display: flex;	align-items: center;	justify-content: center;	width: 100%;	height: 100%;}.ex-panel__icon {	margin: 0 10px;	display: block;	position: relative;	padding: 5px;}.ex-panel__tip {	display:none;	background:#f00;	border-radius:50%;	width:8px;	height:8px;	top:0px;	right:0px;	position:absolute;}.gift__panel {    width: 100%;    display: none;    margin-top: 4px;}#gift__title {    cursor: pointer;}#gift__select {    width: 190px;}.gift__option {    margin-top: 5px;}#gift__giftId {    width: 40px;}#gift__reply {    width: 150px;}.livetool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.livetool__cell {	position: relative;    display: -webkit-box;    display: -webkit-flex;    display: flex;    box-sizing: border-box;    width: 100%;    padding: 10px 16px;    overflow: hidden;    color: #323233;    font-size: 14px;    line-height: 24px;	background-color: #fff;	border-bottom: 1px solid rgba(0,0,0,0.2);	flex-wrap: wrap;    -webkit-flex-wrap: wrap;}.livetool__cell_title {	flex: 1;    -webkit-box-flex: 1;}.livetool__cell_option {	flex: 1;	-webkit-box-flex: 1;	text-align: right;}.livetool__cell_switch {	float: right;}.mute__panel {    width: 100%;    display: none;    margin-top: 4px;}#mute__title {    cursor: pointer;}#mute__select {    width: 190px;}.mute__option {    margin-top: 5px;}#mute__word {    width: 70px;}#mute__count {    width: 30px;}#mute__time {    width: 65px;}.reply__panel {    width: 100%;    display: none;    margin-top: 4px;}#reply__title {    cursor: pointer;}#reply__select {    width: 190px;}.reply__option {    margin-top: 5px;}#reply__word {    width: 70px;}#reply__reply {    width: 147px;}.videoDiv {    width: 400px;    height: 200px;    background-color: rgba(255, 255, 255, 0);    position: absolute;    z-index: 7777;}.videoPlayer {    width: 100%;    height: 100%;    cursor: move;}.videoScale {    width: 10px;    height: 10px;    overflow: hidden;    cursor: se-resize;    position: absolute;    right: 0;    bottom: 0;    background-color: rgb(231, 57, 57);}.videoInfo {    width: 100%;    height: 30px;    background-color: gray;    position: absolute;    top: -30px;    line-height: 30px;}.videoClose {    width: 30px;    float: right;    color: white;}.videoQn, .videoCDN {    margin-left: 5px;}.videoRID {    margin: 0px 5px;    font-weight: 800;    font-size: medium;}#popup-player__prompt {    display: none;}.postbird-box-container{width:100%;height:100%;overflow:hidden;position:fixed;top:0;left:0;z-index:9999;display:block;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.postbird-box-container.active{display:block}.postbird-box-content{width:400px;max-width:90%;min-height:170px;background-color:#fff;border:solid 1px #dfdfdf;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin-top:-100px}.postbird-box-header{width:100%;padding:10px 15px;position:relative;font-size:1.1em;letter-spacing:2px}.postbird-box-close-btn{cursor:pointer;font-weight:700;color:#000;float:right;opacity:.5;font-size:1.3em;margin-top:-3px;display:none}.postbird-box-close-btn:hover{opacity:1}.postbird-box-text{box-sizing: border-box;width:100%;padding:0 10%;text-align:center;line-height:40px;font-size:20px;letter-spacing:1px}.postbird-box-footer{width:100%;position:absolute;bottom:0;padding:0;margin:0;display:flex;display:-webkit-flex;justify-content:space-around;border-top:solid 1px #dfdfdf;align-items:flex-end}.postbird-box-footer .btn-footer{line-height:44px;border:0;cursor:pointer;background-color:#fff;color:#0e90d2;font-size:1.1em;letter-spacing:2px;transition:background-color .5s;-webkit-transition:background-color .5s;-o-transition:background-color .5s;-moz-transition:background-color .5s;outline:0}.postbird-box-footer .btn-footer:hover{background-color:#e5e5e5}.postbird-box-footer .btn-block-footer{width:100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer{position:relative;width:100%}.postbird-box-footer .btn-left-footer::after{content:"";position:absolute;right:0;top:0;background-color:#e5e5e5;height:100%;width:1px}.postbird-box-footer .btn-footer-cancel{color:#333}.postbird-prompt-input{width:100%;padding:5px;font-size:16px;border:1px solid #ccc;outline:0}.real-audience {    cursor: pointer;}#refresh-video {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.refresh-barrage {    display: inline-block;    vertical-align: top;    margin: 0 2px;    padding: 0 8px;    height: 22px;    line-height: 21px;    background-color: #fff;    border: 1px solid #e5e4e4;    -webkit-border-radius: 4px;    -moz-border-radius: 4px;    border-radius: 4px;    cursor: pointer;}#refresh-barrage__svg {    vertical-align: middle;}/*    Notice.css*/.noticejs-top{top:0;width:100%!important}.noticejs-top .item{border-radius:0!important;margin:0!important}.noticejs-topRight{top:10px;right:10px}.noticejs-topLeft{top:10px;left:10px}.noticejs-topCenter{top:10px;left:50%;transform:translate(-50%)}.noticejs-middleLeft,.noticejs-middleRight{right:10px;top:50%;transform:translateY(-50%)}.noticejs-middleLeft{left:10px}.noticejs-middleCenter{top:50%;left:50%;transform:translate(-50%,-50%)}.noticejs-bottom{bottom:0;width:100%!important}.noticejs-bottom .item{border-radius:0!important;margin:0!important}.noticejs-bottomRight{bottom:10px;right:10px}.noticejs-bottomLeft{bottom:10px;left:10px}.noticejs-bottomCenter{bottom:10px;left:50%;transform:translate(-50%)}.noticejs{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}.noticejs .item{margin:0 0 10px;border-radius:3px;overflow:hidden}.noticejs .item .close{float:right;font-size:18px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;opacity:1;margin-right:7px}.noticejs .item .close:hover{opacity:.5;color:#000}.noticejs .item a{color:#fff;border-bottom:1px dashed #fff}.noticejs .item a,.noticejs .item a:hover{text-decoration:none}.noticejs .success{background-color:#64ce83}.noticejs .success .noticejs-heading{background-color:#3da95c;color:#fff;padding:10px}.noticejs .success .noticejs-body{color:#fff;padding:10px}.noticejs .success .noticejs-body:hover{visibility:visible!important}.noticejs .success .noticejs-content{visibility:visible}.noticejs .info{background-color:#3ea2ff}.noticejs .info .noticejs-heading{background-color:#067cea;color:#fff;padding:10px}.noticejs .info .noticejs-body{color:#fff;padding:10px}.noticejs .info .noticejs-body:hover{visibility:visible!important}.noticejs .info .noticejs-content{visibility:visible}.noticejs .warning{background-color:#ff7f48}.noticejs .warning .noticejs-heading{background-color:#f44e06;color:#fff;padding:10px}.noticejs .warning .noticejs-body{color:#fff;padding:10px}.noticejs .warning .noticejs-body:hover{visibility:visible!important}.noticejs .warning .noticejs-content{visibility:visible}.noticejs .error{background-color:#e74c3c}.noticejs .error .noticejs-heading{background-color:#ba2c1d;color:#fff;padding:10px}.noticejs .error .noticejs-body{color:#fff;padding:10px}.noticejs .error .noticejs-body:hover{visibility:visible!important}.noticejs .error .noticejs-content{visibility:visible}.noticejs .progressbar{width:100%}.noticejs .progressbar .bar{width:1%;height:30px;background-color:#4caf50}.noticejs .success .noticejs-progressbar{width:100%;background-color:#64ce83;margin-top:-1px}.noticejs .success .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#3da95c}.noticejs .info .noticejs-progressbar{width:100%;background-color:#3ea2ff;margin-top:-1px}.noticejs .info .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#067cea}.noticejs .warning .noticejs-progressbar{width:100%;background-color:#ff7f48;margin-top:-1px}.noticejs .warning .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#f44e06}.noticejs .error .noticejs-progressbar{width:100%;background-color:#e74c3c;margin-top:-1px}.noticejs .error .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#ba2c1d}@keyframes noticejs-fadeOut{0%{opacity:1}to{opacity:0}}.noticejs-fadeOut{animation-name:noticejs-fadeOut}@keyframes noticejs-modal-in{to{opacity:.3}}@keyframes noticejs-modal-out{to{opacity:0}}.noticejs-rtl .noticejs-heading{direction:rtl}.noticejs-rtl .close{float:left!important;margin-left:7px;margin-right:0!important}.noticejs-rtl .noticejs-content{direction:rtl}.noticejs{position:fixed;z-index:10050;width:320px}.noticejs ::-webkit-scrollbar{width:8px}.noticejs ::-webkit-scrollbar-button{width:8px;height:5px}.noticejs ::-webkit-scrollbar-track{border-radius:10px}.noticejs ::-webkit-scrollbar-thumb{background:hsla(0,0%,100%,.5);border-radius:10px}.noticejs ::-webkit-scrollbar-thumb:hover{background:#fff}.noticejs-modal{position:fixed;width:100%;height:100%;background-color:#000;z-index:10000;opacity:.3;left:0;top:0}.noticejs-modal-open{opacity:0;animation:noticejs-modal-in .3s ease-out}.noticejs-modal-close{animation:noticejs-modal-out .3s ease-out;animation-fill-mode:forwards}.onoffswitch {    position: relative; width: 45px;    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;}.onoffswitch-checkbox {    position: absolute;    opacity: 0;    pointer-events: none;}.onoffswitch-label {    display: block; overflow: hidden; cursor: pointer;    height: 20px; padding: 0; line-height: 20px;    border: 2px solid #E3E3E3; border-radius: 20px;    background-color: #FFFFFF;    transition: background-color 0.3s ease-in;}.onoffswitch-label:before {    content: "";    display: block; width: 20px; margin: 0px;    background: #FFFFFF;    position: absolute; top: 0; bottom: 0;    right: 23px;    border: 2px solid #E3E3E3; border-radius: 20px;    transition: all 0.3s ease-in 0s; }.onoffswitch-checkbox:checked + .onoffswitch-label {    background-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {   border-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label:before {    right: 0px; }
 `));
 	document.head.appendChild(style);
 }
@@ -238,7 +67,7 @@ function initStyles() {
 (function() {
 	if (window.location.host == "msg.douyu.com") {
 		if (getQueryString("exid") == "chun") {
-			signMotorcade_Sign(getQueryString("mid"), getQueryString("total"));
+			signMotorcade_Sign();
 		}
 	} else {
         if (String(location.href).indexOf("exid=chun") != -1) {
@@ -256,6 +85,7 @@ function initStyles() {
                 getAoligei();
             }, 5000);
         } else {
+            init();
             let intID = setInterval(() => {
                 if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined") {
                     setTimeout(() => {
@@ -276,6 +106,10 @@ var urlLen = ("$ROOM.room_id =").length;
 var ridPos = url.indexOf('$ROOM.room_id =');
 var rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
 rid = rid.trim();
+url = null;
+urlLen = null;
+ridPos = null;
+var my_uid = getCookieValue("acf_uid"); // 自己的uid
 var dyToken = getToken();
 
 function showExPanel() {
@@ -304,7 +138,7 @@ function formatSeconds(value) {
 			minuteTime = parseInt(minuteTime % 60);
 		}
 	}
-	var result = "" + parseInt(secondTime) + "秒";
+	let result = "" + parseInt(secondTime) + "秒";
 	if (minuteTime > 0) {
 		result = "" + parseInt(minuteTime) + "分" + result;
 	}
@@ -342,7 +176,6 @@ async function verifyFans(room_id, level) {
 	return ret;
 }
 
-
 function getStrMiddle(str, before, after) {
 	let m = str.match(new RegExp(before + '(.*?)' + after));
 	return m ? m[1] : false;
@@ -363,7 +196,7 @@ function getDyDid() {
 }
 
 function setCookie(cookiename, value){
-	var exp = new Date();
+	let exp = new Date();
 	exp.setTime(exp.getTime() + 3*60*60*1000);
 	document.cookie = cookiename + "="+ escape (value) + "; path=/; expires=" + exp.toGMTString();
 }
@@ -427,7 +260,7 @@ function getQueryString(name) {
 }
 
 function dateFormat(fmt, date) {
-	var o = {
+	let o = {
 		"M+": date.getMonth() + 1,
 		"d+": date.getDate(),
 		"h+": date.getHours(),
@@ -438,7 +271,7 @@ function dateFormat(fmt, date) {
 	};
 	if (/(y+)/.test(fmt))
 		fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-	for (var k in o)
+	for (let k in o)
 		if (new RegExp("(" + k + ")").test(fmt))
 			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 	return fmt;
@@ -455,7 +288,29 @@ function isRid(str) {
 		return false;
 	}
 }
+function getAvailableSheet(index) {
+    let ret = -1;
+    for (let i = index; i < document.styleSheets.length - index; i++) {
+        if (document.styleSheets[i].href == null) {
+            ret = i;
+            break;
+        } else {
+            ret = -1;
+        }
+    }
+    return ret;
+}
 
+function showMessageWindow(icon, title, content, callback){
+    if(window.Notification && Notification.permission !== "denied") {
+        Notification.requestPermission(function(status) {
+            var notice_ = new Notification(title, { body: content, icon: icon });
+            notice_.onclick = function() {
+				callback();
+            }
+        });
+    }   
+}
 function initPkg_BagInfo() {
 	initPkg_BagInfo_Func();
 }
@@ -668,6 +523,9 @@ function initPkg_BarrageLoop_Func() {
 			if (document.getElementsByClassName("extool")[0].style.display == "block") {
 				document.getElementsByClassName("extool")[0].style.display = "none";
 			}
+			if (document.getElementsByClassName("livetool")[0].style.display == "block") {
+				document.getElementsByClassName("livetool")[0].style.display = "none";
+			}
 		} else {
 			a.style.display = "none";
 		}
@@ -776,9 +634,10 @@ function CopyRealLive_insertIcon() {
     a.className = "Title-blockInline";
     a.id = "copy-real-live";
 	a.innerHTML = '<div class="TitleShare"><div class="TitleShare-shareBox "><div class="Title-row-span  is-right"><span class="Title-row-icon "><svg t="1585641756842" class="icon" viewBox="0 0 1237 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5646" width="16" height="16"><path d="M648.448 946.347l0.256-1.622-0.256 1.622z m84.31 13.354c-0.769 4.608-0.769 4.608-4.182 13.483-8.533 16.768-8.533 16.768-49.835 22.784-24.149-14.293-24.149-14.293-27.605-22.613-2.475-5.718-2.475-5.718-3.541-9.387L476.416 335.36l-103.083 499.2c-1.109 5.12-1.109 5.12-4.821 13.27-6.827 12.117-6.827 12.117-35.285 22.527-30.294-7.253-30.294-7.253-38.742-19.37-4.522-8.15-4.522-8.15-6.058-13.227l-74.582-262.357H0v-85.334h278.272l45.781 161.11 104.022-503.424c1.024-4.694 1.024-4.694 4.394-12.502 6.102-11.989 6.102-11.989 35.968-23.338 31.83 8.533 31.83 8.533 39.254 20.736 4.053 7.808 4.053 7.808 5.376 12.544l165.888 609.237 113.92-716.885c0.896-5.248 0.896-5.248 4.864-14.592 9.088-15.574 9.088-15.574 44.928-22.4C868.48 12.587 868.48 12.587 873.6 22.443c3.285 6.912 3.285 6.912 4.523 11.52l112 446.549h221.738v85.333H923.563l-78.507-312.917-112.299 706.773z" p-id="5647"></path></svg></span><span class="Title-row-text ">复制直播流</span></div></div></div>';
-	let b = document.getElementsByClassName("Title-col")[4];
-	b.insertBefore(a, b.childNodes[1]);
-	
+    let b = document.getElementsByClassName("Title-col")[4];
+    if (b.childNodes.length > 1) {
+        b.insertBefore(a, b.childNodes[1]);
+    }
 }
 
 function initPkg_CopyRealLive_Func() {
@@ -841,14 +700,17 @@ function ExIcon_showTip(a) {
 function initPkg_ExpandTool() {
 	initPkg_ExpandTool_Dom();
     initPkg_ExpandTool_Func();
+	initPkg_ExpandTool_Module();
+}
 
+function initPkg_ExpandTool_Module() {
 	// initPkg_ExpandTool_RedPacket_Motorcade();
+	initPkg_ExpandTool_Gold();
 	initPkg_ExpandTool_RedPacket_Room();
 	initPkg_ExpandTool_ClearBag();
     initPkg_ExpandTool_SendGift();
     initPkg_ExpandTool_BarrageSize();
 }
-
 
 function initPkg_ExpandTool_Dom() {
 	// Dom初始化
@@ -866,7 +728,7 @@ function ExpandTool_insertModal() {
 function ExpandTool_insertIcon() {
 	let a = document.createElement("div");
 	a.className = "extool-icon";
-	a.innerHTML = '<a class="ex-panel__icon" title="扩展功能"><svg t="1578755163250" style="display: block;" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="16761" width="32" height="32"><path d="M816.784579 684.416257L646.90465 812.225921c-21.984461 16.588275-50.963979-1.898658-50.963979-32.477045l0.299788-183.270465c0-13.890182 6.495409-26.781071 16.987993-33.576268L782.808593 452.779977c21.984461-14.2899 49.16525 4.296963 49.16525 33.676197v165.682896c0 12.990818-5.695974 25.182201-15.189264 32.277187z" fill="#d81e06" p-id="16762"></path><path d="M809.689594 324.970312l-1.698799-2.798022c-8.194208-13.290606-25.681848-17.38771-38.972455-9.293432l-254.819894 156.989041-271.508099-156.689253c-14.090041-8.194208-32.377116-3.297669-40.471395 10.892302l-0.999293 1.698799c-7.794491 13.490465-3.09781 30.878175 10.392654 38.672666l273.806475 158.088264c-2.098517 3.897245-3.297669 8.394067-3.29767 13.190677v321.772572c0 16.288487 13.290606 29.679023 29.679023 29.679023h1.998588c15.588982 0 28.280012-12.790959 28.280011-28.280012V535.821283c0-3.997175-0.799435-7.794491-2.298375-11.192089l260.715727-160.586498c13.190677-8.194208 17.38771-25.781778 9.193502-39.072384z" fill="#d81e06" p-id="16763"></path><path d="M379.993302 708.799023L203.917752 607.170854c-13.790253-7.89442-18.486933-25.681848-10.592514-39.472102l1.099223-1.898658c7.89442-13.790253 25.681848-18.486933 39.472102-10.592513l176.07555 101.62817c13.790253 7.89442 18.486933 25.681848 10.592513 39.472101l-1.099223 1.898658c-7.99435 13.790253-25.681848 18.586863-39.472101 10.592513zM116.079835 738.278187l-27.980224 20.485521c-6.595338 0-19.985874 23.583331-19.985874 16.987993V275.605203c0-6.595338 5.396186-11.991524 11.991525-11.991524h35.974573c6.595338 0 11.991524 5.396186 11.991525 11.991524l-3.797317 464.671572c0 6.495409-1.59887-1.998587-8.194208-1.998588z" fill="#d81e06" p-id="16764"></path><path d="M135.066415 280.102025l-66.053313-4.396893c-3.497528-5.596045 2.897952-27.180789 8.593926-30.578387L461.23588 8.593926c5.596045-3.497528 12.990818-1.698799 16.488346 3.897245l28.879588 28.779659c3.497528 5.596045 3.397599 8.394067-2.298376 11.891595L135.066415 280.102025c-5.596045 3.397599 3.497528 5.596045 0 0zM936.699823 754.866463h-35.974573c-6.595338 0-11.991524-5.396186-11.991524-11.991525V279.502449c0-12.69103 7.094985-10.092866 13.690324-10.092867l34.275773 10.692443c6.595338 0 11.991524 5.396186 11.991525 11.991524l3.997175 485.756669c0 6.695268-9.393361-22.983755-15.9887-22.983755z" fill="#d81e06" p-id="16765"></path><path d="M931.503496 309.581189l-7.094985-8.793785c-2.098517-2.598164-5.596045-3.597457-8.893714-2.897951-8.194208 1.798729-22.584038-11.09216-31.177964-16.388417L517.496115 65.853455c-0.399717-0.199859-0.799435-0.499647-1.099223-0.799435-11.891595-10.492584-59.857693 11.192089-57.859105 6.39548 0.299788-0.799435 0.699506-1.698799 0.899364-2.498235l9.893008-56.460094c0.499647-2.997881 2.498234-5.496115 5.396186-6.595338 16.987993-6.495409 70.050489-4.296963 79.044132 1.299082l378.432525 233.934655c0.399717 0.199859 0.699506 0.499647 1.099223 0.799435 14.189971 12.191383 18.586863 47.266592 13.390536 64.654303-2.098517 6.695268-10.792372 8.394067-15.189265 2.997881zM69.712607 769.256292l41.970336-31.477752c3.297669-5.695974 4.896539-4.496822 10.592513-1.199152l380.231254 224.041648c5.695974 3.297669 28.479871-1.898658 25.182201 3.797316l11.991525 56.260236c-3.297669 5.695974-57.359459 3.497528-62.255998-2.298376L75.008864 782.946616c-5.995762-3.497528-8.793785-7.694562-5.296257-13.690324z" fill="#d81e06" p-id="16766"></path><path d="M518.29555 1020.578658l-26.681142-17.287781c-3.497528-5.596045 0.199859-31.477752 5.795904-34.975279l394.920871-230.037411c5.596045-3.497528 12.990818-1.698799 17.287781-13.690323l43.868994 35.774714c2.698093 23.283543-12.391242 19.08651-17.987287 22.584038l-360.24538 219.045179c-4.79661 13.290606-53.462213 24.282837-56.959741 18.586863z" fill="#d81e06" p-id="16767"></path></svg><i id="extool__tip" class="ex-panel__tip"></i></a>';
+	a.innerHTML = '<a class="ex-panel__icon" title="扩展功能"><svg t="1590294700144" style="display:block;" class="icon" viewBox="0 0 1077 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11915" width="30" height="30"><path d="M152.770257 11.469971l213.048618 206.378138-37.094375 36.931681 159.440737 158.545917-76.95456 73.782015-159.440737-158.545917-38.47728 36.931681L0.244042 159.115348 152.770257 11.469971z" p-id="11916" fill="#d81e06"></path><path d="M1077.851922 217.848109h-105.751509L929.393073 260.311408l-31.644106 31.400063-33.02701 32.538926L776.866857 300.985065l-23.428026-87.204321 33.027009-32.538926 33.02701-32.538926L862.281538 105.751509V0.569431h-8.134732a244.041945 244.041945 0 0 0-178.964092 68.331745 234.768351 234.768351 0 0 0-68.738481 147.645376 250.712425 250.712425 0 0 0 10.981887 95.664443v2.765808a34.165872 34.165872 0 0 1-9.598983 36.931681c-17.896409 16.269463-525.096918 497.520178-525.096918 497.520178-42.625993 35.548777-38.47728 102.497617 0 142.113759 39.860184 38.233238 105.751509 40.673657 142.927233 0 0 0 478.322212-504.353352 498.984429-524.852875A33.677788 33.677788 0 0 1 754.821735 455.544963c5.531617 1.382904 10.981888 4.067366 16.269463 5.450271a242.170956 242.170956 0 0 0 87.936447 9.598983 237.290118 237.290118 0 0 0 148.45885-68.331745 231.677153 231.677153 0 0 0 68.738481-177.662536 14.805211 14.805211 0 0 0 1.626946-6.751827zM178.964093 943.628853a33.352399 33.352399 0 0 1-48.076263 0 32.538926 32.538926 0 0 1 0-47.832221 33.352399 33.352399 0 0 1 48.076263 0 35.467429 35.467429 0 0 1 0 47.832221z" p-id="11917" fill="#d81e06"></path><path d="M981.618049 785.082936L747.988561 567.804258S617.344773 601.97013 526.642517 753.682873c5.531617 1.382904 241.926915 239.161106 241.926914 239.161105a109.98157 109.98157 0 0 0 152.607563 0l60.441055-58.732761a102.823006 102.823006 0 0 0 0-149.028281zM854.146806 951.763584a29.366381 29.366381 0 0 1-38.477279 0l-195.233556-189.94598-1.382905-1.382904a25.543057 25.543057 0 0 1 1.382905-35.548777 29.366381 29.366381 0 0 1 38.47728 0l196.535113 189.94598A28.796949 28.796949 0 0 1 854.146806 951.763584z m86.634891-83.380997a29.366381 29.366381 0 0 1-38.47728 0L705.362568 678.436606l-1.382905-1.382904a25.543057 25.543057 0 0 1 1.382905-35.548777 29.366381 29.366381 0 0 1 38.477279 0l196.535113 189.945981a24.404194 24.404194 0 0 1 0 37.013028z" p-id="11918" fill="#d81e06"></path></svg><i id="extool__tip" class="ex-panel__tip"></i></a>';
 	
 	let b = document.getElementsByClassName("ex-panel__wrap")[0];
 	b.insertBefore(a, b.childNodes[0]);
@@ -885,25 +747,22 @@ function initPkg_ExpandTool_Func() {
 			if (document.getElementsByClassName("bloop")[0].style.display == "block") {
 				document.getElementsByClassName("bloop")[0].style.display = "none";
 			}
+			if (document.getElementsByClassName("livetool")[0].style.display == "block") {
+				document.getElementsByClassName("livetool")[0].style.display = "none";
+			}
 		} else {
 			a.style.display = "none";
 		}
 	});
 }
 
-var sheetIndex = 0;
-let roleIndex_barrageSize = 0;
 function initPkg_ExpandTool_BarrageSize() {
-    sheetIndex = getAvailableSheet(0);
-    if (sheetIndex != -1) {
-        document.styleSheets[sheetIndex].addRule(".danmuItem-31f924",""); // 这里默认初始化页面的时候新增一个rule用于使自己的css生效
-        roleIndex_barrageSize = document.styleSheets[sheetIndex].rules.length - 1;
-    }
     ExpandTool_BarrageSize_insertDom();
     ExpandTool_BarrageSize_insertFunc();
     initPkg_ExpandTool_BarrageSize_Set();
 
     setBarrageSize(getBarrageSize());
+    
 }
 
 function ExpandTool_BarrageSize_insertDom() {
@@ -916,23 +775,12 @@ function ExpandTool_BarrageSize_insertDom() {
 }
 
 function setBarrageSize(s) {
-    // let l = document.styleSheets[sheetIndex].rules.length;
-    document.styleSheets[sheetIndex].removeRule(roleIndex_barrageSize);
-    document.styleSheets[sheetIndex].addRule(".danmuItem-31f924","font-size:" + s + "px !important;");
-    roleIndex_barrageSize = document.styleSheets[sheetIndex].rules.length - 1;
+    cancelBarrageSize();
+    StyleHook_set("Ex_Style_DanmuSize", ".danmuItem-31f924{font-size:" + s + "px !important;}");
 }
 
-function getAvailableSheet(index) {
-    let ret = -1;
-    for (let i = index; i < document.styleSheets.length - index; i++) {
-        if (document.styleSheets[i].href == null) {
-            ret = i;
-            break;
-        } else {
-            ret = -1;
-        }
-    }
-    return ret;
+function cancelBarrageSize() {
+    StyleHook_remove("Ex_Style_DanmuSize");
 }
 
 function getBarrageSize() {
@@ -959,8 +807,6 @@ function initPkg_ExpandTool_BarrageSize_Set() {
 		document.getElementById("extool__bsize_value").value = retJson.size;
 	}
 }
-
-
 function initPkg_ExpandTool_ClearBag() {
     ExpandTool_ClearBag_insertDom();
     ExpandTool_ClearBag_insertFunc();
@@ -1068,6 +914,164 @@ async function clearBagGifts(bagGiftsJson, room_id) {
         showMessage("【清空背包】执行完毕！", "success");
     } else {
         showMessage("背包礼物为空", "error");
+    }
+}
+let gold_timer; // 时钟句柄
+function initPkg_ExpandTool_Gold() {
+    ExpandTool_Gold_insertDom();
+    ExpandTool_Gold_insertFunc();
+    ExpandTool_Gold_Set();
+}
+
+function ExpandTool_Gold_insertDom() {
+    let html = "";
+    html += '<label><input style="margin-top:5px" id="extool__gold_start" type="checkbox">幻神模式</label>';
+    
+    let a = document.createElement("div");
+    a.className = "extool__gold";
+    a.innerHTML = html;
+    let b = document.getElementsByClassName("extool")[0];
+    b.insertBefore(a, b.childNodes[0]);
+
+}
+function ExpandTool_Gold_insertFunc() {
+    document.getElementById("extool__gold_start").addEventListener("click", function() {
+        let ischecked = document.getElementById("extool__gold_start").checked;
+        if (ischecked == true) {
+            // 开启幻神模式
+            gold_timer = setInterval(() => {
+                goldBarrageList();
+                goldBarrage();
+                goldFansMedal();
+            }, 300);
+        } else{
+            // 停止幻神模式
+            clearInterval(gold_timer);
+        }
+        saveData_Gold();
+	});
+
+}
+
+function saveData_Gold() {
+	let isGold = document.getElementById("extool__gold_start").checked;
+	let data = {
+		isGold: isGold
+	}
+	localStorage.setItem("ExSave_Gold", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function ExpandTool_Gold_Set() {
+	// 设置初始化
+    let ret = localStorage.getItem("ExSave_Gold");
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if (retJson.isGold == true) {
+            document.getElementById("extool__gold_start").click();
+        }
+	}
+}
+
+
+function goldBarrageList() {
+    let barrageArr = document.getElementsByClassName('Barrage-listItem');
+    if (barrageArr.length < 1) {
+        return;
+    }
+    for (let i = 0; i < barrageArr.length; i++) {
+        let chatArea = barrageArr[i].lastElementChild;
+        if (chatArea != null && chatArea.innerHTML.indexOf("is-self") != -1) {
+            barrageArr[i].className = "Barrage-listItem js-noblefloating-barrage";
+            chatArea.className = "js-noblefloating-barragecont Barrage-notice--noble";
+            chatArea.setAttribute('style','background-color: #fff3df');
+            let nickNameObj = chatArea.getElementsByClassName("Barrage-nickName")[0];
+            nickNameObj.setAttribute('class','Barrage-nickName is-self js-nick');
+
+            let userLevelObj = chatArea.querySelector(".UserLevel");
+            if( userLevelObj!=null){
+                userLevelObj.className = "UserLevel UserLevel--120";
+                userLevelObj.setAttribute("title", "用户等级：120");
+            }
+            let roomLevelObj = chatArea.querySelector(".RoomLevel");
+            if( roomLevelObj!=null){
+                roomLevelObj.className = "RoomLevel RoomLevel--18";
+                roomLevelObj.setAttribute("title","房间等级：18");
+            }
+            let fansMedal = barrageArr[i].querySelector(".FansMedal");
+            if(fansMedal!=null){
+                fansMedal.className = "FansMedal level-30 js-fans-hover js-fans-dysclick Barrage-icon";
+                fansMedal.setAttribute("粉丝牌等级", "等级：30");
+            }
+            let nobleIconObj = barrageArr[i].querySelector(".Barrage-nobleImg");
+            if(nobleIconObj != null){
+                nobleIconObj.src = "//res.douyucdn.cn/resource/2019/08/15/common/4e85776071ffbae2867bb9d116e9a43c.gif";
+                nobleIconObj.title = "幻神"
+            } else {
+                let royalTag = document.createElement("span");
+                let royalImg = document.createElement("img");
+                royalTag.className = "Barrage-icon Barrage-noble";
+                royalImg.className = "Barrage-nobleImg";
+                royalImg.setAttribute("src", "//res.douyucdn.cn/resource/2019/08/15/common/4e85776071ffbae2867bb9d116e9a43c.gif");
+                royalImg.setAttribute("title", "幻神");
+                royalTag.appendChild(royalImg);
+                chatArea.insertBefore(royalTag, chatArea.firstElementChild);
+            }
+        }
+        
+    }
+}
+
+function goldFansMedal() {
+    document.getElementsByClassName("FansMedalEnter-enterContent")[0].setAttribute("data-medal-level","30");
+}
+
+function goldBarrage() {
+    let fatherNode = document.querySelector(".danmu-6e95c1");
+    for(let i = fatherNode.children.length-1;i>=0;i--){
+        if(fatherNode.children[i].className.indexOf("noble-bf13ad")==-1 && fatherNode.children[i].innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
+            //transform parent node
+            let liStyle = fatherNode.children[i].getAttribute("style");
+            let characterLength = liStyle.substring(liStyle.indexOf("translateX(-")+12,liStyle.indexOf("px); transition"));
+            let transformLength = liStyle.substring(liStyle.indexOf("transform ")+10,liStyle.indexOf("s linear"));
+            let screenOpacity = liStyle.substring(liStyle.indexOf("opacity:")+8,liStyle.indexOf("; z-index:"));
+            let characterStyle = "opacity: "+ screenOpacity +"; z-index: 30; background: rgba(0, 0, 0, 0); top: 4px; transform: translateX(-"+ characterLength +"px); transition: transform "+ transformLength +"s linear 0s;"
+            fatherNode.children[i].className = "danmuItem-31f924 noble-bf13ad";
+            fatherNode.children[i].setAttribute("style",characterStyle);
+            //noble icon without redupliction remove
+            let nobleImgTag = document.createElement("img");
+            nobleImgTag.className = "super-noble-icon-9aacaf";
+            nobleImgTag.setAttribute("src","https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h1_dcd226.png");
+            nobleImgTag.setAttribute("style","margin-left: -57px; margin-top: -4px;");
+            fatherNode.children[i].insertBefore(nobleImgTag,fatherNode.children[i].firstElementChild);
+            //user avatar img
+            let userIconTag = document.createElement("img");
+            userIconTag.className = "super-user-icon-574f31";
+            let userIconObj = document.getElementsByClassName("Avatar is-circle")[0];
+            if(userIconObj !=undefined){
+                userIconObj = userIconObj.getElementsByTagName("img")[0].getAttribute("src");
+                userIconTag.setAttribute("src", userIconObj.replace((new RegExp("_middle")),"_small"));
+            }else{
+                console.error("未能获取到用户头像");
+            }
+            fatherNode.children[i].insertBefore(userIconTag,fatherNode.children[i].firstElementChild);
+            //remove out tail tag
+            let tailTag = fatherNode.children[i].getElementsByClassName("afterpic-8a2e13")[0];
+            tailTag.remove();
+            //transform barrage effect
+            let textContent = fatherNode.children[i].getElementsByClassName("text-879f3e")[0];
+            textContent.className = "super-text-0281ca";
+            textContent.setAttribute("style","font: bold 23px SimHei, 'Microsoft JhengHei', Arial, Helvetica, sans-serif; color: rgb(255, 255, 255); background: url('https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h2_8e5e64.png'); height: 44px;");
+            //add tag tail includes fire icon or sign icon
+            let afterpicTag = document.createElement("div");
+            afterpicTag.setAttribute("class","afterpic-8a2e13");
+            afterpicTag.setAttribute("style","margin-top: 7px; margin-left: -1px;");// afterpicTag.setAttribute("style","margin-top: 7px; margin-left: -43px;");
+            textContent.appendChild(afterpicTag);
+            //tail icon
+            let superTailImg = document.createElement("img");
+            superTailImg.className = "super-tail-bffa58";
+            superTailImg.setAttribute("src","https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h3_fd2e5b.png");
+            fatherNode.children[i].appendChild(superTailImg);
+        }
     }
 }
 let redpackets_room_arr = [];
@@ -1567,6 +1571,7 @@ function getFishPond_BoxList() {
 
 
 let bubbleList = [];
+
 function initPkg_FishPond_Bubble() {
 	getFishPond_Bubble();
 }
@@ -1600,8 +1605,8 @@ function getFishPond_Bubble() {
 		return res.json();
 	}).then(ret => {
 		let result = "";
-		for (let i = 0; i < ret.data.length; i++) {
-			result = result + ret.data[i].num + "个" + ret.data[i].name + ",";
+		for (let i = 0; i < ret.data.prizeList.length; i++) {
+			result = result + ret.data.prizeList[i].num + "个" + ret.data.prizeList[i].name + ",";
 		}
 		bubbleList.length = 0; // 此处领取完毕,小红点也要去掉
 		FishPond_showTip(false);
@@ -1735,7 +1740,7 @@ function getFishPond_Task() {
 		}).then(res => {
 			return res.json();
 		}).then(ret => {
-			// console.log("【鱼塘任务】领取结果:", ret);
+			console.log("【鱼塘任务】领取结果:", ret);
 			showMessage("【鱼塘任务】领取结果:" + ret.data.msg, "success");
 		}).catch(err => {
 			console.log("请求失败!", err);
@@ -1834,16 +1839,846 @@ function getFishPond_TaskList_Ytzb() {
 // 		}
 // 	});
 // }
-var sheetIndex2 = 0; // 这里的sheetIndex2用的是弹幕大小的全局变量，所以这个模块包一定要在ExpanTool后面加载
-let svg_night  = '<svg t="1587640254282" class="icon" viewBox="0 0 1055 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5670" width="26" height="26"><path d="M388.06497 594.013091c-96.566303-167.253333-39.067152-381.889939 128.217212-478.487273a348.656485 348.656485 0 0 1 256.248242-36.864C623.491879-5.306182 435.417212-11.170909 276.542061 80.616727 37.236364 218.763636-44.776727 524.815515 93.401212 764.152242c138.146909 239.305697 444.198788 321.318788 683.535515 183.140849 158.875152-91.725576 247.870061-257.520485 249.669818-428.559515a348.656485 348.656485 0 0 1-160.085333 203.496727c-167.253333 96.566303-381.889939 39.036121-478.487273-128.217212" p-id="5671" fill="#8a8a8a"></path></svg>';
-let svg_day = '<svg t="1587640423416" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2270" width="26" height="26"><path d="M270.016 197.248l-83.84-84.544-69.76 70.464 83.776 84.544 69.76-70.4zM139.648 465.024H0v93.888h139.648V465.024zM558.528 0H465.472v136.192h93.056V0z m349.056 183.168l-69.76-70.464-83.84 84.544L819.2 263.04l88.384-79.872z m-153.6 643.584l83.84 84.48 65.28-65.728L819.2 760.96l-65.216 65.792z m130.368-267.84H1024V465.024h-139.648v93.888zM512.064 230.08C358.4 230.08 232.768 356.992 232.768 512c0 155.008 125.632 281.856 279.296 281.856 153.6 0 279.232-126.848 279.232-281.856 0-154.944-125.632-281.856-279.232-281.856zM465.472 1024h93.056v-136.256H465.472V1024z m-349.056-183.232l69.76 70.4 83.84-84.48L204.8 760.96 116.48 840.768z" p-id="2271" fill="#8a8a8a"></path></svg>';
-let num_css_night = 0; // 这个变量用于存储一共定义了多少个css
-let currentMode = 0; // 0日间模式 1夜间模式
-function initPkg_Night() {
-    sheetIndex2 = getAvailableSheet(sheetIndex + 1);
-    if (sheetIndex2 == -1) {
+let isGiftOn = false;
+let giftWordList = {};
+function initPkg_LiveTool_Gift() {
+    LiveTool_Gift_insertDom();
+    LiveTool_Gift_insertFunc();
+    initPkg_Gift_Set();
+}
+
+function LiveTool_Gift_insertDom() {
+    let a = document.createElement("div");
+    a.className = "livetool__cell";
+    let cell = `
+        <div class='livetool__cell_title'>
+            <span id='gift__title'>自动谢礼物</span>
+        </div>
+        <div class='livetool__cell_option'>
+            <div class="onoffswitch livetool__cell_switch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="gift__switch" tabindex="0" checked>
+                <label class="onoffswitch-label" for="gift__switch"></label>
+            </div>
+        </div>
+    `;
+    let panel = `
+        <div class='gift__panel'>
+            <select id='gift__select'>
+            </select>
+            <input style="width:40px;margin-left:10px;" type="button" id="gift__add" value="添加"/>
+            <input style="width:40px;margin-left:10px;" type="button" id="gift__del" value="删除"/>
+            <div class="gift__option">
+                <label><a id="reply__show_gid" style="color:blue;" href="javascript:void(0);">礼物id：</a><input id="gift__giftId" type="text"/></label>
+                <label>回复：<input id="gift__reply" type="text" placeholder="<id>会替换成用户名"/></label>
+            </div>
+        </div>
+    `;
+    a.innerHTML = cell + panel;
+    
+    let b = document.getElementsByClassName("livetool")[0];
+    b.insertBefore(a, b.childNodes[0]);
+}
+
+
+function LiveTool_Gift_insertFunc() {
+    document.getElementById("reply__show_gid").addEventListener("click", () => {
+        console.log(`
+20005|超级火箭
+20760|风暴超火
+20761|风暴火箭
+20004|火箭
+20003|飞机
+20624|魔法球
+20002|办卡
+20010|MVP
+20727|乖乖戴口罩
+20541|大气
+20000|100鱼丸
+20644|能量戒指
+20642|能量电池
+20643|能量水晶
+20008|超大丸星
+20728|勤洗手
+20417|福袋
+20542|666
+20009|天秀
+20001|弱鸡
+20006|赞
+20709|壁咚
+1859|小飞碟
+20626|幸福券
+824|粉丝荧光棒
+20624|魔法彩蛋
+20621|魔法之翼
+20599|星空飞机
+20615|幸福摩天轮
+20600|星空火箭
+20614|踏青卡丁车
+20618|魔法指环
+20616|春意丘比特
+20613|永恒钻戒
+20617|爱的旅行
+520|稳
+193|弱鸡
+192|赞
+712|棒棒哒
+519|呵呵
+20461|车队加油卡
+20596|小星星
+20759|集结号角
+20597|星球
+20611|浪漫花束
+713|辣眼睛
+20620|魔法皇冠
+20832|奥利给
+        `);
+        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "进行查看");
+        showMessage("请按F12到控制台(console)查看礼物id", "success");
+    });
+    document.getElementById("gift__switch").addEventListener("click", () => {
+        let ischecked = document.getElementById("gift__switch").checked;
+		if (ischecked == true) {
+            // 开启关键词禁言
+            isGiftOn = true;
+		} else{
+            // 关闭关键词禁言
+            isGiftOn = false;
+        }
+        saveData_isGift();
+
+    });
+    document.getElementById("gift__title").addEventListener("click", () => {
+        let a = document.getElementsByClassName("gift__panel")[0];
+		if (a.style.display != "block") {
+            a.style.display = "block";
+            if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+				document.getElementsByClassName("mute__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("reply__panel")[0].style.display == "block") {
+				document.getElementsByClassName("reply__panel")[0].style.display = "none";
+			}
+		} else {
+			a.style.display = "none";
+		}
+    });
+    
+    document.getElementById("gift__select").onclick = function() {
+        if (this.options.length == 0) {
+            return;
+        }
+        let giftId = this.options[this.selectedIndex].text;
+        let reply = giftWordList[giftId].reply;
+        document.getElementById("gift__giftId").value = giftId;
+        document.getElementById("gift__reply").value = reply;
+    };
+
+    document.getElementById("gift__add").addEventListener("click", () => {
+        let select_wordList = document.getElementById("gift__select");
+        let giftId = document.getElementById("gift__giftId").value;
+        let reply = document.getElementById("gift__reply").value;
+
+        // 构造json并添加json
+        giftWordList[giftId] = {
+            reply: reply,
+        }
+
+        // 添加到select中去
+        select_wordList.options.add(new Option(giftId, ""));
+
+        saveData_Gift();
+    });
+
+    document.getElementById("gift__del").addEventListener("click", () => {
+        let select_wordList = document.getElementById("gift__select");
+        let giftId = select_wordList.options[select_wordList.selectedIndex].text;
+
+        // 删除json内的对象
+        delete giftWordList[giftId];
+
+        // 删除select里的option
+        select_wordList.options.remove(select_wordList.selectedIndex);
+        saveData_Gift();
+    });
+
+}
+
+
+function saveData_Gift() {
+	let data = giftWordList;
+	localStorage.setItem("ExSave_Gift", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function saveData_isGift() {
+	let data = {
+        isGift: isGiftOn
+    };
+	localStorage.setItem("ExSave_isGift", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function initPkg_Gift_Set() {
+	// 设置初始化
+	let ret = localStorage.getItem("ExSave_Gift");
+	
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        giftWordList = retJson;
+        let select_wordList = document.getElementById("gift__select");
+		for (let key in retJson) {
+            if (retJson.hasOwnProperty(key)) {
+                select_wordList.options.add(new Option(key, ""));
+            }
+        }
+    }
+    
+    ret = localStorage.getItem("ExSave_isGift");
+	
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        isGiftOn = retJson.isGift;
+        document.getElementById("gift__switch").checked = isGiftOn;
+	}
+}
+
+function initPkg_LiveTool_Gift_Handle(text) {
+    if (isGiftOn == false) {
         return;
     }
+    if (getType(text) == "dgb") {
+        let uid = getStrMiddle(text, "uid@=", "/");
+        if (uid == my_uid) { // 不算自己
+            return;
+        }
+        let nn = getStrMiddle(text, "nn@=", "/");
+        let gfid = getStrMiddle(text, "gfid@=", "/");
+        for (let key in giftWordList) {
+            if (gfid == key) {
+                let reply = giftWordList[key].reply;
+                reply = String(reply).replace(/<id>/g, nn);
+                sendBarrage(reply);
+                break;
+            }
+        }
+    }
+    
+}
+
+let roomAvatar = "";
+
+function initPkg_LiveTool_LiveNotice() {
+	getRoomAvatar();
+}
+
+function initPkg_LiveTool_LiveNotice_Handle(text) {
+    if (getType(text) == "rss") {
+        let rid = getStrMiddle(text, "rid@=", "/");
+        let ss = getStrMiddle(text, "ss@=", "/");
+        if (ss == "1") {
+            showMessageWindow(roomAvatar, "开播提醒", "直播间：" + rid + "开播了，点我跳转并签到", () => {
+                signRoom(rid);
+                window.focus();
+            });
+        }
+    }
+}
+
+function getRoomAvatar() {
+    fetch('https://www.douyu.com/betard/' + rid,{
+        method: 'GET',
+        mode: 'no-cors',
+        credentials: 'include'
+    }).then(res => {
+        return res.json();
+    }).then(ret => {
+        roomAvatar = ret.room.avatar.middle;
+    }).catch(err => {
+        console.log("请求失败!", err);
+    })
+}
+function initPkg_LiveTool() {
+    initPkg_LiveTool_Dom();
+    initPkg_LiveTool_Module();
+    initPkg_LiveTool_Func();
+    initPkg_LiveTool_HandleFunc();
+}
+
+function initPkg_LiveTool_Dom() {
+    LiveTool_insertModal();
+    LiveTool_insertIcon();
+}
+
+function initPkg_LiveTool_Module() {
+	// 添加模块
+	initPkg_LiveTool_Mute();
+	initPkg_LiveTool_Gift();
+	initPkg_LiveTool_Reply();
+}
+function LiveTool_insertModal() {
+	let a = document.createElement("div");
+	a.className = "livetool";
+	
+	let b = document.getElementsByClassName("layout-Player-chat")[0];
+	b.insertBefore(a, b.childNodes[0]);
+}
+function LiveTool_insertIcon() {
+	let a = document.createElement("div");
+	a.className = "livetool-icon";
+	a.innerHTML = '<a class="ex-panel__icon" title="直播间工具"><svg t="1590294900594" style="display:block;" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20028" width="36" height="36"><path d="M352.2 245.3c-5.1 0-10.2-2-14.1-5.9L196.6 98c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l141.4 141.4c7.8 7.8 7.8 20.5 0 28.3-3.9 3.9-9 5.9-14.1 5.9zM477.1 245.3c-5.1 0-10.2-2-14.1-5.9-7.8-7.8-7.8-20.5 0-28.3L604.3 69.7c7.8-7.8 20.5-7.8 28.3 0 7.8 7.8 7.8 20.5 0 28.3L491.2 239.4c-3.9 3.9-9 5.9-14.1 5.9z" fill="#0C2B4A" p-id="20029"></path><path d="M703.9 194.8H124.2c-33 0-60 27-60 60v453c0 33 27 60 60 60h418c1.7-122.5 99.6-221.8 221.7-225.5V254.8c0-33-27-60-60-60zM533.4 522.9L356.3 625.2c-24 13.9-54-3.5-54-31.2V389.5c0-27.7 30-45 54-31.2l177.1 102.2c24 13.9 24 48.6 0 62.4zM815.2 776.4c0 21.9-17.8 39.7-39.7 39.7-21.9 0-39.7-17.8-39.7-39.7 0-21.9 17.8-39.7 39.7-39.7 21.9 0 39.7 17.8 39.7 39.7z" fill="#0C2B4A" p-id="20030"></path><path d="M775.5 591C673.6 591 591 673.6 591 775.5S673.6 960 775.5 960 960 877.4 960 775.5 877.4 591 775.5 591zM879 819l-15.6 27c-2.1 3.6-6.8 4.9-10.4 2.8l-15.5-8.9c-2.7-1.6-6.1-1.3-8.5 0.6-7.5 5.9-15.9 10.6-25.1 13.8-3 1.1-5.1 4-5.1 7.2v18.7c0 4.2-3.4 7.6-7.6 7.6H760c-4.2 0-7.6-3.4-7.6-7.6v-18.5c0-3.3-2.1-6.2-5.1-7.2-9.3-3.2-17.9-7.8-25.5-13.7-2.4-1.9-5.8-2.2-8.5-0.6l-15.2 8.8c-3.6 2.1-8.3 0.9-10.4-2.8l-15.6-27c-2.1-3.6-0.8-8.3 2.8-10.4l12.2-7.1c3-1.7 4.5-5.2 3.7-8.5-1.7-6.8-2.6-13.8-2.6-21.1 0-4.1 0.3-8.2 0.9-12.2 0.4-3.1-1-6.1-3.7-7.7l-10.5-6.1c-3.6-2.1-4.9-6.8-2.8-10.4l15.6-27c2.1-3.6 6.8-4.9 10.4-2.8l7.8 4.5c2.9 1.7 6.6 1.3 9-1.1 9.1-8.7 20-15.5 32.2-19.7 3.1-1 5.1-4 5.1-7.2v-7.9c0-4.2 3.4-7.6 7.6-7.6H791c4.2 0 7.6 3.4 7.6 7.6v8.1c0 3.2 2 6.1 5.1 7.2 12.1 4.2 22.9 10.9 31.9 19.6 2.4 2.4 6.1 2.8 9.1 1.1l8.2-4.7c3.6-2.1 8.3-0.8 10.4 2.8l15.6 27c2.1 3.6 0.9 8.3-2.8 10.4l-11 6.3c-2.7 1.6-4.1 4.6-3.7 7.7 0.6 3.9 0.8 8 0.8 12.1 0 7.2-0.9 14.1-2.5 20.8-0.8 3.3 0.7 6.7 3.6 8.3l12.8 7.4c3.7 2.1 5 6.8 2.9 10.4z" fill="#0C2B4A" p-id="20031"></path></svg><i id="LiveTool__tip" class="ex-panel__tip"></i></a>';
+	
+	let b = document.getElementsByClassName("ex-panel__wrap")[0];
+	b.insertBefore(a, b.childNodes[0]);
+	
+}
+
+function initPkg_LiveTool_Func() {
+	document.getElementsByClassName("livetool-icon")[0].addEventListener("click", function() {
+        let a = document.getElementsByClassName("livetool")[0];
+		if (a.style.display != "block") {
+			a.style.display = "block";
+			if (document.getElementsByClassName("bloop")[0].style.display == "block") {
+				document.getElementsByClassName("bloop")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("extool")[0].style.display == "block") {
+				document.getElementsByClassName("extool")[0].style.display = "none";
+			}
+		} else {
+			a.style.display = "none";
+		}
+	});
+}
+
+function initPkg_LiveTool_HandleFunc() {
+    // 开启ws，并且设置处理函数的入口
+    // 是否生效由每个处理函数决定，可以设置一个变量保存开启状态，判断是否要执行
+    let ws = new Ex_WebSocket_UnLogin(rid, (ret) => {
+        initPkg_LiveTool_LiveNotice_Handle(ret); // 开播提醒
+		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
+		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
+		initPkg_LiveTool_Gift_Handle(ret); // 自动谢礼物
+		// initPkg_LiveTool_Treasure_Handle(ret); // 领宝箱 放心这行没用。。如果你有过极验的方法，可以联系我
+    });
+}
+
+function getType(str) {
+    return getStrMiddle(str, "type@=", "/");
+}
+
+function selectOptionByValue(selectId, checkValue) {
+	// 根据value值选择option 
+    let select = document.getElementById(selectId);  
+    for(let i=0; i<select.options.length; i++){  
+        if(select.options[i].value == checkValue){  
+            select.options[i].selected = true;  
+            break;
+        }  
+    }  
+}
+let isMuteOn = false;
+let canMute;
+let muteWordList = {};
+let muteIdList = {};
+function initPkg_LiveTool_Mute() {
+    LiveTool_Mute_insertDom();
+    LiveTool_Mute_insertFunc();
+    initPkg_Mute_Set();
+}
+
+function LiveTool_Mute_insertDom() {
+    let a = document.createElement("div");
+    a.className = "livetool__cell";
+    let cell = `
+        <div class='livetool__cell_title'>
+            <span id='mute__title'>关键词禁言</span>
+        </div>
+        <div class='livetool__cell_option'>
+            <div class="onoffswitch livetool__cell_switch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="mute__switch" tabindex="0" checked>
+                <label class="onoffswitch-label" for="mute__switch"></label>
+            </div>
+        </div>
+    `;
+    let panel = `
+        <div class='mute__panel'>
+            <select id='mute__select'>
+            </select>
+            <input style="width:40px;margin-left:10px;" type="button" id="mute__add" value="添加"/>
+            <input style="width:40px;margin-left:10px;" type="button" id="mute__del" value="删除"/>
+            <div class="mute__option">
+                <label>词：<input id="mute__word" type="text" placeholder="re(式)=结果"/></label>
+                <label>次数：<input id="mute__count" type="number" value="5"/></label>
+                <label>时间：
+                    <select id='mute__time'>
+                        <option value="1">1分钟</option>
+                        <option value="10">10分钟</option>
+                        <option value="30">30分钟</option>
+                        <option value="60">1小时</option>
+                        <option value="480">8小时</option>
+                        <option value="1440">1天</option>
+                        <option value="4320">3天</option>
+                        <option value="10080">7天</option>
+                        <option value="43200">30天</option>
+                        <option value="259200">180天</option>
+                        <option value="518400">360天</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+    `;
+    a.innerHTML = cell + panel;
+    
+    let b = document.getElementsByClassName("livetool")[0];
+    b.insertBefore(a, b.childNodes[0]);
+}
+
+
+function LiveTool_Mute_insertFunc() {
+    document.getElementById("mute__switch").addEventListener("click", () => {
+        let ischecked = document.getElementById("mute__switch").checked;
+		if (ischecked == true) {
+            // 开启关键词禁言
+            isMuteOn = true;
+		} else{
+            // 关闭关键词禁言
+            isMuteOn = false;
+        }
+        saveData_isMute();
+
+    });
+    document.getElementById("mute__title").addEventListener("click", () => {
+        let a = document.getElementsByClassName("mute__panel")[0];
+		if (a.style.display != "block") {
+            a.style.display = "block";
+            if (document.getElementsByClassName("reply__panel")[0].style.display == "block") {
+				document.getElementsByClassName("reply__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
+				document.getElementsByClassName("gift__panel")[0].style.display = "none";
+			}
+		} else {
+			a.style.display = "none";
+		}
+    });
+    
+    document.getElementById("mute__select").onclick = function() {
+        if (this.options.length == 0) {
+            return;
+        }
+        let word = this.options[this.selectedIndex].text;
+        let count = muteWordList[word].count;
+        let time = muteWordList[word].time;
+        document.getElementById("mute__word").value = word;
+        document.getElementById("mute__count").value = count;
+        selectOptionByValue("mute__time", time);
+    };
+
+    document.getElementById("mute__add").addEventListener("click", () => {
+        let select_time = document.getElementById("mute__time");
+        let select_wordList = document.getElementById("mute__select");
+        let word = document.getElementById("mute__word").value;
+        let count = document.getElementById("mute__count").value;
+        let time = select_time.options[select_time.selectedIndex].value
+
+        // 构造json并添加json
+        muteWordList[word] = {
+            count: count,
+            time: time,
+        }
+
+        // 添加到select中去
+        select_wordList.options.add(new Option(word, ""));
+
+        saveData_Mute();
+    });
+
+    document.getElementById("mute__del").addEventListener("click", () => {
+        let select_wordList = document.getElementById("mute__select");
+        let word = select_wordList.options[select_wordList.selectedIndex].text;
+
+        // 删除json内的对象
+        delete muteWordList[word];
+
+        // 删除select里的option
+        select_wordList.options.remove(select_wordList.selectedIndex);
+        saveData_Mute();
+    });
+
+}
+
+function saveData_Mute() {
+	let data = muteWordList;
+	localStorage.setItem("ExSave_Mute", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function saveData_isMute() {
+	let data = {
+        isMute: isMuteOn
+    };
+	localStorage.setItem("ExSave_isMute", JSON.stringify(data)); // 存储弹幕列表
+}
+
+async function initPkg_Mute_Set() {
+    canMute = await getRoomAdminStatus();
+	// 设置初始化
+	let ret = localStorage.getItem("ExSave_Mute");
+	
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        muteWordList = retJson;
+        let select_wordList = document.getElementById("mute__select");
+		for (let key in retJson) {
+            if (retJson.hasOwnProperty(key)) {
+                select_wordList.options.add(new Option(key, ""));
+            }
+        }
+    }
+    
+    ret = localStorage.getItem("ExSave_isMute");
+	
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        isMuteOn = retJson.isMute;
+        document.getElementById("mute__switch").checked = isMuteOn;
+	}
+}
+
+async function initPkg_LiveTool_Mute_Handle(text) {
+    if (canMute != true) {
+        return;
+    }
+    if (isMuteOn == false) {
+        return;
+    }
+    if (getType(text) == "chatmsg") {
+        let uid = getStrMiddle(text, "uid@=", "/");
+        if (uid == my_uid) { // 不算自己
+            return;
+        }
+        let nn = getStrMiddle(text, "nn@=", "/");
+        let txt = getStrMiddle(text, "txt@=", "/");
+        let isConform = false;
+        for (let key in muteWordList) {
+            if (key.indexOf("re(") != -1) {
+                // 正则
+                let regStr = getStrMiddle(key, "re(", ")=");
+                let strArr = key.split("=")
+                if (strArr.length > 1) {
+                    let str = strArr[1];
+                    let regObj = new RegExp(regStr, "g");
+                    let result = regObj.exec(txt);
+                    if (result.length > 0) {
+                        if (result[0] == str) {
+                            isConform = true;
+                        } else {
+                            isConform = false;
+                        }
+                    }
+                }
+            } else {
+                if (String(txt).indexOf(key) != -1) {
+                    isConform = true;
+                } else {
+                    isConform = false
+                }
+            }
+            if (isConform == true) {
+                let maxCount = muteWordList[key].count;
+                let time = muteWordList[key].time;
+                if (muteIdList.hasOwnProperty(nn)) {
+                    let nextCount = Number(muteIdList[nn].count) + 1;
+                    if (nextCount >= maxCount) {
+                        let tmp = await addMuteUser(rid, nn, time);
+                        muteIdList[nn].count = 0;
+                    } else {
+                        muteIdList[nn].count = String(nextCount);
+                    }
+                } else {
+                    let nextCount = 1;
+                    if (nextCount >= maxCount) {
+                        let tmp = await addMuteUser(rid, nn, time);
+                    } else {
+                        muteIdList[nn] = {
+                            uid: uid,
+                            count: 1
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+    
+}
+
+function addMuteUser(roomid, name, ban_time) {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/room/roomSetting/addMuteUser", {
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'ban_nickname=' + name + '&room_id=' + roomid + '&ban_time=' + ban_time
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        })
+    })
+}
+
+function getRoomAdminStatus() {
+    return new Promise(resolve => {
+        fetch('https://www.douyu.com/japi/firepower/apinc/roomAdmin/getStatus?rid=' + rid,{
+            method: 'GET',
+            mode: 'no-cors',
+            credentials: 'include'
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            let result = false;
+            if (ret.error == "0") {
+                if (ret.data.has == "1") {
+                    result = true;
+                } else {
+                    result = false;
+                }
+            } else {
+                result = false;
+            }
+            resolve(result);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    });
+}
+let isReplyOn = false;
+let replyWordList = {};
+function initPkg_LiveTool_Reply() {
+    LiveTool_Reply_insertDom();
+    LiveTool_Reply_insertFunc();
+    initPkg_Reply_Set();
+}
+
+function LiveTool_Reply_insertDom() {
+    let a = document.createElement("div");
+    a.className = "livetool__cell";
+    let cell = `
+        <div class='livetool__cell_title'>
+            <span id='reply__title'>关键词回复</span>
+        </div>
+        <div class='livetool__cell_option'>
+            <div class="onoffswitch livetool__cell_switch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="reply__switch" tabindex="0" checked>
+                <label class="onoffswitch-label" for="reply__switch"></label>
+            </div>
+        </div>
+    `;
+    let panel = `
+        <div class='reply__panel'>
+            <select id='reply__select'>
+            </select>
+            <input style="width:40px;margin-left:10px;" type="button" id="reply__add" value="添加"/>
+            <input style="width:40px;margin-left:10px;" type="button" id="reply__del" value="删除"/>
+            <div class="reply__option">
+                <label>词：<input id="reply__word" type="text" placeholder="re(式)=结果"/></label>
+                <label>回复：<input id="reply__reply" type="text" placeholder="<id>用户名 <txt>弹幕"/></label>
+            </div>
+        </div>
+    `;
+    a.innerHTML = cell + panel;
+    
+    let b = document.getElementsByClassName("livetool")[0];
+    b.insertBefore(a, b.childNodes[0]);
+}
+
+
+function LiveTool_Reply_insertFunc() {
+    document.getElementById("reply__switch").addEventListener("click", () => {
+        let ischecked = document.getElementById("reply__switch").checked;
+		if (ischecked == true) {
+            // 开启关键词禁言
+            isReplyOn = true;
+		} else{
+            // 关闭关键词禁言
+            isReplyOn = false;
+        }
+        saveData_isReply();
+
+    });
+    document.getElementById("reply__title").addEventListener("click", () => {
+        let a = document.getElementsByClassName("reply__panel")[0];
+		if (a.style.display != "block") {
+            a.style.display = "block";
+            if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+				document.getElementsByClassName("mute__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
+				document.getElementsByClassName("gift__panel")[0].style.display = "none";
+			}
+		} else {
+			a.style.display = "none";
+		}
+    });
+    
+    document.getElementById("reply__select").onclick = function() {
+        if (this.options.length == 0) {
+            return;
+        }
+        let word = this.options[this.selectedIndex].text;
+        let reply = replyWordList[word].reply;
+        document.getElementById("reply__word").value = word;
+        document.getElementById("reply__reply").value = reply;
+    };
+
+    document.getElementById("reply__add").addEventListener("click", () => {
+        let select_wordList = document.getElementById("reply__select");
+        let word = document.getElementById("reply__word").value;
+        let reply = document.getElementById("reply__reply").value;
+
+        // 构造json并添加json
+        replyWordList[word] = {
+            reply: reply,
+        }
+
+        // 添加到select中去
+        select_wordList.options.add(new Option(word, ""));
+
+        saveData_Reply();
+    });
+
+    document.getElementById("reply__del").addEventListener("click", () => {
+        let select_wordList = document.getElementById("reply__select");
+        let word = select_wordList.options[select_wordList.selectedIndex].text;
+
+        // 删除json内的对象
+        delete replyWordList[word];
+
+        // 删除select里的option
+        select_wordList.options.remove(select_wordList.selectedIndex);
+        saveData_Reply();
+    });
+
+}
+
+
+function saveData_Reply() {
+	let data = replyWordList;
+	localStorage.setItem("ExSave_Reply", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function saveData_isReply() {
+	let data = {
+        isReply: isReplyOn
+    };
+	localStorage.setItem("ExSave_isReply", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function initPkg_Reply_Set() {
+	// 设置初始化
+	let ret = localStorage.getItem("ExSave_Reply");
+	
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        replyWordList = retJson;
+        let select_wordList = document.getElementById("reply__select");
+		for (let key in retJson) {
+            if (retJson.hasOwnProperty(key)) {
+                select_wordList.options.add(new Option(key, ""));
+            }
+        }
+    }
+    
+    ret = localStorage.getItem("ExSave_isReply");
+	
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        isReplyOn = retJson.isReply;
+        document.getElementById("reply__switch").checked = isReplyOn;
+	}
+}
+
+function initPkg_LiveTool_Reply_Handle(text) {
+    if (isReplyOn == false) {
+        return;
+    }
+    if (getType(text) == "chatmsg") {
+        let uid = getStrMiddle(text, "uid@=", "/");
+        if (uid == my_uid) { // 不算自己
+            return;
+        }
+        let nn = getStrMiddle(text, "nn@=", "/");
+        let txt = getStrMiddle(text, "txt@=", "/");
+        let isConform = false;
+        for (let key in replyWordList) {
+            if (key.indexOf("re(") != -1) {
+                // 正则
+                let regStr = getStrMiddle(key, "re(", ")=");
+                let strArr = key.split("=")
+                if (strArr.length > 1) {
+                    let str = strArr[1];
+                    let regObj = new RegExp(regStr, "g");
+                    let result = regObj.exec(txt);
+                    if (result.length > 0) {
+                        if (result[0] == str) {
+                            isConform = true;
+                        } else {
+                            isConform = false;
+                        }
+                    }
+                }
+            } else {
+                if (String(txt).indexOf(key) != -1) {
+                    isConform = true;
+                } else {
+                    isConform = false
+                }
+            }
+            if (isConform == true) {
+                let reply = replyWordList[key].reply;
+                reply = String(reply).replace(/<id>/g, nn);
+                reply = String(reply).replace(/<txt>/g, txt);
+                sendBarrage(reply);
+                break;
+            }
+        }
+    }
+    
+}
+
+
+function initPkg_LiveTool_Treasure() {
+}
+
+function initPkg_LiveTool_Treasure_Handle(text) {
+    if (getType(text) == "tsboxb") {
+        let ot = getStrMiddle(text, "ot@=", "/");
+        let rpid = getStrMiddle(text, "rpid@=", "/");
+        let rid = getStrMiddle(text, "rid@=", "/");
+        let did = getCookieValue("dy_did");
+        let timeout = Number(ot) - Math.floor(Date.now()/1000);
+        console.log("ot:",ot,"rpid:",rpid);
+        console.log("timeout:",timeout);
+        setTimeout(() => {
+            getTreasure(rid, rpid, did);
+        }, timeout*1000 + 500);
+    }
+}
+
+function getTreasure(roomid, rpid, deviceid) {
+    fetch("https://www.douyu.com/member/task/redPacketReceive", {
+        method: 'POST',
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'room_id=' + roomid + '&package_room_id=' + roomid + '&device_id=' + deviceid + '&packerid=' + rpid + '&gt_version=v4&version=1'
+    }).then(res => {
+        return res.json();
+    }).then(ret => {
+        console.log(ret);
+    })
+}
+let svg_night  = '<svg t="1587640254282" class="icon" viewBox="0 0 1055 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5670" width="26" height="26"><path d="M388.06497 594.013091c-96.566303-167.253333-39.067152-381.889939 128.217212-478.487273a348.656485 348.656485 0 0 1 256.248242-36.864C623.491879-5.306182 435.417212-11.170909 276.542061 80.616727 37.236364 218.763636-44.776727 524.815515 93.401212 764.152242c138.146909 239.305697 444.198788 321.318788 683.535515 183.140849 158.875152-91.725576 247.870061-257.520485 249.669818-428.559515a348.656485 348.656485 0 0 1-160.085333 203.496727c-167.253333 96.566303-381.889939 39.036121-478.487273-128.217212" p-id="5671" fill="#8a8a8a"></path></svg>';
+let svg_day = '<svg t="1587640423416" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2270" width="26" height="26"><path d="M270.016 197.248l-83.84-84.544-69.76 70.464 83.776 84.544 69.76-70.4zM139.648 465.024H0v93.888h139.648V465.024zM558.528 0H465.472v136.192h93.056V0z m349.056 183.168l-69.76-70.464-83.84 84.544L819.2 263.04l88.384-79.872z m-153.6 643.584l83.84 84.48 65.28-65.728L819.2 760.96l-65.216 65.792z m130.368-267.84H1024V465.024h-139.648v93.888zM512.064 230.08C358.4 230.08 232.768 356.992 232.768 512c0 155.008 125.632 281.856 279.296 281.856 153.6 0 279.232-126.848 279.232-281.856 0-154.944-125.632-281.856-279.232-281.856zM465.472 1024h93.056v-136.256H465.472V1024z m-349.056-183.232l69.76 70.4 83.84-84.48L204.8 760.96 116.48 840.768z" p-id="2271" fill="#8a8a8a"></path></svg>';
+let currentMode = 0; // 0日间模式 1夜间模式
+function initPkg_Night() {
 	initPkg_Night_Dom();
     initPkg_Night_Func();
     initPkg_Night_Set();
@@ -1867,6 +2702,18 @@ function saveData_Mode() {
 		mode: currentMode
 	}
 	localStorage.setItem("ExSave_Mode", JSON.stringify(data));
+}
+function initPkg_Night_Set_Fast() {
+    let ret = localStorage.getItem("ExSave_Mode");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("mode" in retJson == false) {
+            retJson.mode = 0;
+        }
+        if (retJson.mode == 1) {
+            setNightMode();
+        }
+    }
 }
 
 function initPkg_Night_Set() {
@@ -1906,566 +2753,72 @@ function initPkg_Night_Func() {
 }
 
 function setNightMode() {
-    setBarrageLayoutBackgroundColor("background-color:rgba(37,38,42,1) !important;");
-    setBarrageUserEnterBackgroundColor("background-color:rgba(37,38,42,1) !important;color:rgba(187,187,187,1) !important;");
-    setBarrageContentColor("color:rgba(187,187,187,1) !important;");
-    setBarrageTextColor("color:rgba(187,187,187,1) !important;");
-    setBarrageNoticeBackgroundColor("background-color:rgba(37,38,42,1) !important;border:rgba(37,38,42,1) solid 1px !important;");
-    setLayoutPlayerTitleBackgroundColor("background-color:rgba(35,36,39,1) !important;border:rgba(35,36,39,1) solid 1px !important;");
-    setTitleHeaderColor("color:rgba(191,191,191,1) !important;");
-    setTitleAnchorTextColor("color:rgba(107,176,125,1) !important;");
-    setTitleRowTextColor("color:rgba(153,153,153,1) !important;");
-    setAnchorNameColor("color:rgba(153,153,153,1) !important;");
-    setLayoutPlayerToolbarBackgroundColor("background:rgb(37,38,42) !important;border:1px solid rgb(37,38,42) !important;");
-    setWealthNumColor("color:rgb(191,191,191) !important;");
-    setLayoutMainBackgroundColor("background-color:rgba(35,36,39,1) !important;");
-    setRankWrapBackgroundColor("background:rgba(47,48,53,1) !important;border:rgba(47,48,53,1) solid 1px !important;");
-    setBgIconBackgroundDisplay("display:none;");
-    setChatRankWeekBackgroundColor("background-color:rgba(47,48,53,1) !important;");
-    setNobleRankBackgroundColor("background-color:rgba(47,48,53,1) !important;");
-    setAsideMainBorderColor("border:1px solid rgba(37,38,42,1) !important;background-color:rgb(47,48,53) !important;");
-    setChatBackgroundColor("background:rgba(47,48,53,1) !important;color:rgb(187,187,187) !important;border-radius:0px !important;");
-    setChatTabBackgroundColor("background:rgb(29,32,35) !important;border:1px solid rgb(47,48,53) !important;");
-    setChatTabActiveBackgroundColor("background:rgb(47,48,53) !important;");
-    setFansRankInfoBackgroundColor("background:rgb(37,43,51) !important;");
-    setFansRankInfoTxtColor("color:rgb(121,127,137) !important;");
-    setBarrageBorderColor("border:1px solid rgba(35,36,39,1) !important;");
-    setLayoutPlayerChatBorderColor("border-top:1px solid rgba(47,48,53,1) !important;");
-    setLayoutPlayerAnnounceBackgroundColor("background-color:rgb(29,32,35) !important;border:1px solid rgb(29,32,35) !important;");
+    let cssText = `
+    .layout-Player-barrage,.Barrage--paddedBarrage,.Barrage-firstCharge,.Barrage-notice--replyBarrage{background-color:rgba(37,38,42,1) !important;}
+    .Barrage-userEnter{background-color:rgba(37,38,42,1) !important;color:rgba(187,187,187,1) !important;}
+    /*.Barrage-content,.Barrage-text{color:rgba(187,187,187,1) !important;}*/
+    .Barrage-content,.Barrage-text{color:rgba(187,187,187,1);}
+    .Barrage-notice--noble{background-color:rgba(37,38,42,1) !important;border:rgba(37,38,42,1) solid 1px !important;}
+    .layout-Player-title{background-color:rgba(35,36,39,1) !important;border:rgba(35,36,39,1) solid 1px !important;}
+    .Title-header{color:rgba(191,191,191,1) !important;}
+    .Title-anchorText{color:rgba(107,176,125,1) !important;}
+    .Title-row-text,.Title-anchorName{color:rgba(153,153,153,1) !important;}
+    #js-player-toolbar{background:rgb(37,38,42) !important;border:1px solid rgb(37,38,42) !important;}
+    .PlayerToolbar-wealthNum,.Header-wrap .Header-menu-link>a,.public-DropMenu-link,.Header-icon{color:rgb(191,191,191) !important;}
+    .layout-Main{background-color:rgba(35,36,39,1) !important;}
+    .ChatRank-rankWraper{background:rgba(47,48,53,1) !important;border:rgba(47,48,53,1) solid 1px !important;}
+    .bg-icon{display:none;}
+    .ChatRankWeek-headerContent,.NobleRank,.NobleRankTips{background-color:rgba(47,48,53,1) !important;}
+    #js-player-asideMain{border:1px solid rgba(37,38,42,1) !important;background-color:rgb(47,48,53) !important;}
+    .Chat,.ChatSend-txt{background:rgba(47,48,53,1) !important;color:rgb(187,187,187) !important;border-radius:0px !important;}
+    .ChatTabContainer-titleWraper--tabLi{background:rgb(29,32,35) !important;border:1px solid rgb(47,48,53) !important;}
+    .ChatTabContainer-titleWraper--tabLi.is-active,.ChatBarrageCollect-tip,.FansRankInfo{background:rgb(47,48,53) !important;}
+    .FansRankInfo-txt{color:rgb(121,127,137) !important;}
+    .Barrage{border:1px solid rgba(35,36,39,1) !important;}
+    .layout-Player-chat{border-top:1px solid rgba(47,48,53,1) !important;}
+    .layout-Player-announce{background-color:rgb(29,32,35) !important;border:1px solid rgb(29,32,35) !important;}
+    .FansRankBottom,.AnchorFriend-footer{border-top:1px solid rgb(121,127,137) !important;}
+    .Title-official{background:rgb(35,36,39) !important;}
+    .Header-wrap{background:rgb(45,46,54) !important;border-bottom:1px solid rgb(45,46,54) !important;}
+    .layout-Menu{background:rgb(47,48,53) !important;border:1px solid rgb(35,36,39) !important;}
+    .GuessMainPanel{background:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;}
+    .danmuAuthor-3d7b4a{color:rgb(234,234,234) !important;}
+    .danmudiv-32f498{background:rgba(47,49,53,0.9) !important;}
+    .danmuContent-25f266{background:rgba(35,36,39,0.9) !important;}
+    .word-89c053{background:rgba(35,36,39,0.9) !important;color:rgb(187,187,187) !important;}
+    .FansMedalPanel-Panel{color:black !important;}
+    .AnchorLike-ItemBox,.AnchorFriendPane-content,.SociatyLabelPop-content{border:1px solid rgb(35,36,39) !important;}
+    .AnchorFriendCard-info>h3,.GiftExpandPanel-descName,.GiftInfoPanel-name,.FansMedalInfo-titleL,.SociatyAnchorCard-info>h3{color:rgb(204,204,204) !important;}
+    .GuessReturnYwFdSlider{background:rgb(47,48,53); !important;border-left:1px solid rgb(35,36,39) !important;}
+    .GuessGuideList-itemBox,.GuessGuideList-moreGuess{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
+    .AnchorFriend-footer a{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
+    .AnchorFriendPane-title{border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;}
+    .AnchorLike-friendList .AnchorFriendPane-title h3,.Title svg{color:rgb(153,153,153) !important;}
+    .GiftExpandPanel{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
+    .GiftInfoPanel-cont{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
+    .BatchGiveForm-num{background-color:rgb(35,36,39) !important;}
+    .BatchGiveForm-input{background-color:rgb(35,36,39) !important;color:rgb(149,149,149) !important;}
+    .BatchGiveForm-btn,.Backpack-prop.is-blank,.GuessMainPanel-sliderItem{background-color:rgb(47,48,53) !important;}
+    .Backpack{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
+    .Backpack-name,.NormalCard-btn,.NormalCard-close,.NobleCard-close,.ReportButton-41fa9e,.HideButton-d22988,.txtHidden-486e56,.BackpackInfoPanel-name,.NormalCard-name{color:rgb(187,187,187) !important;}
+    .Backpack-propPage,.BatchProp-content{background-color:rgb(35,36,39) !important;}
+    .BackpackInfoPanel-content{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
+    .BatchProp-customIpt,.BatchGiveForm-num,.GiftInfoPanel-intro{color:rgb(149,149,149) !important;}
+    .GuessReturnYwFdSlider-numIptWrap,.GuessReturnYwFdSlider-numIpt{background-color:rgb(47,48,53) !important;color:rgb(149,149,149) !important;}
+    .GuessReturnYwFdSlider-giftName{color:rgb(160,160,160) !important;}
+    .NormalCard-common,.GuessRankPanel{background-color:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;}
+    .FansMedalPanel-OwnerInfo,.FansMedalPanel-list{background-color:rgb(47,48,53) !important;color:rgb(187,187,187) !important;}
+    .FansMedalList-item:hover{background-color:rgb(37,38,42) !important;}
+    .AnchorFriend-content,.SociatyAnchor-content{background-color:rgb(35,36,39) !important;border-top:1px solid rgb(35,36,39) !important;}
+    .SociatyLabelPop-title{border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;color:rgb(153,153,153) !important;}
+    .Barrage-nickName{color:rgb(255,119,0) !important;}
+    .wm-general-wrapper{background:rgb(35,36,39) !important;}
+    `;
+    StyleHook_set("Ex_Style_NightMode", cssText);
 
-    setFansRankBottomBorderColor("border-top:1px solid rgb(121,127,137) !important;");
-
-    setChatBarrageCollectTipBackgroundColor("background:rgb(47,48,53) !important;");
-    setTitleOfficialBackgroundColor("background:rgb(35,36,39) !important;");
-    setHeaderBackgroundColor("background:rgb(45,46,54) !important;border-bottom:1px solid rgb(45,46,54) !important;");
-
-    setHeaderTxtColor("color:rgb(191,191,191) !important");
-    
-    setSuperMenuBackgroundColor("background:rgb(47,48,53) !important;border:1px solid rgb(35,36,39) !important;");
-    setGuessMainPanelBackgroundColor("background:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;");
-
-    setDanmuAuthorBackgroundColor("color:rgb(234,234,234) !important;");
-    setDanmuDivBackgroundColor("background:rgba(47,49,53,0.9) !important;");
-    setDanmuContentBackgroundColor("background:rgba(35,36,39,0.9) !important;");
-    setDanmuWordBackgroundColor("background:rgba(35,36,39,0.9) !important;color:rgb(187,187,187) !important;");
-    setFansMedalPanelBackgroundColor("color:black !important;");
-    setAnchorLikeBorderColor("border:1px solid rgb(35,36,39) !important;");
-    setAnchorFriendCardColor("color:rgb(204,204,204) !important;");
-    setFloatingBarrageBackgroundColor("background-color:rgba(37,38,42,1) !important;");
-    setGuessReturnYwFdSliderBackgroundColor("background:rgb(47,48,53); !important;border-left:1px solid rgb(35,36,39) !important;");
-
-    setBarrageFirstChargeBackgroundColor("background-color:rgba(37,38,42,1) !important;");
-    setBarrageNoticeReplyBarrageBackgroundColor("background-color:rgba(37,38,42,1) !important;");
-    setGuessGuideListItemBoxBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;");
-    setAnchorFriendFooterABackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;");
-    setAnchorFriendFooterBorderColor("border-top:1px solid rgb(121,127,137) !important;");
-    setAnchorFriendPaneTitleBorderColor("border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;");
-    setAnchorFriendPaneTitleH3Color("color:rgb(153,153,153) !important;");
-    setGiftExpandPanelBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
-    setGiftExpandPanelDescNameColor("color:rgb(204,204,204) !important;");
-    setGiftInfoPanelBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
-    setGiftInfoPanelNameColor("color:rgb(204,204,204) !important;");
-    setBatchGiveFormNumBackgroundColor("background-color:rgb(35,36,39) !important;");
-    setBatchGiveFormInputBackgroundColor("background-color:rgb(35,36,39) !important;color:rgb(149,149,149) !important;");
-    setBatchGiveFormBtnBackgroundColor("background-color:rgb(47,48,53) !important;");
-    
-    setBackpackBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
-    setBackpackNameBackgroundColor("color:rgb(187,187,187) !important;");
-    setBackpackPropPageBackgroundColor("background-color:rgb(35,36,39) !important;");
-    setBackpackPropIsBlankBackgroundColor("background-color:rgb(47,48,53) !important;");
-    setBackpackInfoPanelBackgroundColor("background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;");
-    setBackpackInfoPanelNameBackgroundColor("color:rgb(187,187,187) !important;");
-    setBatchPropContentBackgroundColor("background-color:rgb(35,36,39) !important;");
-    setBatchPropCustomIptColor("color:rgb(149,149,149) !important;");
-
-    setGuessReturnYwFdSliderNumIptBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(149,149,149) !important;");
-    setGuessReturnYwFdSliderGiftName("color:rgb(160,160,160) !important;");
-    setNormalCardCommonBackgroundColor("background-color:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;");
-    setNormalCardNameColor("color:rgb(187,187,187) !important;");
-    setGuessRankPanelBackgroundColor("background-color:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;");
-    setFansMedalPanelOwnerInfoBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(187,187,187) !important;");
-    setFansMedalPanelListBackgroundColor("background-color:rgb(47,48,53) !important;color:rgb(187,187,187) !important;");
-    setGuessMainPanelSliderItemBackgroundColor("background-color:rgb(47,48,53) !important;");
-    setFansMedalInfoTitleColor("color:rgb(204,204,204) !important;");
-    setFansMedalListItemHoverColor("background-color:rgb(37,38,42) !important;");
-    setTitleSvgColor("color:rgb(153,153,153) !important;");
-    setAnchorFriendContentBackgroundColor("background-color:rgb(35,36,39) !important;border-top:1px solid rgb(35,36,39) !important;");
-    setAnchorFriendPaneContentBorder("border:1px solid rgb(35,36,39) !important;");
-    setSociatyLabelPopContentBorder("border:1px solid rgb(35,36,39) !important;");
-    setSociatyLabelPopTitleBackgroundColor("border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;color:rgb(153,153,153) !important;");
-    setSociatyAnchorContentBackgroundColor("background-color:rgb(35,36,39) !important;border-top:1px solid rgb(35,36,39) !important;");
-    setSociatyAnchorCardInfoH3Color("color:rgb(204,204,204) !important;");
 }
 function cancelNightMode() {
-    let a = document.styleSheets[sheetIndex2];
-    let idx = a.rules.length - 1;
-    for (let i = 0; i < num_css_night; i++) {
-        a.removeRule(idx);
-        idx = idx - 1;
-    }
-    num_css_night = 0;
-}
-
-function setBarrageLayoutBackgroundColor(t) {
-    // background:rgb(37,38,42) !important;
-    // document.styleSheets[sheetIndex2].removeRule(roleIndex_barrageLayout);
-    document.styleSheets[sheetIndex2].addRule(".layout-Player-barrage", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBarrageUserEnterBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Barrage-userEnter", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBarrageContentColor(t) {
-    // color:rgb(187,187,187) !important;
-    // document.styleSheets[sheetIndex2].removeRule(roleIndex_barrageContent);
-    document.styleSheets[sheetIndex2].addRule(".Barrage-content", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBarrageTextColor(t) {
-    // color:rgb(187,187,187) !important;
-    // document.styleSheets[sheetIndex2].removeRule(roleIndex_barrageText);
-    document.styleSheets[sheetIndex2].addRule(".Barrage-text", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBarrageNoticeBackgroundColor(t) {
-    // color:rgb(187,187,187) !important;
-    // document.styleSheets[sheetIndex2].removeRule(roleIndex_barrageNotice);
-    document.styleSheets[sheetIndex2].addRule(".Barrage-notice--noble", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setLayoutPlayerTitleBackgroundColor(t) {
-    // background:rgb(37,38,42) !important;
-    document.styleSheets[sheetIndex2].addRule(".layout-Player-title", t);
-    num_css_night = num_css_night + 1;
-}
-
-
-function setTitleHeaderColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Title-header", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("Title-header")[0].style.color = t;
-}
-
-function setFollowNumColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Title-followNum", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("Title-followNum")[0].style.color = t;
-}
-
-function setTitleAnchorTextColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Title-anchorText", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("Title-anchorText")[0].style.color = t;
-}
-
-function setAnchorNameColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Title-anchorName", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("Title-anchorName")[0].style.color = t;
-}
-
-function setTitleRowTextColor(t) {
-    // background:rgb(37,38,42) !important;
-    document.styleSheets[sheetIndex2].addRule(".Title-row-text", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setLayoutPlayerToolbarBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule("#js-player-toolbar", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementById("js-player-toolbar").style.backgroundColor = t;
-}
-
-
-function setWealthNumColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".PlayerToolbar-wealthNum", t);
-    num_css_night = num_css_night + 1;
-}
-
-
-function setLayoutMainBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".layout-Main", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("layout-Main")[0].style.backgroundColor = t;
-}
-
-function setRankWrapBackgroundColor(t) {
-    // 47,48,53
-    document.styleSheets[sheetIndex2].addRule(".ChatRank-rankWraper", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBgIconBackgroundDisplay(t) {
-    document.styleSheets[sheetIndex2].addRule(".bg-icon", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setChatRankWeekBackgroundColor(t) {
-    // ChatRankWeek-headerContent is-active
-    document.styleSheets[sheetIndex2].addRule(".ChatRankWeek-headerContent", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("ChatRankWeek-headerContent")[0].style.backgroundColor = t;
-}
-
-function setNobleRankBackgroundColor(t) {
-    // document.getElementsByClassName("NobleRank")[0].style.backgroundColor = t;
-    // document.getElementsByClassName("NobleRankTips")[0].style.backgroundColor = t;
-    document.styleSheets[sheetIndex2].addRule(".NobleRank", t);
-    num_css_night = num_css_night + 1;
-    document.styleSheets[sheetIndex2].addRule(".NobleRankTips", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setAsideMainBorderColor(t) {
-    document.styleSheets[sheetIndex2].addRule("#js-player-asideMain", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementById("js-player-asideMain").style.border = t;
-}
-
-function setChatBackgroundColor(t) {
-    // document.getElementsByClassName("Chat")[0].style.background = t;
-    // document.getElementsByClassName("ChatSend-txt")[0].style.background = t;
-    document.styleSheets[sheetIndex2].addRule(".Chat", t);
-    num_css_night = num_css_night + 1;
-    document.styleSheets[sheetIndex2].addRule(".ChatSend-txt", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setChatTabBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".ChatTabContainer-titleWraper--tabLi", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setChatTabActiveBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".ChatTabContainer-titleWraper--tabLi.is-active", t);
-    num_css_night = num_css_night + 1;
-}
-
-
-function setFansRankInfoBackgroundColor(t) {
-    // #fff9f3 原
-    // 37,43,51
-    document.styleSheets[sheetIndex2].addRule(".FansRankInfo", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("FansRankInfo")[0].style.background = t;
-}
-
-function setFansRankInfoTxtColor(t) {
-    // #3c3c3c 原
-    // 121,127,137
-    document.styleSheets[sheetIndex2].addRule(".FansRankInfo-txt", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBarrageBorderColor(t) {
-    // .Barrage
-    document.styleSheets[sheetIndex2].addRule(".Barrage", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("Barrage")[0].style.border = t;
-}
-
-function setLayoutPlayerChatBorderColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".layout-Player-chat", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("layout-Player-chat")[0].style.borderTop = t;
-}
-
-function setLayoutPlayerAnnounceBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".layout-Player-announce", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("layout-Player-announce")[0].style.backgroundColor = t;
-}
-
-
-function setFansRankBottomBorderColor(t) {
-    // 1px solid #e8e8e8; 原版
-    document.styleSheets[sheetIndex2].addRule(".FansRankBottom", t);
-    num_css_night = num_css_night + 1;
-}
-
-
-function setChatBarrageCollectTipBackgroundColor(t) {
-    // #ffe9d5原版
-    document.styleSheets[sheetIndex2].addRule(".ChatBarrageCollect-tip", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("ChatBarrageCollect-tip")[0].style.background = t;
-}
-
-function setTitleOfficialBackgroundColor(t) {
-    // #fff0e2原版
-    document.styleSheets[sheetIndex2].addRule(".Title-official", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("Title-official")[0].style.background = t;
-}
-
-function setHeaderBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Header-wrap", t);
-    num_css_night = num_css_night + 1;
-    // document.getElementsByClassName("Header-wrap")[0].style.background = t;
-}
-
-
-function setHeaderTxtColor(t) {
-    // .Header-wrap .Header-menu-link>a
-    document.styleSheets[sheetIndex2].addRule(".Header-wrap .Header-menu-link>a", t);
-    document.styleSheets[sheetIndex2].addRule(".public-DropMenu-link", t);
-    document.styleSheets[sheetIndex2].addRule(".Header-icon", t);
-    num_css_night = num_css_night + 3;
-}
-
-
-function setSuperMenuBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".layout-Menu", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setGuessMainPanelBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GuessMainPanel", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setDanmuDivBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".danmudiv-32f498", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setDanmuAuthorBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".danmuAuthor-3d7b4a", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setDanmuContentBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".danmuContent-25f266", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setDanmuWordBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".word-89c053", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setFansMedalPanelBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".FansMedalPanel-Panel", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setAnchorLikeBorderColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".AnchorLike-ItemBox", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setAnchorFriendCardColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".AnchorFriendCard-info>h3", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setFloatingBarrageBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Barrage--paddedBarrage", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setGuessReturnYwFdSliderBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GuessReturnYwFdSlider", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBarrageFirstChargeBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Barrage-firstCharge", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBarrageNoticeReplyBarrageBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Barrage-notice--replyBarrage", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setGuessGuideListItemBoxBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GuessGuideList-itemBox", t);
-    document.styleSheets[sheetIndex2].addRule(".GuessGuideList-moreGuess", t);
-    num_css_night = num_css_night + 2;
-}
-
-function setAnchorFriendPaneTitleH3Color(t) {
-    document.styleSheets[sheetIndex2].addRule(".AnchorLike-friendList .AnchorFriendPane-title h3", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setAnchorFriendFooterABackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".AnchorFriend-footer a", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setAnchorFriendFooterBorderColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".AnchorFriend-footer", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setAnchorFriendPaneTitleBorderColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".AnchorFriendPane-title", t);
-    num_css_night = num_css_night + 1;
-}
-
-
-function setGiftExpandPanelBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GiftExpandPanel", t);
-    num_css_night = num_css_night + 1;
-}
-function setGiftExpandPanelDescNameColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GiftExpandPanel-descName", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setGiftInfoPanelBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GiftInfoPanel-cont", t);
-    num_css_night = num_css_night + 1;
-}
-function setGiftInfoPanelNameColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GiftInfoPanel-name", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBatchGiveFormNumBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".BatchGiveForm-num", t);
-    num_css_night = num_css_night + 1;
-}
-function setBatchGiveFormInputBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".BatchGiveForm-input", t);
-    num_css_night = num_css_night + 1;
-}
-function setBatchGiveFormBtnBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".BatchGiveForm-btn", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBackpackBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Backpack", t);
-    num_css_night = num_css_night + 1;
-}
-function setBackpackNameBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Backpack-name", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBackpackPropPageBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Backpack-propPage", t);
-    num_css_night = num_css_night + 1;
-}
-function setBackpackPropIsBlankBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Backpack-prop.is-blank", t);
-    num_css_night = num_css_night + 1;
-}
-
-
-function setBackpackInfoPanelBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".BackpackInfoPanel", t);
-    num_css_night = num_css_night + 1;
-}
-function setBackpackInfoPanelNameBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".BackpackInfoPanel-name", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBatchPropContentBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".BatchProp-content", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setBatchPropCustomIptColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".BatchProp-customIpt", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setGuessReturnYwFdSliderNumIptBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GuessReturnYwFdSlider-numIptWrap", t);
-    document.styleSheets[sheetIndex2].addRule(".GuessReturnYwFdSlider-numIpt", t);
-    num_css_night = num_css_night + 2;
-}
-
-function setGuessReturnYwFdSliderGiftName(t) {
-    document.styleSheets[sheetIndex2].addRule(".GuessReturnYwFdSlider-giftName", t);
-    num_css_night = num_css_night + 1;
-}
-
-
-function setNormalCardCommonBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".NormalCard-common", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setNormalCardNameColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".NormalCard-name", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setGuessRankPanelBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GuessRankPanel", t);
-    num_css_night = num_css_night + 1;
-}
-
-
-function setFansMedalPanelOwnerInfoBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".FansMedalPanel-OwnerInfo", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setFansMedalPanelListBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".FansMedalPanel-list", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setGuessMainPanelSliderItemBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".GuessMainPanel-sliderItem", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setFansMedalInfoTitleColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".FansMedalInfo-titleL", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setFansMedalListItemHoverColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".FansMedalList-item:hover", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setTitleSvgColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".Title svg", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setAnchorFriendContentBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".AnchorFriend-content", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setAnchorFriendPaneContentBorder(t) {
-    document.styleSheets[sheetIndex2].addRule(".AnchorFriendPane-content", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setSociatyLabelPopContentBorder(t) {
-    document.styleSheets[sheetIndex2].addRule(".SociatyLabelPop-content", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setSociatyLabelPopTitleBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".SociatyLabelPop-title", t);
-    num_css_night = num_css_night + 1;
-}
-function setSociatyAnchorContentBackgroundColor(t) {
-    document.styleSheets[sheetIndex2].addRule(".SociatyAnchor-content", t);
-    num_css_night = num_css_night + 1;
-}
-
-function setSociatyAnchorCardInfoH3Color(t) {
-    document.styleSheets[sheetIndex2].addRule(".SociatyAnchorCard-info>h3", t);
-    num_css_night = num_css_night + 1;
+    StyleHook_remove("Ex_Style_NightMode");
 }
 let videoPlayerArr = [];
 
@@ -3110,15 +3463,9 @@ function saveData_Refresh() {
 	
 	localStorage.setItem("ExSave_Refresh", JSON.stringify(data)); // 存储弹幕列表
 }
-var sheetIndex3 = 0; // 请在Night模块后加载
-let num_css_barrage = 0;
 let current_barrage_status = 0; // 0没被简化 1被简化
 
 function initPkg_Refresh_Barrage() {
-    sheetIndex3 = getAvailableSheet(sheetIndex2 + 1);
-    if (sheetIndex3 == -1) {
-        return;
-    }
 	initPkg_Refresh_Barrage_Dom();
     initPkg_Refresh_Barrage_Func();
     initPkg_Refresh_Barrage_Set();
@@ -3176,74 +3523,16 @@ function initPkg_Refresh_Barrage_Set() {
 }
  
 function setRefreshBarrage() {
-    setBarrageIcon("display:none !important;");
-    setFansMedalIsMade("display:none !important;");
-    // setUserLevel("display:none !important;");
-    setRoomLevel("display:none !important;");
-    setMotor("display:none !important;");
-    setChatAchievement("display:none !important;");
-    setBarrageHiIcon("display:none !important;");
-    setMedal("display:none !important;");
-    setMatchSystemTeamMedal("display:none !important;");
+    let cssText = `
+    .Barrage-listItem .Barrage-icon,.Barrage-listItem .FansMedal.is-made,.Barrage-listItem .RoomLevel,.Barrage-listItem .Motor,.Barrage-listItem .ChatAchievement,.Barrage-listItem .Barrage-hiIcon,.Barrage-listItem .Medal,.Barrage-listItem .MatchSystemTeamMedal{display:none !important;}
+    /*.Barrage-listItem .UserLevel{display:none !important;}*/
+    `;
+    StyleHook_set("Ex_Style_RefreshBarrage", cssText);
 }
 
 function cancelRefreshBarrage() {
-    let a = document.styleSheets[sheetIndex3];
-    let idx = a.rules.length - 1;
-    for (let i = 0; i < num_css_barrage; i++) {
-        a.removeRule(idx);
-        idx = idx - 1;
-    }
-    num_css_barrage = 0;
+    StyleHook_remove("Ex_Style_RefreshBarrage");
 }
-
-
-
-function setBarrageIcon(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Barrage-icon", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setFansMedalIsMade(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .FansMedal.is-made", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setUserLevel(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .UserLevel", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setRoomLevel(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .RoomLevel", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setMotor(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Motor", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setChatAchievement(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .ChatAchievement", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setBarrageHiIcon(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Barrage-hiIcon", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setMedal(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .Medal", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
-function setMatchSystemTeamMedal(t) {
-    document.styleSheets[sheetIndex3].addRule(".Barrage-listItem .MatchSystemTeamMedal", t);
-    num_css_barrage = num_css_barrage + 1;
-}
-
 function initPkg_Refresh_BarrageFrame() {
 	initPkg_Refresh_BarrageFrame_Dom();
     initPkg_Refresh_BarrageFrame_Func();
@@ -3384,64 +3673,23 @@ function initPkg_RemoveAD() {
     let t = setInterval(() => {
         let a = document.getElementsByClassName("PlayerToolbar-wealthNum")[0];
         if (a != undefined) {
-            removeAD();
+            removeChatLimit();
             clearInterval(t);
         }
     }, 1000);
+    
 }
 
 function removeAD() {
+    StyleHook_set("Ex_Style_RemoveAD", `
+    .FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .Barrage-topFloater{z-index:999}
+    `);
+}
+
+function removeChatLimit() {
     let a;
-    a = document.getElementsByClassName("recommendAD-54569e")[0]; // 左
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("recommendApp-0e23eb")[0]; // 右
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("Title-ad")[0]; // 分享左
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("Bottom-ad")[0]; // 鱼吧ad
-    if (a != undefined) {
-        a.style.display = "none";
-    }
-    a = document.getElementsByClassName("SignBarrage")[0];
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("corner-ad-495ade")[0];
-    if (a != undefined) {
-        a.remove();
-    }
-    a = document.getElementsByClassName("SignBaseComponent-sign-ad");
-    if (a != undefined) {
-        for (let i = 0; i < a.length; i++) {
-            // a[i].style.display = "none";
-            a[i].remove();
-        }
-    }
-    a = document.getElementsByClassName("SuperFansBubble")[0];
-    if (a != undefined) {
-        a.remove();
-    }
     
-    // a = document.getElementsByClassName("recommendView-3e8b62")[0]
-    // if (a != undefined) {
-    //     a.remove();
-    // }
-	
-    // a = document.getElementsByClassName("js-room-activity")[0];
-    // if (a != undefined) {
-    //     a.remove();
-    // }
-    
-    a = document.getElementsByClassName("is-noLogin")[0];
-    if (a != undefined) {
-        a.style.display = "none"
-    }
     a = document.getElementsByClassName("ChatSend-button")[0];
     if (a != undefined) {
         a.className = "ChatSend-button";
@@ -3450,18 +3698,7 @@ function removeAD() {
     if (a != undefined) {
         a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
     }
-    a = document.getElementsByClassName("PlayerToolbar-signCont")[0];
-    if (a != undefined) {
-        a.style.display = "none";
-    }
-    a = document.getElementById("js-widget");
-    if (a != undefined) {
-        a.style.display = "none";
-    }
-    a = document.getElementsByClassName("Barrage-topFloater")[0];
-    if (a != undefined) {
-        a.style.zIndex = "999";
-    }
+
 }
 function initPkg_Sign() {
 	initPkg_Sign_Dom();
@@ -3479,7 +3716,8 @@ function initPkg_Sign_Func() {
 		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
 		initPkg_Sign_Ad_Sign();
 		initPkg_Sign_Ad_FishPond();
-		initPkg_Sign_Aoligei();
+		// initPkg_Sign_Aoligei();
+		// initPkg_Sign_Ad_Yuba();
 	})
 }
 function initPkg_Sign_Dom() {
@@ -3510,6 +3748,7 @@ function getFishBall_Ad_666() {
         cnt = Number(retData.data.list[0].taskLimitNum) - Number(retData.data.list[0].curCompleteNum);
         if (cnt <= 0) {
             showMessage("【挑战鱼丸】今日次数已用完", "warning");
+            initPkg_Sign_Ad_Yuba();
             return;
         }
         for (let i = 0; i < cnt; i++) {
@@ -3530,6 +3769,7 @@ function getFishBall_Ad_666() {
                 })
             }
         }
+        initPkg_Sign_Ad_Yuba();
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
@@ -3550,8 +3790,8 @@ function getFishBall_Ad_666_info(posid_ad_666, token, uid) {
             onload: function(response) {
                 let ret = response.response;
                 if (ret.error == "0") {
-                    mid = ret.data[0].mid;
-                    infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
                     resolve({mid: mid, infoBack: infoBack});
                 }
             }
@@ -3641,6 +3881,7 @@ function getFishBall_Ad_FishPond() {
                 if (ret[i].task.id == "182") {
                     if (ret[i].task.status == "3") {
                         showMessage("【鱼塘鱼丸】已领取", "warning");
+                        initPkg_Sign_Ad_666();
                     } else {
                         let posid_Ad_FishPond = "1114268";
                         let token = dyToken;
@@ -3669,9 +3910,10 @@ function getFishBall_Ad_FishPond() {
                                 if (isFinish == true) {
                                     let isGet = await getFishBall_Ad_FishPond_Bubble(token);
                                 }
-                                initPkg_Sign_Ad_666();
+                                
                             })
                         }
+                        initPkg_Sign_Ad_666();
                     }
                 }
             }
@@ -3693,8 +3935,8 @@ function getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid) {
             onload: function(response) {
                 let ret = response.response;
                 if (ret.error == "0") {
-                    mid = ret.data[0].mid;
-                    infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
                     resolve({mid: mid, infoBack: infoBack});
                 }
             }
@@ -3811,62 +4053,120 @@ function getFishBall_Ad_Sign() {
     
 	
 }
-function initPkg_Sign_Aoligei() {
-	getAoligei_todo();
+function initPkg_Sign_Ad_Yuba() {
+	getFishBall_Ad_Yuba();
 }
 
-function getAoligei_todo() {
-    verifyFans("5189167", 1).then(r => {
-        if (r == true) {
-            fetch("https://www.douyu.com/japi/carnival/nc/actTask/userStatus", {
-                method: 'POST',
-                mode: 'no-cors',
-                credentials: 'include',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: 'tasks=20200415cc_T1&token=' + dyToken
-            }).then(res => {
-                return res.json();
-            }).then(ret => {
-                if (ret.error == "0") {
-                    let deliverNum = Number(ret.data['20200415cc_T1'].curDeliverNum);
-                    let completeNum = Number(ret.data['20200415cc_T1'].curCompleteNum);
-                    let limitNum = Number(ret.data['20200415cc_T1'].taskLimitNum);
-                    if (deliverNum == limitNum) {
-                        if (completeNum == limitNum) {
-                            showMessage("【和平精英周年庆】奥利给已领取", "warning");
-                            return;
+function getFishBall_Ad_Yuba() {
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
+        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1042329&clientType=1",
+        responseType: "json",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        onload: async function(response) {
+            let ret = response.response;
+            if (ret.error == "0") {
+                let chance = ret.data.chanceNum;
+                if (chance > 0) {
+                    for (let i = 0; i < chance; i++) {
+                        let posid_Ad_Yuba = "1042329";
+                        let token = dyToken;
+                        let uid = getUID();
+                        let info = await getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid);
+                        let mid = info.mid;
+                        let infoBack = info.infoBack;
+                        let isStart = await getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack);
+                        if (isStart == true) {
+                            showMessage("【鱼吧鱼丸】开始领取鱼吧鱼丸，需等待15秒", "info");
+                            await sleep(15555).then(async () => {
+                                let isFinish = await getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack);
+                                if (isFinish == true) {
+                                    showMessage("【鱼吧鱼丸】成功领取40鱼丸", "success");
+                                    await sleep(1000);
+                                }
+                            })
                         }
                     }
-                    showMessage("【和平精英周年庆】即将打开领取界面，领取后自动关闭", "info");
-                    openPage("https://www.douyu.com/topic/tzbjnh?flag=aoligei", true);
+                } else {
+                    showMessage("【鱼吧鱼丸】今日次数已用完", "warning");
+                    return;
                 }
-            }).catch(err => {
-                console.log("请求失败!", err);
-            })
+            }
         }
+    });
+}
+
+
+
+function getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
+            data: "posid=" + posid_Ad_Yuba + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    resolve({mid: mid, infoBack: infoBack});
+                }
+            }
+        });
     })
 }
-function getAoligei() {
-    fetch("https://www.douyu.com/japi/carnival/nc/actTask/takePrize", {
-        method: 'POST',
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: 'token=' + dyToken + '&aid=android&taskAlias=20200415cc_T1'
-    }).then(res => {
-        return res.json();
-    }).then(ret => {
-        if (ret.error == "0") {
-            showMessage("【和平精英周年庆】成功领取" + ret.data.sendRes.bagName, "success");
-        } else {
-            showMessage(ret.msg, "error");
-        }
-        closePage();
-    }).catch(err => {
-        console.log("请求失败!", err);
-        closePage();
+
+function getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Yuba + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
     })
 }
+
+function getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Yuba + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data == "1") {
+                        resolve(true);
+                    }
+                }
+            }
+        });
+
+    })
+}
+
 function initPkg_Sign_Client() {
 	signClient();
 }
@@ -3906,39 +4206,7 @@ function initPkg_Sign_Motorcade() {
 }
 
 function signMotorcade() {
-	GM_xmlhttpRequest({
-		method: "GET",
-		url: "https://msgm.douyu.com/mapi/v1.0/motorcade_battle/home",
-		responseType: "json",
-		headers: {
-		  "dy-client": "android",
-		  "dy-token": dyToken,
-		},
-		onload: function(response) {
-			if (Object.keys(response.response).length != 0) {
-				if (Object.keys(response.response.data.joined_motorcade).length != 0) {
-					let mid = encodeURIComponent(response.response.data.joined_motorcade.id);
-					GM_xmlhttpRequest({
-						method: "GET",
-						url: "https://msg.douyu.com/v3/motorcade/signs/weekly?mid=" + mid,
-						responseType: "json",
-						headers: {
-							"dy-client": "android",
-							"dy-token": dyToken,
-						},
-						onload: function(response) {
-							if (response.response.data.is_sign == "1") {
-								showMessage("【车队签到】车队已签到", "warning");
-							} else {
-								showMessage("【车队签到】即将打开车队签到页面", "info");
-								openPage("https://msg.douyu.com/motorcade/#/motorcade/" + mid + "/task?total=" + String(Number(response.response.data.total) + 1) + "&mid=" + mid + "&exid=chun", false);
-							}
-						}
-					});
-				} 
-			}
-		}
-	});
+	openPage("https://msg.douyu.com/motorcade/#/motorcade/list/recommend?exid=chun", false);
 }
 
 function getCookie(cookieName) {
@@ -3957,9 +4225,14 @@ function getCookie(cookieName) {
 	}
 	return csrfToken;
 }
-function signMotorcade_Sign(m, t) {
-	fetch('https://msg.douyu.com/v3/msign/add?timestamp=' + Math.random().toFixed(17), {
-		method: 'POST',
+async function signMotorcade_Sign() {
+	let retConnect = await motorcadeConnect();
+	let retConnect2 = await motorcadeConnect2(retConnect.data.uid, retConnect.data.sig);
+	let mid = await getMotorcadeID(retConnect2.TinyId, retConnect2.A2Key, retConnect.data.uid);
+	console.log("mid是：", mid);
+	mid = encodeURIComponent(mid);
+	fetch('https://msg.douyu.com/v3/motorcade/signs/weekly?mid=' + mid + '&timestamp=' + Math.random().toFixed(17), {
+		method: 'GET',
 		mode: 'cors',
 		credentials: 'include',
 		headers: {
@@ -3968,20 +4241,97 @@ function signMotorcade_Sign(m, t) {
 			"dy-csrf-token":getCookie("post-csrfToken"),
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
-		body: "to_mid="+ m +"&expression=" + t
 	}).then(res => {
 		return res;
 	}).then(ret => {
-		if (Math.floor(ret.status_code / 100) == 2){
-			console.log("【车队】签到成功")
+		console.log("weekly:", ret);
+		if (ret.data.is_sign == "1") {
+			closePage();
 		} else {
-			console.log(ret.message);
+			fetch('https://msg.douyu.com/v3/msign/add?timestamp=' + Math.random().toFixed(17), {
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+				headers: {
+					'dy-device-id':'-',
+					"dy-client": "web",
+					"dy-csrf-token":getCookie("post-csrfToken"),
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: "to_mid="+ mid +"&expression=" + String(Number(ret.data.total) + 1)
+			}).then(res => {
+				return res;
+			}).then(ret => {
+				if (Math.floor(ret.status_code / 100) == 2){
+					console.log("【车队】签到成功")
+				} else {
+					console.log(ret.message);
+				}
+				closePage();
+			}).catch(err => {
+				console.log("请求失败!", err)
+				closePage();
+			})
 		}
-		closePage();
 	}).catch(err => {
 		console.log("请求失败!", err)
-		closePage();
 	})
+}
+
+function motorcadeConnect() {
+    return new Promise(resolve => {
+        fetch('https://msg.douyu.com/v3/login/getusersig?t=' + String(new Date().getTime()) + '&timestamp=' + Math.random().toFixed(17), {
+			method: 'GET',
+			mode: 'cors',
+			credentials: 'include',
+			headers: {
+				'dy-device-id':'-',
+				"dy-client": "web",
+				"dy-csrf-token":getCookie("post-csrfToken"),
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+		}).then(res => {
+			return res;
+		}).then(ret => {
+			resolve(ret);
+		}).catch(err => {
+			console.log("请求失败!", err)
+		})
+    })
+}
+
+function motorcadeConnect2(identifier, sig) {
+    let url = "https://webim.tim.qq.com/v4/openim/login?identifier=" + identifier + "&usersig=" + sig +"&contenttype=json&sdkappid=1400029396";
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: url,
+            data: '{"State":"Online"}',
+            responseType: "json",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            onload: function(response) {
+                resolve(response.response);
+            }
+        });
+    })
+}
+function getMotorcadeID(tinyid, a2, identifier) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://webim.tim.qq.com/v4/group_open_http_svc/get_joined_group_list?tinyid=" + tinyid + "&a2=" + a2 + "&contenttype=json&sdkappid=1400029396",
+            data: '{"Member_Account":"' + identifier + '"}',
+            responseType: "json",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            onload: function(response) {
+                resolve(response.response.GroupIdList[0].GroupId);
+            }
+        });
+    })
 }
 function initPkg_Sign_Room() {
 	signAllRoom();
@@ -4041,6 +4391,9 @@ function signRoom(r) {
         }
 	});
 }
+let signedYuba = 0;
+let totalYuba = 0;
+let doneYuba = 0;
 function initPkg_Sign_Yuba() {
     signYubaList();
 }
@@ -4057,13 +4410,14 @@ function signYubaFast() {
         },
         onload: function (response) {
             if (response.response.message == "" && response.response.data != 0) {
-                showMessage("【鱼吧】一键签到成功! 获得经验" + response.response.data, "success");
-                // console.log("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp);
+                // showMessage("【鱼吧】一键签到成功! 获得经验" + response.response.data, "success");
+                // console.log("【极速鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp);
             } else if (response.response.data == 0) {
-                showMessage("【鱼吧】没有7级以上的鱼吧或极速签到已完成", "warning");
-                // console.log("【鱼吧】" + group_id + response.response.message);
+                // showMessage("【鱼吧】没有7级以上的鱼吧或极速签到已完成", "warning");
+                // console.log("【极速鱼吧】" + group_id + response.response.message);
             } else {
-                showMessage("【鱼吧】" + response.response.message, "warning");
+                // showMessage("【鱼吧】" + response.response.message, "warning");
+                // console.log("【极速鱼吧】" + response.response.message);
             }
 
         }
@@ -4083,41 +4437,77 @@ function signYuba(group_id, t) {
             'Referer': 'https://yuba.douyu.com/group/' + group_id
         },
         onload: function (response) {
+            doneYuba++;
             if (response.response.message == "") {
-                showMessage("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp, "success");
+                signedYuba++;
+                // showMessage("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp, "success");
                 // console.log("【鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp);
             } else {
-                showMessage("【鱼吧】" + group_id + response.response.message, "warning");
+                // showMessage("【鱼吧】" + group_id + response.response.message, "warning");
                 // console.log("【鱼吧】" + group_id + response.response.message);
+            }
+            if (doneYuba == totalYuba) {
+                // 完成全部签到
+                if (signedYuba > 0) {
+                    if (totalYuba - signedYuba == 0) {
+                        showMessage("【鱼吧】" + String(signedYuba) + "个鱼吧签到完成", "success")
+                    } else {
+                        showMessage("【鱼吧】" + String(signedYuba) + "个鱼吧签到完成，" + String(totalYuba - signedYuba) + "个鱼吧已签到", "success");
+                    }
+                    
+                } else {
+                    showMessage("【鱼吧】"+ String(totalYuba) + "个鱼吧已签到", "warning");
+                }
+                signedYuba = null;
+                totalYuba = null;
+                doneYuba = null;
             }
 
         }
     });
 }
 
-function signYubaList() {
-    GM_xmlhttpRequest({
-		method: "GET",
-		url: "https://yuba.douyu.com/wbapi/web/group/myFollow?page=1&limit=999",
-		responseType: "json",
-		headers: {
-		  "Content-Type": "application/x-www-form-urlencoded",
-		  "dy-client": "pc",
-		  "dy-token": dyToken
-		},
-		onload: function(response) {
-            signYubaFast();
-			for (let i = 0; i < response.response.data.list.length; i++) {
-				signYuba(response.response.data.list[i].group_id, dyToken);
-			}
-		 
-		}
-	});
+async function signYubaList() {
+    let yubaList = [];
+    let ret = await getYubaPage(1);
+    yubaList = yubaList.concat(ret.list);
+    let pageNum = Number(ret.count_page) - 1;
+    if (pageNum >= 1) {
+        for (let i = 0; i < pageNum; i++) {
+            let curPage = 2 + i;
+            ret = await getYubaPage(curPage);
+            yubaList = yubaList.concat(ret.list);
+        }
+    }
+    totalYuba = yubaList.length;
+    signYubaFast();
+    for (let i = 0; i < yubaList.length; i++) {
+        signYuba(yubaList[i].group_id, dyToken);
+    }
+
+}
+
+function getYubaPage(page) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: "https://yuba.douyu.com/wbapi/web/group/myFollow?page=" + String(page) + "&limit=30",
+            responseType: "json",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "dy-client": "pc",
+              "dy-token": dyToken
+            },
+            onload: function(response) {
+                resolve(response.response.data)
+            }
+        });
+    })
 }
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.05.03.01"
+var curVersion = "2020.05.26.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -4377,7 +4767,7 @@ function RealLive_get_sign(r, post_v, tt, ub9) {
 }
 
 function eval1(str, iid) {
-    var sc = document.createElement("script");
+    let sc = document.createElement("script");
     sc.id = iid
     sc.setAttribute("type","text\/javascript");
     sc.appendChild(document.createTextNode(str));
@@ -4484,47 +4874,31 @@ function getRealLive_Huya(url, qn, cdn, reallive_callback) {
 }
 
 /*
-   DouyuEx WebSocket
-    By: 小淳
+    Style Hook
+    用于替换页面的原样式
+    By 小淳
 */
-function Ex_WebSocket() {
-    // 自定义数据类型
-    // 调用方法：
-    // 连接：let a = new Ex_WebSocket(); a.WebSocket_Connect("房间号");
-    // 关闭连接: a.WebSocket_Close(); a = null; 记得null掉变量再重新连接
-    if ("WebSocket" in window) {
-        this.timer = 0;
-        this.ws = new WebSocket("wss://danmuproxy.douyu.com:8502");
-        this.ws.onopen = function() {
-            console.log("WebSocket已连接");
-        };
-        this.ws.onmessage = function (e) { 
-            let reader = new FileReader();
-            reader.onload = function() {
-                let content = reader.result;
-                console.log(content);
-            };
-            reader.readAsText(e.data);
-        };
-        this.ws.onclose = function() { 
-            console.log("WebSocket已关闭");
-        };
-        if (typeof this.WebSocket_Connect != "function") {
-            Ex_WebSocket.prototype.WebSocket_Connect = function(rid) {
-                this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + rid));
-                this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + rid + "/gid@=-9999/"));
-                this.timer = setInterval(() => {
-                    this.ws.send(WebSocket_Packet("type@=mrkl/"));
-                }, 40000)
-            };
-            Ex_WebSocket.prototype.WebSocket_Close = function() {
-                clearInterval(this.timer);
-                this.ws.close();
-            };
-        }
+function StyleHook_set(styleName, styleText) {
+    // styleName：样式id名，建议以Ex_Style_大驼峰的形式命名
+    if (document.getElementById(styleName) == null) {
+        let styleElement = document.createElement("style");
+        styleElement.id = styleName;
+        styleElement.innerHTML = styleText;
+        document.body.append(styleElement);
     }
 }
 
+function StyleHook_remove(styleName) {
+    let e = document.getElementById(styleName);
+    if (e !== null) {
+        document.getElementById(styleName).remove();
+    }
+}
+/*
+   DouyuEx WebSocket
+    By: 小淳
+    此处为一些公共函数
+*/
 
 function WebSocket_Packet(str) {
     const MSG_TYPE = 689;
@@ -4546,11 +4920,11 @@ function WebSocket_Packet(str) {
 }
 
 function stringToByte(str) {  
-    var bytes = new Array();  
-    var len, c;  
+    let bytes = new Array();  
+    let len, c;  
     len = str.length;  
-    for(var i = 0; i < len; i++) {  
-        c = str.charCodeAt(i);  
+    for(let i = 0; i < len; i++) {  
+        c = String(str).charCodeAt(i);  
         if(c >= 0x010000 && c <= 0x10FFFF) {  
             bytes.push(((c >> 18) & 0x07) | 0xF0);  
             bytes.push(((c >> 12) & 0x3F) | 0x80);  
@@ -4574,15 +4948,15 @@ function byteToString(arr) {
     if(typeof arr === 'string') {
         return arr;
     }
-    var str = '',
+    let str = '',
         _arr = arr;
-    for(var i = 0; i < _arr.length; i++) {
-        var one = _arr[i].toString(2),
+    for(let i = 0; i < _arr.length; i++) {
+        let one = _arr[i].toString(2),
             v = one.match(/^1+?(?=0)/);
         if(v && one.length == 8) {
-            var bytesLength = v[0].length;
-            var store = _arr[i].toString(2).slice(7 - bytesLength);
-            for(var st = 1; st < bytesLength; st++) {
+            let bytesLength = v[0].length;
+            let store = _arr[i].toString(2).slice(7 - bytesLength);
+            for(let st = 1; st < bytesLength; st++) {
                 store += _arr[st + i].toString(2).slice(2);
             }
             str += String.fromCharCode(parseInt(store, 2));
@@ -4593,5 +4967,76 @@ function byteToString(arr) {
     }
 return str;
 }
+
+
+function hex2bin(e) {
+    if ("string" === typeof e && e.length % 8 === 0) {
+        for (let r = [], t = e.length, o = 0; o < t;) r.push(e.substr(o, 2)), o += 2;
+        for (let n = [], i = r.length, s = 0; s < i;) n.push(parseInt(r.slice(s, s + 4).reverse().join(""), 16)), s += 4;
+        return n
+    }
+    return null
+}
+
+function hex(e) {
+    if (Array.isArray(e)) {
+        let r = "0123456789abcdef".split("");
+        return e.map(function (e) {
+            for (let t = "", o = 0; o < 4; o++) t += r[e >> 8 * o + 4 & 15] + r[e >> 8 * o & 15];
+            return t
+        }).join("")
+    }
+    return ""
+}
+
+/*
+   DouyuEx WebSocket UnLogin
+    By: 小淳
+*/
+function Ex_WebSocket_UnLogin(rid, callback) {
+    // 自定义数据类型
+    // 调用方法：
+    // 连接：let a = new Ex_WebSocket_UnLogin("房间号", 消息回调函数);
+    // 关闭连接: a.WebSocket_Close(); a = null; 记得null掉变量再重新连接
+    // 消息回调函数建议用箭头函数，示例：(msg) => {// TODO}
+    if ("WebSocket" in window) {
+        this.timer = 0;
+        this.roomid = rid;
+        this.ws = new WebSocket("wss://danmuproxy.douyu.com:850" + String(getRandom(2,5))); // 负载均衡 8502~8504都可以用
+        this.ws.onopen = () => {
+            this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + rid));
+            this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + rid + "/gid@=-9999/"));
+            this.timer = setInterval(() => {
+                this.ws.send(WebSocket_Packet("type@=mrkl/"));
+            }, 40000)
+            // console.log("WebSocket已连接");
+        };
+        this.ws.onmessage = (e) => { 
+            let reader = new FileReader();
+            reader.onload = () => {
+                let arr = String(reader.result).split("type@="); // 分包
+                reader = null;
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i].length > 12) {
+                        // 过滤第一条和心跳包
+                        callback("type@=" + arr[i]);
+                    }
+                }
+            };
+            reader.readAsText(e.data);
+        };
+        // this.ws.onclose = () => { 
+        //     console.log("WebSocket已关闭");
+        // };
+        if (typeof this.close != "function") {
+            
+            Ex_WebSocket_UnLogin.prototype.close = () => {
+                clearInterval(this.timer);
+                this.ws.close();
+            };
+        }
+    }
+}
+
 
 

@@ -5,6 +5,10 @@ var urlLen = ("$ROOM.room_id =").length;
 var ridPos = url.indexOf('$ROOM.room_id =');
 var rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
 rid = rid.trim();
+url = null;
+urlLen = null;
+ridPos = null;
+var my_uid = getCookieValue("acf_uid"); // 自己的uid
 var dyToken = getToken();
 
 function showExPanel() {
@@ -33,7 +37,7 @@ function formatSeconds(value) {
 			minuteTime = parseInt(minuteTime % 60);
 		}
 	}
-	var result = "" + parseInt(secondTime) + "秒";
+	let result = "" + parseInt(secondTime) + "秒";
 	if (minuteTime > 0) {
 		result = "" + parseInt(minuteTime) + "分" + result;
 	}
@@ -71,7 +75,6 @@ async function verifyFans(room_id, level) {
 	return ret;
 }
 
-
 function getStrMiddle(str, before, after) {
 	let m = str.match(new RegExp(before + '(.*?)' + after));
 	return m ? m[1] : false;
@@ -92,7 +95,7 @@ function getDyDid() {
 }
 
 function setCookie(cookiename, value){
-	var exp = new Date();
+	let exp = new Date();
 	exp.setTime(exp.getTime() + 3*60*60*1000);
 	document.cookie = cookiename + "="+ escape (value) + "; path=/; expires=" + exp.toGMTString();
 }
@@ -156,7 +159,7 @@ function getQueryString(name) {
 }
 
 function dateFormat(fmt, date) {
-	var o = {
+	let o = {
 		"M+": date.getMonth() + 1,
 		"d+": date.getDate(),
 		"h+": date.getHours(),
@@ -167,7 +170,7 @@ function dateFormat(fmt, date) {
 	};
 	if (/(y+)/.test(fmt))
 		fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-	for (var k in o)
+	for (let k in o)
 		if (new RegExp("(" + k + ")").test(fmt))
 			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 	return fmt;
@@ -183,4 +186,27 @@ function isRid(str) {
 	} else {
 		return false;
 	}
+}
+function getAvailableSheet(index) {
+    let ret = -1;
+    for (let i = index; i < document.styleSheets.length - index; i++) {
+        if (document.styleSheets[i].href == null) {
+            ret = i;
+            break;
+        } else {
+            ret = -1;
+        }
+    }
+    return ret;
+}
+
+function showMessageWindow(icon, title, content, callback){
+    if(window.Notification && Notification.permission !== "denied") {
+        Notification.requestPermission(function(status) {
+            var notice_ = new Notification(title, { body: content, icon: icon });
+            notice_.onclick = function() {
+				callback();
+            }
+        });
+    }   
 }

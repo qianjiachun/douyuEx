@@ -121,7 +121,7 @@ function RealLive_get_sign(r, post_v, tt, ub9) {
 }
 
 function eval1(str, iid) {
-    var sc = document.createElement("script");
+    let sc = document.createElement("script");
     sc.id = iid
     sc.setAttribute("type","text\/javascript");
     sc.appendChild(document.createTextNode(str));

@@ -173,6 +173,9 @@ function initPkg_BarrageLoop_Func() {
 			if (document.getElementsByClassName("extool")[0].style.display == "block") {
 				document.getElementsByClassName("extool")[0].style.display = "none";
 			}
+			if (document.getElementsByClassName("livetool")[0].style.display == "block") {
+				document.getElementsByClassName("livetool")[0].style.display = "none";
+			}
 		} else {
 			a.style.display = "none";
 		}

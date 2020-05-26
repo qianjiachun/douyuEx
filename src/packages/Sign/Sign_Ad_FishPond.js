@@ -17,6 +17,7 @@ function getFishBall_Ad_FishPond() {
                 if (ret[i].task.id == "182") {
                     if (ret[i].task.status == "3") {
                         showMessage("【鱼塘鱼丸】已领取", "warning");
+                        initPkg_Sign_Ad_666();
                     } else {
                         let posid_Ad_FishPond = "1114268";
                         let token = dyToken;
@@ -45,9 +46,10 @@ function getFishBall_Ad_FishPond() {
                                 if (isFinish == true) {
                                     let isGet = await getFishBall_Ad_FishPond_Bubble(token);
                                 }
-                                initPkg_Sign_Ad_666();
+                                
                             })
                         }
+                        initPkg_Sign_Ad_666();
                     }
                 }
             }
@@ -69,8 +71,8 @@ function getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid) {
             onload: function(response) {
                 let ret = response.response;
                 if (ret.error == "0") {
-                    mid = ret.data[0].mid;
-                    infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
                     resolve({mid: mid, infoBack: infoBack});
                 }
             }

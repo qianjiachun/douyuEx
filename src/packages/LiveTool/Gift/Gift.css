@@ -1,0 +1,24 @@
+.gift__panel {
+    width: 100%;
+    display: none;
+    margin-top: 4px;
+}
+#gift__title {
+    cursor: pointer;
+
+}
+#gift__select {
+    width: 190px;
+}
+
+.gift__option {
+    margin-top: 5px;
+}
+
+#gift__giftId {
+    width: 40px;
+}
+
+#gift__reply {
+    width: 150px;
+}

@@ -14,6 +14,7 @@ function getFishBall_Ad_666() {
         cnt = Number(retData.data.list[0].taskLimitNum) - Number(retData.data.list[0].curCompleteNum);
         if (cnt <= 0) {
             showMessage("【挑战鱼丸】今日次数已用完", "warning");
+            initPkg_Sign_Ad_Yuba();
             return;
         }
         for (let i = 0; i < cnt; i++) {
@@ -34,6 +35,7 @@ function getFishBall_Ad_666() {
                 })
             }
         }
+        initPkg_Sign_Ad_Yuba();
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
@@ -54,8 +56,8 @@ function getFishBall_Ad_666_info(posid_ad_666, token, uid) {
             onload: function(response) {
                 let ret = response.response;
                 if (ret.error == "0") {
-                    mid = ret.data[0].mid;
-                    infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
                     resolve({mid: mid, infoBack: infoBack});
                 }
             }

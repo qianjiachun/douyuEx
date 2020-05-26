@@ -1,0 +1,41 @@
+.livetool {
+	background-color: rgba(255,255,255,0.9);
+	width: 100%;
+	height: 200px;
+	position: relative;
+	bottom: 200px;
+	display: none;
+}
+
+.livetool__cell {
+	position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 16px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+	background-color: #fff;
+	border-bottom: 1px solid rgba(0,0,0,0.2);
+	flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+}
+
+.livetool__cell_title {
+	flex: 1;
+    -webkit-box-flex: 1;
+}
+
+.livetool__cell_option {
+	flex: 1;
+	-webkit-box-flex: 1;
+	text-align: right;
+}
+
+.livetool__cell_switch {
+	float: right;
+}
