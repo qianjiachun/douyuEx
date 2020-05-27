@@ -136,6 +136,15 @@ function setNightMode() {
     .SociatyLabelPop-title{border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;color:rgb(153,153,153) !important;}
     .Barrage-nickName{color:rgb(255,119,0) !important;}
     .wm-general-wrapper{background:rgb(35,36,39) !important;}
+    .ChatRank-rankWraper .ChatRankTab-title.is-active{color:rgb(255,119,0)!important;}
+    .ChatRank-rankWraper .ChatRankTab-title{color:rgb(131,140,154)!important;background:rgb(29,32,35)!important;border:1px solid rgb(47,48,53)!important;}
+    .MatchTeamRankList-topAvatar{background:rgb(47,48,53)!important;}
+    .MatchTeamRankList-topName{color:rgb(131,140,154)!important;background-color:rgb(47,48,53)!important;}
+    .MatchTeamRankTitle-content{background:rgb(47,48,53)!important;color:rgb(131,140,154)!important;}
+    .MatchTeamRankBottom{background:rgb(47,48,53) !important;}
+    .MatchTeamRankBottom-lable{color:rgb(131,140,154);}
+    .MatchTeamRankBottom-desc{color:rgb(121,127,137);}
+    .Barrage-text>a{color:rgb(187,187,187)!important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 

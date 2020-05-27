@@ -2,6 +2,7 @@ let isMuteOn = false;
 let canMute;
 let muteWordList = {};
 let muteIdList = {};
+let muteIdListShow = [];
 function initPkg_LiveTool_Mute() {
     LiveTool_Mute_insertDom();
     LiveTool_Mute_insertFunc();
@@ -13,7 +14,7 @@ function LiveTool_Mute_insertDom() {
     a.className = "livetool__cell";
     let cell = `
         <div class='livetool__cell_title'>
-            <span id='mute__title'>关键词禁言</span>
+            <span id='mute__title'>关键词禁言</span><span id='mute__idlist'>名单</span>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -28,6 +29,7 @@ function LiveTool_Mute_insertDom() {
             </select>
             <input style="width:40px;margin-left:10px;" type="button" id="mute__add" value="添加"/>
             <input style="width:40px;margin-left:10px;" type="button" id="mute__del" value="删除"/>
+            <input style="width:65px;margin-left:10px;" type="button" id="mute__delmute" value="一键解禁"/>
             <div class="mute__option">
                 <label>词：<input id="mute__word" type="text" placeholder="re(式)=结果"/></label>
                 <label>次数：<input id="mute__count" type="number" value="5"/></label>
@@ -57,6 +59,34 @@ function LiveTool_Mute_insertDom() {
 
 
 function LiveTool_Mute_insertFunc() {
+    document.getElementById("mute__idlist").addEventListener("click", () => {
+        if (muteIdListShow.length == 0) {
+            showMessage("暂无禁言名单", "warning");
+            return;
+        }
+        console.log("【禁言名单】");
+        for (let i = 0; i < muteIdListShow.length; i++) {
+            let item = muteIdListShow[i];
+                console.log("id:【" + item.id + "】 | uid:" + item.uid + " | 弹幕:" + item.barrage + " | 检测次数:" + item.count + " | 禁言时长:" + item.time + "分钟 | 禁言时间:" + item.ts);
+        }
+        showMessage("禁言名单已经输出在控制台，请按F12查看", "success");
+    });
+
+    document.getElementById("mute__delmute").addEventListener("click", async () => {
+        if (muteIdListShow.length == 0) {
+            showMessage("暂无禁言名单", "warning");
+            return;
+        }
+        if (confirm("是否解禁名单上所有的id？") != true) {
+            return;
+        }
+        for (let i = 0; i < muteIdListShow.length; i++) {
+            let item = muteIdListShow[i];
+            let tmp = await deleteMuteUser(rid, item.uid);
+        }
+        showMessage("解除禁言完毕", "success");
+    });
+
     document.getElementById("mute__switch").addEventListener("click", () => {
         let ischecked = document.getElementById("mute__switch").checked;
 		if (ischecked == true) {
@@ -102,6 +132,10 @@ function LiveTool_Mute_insertFunc() {
         let word = document.getElementById("mute__word").value;
         let count = document.getElementById("mute__count").value;
         let time = select_time.options[select_time.selectedIndex].value
+
+        if (word == "") {
+            return;
+        }
 
         // 构造json并添加json
         muteWordList[word] = {
@@ -182,6 +216,9 @@ async function initPkg_LiveTool_Mute_Handle(text) {
         let txt = getStrMiddle(text, "txt@=", "/");
         let isConform = false;
         for (let key in muteWordList) {
+            if (key == "") {
+                continue;
+            }
             if (key.indexOf("re(") != -1) {
                 // 正则
                 let regStr = getStrMiddle(key, "re(", ")=");
@@ -199,10 +236,11 @@ async function initPkg_LiveTool_Mute_Handle(text) {
                     }
                 }
             } else {
-                if (String(txt).indexOf(key) != -1) {
-                    isConform = true;
+                if (String(txt).indexOf(key) == -1) {
+                    // 没找到
+                    isConform = false;
                 } else {
-                    isConform = false
+                    isConform = true;
                 }
             }
             if (isConform == true) {
@@ -212,6 +250,16 @@ async function initPkg_LiveTool_Mute_Handle(text) {
                     let nextCount = Number(muteIdList[nn].count) + 1;
                     if (nextCount >= maxCount) {
                         let tmp = await addMuteUser(rid, nn, time);
+                        showMessageWindow("禁言信息", "【" + nn + "】已被禁言" + time + "分钟" + "\n弹幕：" + txt, null);
+                        let obj = {
+                            id: nn,
+                            uid: uid,
+                            barrage: txt,
+                            time: time,
+                            count: 1,
+                            ts: String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date()))
+                        };
+                        muteIdListShow.push(obj);
                         muteIdList[nn].count = 0;
                     } else {
                         muteIdList[nn].count = String(nextCount);
@@ -220,10 +268,20 @@ async function initPkg_LiveTool_Mute_Handle(text) {
                     let nextCount = 1;
                     if (nextCount >= maxCount) {
                         let tmp = await addMuteUser(rid, nn, time);
+                        showMessageWindow("禁言信息", "【" + nn + "】已被禁言" + time + "分钟" + "\n弹幕：" + txt, null);
+                        let obj = {
+                            id: nn,
+                            uid: uid,
+                            barrage: txt,
+                            time: time,
+                            count: 1,
+                            ts: String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date()))
+                        };
+                        muteIdListShow.push(obj);
                     } else {
                         muteIdList[nn] = {
                             uid: uid,
-                            count: 1
+                            count: 1,
                         }
                     }
                 }
@@ -242,6 +300,22 @@ function addMuteUser(roomid, name, ban_time) {
             credentials: 'include',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: 'ban_nickname=' + name + '&room_id=' + roomid + '&ban_time=' + ban_time
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        })
+    })
+}
+
+function deleteMuteUser(roomid, uid) {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/room/roomSetting/deleteMuteUser", {
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'room_id=' + roomid + '&uid=' + uid
         }).then(res => {
             return res.json();
         }).then(ret => {

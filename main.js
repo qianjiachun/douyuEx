@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.05.26.04
+// @version      2020.05.28.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -57,7 +57,7 @@ function initTimer() {
 function initStyles() {
 	let style = document.createElement("style");
 	style.appendChild(document.createTextNode(`
-.bag-info {    position: absolute;    background-color: rgba(0, 0, 0, 0.6);    color: white;    width: 20px;    font-weight: 800;    height: 20px;    text-align: center;}.bloop {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.bloop__switch {	position: absolute;	right: 0;	bottom: 0;}.bloop__mode {	display: inline-block;}#copy-real-live {    cursor: pointer;}.ex-icon {	display: inline-block;	vertical-align: middle;	margin-right: 8px;}.extool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.extool__switch {	position: absolute;	right: 0;	bottom: 0;}.extool__bsize,.extool__sendgift {	margin-bottom: 5px;}.ex-panel {	width: 550px;	height: 50px;	position: absolute;	bottom: 35px;	right: 50px;	background-color: rgba(255,255,255,0.9);	display: none;	border: 2px rgb(234,173,26) solid;	z-index: 7777;}.ex-panel__wrap {	display: flex;	align-items: center;	justify-content: center;	width: 100%;	height: 100%;}.ex-panel__icon {	margin: 0 10px;	display: block;	position: relative;	padding: 5px;}.ex-panel__tip {	display:none;	background:#f00;	border-radius:50%;	width:8px;	height:8px;	top:0px;	right:0px;	position:absolute;}.gift__panel {    width: 100%;    display: none;    margin-top: 4px;}#gift__title {    cursor: pointer;}#gift__select {    width: 190px;}.gift__option {    margin-top: 5px;}#gift__giftId {    width: 40px;}#gift__reply {    width: 150px;}.livetool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.livetool__cell {	position: relative;    display: -webkit-box;    display: -webkit-flex;    display: flex;    box-sizing: border-box;    width: 100%;    padding: 10px 16px;    overflow: hidden;    color: #323233;    font-size: 14px;    line-height: 24px;	background-color: #fff;	border-bottom: 1px solid rgba(0,0,0,0.2);	flex-wrap: wrap;    -webkit-flex-wrap: wrap;}.livetool__cell_title {	flex: 1;    -webkit-box-flex: 1;}.livetool__cell_option {	flex: 1;	-webkit-box-flex: 1;	text-align: right;}.livetool__cell_switch {	float: right;}.mute__panel {    width: 100%;    display: none;    margin-top: 4px;}#mute__title {    cursor: pointer;}#mute__select {    width: 190px;}.mute__option {    margin-top: 5px;}#mute__word {    width: 70px;}#mute__count {    width: 30px;}#mute__time {    width: 65px;}.reply__panel {    width: 100%;    display: none;    margin-top: 4px;}#reply__title {    cursor: pointer;}#reply__select {    width: 190px;}.reply__option {    margin-top: 5px;}#reply__word {    width: 70px;}#reply__reply {    width: 147px;}.videoDiv {    width: 400px;    height: 200px;    background-color: rgba(255, 255, 255, 0);    position: absolute;    z-index: 7777;}.videoPlayer {    width: 100%;    height: 100%;    cursor: move;}.videoScale {    width: 10px;    height: 10px;    overflow: hidden;    cursor: se-resize;    position: absolute;    right: 0;    bottom: 0;    background-color: rgb(231, 57, 57);}.videoInfo {    width: 100%;    height: 30px;    background-color: gray;    position: absolute;    top: -30px;    line-height: 30px;}.videoClose {    width: 30px;    float: right;    color: white;}.videoQn, .videoCDN {    margin-left: 5px;}.videoRID {    margin: 0px 5px;    font-weight: 800;    font-size: medium;}#popup-player__prompt {    display: none;}.postbird-box-container{width:100%;height:100%;overflow:hidden;position:fixed;top:0;left:0;z-index:9999;display:block;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.postbird-box-container.active{display:block}.postbird-box-content{width:400px;max-width:90%;min-height:170px;background-color:#fff;border:solid 1px #dfdfdf;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin-top:-100px}.postbird-box-header{width:100%;padding:10px 15px;position:relative;font-size:1.1em;letter-spacing:2px}.postbird-box-close-btn{cursor:pointer;font-weight:700;color:#000;float:right;opacity:.5;font-size:1.3em;margin-top:-3px;display:none}.postbird-box-close-btn:hover{opacity:1}.postbird-box-text{box-sizing: border-box;width:100%;padding:0 10%;text-align:center;line-height:40px;font-size:20px;letter-spacing:1px}.postbird-box-footer{width:100%;position:absolute;bottom:0;padding:0;margin:0;display:flex;display:-webkit-flex;justify-content:space-around;border-top:solid 1px #dfdfdf;align-items:flex-end}.postbird-box-footer .btn-footer{line-height:44px;border:0;cursor:pointer;background-color:#fff;color:#0e90d2;font-size:1.1em;letter-spacing:2px;transition:background-color .5s;-webkit-transition:background-color .5s;-o-transition:background-color .5s;-moz-transition:background-color .5s;outline:0}.postbird-box-footer .btn-footer:hover{background-color:#e5e5e5}.postbird-box-footer .btn-block-footer{width:100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer{position:relative;width:100%}.postbird-box-footer .btn-left-footer::after{content:"";position:absolute;right:0;top:0;background-color:#e5e5e5;height:100%;width:1px}.postbird-box-footer .btn-footer-cancel{color:#333}.postbird-prompt-input{width:100%;padding:5px;font-size:16px;border:1px solid #ccc;outline:0}.real-audience {    cursor: pointer;}#refresh-video {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.refresh-barrage {    display: inline-block;    vertical-align: top;    margin: 0 2px;    padding: 0 8px;    height: 22px;    line-height: 21px;    background-color: #fff;    border: 1px solid #e5e4e4;    -webkit-border-radius: 4px;    -moz-border-radius: 4px;    border-radius: 4px;    cursor: pointer;}#refresh-barrage__svg {    vertical-align: middle;}/*    Notice.css*/.noticejs-top{top:0;width:100%!important}.noticejs-top .item{border-radius:0!important;margin:0!important}.noticejs-topRight{top:10px;right:10px}.noticejs-topLeft{top:10px;left:10px}.noticejs-topCenter{top:10px;left:50%;transform:translate(-50%)}.noticejs-middleLeft,.noticejs-middleRight{right:10px;top:50%;transform:translateY(-50%)}.noticejs-middleLeft{left:10px}.noticejs-middleCenter{top:50%;left:50%;transform:translate(-50%,-50%)}.noticejs-bottom{bottom:0;width:100%!important}.noticejs-bottom .item{border-radius:0!important;margin:0!important}.noticejs-bottomRight{bottom:10px;right:10px}.noticejs-bottomLeft{bottom:10px;left:10px}.noticejs-bottomCenter{bottom:10px;left:50%;transform:translate(-50%)}.noticejs{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}.noticejs .item{margin:0 0 10px;border-radius:3px;overflow:hidden}.noticejs .item .close{float:right;font-size:18px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;opacity:1;margin-right:7px}.noticejs .item .close:hover{opacity:.5;color:#000}.noticejs .item a{color:#fff;border-bottom:1px dashed #fff}.noticejs .item a,.noticejs .item a:hover{text-decoration:none}.noticejs .success{background-color:#64ce83}.noticejs .success .noticejs-heading{background-color:#3da95c;color:#fff;padding:10px}.noticejs .success .noticejs-body{color:#fff;padding:10px}.noticejs .success .noticejs-body:hover{visibility:visible!important}.noticejs .success .noticejs-content{visibility:visible}.noticejs .info{background-color:#3ea2ff}.noticejs .info .noticejs-heading{background-color:#067cea;color:#fff;padding:10px}.noticejs .info .noticejs-body{color:#fff;padding:10px}.noticejs .info .noticejs-body:hover{visibility:visible!important}.noticejs .info .noticejs-content{visibility:visible}.noticejs .warning{background-color:#ff7f48}.noticejs .warning .noticejs-heading{background-color:#f44e06;color:#fff;padding:10px}.noticejs .warning .noticejs-body{color:#fff;padding:10px}.noticejs .warning .noticejs-body:hover{visibility:visible!important}.noticejs .warning .noticejs-content{visibility:visible}.noticejs .error{background-color:#e74c3c}.noticejs .error .noticejs-heading{background-color:#ba2c1d;color:#fff;padding:10px}.noticejs .error .noticejs-body{color:#fff;padding:10px}.noticejs .error .noticejs-body:hover{visibility:visible!important}.noticejs .error .noticejs-content{visibility:visible}.noticejs .progressbar{width:100%}.noticejs .progressbar .bar{width:1%;height:30px;background-color:#4caf50}.noticejs .success .noticejs-progressbar{width:100%;background-color:#64ce83;margin-top:-1px}.noticejs .success .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#3da95c}.noticejs .info .noticejs-progressbar{width:100%;background-color:#3ea2ff;margin-top:-1px}.noticejs .info .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#067cea}.noticejs .warning .noticejs-progressbar{width:100%;background-color:#ff7f48;margin-top:-1px}.noticejs .warning .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#f44e06}.noticejs .error .noticejs-progressbar{width:100%;background-color:#e74c3c;margin-top:-1px}.noticejs .error .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#ba2c1d}@keyframes noticejs-fadeOut{0%{opacity:1}to{opacity:0}}.noticejs-fadeOut{animation-name:noticejs-fadeOut}@keyframes noticejs-modal-in{to{opacity:.3}}@keyframes noticejs-modal-out{to{opacity:0}}.noticejs-rtl .noticejs-heading{direction:rtl}.noticejs-rtl .close{float:left!important;margin-left:7px;margin-right:0!important}.noticejs-rtl .noticejs-content{direction:rtl}.noticejs{position:fixed;z-index:10050;width:320px}.noticejs ::-webkit-scrollbar{width:8px}.noticejs ::-webkit-scrollbar-button{width:8px;height:5px}.noticejs ::-webkit-scrollbar-track{border-radius:10px}.noticejs ::-webkit-scrollbar-thumb{background:hsla(0,0%,100%,.5);border-radius:10px}.noticejs ::-webkit-scrollbar-thumb:hover{background:#fff}.noticejs-modal{position:fixed;width:100%;height:100%;background-color:#000;z-index:10000;opacity:.3;left:0;top:0}.noticejs-modal-open{opacity:0;animation:noticejs-modal-in .3s ease-out}.noticejs-modal-close{animation:noticejs-modal-out .3s ease-out;animation-fill-mode:forwards}.onoffswitch {    position: relative; width: 45px;    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;}.onoffswitch-checkbox {    position: absolute;    opacity: 0;    pointer-events: none;}.onoffswitch-label {    display: block; overflow: hidden; cursor: pointer;    height: 20px; padding: 0; line-height: 20px;    border: 2px solid #E3E3E3; border-radius: 20px;    background-color: #FFFFFF;    transition: background-color 0.3s ease-in;}.onoffswitch-label:before {    content: "";    display: block; width: 20px; margin: 0px;    background: #FFFFFF;    position: absolute; top: 0; bottom: 0;    right: 23px;    border: 2px solid #E3E3E3; border-radius: 20px;    transition: all 0.3s ease-in 0s; }.onoffswitch-checkbox:checked + .onoffswitch-label {    background-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {   border-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label:before {    right: 0px; }
+.bag-info {    position: absolute;    background-color: rgba(0, 0, 0, 0.6);    color: white;    width: 20px;    font-weight: 800;    height: 20px;    text-align: center;}.bloop {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.bloop__switch {	position: absolute;	right: 0;	bottom: 0;}.bloop__mode {	display: inline-block;}#copy-real-live {    cursor: pointer;}.ex-icon {	display: inline-block;	vertical-align: middle;	margin-right: 8px;}.extool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.extool__switch {	position: absolute;	right: 0;	bottom: 0;}.extool__bsize,.extool__sendgift {	margin-bottom: 5px;}.ex-panel {	width: 550px;	height: 50px;	position: absolute;	bottom: 35px;	right: 50px;	background-color: rgba(255,255,255,0.9);	display: none;	border: 2px rgb(234,173,26) solid;	z-index: 7777;}.ex-panel__wrap {	display: flex;	align-items: center;	justify-content: center;	width: 100%;	height: 100%;}.ex-panel__icon {	margin: 0 10px;	display: block;	position: relative;	padding: 5px;}.ex-panel__tip {	display:none;	background:#f00;	border-radius:50%;	width:8px;	height:8px;	top:0px;	right:0px;	position:absolute;}.gift__panel {    width: 100%;    display: none;    margin-top: 4px;}#gift__title {    cursor: pointer;}#gift__select {    width: 190px;}.gift__option {    margin-top: 5px;}#gift__giftId {    width: 40px;}#gift__reply {    width: 150px;}.livetool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.livetool__cell {	position: relative;    display: -webkit-box;    display: -webkit-flex;    display: flex;    box-sizing: border-box;    width: 100%;    padding: 10px 16px;    overflow: hidden;    color: #323233;    font-size: 14px;    line-height: 24px;	background-color: #fff;	border-bottom: 1px solid rgba(0,0,0,0.2);	flex-wrap: wrap;    -webkit-flex-wrap: wrap;}.livetool__cell_title {	flex: 1;    -webkit-box-flex: 1;}.livetool__cell_option {	flex: 1;	-webkit-box-flex: 1;	text-align: right;}.livetool__cell_switch {	float: right;}.mute__panel {    width: 100%;    display: none;    margin-top: 4px;}#mute__title {    cursor: pointer;}#mute__idlist {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#mute__select {    width: 110px;}.mute__option {    margin-top: 5px;}#mute__word {    width: 70px;}#mute__count {    width: 30px;}#mute__time {    width: 65px;}.reply__panel {    width: 100%;    display: none;    margin-top: 4px;}#reply__title {    cursor: pointer;}#reply__select {    width: 190px;}.reply__option {    margin-top: 5px;}#reply__word {    width: 70px;}#reply__reply {    width: 147px;}.videoDiv {    width: 400px;    height: 200px;    background-color: rgba(255, 255, 255, 0);    position: absolute;    z-index: 7777;}.videoPlayer {    width: 100%;    height: 100%;    cursor: move;}.videoScale {    width: 10px;    height: 10px;    overflow: hidden;    cursor: se-resize;    position: absolute;    right: 0;    bottom: 0;    background-color: rgb(231, 57, 57);}.videoInfo {    width: 100%;    height: 30px;    background-color: gray;    position: absolute;    top: -30px;    line-height: 30px;}.videoClose {    width: 30px;    float: right;    color: white;}.videoQn, .videoCDN {    margin-left: 5px;}.videoRID {    margin: 0px 5px;    font-weight: 800;    font-size: medium;}#popup-player__prompt {    display: none;}.postbird-box-container{width:100%;height:100%;overflow:hidden;position:fixed;top:0;left:0;z-index:9999;display:block;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.postbird-box-container.active{display:block}.postbird-box-content{width:400px;max-width:90%;min-height:170px;background-color:#fff;border:solid 1px #dfdfdf;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin-top:-100px}.postbird-box-header{width:100%;padding:10px 15px;position:relative;font-size:1.1em;letter-spacing:2px}.postbird-box-close-btn{cursor:pointer;font-weight:700;color:#000;float:right;opacity:.5;font-size:1.3em;margin-top:-3px;display:none}.postbird-box-close-btn:hover{opacity:1}.postbird-box-text{box-sizing: border-box;width:100%;padding:0 10%;text-align:center;line-height:40px;font-size:20px;letter-spacing:1px}.postbird-box-footer{width:100%;position:absolute;bottom:0;padding:0;margin:0;display:flex;display:-webkit-flex;justify-content:space-around;border-top:solid 1px #dfdfdf;align-items:flex-end}.postbird-box-footer .btn-footer{line-height:44px;border:0;cursor:pointer;background-color:#fff;color:#0e90d2;font-size:1.1em;letter-spacing:2px;transition:background-color .5s;-webkit-transition:background-color .5s;-o-transition:background-color .5s;-moz-transition:background-color .5s;outline:0}.postbird-box-footer .btn-footer:hover{background-color:#e5e5e5}.postbird-box-footer .btn-block-footer{width:100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer{position:relative;width:100%}.postbird-box-footer .btn-left-footer::after{content:"";position:absolute;right:0;top:0;background-color:#e5e5e5;height:100%;width:1px}.postbird-box-footer .btn-footer-cancel{color:#333}.postbird-prompt-input{width:100%;padding:5px;font-size:16px;border:1px solid #ccc;outline:0}.real-audience {    cursor: pointer;}#refresh-video {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.refresh-barrage {    display: inline-block;    vertical-align: top;    margin: 0 2px;    padding: 0 8px;    height: 22px;    line-height: 21px;    background-color: #fff;    border: 1px solid #e5e4e4;    -webkit-border-radius: 4px;    -moz-border-radius: 4px;    border-radius: 4px;    cursor: pointer;}#refresh-barrage__svg {    vertical-align: middle;}/*    Notice.css*/.noticejs-top{top:0;width:100%!important}.noticejs-top .item{border-radius:0!important;margin:0!important}.noticejs-topRight{top:10px;right:10px}.noticejs-topLeft{top:10px;left:10px}.noticejs-topCenter{top:10px;left:50%;transform:translate(-50%)}.noticejs-middleLeft,.noticejs-middleRight{right:10px;top:50%;transform:translateY(-50%)}.noticejs-middleLeft{left:10px}.noticejs-middleCenter{top:50%;left:50%;transform:translate(-50%,-50%)}.noticejs-bottom{bottom:0;width:100%!important}.noticejs-bottom .item{border-radius:0!important;margin:0!important}.noticejs-bottomRight{bottom:10px;right:10px}.noticejs-bottomLeft{bottom:10px;left:10px}.noticejs-bottomCenter{bottom:10px;left:50%;transform:translate(-50%)}.noticejs{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}.noticejs .item{margin:0 0 10px;border-radius:3px;overflow:hidden}.noticejs .item .close{float:right;font-size:18px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;opacity:1;margin-right:7px}.noticejs .item .close:hover{opacity:.5;color:#000}.noticejs .item a{color:#fff;border-bottom:1px dashed #fff}.noticejs .item a,.noticejs .item a:hover{text-decoration:none}.noticejs .success{background-color:#64ce83}.noticejs .success .noticejs-heading{background-color:#3da95c;color:#fff;padding:10px}.noticejs .success .noticejs-body{color:#fff;padding:10px}.noticejs .success .noticejs-body:hover{visibility:visible!important}.noticejs .success .noticejs-content{visibility:visible}.noticejs .info{background-color:#3ea2ff}.noticejs .info .noticejs-heading{background-color:#067cea;color:#fff;padding:10px}.noticejs .info .noticejs-body{color:#fff;padding:10px}.noticejs .info .noticejs-body:hover{visibility:visible!important}.noticejs .info .noticejs-content{visibility:visible}.noticejs .warning{background-color:#ff7f48}.noticejs .warning .noticejs-heading{background-color:#f44e06;color:#fff;padding:10px}.noticejs .warning .noticejs-body{color:#fff;padding:10px}.noticejs .warning .noticejs-body:hover{visibility:visible!important}.noticejs .warning .noticejs-content{visibility:visible}.noticejs .error{background-color:#e74c3c}.noticejs .error .noticejs-heading{background-color:#ba2c1d;color:#fff;padding:10px}.noticejs .error .noticejs-body{color:#fff;padding:10px}.noticejs .error .noticejs-body:hover{visibility:visible!important}.noticejs .error .noticejs-content{visibility:visible}.noticejs .progressbar{width:100%}.noticejs .progressbar .bar{width:1%;height:30px;background-color:#4caf50}.noticejs .success .noticejs-progressbar{width:100%;background-color:#64ce83;margin-top:-1px}.noticejs .success .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#3da95c}.noticejs .info .noticejs-progressbar{width:100%;background-color:#3ea2ff;margin-top:-1px}.noticejs .info .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#067cea}.noticejs .warning .noticejs-progressbar{width:100%;background-color:#ff7f48;margin-top:-1px}.noticejs .warning .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#f44e06}.noticejs .error .noticejs-progressbar{width:100%;background-color:#e74c3c;margin-top:-1px}.noticejs .error .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#ba2c1d}@keyframes noticejs-fadeOut{0%{opacity:1}to{opacity:0}}.noticejs-fadeOut{animation-name:noticejs-fadeOut}@keyframes noticejs-modal-in{to{opacity:.3}}@keyframes noticejs-modal-out{to{opacity:0}}.noticejs-rtl .noticejs-heading{direction:rtl}.noticejs-rtl .close{float:left!important;margin-left:7px;margin-right:0!important}.noticejs-rtl .noticejs-content{direction:rtl}.noticejs{position:fixed;z-index:10050;width:320px}.noticejs ::-webkit-scrollbar{width:8px}.noticejs ::-webkit-scrollbar-button{width:8px;height:5px}.noticejs ::-webkit-scrollbar-track{border-radius:10px}.noticejs ::-webkit-scrollbar-thumb{background:hsla(0,0%,100%,.5);border-radius:10px}.noticejs ::-webkit-scrollbar-thumb:hover{background:#fff}.noticejs-modal{position:fixed;width:100%;height:100%;background-color:#000;z-index:10000;opacity:.3;left:0;top:0}.noticejs-modal-open{opacity:0;animation:noticejs-modal-in .3s ease-out}.noticejs-modal-close{animation:noticejs-modal-out .3s ease-out;animation-fill-mode:forwards}.onoffswitch {    position: relative; width: 45px;    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;}.onoffswitch-checkbox {    position: absolute;    opacity: 0;    pointer-events: none;}.onoffswitch-label {    display: block; overflow: hidden; cursor: pointer;    height: 20px; padding: 0; line-height: 20px;    border: 2px solid #E3E3E3; border-radius: 20px;    background-color: #FFFFFF;    transition: background-color 0.3s ease-in;}.onoffswitch-label:before {    content: "";    display: block; width: 20px; margin: 0px;    background: #FFFFFF;    position: absolute; top: 0; bottom: 0;    right: 23px;    border: 2px solid #E3E3E3; border-radius: 20px;    transition: all 0.3s ease-in 0s; }.onoffswitch-checkbox:checked + .onoffswitch-label {    background-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {   border-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label:before {    right: 0px; }
 `));
 	document.head.appendChild(style);
 }
@@ -1784,7 +1784,7 @@ function getFishPond_Task() {
 		}).then(res => {
 			return res.json();
 		}).then(ret => {
-			console.log("【鱼塘任务】领取结果:", ret);
+			// console.log("【鱼塘任务】领取结果:", ret);
 			showMessage("【鱼塘任务】领取结果:" + ret.data.msg, "success");
 		}).catch(err => {
 			console.log("请求失败!", err);
@@ -2022,6 +2022,9 @@ function LiveTool_Gift_insertFunc() {
         let giftId = document.getElementById("gift__giftId").value;
         let reply = document.getElementById("gift__reply").value;
 
+        if (giftId == "") {
+            return;
+        }
         // 构造json并添加json
         giftWordList[giftId] = {
             reply: reply,
@@ -2218,6 +2221,7 @@ let isMuteOn = false;
 let canMute;
 let muteWordList = {};
 let muteIdList = {};
+let muteIdListShow = [];
 function initPkg_LiveTool_Mute() {
     LiveTool_Mute_insertDom();
     LiveTool_Mute_insertFunc();
@@ -2229,7 +2233,7 @@ function LiveTool_Mute_insertDom() {
     a.className = "livetool__cell";
     let cell = `
         <div class='livetool__cell_title'>
-            <span id='mute__title'>关键词禁言</span>
+            <span id='mute__title'>关键词禁言</span><span id='mute__idlist'>名单</span>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -2244,6 +2248,7 @@ function LiveTool_Mute_insertDom() {
             </select>
             <input style="width:40px;margin-left:10px;" type="button" id="mute__add" value="添加"/>
             <input style="width:40px;margin-left:10px;" type="button" id="mute__del" value="删除"/>
+            <input style="width:65px;margin-left:10px;" type="button" id="mute__delmute" value="一键解禁"/>
             <div class="mute__option">
                 <label>词：<input id="mute__word" type="text" placeholder="re(式)=结果"/></label>
                 <label>次数：<input id="mute__count" type="number" value="5"/></label>
@@ -2273,6 +2278,34 @@ function LiveTool_Mute_insertDom() {
 
 
 function LiveTool_Mute_insertFunc() {
+    document.getElementById("mute__idlist").addEventListener("click", () => {
+        if (muteIdListShow.length == 0) {
+            showMessage("暂无禁言名单", "warning");
+            return;
+        }
+        console.log("【禁言名单】");
+        for (let i = 0; i < muteIdListShow.length; i++) {
+            let item = muteIdListShow[i];
+                console.log("id:【" + item.id + "】 | uid:" + item.uid + " | 弹幕:" + item.barrage + " | 检测次数:" + item.count + " | 禁言时长:" + item.time + "分钟 | 禁言时间:" + item.ts);
+        }
+        showMessage("禁言名单已经输出在控制台，请按F12查看", "success");
+    });
+
+    document.getElementById("mute__delmute").addEventListener("click", async () => {
+        if (muteIdListShow.length == 0) {
+            showMessage("暂无禁言名单", "warning");
+            return;
+        }
+        if (confirm("是否解禁名单上所有的id？") != true) {
+            return;
+        }
+        for (let i = 0; i < muteIdListShow.length; i++) {
+            let item = muteIdListShow[i];
+            let tmp = await deleteMuteUser(rid, item.uid);
+        }
+        showMessage("解除禁言完毕", "success");
+    });
+
     document.getElementById("mute__switch").addEventListener("click", () => {
         let ischecked = document.getElementById("mute__switch").checked;
 		if (ischecked == true) {
@@ -2318,6 +2351,10 @@ function LiveTool_Mute_insertFunc() {
         let word = document.getElementById("mute__word").value;
         let count = document.getElementById("mute__count").value;
         let time = select_time.options[select_time.selectedIndex].value
+
+        if (word == "") {
+            return;
+        }
 
         // 构造json并添加json
         muteWordList[word] = {
@@ -2398,6 +2435,9 @@ async function initPkg_LiveTool_Mute_Handle(text) {
         let txt = getStrMiddle(text, "txt@=", "/");
         let isConform = false;
         for (let key in muteWordList) {
+            if (key == "") {
+                continue;
+            }
             if (key.indexOf("re(") != -1) {
                 // 正则
                 let regStr = getStrMiddle(key, "re(", ")=");
@@ -2415,10 +2455,11 @@ async function initPkg_LiveTool_Mute_Handle(text) {
                     }
                 }
             } else {
-                if (String(txt).indexOf(key) != -1) {
-                    isConform = true;
+                if (String(txt).indexOf(key) == -1) {
+                    // 没找到
+                    isConform = false;
                 } else {
-                    isConform = false
+                    isConform = true;
                 }
             }
             if (isConform == true) {
@@ -2428,6 +2469,16 @@ async function initPkg_LiveTool_Mute_Handle(text) {
                     let nextCount = Number(muteIdList[nn].count) + 1;
                     if (nextCount >= maxCount) {
                         let tmp = await addMuteUser(rid, nn, time);
+                        showMessageWindow("禁言信息", "【" + nn + "】已被禁言" + time + "分钟" + "\n弹幕：" + txt, null);
+                        let obj = {
+                            id: nn,
+                            uid: uid,
+                            barrage: txt,
+                            time: time,
+                            count: 1,
+                            ts: String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date()))
+                        };
+                        muteIdListShow.push(obj);
                         muteIdList[nn].count = 0;
                     } else {
                         muteIdList[nn].count = String(nextCount);
@@ -2436,10 +2487,20 @@ async function initPkg_LiveTool_Mute_Handle(text) {
                     let nextCount = 1;
                     if (nextCount >= maxCount) {
                         let tmp = await addMuteUser(rid, nn, time);
+                        showMessageWindow("禁言信息", "【" + nn + "】已被禁言" + time + "分钟" + "\n弹幕：" + txt, null);
+                        let obj = {
+                            id: nn,
+                            uid: uid,
+                            barrage: txt,
+                            time: time,
+                            count: 1,
+                            ts: String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date()))
+                        };
+                        muteIdListShow.push(obj);
                     } else {
                         muteIdList[nn] = {
                             uid: uid,
-                            count: 1
+                            count: 1,
                         }
                     }
                 }
@@ -2458,6 +2519,22 @@ function addMuteUser(roomid, name, ban_time) {
             credentials: 'include',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: 'ban_nickname=' + name + '&room_id=' + roomid + '&ban_time=' + ban_time
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        })
+    })
+}
+
+function deleteMuteUser(roomid, uid) {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/room/roomSetting/deleteMuteUser", {
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'room_id=' + roomid + '&uid=' + uid
         }).then(res => {
             return res.json();
         }).then(ret => {
@@ -2575,6 +2652,9 @@ function LiveTool_Reply_insertFunc() {
         let word = document.getElementById("reply__word").value;
         let reply = document.getElementById("reply__reply").value;
 
+        if (word == "") {
+            return;
+        }
         // 构造json并添加json
         replyWordList[word] = {
             reply: reply,
@@ -2650,6 +2730,9 @@ function initPkg_LiveTool_Reply_Handle(text) {
         let txt = getStrMiddle(text, "txt@=", "/");
         let isConform = false;
         for (let key in replyWordList) {
+            if (key == "") {
+                continue;
+            }
             if (key.indexOf("re(") != -1) {
                 // 正则
                 let regStr = getStrMiddle(key, "re(", ")=");
@@ -2855,6 +2938,15 @@ function setNightMode() {
     .SociatyLabelPop-title{border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;color:rgb(153,153,153) !important;}
     .Barrage-nickName{color:rgb(255,119,0) !important;}
     .wm-general-wrapper{background:rgb(35,36,39) !important;}
+    .ChatRank-rankWraper .ChatRankTab-title.is-active{color:rgb(255,119,0)!important;}
+    .ChatRank-rankWraper .ChatRankTab-title{color:rgb(131,140,154)!important;background:rgb(29,32,35)!important;border:1px solid rgb(47,48,53)!important;}
+    .MatchTeamRankList-topAvatar{background:rgb(47,48,53)!important;}
+    .MatchTeamRankList-topName{color:rgb(131,140,154)!important;background-color:rgb(47,48,53)!important;}
+    .MatchTeamRankTitle-content{background:rgb(47,48,53)!important;color:rgb(131,140,154)!important;}
+    .MatchTeamRankBottom{background:rgb(47,48,53) !important;}
+    .MatchTeamRankBottom-lable{color:rgb(131,140,154);}
+    .MatchTeamRankBottom-desc{color:rgb(121,127,137);}
+    .Barrage-text>a{color:rgb(187,187,187)!important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
@@ -3472,6 +3564,7 @@ function getRealViewer() {
 		document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc + " 背包礼物:" + real_info.money_bag;
 		
 		document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
+		document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000"))));
 		
 	}).catch(err => {
 		console.log("请求失败!", err);
@@ -3724,7 +3817,7 @@ function initPkg_RemoveAD() {
 
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .FollowGuide,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
     .Barrage-topFloater{z-index:999}
     `);
 }
@@ -4557,7 +4650,7 @@ function getYubaPage(page) {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.05.26.04"
+var curVersion = "2020.05.28.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -5077,6 +5170,7 @@ function Ex_WebSocket_UnLogin(rid, callback) {
         };
         this.ws.onclose = () => { 
             showMessage("服务器连接丢失，请尝试刷新页面", "error");
+            console.log("服务器连接丢失");
         };
         if (typeof this.close != "function") {
             

@@ -99,6 +99,7 @@ function getRealViewer() {
 		document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc + " 背包礼物:" + real_info.money_bag;
 		
 		document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
+		document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000"))));
 		
 	}).catch(err => {
 		console.log("请求失败!", err);

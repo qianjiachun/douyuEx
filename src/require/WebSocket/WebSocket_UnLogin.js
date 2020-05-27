@@ -36,6 +36,7 @@ function Ex_WebSocket_UnLogin(rid, callback) {
         };
         this.ws.onclose = () => { 
             showMessage("服务器连接丢失，请尝试刷新页面", "error");
+            console.log("服务器连接丢失");
         };
         if (typeof this.close != "function") {
             

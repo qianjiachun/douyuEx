@@ -82,6 +82,9 @@ function LiveTool_Reply_insertFunc() {
         let word = document.getElementById("reply__word").value;
         let reply = document.getElementById("reply__reply").value;
 
+        if (word == "") {
+            return;
+        }
         // 构造json并添加json
         replyWordList[word] = {
             reply: reply,
@@ -157,6 +160,9 @@ function initPkg_LiveTool_Reply_Handle(text) {
         let txt = getStrMiddle(text, "txt@=", "/");
         let isConform = false;
         for (let key in replyWordList) {
+            if (key == "") {
+                continue;
+            }
             if (key.indexOf("re(") != -1) {
                 // 正则
                 let regStr = getStrMiddle(key, "re(", ")=");

@@ -137,6 +137,9 @@ function LiveTool_Gift_insertFunc() {
         let giftId = document.getElementById("gift__giftId").value;
         let reply = document.getElementById("gift__reply").value;
 
+        if (giftId == "") {
+            return;
+        }
         // 构造json并添加json
         giftWordList[giftId] = {
             reply: reply,
