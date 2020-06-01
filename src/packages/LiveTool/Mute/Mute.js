@@ -169,8 +169,24 @@ function saveData_Mute() {
 }
 
 function saveData_isMute() {
+    let ridArr = [];
+    let ret = localStorage.getItem("ExSave_isMute");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+    }
+    let index = ridArr.indexOf(rid);
+    if (isMuteOn == true) {
+        if (index == -1) {
+            ridArr.push(rid);
+        }
+    } else {
+        ridArr.splice(index, 1);
+    }
 	let data = {
-        isMute: isMuteOn
+        rooms: ridArr,
     };
 	localStorage.setItem("ExSave_isMute", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -195,7 +211,15 @@ async function initPkg_Mute_Set() {
 	
 	if (ret != null) {
         let retJson = JSON.parse(ret);
-        isMuteOn = retJson.isMute;
+        let ridArr = [];
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+        if (ridArr.indexOf(rid) == -1) {
+            isMuteOn = false;
+        } else {
+            isMuteOn = true;
+        }
         document.getElementById("mute__switch").checked = isMuteOn;
 	}
 }

@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.05.28.01
+// @version      2020.06.01.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -26,6 +26,8 @@
 function init() {
 	initPkg_Night_Set_Fast();
 	removeAD();
+	initPkg_Statistics();
+	initPkg_Console();
 }
 function initPkg() {
 	initPkg_ExIcon();
@@ -62,8 +64,6 @@ function initStyles() {
 	document.head.appendChild(style);
 }
 
-
-
 (function() {
 	if (window.location.host == "msg.douyu.com") {
 		if (getQueryString("exid") == "chun") {
@@ -80,10 +80,6 @@ function initStyles() {
                     clearInterval(intID);
                 }
             }, 1000);
-        } else if (String(location.href).indexOf("flag=aoligei") != -1) {
-            setTimeout(() => {
-                getAoligei();
-            }, 5000);
         } else {
             init();
             let intID = setInterval(() => {
@@ -621,6 +617,13 @@ function getBarrageTxt_Tiangou() {
         });
 	})
 }
+function initPkg_Console() {
+	console_watermark_douyEx();
+}
+
+function console_watermark_douyEx() {
+    return;
+}
 function initPkg_CopyRealLive() {
 	initPkg_CopyRealLive_Dom();
 	initPkg_CopyRealLive_Func();
@@ -676,7 +679,7 @@ function initPkg_ExIcon() {
 function pkg_ExIcon_insertDom() {
 	let a = document.createElement("div");
 	a.className = "ex-icon";
-	a.innerHTML = '<a title="～ (´• ᵕ •`)*✲"><svg t="1578667843177" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5685" width="24" height="24"><path d="M512 937.353846c-234.732308 0-425.353846-190.621538-425.353846-425.353846 0-17.329231 14.178462-31.507692 31.507692-31.507692h236.307692c17.329231 0 31.507692 14.178462 31.507693 31.507692 0 69.316923 56.713846 126.030769 126.030769 126.030769s126.030769-56.713846 126.030769-126.030769c0-17.329231 14.178462-31.507692 31.507693-31.507692h236.307692c17.329231 0 31.507692 14.178462 31.507692 31.507692 0 234.732308-190.621538 425.353846-425.353846 425.353846zM151.236923 543.507692c15.753846 185.107692 171.716923 330.830769 360.763077 330.83077s345.009231-145.723077 360.763077-330.83077H698.683077C683.716923 632.516923 605.735385 701.046154 512 701.046154s-171.716923-68.529231-186.683077-157.538462H151.236923z" fill="#33363a" p-id="5686"></path><path d="M512 118.153846c-217.403077 0-393.846154 176.443077-393.846154 393.846154h236.307692c0-86.646154 70.892308-157.538462 157.538462-157.538462s157.538462 70.892308 157.538462 157.538462h236.307692c0-217.403077-176.443077-393.846154-393.846154-393.846154z" fill="#d60909" p-id="5687"></path><path d="M905.846154 543.507692H669.538462c-17.329231 0-31.507692-14.178462-31.507693-31.507692 0-69.316923-56.713846-126.030769-126.030769-126.030769s-126.030769 56.713846-126.030769 126.030769c0 17.329231-14.178462 31.507692-31.507693 31.507692H118.153846c-17.329231 0-31.507692-14.178462-31.507692-31.507692 0-234.732308 190.621538-425.353846 425.353846-425.353846s425.353846 190.621538 425.353846 425.353846c0 17.329231-14.178462 31.507692-31.507692 31.507692z m-207.163077-63.015384h174.867692C857.009231 295.384615 701.046154 149.661538 512 149.661538S166.990769 295.384615 151.236923 480.492308h174.867692C340.283077 391.483077 418.264615 322.953846 512 322.953846s171.716923 68.529231 186.683077 157.538462z" fill="#33363a" p-id="5688"></path><path d="M512 701.046154c-103.975385 0-189.046154-85.070769-189.046154-189.046154s85.070769-189.046154 189.046154-189.046154 189.046154 85.070769 189.046154 189.046154-85.070769 189.046154-189.046154 189.046154z m0-315.076923c-69.316923 0-126.030769 56.713846-126.030769 126.030769s56.713846 126.030769 126.030769 126.030769 126.030769-56.713846 126.030769-126.030769-56.713846-126.030769-126.030769-126.030769z" fill="#33363a" p-id="5689"></path><path d="M512 512m-78.769231 0a78.769231 78.769231 0 1 0 157.538462 0 78.769231 78.769231 0 1 0-157.538462 0Z" fill="#33363a" p-id="5690"></path></svg><i id="ex-icon__tip" class="ex-panel__tip"></i></a>';
+	a.innerHTML = '<a title="～ (´• ᵕ •`)*✲"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><image width="24" height="24" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAABGdBTUEAALGPC/xhBQAAACBjSFJN AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABdFBMVEUAAAAzNjozNjozNjoz NjozNjozNjozNjozNjozNjozNjozNjozNjo0NjpCMjY0NjozNjozNjo9MzczNjozNjo4NThBMjZR U1eusLHQ0dKWmJozNjozNjpTVVl3eXxWWVxnaWyDhYi+v8BWWFzf3+AzNjptb3L09PTv7++Fh4ro 6OlER0rGx8iGh4pOUVQ+QUVXWVyWmJkzNjpxc3bZ2tv39/fX19jHyMnf4OBSVVg+QUWPkZOPkJM5 PEDo6Oja2tthZGeXmJrp6epTVVg0NzttcHKMjY+cnp+Ehog0NztjKSx7IyWIHyF1JCd8IiSpFRfN DAzWCQlmKCt+IiTEDg/UCgq5EhJ+ISTJDQ2WGxyjFxhaLC/SCgp2JCZJMDM8MzdQLjGFICJiKSx1 JCbPCwvFDg56IyVKMDOqq61rbXDNzs+2EhNOLzJrJypRLjE5NTg2OT2Ympw4NTheKy5PLzI5PED+ /v7////d3t/39/f8/Pz5+vpEN+40AAAASnRSTlMAAxorEg1Al7e/swd55v7QI4356Fvz/v7+/f4C Ff7+/v79/f7+Cf7+/v39/f39/v7+/ND8/f7+/v7++P398/79/fz9/uX9/f390Kmu6iUAAAABYktH RHdGZPnXAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5AUdCCsAU/Ff1wAAAWNJREFUKM9j YCAIGJmYmVkYMYRZ2dg5ODm52Nm4UYV5ePm8vH18fL34+HlYEeICgkJ+/gGBQBDgHyQkyAJXLygc HBIaCAahYcHCIjA9PELBgUggXJQHqoHXLwTIj4j084uKADJConkhWtjE/IHmxMTGxccnxMYATUvk YwO7nz0JaG9ErLiEpKSUeHJKYGCqF7s0UIKJIw2oPzJdIiMzM0siLhvI8eMAmcXMmZObm5uXL5lZ UFAoWVQM5JRwyoAlZOXk5ORLIRKlCkCOLFiChUuxrLxcSVkqq7CwQkpZpby8TJFLFWy5mnp5uYYm xHLNyvJyLTWw5Qxs2jpV5eXVunr6+ga61eXlVYbaYOcycBsZm5SXl5uamZtbmAIZJpZG0CDmsbIu RwI2tjyIQLSxq4KIVtnbIAKRgUXE1sHRCei2MidHZ1sRVeSIctF2dXN393DV9kSOKNxRCwLSrDIy qtKEEw0AQgtYsEqTgPQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDUtMjlUMDg6NDM6MDArMDA6 MDA6vG69AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA1LTI5VDA4OjQzOjAwKzAwOjAwS+HWAQAA AABJRU5ErkJggg=="/></svg><i id="ex-icon__tip" class="ex-panel__tip"></i></a>';
 	
 	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
 	b.insertBefore(a, b.childNodes[0]);
@@ -1140,7 +1143,7 @@ function ExpandTool_RedPacket_Room_insertDom() {
 }
 function ExpandTool_RedPacket_Room_insertFunc() {
     document.getElementById("extool__redpacekt_room_start").addEventListener("click", function() {
-        verifyFans("5189167", 3).then(r => {
+        verifyFans("5189167", 6).then(r => {
             if (r == true) {
                 let ischecked = document.getElementById("extool__redpacekt_room_start").checked;
                 if (ischecked == true) {
@@ -1155,7 +1158,7 @@ function ExpandTool_RedPacket_Room_insertFunc() {
                 saveData_RedPacket_Room();
             } else {
                 document.getElementById("extool__redpacekt_room_start").checked = false;
-                showMessage("本功能需拥有3级歆崽粉丝牌(5189167)才可使用", "error");
+                showMessage("本功能需拥有6级歆崽粉丝牌(5189167)才可使用", "error");
             }
         })
 	});
@@ -1913,7 +1916,7 @@ function LiveTool_Gift_insertDom() {
             <input style="width:40px;margin-left:10px;" type="button" id="gift__del" value="删除"/>
             <div class="gift__option">
                 <label><a id="reply__show_gid" style="color:blue;" href="javascript:void(0);">礼物id：</a><input id="gift__giftId" type="text"/></label>
-                <label>回复：<input id="gift__reply" type="text" placeholder="<id>会替换成用户名"/></label>
+                <label>回复：<input id="gift__reply" type="text" placeholder="<id>=用户名 <cnt>个数"/></label>
             </div>
         </div>
     `;
@@ -1976,6 +1979,12 @@ function LiveTool_Gift_insertFunc() {
 20620|魔法皇冠
 20832|奥利给
 20640|礼物红包办卡
+20523|礼物红包飞机
+20710|金鲨鱼
+20842|时空战机
+20598|星空卡
+20664|666
+20841|星际飞车
         `);
         console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "进行查看");
         showMessage("请按F12到控制台(console)查看礼物id", "success");
@@ -2057,8 +2066,25 @@ function saveData_Gift() {
 }
 
 function saveData_isGift() {
+    let ridArr = [];
+    let ret = localStorage.getItem("ExSave_isGift");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+    }
+    let index = ridArr.indexOf(rid);
+    if (isGiftOn == true) {
+        if (index == -1) {
+            ridArr.push(rid);
+        }
+    } else {
+        ridArr.splice(index, 1);
+    }
+    
 	let data = {
-        isGift: isGiftOn
+        rooms: ridArr,
     };
 	localStorage.setItem("ExSave_isGift", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -2082,7 +2108,15 @@ function initPkg_Gift_Set() {
 	
 	if (ret != null) {
         let retJson = JSON.parse(ret);
-        isGiftOn = retJson.isGift;
+        let ridArr = [];
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+        if (ridArr.indexOf(rid) == -1) {
+            isGiftOn = false;
+        } else {
+            isGiftOn = true;
+        }
         document.getElementById("gift__switch").checked = isGiftOn;
 	}
 }
@@ -2098,10 +2132,12 @@ function initPkg_LiveTool_Gift_Handle(text) {
         }
         let nn = getStrMiddle(text, "nn@=", "/");
         let gfid = getStrMiddle(text, "gfid@=", "/");
+        let gfcnt = getStrMiddle(text, "gfcnt@=", "/");
         for (let key in giftWordList) {
             if (gfid == key) {
                 let reply = giftWordList[key].reply;
                 reply = String(reply).replace(/<id>/g, nn);
+                reply = String(reply).replace(/<cnt>/g, gfcnt);
                 sendBarrage(reply);
                 break;
             }
@@ -2120,7 +2156,6 @@ function initPkg_LiveTool_LiveNotice_Handle(text) {
         if (ss == "1") {
             showMessageWindow("开播提醒", "直播间：" + rid + "开播了，点我跳转并签到", () => {
                 signRoom(rid);
-                window.focus();
             });
         }
     }
@@ -2388,8 +2423,24 @@ function saveData_Mute() {
 }
 
 function saveData_isMute() {
+    let ridArr = [];
+    let ret = localStorage.getItem("ExSave_isMute");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+    }
+    let index = ridArr.indexOf(rid);
+    if (isMuteOn == true) {
+        if (index == -1) {
+            ridArr.push(rid);
+        }
+    } else {
+        ridArr.splice(index, 1);
+    }
 	let data = {
-        isMute: isMuteOn
+        rooms: ridArr,
     };
 	localStorage.setItem("ExSave_isMute", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -2414,7 +2465,15 @@ async function initPkg_Mute_Set() {
 	
 	if (ret != null) {
         let retJson = JSON.parse(ret);
-        isMuteOn = retJson.isMute;
+        let ridArr = [];
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+        if (ridArr.indexOf(rid) == -1) {
+            isMuteOn = false;
+        } else {
+            isMuteOn = true;
+        }
         document.getElementById("mute__switch").checked = isMuteOn;
 	}
 }
@@ -2687,8 +2746,24 @@ function saveData_Reply() {
 }
 
 function saveData_isReply() {
+    let ridArr = [];
+    let ret = localStorage.getItem("ExSave_isReply");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+    }
+    let index = ridArr.indexOf(rid);
+    if (isReplyOn == true) {
+        if (index == -1) {
+            ridArr.push(rid);
+        }
+    } else {
+        ridArr.splice(index, 1);
+    }
 	let data = {
-        isReply: isReplyOn
+        rooms: ridArr,
     };
 	localStorage.setItem("ExSave_isReply", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -2712,7 +2787,15 @@ function initPkg_Reply_Set() {
 	
 	if (ret != null) {
         let retJson = JSON.parse(ret);
-        isReplyOn = retJson.isReply;
+        let ridArr = [];
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+        if (ridArr.indexOf(rid) == -1) {
+            isReplyOn = false;
+        } else {
+            isReplyOn = true;
+        }
         document.getElementById("reply__switch").checked = isReplyOn;
 	}
 }
@@ -2854,7 +2937,7 @@ function initPkg_Night_Set() {
             currentMode = 1;
             a.innerHTML = svg_night;
             a.title = "切换日间模式";
-            setNightMode();
+            // setNightMode();
         }
     }
 }
@@ -2905,8 +2988,8 @@ function setNightMode() {
     .FansRankBottom,.AnchorFriend-footer{border-top:1px solid rgb(121,127,137) !important;}
     .Title-official{background:rgb(35,36,39) !important;}
     .Header-wrap{background:rgb(45,46,54) !important;border-bottom:1px solid rgb(45,46,54) !important;}
-    .layout-Menu{background:rgb(47,48,53) !important;border:1px solid rgb(35,36,39) !important;}
-    .GuessMainPanel{background:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;}
+    .layout-Menu{background:rgb(47,48,53) !important;border-color:rgb(35,36,39) !important;}
+    .GuessMainPanel{background:rgba(47,48,53,0.9) !important;border:1px solid rgb(47,48,53) !important;}
     .danmuAuthor-3d7b4a{color:rgb(234,234,234) !important;}
     .danmudiv-32f498{background:rgba(47,49,53,0.9) !important;}
     .danmuContent-25f266{background:rgba(35,36,39,0.9) !important;}
@@ -2914,8 +2997,8 @@ function setNightMode() {
     .FansMedalPanel-Panel{color:black !important;}
     .AnchorLike-ItemBox,.AnchorFriendPane-content,.SociatyLabelPop-content{border:1px solid rgb(35,36,39) !important;}
     .AnchorFriendCard-info>h3,.GiftExpandPanel-descName,.GiftInfoPanel-name,.FansMedalInfo-titleL,.SociatyAnchorCard-info>h3{color:rgb(204,204,204) !important;}
-    .GuessReturnYwFdSlider{background:rgb(47,48,53); !important;border-left:1px solid rgb(35,36,39) !important;}
-    .GuessGuideList-itemBox,.GuessGuideList-moreGuess{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
+    .GuessReturnYwFdSlider{background:rgba(47,48,53,0.7); !important;border-left:1px solid rgb(35,36,39) !important;}
+    .GuessGuideList-itemBox,.GuessGuideList-moreGuess{background-color:rgba(47,48,53) !important;color:rgb(204,204,204) !important;}
     .AnchorFriend-footer a{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
     .AnchorFriendPane-title{border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;}
     .AnchorLike-friendList .AnchorFriendPane-title h3,.Title svg{color:rgb(153,153,153) !important;}
@@ -2946,7 +3029,8 @@ function setNightMode() {
     .MatchTeamRankBottom{background:rgb(47,48,53) !important;}
     .MatchTeamRankBottom-lable{color:rgb(131,140,154);}
     .MatchTeamRankBottom-desc{color:rgb(121,127,137);}
-    .Barrage-text>a{color:rgb(187,187,187)!important;}
+    .Barrage-text>a,.Barrage-firstCharge{color:rgb(187,187,187)!important;}
+    .GuessMainPanelHeader-slogon{color:rgb(204,204,204)!important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
@@ -3817,7 +3901,7 @@ function initPkg_RemoveAD() {
 
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .FollowGuide,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
     .Barrage-topFloater{z-index:999}
     `);
 }
@@ -4503,10 +4587,15 @@ function signAllRoom() {
                 return res.json();
             }).then(ret => {
                 let roomCount = Number(ret.data.list.length);
+                let signedCount = 0;
                 for (let i = 0; i < roomCount; i++) {
-                    signRoom(ret.data.list[i].room_id);
+                    if (ret.data.list[i].show_status == "1") {
+                        signRoom(ret.data.list[i].room_id);
+                        signedCount++;
+                    }
                     if (nowPage == pageCount && i == roomCount - 1) {
-                        showMessage("【房间签到】" + ret.data.total + "个房间签到已完成！", "success");
+                        let rest = Number(ret.data.total) - signedCount;
+                        showMessage("【房间签到】" + String(signedCount) + "个已开播房间签到已完成，" + String(rest) + "个房间未开播", "success");
                     }
                 }
             }).catch(err => {
@@ -4647,10 +4736,18 @@ function getYubaPage(page) {
         });
     })
 }
+var _hmt = _hmt || [];
+
+function initPkg_Statistics() {
+  let hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4dc4fb0549a56fe03ba53c022b1ff455";
+  let s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+}
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.05.28.01"
+var curVersion = "2020.06.01.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

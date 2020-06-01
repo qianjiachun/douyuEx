@@ -117,8 +117,24 @@ function saveData_Reply() {
 }
 
 function saveData_isReply() {
+    let ridArr = [];
+    let ret = localStorage.getItem("ExSave_isReply");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+    }
+    let index = ridArr.indexOf(rid);
+    if (isReplyOn == true) {
+        if (index == -1) {
+            ridArr.push(rid);
+        }
+    } else {
+        ridArr.splice(index, 1);
+    }
 	let data = {
-        isReply: isReplyOn
+        rooms: ridArr,
     };
 	localStorage.setItem("ExSave_isReply", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -142,7 +158,15 @@ function initPkg_Reply_Set() {
 	
 	if (ret != null) {
         let retJson = JSON.parse(ret);
-        isReplyOn = retJson.isReply;
+        let ridArr = [];
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+        if (ridArr.indexOf(rid) == -1) {
+            isReplyOn = false;
+        } else {
+            isReplyOn = true;
+        }
         document.getElementById("reply__switch").checked = isReplyOn;
 	}
 }

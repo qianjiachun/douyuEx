@@ -20,7 +20,7 @@ function ExpandTool_RedPacket_Room_insertDom() {
 }
 function ExpandTool_RedPacket_Room_insertFunc() {
     document.getElementById("extool__redpacekt_room_start").addEventListener("click", function() {
-        verifyFans("5189167", 3).then(r => {
+        verifyFans("5189167", 6).then(r => {
             if (r == true) {
                 let ischecked = document.getElementById("extool__redpacekt_room_start").checked;
                 if (ischecked == true) {
@@ -35,7 +35,7 @@ function ExpandTool_RedPacket_Room_insertFunc() {
                 saveData_RedPacket_Room();
             } else {
                 document.getElementById("extool__redpacekt_room_start").checked = false;
-                showMessage("本功能需拥有3级歆崽粉丝牌(5189167)才可使用", "error");
+                showMessage("本功能需拥有6级歆崽粉丝牌(5189167)才可使用", "error");
             }
         })
 	});

@@ -28,7 +28,7 @@ function LiveTool_Gift_insertDom() {
             <input style="width:40px;margin-left:10px;" type="button" id="gift__del" value="删除"/>
             <div class="gift__option">
                 <label><a id="reply__show_gid" style="color:blue;" href="javascript:void(0);">礼物id：</a><input id="gift__giftId" type="text"/></label>
-                <label>回复：<input id="gift__reply" type="text" placeholder="<id>会替换成用户名"/></label>
+                <label>回复：<input id="gift__reply" type="text" placeholder="<id>=用户名 <cnt>个数"/></label>
             </div>
         </div>
     `;
@@ -91,6 +91,12 @@ function LiveTool_Gift_insertFunc() {
 20620|魔法皇冠
 20832|奥利给
 20640|礼物红包办卡
+20523|礼物红包飞机
+20710|金鲨鱼
+20842|时空战机
+20598|星空卡
+20664|666
+20841|星际飞车
         `);
         console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "进行查看");
         showMessage("请按F12到控制台(console)查看礼物id", "success");
@@ -172,8 +178,25 @@ function saveData_Gift() {
 }
 
 function saveData_isGift() {
+    let ridArr = [];
+    let ret = localStorage.getItem("ExSave_isGift");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+    }
+    let index = ridArr.indexOf(rid);
+    if (isGiftOn == true) {
+        if (index == -1) {
+            ridArr.push(rid);
+        }
+    } else {
+        ridArr.splice(index, 1);
+    }
+    
 	let data = {
-        isGift: isGiftOn
+        rooms: ridArr,
     };
 	localStorage.setItem("ExSave_isGift", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -197,7 +220,15 @@ function initPkg_Gift_Set() {
 	
 	if (ret != null) {
         let retJson = JSON.parse(ret);
-        isGiftOn = retJson.isGift;
+        let ridArr = [];
+        if ("rooms" in retJson == true) {
+            ridArr = retJson.rooms;
+        }
+        if (ridArr.indexOf(rid) == -1) {
+            isGiftOn = false;
+        } else {
+            isGiftOn = true;
+        }
         document.getElementById("gift__switch").checked = isGiftOn;
 	}
 }
@@ -213,10 +244,12 @@ function initPkg_LiveTool_Gift_Handle(text) {
         }
         let nn = getStrMiddle(text, "nn@=", "/");
         let gfid = getStrMiddle(text, "gfid@=", "/");
+        let gfcnt = getStrMiddle(text, "gfcnt@=", "/");
         for (let key in giftWordList) {
             if (gfid == key) {
                 let reply = giftWordList[key].reply;
                 reply = String(reply).replace(/<id>/g, nn);
+                reply = String(reply).replace(/<cnt>/g, gfcnt);
                 sendBarrage(reply);
                 break;
             }

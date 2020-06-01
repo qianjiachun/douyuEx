@@ -25,10 +25,15 @@ function signAllRoom() {
                 return res.json();
             }).then(ret => {
                 let roomCount = Number(ret.data.list.length);
+                let signedCount = 0;
                 for (let i = 0; i < roomCount; i++) {
-                    signRoom(ret.data.list[i].room_id);
+                    if (ret.data.list[i].show_status == "1") {
+                        signRoom(ret.data.list[i].room_id);
+                        signedCount++;
+                    }
                     if (nowPage == pageCount && i == roomCount - 1) {
-                        showMessage("【房间签到】" + ret.data.total + "个房间签到已完成！", "success");
+                        let rest = Number(ret.data.total) - signedCount;
+                        showMessage("【房间签到】" + String(signedCount) + "个已开播房间签到已完成，" + String(rest) + "个房间未开播", "success");
                     }
                 }
             }).catch(err => {

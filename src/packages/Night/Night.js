@@ -52,7 +52,7 @@ function initPkg_Night_Set() {
             currentMode = 1;
             a.innerHTML = svg_night;
             a.title = "切换日间模式";
-            setNightMode();
+            // setNightMode();
         }
     }
 }
@@ -103,8 +103,8 @@ function setNightMode() {
     .FansRankBottom,.AnchorFriend-footer{border-top:1px solid rgb(121,127,137) !important;}
     .Title-official{background:rgb(35,36,39) !important;}
     .Header-wrap{background:rgb(45,46,54) !important;border-bottom:1px solid rgb(45,46,54) !important;}
-    .layout-Menu{background:rgb(47,48,53) !important;border:1px solid rgb(35,36,39) !important;}
-    .GuessMainPanel{background:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;}
+    .layout-Menu{background:rgb(47,48,53) !important;border-color:rgb(35,36,39) !important;}
+    .GuessMainPanel{background:rgba(47,48,53,0.9) !important;border:1px solid rgb(47,48,53) !important;}
     .danmuAuthor-3d7b4a{color:rgb(234,234,234) !important;}
     .danmudiv-32f498{background:rgba(47,49,53,0.9) !important;}
     .danmuContent-25f266{background:rgba(35,36,39,0.9) !important;}
@@ -112,8 +112,8 @@ function setNightMode() {
     .FansMedalPanel-Panel{color:black !important;}
     .AnchorLike-ItemBox,.AnchorFriendPane-content,.SociatyLabelPop-content{border:1px solid rgb(35,36,39) !important;}
     .AnchorFriendCard-info>h3,.GiftExpandPanel-descName,.GiftInfoPanel-name,.FansMedalInfo-titleL,.SociatyAnchorCard-info>h3{color:rgb(204,204,204) !important;}
-    .GuessReturnYwFdSlider{background:rgb(47,48,53); !important;border-left:1px solid rgb(35,36,39) !important;}
-    .GuessGuideList-itemBox,.GuessGuideList-moreGuess{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
+    .GuessReturnYwFdSlider{background:rgba(47,48,53,0.7); !important;border-left:1px solid rgb(35,36,39) !important;}
+    .GuessGuideList-itemBox,.GuessGuideList-moreGuess{background-color:rgba(47,48,53) !important;color:rgb(204,204,204) !important;}
     .AnchorFriend-footer a{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
     .AnchorFriendPane-title{border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;}
     .AnchorLike-friendList .AnchorFriendPane-title h3,.Title svg{color:rgb(153,153,153) !important;}
@@ -144,7 +144,8 @@ function setNightMode() {
     .MatchTeamRankBottom{background:rgb(47,48,53) !important;}
     .MatchTeamRankBottom-lable{color:rgb(131,140,154);}
     .MatchTeamRankBottom-desc{color:rgb(121,127,137);}
-    .Barrage-text>a{color:rgb(187,187,187)!important;}
+    .Barrage-text>a,.Barrage-firstCharge{color:rgb(187,187,187)!important;}
+    .GuessMainPanelHeader-slogon{color:rgb(204,204,204)!important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
