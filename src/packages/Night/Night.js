@@ -146,6 +146,9 @@ function setNightMode() {
     .MatchTeamRankBottom-desc{color:rgb(121,127,137);}
     .Barrage-text>a,.Barrage-firstCharge{color:rgb(187,187,187)!important;}
     .GuessMainPanelHeader-slogon{color:rgb(204,204,204)!important;}
+    .Barrage-hitYwGame--text{color:rgb(187,187,187)!important;}
+    .AnchorFriendPane-title h3{color:rgb(153,153,153)!important;}
+    .Barrage-nickName.is-self{color:rgb(255,0,51)!important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 

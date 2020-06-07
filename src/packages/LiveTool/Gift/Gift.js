@@ -230,7 +230,10 @@ function initPkg_Gift_Set() {
             isGiftOn = true;
         }
         document.getElementById("gift__switch").checked = isGiftOn;
-	}
+	} else {
+        isGiftOn = false;
+        document.getElementById("gift__switch").checked = isGiftOn;
+    }
 }
 
 function initPkg_LiveTool_Gift_Handle(text) {

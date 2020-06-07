@@ -7,3 +7,18 @@
     height: 20px;
     text-align: center;
 }
+
+.bag-button {
+    position: relative;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    height: 15px;
+    line-height: 15px;
+    cursor: pointer;
+    margin-left: 5px;
+    background: rgb(70, 171, 255);
+    border-radius: 9px;
+    padding: 0px 10px;
+    float: right;
+    right: 20px;
+}

@@ -6,6 +6,7 @@ function signAllRoom() {
     // 2. for in all pages
     // 3. sign each room
     let pageCount = 0;
+    let signedCount = 0;
     fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/list?page=777',{
         method: 'GET',
         mode: 'no-cors',
@@ -25,7 +26,6 @@ function signAllRoom() {
                 return res.json();
             }).then(ret => {
                 let roomCount = Number(ret.data.list.length);
-                let signedCount = 0;
                 for (let i = 0; i < roomCount; i++) {
                     if (ret.data.list[i].show_status == "1") {
                         signRoom(ret.data.list[i].room_id);

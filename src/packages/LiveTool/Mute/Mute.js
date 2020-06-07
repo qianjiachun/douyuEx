@@ -221,7 +221,10 @@ async function initPkg_Mute_Set() {
             isMuteOn = true;
         }
         document.getElementById("mute__switch").checked = isMuteOn;
-	}
+	} else {
+        isMuteOn = false;
+        document.getElementById("mute__switch").checked = isMuteOn;
+    }
 }
 
 async function initPkg_LiveTool_Mute_Handle(text) {
@@ -274,7 +277,7 @@ async function initPkg_LiveTool_Mute_Handle(text) {
                     let nextCount = Number(muteIdList[nn].count) + 1;
                     if (nextCount >= maxCount) {
                         let tmp = await addMuteUser(rid, nn, time);
-                        showMessageWindow("禁言信息", "【" + nn + "】已被禁言" + time + "分钟" + "\n弹幕：" + txt, null);
+                        showMessageWindow("禁言信息", "【" + nn + "】已被禁言" + time + "分钟" + "\n弹幕：" + txt, () => {});
                         let obj = {
                             id: nn,
                             uid: uid,
@@ -292,7 +295,7 @@ async function initPkg_LiveTool_Mute_Handle(text) {
                     let nextCount = 1;
                     if (nextCount >= maxCount) {
                         let tmp = await addMuteUser(rid, nn, time);
-                        showMessageWindow("禁言信息", "【" + nn + "】已被禁言" + time + "分钟" + "\n弹幕：" + txt, null);
+                        showMessageWindow("禁言信息", "【" + nn + "】已被禁言" + time + "分钟" + "\n弹幕：" + txt, () => {});
                         let obj = {
                             id: nn,
                             uid: uid,

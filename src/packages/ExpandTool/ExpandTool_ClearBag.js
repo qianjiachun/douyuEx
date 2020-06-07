@@ -9,7 +9,7 @@ function ExpandTool_ClearBag_insertDom() {
     html += '<label>礼物ID：</label><input id="extool__clearbag_id" type="text" style="width:50px;text-align:center;margin-right:10px;" value="268" />';
     html += '<label>数量：</label><input id="extool__clearbag_cnt" type="text" style="width:30px;text-align:center;" value="1" />';
     html += '<input style="width:40px;margin-left:10px;" type="button" id="extool__clearbag_sendbtn" value="送出" />';
-    html += '<input style="width:60px;margin-left:10px;" type="button" id="extool__clearbag_clearbtn" value="清空背包" />';
+    // html += '<input style="width:60px;margin-left:10px;" type="button" id="extool__clearbag_clearbtn" value="清空背包" />';
     let a = document.createElement("div");
     a.className = "extool__clearbag";
     a.innerHTML = html;
@@ -41,15 +41,15 @@ function ExpandTool_ClearBag_insertFunc() {
         }
         showMessage("【背包送礼】执行完毕！", "success");
     });
-    document.getElementById("extool__clearbag_clearbtn").addEventListener("click", function() {
-        if (confirm("确认清空？") != true) {
-            return;
-        }
-        showMessage("【清空背包】执行中...", "info");
-        getBagGifts(rid, (ret) => {
-            clearBagGifts(ret, rid);
-        })
-    });
+    // document.getElementById("extool__clearbag_clearbtn").addEventListener("click", function() {
+    //     if (confirm("确认清空？") != true) {
+    //         return;
+    //     }
+    //     showMessage("【清空背包】执行中...", "info");
+    //     getBagGifts(rid, (ret) => {
+    //         clearBagGifts(ret, rid);
+    //     })
+    // });
     document.getElementById("extool__clearbag_showid").addEventListener("click", function() {
         getBagGifts(rid, (ret) => {
             let chunkNum = ret.data.list.length;
@@ -81,29 +81,4 @@ function getBagGifts(room_id, callback) {
     }).catch(err => {
         console.log("请求失败!", err)
     })
-}
-
-async function clearBagGifts(bagGiftsJson, room_id) {
-    // 赠送背包内所有的礼物
-    let chunkNum = bagGiftsJson.data.list.length;
-    if (chunkNum > 0) {
-        for (let i = 0; i < chunkNum; i++) {
-            let gift_id = bagGiftsJson.data.list[i].id;
-            let gift_cnt = bagGiftsJson.data.list[i].count;
-            if (Object.keys(bagGiftsJson.data.list[i].batchInfo).length > 0) {
-                await sleep(100).then(() => {
-                    sendGift_bag(gift_id, gift_cnt, room_id);
-                })
-            } else {
-                for (let j = 0; j < gift_cnt; j++) {
-                    await sleep(100).then(() => {
-                        sendGift_bag(gift_id, 1, room_id);
-                    })
-                }
-            }
-        }
-        showMessage("【清空背包】执行完毕！", "success");
-    } else {
-        showMessage("背包礼物为空", "error");
-    }
 }

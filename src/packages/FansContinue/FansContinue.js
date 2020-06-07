@@ -18,6 +18,9 @@ function FansContinue_insertIcon() {
 
 function initPkg_FansContinue_Func() {
 	document.getElementsByClassName("fans-continue")[0].addEventListener("click", function() {
+		if (confirm("确认续牌？") != true) {
+            return;
+        }
 		fetch('https://www.douyu.com/member/cp/getFansBadgeList',{
 			method: 'GET',
 			mode: 'no-cors',

@@ -15,6 +15,7 @@ function initPkg_LiveTool_Module() {
 	initPkg_LiveTool_Mute();
 	initPkg_LiveTool_Gift();
 	initPkg_LiveTool_Reply();
+	initPkg_LiveTool_Treasure();
 }
 function LiveTool_insertModal() {
 	let a = document.createElement("div");
@@ -58,7 +59,7 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
 		initPkg_LiveTool_Gift_Handle(ret); // 自动谢礼物
-		// initPkg_LiveTool_Treasure_Handle(ret); // 领宝箱 放心这行没用。。如果你有过极验的方法，可以联系我
+		initPkg_LiveTool_Treasure_Handle(ret);
     });
 }
 

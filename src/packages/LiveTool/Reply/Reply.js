@@ -168,7 +168,10 @@ function initPkg_Reply_Set() {
             isReplyOn = true;
         }
         document.getElementById("reply__switch").checked = isReplyOn;
-	}
+	} else {
+        isReplyOn = false;
+        document.getElementById("reply__switch").checked = isReplyOn;
+    }
 }
 
 function initPkg_LiveTool_Reply_Handle(text) {

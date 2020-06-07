@@ -8,6 +8,7 @@ function initPkg_LiveTool_LiveNotice_Handle(text) {
         if (ss == "1") {
             showMessageWindow("开播提醒", "直播间：" + rid + "开播了，点我跳转并签到", () => {
                 signRoom(rid);
+                window.focus();
             });
         }
     }
