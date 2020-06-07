@@ -9,6 +9,7 @@ function initPkg_ExpandTool_Treasure() {
 function ExpandTool_Treasure_insertDom() {
     let html = "";
     html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
+    html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
     
     let a = document.createElement("div");
     a.className = "extool__treasure";
@@ -41,9 +42,11 @@ function ExpandTool_Treasure_insertFunc() {
 
 
 function saveData_Treasure() {
-	isGetTreasure = document.getElementById("extool__treasure_start").checked;
+    isGetTreasure = document.getElementById("extool__treasure_start").checked;
+    let delay = document.getElementById("extool__treasure_delay").value;
 	let data = {
-		isGetTreasure: isGetTreasure
+        isGetTreasure: isGetTreasure,
+        treasureDelay: delay,
 	}
 	localStorage.setItem("ExSave_Treasure", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -53,6 +56,11 @@ function ExpandTool_Treasure_Set() {
     let ret = localStorage.getItem("ExSave_Treasure");
 	if (ret != null) {
         let retJson = JSON.parse(ret);
+        if ("treasureDelay" in retJson == true) {
+            document.getElementById("extool__treasure_delay").value = retJson.treasureDelay;
+        } else {
+            document.getElementById("extool__treasure_delay").value = "3200";
+        }
         if (retJson.isGetTreasure == true) {
             verifyFans("5189167", 13).then(r => {
                 if (r == true) {
@@ -67,4 +75,10 @@ function ExpandTool_Treasure_Set() {
             })
         }
 	}
+}
+
+
+function getTreasureDelay() {
+    let ret = document.getElementById("extool__treasure_delay").value;
+    return Number(ret);
 }

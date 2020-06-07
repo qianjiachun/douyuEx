@@ -21,6 +21,7 @@ function initPkg_LiveTool_Treasure_Handle(text) {
         let rid = getStrMiddle(text, "rid@=", "/");
         let did = getCookieValue("dy_did");
         let timeout = Number(ot) - Math.floor(Date.now()/1000);
+        timeout = timeout * 1000 + getTreasureDelay();
         treasureNum++;
 
         let a = document.createElement("div");
@@ -31,7 +32,7 @@ function initPkg_LiveTool_Treasure_Handle(text) {
 
         setTimeout(() => {
             getTreasure(rid, rpid, did, idName);
-        }, timeout*1000 + 1500);
+        }, timeout);
     }
 }
 

@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.06.07.02
+// @version      2020.06.07.04
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 跳转随机火力全开房间 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -1349,6 +1349,7 @@ function initPkg_ExpandTool_Treasure() {
 function ExpandTool_Treasure_insertDom() {
     let html = "";
     html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
+    html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
     
     let a = document.createElement("div");
     a.className = "extool__treasure";
@@ -1381,9 +1382,11 @@ function ExpandTool_Treasure_insertFunc() {
 
 
 function saveData_Treasure() {
-	isGetTreasure = document.getElementById("extool__treasure_start").checked;
+    isGetTreasure = document.getElementById("extool__treasure_start").checked;
+    let delay = document.getElementById("extool__treasure_delay").value;
 	let data = {
-		isGetTreasure: isGetTreasure
+        isGetTreasure: isGetTreasure,
+        treasureDelay: delay,
 	}
 	localStorage.setItem("ExSave_Treasure", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -1393,6 +1396,11 @@ function ExpandTool_Treasure_Set() {
     let ret = localStorage.getItem("ExSave_Treasure");
 	if (ret != null) {
         let retJson = JSON.parse(ret);
+        if ("treasureDelay" in retJson == true) {
+            document.getElementById("extool__treasure_delay").value = retJson.treasureDelay;
+        } else {
+            document.getElementById("extool__treasure_delay").value = "3200";
+        }
         if (retJson.isGetTreasure == true) {
             verifyFans("5189167", 13).then(r => {
                 if (r == true) {
@@ -1409,6 +1417,11 @@ function ExpandTool_Treasure_Set() {
 	}
 }
 
+
+function getTreasureDelay() {
+    let ret = document.getElementById("extool__treasure_delay").value;
+    return Number(ret);
+}
 function initPkg_ExPanel() {
 	pkg_ExPanel_insertDom();
 }
@@ -2978,6 +2991,7 @@ function initPkg_LiveTool_Treasure_Handle(text) {
         let rid = getStrMiddle(text, "rid@=", "/");
         let did = getCookieValue("dy_did");
         let timeout = Number(ot) - Math.floor(Date.now()/1000);
+        timeout = timeout * 1000 + getTreasureDelay();
         treasureNum++;
 
         let a = document.createElement("div");
@@ -2988,7 +3002,7 @@ function initPkg_LiveTool_Treasure_Handle(text) {
 
         setTimeout(() => {
             getTreasure(rid, rpid, did, idName);
-        }, timeout*1000 + 1500);
+        }, timeout);
     }
 }
 
@@ -4962,7 +4976,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.06.07.02"
+var curVersion = "2020.06.07.04"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
