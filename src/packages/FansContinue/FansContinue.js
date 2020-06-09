@@ -18,9 +18,13 @@ function FansContinue_insertIcon() {
 
 function initPkg_FansContinue_Func() {
 	document.getElementsByClassName("fans-continue")[0].addEventListener("click", function() {
-		if (confirm("确认续牌？") != true) {
-            return;
-        }
+		let sendNum = prompt("每个直播间赠送几根荧光棒？", "1");
+		if (sendNum == null) {
+			return;
+		}
+		if (sendNum == "") {
+			return;
+		}
 		fetch('https://www.douyu.com/member/cp/getFansBadgeList',{
 			method: 'GET',
 			mode: 'no-cors',
@@ -35,7 +39,7 @@ function initPkg_FansContinue_Func() {
 			for (let i = 0; i < n; i++) {
 				let rid = a.children[i].getAttribute("data-fans-room"); // 获取房间号
 				await sleep(250).then(() => {
-					sendGift_bag(268, 1, rid).then(data => {
+					sendGift_bag(268, Number(sendNum), rid).then(data => {
 						if (data.msg == "success") {
 							showMessage("【续牌】" + rid + "赠送一根荧光棒成功", "success");
 							// console.log(rid + "赠送一根荧光棒成功");

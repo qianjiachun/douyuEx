@@ -15,3 +15,6 @@
 .extool__bsize,.extool__sendgift {
 	margin-bottom: 5px;
 }
+.extool__redpacket_room,.extool__gold {
+	display: inline-block;
+}

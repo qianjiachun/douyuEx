@@ -22,6 +22,10 @@ function getFishBall_Ad_666() {
             let token = dyToken;
             let uid = getUID();
             let info = await getFishBall_Ad_666_info(posid_ad_666, token, uid);
+            if (info == false) {
+                initPkg_Sign_Ad_Yuba();
+                return;
+            }
             let mid = info.mid;
             let infoBack = info.infoBack;
             let isStart = await getFishBall_Ad_666_start(posid_ad_666, token, uid, mid, infoBack);
@@ -56,6 +60,10 @@ function getFishBall_Ad_666_info(posid_ad_666, token, uid) {
             onload: function(response) {
                 let ret = response.response;
                 if (ret.error == "0") {
+                    if (ret.data.length == 0) {
+                        resolve(false);
+                        return;
+                    }
                     let mid = ret.data[0].mid;
                     let infoBack = encodeURIComponent(JSON.stringify(ret.data));
                     resolve({mid: mid, infoBack: infoBack});

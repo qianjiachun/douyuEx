@@ -6,9 +6,8 @@ function initPkg_LiveTool_LiveNotice_Handle(text) {
         let rid = getStrMiddle(text, "rid@=", "/");
         let ss = getStrMiddle(text, "ss@=", "/");
         if (ss == "1") {
-            showMessageWindow("开播提醒", "直播间：" + rid + "开播了，点我跳转并签到", () => {
+            showMessageWindow("开播提醒", "直播间：" + rid + "开播了，点我签到", () => {
                 signRoom(rid);
-                window.focus();
             });
         }
     }

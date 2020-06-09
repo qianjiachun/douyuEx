@@ -7,7 +7,7 @@ function initPkg_ExpandTool_Gold() {
 
 function ExpandTool_Gold_insertDom() {
     let html = "";
-    html += '<label><input style="margin-top:5px" id="extool__gold_start" type="checkbox">幻神模式</label>';
+    html += '<label><input style="margin-top:5px;" id="extool__gold_start" type="checkbox">幻神模式</label>';
     
     let a = document.createElement("div");
     a.className = "extool__gold";
