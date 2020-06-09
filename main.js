@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.06.09.01
+// @version      2020.06.09.03
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -1350,7 +1350,7 @@ function ExpandTool_Treasure_insertDom() {
     let html = "";
     html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
     html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
-    html += '<div><a href="http://www.ddocr.com/" target="_blank" style="color:blue" title="点击进入ddcor官网，将账号用户中心的接口秘钥填入右边然后开启功能即可">ddcor秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
+    html += '<div><a href="http://www.ddocr.com/" target="_blank" style="color:blue" title="点击进入ddocr官网，将账号用户中心的接口秘钥填入右边然后开启功能即可">ddocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
     
     let a = document.createElement("div");
     a.className = "extool__treasure";
@@ -3142,7 +3142,7 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                     showMessage("【宝箱】获得" + msg, "success");
                 }
             } else {
-                // showMessage("【宝箱】领取失败", "error");
+                showMessage("【宝箱】领取失败", "error");
             }
         }
     });
@@ -5108,7 +5108,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.06.09.01"
+var curVersion = "2020.06.09.03"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

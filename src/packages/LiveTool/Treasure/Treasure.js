@@ -121,7 +121,7 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                     showMessage("【宝箱】获得" + msg, "success");
                 }
             } else {
-                // showMessage("【宝箱】领取失败", "error");
+                showMessage("【宝箱】领取失败", "error");
             }
         }
     });
