@@ -32,7 +32,7 @@ function PopupPlayer_insertPrompt() {
     html += '</div>'; // header
     html += '<div class="postbird-box-text">';
     html += '<input id="popup-player__url" value="https://www.douyu.com/5189167" style="height:30px;box-sizing:border-box" type="text" class="postbird-prompt-input" autofocus="true">';
-    html += '<label style="margin-right:30px" title="【直播流模式】&#10;1. 速度快&#10;2. 延迟低&#10;3. 占用少&#10;4. 不会进入直播间&#10;5. 支持斗鱼/虎牙/Bilibili"><input id="popup-player__noiframe" type="radio" name="sex" value="无弹幕" checked="checked">无弹幕(推荐)</label>';
+    html += '<label style="margin-right:30px" title="【直播流模式】&#10;1. 速度快&#10;2. 延迟低&#10;3. 占用少&#10;4. 不会进入直播间&#10;5. 支持斗鱼/Bilibili"><input id="popup-player__noiframe" type="radio" name="sex" value="无弹幕" checked="checked">无弹幕(推荐)</label>';
     html += '<label title="【框架模式】&#10;1. 速度慢&#10;2. 占用高&#10;3. 会进入直播间&#10;4. 仅支持斗鱼&#10;此模式拖动不是很灵活，请尽量在标题栏小幅度拖动&#10;若拖动无反应请点击页面任意处触发移动"><input id="popup-player__iframe" type="radio" name="sex" value="有弹幕">有弹幕</label>';
     html += '</div>'; // text
     html += '<div class="postbird-box-footer"><button id="popup-player__cancel" class="btn-footer btn-left-footer btn-footer-cancel" style="color:undefined;">取消</button><button id="popup-player__ok" class="btn-footer btn-right-footer btn-footer-ok" style="color:#0e90d2;">确定</button></div></div>'
@@ -64,7 +64,8 @@ function initPkg_PopupPlayer_Func() {
                         createNewVideo(videoPlayerArr.length, rid, "Bilibili");
                     });
                 } else if (roomUrl.indexOf("huya.com") != -1) {
-                    createNewVideo(videoPlayerArr.length, roomUrl, "Huya");
+                    // 2020年6月13日11:21:18 暂时移除对虎牙的支持
+                    // createNewVideo(videoPlayerArr.length, roomUrl, "Huya");
                 }
             } else {
                 createNewVideo_iframe(videoPlayerArr.length, roomUrl);
@@ -93,8 +94,8 @@ function createNewVideo(id, rid, platform) {
             createNewVideo_Bilibili(id, rid);
             break;
         case "Huya":
-            let a = String(rid).split("/");
-            createNewVideo_Huya(id, rid, a[a.length - 1]);
+            // let a = String(rid).split("/");
+            // createNewVideo_Huya(id, rid, a[a.length - 1]);
             break;
         default:
             createNewVideo_Douyu(id, rid);
@@ -351,103 +352,6 @@ function setElementFunc_Bilibili(id, rid) {
     let videoRID = document.getElementById("videoRID" + String(id));
     videoRID.onclick = function() {
         getRealLive_Bilibili(rid, videoQn.value, videoCDN.value, (lurl) => {
-            GM_setClipboard(lurl);
-            showMessage("复制成功", "success");
-        })
-    }
-}
-
-// Huya
-function createNewVideo_Huya(id, rid, rname){
-    getRealLive_Huya(rid, "1", "1", (lurl, msg) => {
-        if (lurl != "" || lurl != null) {
-            if (msg != "") {
-                showMessage(msg, "error");
-                return;
-            }
-            let a = document.createElement("div");
-            let html = "";
-            a.id = "videoDiv" + String(id);
-            a.rid = rid;
-            a.className = "videoDiv";
-            html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><a title='复制直播流地址'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "Huya - " + rname + "</span></a>";
-            html += "<select class='videoQn' id='videoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>超清</option><option value='3'>蓝光4M</option><option value='4'>原画</option></select>";
-            html += "<select class='videoCDN' id='videoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option></select>";
-            html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
-            html += "</div>";
-            html += "<video controls='controls' class='videoPlayer' id='videoPlayer" + String(id) + "'></video><div class='videoScale' id='videoScale" + String(id) + "'></div>";
-            a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
-            b.insertBefore(a, b.childNodes[0]);
-            setElementDrag(id);
-            setElementResize(id);
-            setElementFunc_Huya(id, rid);
-            setElementVideo(id, lurl);
-        }
-    });
-}
-
-function setElementFunc_Huya(id, rid) {
-    let box = document.getElementById("videoDiv" + String(id));
-    let videoPlayer = document.getElementById("videoPlayer" + String(id));
-    let info = document.getElementById("videoInfo" + String(id));
-    let scale = document.getElementById("videoScale" + String(id));
-    videoPlayer.onclick = function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        if (scale.style.display != "block") {
-            scale.style.display = "block";
-            info.style.display = "block";
-        } else {
-            scale.style.display = "none";
-            info.style.display = "none";
-        }
-        for (let i = 0; i < videoPlayerArr.length; i++) {
-            let box = document.getElementById("videoDiv" + String(i));
-            if (box != null) {
-                if (i == id) {
-                    box.style.zIndex = 7778;
-                } else {
-                    box.style.zIndex = 7777;
-                }
-            }
-        }
-    }
-    let videoQn = document.getElementById("videoQn" + String(id));
-    let videoCDN = document.getElementById("videoCDN" + String(id));
-    let videoClose = document.getElementById("videoClose" + String(id));
-    videoQn.onchange = function() {
-        getRealLive_Huya(rid, videoQn.value, videoCDN.value, (lurl, msg) => {
-            if (msg != "") {
-                showMessage(msg, "error");
-                return;
-            }
-            videoPlayerArr[id].destroy();
-            setElementVideo(id, lurl);
-        })
-    }
-    videoCDN.onchange = function() {
-        getRealLive_Huya(rid, videoQn.value, videoCDN.value, (lurl, msg) => {
-            if (msg != "") {
-                showMessage(msg, "error");
-                return;
-            }
-			videoPlayerArr[id].destroy();
-            setElementVideo(id, lurl);
-        })
-    }
-    videoClose.onclick = function() {
-        box.remove();
-    }
-
-
-    let videoRID = document.getElementById("videoRID" + String(id));
-    videoRID.onclick = function() {
-        getRealLive_Huya(rid, videoQn.value, videoCDN.value, (lurl, msg) => {
-            if (msg != "") {
-                showMessage(msg, "error");
-                return;
-            }
             GM_setClipboard(lurl);
             showMessage("复制成功", "success");
         })

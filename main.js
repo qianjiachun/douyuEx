@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.06.09.03
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站虎牙) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱
+// @version      2020.06.13.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -1257,7 +1257,7 @@ function ExpandTool_RedPacket_Room_Set() {
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         if (retJson.isGetRedPacket == true) {
-            verifyFans("5189167", 3).then(r => {
+            verifyFans("5189167", 6).then(r => {
                 if (r == true) {
                     document.getElementById("extool__redpacekt_room_start").click();
                 } else {
@@ -2115,7 +2115,7 @@ function LiveTool_Gift_insertFunc() {
 20624|魔法彩蛋
 20621|魔法之翼
 20599|星空飞机
-20615|幸福摩天轮
+20615|花海摩天轮
 20600|星空火箭
 20614|踏青卡丁车
 20618|魔法指环
@@ -2142,8 +2142,15 @@ function LiveTool_Gift_insertFunc() {
 20598|星空卡
 20664|666
 20841|星际飞车
-        `);
-        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "进行查看");
+1889|火箭
+20914|开黑券
+20932|爆裂飞机
+20931|战地越野车
+20849|机械火箭
+20851|欧皇的祝福
+20853|一起开黑
+`);
+        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "\n或者https://webconf.douyucdn.cn/resource/common/gift/flash/gift_effect.json", "进行查看");
         showMessage("请按F12到控制台(console)查看礼物id", "success");
     });
     document.getElementById("gift__switch").addEventListener("click", () => {
@@ -3410,7 +3417,7 @@ function PopupPlayer_insertPrompt() {
     html += '</div>'; // header
     html += '<div class="postbird-box-text">';
     html += '<input id="popup-player__url" value="https://www.douyu.com/5189167" style="height:30px;box-sizing:border-box" type="text" class="postbird-prompt-input" autofocus="true">';
-    html += '<label style="margin-right:30px" title="【直播流模式】&#10;1. 速度快&#10;2. 延迟低&#10;3. 占用少&#10;4. 不会进入直播间&#10;5. 支持斗鱼/虎牙/Bilibili"><input id="popup-player__noiframe" type="radio" name="sex" value="无弹幕" checked="checked">无弹幕(推荐)</label>';
+    html += '<label style="margin-right:30px" title="【直播流模式】&#10;1. 速度快&#10;2. 延迟低&#10;3. 占用少&#10;4. 不会进入直播间&#10;5. 支持斗鱼/Bilibili"><input id="popup-player__noiframe" type="radio" name="sex" value="无弹幕" checked="checked">无弹幕(推荐)</label>';
     html += '<label title="【框架模式】&#10;1. 速度慢&#10;2. 占用高&#10;3. 会进入直播间&#10;4. 仅支持斗鱼&#10;此模式拖动不是很灵活，请尽量在标题栏小幅度拖动&#10;若拖动无反应请点击页面任意处触发移动"><input id="popup-player__iframe" type="radio" name="sex" value="有弹幕">有弹幕</label>';
     html += '</div>'; // text
     html += '<div class="postbird-box-footer"><button id="popup-player__cancel" class="btn-footer btn-left-footer btn-footer-cancel" style="color:undefined;">取消</button><button id="popup-player__ok" class="btn-footer btn-right-footer btn-footer-ok" style="color:#0e90d2;">确定</button></div></div>'
@@ -3442,7 +3449,8 @@ function initPkg_PopupPlayer_Func() {
                         createNewVideo(videoPlayerArr.length, rid, "Bilibili");
                     });
                 } else if (roomUrl.indexOf("huya.com") != -1) {
-                    createNewVideo(videoPlayerArr.length, roomUrl, "Huya");
+                    // 2020年6月13日11:21:18 暂时移除对虎牙的支持
+                    // createNewVideo(videoPlayerArr.length, roomUrl, "Huya");
                 }
             } else {
                 createNewVideo_iframe(videoPlayerArr.length, roomUrl);
@@ -3471,8 +3479,8 @@ function createNewVideo(id, rid, platform) {
             createNewVideo_Bilibili(id, rid);
             break;
         case "Huya":
-            let a = String(rid).split("/");
-            createNewVideo_Huya(id, rid, a[a.length - 1]);
+            // let a = String(rid).split("/");
+            // createNewVideo_Huya(id, rid, a[a.length - 1]);
             break;
         default:
             createNewVideo_Douyu(id, rid);
@@ -3729,103 +3737,6 @@ function setElementFunc_Bilibili(id, rid) {
     let videoRID = document.getElementById("videoRID" + String(id));
     videoRID.onclick = function() {
         getRealLive_Bilibili(rid, videoQn.value, videoCDN.value, (lurl) => {
-            GM_setClipboard(lurl);
-            showMessage("复制成功", "success");
-        })
-    }
-}
-
-// Huya
-function createNewVideo_Huya(id, rid, rname){
-    getRealLive_Huya(rid, "1", "1", (lurl, msg) => {
-        if (lurl != "" || lurl != null) {
-            if (msg != "") {
-                showMessage(msg, "error");
-                return;
-            }
-            let a = document.createElement("div");
-            let html = "";
-            a.id = "videoDiv" + String(id);
-            a.rid = rid;
-            a.className = "videoDiv";
-            html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><a title='复制直播流地址'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "Huya - " + rname + "</span></a>";
-            html += "<select class='videoQn' id='videoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>超清</option><option value='3'>蓝光4M</option><option value='4'>原画</option></select>";
-            html += "<select class='videoCDN' id='videoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option></select>";
-            html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
-            html += "</div>";
-            html += "<video controls='controls' class='videoPlayer' id='videoPlayer" + String(id) + "'></video><div class='videoScale' id='videoScale" + String(id) + "'></div>";
-            a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
-            b.insertBefore(a, b.childNodes[0]);
-            setElementDrag(id);
-            setElementResize(id);
-            setElementFunc_Huya(id, rid);
-            setElementVideo(id, lurl);
-        }
-    });
-}
-
-function setElementFunc_Huya(id, rid) {
-    let box = document.getElementById("videoDiv" + String(id));
-    let videoPlayer = document.getElementById("videoPlayer" + String(id));
-    let info = document.getElementById("videoInfo" + String(id));
-    let scale = document.getElementById("videoScale" + String(id));
-    videoPlayer.onclick = function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        if (scale.style.display != "block") {
-            scale.style.display = "block";
-            info.style.display = "block";
-        } else {
-            scale.style.display = "none";
-            info.style.display = "none";
-        }
-        for (let i = 0; i < videoPlayerArr.length; i++) {
-            let box = document.getElementById("videoDiv" + String(i));
-            if (box != null) {
-                if (i == id) {
-                    box.style.zIndex = 7778;
-                } else {
-                    box.style.zIndex = 7777;
-                }
-            }
-        }
-    }
-    let videoQn = document.getElementById("videoQn" + String(id));
-    let videoCDN = document.getElementById("videoCDN" + String(id));
-    let videoClose = document.getElementById("videoClose" + String(id));
-    videoQn.onchange = function() {
-        getRealLive_Huya(rid, videoQn.value, videoCDN.value, (lurl, msg) => {
-            if (msg != "") {
-                showMessage(msg, "error");
-                return;
-            }
-            videoPlayerArr[id].destroy();
-            setElementVideo(id, lurl);
-        })
-    }
-    videoCDN.onchange = function() {
-        getRealLive_Huya(rid, videoQn.value, videoCDN.value, (lurl, msg) => {
-            if (msg != "") {
-                showMessage(msg, "error");
-                return;
-            }
-			videoPlayerArr[id].destroy();
-            setElementVideo(id, lurl);
-        })
-    }
-    videoClose.onclick = function() {
-        box.remove();
-    }
-
-
-    let videoRID = document.getElementById("videoRID" + String(id));
-    videoRID.onclick = function() {
-        getRealLive_Huya(rid, videoQn.value, videoCDN.value, (lurl, msg) => {
-            if (msg != "") {
-                showMessage(msg, "error");
-                return;
-            }
             GM_setClipboard(lurl);
             showMessage("复制成功", "success");
         })
@@ -4239,7 +4150,7 @@ function initPkg_RemoveAD() {
 
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .igl_bg-b0724a,.closure-ab91fb.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
     .Barrage-topFloater{z-index:999}
     `);
 }
@@ -4275,6 +4186,7 @@ function initPkg_Sign_Func() {
 		initPkg_Sign_Ad_FishPond();
 		// initPkg_Sign_Aoligei();
 		// initPkg_Sign_Ad_Yuba();
+		initPkg_Sign_Chengxiao();
 	})
 }
 function initPkg_Sign_Dom() {
@@ -4747,6 +4659,27 @@ function getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack) {
     })
 }
 
+function initPkg_Sign_Chengxiao() {
+    signChengxiao();
+}
+function signChengxiao() {
+    fetch("https://www.douyu.com/japi/carnival/nc/signAct/signIn", {
+		method: 'POST',
+		mode: 'no-cors',
+		credentials: 'include',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		body: 'token=' + dyToken + "&signAlias=" + "20200611cxll2qd"
+	}).then(res => {
+		return res.json();
+	}).then(ret => {
+        if (ret.error == "0") {
+            showMessage("【粉丝福利】恭喜你获得荧光棒x10", "success");
+        } else {
+            showMessage("【粉丝福利】" + ret.msg, "warning");
+        }
+    })
+}
+
 function initPkg_Sign_Client() {
 	signClient();
 }
@@ -5108,7 +5041,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.06.09.03"
+var curVersion = "2020.06.13.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -5404,76 +5337,6 @@ function getRealRid_Douyu(url, realrid_callback) {
         console.log("请求失败!", err);
     })
 }
-/*
-    Get Huya Real Live URL (https)
-    By: 小淳
-*/
-function getRealLive_Huya(url, qn, cdn, reallive_callback) {
-    // 第一个参数传入string,表示房间号（注意是真实房间号）
-    // 第二个参数传入string(1,2,3,4),表示清晰度 流畅_500(1) 超清_2500(2) 蓝光4M_4500(3) 原画(4)
-    // 第三个参数传入string(1,2,3,4),表示线路 1:主线路 2:备用线路1 3:备用线路2 4:备用线路3 
-    // 第四个参数传入回调函数，最好是箭头函数，用于处理返回的地址，例: (url, msg) => {console.log(url, msg)}
-    // 这个回调函数有2个参数，第一个是直播流地址，第二个是信息，用于判断错误
-    let qn_data = "500";
-    switch (qn) {
-        case "1":
-            qn_data = "500";
-            break;
-        case "2":
-            qn_data = "2500";
-            break;
-        case "3":
-            qn_data = "4500";
-            break;
-        case "4":
-            qn_data = "0";
-            break;
-        default:
-            qn_data = "500";
-            break;
-    }
-    let cdn_data = Number(cdn) - 1;
-    GM_xmlhttpRequest({
-		method: "GET",
-		url: url,
-		responseType: "text",
-		onload: function(response) {
-            let html = String(response.response);
-            let lurl = ""; // 直播源
-            let msg = ""; // 信息 预留
-            let lurl_sFlvUrl = "";
-            let lurl_sStreamName = "";
-            let lurl_sFlvUrlSuffix = "";
-            let lurl_sFlvAntiCode = "";
-            if (getStrMiddle(html, '"state":"', '",') == "ON") {
-                let tlen = ("hyPlayerConfig = ").length;
-                let tpos = html.indexOf("hyPlayerConfig = ");
-                let json = JSON.parse(html.substring(tpos + tlen, html.indexOf('};', tpos + tlen)) + '}');
-                if (json.stream != null) {
-                    if (json.stream.data[0].gameStreamInfoList.length >= cdn_data) {
-                        lurl_sFlvUrl = json.stream.data[0].gameStreamInfoList[cdn_data].sFlvUrl;
-                        lurl_sFlvUrl = String(lurl_sFlvUrl).replace("http", "https");
-                        lurl_sStreamName = json.stream.data[0].gameStreamInfoList[cdn_data].sStreamName;
-                        lurl_sFlvUrlSuffix = json.stream.data[0].gameStreamInfoList[cdn_data].sFlvUrlSuffix;
-                        lurl_sFlvAntiCode = json.stream.data[0].gameStreamInfoList[cdn_data].sFlvAntiCode;
-
-                        lurl = lurl_sFlvUrl + "/" + lurl_sStreamName + "." + lurl_sFlvUrlSuffix + "?" + lurl_sFlvAntiCode;
-                        lurl = lurl.replace(/amp;/g, "");
-                        if (qn_data != "0") {
-                            lurl = lurl + "&ratio=" + qn_data;
-                        }
-                    } else {
-                        msg = "暂无该线路";
-                    }
-                }
-            } else {
-                msg = "该房间未开播";
-            }
-            reallive_callback(lurl, msg);
-        }
-	});
-}
-
 /*
     Style Hook
     用于替换页面的原样式

@@ -70,7 +70,7 @@ function LiveTool_Gift_insertFunc() {
 20624|魔法彩蛋
 20621|魔法之翼
 20599|星空飞机
-20615|幸福摩天轮
+20615|花海摩天轮
 20600|星空火箭
 20614|踏青卡丁车
 20618|魔法指环
@@ -97,8 +97,15 @@ function LiveTool_Gift_insertFunc() {
 20598|星空卡
 20664|666
 20841|星际飞车
-        `);
-        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "进行查看");
+1889|火箭
+20914|开黑券
+20932|爆裂飞机
+20931|战地越野车
+20849|机械火箭
+20851|欧皇的祝福
+20853|一起开黑
+`);
+        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "\n或者https://webconf.douyucdn.cn/resource/common/gift/flash/gift_effect.json", "进行查看");
         showMessage("请按F12到控制台(console)查看礼物id", "success");
     });
     document.getElementById("gift__switch").addEventListener("click", () => {

@@ -116,7 +116,7 @@ function ExpandTool_RedPacket_Room_Set() {
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         if (retJson.isGetRedPacket == true) {
-            verifyFans("5189167", 3).then(r => {
+            verifyFans("5189167", 6).then(r => {
                 if (r == true) {
                     document.getElementById("extool__redpacekt_room_start").click();
                 } else {

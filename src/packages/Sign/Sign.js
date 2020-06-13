@@ -16,6 +16,7 @@ function initPkg_Sign_Func() {
 		initPkg_Sign_Ad_FishPond();
 		// initPkg_Sign_Aoligei();
 		// initPkg_Sign_Ad_Yuba();
+		initPkg_Sign_Chengxiao();
 	})
 }
 function initPkg_Sign_Dom() {
