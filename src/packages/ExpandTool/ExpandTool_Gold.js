@@ -274,6 +274,8 @@ function fansToSuperRocket() {
                     player.setVideoItem(videoItem);
                     player.startAnimation();
                     setTimeout(() => {
+                        player = null;
+                        parser = null;
                         document.getElementById(idName).remove();
                     }, 4000);
                 });
