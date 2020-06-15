@@ -26,6 +26,14 @@ async function signMotorcade_Sign() {
 	let retConnect = await motorcadeConnect();
 	let retConnect2 = await motorcadeConnect2(retConnect.data.uid, retConnect.data.sig);
 	let mid = await getMotorcadeID(retConnect2.TinyId, retConnect2.A2Key, retConnect.data.uid);
+	if (mid == null) {
+		closePage();
+		return;
+	}
+	if (mid == undefined) {
+		closePage();
+		return;
+	}
 	if (mid == "") {
 		closePage();
 		return;

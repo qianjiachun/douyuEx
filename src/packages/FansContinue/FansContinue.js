@@ -41,7 +41,7 @@ function initPkg_FansContinue_Func() {
 				await sleep(250).then(() => {
 					sendGift_bag(268, Number(sendNum), rid).then(data => {
 						if (data.msg == "success") {
-							showMessage("【续牌】" + rid + "赠送一根荧光棒成功", "success");
+							showMessage("【续牌】" + rid + "赠送荧光棒成功", "success");
 							// console.log(rid + "赠送一根荧光棒成功");
 						} else {
 							showMessage("【续牌】" + rid + "赠送失败 " + data.msg, "error");

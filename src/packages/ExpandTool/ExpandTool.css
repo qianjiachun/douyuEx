@@ -18,3 +18,10 @@
 .extool__redpacket_room,.extool__gold {
 	display: inline-block;
 }
+.ex_giftAnimation {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 50;
+	pointer-events: none;
+}

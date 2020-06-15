@@ -29,7 +29,7 @@ function initPkg_Refresh_Video_Func() {
             dom_video.style = "";
         } else {
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0;z-index:7777";
+            dom_video.style = "bottom:0;z-index:100";
         }
         saveData_Refresh();
     });
@@ -55,7 +55,7 @@ function initPkg_Refresh_Video_Set() {
             let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
             let dom_video = document.getElementsByClassName("layout-Player-video")[0];
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0;z-index:7777";
+            dom_video.style = "bottom:0;z-index:100";
         }
     }
 }

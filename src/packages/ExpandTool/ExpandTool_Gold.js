@@ -1,6 +1,10 @@
 let gold_timer; // 时钟句柄
+let goldGift_timer; // 时钟句柄
+let user_name;
+let animationNum = 0;
 function initPkg_ExpandTool_Gold() {
     ExpandTool_Gold_insertDom();
+    ExpandTool_Gold_insertGiftDom();
     ExpandTool_Gold_insertFunc();
     ExpandTool_Gold_Set();
 }
@@ -8,16 +12,24 @@ function initPkg_ExpandTool_Gold() {
 function ExpandTool_Gold_insertDom() {
     let html = "";
     html += '<label><input style="margin-top:5px;" id="extool__gold_start" type="checkbox">幻神模式</label>';
+    html += '<label><input style="margin-top:5px;" id="extool__goldGift_start" type="checkbox">荧光棒变超火</label>';
     
     let a = document.createElement("div");
     a.className = "extool__gold";
     a.innerHTML = html;
     let b = document.getElementsByClassName("extool")[0];
     b.insertBefore(a, b.childNodes[0]);
-
 }
+
+function ExpandTool_Gold_insertGiftDom() {
+    let a = document.createElement("div");
+    a.className = "ex_giftAnimation";
+    let b = document.getElementsByClassName("Barrage-main")[0];
+    b.insertBefore(a, b.childNodes[0]);
+}
+
 function ExpandTool_Gold_insertFunc() {
-    document.getElementById("extool__gold_start").addEventListener("click", function() {
+    document.getElementById("extool__gold_start").addEventListener("click", async function() {
         let ischecked = document.getElementById("extool__gold_start").checked;
         if (ischecked == true) {
             // 开启幻神模式
@@ -32,7 +44,18 @@ function ExpandTool_Gold_insertFunc() {
         }
         saveData_Gold();
 	});
-
+    document.getElementById("extool__goldGift_start").addEventListener("click", async function() {
+        user_name = await getUserName();
+        let ischecked = document.getElementById("extool__goldGift_start").checked;
+        if (ischecked == true) {
+            goldGift_timer = setInterval(() => {
+                fansToSuperRocket();
+            }, 300);
+        } else{
+            clearInterval(goldGift_timer);
+        }
+        saveData_GoldGift();
+	});
 }
 
 function saveData_Gold() {
@@ -43,6 +66,14 @@ function saveData_Gold() {
 	localStorage.setItem("ExSave_Gold", JSON.stringify(data)); // 存储弹幕列表
 }
 
+function saveData_GoldGift() {
+	let isGoldGift = document.getElementById("extool__goldGift_start").checked;
+	let data = {
+		isGoldGift: isGoldGift
+	}
+	localStorage.setItem("ExSave_GoldGift", JSON.stringify(data)); // 存储弹幕列表
+}
+
 function ExpandTool_Gold_Set() {
 	// 设置初始化
     let ret = localStorage.getItem("ExSave_Gold");
@@ -51,7 +82,14 @@ function ExpandTool_Gold_Set() {
         if (retJson.isGold == true) {
             document.getElementById("extool__gold_start").click();
         }
-	}
+    }
+    ret = localStorage.getItem("ExSave_GoldGift");
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if (retJson.isGoldGift == true) {
+            document.getElementById("extool__goldGift_start").click();
+        }
+    }
 }
 
 function goldBarrageList() {
@@ -200,3 +238,48 @@ function goldBarrage() {
         }
     }
 }
+
+function fansToSuperRocket() {
+    let dom_userName = document.getElementsByClassName("Banner4gift-senderName");
+    for (let i = 0; i < dom_userName.length; i++) {
+        if (dom_userName[i].title == user_name) {
+            let dom_gift = dom_userName[i].parentElement.parentElement;
+            if (dom_gift.id == "ex_giftModified") {
+                continue;
+            }
+            let giftName = dom_gift.getElementsByClassName("Banner4gift-objectName")[0].title;
+            if (giftName == "粉丝荧光棒") {
+                dom_gift.id = "ex_giftModified";
+                dom_gift.className = "Banner4gift Banner4gift--size2";
+                dom_gift.getElementsByClassName("Banner4gift-bg")[0].src = "https://gfs-op.douyucdn.cn/dygift/2019/03/15/6651f2de52dd359c7b553a77b9d00020.png"; // 修改横幅
+                dom_gift.getElementsByClassName("Banner4gift-objectName")[0].title = "超级火箭";
+                dom_gift.getElementsByClassName("Banner4gift-objectName")[0].innerText = "超级火箭";
+                dom_gift.getElementsByClassName("Banner4gift-headerImg")[0].src = "https://gfs-op.douyucdn.cn/dygift/2018/11/27/3adbb0c17d9886c1440d55c9711f4c79.gif"; // 修改gif
+
+                if (document.getElementsByClassName("ex_giftAnimation_exist").length > 0) {
+                    continue;
+                }
+                animationNum++;
+
+                let a = document.createElement("div");
+                let idName = "ex_giftAnimation_" + String(animationNum);
+                a.id = idName;
+                a.className = "ex_giftAnimation_exist";
+                let b = document.getElementsByClassName("ex_giftAnimation")[0];
+                b.appendChild(a);
+
+                let player = new SVGA.Player("#" + idName);
+                let parser = new SVGA.Parser("#" + idName);
+                parser.load('https://gfs-op.douyucdn.cn/dygift/2018/11/27/6c6349672e662750ad5c019b240d57f2.svga', (videoItem) => {
+                    player.setVideoItem(videoItem);
+                    player.startAnimation();
+                    setTimeout(() => {
+                        document.getElementById(idName).remove();
+                    }, 4000);
+                });
+                
+            }
+        }
+    }
+}
+

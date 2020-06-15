@@ -10,7 +10,6 @@ urlLen = null;
 ridPos = null;
 var my_uid = getCookieValue("acf_uid"); // 自己的uid
 var dyToken = getToken();
-
 function showExPanel() {
 	// 显示功能条
 	let a = document.getElementsByClassName("ex-panel")[0];
@@ -209,4 +208,22 @@ function showMessageWindow(title, content, callback){
             }
         });
     }   
+}
+
+function getUserName() {
+	return new Promise(resovle => {
+		fetch('https://www.douyu.com/member/cp',{
+			method: 'GET',
+			mode: 'no-cors',
+			credentials: 'include',
+		}).then(res => {
+			return res.text();
+		}).then(txt => {
+			txt = (new DOMParser()).parseFromString(txt, 'text/html');
+			let ret = txt.getElementsByClassName("uname_con")[0].title;
+			resovle(ret);
+		}).catch(err => {
+			console.error('请求失败', err);
+		})
+	})
 }

@@ -101,9 +101,10 @@ function LiveTool_Gift_insertFunc() {
 20914|开黑券
 20932|爆裂飞机
 20931|战地越野车
-20849|机械火箭
-20851|欧皇的祝福
-20853|一起开黑
+20933|有牌面
+20934|机械火箭
+20935|欧皇的祝福
+20936|一起开黑
 `);
         console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "\n或者https://webconf.douyucdn.cn/resource/common/gift/flash/gift_effect.json", "进行查看");
         showMessage("请按F12到控制台(console)查看礼物id", "success");
