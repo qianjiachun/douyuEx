@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.06.15.02
+// @version      2020.06.18.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -4181,8 +4181,9 @@ function initPkg_Refresh_BarrageFrame_Set() {
 }
 
 function initPkg_Refresh_Video() {
-    setTimeout(() => {
+    let timer = setInterval(() => {
         if (document.getElementsByClassName("right-e7ea5d").length > 0) {
+            clearInterval(timer);
             initPkg_Refresh_Video_Dom();
             initPkg_Refresh_Video_Func();
             initPkg_Refresh_Video_Set();
@@ -4211,7 +4212,7 @@ function initPkg_Refresh_Video_Func() {
             dom_video.style = "";
         } else {
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0;z-index:100";
+            dom_video.style = "bottom:0;z-index:25";
         }
         saveData_Refresh();
     });
@@ -4237,7 +4238,7 @@ function initPkg_Refresh_Video_Set() {
             let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
             let dom_video = document.getElementsByClassName("layout-Player-video")[0];
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0;z-index:100";
+            dom_video.style = "bottom:0;z-index:25";
         }
     }
 }
@@ -4255,7 +4256,7 @@ function initPkg_RemoveAD() {
 
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .igl_bg-b0724a,.closure-ab91fb.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
     .Barrage-topFloater{z-index:999}
     `);
 }
@@ -5154,7 +5155,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.06.15.02"
+var curVersion = "2020.06.18.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -5570,51 +5571,46 @@ function hex(e) {
    DouyuEx WebSocket UnLogin
     By: 小淳
 */
-function Ex_WebSocket_UnLogin(rid, callback) {
-    // 自定义数据类型
+class Ex_WebSocket_UnLogin {
     // 调用方法：
     // 连接：let a = new Ex_WebSocket_UnLogin("房间号", 消息回调函数);
     // 关闭连接: a.WebSocket_Close(); a = null; 记得null掉变量再重新连接
     // 消息回调函数建议用箭头函数，示例：(msg) => {// TODO}
-    if ("WebSocket" in window) {
-        this.timer = 0;
-        this.roomid = rid;
-        this.ws = new WebSocket("wss://danmuproxy.douyu.com:850" + String(getRandom(2,5))); // 负载均衡 8502~8504都可以用
-        this.ws.onopen = () => {
-            this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + rid));
-            this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + rid + "/gid@=-9999/"));
-            this.timer = setInterval(() => {
-                this.ws.send(WebSocket_Packet("type@=mrkl/"));
-            }, 40000)
-            // console.log("WebSocket已连接");
-        };
-        this.ws.onmessage = (e) => { 
-            let reader = new FileReader();
-            reader.onload = () => {
-                let arr = String(reader.result).split("type@="); // 分包
-                reader = null;
-                for (let i = 0; i < arr.length; i++) {
-                    if (arr[i].length > 12) {
-                        // 过滤第一条和心跳包
-                        callback("type@=" + arr[i]);
-                    }
-                }
+    constructor(rid, callback) {
+        if ("WebSocket" in window) {
+            this.timer = 0;
+            this.roomid = rid;
+            this.ws = new WebSocket("wss://danmuproxy.douyu.com:850" + String(getRandom(2,5))); // 负载均衡 8502~8504都可以用
+            this.ws.onopen = () => {
+                this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + rid));
+                this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + rid + "/gid@=-9999/"));
+                this.timer = setInterval(() => {
+                    this.ws.send(WebSocket_Packet("type@=mrkl/"));
+                }, 40000)
+                // console.log("WebSocket已连接");
             };
-            reader.readAsText(e.data);
-        };
-        this.ws.onclose = () => { 
-            showMessage("服务器连接丢失，请尝试刷新页面", "error");
-            console.log("服务器连接丢失");
-        };
-        if (typeof this.close != "function") {
-            
-            Ex_WebSocket_UnLogin.prototype.close = () => {
-                clearInterval(this.timer);
-                this.ws.close();
+            this.ws.onmessage = (e) => { 
+                let reader = new FileReader();
+                reader.onload = () => {
+                    let arr = String(reader.result).split("type@="); // 分包
+                    reader = null;
+                    for (let i = 0; i < arr.length; i++) {
+                        if (arr[i].length > 12) {
+                            // 过滤第一条和心跳包
+                            callback("type@=" + arr[i]);
+                        }
+                    }
+                };
+                reader.readAsText(e.data);
+            };
+            this.ws.onclose = () => { 
+                showMessage("服务器连接丢失，请尝试刷新页面", "error");
+                console.log("服务器连接丢失");
             };
         }
     }
+    close() {
+        clearInterval(this.timer);
+        this.ws.close();
+    }
 }
-
-
-

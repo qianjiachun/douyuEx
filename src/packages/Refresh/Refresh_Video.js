@@ -1,6 +1,7 @@
 function initPkg_Refresh_Video() {
-    setTimeout(() => {
+    let timer = setInterval(() => {
         if (document.getElementsByClassName("right-e7ea5d").length > 0) {
+            clearInterval(timer);
             initPkg_Refresh_Video_Dom();
             initPkg_Refresh_Video_Func();
             initPkg_Refresh_Video_Set();
@@ -29,7 +30,7 @@ function initPkg_Refresh_Video_Func() {
             dom_video.style = "";
         } else {
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0;z-index:100";
+            dom_video.style = "bottom:0;z-index:25";
         }
         saveData_Refresh();
     });
@@ -55,7 +56,7 @@ function initPkg_Refresh_Video_Set() {
             let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
             let dom_video = document.getElementsByClassName("layout-Player-video")[0];
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0;z-index:100";
+            dom_video.style = "bottom:0;z-index:25";
         }
     }
 }
