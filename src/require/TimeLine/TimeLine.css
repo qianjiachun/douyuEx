@@ -1,0 +1,75 @@
+.layui-timeline {
+    padding-left: 5px;
+}
+
+.layui-timeline-item {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+li {
+    list-style: none;
+}
+
+.layui-timeline-item:first-child::before {
+    display: block;
+}
+
+.layui-timeline-item:last-child::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0;
+    z-index: 0;
+    width: 0;
+    height: 100%;
+}
+.layui-timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0;
+    z-index: 0;
+    width: 1px;
+    height: 100%;
+}
+
+.layui-timeline-item::before,
+hr {
+    background-color: #e6e6e6;
+}
+
+.layui-timeline-axis {
+    position: absolute;
+    left: -5px;
+    top: 0;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background-color: #fff;
+    color: #5FB878;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.layui-icon {
+    font-family: layui-icon !important;
+    font-size: 16px;
+    font-style: normal;
+}
+
+.layui-timeline-content {
+    padding-left: 25px;
+}
+
+.layui-text {
+    line-height: 22px;
+    font-size: 14px;
+    color: rgb(85,85,85);
+}
+
+.layui-timeline-title {
+    position: relative;
+}

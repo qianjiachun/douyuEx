@@ -1,0 +1,16 @@
+.barragePanel__funcPanel {
+    position: absolute;
+    width: 232px;
+    height: 270px;
+    display: block;
+    background: white;
+    overflow-y: scroll;
+}
+
+.barragePanel__funcPanel::-webkit-scrollbar {display:none}
+.barragePanel__muteTime {
+    position: absolute;
+    left: 25px;
+    top: 123px;
+    z-index: 5;
+}

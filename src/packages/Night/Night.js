@@ -149,6 +149,8 @@ function setNightMode() {
     .Barrage-hitYwGame--text{color:rgb(187,187,187)!important;}
     .AnchorFriendPane-title h3{color:rgb(153,153,153)!important;}
     .Barrage-nickName.is-self{color:rgb(255,0,51)!important;}
+    .barragePanel__funcPanel{background:rgba(47,49,53,0.9) !important;}
+    .layui-text{color:rgb(187,187,187) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
