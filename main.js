@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.06.21.01
+// @version      2020.06.22.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -694,24 +694,52 @@ function initPkg_BarragePanel() {
 
 function setBarragePanelCallBack() {
     let a = new DomHook("#Ex_BarragePanel", (m) => {
+        let isAttributes = false;
         if (m.length > 0) {
-            let addedNodes = m[0].addedNodes;
-            if (addedNodes.length > 0) {
-                let barragePanel = addedNodes[0];
-                if ("getElementsByClassName" in barragePanel == false) {
-                    return;
+            for (let i = 0; i < m.length; i++) {
+                if (m[i].type == "attributes") {
+                    isAttributes = true;
+                    break;
+                } 
+            }
+            if (isAttributes == false) {
+                let addedNodes = m[0].addedNodes;
+                if (addedNodes.length > 0) {
+                    let barragePanel = addedNodes[0];
+                    if ("getElementsByClassName" in barragePanel == false) {
+                        return;
+                    }
+                    let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
+                    let id = "";
+                    if (userNameDom.length > 0) {
+                        id = userNameDom[0].innerHTML;
+                        setUserFansMedal(userNameDom[0], id);
+                        setMuteButton(barragePanel);
+                        setSearchBarrageButton(barragePanel);
+                        setMuteTimeButton(barragePanel);
+                        setBarrgePanelFunc(barragePanel, id);
+                    }
                 }
+            } else {
+                let tmp = document.getElementsByClassName("barragePanel__funcPanel");
+                if (tmp.length > 0) {
+                    tmp[0].remove();
+                }
+                let barragePanel = document.getElementsByClassName("danmudiv-32f498")[0];
                 let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
+                
                 let id = "";
                 if (userNameDom.length > 0) {
                     id = userNameDom[0].innerHTML;
                     setUserFansMedal(userNameDom[0], id);
-                    setMuteButton(barragePanel);
-                    setSearchBarrageButton(barragePanel);
-                    setMuteTimeButton(barragePanel);
+                    // setMuteButton(barragePanel);
+                    // setSearchBarrageButton(barragePanel);
+                    // setMuteTimeButton(barragePanel);
                     setBarrgePanelFunc(barragePanel, id);
                 }
+
             }
+            
         }
     });
 }
@@ -782,7 +810,7 @@ function setMuteTimeButton(dom) {
 }
 
 function setBarrgePanelFunc(parentDom, id) {
-    document.getElementById("barragePanel__mute").addEventListener("click", async () => {
+    document.getElementById("barragePanel__mute").onclick = async () => {
         let value = document.getElementById("barragePanel__muteSelect").value || "1";
         let ret = await addMuteUser(rid, id, value);
         if (ret.msg == "添加成功") {
@@ -790,13 +818,18 @@ function setBarrgePanelFunc(parentDom, id) {
         } else {
             showMessage(ret.msg, "error");
         }
-    });
-    document.getElementById("barragePanel__search").addEventListener("click", async () => {
+    };
+    
+    document.getElementById("barragePanel__search").onclick = async () => {
         insertBarragePanel_SearchBarrage_Dom(parentDom);
+        barragePanelLastName = id;
         let ret = await getUserRecentBarrage(id);
         let retJson = JSON.parse(ret.data);
         let panel = document.getElementById("barragePanel__searchPanel");
         if(retJson.msg == "成功") {
+            if ("danmuVoList" in retJson.data == false) {
+                return;
+            }
             for (let i = 0; i < retJson.data.danmuVoList.length; i++) {
                 let item = retJson.data.danmuVoList[i];
                 let a = document.createElement("li");
@@ -831,14 +864,18 @@ function setBarrgePanelFunc(parentDom, id) {
         } else {
             showMessage("【查弹幕】查询失败", "error");
         }
-    });
+    };
 }
 
 function insertBarragePanel_SearchBarrage_Dom(parentDom) {
-    if (document.getElementsByClassName("barragePanel__funcPanel").length > 0) {
-        return;
-    }
+    let pMarginLeft = parseInt(parentDom.style.marginLeft);
     let newMarginLeft = "-237px";
+    if (pMarginLeft > 237) {
+        newMarginLeft = "-237px";
+    } else {
+        newMarginLeft = "237px";
+    }
+    
     let a = document.createElement("div");
     a.className = "barragePanel__funcPanel";
     a.style = `margin-left:${newMarginLeft}`;
@@ -5348,7 +5385,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.06.21.01"
+var curVersion = "2020.06.22.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

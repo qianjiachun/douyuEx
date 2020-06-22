@@ -14,24 +14,52 @@ function initPkg_BarragePanel() {
 
 function setBarragePanelCallBack() {
     let a = new DomHook("#Ex_BarragePanel", (m) => {
+        let isAttributes = false;
         if (m.length > 0) {
-            let addedNodes = m[0].addedNodes;
-            if (addedNodes.length > 0) {
-                let barragePanel = addedNodes[0];
-                if ("getElementsByClassName" in barragePanel == false) {
-                    return;
+            for (let i = 0; i < m.length; i++) {
+                if (m[i].type == "attributes") {
+                    isAttributes = true;
+                    break;
+                } 
+            }
+            if (isAttributes == false) {
+                let addedNodes = m[0].addedNodes;
+                if (addedNodes.length > 0) {
+                    let barragePanel = addedNodes[0];
+                    if ("getElementsByClassName" in barragePanel == false) {
+                        return;
+                    }
+                    let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
+                    let id = "";
+                    if (userNameDom.length > 0) {
+                        id = userNameDom[0].innerHTML;
+                        setUserFansMedal(userNameDom[0], id);
+                        setMuteButton(barragePanel);
+                        setSearchBarrageButton(barragePanel);
+                        setMuteTimeButton(barragePanel);
+                        setBarrgePanelFunc(barragePanel, id);
+                    }
                 }
+            } else {
+                let tmp = document.getElementsByClassName("barragePanel__funcPanel");
+                if (tmp.length > 0) {
+                    tmp[0].remove();
+                }
+                let barragePanel = document.getElementsByClassName("danmudiv-32f498")[0];
                 let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
+                
                 let id = "";
                 if (userNameDom.length > 0) {
                     id = userNameDom[0].innerHTML;
                     setUserFansMedal(userNameDom[0], id);
-                    setMuteButton(barragePanel);
-                    setSearchBarrageButton(barragePanel);
-                    setMuteTimeButton(barragePanel);
+                    // setMuteButton(barragePanel);
+                    // setSearchBarrageButton(barragePanel);
+                    // setMuteTimeButton(barragePanel);
                     setBarrgePanelFunc(barragePanel, id);
                 }
+
             }
+            
         }
     });
 }
@@ -102,7 +130,7 @@ function setMuteTimeButton(dom) {
 }
 
 function setBarrgePanelFunc(parentDom, id) {
-    document.getElementById("barragePanel__mute").addEventListener("click", async () => {
+    document.getElementById("barragePanel__mute").onclick = async () => {
         let value = document.getElementById("barragePanel__muteSelect").value || "1";
         let ret = await addMuteUser(rid, id, value);
         if (ret.msg == "添加成功") {
@@ -110,13 +138,18 @@ function setBarrgePanelFunc(parentDom, id) {
         } else {
             showMessage(ret.msg, "error");
         }
-    });
-    document.getElementById("barragePanel__search").addEventListener("click", async () => {
+    };
+    
+    document.getElementById("barragePanel__search").onclick = async () => {
         insertBarragePanel_SearchBarrage_Dom(parentDom);
+        barragePanelLastName = id;
         let ret = await getUserRecentBarrage(id);
         let retJson = JSON.parse(ret.data);
         let panel = document.getElementById("barragePanel__searchPanel");
         if(retJson.msg == "成功") {
+            if ("danmuVoList" in retJson.data == false) {
+                return;
+            }
             for (let i = 0; i < retJson.data.danmuVoList.length; i++) {
                 let item = retJson.data.danmuVoList[i];
                 let a = document.createElement("li");
@@ -151,14 +184,18 @@ function setBarrgePanelFunc(parentDom, id) {
         } else {
             showMessage("【查弹幕】查询失败", "error");
         }
-    });
+    };
 }
 
 function insertBarragePanel_SearchBarrage_Dom(parentDom) {
-    if (document.getElementsByClassName("barragePanel__funcPanel").length > 0) {
-        return;
-    }
+    let pMarginLeft = parseInt(parentDom.style.marginLeft);
     let newMarginLeft = "-237px";
+    if (pMarginLeft > 237) {
+        newMarginLeft = "-237px";
+    } else {
+        newMarginLeft = "237px";
+    }
+    
     let a = document.createElement("div");
     a.className = "barragePanel__funcPanel";
     a.style = `margin-left:${newMarginLeft}`;
