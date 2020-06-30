@@ -17,6 +17,7 @@ function initPkg_Sign_Func() {
 		// initPkg_Sign_Aoligei();
 		// initPkg_Sign_Ad_Yuba();
 		initPkg_Sign_Chengxiao();
+		initPkg_Sign_Ad_Novel();
 	})
 }
 function initPkg_Sign_Dom() {

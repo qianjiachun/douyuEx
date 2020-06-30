@@ -52,8 +52,17 @@ function initPkg_RealAudience_Dom() {
 }
 
 function initPkg_RealAudience_Func() {
-	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseover", function() {document.querySelector(".AnchorAnnounce > h3").style.display="block"});
-	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseout", function() {document.querySelector(".AnchorAnnounce > h3").style.display="none"});
+	let h_timeout;
+	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseover", () => {
+		h_timeout = setTimeout(() => {
+			document.querySelector(".AnchorAnnounce > h3").style.display="block";
+		}, 500);
+		
+	});
+	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseout", () => {
+		clearTimeout(h_timeout);
+		document.querySelector(".AnchorAnnounce > h3").style.display="none";
+	});
 	document.getElementsByClassName("real-audience")[0].addEventListener("click", function() {
 		openPage("https://www.xiaohulu.com/liveParticularsIndex/2/" + rid, true);
 	})

@@ -124,7 +124,7 @@ function setNightMode() {
     .BatchGiveForm-btn,.Backpack-prop.is-blank,.GuessMainPanel-sliderItem{background-color:rgb(47,48,53) !important;}
     .Backpack{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .Backpack-name,.NormalCard-btn,.NormalCard-close,.NobleCard-close,.ReportButton-41fa9e,.HideButton-d22988,.txtHidden-486e56,.BackpackInfoPanel-name,.NormalCard-name{color:rgb(187,187,187) !important;}
-    .Backpack-propPage,.BatchProp-content{background-color:rgb(35,36,39) !important;}
+    .Backpack-propPage,.BatchProp-content{background-color:rgb(35,36,39) !important;color:rgb(149,149,149)!important;}
     .BackpackInfoPanel-content{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .BatchProp-customIpt,.BatchGiveForm-num,.GiftInfoPanel-intro{color:rgb(149,149,149) !important;}
     .GuessReturnYwFdSlider-numIptWrap,.GuessReturnYwFdSlider-numIpt{background-color:rgb(47,48,53) !important;color:rgb(149,149,149) !important;}
@@ -151,6 +151,8 @@ function setNightMode() {
     .Barrage-nickName.is-self{color:rgb(255,0,51)!important;}
     .barragePanel__funcPanel{background:rgba(47,49,53,0.9) !important;}
     .layui-text{color:rgb(187,187,187) !important;}
+    .GuessReturnYwFdSlider-ywNum{color:rgb(237,90,101) !important;}
+    .VideoBottomTabs span{color:rgb(204,204,204)}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 

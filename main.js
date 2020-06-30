@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.06.22.01
+// @version      2020.06.30.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -68,35 +68,7 @@ function initStyles() {
 }
 
 (function() {
-	if (window.location.host == "msg.douyu.com") {
-		if (getQueryString("exid") == "chun") {
-			signMotorcade_Sign();
-		}
-	} else {
-        if (String(location.href).indexOf("exid=chun") != -1) {
-            let intID = setInterval(() => {
-                if (typeof(document.querySelector('div.wfs-2a8e83')) != "undefined") {
-                    document.querySelector('div.wfs-2a8e83').click();
-					document.querySelector('label.layout-Player-asidetoggleButton').click();
-					let l = document.querySelectorAll(".tip-e3420a > ul > li").length;
-					document.querySelectorAll(".tip-e3420a > ul > li")[l - 1].click();
-                    clearInterval(intID);
-                }
-            }, 1000);
-        } else {
-            init();
-            let intID = setInterval(() => {
-                if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined") {
-                    setTimeout(() => {
-                        initStyles();
-                        initPkg();
-                        initTimer();
-                    }, 1500)
-                    clearInterval(intID);
-                }
-            }, 1000);
-        }
-	}
+	initRouter(window.location.href);
 })();
 // 全局变量及公共函数
 var exTimer = 0; // 总时钟句柄
@@ -3445,6 +3417,7 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                             },
                             onload: function(response) {
                                 let ret = response.response;
+                                console.log(ret);
                                 let msg = "";
                                 if (ret.data.prop_id == "") {
                                     msg = "鱼丸x" + ret.data.silver;
@@ -3473,6 +3446,7 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 }
             } else if(ret.data.msg != "领取失败") {
                 let msg = "";
+                console.log(ret);
                 if (ret.data.prop_id == "") {
                     msg = "鱼丸x" + ret.data.silver;
                 } else {
@@ -3684,7 +3658,7 @@ function setNightMode() {
     .BatchGiveForm-btn,.Backpack-prop.is-blank,.GuessMainPanel-sliderItem{background-color:rgb(47,48,53) !important;}
     .Backpack{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .Backpack-name,.NormalCard-btn,.NormalCard-close,.NobleCard-close,.ReportButton-41fa9e,.HideButton-d22988,.txtHidden-486e56,.BackpackInfoPanel-name,.NormalCard-name{color:rgb(187,187,187) !important;}
-    .Backpack-propPage,.BatchProp-content{background-color:rgb(35,36,39) !important;}
+    .Backpack-propPage,.BatchProp-content{background-color:rgb(35,36,39) !important;color:rgb(149,149,149)!important;}
     .BackpackInfoPanel-content{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .BatchProp-customIpt,.BatchGiveForm-num,.GiftInfoPanel-intro{color:rgb(149,149,149) !important;}
     .GuessReturnYwFdSlider-numIptWrap,.GuessReturnYwFdSlider-numIpt{background-color:rgb(47,48,53) !important;color:rgb(149,149,149) !important;}
@@ -3711,6 +3685,8 @@ function setNightMode() {
     .Barrage-nickName.is-self{color:rgb(255,0,51)!important;}
     .barragePanel__funcPanel{background:rgba(47,49,53,0.9) !important;}
     .layui-text{color:rgb(187,187,187) !important;}
+    .GuessReturnYwFdSlider-ywNum{color:rgb(237,90,101) !important;}
+    .VideoBottomTabs span{color:rgb(204,204,204)}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
@@ -4185,8 +4161,17 @@ function initPkg_RealAudience_Dom() {
 }
 
 function initPkg_RealAudience_Func() {
-	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseover", function() {document.querySelector(".AnchorAnnounce > h3").style.display="block"});
-	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseout", function() {document.querySelector(".AnchorAnnounce > h3").style.display="none"});
+	let h_timeout;
+	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseover", () => {
+		h_timeout = setTimeout(() => {
+			document.querySelector(".AnchorAnnounce > h3").style.display="block";
+		}, 500);
+		
+	});
+	document.getElementsByClassName("AnchorAnnounce")[0].addEventListener("mouseout", () => {
+		clearTimeout(h_timeout);
+		document.querySelector(".AnchorAnnounce > h3").style.display="none";
+	});
 	document.getElementsByClassName("real-audience")[0].addEventListener("click", function() {
 		openPage("https://www.xiaohulu.com/liveParticularsIndex/2/" + rid, true);
 	})
@@ -4486,8 +4471,9 @@ function initPkg_RemoveAD() {
 
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
     .Barrage-topFloater{z-index:999}
+    .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     `);
 }
 
@@ -4523,6 +4509,7 @@ function initPkg_Sign_Func() {
 		// initPkg_Sign_Aoligei();
 		// initPkg_Sign_Ad_Yuba();
 		initPkg_Sign_Chengxiao();
+		initPkg_Sign_Ad_Novel();
 	})
 }
 function initPkg_Sign_Dom() {
@@ -5385,7 +5372,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.06.22.01"
+var curVersion = "2020.06.30.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -5854,3 +5841,54 @@ class Ex_WebSocket_UnLogin {
         this.ws.close();
     }
 }
+function initRouter(href) {
+    if (String(href).indexOf("msg.douyu.com") != -1) {
+        initRouter_Motorcade();
+	} else {
+        if (String(href).indexOf("exid=chun") != -1) {
+            initRouter_DouyuRoom_Popup();
+        } else {
+            initRouter_DouyuRoom_Main();
+        }
+	}
+}
+
+function initRouter_Motorcade() {
+    // 车队
+    if (getQueryString("exid") == "chun") {
+        signMotorcade_Sign();
+    }
+}
+
+function initRouter_DouyuRoom_Popup() {
+    // 画中画
+    let intID = setInterval(() => {
+        if (typeof(document.querySelector('div.wfs-2a8e83')) != "undefined") {
+            document.querySelector('div.wfs-2a8e83').click();
+            document.querySelector('label.layout-Player-asidetoggleButton').click();
+            let l = document.querySelectorAll(".tip-e3420a > ul > li").length;
+            document.querySelectorAll(".tip-e3420a > ul > li")[l - 1].click();
+            clearInterval(intID);
+        }
+    }, 1000);
+}
+
+
+function initRouter_DouyuRoom_Main() {
+    // 主要
+    init();
+    let intID = setInterval(() => {
+        if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined") {
+            setTimeout(() => {
+                initStyles();
+                initPkg();
+                initTimer();
+            }, 1500)
+            clearInterval(intID);
+        }
+    }, 1000);
+}
+
+// function initRouter_Novel() {
+//     startWatchNovel();
+// }
