@@ -1,4 +1,4 @@
-## DouyuEx-斗鱼直播间增强插件![](https://img.douyucdn.cn/data/yuba/weibo/2020/02/18/202002182111554630626652946.png)
+## DouyuEx-斗鱼直播间增强插件![icon.png](https://img.douyucdn.cn/data/yuba/weibo/2020/02/18/202002182111554630626652946.png)
 
 ### 🎯目标
 1. 旨在扩展增强原版功能，优化用户体验
@@ -46,4 +46,4 @@
 
 [投喂名单](https://qianjiachun.github.io/DouyuEx/donate)  
 
-![](https://qianjiachun.github.io/DouyuEx/qrcode.jpg)
+![qrcode.jpg](https://qianjiachun.github.io/DouyuEx/qrcode.jpg)
