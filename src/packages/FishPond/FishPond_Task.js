@@ -17,8 +17,10 @@ function getFishPond_Task() {
 	}).then(res => {
 		return res.json();
 	}).then(ret => {
-		for (let i = 0; i < ret.data.length; i++) {
-			showMessage("【鱼塘任务】领取结果:成功领取" + ret.data[i].name + ret.data[i].num + "个", "success");
+		if (ret.data !== null) {
+			for (let i = 0; i < ret.data.length; i++) {
+				showMessage("【鱼塘任务】领取结果:成功领取" + ret.data[i].name + ret.data[i].num + "个", "success");
+			}
 		}
 	}).catch(err => {
 		console.log("请求失败!", err);

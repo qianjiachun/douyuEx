@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.06.30.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展
+// @version      2020.07.04.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -704,6 +704,7 @@ function setBarragePanelCallBack() {
                 if (userNameDom.length > 0) {
                     id = userNameDom[0].innerHTML;
                     setUserFansMedal(userNameDom[0], id);
+                    
                     // setMuteButton(barragePanel);
                     // setSearchBarrageButton(barragePanel);
                     // setMuteTimeButton(barragePanel);
@@ -731,11 +732,41 @@ function getUserFansMedal(userName) {
     }
     return ret;
 }
+function getUserLevel(userName) {
+    let ret = "";
+    let barrageList = document.getElementsByClassName("Barrage-listItem");
+    for (let i = barrageList.length - 1; i >= 0; i--) {
+        let barragePanel = barrageList[i].lastElementChild;
+        if (barragePanel != null && barragePanel != undefined && barragePanel.innerHTML.indexOf(userName) != -1) {
+            let roomAdmin = barragePanel.getElementsByClassName("Barrage-icon--roomAdmin");
+            if (roomAdmin.length > 0) {
+                ret += "【房管】";
+            }
+            let noble = barragePanel.getElementsByClassName("Barrage-nobleImg");
+            if (noble.length > 0) {
+                ret += `【${ noble[0].title }】`;
+            }
+            let level = barragePanel.getElementsByClassName("UserLevel");
+            if (level.length > 0) {
+                ret += level[0].title;
+            }
+            break;
+        }
+    }
+    return ret;
+}
 
 function setUserFansMedal(dom, userName) {
+    dom.removeChild(dom.childNodes[0]);
+    let userLevel = getUserLevel(userName);
+    let a = document.createElement("span");
+    a.innerHTML = userName;
+    a.title = userLevel;
+    dom.insertBefore(a, dom.childNodes[0]);
+
     let fansMedal = getUserFansMedal(userName);
     if (fansMedal != false) {
-        let a = document.createElement("div");
+        a = document.createElement("div");
         a.style = "display:inline-block";
         a.appendChild(fansMedal);
         dom.insertBefore(a, dom.childNodes[0]);
@@ -2227,8 +2258,10 @@ function getFishPond_Task() {
 	}).then(res => {
 		return res.json();
 	}).then(ret => {
-		for (let i = 0; i < ret.data.length; i++) {
-			showMessage("【鱼塘任务】领取结果:成功领取" + ret.data[i].name + ret.data[i].num + "个", "success");
+		if (ret.data !== null) {
+			for (let i = 0; i < ret.data.length; i++) {
+				showMessage("【鱼塘任务】领取结果:成功领取" + ret.data[i].name + ret.data[i].num + "个", "success");
+			}
 		}
 	}).catch(err => {
 		console.log("请求失败!", err);
@@ -2618,6 +2651,8 @@ function initPkg_LiveTool_Gift_Handle(text) {
     
 }
 
+let timer_closing;
+let closingNum = 0;
 function initPkg_LiveTool_LiveNotice() {
 }
 
@@ -2629,6 +2664,20 @@ function initPkg_LiveTool_LiveNotice_Handle(text) {
             showMessageWindow("开播提醒", "直播间：" + rid + "开播了，点我签到", () => {
                 signRoom(rid);
             });
+        } else {
+            clearInterval(timer_closing);
+            timer_closing = setInterval(() => {
+                if (closingNum > 20) {
+                    clearInterval(timer_closing);
+                    closingNum = 0;
+                }
+                let x = document.getElementsByClassName("dy-ModalRadius-close-x");
+                if (x.length > 0) {
+                    clearInterval(timer_closing);
+                    x[0].click();
+                }
+                closingNum++;
+            }, 500);
         }
     }
 }
@@ -2708,6 +2757,7 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
 		initPkg_LiveTool_Gift_Handle(ret); // 自动谢礼物
 		initPkg_LiveTool_Treasure_Handle(ret);
+		// initPkg_LiveTool_Friend_Handle(ret);
     });
 }
 
@@ -3417,7 +3467,6 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                             },
                             onload: function(response) {
                                 let ret = response.response;
-                                console.log(ret);
                                 let msg = "";
                                 if (ret.data.prop_id == "") {
                                     msg = "鱼丸x" + ret.data.silver;
@@ -3446,7 +3495,6 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 }
             } else if(ret.data.msg != "领取失败") {
                 let msg = "";
-                console.log(ret);
                 if (ret.data.prop_id == "") {
                     msg = "鱼丸x" + ret.data.silver;
                 } else {
@@ -4474,6 +4522,7 @@ function removeAD() {
     .DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
+    .dy-Modal-mask{display:none !important;}
     `);
 }
 
@@ -4496,21 +4545,14 @@ function initPkg_Sign() {
 }
 
 function initPkg_Sign_Func() {
-	document.getElementsByClassName("ex-sign")[0].addEventListener("click", function() {
-		// 这里挂载每个子模块的函数入口
-		// 入口即为调用
-		initPkg_Sign_Yuba(); // 鱼吧签到
-		initPkg_Sign_Client();
-		initPkg_Sign_Motorcade();
-		initPkg_Sign_Room();
-		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
-		initPkg_Sign_Ad_Sign();
-		initPkg_Sign_Ad_FishPond();
-		// initPkg_Sign_Aoligei();
-		// initPkg_Sign_Ad_Yuba();
-		initPkg_Sign_Chengxiao();
-		initPkg_Sign_Ad_Novel();
-	})
+	let dom = new CClick(document.getElementsByClassName("ex-sign")[0]);
+	dom.click(() => {
+		initPkg_Sign_Main(false); // 只签到开播的
+	});
+	dom.longClick(() => {
+		initPkg_Sign_Main(true); // 全部签到
+	});
+	
 }
 function initPkg_Sign_Dom() {
 	Sign_insertIcon();
@@ -4524,6 +4566,21 @@ function Sign_insertIcon() {
 	
 }
 
+function initPkg_Sign_Main(isAll) {
+		// 这里挂载每个子模块的函数入口
+		// 入口即为调用
+		initPkg_Sign_Yuba(); // 鱼吧签到
+		initPkg_Sign_Client();
+		initPkg_Sign_Motorcade();
+		initPkg_Sign_Room(isAll);
+		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
+		initPkg_Sign_Ad_Sign();
+		initPkg_Sign_Ad_FishPond();
+		// initPkg_Sign_Aoligei();
+		// initPkg_Sign_Ad_Yuba();
+		initPkg_Sign_Chengxiao();
+		initPkg_Sign_Ad_Novel();
+}
 function initPkg_Sign_Ad_666() {
 	getFishBall_Ad_666();
 }
@@ -5185,10 +5242,10 @@ function getMotorcadeID(tinyid, a2, identifier) {
         });
     })
 }
-function initPkg_Sign_Room() {
-	signAllRoom();
+function initPkg_Sign_Room(isAll) {
+	signAllRoom(isAll);
 }
-function signAllRoom() {
+function signAllRoom(isAll) {
     // 1. get page counts(777)
     // 2. for in all pages
     // 3. sign each room
@@ -5214,10 +5271,16 @@ function signAllRoom() {
             }).then(ret => {
                 let roomCount = Number(ret.data.list.length);
                 for (let i = 0; i < roomCount; i++) {
-                    if (ret.data.list[i].show_status == "1") {
+                    if (isAll == false) {
+                        if (ret.data.list[i].show_status == "1") {
+                            signRoom(ret.data.list[i].room_id);
+                            signedCount++;
+                        }
+                    } else {
                         signRoom(ret.data.list[i].room_id);
                         signedCount++;
                     }
+                    
                     if (nowPage == pageCount && i == roomCount - 1) {
                         let rest = Number(ret.data.total) - signedCount;
                         showMessage("【房间签到】" + String(signedCount) + "个已开播房间签到已完成，" + String(rest) + "个房间未开播", "success");
@@ -5372,7 +5435,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.06.30.01"
+var curVersion = "2020.07.04.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -5433,6 +5496,70 @@ function Update_showTip(a) {
 		d.style.display = "none";
 	}
 }
+/* 
+    CClick
+    单双击/长按不冲突的解决方案 
+    By: 小淳
+
+    调用方法:
+    let a = new CClick(document.getElementById(""));
+    a.click((e) => {// TODO});
+    a.dbClick((e) => {// TODO});
+    a.longClick((e) => {// TODO});
+*/
+class CClick {
+    constructor(element) {
+        const CONST_LONG_TIME = 700; // 长按多少ms执行
+        const CONST_DOUBLE_TIME = 250; // 双击的间隔
+        this.func_click = null;
+        this.func_dbClick = null;
+        this.func_longClick = null;
+        let isLong = false;
+        let timer_long;
+        let clickTimes = 0;
+        let timer_db;
+        element.onmousedown = (event) => {
+            isLong = false;
+            timer_long = setTimeout(() => {
+                isLong = true;
+                if (this.func_longClick !== null) {
+                    this.func_longClick(event);
+                }
+            }, CONST_LONG_TIME);
+        };
+        element.onmouseup = (event) => {
+            if (isLong == false) {
+                clearTimeout(timer_long);
+                clickTimes++;
+                if (clickTimes >= 2) {
+                    clearTimeout(timer_db);
+                    clickTimes = 0;
+                    if (this.func_dbClick !== null) {
+                        this.func_dbClick(event);
+                    }
+                    return;
+                }
+                timer_db = setTimeout(() => {
+                    clickTimes = 0;
+                    if (this.func_click !== null) {
+                        this.func_click(event);
+                    }
+                }, CONST_DOUBLE_TIME);
+            }
+        };
+    }
+    click(callback) {
+        this.func_click = callback;
+    }
+    dbClick(callback) {
+        this.func_dbClick = callback;
+    }
+    longClick(callback) {
+        this.func_longClick = callback;
+    }
+}
+
+
 class DomHook {
     constructor(selector, callback) {
         this.selector = selector;

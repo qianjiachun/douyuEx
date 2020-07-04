@@ -1,7 +1,7 @@
-function initPkg_Sign_Room() {
-	signAllRoom();
+function initPkg_Sign_Room(isAll) {
+	signAllRoom(isAll);
 }
-function signAllRoom() {
+function signAllRoom(isAll) {
     // 1. get page counts(777)
     // 2. for in all pages
     // 3. sign each room
@@ -27,10 +27,16 @@ function signAllRoom() {
             }).then(ret => {
                 let roomCount = Number(ret.data.list.length);
                 for (let i = 0; i < roomCount; i++) {
-                    if (ret.data.list[i].show_status == "1") {
+                    if (isAll == false) {
+                        if (ret.data.list[i].show_status == "1") {
+                            signRoom(ret.data.list[i].room_id);
+                            signedCount++;
+                        }
+                    } else {
                         signRoom(ret.data.list[i].room_id);
                         signedCount++;
                     }
+                    
                     if (nowPage == pageCount && i == roomCount - 1) {
                         let rest = Number(ret.data.total) - signedCount;
                         showMessage("【房间签到】" + String(signedCount) + "个已开播房间签到已完成，" + String(rest) + "个房间未开播", "success");

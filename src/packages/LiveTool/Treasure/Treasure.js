@@ -84,7 +84,6 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                             },
                             onload: function(response) {
                                 let ret = response.response;
-                                console.log(ret);
                                 let msg = "";
                                 if (ret.data.prop_id == "") {
                                     msg = "鱼丸x" + ret.data.silver;
@@ -113,7 +112,6 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 }
             } else if(ret.data.msg != "领取失败") {
                 let msg = "";
-                console.log(ret);
                 if (ret.data.prop_id == "") {
                     msg = "鱼丸x" + ret.data.silver;
                 } else {

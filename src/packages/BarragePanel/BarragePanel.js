@@ -52,6 +52,7 @@ function setBarragePanelCallBack() {
                 if (userNameDom.length > 0) {
                     id = userNameDom[0].innerHTML;
                     setUserFansMedal(userNameDom[0], id);
+                    
                     // setMuteButton(barragePanel);
                     // setSearchBarrageButton(barragePanel);
                     // setMuteTimeButton(barragePanel);
@@ -79,11 +80,41 @@ function getUserFansMedal(userName) {
     }
     return ret;
 }
+function getUserLevel(userName) {
+    let ret = "";
+    let barrageList = document.getElementsByClassName("Barrage-listItem");
+    for (let i = barrageList.length - 1; i >= 0; i--) {
+        let barragePanel = barrageList[i].lastElementChild;
+        if (barragePanel != null && barragePanel != undefined && barragePanel.innerHTML.indexOf(userName) != -1) {
+            let roomAdmin = barragePanel.getElementsByClassName("Barrage-icon--roomAdmin");
+            if (roomAdmin.length > 0) {
+                ret += "【房管】";
+            }
+            let noble = barragePanel.getElementsByClassName("Barrage-nobleImg");
+            if (noble.length > 0) {
+                ret += `【${ noble[0].title }】`;
+            }
+            let level = barragePanel.getElementsByClassName("UserLevel");
+            if (level.length > 0) {
+                ret += level[0].title;
+            }
+            break;
+        }
+    }
+    return ret;
+}
 
 function setUserFansMedal(dom, userName) {
+    dom.removeChild(dom.childNodes[0]);
+    let userLevel = getUserLevel(userName);
+    let a = document.createElement("span");
+    a.innerHTML = userName;
+    a.title = userLevel;
+    dom.insertBefore(a, dom.childNodes[0]);
+
     let fansMedal = getUserFansMedal(userName);
     if (fansMedal != false) {
-        let a = document.createElement("div");
+        a = document.createElement("div");
         a.style = "display:inline-block";
         a.appendChild(fansMedal);
         dom.insertBefore(a, dom.childNodes[0]);

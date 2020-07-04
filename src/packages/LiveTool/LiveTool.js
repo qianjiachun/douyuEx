@@ -60,6 +60,7 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
 		initPkg_LiveTool_Gift_Handle(ret); // 自动谢礼物
 		initPkg_LiveTool_Treasure_Handle(ret);
+		// initPkg_LiveTool_Friend_Handle(ret);
     });
 }
 

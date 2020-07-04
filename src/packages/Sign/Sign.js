@@ -4,21 +4,14 @@ function initPkg_Sign() {
 }
 
 function initPkg_Sign_Func() {
-	document.getElementsByClassName("ex-sign")[0].addEventListener("click", function() {
-		// 这里挂载每个子模块的函数入口
-		// 入口即为调用
-		initPkg_Sign_Yuba(); // 鱼吧签到
-		initPkg_Sign_Client();
-		initPkg_Sign_Motorcade();
-		initPkg_Sign_Room();
-		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
-		initPkg_Sign_Ad_Sign();
-		initPkg_Sign_Ad_FishPond();
-		// initPkg_Sign_Aoligei();
-		// initPkg_Sign_Ad_Yuba();
-		initPkg_Sign_Chengxiao();
-		initPkg_Sign_Ad_Novel();
-	})
+	let dom = new CClick(document.getElementsByClassName("ex-sign")[0]);
+	dom.click(() => {
+		initPkg_Sign_Main(false); // 只签到开播的
+	});
+	dom.longClick(() => {
+		initPkg_Sign_Main(true); // 全部签到
+	});
+	
 }
 function initPkg_Sign_Dom() {
 	Sign_insertIcon();
@@ -30,4 +23,20 @@ function Sign_insertIcon() {
 	let b = document.getElementsByClassName("ex-panel__wrap")[0];
 	b.insertBefore(a, b.childNodes[0]);
 	
+}
+
+function initPkg_Sign_Main(isAll) {
+		// 这里挂载每个子模块的函数入口
+		// 入口即为调用
+		initPkg_Sign_Yuba(); // 鱼吧签到
+		initPkg_Sign_Client();
+		initPkg_Sign_Motorcade();
+		initPkg_Sign_Room(isAll);
+		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
+		initPkg_Sign_Ad_Sign();
+		initPkg_Sign_Ad_FishPond();
+		// initPkg_Sign_Aoligei();
+		// initPkg_Sign_Ad_Yuba();
+		initPkg_Sign_Chengxiao();
+		initPkg_Sign_Ad_Novel();
 }
