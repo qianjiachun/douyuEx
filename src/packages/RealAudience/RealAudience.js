@@ -64,7 +64,7 @@ function initPkg_RealAudience_Func() {
 		document.querySelector(".AnchorAnnounce > h3").style.display="none";
 	});
 	document.getElementsByClassName("real-audience")[0].addEventListener("click", function() {
-		openPage("https://www.xiaohulu.com/liveParticularsIndex/2/" + rid, true);
+		openPage("https://xian.xiaohulu.com/anchor2/details?plat=2&roomid=" + rid, true);
 	})
 }
 

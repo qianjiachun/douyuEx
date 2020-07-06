@@ -153,6 +153,7 @@ function setNightMode() {
     .layui-text{color:rgb(187,187,187) !important;}
     .GuessReturnYwFdSlider-ywNum{color:rgb(237,90,101) !important;}
     .VideoBottomTabs span{color:rgb(204,204,204)}
+    #point__value{color:rgb(191,191,191) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 

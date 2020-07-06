@@ -15,9 +15,9 @@ function removeAD() {
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .dy-Modal-mask{display:none !important;}
+    .BattleShipTips{display:none !important;}
     `);
 }
-
 function removeChatLimit() {
     let a;
     

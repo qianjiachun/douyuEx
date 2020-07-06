@@ -105,12 +105,16 @@ function getUserLevel(userName) {
 }
 
 function setUserFansMedal(dom, userName) {
-    dom.removeChild(dom.childNodes[0]);
-    let userLevel = getUserLevel(userName);
-    let a = document.createElement("span");
-    a.innerHTML = userName;
-    a.title = userLevel;
-    dom.insertBefore(a, dom.childNodes[0]);
+    if (document.getElementById("barragePanel__id") == undefined) {
+        dom.removeChild(dom.childNodes[0]);
+        let userLevel = getUserLevel(userName);
+        let a = document.createElement("span");
+        a.innerHTML = userName;
+        a.title = userLevel;
+        a.id = "barragePanel__id";
+        dom.insertBefore(a, dom.childNodes[0]);
+    }
+    
 
     let fansMedal = getUserFansMedal(userName);
     if (fansMedal != false) {

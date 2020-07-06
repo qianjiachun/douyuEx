@@ -39,11 +39,18 @@ function initRouter_DouyuRoom_Main() {
             setTimeout(() => {
                 initStyles();
                 initPkg();
+                initPkgSpecial();
                 initTimer();
             }, 1500)
             clearInterval(intID);
         }
     }, 1000);
+}
+
+function initPkgSpecial() {
+    if (rid == "5189167") {
+        initPkg_Point();
+    }
 }
 
 // function initRouter_Novel() {
