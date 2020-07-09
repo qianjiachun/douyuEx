@@ -1,4 +1,5 @@
 let currentOffset = 0;
+let maxOffset = 99999;
 function initPkg_Point_PointRecord() {
     currentOffset = 0;
     initPkg_Point_PointRecord_insertDom();
@@ -25,6 +26,10 @@ function initPkg_Point_PointRecord_insertFunc() {
         renderRecord(currentOffset);
     }
     document.getElementsByClassName("record__next")[0].onclick = () => {
+        if (currentOffset >= maxOffset) {
+            showMessage("【积分系统】兑换系统已到尾页", "error");
+            return;
+        }
         currentOffset = currentOffset + 10;
         renderRecord(currentOffset);
     }
@@ -65,6 +70,7 @@ async function renderRecord(offset) {
         return;
     }
     if (recordList.data == null) {
+        maxOffset = currentOffset;
         showMessage("【积分系统】无兑换记录", "error");
         return;
     }
