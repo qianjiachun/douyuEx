@@ -1,0 +1,108 @@
+#ex-record {
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    bottom: 67px;
+    z-index: 100;
+}
+.record__close {
+    position: absolute;
+    color: rgb(127, 127, 137);
+    right: -20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.records__wrap {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 3%;
+    box-shadow: 0px 0px 20px 0px #888888;
+    padding: 15px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.records__wrap::-webkit-scrollbar {
+    display:none
+}
+
+.record__wrap {
+    height: 50px;
+    width: 100%;
+    border: 1px solid rgba(121,127,137,0.4);
+    margin-bottom: 10px;
+    display: -webkit-box;
+    display: -moz-box; 
+    display: -ms-flexbox;
+    display: -webkit-flex; 
+    display: flex; 
+    transition: 0.75s;
+    cursor: pointer;
+}
+
+.record__wrap:hover {
+    background-color: #e9f5ff;
+}
+
+.record__left {
+    flex: 1;
+    position: relative;
+}
+.record__name {
+    position: absolute;
+    flex: 1;
+    color: #353536;;
+    font-size: 15px;
+    top: 2px;
+    margin-left: 5px;
+}
+.record__updatetime {
+    position: absolute;
+    margin-left: 5px;
+    font-size: 12px;
+    bottom: 2px;
+    color: #969799;
+}
+.record__price {
+    line-height: 50px;
+    color: rgb(255,93,35);
+    margin-right: 10px;
+}
+
+.record__pagenav {
+    display: -webkit-box;
+    display: -moz-box; 
+    display: -ms-flexbox;
+    display: -webkit-flex; 
+    display: flex; 
+    width: 310px;
+    position: absolute;
+    bottom: -20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.record__prev {
+    flex: 1;
+    text-align: center;
+    border: 1px solid rgba(121,127,137,0.8);
+    transition: 0.75s;
+    color: white;
+    background-color: rgb(57,169,237);
+}
+
+.record__prev:hover {
+    background-color: #7167ff;
+}
+.record__next {
+    flex: 1;
+    text-align: center;
+    border: 1px solid rgba(121,127,137,0.8);
+    transition: 0.75s;
+    background-color: rgb(57,169,237);
+    color: white;
+}
+.record__next:hover {
+    background-color: #7167ff;
+}

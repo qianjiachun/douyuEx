@@ -39,4 +39,5 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_Ad_Yuba();
 		initPkg_Sign_Chengxiao();
 		// initPkg_Sign_Ad_Novel();
+		initPkg_Sign_Changzheng();
 }

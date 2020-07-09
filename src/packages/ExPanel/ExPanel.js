@@ -1,7 +1,7 @@
 function initPkg_ExPanel() {
-	pkg_ExPanel_insertDom();
+	initPkg_ExPanel_insertDom();
 }
-function pkg_ExPanel_insertDom() {
+function initPkg_ExPanel_insertDom() {
 	let a = document.createElement("div");
 	a.className = "ex-panel";
 	a.innerHTML = '<div class="ex-panel__wrap"></div>';

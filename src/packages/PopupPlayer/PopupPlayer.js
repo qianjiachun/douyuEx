@@ -26,7 +26,7 @@ function PopupPlayer_insertPrompt() {
     a.className = "postbird-box-container";
     a.id = "popup-player__prompt"
     html += '<div class="postbird-box-dialog">';
-    html += '<div class="postbird-box-content">';
+    html += '<div style="min-height:170px" class="postbird-box-content">';
     html += '<div class="postbird-box-header">';
     html += '<span class="postbird-box-title"><span>请输入直播间地址：</span></span>';
     html += '</div>'; // header
