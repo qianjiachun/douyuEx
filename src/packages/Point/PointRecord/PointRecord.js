@@ -84,7 +84,7 @@ async function renderRecord(offset) {
         html += `
         <div class="record__wrap">
             <div class="record__left">
-                <div class="record__name">${ recordList.data[i].item_name }</div>
+                <div class="record__name">（${ recordList.data[i].status=="1"?"已发货":"未发货" }）${ recordList.data[i].item_name }</div>
                 <div class="record__updatetime">${ recordList.data[i].update_time }</div>
             </div>
             <div class="record__right">

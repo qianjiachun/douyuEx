@@ -55,22 +55,6 @@ function exchangeItem(token, item_id, id, info) {
     })
 }
 
-function getCurrentRulesTxt() {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "GET",
-            url: "http://plus.55kai.top/rules.txt",
-            responseType: "text",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                resolve(ret);
-            }
-        });
-    })
-}
 
 function getExchangeRecord(token, offset) {
     return new Promise(resolve => {

@@ -110,7 +110,7 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 } else {
                     showMessage("自动抢宝箱初始化失败", "error");
                 }
-            } else if(ret.data.msg != "领取失败") {
+            } else if(ret.data.msg != "领取失败" && ret.data.msg != "验证码不正确") {
                 let msg = "";
                 if (ret.data.prop_id == "") {
                     msg = "鱼丸x" + ret.data.silver;

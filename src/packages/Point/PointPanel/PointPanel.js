@@ -35,8 +35,7 @@ function initPkg_Point_PointPanel_insertFunc() {
     });
     document.getElementById("panel__rules").addEventListener("click",  async () => {
         closePointPanel();
-        let ret = await getCurrentRulesTxt();
-        alert(ret);
+        openPage("https://qianjiachun.github.io/DouyuEx/rules", true);
     });
 }
 
