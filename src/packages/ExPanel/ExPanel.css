@@ -21,6 +21,10 @@
 	display: block;
 	position: relative;
 	padding: 5px;
+	transition: 0.5s;
+}
+.ex-panel__icon:hover {
+	transform: scale(1.25);
 }
 .ex-panel__tip {
 	display:none;

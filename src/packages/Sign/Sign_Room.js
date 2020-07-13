@@ -39,7 +39,7 @@ function signAllRoom(isAll) {
                     
                     if (nowPage == pageCount && i == roomCount - 1) {
                         let rest = Number(ret.data.total) - signedCount;
-                        showMessage("【房间签到】" + String(signedCount) + "个已开播房间签到已完成，" + String(rest) + "个房间未开播", "success");
+                        showMessage("【房间签到】" + String(signedCount) + "个房间签到已完成，" + String(rest) + "个房间未签到", "success");
                     }
                 }
             }).catch(err => {
@@ -55,13 +55,13 @@ function signAllRoom(isAll) {
 function signRoom(r) {
 	GM_xmlhttpRequest({
 		method: "POST",
-		url: "https://apiv2.douyucdn.cn/japi/roomuserlevel/apinc/checkIn",
-		data: 'rid=' + r + '&ctn=' + getCCN(),
+		url: "https://apiv2.douyucdn.cn/japi/roomuserlevel/apinc/checkIn?client_sys=android",
+		data: 'rid=' + r,
 		responseType: "json",
 		headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'token': dyToken,
-            'cookie': document.cookie
+            'aid': 'android1'
 		},
 		onload: function(response) {
         }

@@ -8,6 +8,7 @@ function initPkg_Point_PointPanel_insertDom() {
     a.innerHTML = `
             <div class="panel__wrap">
                 <div id="panel__update" class="panel__cell">更新积分</div>
+                <div id="panel__pointlist" class="panel__cell">积分榜</div>
 				<div id="panel__exchange" class="panel__cell">兑换物品</div>
 				<div id="panel__record" class="panel__cell">兑换记录</div>
 				<div id="panel__rules" class="panel__cell">积分规则</div>
@@ -24,6 +25,10 @@ function initPkg_Point_PointPanel_insertFunc() {
     document.getElementById("panel__update").addEventListener("click",  () => {
         closePointPanel();
         updateUserPoint();
+    });
+    document.getElementById("panel__pointlist").addEventListener("click",  () => {
+        closePointPanel();
+        initPkg_Point_PointList();
     });
     document.getElementById("panel__exchange").addEventListener("click", async () => {
         closePointPanel();

@@ -18,7 +18,7 @@ async function renderExchangePanel() {
 
     let ret = await getItemList(dyToken);
     if (ret.error != "0") {
-        showMessage("【积分系统】获取物品列表失败", "error");
+        showMessage("【积分系统】获取物品列表失败：" + ret.msg, "error");
         return;
     }
     if (ret.data == null) {

@@ -73,3 +73,21 @@ function getExchangeRecord(token, offset) {
         });
     })
 }
+
+function getPointList(token) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "http://122.51.5.63:27999/douyu/point/5189167/point_list",
+            data: "token=" + token,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                resolve(ret);
+            }
+        });
+    })
+}
