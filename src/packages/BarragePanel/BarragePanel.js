@@ -1,7 +1,3 @@
-// 弹幕右键信息增强
-// 1. 显示粉丝牌
-// 2. 支持禁言
-// 3. 支持查询最近10条弹幕
 function initPkg_BarragePanel() {
 	let timer = setInterval(() => {
         if (document.getElementsByClassName("danmuTips-1ee820").length > 0) {
@@ -37,6 +33,7 @@ function setBarragePanelCallBack() {
                         setMuteButton(barragePanel);
                         setSearchBarrageButton(barragePanel);
                         setMuteTimeButton(barragePanel);
+                        setReplyBarrageButton(barragePanel);
                         setBarrgePanelFunc(barragePanel, id);
                     }
                 }
@@ -143,6 +140,15 @@ function setSearchBarrageButton(dom) {
     dom.insertBefore(a, dom.childNodes[0]);
 }
 
+function setReplyBarrageButton(dom) {
+    let a = document.createElement("div");
+    a.className = "HideButton-d22988";
+    a.innerText = "回复";
+    a.id = "barragePanel__reply";
+    a.style = "margin-top:90px;z-index:5";
+    dom.insertBefore(a, dom.childNodes[0]);
+}
+
 function setMuteTimeButton(dom) {
     let a = document.createElement("div");
     a.className = "barragePanel__muteTime";
@@ -165,6 +171,13 @@ function setMuteTimeButton(dom) {
 }
 
 function setBarrgePanelFunc(parentDom, id) {
+    document.getElementById("barragePanel__reply").onclick = () => {
+        let txt = parentDom.getElementsByClassName("danmuContent-25f266")[0].innerText;
+        if (txt != "") {
+            document.getElementsByClassName("ChatSend-txt")[0].value = `@${ id }：${ txt }`;
+        }
+    };
+
     document.getElementById("barragePanel__mute").onclick = async () => {
         let value = document.getElementById("barragePanel__muteSelect").value || "1";
         let ret = await addMuteUser(rid, id, value);
