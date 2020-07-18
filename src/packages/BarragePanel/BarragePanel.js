@@ -6,10 +6,12 @@ function initPkg_BarragePanel() {
             setBarragePanelCallBack();
         }
     }, 1500);
+
+    initPkg_BarragePanel_Tip();
 }
 
 function setBarragePanelCallBack() {
-    let a = new DomHook("#Ex_BarragePanel", (m) => {
+    let a = new DomHook("#Ex_BarragePanel", true, (m) => {
         let isAttributes = false;
         if (m.length > 0) {
             for (let i = 0; i < m.length; i++) {
@@ -28,7 +30,7 @@ function setBarragePanelCallBack() {
                     let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
                     let id = "";
                     if (userNameDom.length > 0) {
-                        id = userNameDom[0].innerHTML;
+                        id = userNameDom[0].innerText;
                         setUserFansMedal(userNameDom[0], id);
                         setMuteButton(barragePanel);
                         setSearchBarrageButton(barragePanel);
@@ -47,12 +49,12 @@ function setBarragePanelCallBack() {
                 
                 let id = "";
                 if (userNameDom.length > 0) {
-                    id = userNameDom[0].innerHTML;
+                    id = userNameDom[0].innerText;
                     setUserFansMedal(userNameDom[0], id);
-                    
-                    // setMuteButton(barragePanel);
-                    // setSearchBarrageButton(barragePanel);
-                    // setMuteTimeButton(barragePanel);
+                    setMuteButton(barragePanel);
+                    setSearchBarrageButton(barragePanel);
+                    setMuteTimeButton(barragePanel);
+                    setReplyBarrageButton(barragePanel);
                     setBarrgePanelFunc(barragePanel, id);
                 }
 
@@ -77,7 +79,7 @@ function getUserFansMedal(userName) {
     }
     return ret;
 }
-function getUserLevel(userName) {
+function getUserLevelText(userName) {
     let ret = "";
     let barrageList = document.getElementsByClassName("Barrage-listItem");
     for (let i = barrageList.length - 1; i >= 0; i--) {
@@ -104,7 +106,7 @@ function getUserLevel(userName) {
 function setUserFansMedal(dom, userName) {
     if (document.getElementById("barragePanel__id") == undefined) {
         dom.removeChild(dom.childNodes[0]);
-        let userLevel = getUserLevel(userName);
+        let userLevel = getUserLevelText(userName);
         let a = document.createElement("span");
         a.innerHTML = userName;
         a.title = userLevel;
@@ -123,6 +125,9 @@ function setUserFansMedal(dom, userName) {
 }
 
 function setMuteButton(dom) {
+    if (document.getElementById("barragePanel__mute") != null) {
+        return;
+    }
     let a = document.createElement("div");
     a.className = "ReportButton-41fa9e";
     a.id = "barragePanel__mute";
@@ -132,6 +137,9 @@ function setMuteButton(dom) {
 }
 
 function setSearchBarrageButton(dom) {
+    if (document.getElementById("barragePanel__search") != null) {
+        return;
+    }
     let a = document.createElement("div");
     a.className = "HideButton-d22988";
     a.innerText = "查弹幕";
@@ -141,6 +149,9 @@ function setSearchBarrageButton(dom) {
 }
 
 function setReplyBarrageButton(dom) {
+    if (document.getElementById("barragePanel__reply") != null) {
+        return;
+    }
     let a = document.createElement("div");
     a.className = "HideButton-d22988";
     a.innerText = "回复";
@@ -150,6 +161,9 @@ function setReplyBarrageButton(dom) {
 }
 
 function setMuteTimeButton(dom) {
+    if (document.getElementsByClassName("barragePanel__muteTime").length > 0) {
+        return;
+    }
     let a = document.createElement("div");
     a.className = "barragePanel__muteTime";
     a.innerHTML = `

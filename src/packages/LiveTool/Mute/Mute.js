@@ -4,6 +4,9 @@ let muteWordList = {};
 let muteIdList = {};
 let muteIdListShow = [];
 function initPkg_LiveTool_Mute() {
+    if (rid == "5189167") {
+        return;
+    }
     LiveTool_Mute_insertDom();
     LiveTool_Mute_insertFunc();
     initPkg_Mute_Set();
@@ -232,6 +235,9 @@ async function initPkg_LiveTool_Mute_Handle(text) {
         return;
     }
     if (isMuteOn == false) {
+        return;
+    }
+    if (rid == "5189167") {
         return;
     }
     if (getType(text) == "chatmsg") {

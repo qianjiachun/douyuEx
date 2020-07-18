@@ -16,6 +16,8 @@ function initPkg_LiveTool_Module() {
 	initPkg_LiveTool_Gift();
 	initPkg_LiveTool_Reply();
 	initPkg_LiveTool_Treasure();
+
+	// initPkg_LiveTool_Bojiang_Handle();
 }
 function LiveTool_insertModal() {
 	let a = document.createElement("div");

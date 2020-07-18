@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.07.13.04
+// @version      2020.07.18.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -658,10 +658,12 @@ function initPkg_BarragePanel() {
             setBarragePanelCallBack();
         }
     }, 1500);
+
+    initPkg_BarragePanel_Tip();
 }
 
 function setBarragePanelCallBack() {
-    let a = new DomHook("#Ex_BarragePanel", (m) => {
+    let a = new DomHook("#Ex_BarragePanel", true, (m) => {
         let isAttributes = false;
         if (m.length > 0) {
             for (let i = 0; i < m.length; i++) {
@@ -680,7 +682,7 @@ function setBarragePanelCallBack() {
                     let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
                     let id = "";
                     if (userNameDom.length > 0) {
-                        id = userNameDom[0].innerHTML;
+                        id = userNameDom[0].innerText;
                         setUserFansMedal(userNameDom[0], id);
                         setMuteButton(barragePanel);
                         setSearchBarrageButton(barragePanel);
@@ -699,12 +701,12 @@ function setBarragePanelCallBack() {
                 
                 let id = "";
                 if (userNameDom.length > 0) {
-                    id = userNameDom[0].innerHTML;
+                    id = userNameDom[0].innerText;
                     setUserFansMedal(userNameDom[0], id);
-                    
-                    // setMuteButton(barragePanel);
-                    // setSearchBarrageButton(barragePanel);
-                    // setMuteTimeButton(barragePanel);
+                    setMuteButton(barragePanel);
+                    setSearchBarrageButton(barragePanel);
+                    setMuteTimeButton(barragePanel);
+                    setReplyBarrageButton(barragePanel);
                     setBarrgePanelFunc(barragePanel, id);
                 }
 
@@ -729,7 +731,7 @@ function getUserFansMedal(userName) {
     }
     return ret;
 }
-function getUserLevel(userName) {
+function getUserLevelText(userName) {
     let ret = "";
     let barrageList = document.getElementsByClassName("Barrage-listItem");
     for (let i = barrageList.length - 1; i >= 0; i--) {
@@ -756,7 +758,7 @@ function getUserLevel(userName) {
 function setUserFansMedal(dom, userName) {
     if (document.getElementById("barragePanel__id") == undefined) {
         dom.removeChild(dom.childNodes[0]);
-        let userLevel = getUserLevel(userName);
+        let userLevel = getUserLevelText(userName);
         let a = document.createElement("span");
         a.innerHTML = userName;
         a.title = userLevel;
@@ -775,6 +777,9 @@ function setUserFansMedal(dom, userName) {
 }
 
 function setMuteButton(dom) {
+    if (document.getElementById("barragePanel__mute") != null) {
+        return;
+    }
     let a = document.createElement("div");
     a.className = "ReportButton-41fa9e";
     a.id = "barragePanel__mute";
@@ -784,6 +789,9 @@ function setMuteButton(dom) {
 }
 
 function setSearchBarrageButton(dom) {
+    if (document.getElementById("barragePanel__search") != null) {
+        return;
+    }
     let a = document.createElement("div");
     a.className = "HideButton-d22988";
     a.innerText = "查弹幕";
@@ -793,6 +801,9 @@ function setSearchBarrageButton(dom) {
 }
 
 function setReplyBarrageButton(dom) {
+    if (document.getElementById("barragePanel__reply") != null) {
+        return;
+    }
     let a = document.createElement("div");
     a.className = "HideButton-d22988";
     a.innerText = "回复";
@@ -802,6 +813,9 @@ function setReplyBarrageButton(dom) {
 }
 
 function setMuteTimeButton(dom) {
+    if (document.getElementsByClassName("barragePanel__muteTime").length > 0) {
+        return;
+    }
     let a = document.createElement("div");
     a.className = "barragePanel__muteTime";
     a.innerHTML = `
@@ -925,6 +939,49 @@ function getUserRecentBarrage(name) {
         });
     });
 }
+function initPkg_BarragePanel_Tip() {
+    setBarragePanelTipCallBack();
+}
+
+function setBarragePanelTipCallBack() {
+    let a = new DomHook("#comment-dzjy-container", false, (m) => {
+        if (m.length <= 0) {
+            return;
+        }
+        if (m[0].addedNodes.length <= 0) {
+            return;
+        }
+        let dom = m[0].addedNodes[0];
+        renderBarragePanelTip(dom);
+        setBarragePanelTipFunc();
+    })
+}
+
+function renderBarragePanelTip(dom) {
+    let a = document.createElement("div");
+    a.style.display = "inline-block";
+    document.getElementsByClassName("btnscontainer-4e2ed0")[0].insertBefore(a, dom.childNodes[0]);
+
+
+    a = document.createElement("p");
+    a.className = "sugun-e3fbf6";
+    a.innerText = "|";
+    dom.appendChild(a);
+
+    a = document.createElement("div");
+    a.className = "labelfisrt-407af4";
+    a.id = "barrage-panel-tip__+1"
+    a.innerText = "+1";
+    dom.appendChild(a);
+}
+
+function setBarragePanelTipFunc() {
+    document.getElementById("barrage-panel-tip__+1").onclick = () => {
+        let txt = document.getElementById("comment-higher-container").innerText;
+        sendBarrage(txt);
+    }
+}
+
 function initPkg_Console() {
 	console_watermark_douyEx();
 }
@@ -2726,6 +2783,8 @@ function initPkg_LiveTool_Module() {
 	initPkg_LiveTool_Gift();
 	initPkg_LiveTool_Reply();
 	initPkg_LiveTool_Treasure();
+
+	// initPkg_LiveTool_Bojiang_Handle();
 }
 function LiveTool_insertModal() {
 	let a = document.createElement("div");
@@ -2794,6 +2853,9 @@ let muteWordList = {};
 let muteIdList = {};
 let muteIdListShow = [];
 function initPkg_LiveTool_Mute() {
+    if (rid == "5189167") {
+        return;
+    }
     LiveTool_Mute_insertDom();
     LiveTool_Mute_insertFunc();
     initPkg_Mute_Set();
@@ -3022,6 +3084,9 @@ async function initPkg_LiveTool_Mute_Handle(text) {
         return;
     }
     if (isMuteOn == false) {
+        return;
+    }
+    if (rid == "5189167") {
         return;
     }
     if (getType(text) == "chatmsg") {
@@ -5164,6 +5229,7 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Chengxiao();
 		// initPkg_Sign_Ad_Novel();
 		initPkg_Sign_Changzheng();
+		initPkg_Sign_TV();
 }
 function initPkg_Sign_Ad_666() {
 	getFishBall_Ad_666();
@@ -5982,6 +6048,30 @@ function signRoom(r) {
         }
 	});
 }
+function initPkg_Sign_TV() {
+	signTV();
+}
+
+function signTV() {
+    let did = window.btoa(getDyDid());
+	GM_xmlhttpRequest({
+		method: "GET",
+		url: "https://apitv.douyucdn.cn/user/sign/index?token=" + dyToken + "&client_sys=android",
+		responseType: "json",
+		headers: {
+			'User-Device': did
+		},
+		onload: function(response) {
+			let ret = response.response;
+			if (ret.error == "0") {
+                showMessage("【电视端】签到成功！获得100鱼丸", "success");
+			} else {
+                showMessage("【电视端】" + ret.data.msg, "warning");
+			}
+		}
+	});
+}
+
 let signedYuba = 0;
 let totalYuba = 0;
 let doneYuba = 0;
@@ -6106,7 +6196,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.07.13.04"
+var curVersion = "2020.07.18.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -6238,13 +6328,14 @@ class CClick {
 
 
 class DomHook {
-    constructor(selector, callback) {
+    constructor(selector, isSubtree, callback) {
         this.selector = selector;
+        this.isSubtree = isSubtree;
         let targetNode = document.querySelector(this.selector);
         let observer = new MutationObserver(function(mutations) {
             callback(mutations);
         });
-        observer.observe(targetNode, { attributes: true, childList: true, subtree: true });
+        observer.observe(targetNode, { attributes: true, childList: true, subtree: this.isSubtree });
     }
 }
 /*
