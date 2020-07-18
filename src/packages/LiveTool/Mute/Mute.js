@@ -1,5 +1,5 @@
 let isMuteOn = false;
-let canMute;
+// let canMute;
 let muteWordList = {};
 let muteIdList = {};
 let muteIdListShow = [];
@@ -195,7 +195,7 @@ function saveData_isMute() {
 }
 
 async function initPkg_Mute_Set() {
-    canMute = await getRoomAdminStatus();
+    // canMute = await getRoomAdminStatus();
 	// 设置初始化
 	let ret = localStorage.getItem("ExSave_Mute");
 	
@@ -231,9 +231,9 @@ async function initPkg_Mute_Set() {
 }
 
 async function initPkg_LiveTool_Mute_Handle(text) {
-    if (canMute != true) {
-        return;
-    }
+    // if (canMute != true) {
+    //     return;
+    // }
     if (isMuteOn == false) {
         return;
     }
