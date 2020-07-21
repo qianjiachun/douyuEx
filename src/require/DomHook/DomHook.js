@@ -3,6 +3,9 @@ class DomHook {
         this.selector = selector;
         this.isSubtree = isSubtree;
         let targetNode = document.querySelector(this.selector);
+        if (targetNode == null) {
+            return;
+        }
         let observer = new MutationObserver(function(mutations) {
             callback(mutations);
         });

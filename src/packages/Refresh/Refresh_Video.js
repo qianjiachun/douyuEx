@@ -1,3 +1,4 @@
+let video_num = 0;
 function initPkg_Refresh_Video() {
     let timer = setInterval(() => {
         if (document.getElementsByClassName("right-e7ea5d").length > 0) {
@@ -5,6 +6,11 @@ function initPkg_Refresh_Video() {
             initPkg_Refresh_Video_Dom();
             initPkg_Refresh_Video_Func();
             initPkg_Refresh_Video_Set();
+        }
+        console.log("1");
+        video_num++;
+        if (video_num >= 15) {
+            clearInterval(timer);
         }
     }, 1500);
 }
