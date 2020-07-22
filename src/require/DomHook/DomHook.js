@@ -9,6 +9,10 @@ class DomHook {
         let observer = new MutationObserver(function(mutations) {
             callback(mutations);
         });
-        observer.observe(targetNode, { attributes: true, childList: true, subtree: this.isSubtree });
+        this.observer = observer;
+        this.observer.observe(targetNode, { attributes: true, childList: true, subtree: this.isSubtree });
+    }
+    closeHook() {
+        this.observer.disconnect();
     }
 }

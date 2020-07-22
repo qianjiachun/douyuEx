@@ -7,7 +7,6 @@ function initPkg_Refresh_Video() {
             initPkg_Refresh_Video_Func();
             initPkg_Refresh_Video_Set();
         }
-        console.log("1");
         video_num++;
         if (video_num >= 15) {
             clearInterval(timer);

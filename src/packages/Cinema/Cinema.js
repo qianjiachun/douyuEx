@@ -6,7 +6,6 @@ function initPkg_Cinema() {
             initPkg_Cinema_Dom();
             initPkg_Cinema_Func();
         }
-        console.log("2");
         cinema_num++;
         if (cinema_num >= 15) {
             clearInterval(timer);
