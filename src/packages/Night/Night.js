@@ -154,6 +154,7 @@ function setNightMode() {
     .GuessReturnYwFdSlider-ywNum{color:rgb(237,90,101) !important;}
     .VideoBottomTabs span{color:rgb(204,204,204)}
     #point__value{color:rgb(191,191,191) !important;}
+    #red_envelope_text,#red_envelope_query{color:rgb(191,191,191) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 

@@ -48,7 +48,7 @@ function initPkg_BagInfo_Func() {
                     }
                 });
             }
-        }, 300);
+        }, 200);
     });
 }
 

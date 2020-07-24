@@ -64,7 +64,7 @@ function initPkg_RealAudience_Func() {
 		document.querySelector(".AnchorAnnounce > h3").style.display="none";
 	});
 	document.getElementsByClassName("real-audience")[0].addEventListener("click", function() {
-		openPage("https://xian.xiaohulu.com/anchor2/details?plat=2&roomid=" + rid, true);
+		openPage(`http://www.toubang.tv/anchor/1_${ rid }.html`, true);
 	})
 }
 

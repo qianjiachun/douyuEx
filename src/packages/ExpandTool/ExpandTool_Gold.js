@@ -100,11 +100,12 @@ function goldBarrageList(m) {
     if (m[0].addedNodes.length == 0) {
         return;
     }
-
+    
     let itemNode = m[0].addedNodes[0];
     let chatArea = itemNode.lastElementChild;
     if (chatArea != null && chatArea.innerHTML.indexOf("is-self") != -1) {
-        itemNode.className = "Barrage-listItem js-noblefloating-barrage";
+        let barrageListTimeout = setTimeout(() => {
+            itemNode.className = "Barrage-listItem js-noblefloating-barrage";
         chatArea.className = "js-noblefloating-barragecont Barrage-notice--noble";
         chatArea.setAttribute('style','background-color: #fff3df');
         let nickNameObj = chatArea.getElementsByClassName("Barrage-nickName")[0];
@@ -176,6 +177,8 @@ function goldBarrageList(m) {
             royalTag.appendChild(royalImg);
             chatArea.insertBefore(royalTag, chatArea.firstElementChild);
         }
+        clearTimeout(barrageListTimeout);
+        }, 100);
     }
     
 }
