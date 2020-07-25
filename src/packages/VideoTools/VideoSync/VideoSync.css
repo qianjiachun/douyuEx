@@ -1,0 +1,8 @@
+#ex-videosync {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin-left: 20px;
+    cursor: pointer;
+    background-size: contain;
+}

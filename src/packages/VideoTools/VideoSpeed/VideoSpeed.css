@@ -1,0 +1,44 @@
+#ex-videospeed {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+    cursor: pointer;
+    background-size: contain;
+}
+.videospeed__wrap {
+    display: none;
+    position: relative;
+    height: 100%;
+    margin-right: -15px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    float: left;
+    right: -12px;
+}
+
+.videospeed__panel {
+    position: absolute;
+    border: 1px solid #000;
+    border-radius: 4px;
+    transform: translateY(calc(-4px - 100%)) translateX(-50%);
+    left: 33%;
+    background-color: #000;
+    opacity: .75;
+    width: 70px;
+}
+
+.videospeed__panel li {
+    padding: 0 2px;
+    white-space: nowrap;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.videospeed__panel li:hover {
+    background-color: rgb(85, 85, 85);
+}  

@@ -19,7 +19,7 @@ function CopyRealLive_insertIcon() {
 
 function initPkg_CopyRealLive_Func() {
 	document.getElementById("copy-real-live").addEventListener("click", function() {
-        getRealLive_Douyu(rid, false, "1", (lurl) => {
+        getRealLive_Douyu(rid, false, "777", (lurl) => {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
             } else {
@@ -30,7 +30,7 @@ function initPkg_CopyRealLive_Func() {
         })
     });
     document.getElementsByClassName("Title-header")[0].addEventListener("click", function() {
-        getRealLive_Douyu(rid, false, "1", (lurl) => {
+        getRealLive_Douyu(rid, false, "777", (lurl) => {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
             } else {

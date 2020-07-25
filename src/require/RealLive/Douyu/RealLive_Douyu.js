@@ -24,7 +24,13 @@ function getRealLive_Douyu(room_id, is_https, qn, reallive_callback) {
 
 function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback) {
     let param1 = ub98484234_ex(r, getDyDid(), tt);
-    let postData = param1 + "&ver=219032101&rid=" + r + "&rate=" + qn;
+    let postData;
+    if (qn == "777") {
+        postData = param1 + "&ver=219032101&rid=" + r + "&rate=1";
+    } else {
+        postData = param1 + "&ver=219032101&rid=" + r + "&rate=" + qn;
+    }
+    
     document.getElementById("exScript1").remove();
     GM_xmlhttpRequest({
         method: "POST",

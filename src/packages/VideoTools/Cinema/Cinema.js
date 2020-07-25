@@ -1,19 +1,9 @@
-let cinema_num = 0;
-function initPkg_Cinema() {
-    let timer = setInterval(() => {
-        if (document.getElementById("refresh-video") !== null) { // 等隐藏礼物框的简字加载出来后再加载本模块
-            clearInterval(timer);
-            initPkg_Cinema_Dom();
-            initPkg_Cinema_Func();
-        }
-        cinema_num++;
-        if (cinema_num >= 15) {
-            clearInterval(timer);
-        }
-    }, 1500);
+function initPkg_VideoTools_Cinema() {
+    initPkg_VideoTools_Cinema_Dom();
+    initPkg_VideoTools_Cinema_Func();
 }
 
-function initPkg_Cinema_Dom() {
+function initPkg_VideoTools_Cinema_Dom() {
     Cinema_insertIcon();
 }
 function Cinema_insertIcon() {
@@ -35,8 +25,7 @@ function Cinema_insertIcon() {
     b.insertBefore(a, b.childNodes[0]);
 }
 
-
-function initPkg_Cinema_Func() {
+function initPkg_VideoTools_Cinema_Func() {
 	document.getElementById("ex-cinema").addEventListener("mouseover", function() {
         document.getElementsByClassName("cinema__wrap")[0].style.display = "block";
     });
@@ -58,8 +47,6 @@ function initPkg_Cinema_Func() {
     });
 
 }
-
-
 
 function setVideoCinemaMode(fit) {
     let video = document.querySelector(".layout-Player-videoEntity video");
