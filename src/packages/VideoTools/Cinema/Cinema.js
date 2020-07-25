@@ -28,6 +28,7 @@ function Cinema_insertIcon() {
 function initPkg_VideoTools_Cinema_Func() {
 	document.getElementById("ex-cinema").addEventListener("mouseover", function() {
         document.getElementsByClassName("cinema__wrap")[0].style.display = "block";
+        document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementsByClassName("cinema__wrap")[0].addEventListener("mouseout", function() {
         document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
