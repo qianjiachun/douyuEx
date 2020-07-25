@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.07.26.01
+// @version      2020.07.26.02
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -6200,7 +6200,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.07.26.01"
+var curVersion = "2020.07.26.02"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -6313,8 +6313,7 @@ function initPkg_VideoTools_Cinema_Func() {
 }
 
 function setVideoCinemaMode(fit) {
-    let video = document.querySelector(".layout-Player-videoEntity video");
-    let newHeigth = String(parseInt(video.style.width) / 2.39) + "px";
+    let newHeigth = String(parseInt(liveVideoNode.style.width) / 2.39) + "px";
     StyleHook_remove("Ex_Style_Cinema");
     let style = `
     .layout-Player-videoEntity video{object-fit:${ fit } !important;height:${ newHeigth } !important;}
@@ -6327,13 +6326,14 @@ function initPkg_VideoTools_VideoRecall() {
 
 
 function initPkg_VideoTools_VideoRecall_Func() {
-    document.addEventListener("keydown", (e) => {
+    document.getElementsByClassName("layout-Player-video")[0].addEventListener("keydown", (e) => {
+        if (isInput == true) {
+            return;
+        }
         if (e.keyCode == 37) {
-            let video = document.querySelector(".layout-Player-videoEntity video");
-            video.currentTime += -3;
+            liveVideoNode.currentTime += -3;
         } else if (e.keyCode == 39) {
-            let video = document.querySelector(".layout-Player-videoEntity video");
-            video.currentTime += 3;
+            liveVideoNode.currentTime += 3;
         }
     });
 }
@@ -6378,33 +6378,27 @@ function initPkg_VideoTools_VideoSpeed_Func() {
     });
 
     document.getElementById("videospeed__2.0").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 2;
+        liveVideoNode.playbackRate = 2;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__1.5").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 1.5;
+        liveVideoNode.playbackRate = 1.5;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__1.25").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 1.25;
+        liveVideoNode.playbackRate = 1.25;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__1.0").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 1;
+        liveVideoNode.playbackRate = 1;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__0.75").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 0.75;
+        liveVideoNode.playbackRate = 0.75;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__0.5").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 0.5;
+        liveVideoNode.playbackRate = 0.5;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
 }
@@ -6430,20 +6424,22 @@ function VideoSync_insertIcon() {
 
 function initPkg_VideoTools_VideoSync_Func() {
     document.getElementById("ex-videosync").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        let buffered = video.buffered;
+        let buffered = liveVideoNode.buffered;
         if (buffered.length == 0) {
             // 暂停中
             return;
         }
-        video.currentTime = buffered.end(0);
+        liveVideoNode.currentTime = buffered.end(0);
     })
 }
+var liveVideoNode; // 直播video标签节点
+var isInput = false;
 let videotools_num = 0;
 function initPkg_VideoTools() {
     let timer = setInterval(() => {
         if (document.getElementsByClassName("right-e7ea5d").length > 0) {
             clearInterval(timer);
+            liveVideoNode = document.querySelector(".layout-Player-videoEntity video");
             initPkg_VideoTools_Module();
             initPkg_VideoTools_Func();
         }
@@ -6470,6 +6466,21 @@ function initPkg_VideoTools_Func() {
     document.getElementById("js-player-asideMain").addEventListener("mouseover", () => {
         document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
+    });
+    document.getElementsByClassName("inputView-2a65aa")[0].addEventListener("focus", () => {
+        isInput = true;
+    });
+    document.getElementsByClassName("inputView-2a65aa")[0].addEventListener("blur", () => {
+        isInput = false;
+    });
+    let m = new DomHook(".app-f0f9c7", false, (m) => {
+        if (m.length > 0) {
+            if (m[0].addedNodes.length > 0) {
+                isInput = true;
+            } else if (m[0].removedNodes.length > 0) {
+                isInput = false;
+            }
+        }
     });
 }
 

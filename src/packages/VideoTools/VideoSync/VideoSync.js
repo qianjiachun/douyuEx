@@ -19,12 +19,11 @@ function VideoSync_insertIcon() {
 
 function initPkg_VideoTools_VideoSync_Func() {
     document.getElementById("ex-videosync").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        let buffered = video.buffered;
+        let buffered = liveVideoNode.buffered;
         if (buffered.length == 0) {
             // 暂停中
             return;
         }
-        video.currentTime = buffered.end(0);
+        liveVideoNode.currentTime = buffered.end(0);
     })
 }

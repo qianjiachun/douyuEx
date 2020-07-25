@@ -4,13 +4,14 @@ function initPkg_VideoTools_VideoRecall() {
 
 
 function initPkg_VideoTools_VideoRecall_Func() {
-    document.addEventListener("keydown", (e) => {
+    document.getElementsByClassName("layout-Player-video")[0].addEventListener("keydown", (e) => {
+        if (isInput == true) {
+            return;
+        }
         if (e.keyCode == 37) {
-            let video = document.querySelector(".layout-Player-videoEntity video");
-            video.currentTime += -3;
+            liveVideoNode.currentTime += -3;
         } else if (e.keyCode == 39) {
-            let video = document.querySelector(".layout-Player-videoEntity video");
-            video.currentTime += 3;
+            liveVideoNode.currentTime += 3;
         }
     });
 }

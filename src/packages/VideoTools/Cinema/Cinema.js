@@ -50,8 +50,7 @@ function initPkg_VideoTools_Cinema_Func() {
 }
 
 function setVideoCinemaMode(fit) {
-    let video = document.querySelector(".layout-Player-videoEntity video");
-    let newHeigth = String(parseInt(video.style.width) / 2.39) + "px";
+    let newHeigth = String(parseInt(liveVideoNode.style.width) / 2.39) + "px";
     StyleHook_remove("Ex_Style_Cinema");
     let style = `
     .layout-Player-videoEntity video{object-fit:${ fit } !important;height:${ newHeigth } !important;}

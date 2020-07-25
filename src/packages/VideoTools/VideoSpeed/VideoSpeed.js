@@ -38,33 +38,27 @@ function initPkg_VideoTools_VideoSpeed_Func() {
     });
 
     document.getElementById("videospeed__2.0").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 2;
+        liveVideoNode.playbackRate = 2;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__1.5").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 1.5;
+        liveVideoNode.playbackRate = 1.5;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__1.25").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 1.25;
+        liveVideoNode.playbackRate = 1.25;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__1.0").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 1;
+        liveVideoNode.playbackRate = 1;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__0.75").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 0.75;
+        liveVideoNode.playbackRate = 0.75;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
     document.getElementById("videospeed__0.5").addEventListener("click", () => {
-        let video = document.querySelector(".layout-Player-videoEntity video");
-        video.playbackRate = 0.5;
+        liveVideoNode.playbackRate = 0.5;
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
     });
 }
