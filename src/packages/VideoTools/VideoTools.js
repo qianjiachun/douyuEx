@@ -22,5 +22,12 @@ function initPkg_VideoTools_Module() {
 }
 
 function initPkg_VideoTools_Func() {
-
+    document.getElementById("js-player-toolbar").addEventListener("mouseover", () => {
+        document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
+        document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
+    });
+    document.getElementById("js-player-asideMain").addEventListener("mouseover", () => {
+        document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
+        document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
+    });
 }

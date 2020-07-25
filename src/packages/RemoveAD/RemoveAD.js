@@ -15,7 +15,7 @@ function removeAD() {
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
-    .layout-Player-videoAbove,.recommendView-3e8b62{display:none !important;}
+    .video-above,.recommendView-3e8b62{display:none !important;}
     `);
 }
 function removeChatLimit() {
