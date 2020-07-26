@@ -40,7 +40,13 @@ function initPkg_CopyRealLive_Func() {
             
         })
     });
-    document.getElementsByClassName("Title-header")[0].style.cursor = "pointer";
-    document.getElementsByClassName("Title-header")[0].title = "复制直播流地址";
-}
 
+    let titNode = document.getElementsByClassName("RecommendViewTit-04ebd8");
+    let tit = "";
+    if (titNode.length > 0) {
+        tit = titNode[0].innerText + "\n";
+    }
+
+    document.getElementsByClassName("Title-header")[0].style.cursor = "pointer";
+    document.getElementsByClassName("Title-header")[0].title = tit + "点击复制直播流";
+}
