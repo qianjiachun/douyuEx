@@ -41,4 +41,5 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_Ad_Novel();
 		initPkg_Sign_Changzheng();
 		initPkg_Sign_TV();
+		
 }

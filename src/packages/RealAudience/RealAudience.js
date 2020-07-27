@@ -104,7 +104,7 @@ function getRealViewer() {
 		document.getElementById("real-audience__t").title = "总人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count;
 		document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
 		// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
-		document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
+		document.getElementById("real-audience__money_yc").innerText = String(parseInt(real_info.money_yc));
 		document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc + " 背包礼物:" + real_info.money_bag;
 		
 		document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);

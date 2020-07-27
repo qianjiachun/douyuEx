@@ -1,12 +1,12 @@
-function initPkg_Sign_Ad_Yuba() {
-	getFishBall_Ad_Yuba();
+function initPkg_Sign_Ad_Search() {
+	getFishBall_Ad_Search();
 }
 
-function getFishBall_Ad_Yuba() {
+function getFishBall_Ad_Search() {
     GM_xmlhttpRequest({
         method: "POST",
         url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
-        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1042329&clientType=1",
+        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1124343&clientType=1",
         responseType: "json",
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -17,47 +17,44 @@ function getFishBall_Ad_Yuba() {
                 let chance = ret.data.chanceNum;
                 if (chance > 0) {
                     for (let i = 0; i < chance; i++) {
-                        let posid_Ad_Yuba = "1042329";
+                        let posid_Ad_Search = "1124343";
                         let token = dyToken;
                         let uid = getUID();
-                        let info = await getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid);
+                        let info = await getFishBall_Ad_Search_info(posid_Ad_Search, token, uid);
                         if (info == false) {
-                            initPkg_Sign_Ad_Search();
                             return;
                         }
                         let mid = info.mid;
                         let infoBack = info.infoBack;
-                        let isStart = await getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack);
+                        let isStart = await getFishBall_Ad_Search_start(posid_Ad_Search, token, uid, mid, infoBack);
                         if (isStart == true) {
-                            showMessage("【鱼吧鱼丸】开始领取鱼吧鱼丸，需等待15秒", "info");
+                            showMessage("【搜索鱼丸】开始领取搜索鱼丸，需等待15秒", "info");
                             await sleep(15555).then(async () => {
-                                let isFinish = await getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack);
+                                let isFinish = await getFishBall_Ad_Search_finish(posid_Ad_Search, token, uid, mid, infoBack);
                                 if (isFinish == true) {
-                                    showMessage("【鱼吧鱼丸】成功领取40鱼丸", "success");
+                                    showMessage("【搜素鱼丸】成功领取40鱼丸", "success");
                                     await sleep(1000);
                                 }
                             })
                         }
                     }
                 } else {
-                    showMessage("【鱼吧鱼丸】今日次数已用完", "warning");
-                    initPkg_Sign_Ad_Search();
+                    showMessage("【搜索鱼丸】今日次数已用完", "warning");
                     return;
                 }
             }
-            initPkg_Sign_Ad_Search();
         }
     });
 }
 
 
 
-function getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid) {
+function getFishBall_Ad_Search_info(posid_Ad_Search, token, uid) {
     return new Promise(resolve => {
         GM_xmlhttpRequest({
             method: "POST",
             url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_Ad_Yuba + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
+            data: "posid=" + posid_Ad_Search + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
             responseType: "json",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -78,12 +75,12 @@ function getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid) {
     })
 }
 
-function getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack) {
+function getFishBall_Ad_Search_start(posid_Ad_Search, token, uid, mid, infoBack) {
     return new Promise(resolve => {
         GM_xmlhttpRequest({
             method: "POST",
             url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
-            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Yuba + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Search + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
             responseType: "json",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -99,12 +96,12 @@ function getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack) {
     })
 }
 
-function getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack) {
+function getFishBall_Ad_Search_finish(posid_Ad_Search, token, uid, mid, infoBack) {
     return new Promise(resolve => {
         GM_xmlhttpRequest({
             method: "POST",
             url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
-            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Yuba + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Search + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
             responseType: "json",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
