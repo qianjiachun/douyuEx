@@ -39,12 +39,13 @@ function initPkg_RealAudience_Dom() {
 	let html = "";
 	let a = document.createElement("div");
 	a.className = "real-audience";
+	html += "<div style='flex: 1;white-space: nowrap'>";
 	html += "<div id='real-audience__t' style='display: inline-block;margin-right:3px;' title='今日累计观看人数'>" + real_viewIcon + '<span id="real-audience__total" style="color:#ed5a65">****</span></div>';
 	html += "<div style='display: inline-block;margin-right:3px;' title='弹幕人数'>" + real_danmuIcon + '<span id="real-audience__barrage">****</span></div>';
 	// html += "<div style='display: inline-block;margin-right:3px;' title='送礼人数'>" + real_giftIcon + '<span id="real-audience__gift">****</span></div>';
 	html += "<div id='real-audience__money' style='display: inline-block;margin-right:3px;' title='今日累计礼物价值'>" + real_money_yc + '<span id="real-audience__money_yc">****</span></div>';
-	
-	html += '<span id="real-audience__time" style="float:right">' + "已播:" + "****" + "</span>";
+	html += "</div>";
+	html += '<span id="real-audience__time" style="white-space: nowrap">' + "已播:" + "****" + "</span>";
 	a.innerHTML = html;
 	
 	let b = document.getElementsByClassName("AnchorAnnounce")[0];
@@ -104,7 +105,7 @@ function getRealViewer() {
 		document.getElementById("real-audience__t").title = "总人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count;
 		document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
 		// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
-		document.getElementById("real-audience__money_yc").innerText = String(parseInt(real_info.money_yc));
+		document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
 		document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc + " 背包礼物:" + real_info.money_bag;
 		
 		document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);

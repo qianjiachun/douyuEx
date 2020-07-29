@@ -1,3 +1,4 @@
+
 function initPkg_Sign_Room(isAll) {
 	signAllRoom(isAll);
 }
@@ -7,6 +8,7 @@ function signAllRoom(isAll) {
     // 3. sign each room
     let pageCount = 0;
     let signedCount = 0;
+    let count = 0;
     fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/list?page=777',{
         method: 'GET',
         mode: 'no-cors',
@@ -24,21 +26,21 @@ function signAllRoom(isAll) {
                 credentials: 'include',
             }).then(res => {
                 return res.json();
-            }).then(ret => {
-                let roomCount = Number(ret.data.list.length);
+            }).then(ret1 => {
+                let roomCount = Number(ret1.data.list.length);
                 for (let i = 0; i < roomCount; i++) {
                     if (isAll == false) {
-                        if (ret.data.list[i].show_status == "1") {
-                            signRoom(ret.data.list[i].room_id);
+                        if (ret1.data.list[i].show_status == "1") {
+                            signRoom(ret1.data.list[i].room_id);
                             signedCount++;
                         }
                     } else {
-                        signRoom(ret.data.list[i].room_id);
+                        signRoom(ret1.data.list[i].room_id);
                         signedCount++;
                     }
-                    
-                    if (nowPage == pageCount && i == roomCount - 1) {
-                        let rest = Number(ret.data.total) - signedCount;
+                    count++;
+                    if (count == ret1.data.total && i == roomCount - 1) {
+                        let rest = Number(ret1.data.total) - signedCount;
                         showMessage("【房间签到】" + String(signedCount) + "个房间签到已完成，" + String(rest) + "个房间未签到", "success");
                     }
                 }

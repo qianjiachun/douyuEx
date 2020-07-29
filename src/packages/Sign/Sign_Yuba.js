@@ -90,6 +90,13 @@ async function signYubaList() {
     signYubaFast();
     for (let i = 0; i < yubaList.length; i++) {
         signYuba(yubaList[i].group_id, dyToken);
+        let numsRet = await getSupplementaryNums(yubaList[i].group_id);
+        if (numsRet.status_code == "200") {
+            let nums = numsRet.data.supplementary_cards;
+            for (let j = 0; j < nums; j++) {
+                await signSupplementary(yubaList[i].group_id);
+            }
+        }
     }
 
 }
@@ -107,6 +114,43 @@ function getYubaPage(page) {
             },
             onload: function(response) {
                 resolve(response.response.data)
+            }
+        });
+    })
+}
+
+function getSupplementaryNums(group_id) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: "https://yuba.douyu.com/wbapi/web/signDetail?group_id=" + group_id,
+            responseType: "json",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "dy-client": "pc",
+              "dy-token": dyToken
+            },
+            onload: function(response) {
+                resolve(response.response);
+            }
+        });
+    })
+}
+
+function signSupplementary(group_id) {   
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://mapi-yuba.douyu.com/wb/v3/supplement",
+            responseType: "json",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "client": "android",
+                "token": dyToken,
+            },
+            data: "group_id=" + group_id,
+            onload: function(response) {
+                resolve(response.response);
             }
         });
     })
