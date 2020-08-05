@@ -57,6 +57,8 @@ function initPkg_LiveTool_HandleFunc() {
     // 开启ws，并且设置处理函数的入口
     // 是否生效由每个处理函数决定，可以设置一个变量保存开启状态，判断是否要执行
     let ws = new Ex_WebSocket_UnLogin(rid, (ret) => {
+		// initPkg_Guess_Handle(ret);
+
         initPkg_LiveTool_LiveNotice_Handle(ret); // 开播提醒
 		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复

@@ -106,7 +106,7 @@ function LiveTool_Gift_insertFunc() {
 20935|欧皇的祝福
 20936|一起开黑
 `);
-        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "\n或者https://webconf.douyucdn.cn/resource/common/gift/flash/gift_effect.json", "进行查看");
+        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "\n或者http://webconf.douyucdn.cn/resource/common/prop_gift_list/prop_gift_config.json", "进行查看");
         showMessage("请按F12到控制台(console)查看礼物id", "success");
     });
     document.getElementById("gift__switch").addEventListener("click", () => {

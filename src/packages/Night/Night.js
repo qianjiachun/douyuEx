@@ -156,6 +156,7 @@ function setNightMode() {
     #point__value{color:rgb(191,191,191) !important;}
     #red_envelope_text,#red_envelope_query{color:rgb(191,191,191) !important;}
     .layout-Container{background-color:rgb(35,36,39) !important;}
+    .FansRankBottom-invisible,.ChatRankWeek-invisibleContent{background:rgb(47,48,53) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 

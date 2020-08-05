@@ -6,7 +6,6 @@ function initPkg_VideoTools() {
         if (document.getElementsByClassName("right-e7ea5d").length > 0) {
             clearInterval(timer);
             liveVideoNode = document.querySelector(".layout-Player-videoEntity video");
-            setVideoSync();
             initPkg_VideoTools_Module();
             initPkg_VideoTools_Func();
         }

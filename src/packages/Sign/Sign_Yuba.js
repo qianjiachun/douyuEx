@@ -53,6 +53,17 @@ function signYuba(group_id, t) {
                 // showMessage("【鱼吧】" + group_id + response.response.message, "warning");
                 // console.log("【鱼吧】" + group_id + response.response.message);
             }
+            getSupplementaryNums(group_id).then(async (numsRet) => {
+                if (numsRet.status_code == "200") {
+                    let nums = numsRet.data.supplementary_cards;
+                    for (let j = 0; j < nums; j++) {
+                        let a = await signSupplementary(group_id);
+                        if (a.message == "补签失败") {
+                            break;
+                        }
+                    }
+                }
+            })
             if (doneYuba == totalYuba) {
                 // 完成全部签到
                 if (signedYuba > 0) {
@@ -90,16 +101,10 @@ async function signYubaList() {
     signYubaFast();
     for (let i = 0; i < yubaList.length; i++) {
         signYuba(yubaList[i].group_id, dyToken);
-        let numsRet = await getSupplementaryNums(yubaList[i].group_id);
-        if (numsRet.status_code == "200") {
-            let nums = numsRet.data.supplementary_cards;
-            for (let j = 0; j < nums; j++) {
-                await signSupplementary(yubaList[i].group_id);
-            }
-        }
     }
 
 }
+
 
 function getYubaPage(page) {
     return new Promise(resolve => {

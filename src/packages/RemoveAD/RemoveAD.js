@@ -16,6 +16,7 @@ function removeAD() {
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
     .LastLiveTime,.recommendView-3e8b62{display:none !important;}
+    .TurntableLottery-actTips{display:none !important;}
     `);
 }
 function removeChatLimit() {

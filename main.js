@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.07.29.01
+// @version      2020.08.06.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -2560,7 +2560,7 @@ function LiveTool_Gift_insertFunc() {
 20935|欧皇的祝福
 20936|一起开黑
 `);
-        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "\n或者https://webconf.douyucdn.cn/resource/common/gift/flash/gift_effect.json", "进行查看");
+        console.log("或访问：", "http://open.douyucdn.cn/api/RoomApi/room/" + rid , "\n或者http://webconf.douyucdn.cn/resource/common/prop_gift_list/prop_gift_config.json", "进行查看");
         showMessage("请按F12到控制台(console)查看礼物id", "success");
     });
     document.getElementById("gift__switch").addEventListener("click", () => {
@@ -2826,6 +2826,8 @@ function initPkg_LiveTool_HandleFunc() {
     // 开启ws，并且设置处理函数的入口
     // 是否生效由每个处理函数决定，可以设置一个变量保存开启状态，判断是否要执行
     let ws = new Ex_WebSocket_UnLogin(rid, (ret) => {
+		// initPkg_Guess_Handle(ret);
+
         initPkg_LiveTool_LiveNotice_Handle(ret); // 开播提醒
 		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
@@ -3818,6 +3820,7 @@ function setNightMode() {
     #point__value{color:rgb(191,191,191) !important;}
     #red_envelope_text,#red_envelope_query{color:rgb(191,191,191) !important;}
     .layout-Container{background-color:rgb(35,36,39) !important;}
+    .FansRankBottom-invisible,.ChatRankWeek-invisibleContent{background:rgb(47,48,53) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
@@ -5182,6 +5185,7 @@ function removeAD() {
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
     .LastLiveTime,.recommendView-3e8b62{display:none !important;}
+    .TurntableLottery-actTips{display:none !important;}
     `);
 }
 function removeChatLimit() {
@@ -5240,7 +5244,7 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_Ad_Novel();
 		initPkg_Sign_Changzheng();
 		initPkg_Sign_TV();
-		
+		initPkg_Sign_Yuba_Like();
 }
 function initPkg_Sign_Ad_666() {
 	getFishBall_Ad_666();
@@ -5534,6 +5538,128 @@ function getFishBall_Ad_FishPond_Bubble(token) {
         });
     })
 }
+// 1112334
+function initPkg_Sign_Ad_Guess() {
+	getFishBall_Ad_Guess();
+}
+
+function getFishBall_Ad_Guess() {
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
+        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1114337&clientType=1",
+        responseType: "json",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        onload: async function(response) {
+            let ret = response.response;
+            if (ret.error == "0") {
+                let chance = ret.data.chanceNum;
+                if (chance > 0) {
+                    for (let i = 0; i < chance; i++) {
+                        let posid_Ad_Guess = "1114337";
+                        let token = dyToken;
+                        let uid = getUID();
+                        let info = await getFishBall_Ad_Guess_info(posid_Ad_Guess, token, uid);
+                        if (info == false) {
+                            return;
+                        }
+                        let mid = info.mid;
+                        let infoBack = info.infoBack;
+                        let isStart = await getFishBall_Ad_Guess_start(posid_Ad_Guess, token, uid, mid, infoBack);
+                        if (isStart == true) {
+                            showMessage("【预言鱼丸】开始领取搜索鱼丸，需等待15秒", "info");
+                            await sleep(15555).then(async () => {
+                                let isFinish = await getFishBall_Ad_Guess_finish(posid_Ad_Guess, token, uid, mid, infoBack);
+                                if (isFinish == true) {
+                                    showMessage("【预言鱼丸】成功领取40鱼丸", "success");
+                                    await sleep(1000);
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    showMessage("【预言鱼丸】今日次数已用完", "warning");
+                    return;
+                }
+            }
+        }
+    });
+}
+
+
+
+function getFishBall_Ad_Guess_info(posid_Ad_Guess, token, uid) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
+            data: "posid=" + posid_Ad_Guess + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data.length == 0) {
+                        resolve(false);
+                        return;
+                    }
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    resolve({mid: mid, infoBack: infoBack});
+                }
+            }
+        });
+    })
+}
+
+function getFishBall_Ad_Guess_start(posid_Ad_Guess, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Guess + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_Guess_finish(posid_Ad_Guess, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Guess + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data == "1") {
+                        resolve(true);
+                    }
+                }
+            }
+        });
+
+    })
+}
+
 function initPkg_Sign_Ad_Search() {
 	getFishBall_Ad_Search();
 }
@@ -5558,6 +5684,7 @@ function getFishBall_Ad_Search() {
                         let uid = getUID();
                         let info = await getFishBall_Ad_Search_info(posid_Ad_Search, token, uid);
                         if (info == false) {
+                            initPkg_Sign_Ad_Guess();
                             return;
                         }
                         let mid = info.mid;
@@ -5568,7 +5695,7 @@ function getFishBall_Ad_Search() {
                             await sleep(15555).then(async () => {
                                 let isFinish = await getFishBall_Ad_Search_finish(posid_Ad_Search, token, uid, mid, infoBack);
                                 if (isFinish == true) {
-                                    showMessage("【搜素鱼丸】成功领取40鱼丸", "success");
+                                    showMessage("【搜索鱼丸】成功领取40鱼丸", "success");
                                     await sleep(1000);
                                 }
                             })
@@ -5576,9 +5703,11 @@ function getFishBall_Ad_Search() {
                     }
                 } else {
                     showMessage("【搜索鱼丸】今日次数已用完", "warning");
+                    initPkg_Sign_Ad_Guess();
                     return;
                 }
             }
+            initPkg_Sign_Ad_Guess();
         }
     });
 }
@@ -6264,6 +6393,17 @@ function signYuba(group_id, t) {
                 // showMessage("【鱼吧】" + group_id + response.response.message, "warning");
                 // console.log("【鱼吧】" + group_id + response.response.message);
             }
+            getSupplementaryNums(group_id).then(async (numsRet) => {
+                if (numsRet.status_code == "200") {
+                    let nums = numsRet.data.supplementary_cards;
+                    for (let j = 0; j < nums; j++) {
+                        let a = await signSupplementary(group_id);
+                        if (a.message == "补签失败") {
+                            break;
+                        }
+                    }
+                }
+            })
             if (doneYuba == totalYuba) {
                 // 完成全部签到
                 if (signedYuba > 0) {
@@ -6301,16 +6441,10 @@ async function signYubaList() {
     signYubaFast();
     for (let i = 0; i < yubaList.length; i++) {
         signYuba(yubaList[i].group_id, dyToken);
-        let numsRet = await getSupplementaryNums(yubaList[i].group_id);
-        if (numsRet.status_code == "200") {
-            let nums = numsRet.data.supplementary_cards;
-            for (let j = 0; j < nums; j++) {
-                await signSupplementary(yubaList[i].group_id);
-            }
-        }
     }
 
 }
+
 
 function getYubaPage(page) {
     return new Promise(resolve => {
@@ -6366,6 +6500,41 @@ function signSupplementary(group_id) {
         });
     })
 }
+function initPkg_Sign_Yuba_Like() {
+    likeYuba();
+}
+
+function likeYuba() {
+    let pid = "479725451596644862";
+    likeYubaPostComment(pid, "1517012660302061924", "-1").then(() => {likeYubaPostComment(pid, "1517012660302061924", "1")});
+    likeYubaPostComment(pid, "1517012829374456125", "-1").then(() => {likeYubaPostComment(pid, "1517012829374456125", "1")});
+    likeYubaPostComment(pid, "1517013103069569447", "-1").then(() => {likeYubaPostComment(pid, "1517013103069569447", "1")});
+    likeYubaPostComment(pid, "1517013231197168052", "-1").then(() => {likeYubaPostComment(pid, "1517013231197168052", "1")});
+    likeYubaPostComment(pid, "1517013448084627821", "-1").then(() => {likeYubaPostComment(pid, "1517013448084627821", "1")});
+    showMessage("【鱼吧点赞】已完成", "success");
+}
+
+function likeYubaPostComment(post_id, commnet_id, type) {
+    let data = `pid=${ post_id }&comment_id=${ commnet_id }&type=${ type }`;
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://yuba.douyu.com/ybapi/follow/like",
+            data: data,
+            responseType: "json",
+            headers: {
+                "dy-token": dyToken,
+                "dy-client": "pc",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Referer": "https://yuba.douyu.com/p/479725451596644862"
+            },
+            onload: function(response) {
+                let ret = response.response;
+                resolve(ret);
+            }
+        });
+    })
+}
 var _hmt = _hmt || [];
 
 function initPkg_Statistics() {
@@ -6377,7 +6546,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.07.29.01"
+var curVersion = "2020.08.06.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -6621,7 +6790,6 @@ function initPkg_VideoTools() {
         if (document.getElementsByClassName("right-e7ea5d").length > 0) {
             clearInterval(timer);
             liveVideoNode = document.querySelector(".layout-Player-videoEntity video");
-            setVideoSync();
             initPkg_VideoTools_Module();
             initPkg_VideoTools_Func();
         }
@@ -7067,6 +7235,68 @@ function getRealLive_Huya(url, qn, reallive_callback) {
         }
     })
 }
+class STT {
+    escape(v) {
+        return v.toString().replace(/@/g, '@A').replace(/\//g, '@S')
+    }
+
+    unescape(v) {
+        return v.toString().replace(/@A/g, '@').replace(/@S/g, '/')
+    }
+
+    serialize(raw) {
+        if (util.isObject(raw)) {
+            return Object.keys(raw).map(k => `${k}@=${this.escape(this.serialize(raw[k]))}/`).join('')
+        } else if (Array.isArray(raw)) {
+            return raw.map(v => `${this.escape(this.serialize(v))}/`).join('')
+        } else if (util.isString(raw) || util.isNumber(raw)) {
+            return raw.toString()
+        }
+    }
+
+    deserialize(raw) {
+        if (raw.includes('//')) {
+            return raw.split('//').filter(e => e !== '').map(item => this.deserialize(item))
+        }
+
+        if (raw.includes('@=')) {
+            return raw.split('/').filter(e => e !== '').reduce((o, s) => {
+                const [k, v] = s.split('@=')
+                o[k] = this.deserialize(this.unescape(v))
+                return o
+            }, {})
+        } else if (raw.includes('@A=')) {
+            return this.deserialize(this.unescape(raw))
+        } else {
+            return raw.toString()
+        }
+    }
+}
+
+// let a = new STT();
+// a.deserialize(`type@=rquizisn/rid@=475252/qst@=1/qril@=qid@AA=4441661@ASqbid@AA=7341fe0a159617089038802172028@ASqt@AA=我的死亡数能否小于等于5@ASfon@AA=能@ASson@AA=不能@ASfbuid@AA=9985474@ASsbuid@AA=182243496@ASfbmc@AA=2360@ASsbmc@AA=4545@ASfolpc@AA=10@ASsolpc@AA=220@ASfobc@AA=440126@ASsobc@AA=39210@ASfbid@AA=109846265@ASsbid@AA=109846431@ASqs@AA=1@ASet@AA=-1@ASwo@AA=0@ASscs@AA=0@ASsuid@AA=25332273@ASsname@AA=孙悟空丨兰林汉@ASaktp@AA=10@ASft@AA=0@ASflagc@AA=0@AS@Sqid@AA=4441660@ASqbid@AA=7341fe0a159617089038802172028@ASqt@AA=比赛结果@ASfon@AA=赢@ASson@AA=输@ASfbuid@AA=0@ASsbuid@AA=136676242@ASfbmc@AA=0@ASsbmc@AA=35978@ASfolpc@AA=0@ASsolpc@AA=990@ASfobc@AA=1809968@ASsobc@AA=64078@ASfbid@AA=0@ASsbid@AA=109846387@ASqs@AA=1@ASet@AA=-1@ASwo@AA=0@ASscs@AA=0@ASsuid@AA=25332273@ASsname@AA=孙悟空丨兰林汉@ASaktp@AA=10@ASft@AA=0@ASflagc@AA=0@AS@Sqid@AA=4441659@ASqbid@AA=7341fe0a159617089038802172028@ASqt@AA=我的伤害能否全场第一@ASfon@AA=能@ASson@AA=不能@ASfbuid@AA=186024887@ASsbuid@AA=175701690@ASfbmc@AA=382@ASsbmc@AA=86040@ASfolpc@AA=510@ASsolpc@AA=10@ASfobc@AA=90719@ASsobc@AA=224159@ASfbid@AA=109846402@ASsbid@AA=109846396@ASqs@AA=1@ASet@AA=-1@ASwo@AA=0@ASscs@AA=0@ASsuid@AA=25332273@ASsname@AA=孙悟空丨兰林汉@ASaktp@AA=10@ASft@AA=0@ASflagc@AA=0@AS@S/`)
+
+
+
+// function parseMsg(t) {
+//     if (t.includes("//")) {
+//         return t.split("//").map(item => {return parseMsg(item)}).filter(e => { return e !== "" });
+//     }
+//     if (t.includes("@=")) {
+//         let arr = t.split("/");
+//         return arr.reduce((prev, cur) => {
+//             if (cur !== "") {
+//                 let obj = cur.split("@=");
+//                 prev[obj[0]] = parseMsg(obj[1].replace(/@A/g, '@').replace(/@S/g, '/'));
+//             }
+//             return prev;
+//         }, {})
+//     } else if (t.includes("@A=")) {
+//         return parseMsg(t.replace(/@A/g, '@').replace(/@S/g, '/'));
+//     } else {
+//         return t;
+//     }
+// }
 /*
     Style Hook
     用于替换页面的原样式
