@@ -42,4 +42,6 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Changzheng();
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
+		initPkg_Sign_Bycc();
+		// initPkg_Sign_Wangzhe();
 }

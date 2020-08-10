@@ -41,21 +41,6 @@ function signChangzheng() {
     })
 }
 
-function signChangzheng() {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/signAct/signIn", {
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'token=' + dyToken + "&signAlias=" + "XSDXZC"
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        })
-    })
-}
 
 function getChangzhengBox_Day() {
     return new Promise(resolve => {
