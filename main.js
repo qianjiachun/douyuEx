@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.08.10.03
+// @version      2020.08.13.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -6101,6 +6101,7 @@ function getChangzhengBoxStatus_Day() {
 
 function initPkg_Sign_Chengxiao() {
     signChengxiao();
+    getChengxiaoQuestion();
 }
 function signChengxiao() {
     fetch("https://www.douyu.com/japi/carnival/nc/signAct/signIn", {
@@ -6108,16 +6109,64 @@ function signChengxiao() {
 		mode: 'no-cors',
 		credentials: 'include',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		body: 'token=' + dyToken + "&signAlias=" + "20200611cxll2qd"
+		body: 'token=' + dyToken + "&signAlias=" + "20200816cxll2"
 	}).then(res => {
 		return res.json();
 	}).then(ret => {
         if (ret.error == "0") {
-            showMessage("【粉丝福利】恭喜你获得荧光棒x10", "success");
+            showMessage("【程潇福利】恭喜你获得荧光棒x10", "success");
         } else {
-            showMessage("【粉丝福利】" + ret.msg, "warning");
+            showMessage("【程潇福利】" + ret.msg, "warning");
         }
     })
+}
+
+function getChengxiaoQuestion() {   
+    GM_xmlhttpRequest({
+		method: "POST",
+		url: "https://www.douyu.com/japi/carnival/nc/qa/getTargetStatus",
+		data: `qaAlias=20200816cxll3dt&token=${ dyToken }`,
+		responseType: "json",
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		onload: function(response) {
+			let ret = response.response;
+			if (ret.error = "0") {
+                if (ret.data.target[0].status != "2") {
+                    GM_xmlhttpRequest({
+                        method: "POST",
+                        url: "https://www.douyu.com/japi/carnival/nc/qa/submitAnswerV2",
+                        data: `qaAlias=20200816cxll3dt&token=${ dyToken }&roundId=21&answer=%5B%7B%22questionId%22%3A36%2C%22options%22%3A%5B2%5D%7D%2C%7B%22questionId%22%3A37%2C%22options%22%3A%5B1%5D%7D%2C%7B%22questionId%22%3A38%2C%22options%22%3A%5B1%5D%7D%2C%7B%22questionId%22%3A39%2C%22options%22%3A%5B1%5D%7D%2C%7B%22questionId%22%3A40%2C%22options%22%3A%5B1%5D%7D%2C%7B%22questionId%22%3A41%2C%22options%22%3A%5B1%5D%7D%2C%7B%22questionId%22%3A42%2C%22options%22%3A%5B2%5D%7D%2C%7B%22questionId%22%3A43%2C%22options%22%3A%5B1%5D%7D%2C%7B%22questionId%22%3A44%2C%22options%22%3A%5B1%5D%7D%2C%7B%22questionId%22%3A45%2C%22options%22%3A%5B2%5D%7D%5D`,
+                        responseType: "json",
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        onload: function(response) {
+                            let ret = response.response;
+                            if (ret.error = "0") {
+                                GM_xmlhttpRequest({
+                                    method: "POST",
+                                    url: "https://www.douyu.com/japi/carnival/nc/qa/takeReward",
+                                    data: `qaAlias=20200816cxll3dt&roundId=21&level=1&token=${ dyToken }`,
+                                    responseType: "json",
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    },
+                                    onload: function(response) {
+                                        let ret = response.response;
+                                        if (ret.error = "0") {
+                                            showMessage("【程潇福利】恭喜你答题鱼丸*500", "success");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+		}
+	});
 }
 function initPkg_Sign_Client() {
 	signClient();
@@ -6624,7 +6673,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.08.10.03"
+var curVersion = "2020.08.13.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
