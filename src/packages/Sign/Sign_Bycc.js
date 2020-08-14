@@ -18,6 +18,10 @@ async function getBycc() {
     } else {
         showMessage("【PUBG签到】" + ret2.msg, "warning");
     }
+    await sleep(1000).then(() => {
+        initPkg_Sign_Saobai();
+    })
+    
 }
 
 function signBycc() {

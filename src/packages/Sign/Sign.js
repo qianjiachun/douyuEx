@@ -37,12 +37,17 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Ad_FishPond();
 		// initPkg_Sign_Aoligei();
 		// initPkg_Sign_Ad_Yuba();
-		initPkg_Sign_Chengxiao();
-		initPkg_Sign_Saobai();
-		// initPkg_Sign_Ad_Novel();
-		initPkg_Sign_Changzheng();
+		initPkg_Sign_Bycc();
+
+		// 这3个全到Bycc里去了
+		// initPkg_Sign_Saobai();
+		// initPkg_Sign_Changzheng();
+		// initPkg_Sign_Chengxiao();
+
+
+
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
-		initPkg_Sign_Bycc();
+		
 		// initPkg_Sign_Wangzhe();
 }

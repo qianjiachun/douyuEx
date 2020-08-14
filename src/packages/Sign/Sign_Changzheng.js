@@ -23,6 +23,9 @@ async function getChangzheng() {
         }
     }
     
+    await sleep(1000).then(() => {
+        initPkg_Sign_Chengxiao();
+    })
 }
 
 function signChangzheng() {
