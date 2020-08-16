@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.08.14.01
+// @version      2020.08.16.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -4716,7 +4716,7 @@ function initPkg_RemoveAD() {
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
@@ -4947,14 +4947,16 @@ function getFishBall_Ad_FishPond() {
                 if (ret[i].task.id == "182") {
                     if (ret[i].task.status == "3") {
                         showMessage("【鱼塘鱼丸】已领取", "warning");
-                        initPkg_Sign_Ad_666();
+                        // initPkg_Sign_Ad_666();
+                        initPkg_Sign_Ad_Yuba();
                     } else {
                         let posid_Ad_FishPond = "1114268";
                         let token = dyToken;
                         let uid = getUID();
                         let info = await getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid);
                         if (info == false) {
-                            initPkg_Sign_Ad_666();
+                            // initPkg_Sign_Ad_666();
+                            initPkg_Sign_Ad_Yuba();
                             return;
                         }
                         let mid = info.mid;
@@ -4983,7 +4985,8 @@ function getFishBall_Ad_FishPond() {
                                 
                             })
                         }
-                        initPkg_Sign_Ad_666();
+                        // initPkg_Sign_Ad_666();
+                        initPkg_Sign_Ad_Yuba();
                     }
                 }
             }
@@ -5571,7 +5574,7 @@ function signPubglxt() {
 }
 
 
-const ACTIVITY_DAY_ID = "393";
+const ACTIVITY_DAY_ID = "436";
 
 function initPkg_Sign_Changzheng() {
     getChangzheng();
@@ -5587,9 +5590,11 @@ async function getChangzheng() {
     }
 
     ret = await getChangzhengBoxStatus_Day();
+    console.log(ret);
     if (ret.error == "0") {
         for (let i = 0; i < ret.data.freeCount; i++) {
             let ret2 = await getChangzhengBox_Day();
+            console.log(ret2);
             if (ret2.error == "0") {
                 showMessage("【长征签到】礼盒开启：" + ret2.data.giftName, "success");
             }
@@ -6231,7 +6236,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.08.14.01"
+var curVersion = "2020.08.16.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
