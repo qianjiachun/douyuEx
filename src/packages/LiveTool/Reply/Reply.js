@@ -56,11 +56,16 @@ function LiveTool_Reply_insertFunc() {
         let a = document.getElementsByClassName("reply__panel")[0];
 		if (a.style.display != "block") {
             a.style.display = "block";
-            if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
-				document.getElementsByClassName("mute__panel")[0].style.display = "none";
+            if (rid !== "5189167") {
+                if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+                    document.getElementsByClassName("mute__panel")[0].style.display = "none";
+                }
             }
             if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
 				document.getElementsByClassName("gift__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("vote__panel")[0].style.display == "block") {
+				document.getElementsByClassName("vote__panel")[0].style.display = "none";
 			}
 		} else {
 			a.style.display = "none";

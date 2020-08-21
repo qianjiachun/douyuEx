@@ -111,6 +111,9 @@ function LiveTool_Mute_insertFunc() {
             }
             if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
 				document.getElementsByClassName("gift__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("vote__panel")[0].style.display == "block") {
+				document.getElementsByClassName("vote__panel")[0].style.display = "none";
 			}
 		} else {
 			a.style.display = "none";

@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.08.16.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制
+// @version      2020.08.21.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -63,7 +63,7 @@ function initTimer() {
 function initStyles() {
 	let style = document.createElement("style");
 	style.appendChild(document.createTextNode(`
-.bag-info {    position: absolute;    background-color: rgba(0, 0, 0, 0.6);    color: white;    width: 20px;    font-weight: 800;    height: 20px;    text-align: center;}.bag-button {    position: relative;    color: rgb(255, 255, 255);    text-align: center;    height: 15px;    line-height: 15px;    cursor: pointer;    margin-left: 5px;    background: rgb(70, 171, 255);    border-radius: 9px;    padding: 0px 10px;    float: right;    right: 20px;}.bloop {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.bloop__switch {	position: absolute;	right: 0;	bottom: 0;}.bloop__mode {	display: inline-block;}.barragePanel__funcPanel {    position: absolute;    width: 232px;    height: 270px;    display: block;    background: white;    overflow-y: scroll;}.barragePanel__funcPanel::-webkit-scrollbar {display:none}.barragePanel__muteTime {    position: absolute;    left: 25px;    top: 123px;    z-index: 5;}#copy-real-live {    cursor: pointer;}.ex-icon {	display: inline-block;	vertical-align: middle;	margin-right: 8px;	-moz-user-select:none; /*火狐*/    -webkit-user-select:none; /*webkit浏览器*/    -ms-user-select:none; /*IE10*/    -khtml-user-select:none; /*早期浏览器*/    user-select:none;}.extool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.extool__switch {	position: absolute;	right: 0;	bottom: 0;}.extool__bsize,.extool__sendgift {	margin-bottom: 5px;}.extool__redpacket_room,.extool__gold {	display: inline-block;}.ex_giftAnimation {	width: 100%;	height: 100%;	position: absolute;	z-index: 50;	pointer-events: none;}.ex-panel {	width: 550px;	height: 50px;	position: absolute;	bottom: 35px;	right: 50px;	background-color: rgba(255,255,255,0.9);	display: none;	border: 2px rgb(234,173,26) solid;	z-index: 7777;}.ex-panel__wrap {	display: flex;	align-items: center;	justify-content: center;	width: 100%;	height: 100%;}.ex-panel__icon {	margin: 0 10px;	display: block;	position: relative;	padding: 5px;	transition: 0.5s;}.ex-panel__icon:hover {	transform: scale(1.25);}.ex-panel__tip {	display:none;	background:#f00;	border-radius:50%;	width:8px;	height:8px;	top:0px;	right:0px;	position:absolute;}.gift__panel {    width: 100%;    display: none;    margin-top: 4px;}#gift__title {    cursor: pointer;}#gift__select {    width: 190px;}.gift__option {    margin-top: 5px;}#gift__giftId {    width: 40px;}#gift__reply {    width: 150px;}.livetool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.livetool__cell {	position: relative;    display: -webkit-box;    display: -webkit-flex;    display: flex;    box-sizing: border-box;    width: 100%;    padding: 10px 16px;    overflow: hidden;    color: #323233;    font-size: 14px;    line-height: 24px;	background-color: #fff;	border-bottom: 1px solid rgba(0,0,0,0.2);	flex-wrap: wrap;    -webkit-flex-wrap: wrap;}.livetool__cell_title {	flex: 1;    -webkit-box-flex: 1;}.livetool__cell_option {	flex: 1;	-webkit-box-flex: 1;	text-align: right;}.livetool__cell_switch {	float: right;}.mute__panel {    width: 100%;    display: none;    margin-top: 4px;}#mute__title {    cursor: pointer;}#mute__idlist {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#mute__select {    width: 110px;}.mute__option {    margin-top: 5px;}#mute__word {    width: 70px;}#mute__count {    width: 30px;}#mute__time {    width: 65px;}.reply__panel {    width: 100%;    display: none;    margin-top: 4px;}#reply__title {    cursor: pointer;}#reply__select {    width: 190px;}.reply__option {    margin-top: 5px;}#reply__word {    width: 70px;}#reply__reply {    width: 147px;}#ex-point {    cursor: pointer;    float: left;    line-height: 30px;    -moz-user-select:none; /*火狐*/    -webkit-user-select:none; /*webkit浏览器*/    -ms-user-select:none; /*IE10*/    -khtml-user-select:none; /*早期浏览器*/    user-select:none;}#point__value {    color: #333;}#ex-exchange {    position: absolute;    left: 0;    bottom: 37px;    z-index: 100;}.exchange__panel {    width: 400px;    height: 500px;    position: relative;}.exchange__wrap {    width: 400px;    height: 500px;    background-color: white;    border-radius: 3%;    overflow-y: scroll;    overflow-x: hidden;    box-shadow: 0px 0px 20px 0px #888888;}.exchange__wrap::-webkit-scrollbar {    display:none}.exchange__close {    position: absolute;    color: rgb(127, 127, 137);    right: 10px;    top: 5px;    font-size: 15px;    cursor: pointer;    z-index: 101;}.item__wrap {    width: 100%;    height: 130px;    border-bottom: 1px solid rgba(121,127,137,0.4);    position: relative;}.item__pic {    left: 10px;    top: 10px;    position: absolute;    height: 110px;    width: 110px;}.item__name {    position: absolute;    top: 7px;    left: 130px;    color: #353536;;    font-size: 15px;    margin-right: 10px;}.item__description {    position: absolute;    top: 32px;    left: 130px;    font-size: 12px;    margin-right: 10px;    color: #969799;}.item__num {    position: absolute;    bottom: 27px;    left: 130px;    font-size: 12px;    color: #969799;}.item__price {    position: absolute;    bottom: 7px;    left: 130px;    font-size: 14px;    color: rgb(255,93,35);    font-weight: 600;}.item__exchange {    position: absolute;    bottom: 8px;    right: 10px;    font-size: 14px;    color: white;    text-align: center;    width: 80px;    height: 25px;        background-color: rgb(255,93,35);    border-radius: 999px;    cursor: pointer;}#ex-pointlist {    position: absolute;    width: 300px;    height: 400px;    background-color: white;    border-radius: 3%;    overflow: auto;    z-index: 100;    bottom: 37px;}#ex-pointlist::-webkit-scrollbar {    display:none}.pointlist__wrap {    width: 100%;    height: 100%;    margin: 15px 0;    position: absolute;}.pointlist__close {    position: absolute;    color: rgb(127, 127, 137);    right: 7px;    font-size: 15px;    cursor: pointer;}.pointlist__wrap table {    border-collapse: collapse;    margin: 0 auto;    text-align: center;}.pointlist__wrap td,.pointlist__wrap th {    border: 1px solid #cad9ea;    color: #666;    height: 30px;    width: 85px;}.pointlist__wrap thead th {    background-color: #CCE8EB;    width: 100px;}.pointlist__wrap tr:nth-child(odd) {    background: #fff;}.pointlist__wrap tr:nth-child(even) {    background: #F5FAFA;}.point__panel {    position: absolute;    left: 0px;    bottom: 37px;    display: none;    animation: move-in 0.75s;    z-index: 101;}@keyframes move-in {    0% {        opacity: 0;    }    100% {        opacity: 0.95;    }}.panel__wrap {    overflow: hidden;    background-color: white;    border-radius: 5%;    width: 120px;    box-shadow: 0px 2px 20px 0px #888888;    font-size: 14px;}.panel__cell {    width: 100%;    height: 37px;    line-height: 37px;    border-bottom: 1px solid rgba(121,127,137,0.4);    text-align: center;    cursor: pointer;}.panel__cell:hover {    background-color: rgb(217, 217, 217);    transition: 0.75s;}.panel__triangle {    width: 0px;    height: 0px;    border-color: white transparent transparent transparent;    border-style: solid;    border-width: 10px;    position: absolute;    left: 35px;}#ex-record {    width: 300px;    height: 400px;    position: absolute;    bottom: 67px;    z-index: 100;}.record__close {    position: absolute;    color: rgb(127, 127, 137);    right: -20px;    font-size: 15px;    cursor: pointer;}.records__wrap {    width: 100%;    height: 100%;    background-color: white;    border-radius: 3%;    box-shadow: 0px 0px 20px 0px #888888;    padding: 15px;    overflow-y: scroll;    overflow-x: hidden;}.records__wrap::-webkit-scrollbar {    display:none}.record__wrap {    height: 50px;    width: 100%;    border: 1px solid rgba(121,127,137,0.4);    margin-bottom: 10px;    display: -webkit-box;    display: -moz-box;     display: -ms-flexbox;    display: -webkit-flex;     display: flex;     transition: 0.75s;    cursor: pointer;}.record__wrap:hover {    background-color: #e9f5ff;}.record__left {    flex: 1;    position: relative;}.record__name {    position: absolute;    flex: 1;    color: #353536;;    font-size: 15px;    top: 2px;    margin-left: 5px;}.record__updatetime {    position: absolute;    margin-left: 5px;    font-size: 12px;    bottom: 2px;    color: #969799;}.record__price {    line-height: 50px;    color: rgb(255,93,35);    margin-right: 10px;}.record__pagenav {    display: -webkit-box;    display: -moz-box;     display: -ms-flexbox;    display: -webkit-flex;     display: flex;     width: 310px;    position: absolute;    bottom: -20px;    padding-left: 10px;    padding-right: 10px;    cursor: pointer;}.record__prev {    flex: 1;    text-align: center;    border: 1px solid rgba(121,127,137,0.8);    transition: 0.75s;    color: white;    background-color: rgb(57,169,237);}.record__prev:hover {    background-color: #7167ff;}.record__next {    flex: 1;    text-align: center;    border: 1px solid rgba(121,127,137,0.8);    transition: 0.75s;    background-color: rgb(57,169,237);    color: white;}.record__next:hover {    background-color: #7167ff;}.videoDiv {    width: 400px;    height: 200px;    background-color: rgba(255, 255, 255, 0);    position: absolute;    z-index: 7777;}.videoPlayer {    width: 100%;    height: 100%;    cursor: move;}.videoScale {    width: 10px;    height: 10px;    overflow: hidden;    cursor: se-resize;    position: absolute;    right: 0;    bottom: 0;    background-color: rgb(231, 57, 57);}.videoInfo {    width: 100%;    height: 30px;    background-color: gray;    position: absolute;    top: -30px;    line-height: 30px;}.videoClose {    width: 30px;    float: right;    color: white;}.videoQn, .videoCDN {    margin-left: 5px;}.videoRID {    margin: 0px 5px;    font-weight: 800;    font-size: medium;}#popup-player__prompt {    display: none;}.real-audience {    cursor: pointer;    display: flex;}#refresh-video {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.refresh-barrage {    display: inline-block;    vertical-align: top;    margin: 0 2px;    padding: 0 8px;    height: 22px;    line-height: 21px;    background-color: #fff;    border: 1px solid #e5e4e4;    -webkit-border-radius: 4px;    -moz-border-radius: 4px;    border-radius: 4px;    cursor: pointer;}#refresh-barrage__svg {    vertical-align: middle;}#ex-cinema {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.cinema__wrap {    display: none;    position: relative;    height: 100%;    margin-right: -15px;    border-radius: 4px;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    float: left;    right: -12px;}.cinema__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 70px;}.cinema__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.cinema__panel li:hover {    background-color: rgb(85, 85, 85);}  #ex-videospeed {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.videospeed__wrap {    display: none;    position: relative;    height: 100%;    margin-right: -15px;    border-radius: 4px;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    float: left;    right: -12px;}.videospeed__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 70px;}.videospeed__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.videospeed__panel li:hover {    background-color: rgb(85, 85, 85);}  #ex-videosync {    float: left;    width: 24px;    height: 24px;    margin-left: 20px;    cursor: pointer;    background-size: contain;}/*    Notice.css*/.noticejs-top{top:0;width:100%!important}.noticejs-top .item{border-radius:0!important;margin:0!important}.noticejs-topRight{top:10px;right:10px}.noticejs-topLeft{top:10px;left:10px}.noticejs-topCenter{top:10px;left:50%;transform:translate(-50%)}.noticejs-middleLeft,.noticejs-middleRight{right:10px;top:50%;transform:translateY(-50%)}.noticejs-middleLeft{left:10px}.noticejs-middleCenter{top:50%;left:50%;transform:translate(-50%,-50%)}.noticejs-bottom{bottom:0;width:100%!important}.noticejs-bottom .item{border-radius:0!important;margin:0!important}.noticejs-bottomRight{bottom:10px;right:10px}.noticejs-bottomLeft{bottom:10px;left:10px}.noticejs-bottomCenter{bottom:10px;left:50%;transform:translate(-50%)}.noticejs{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}.noticejs .item{margin:0 0 10px;border-radius:3px;overflow:hidden}.noticejs .item .close{float:right;font-size:18px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;opacity:1;margin-right:7px}.noticejs .item .close:hover{opacity:.5;color:#000}.noticejs .item a{color:#fff;border-bottom:1px dashed #fff}.noticejs .item a,.noticejs .item a:hover{text-decoration:none}.noticejs .success{background-color:#64ce83}.noticejs .success .noticejs-heading{background-color:#3da95c;color:#fff;padding:10px}.noticejs .success .noticejs-body{color:#fff;padding:10px}.noticejs .success .noticejs-body:hover{visibility:visible!important}.noticejs .success .noticejs-content{visibility:visible}.noticejs .info{background-color:#3ea2ff}.noticejs .info .noticejs-heading{background-color:#067cea;color:#fff;padding:10px}.noticejs .info .noticejs-body{color:#fff;padding:10px}.noticejs .info .noticejs-body:hover{visibility:visible!important}.noticejs .info .noticejs-content{visibility:visible}.noticejs .warning{background-color:#ff7f48}.noticejs .warning .noticejs-heading{background-color:#f44e06;color:#fff;padding:10px}.noticejs .warning .noticejs-body{color:#fff;padding:10px}.noticejs .warning .noticejs-body:hover{visibility:visible!important}.noticejs .warning .noticejs-content{visibility:visible}.noticejs .error{background-color:#e74c3c}.noticejs .error .noticejs-heading{background-color:#ba2c1d;color:#fff;padding:10px}.noticejs .error .noticejs-body{color:#fff;padding:10px}.noticejs .error .noticejs-body:hover{visibility:visible!important}.noticejs .error .noticejs-content{visibility:visible}.noticejs .progressbar{width:100%}.noticejs .progressbar .bar{width:1%;height:30px;background-color:#4caf50}.noticejs .success .noticejs-progressbar{width:100%;background-color:#64ce83;margin-top:-1px}.noticejs .success .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#3da95c}.noticejs .info .noticejs-progressbar{width:100%;background-color:#3ea2ff;margin-top:-1px}.noticejs .info .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#067cea}.noticejs .warning .noticejs-progressbar{width:100%;background-color:#ff7f48;margin-top:-1px}.noticejs .warning .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#f44e06}.noticejs .error .noticejs-progressbar{width:100%;background-color:#e74c3c;margin-top:-1px}.noticejs .error .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#ba2c1d}@keyframes noticejs-fadeOut{0%{opacity:1}to{opacity:0}}.noticejs-fadeOut{animation-name:noticejs-fadeOut}@keyframes noticejs-modal-in{to{opacity:.3}}@keyframes noticejs-modal-out{to{opacity:0}}.noticejs-rtl .noticejs-heading{direction:rtl}.noticejs-rtl .close{float:left!important;margin-left:7px;margin-right:0!important}.noticejs-rtl .noticejs-content{direction:rtl}.noticejs{position:fixed;z-index:10050;width:320px}.noticejs ::-webkit-scrollbar{width:8px}.noticejs ::-webkit-scrollbar-button{width:8px;height:5px}.noticejs ::-webkit-scrollbar-track{border-radius:10px}.noticejs ::-webkit-scrollbar-thumb{background:hsla(0,0%,100%,.5);border-radius:10px}.noticejs ::-webkit-scrollbar-thumb:hover{background:#fff}.noticejs-modal{position:fixed;width:100%;height:100%;background-color:#000;z-index:10000;opacity:.3;left:0;top:0}.noticejs-modal-open{opacity:0;animation:noticejs-modal-in .3s ease-out}.noticejs-modal-close{animation:noticejs-modal-out .3s ease-out;animation-fill-mode:forwards}/** * PostbirdAlertBox.js * -    原生javascript弹框插件 * Author:  Postbird - http://www.ptbird.cn * License: MIT * Date:    2017-09-23 */.postbird-box-container {    width: 100%;    height: 100%;    overflow: hidden;    position: fixed;    top: 0;    left: 0;    z-index: 9999;    background-color: rgba(0, 0, 0, 0.2);    display: block;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none}.postbird-box-container.active {    display: block}.postbird-box-content {    min-width: 400px;    max-width: 600px;    min-height: 150px;    background-color: #fff;    border: solid 1px #dfdfdf;    position: absolute;    top: 50%;    left: 50%;    transform: translate(-50%, -50%);    margin-top: -100px}.postbird-box-header {    width: 100%;    padding: 10px 15px;    position: relative;    font-size: 1.1em;    letter-spacing: 2px}.postbird-box-close-btn {    cursor: pointer;    font-weight: 700;    color: #000;    float: right;    opacity: .5;    font-size: 1.3em;    margin-top: -3px;    display: none}.postbird-box-close-btn:hover {    opacity: 1}.postbird-box-text {    box-sizing: border-box;    width: 100%;    padding: 0 10%;    text-align: center;    line-height: 40px;    font-size: 20px;    letter-spacing: 1px}.postbird-box-footer {    width: 100%;    position: absolute;    padding: 0;    margin: 0;    bottom: 0;    display: flex;    display: -webkit-flex;    justify-content: space-around;    border-top: solid 1px #dfdfdf;    align-items: flex-end}.postbird-box-footer .btn-footer {    line-height: 44px;    border: 0;    cursor: pointer;    background-color: #fff;    color: #0e90d2;    font-size: 1.1em;    letter-spacing: 2px;    transition: background-color .5s;    -webkit-transition: background-color .5s;    -o-transition: background-color .5s;    -moz-transition: background-color .5s;    outline: 0}.postbird-box-footer .btn-footer:hover {    background-color: #e5e5e5}.postbird-box-footer .btn-block-footer {    width: 100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer {    position: relative;    width: 100%}.postbird-box-footer .btn-left-footer::after {    content: "";    position: absolute;    right: 0;    top: 0;    background-color: #e5e5e5;    height: 100%;    width: 1px}.postbird-box-footer .btn-footer-cancel {    color: #333}.postbird-prompt-input {    width: 100%;    padding: 5px;    font-size: 16px;    border: 1px solid #ccc;    outline: 0}.onoffswitch {    position: relative; width: 45px;    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;}.onoffswitch-checkbox {    position: absolute;    opacity: 0;    pointer-events: none;}.onoffswitch-label {    display: block; overflow: hidden; cursor: pointer;    height: 20px; padding: 0; line-height: 20px;    border: 2px solid #E3E3E3; border-radius: 20px;    background-color: #FFFFFF;    transition: background-color 0.3s ease-in;}.onoffswitch-label:before {    content: "";    display: block; width: 20px; margin: 0px;    background: #FFFFFF;    position: absolute; top: 0; bottom: 0;    right: 23px;    border: 2px solid #E3E3E3; border-radius: 20px;    transition: all 0.3s ease-in 0s; }.onoffswitch-checkbox:checked + .onoffswitch-label {    background-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {   border-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label:before {    right: 0px; }.layui-timeline {    padding-left: 5px;}.layui-timeline-item {    position: relative;    padding-bottom: 20px;}li {    list-style: none;}.layui-timeline-item:first-child::before {    display: block;}.layui-timeline-item:last-child::before {    content: '';    position: absolute;    left: 5px;    top: 0;    z-index: 0;    width: 0;    height: 100%;}.layui-timeline-item::before {    content: '';    position: absolute;    left: 5px;    top: 0;    z-index: 0;    width: 1px;    height: 100%;}.layui-timeline-item::before,hr {    background-color: #e6e6e6;}.layui-timeline-axis {    position: absolute;    left: -5px;    top: 0;    z-index: 10;    width: 20px;    height: 20px;    line-height: 20px;    background-color: #fff;    color: #5FB878;    border-radius: 50%;    text-align: center;    cursor: pointer;}.layui-icon {    font-family: layui-icon !important;    font-size: 16px;    font-style: normal;}.layui-timeline-content {    padding-left: 25px;}.layui-text {    line-height: 22px;    font-size: 14px;    color: rgb(85,85,85);}.layui-timeline-title {    position: relative;}
+.bag-info {    position: absolute;    background-color: rgba(0, 0, 0, 0.6);    color: white;    width: 20px;    font-weight: 800;    height: 20px;    text-align: center;}.bag-button {    position: relative;    color: rgb(255, 255, 255);    text-align: center;    height: 15px;    line-height: 15px;    cursor: pointer;    margin-left: 5px;    background: rgb(70, 171, 255);    border-radius: 9px;    padding: 0px 10px;    float: right;    right: 20px;}.bloop {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.bloop__switch {	position: absolute;	right: 0;	bottom: 0;}.bloop__mode {	display: inline-block;}.barragePanel__funcPanel {    position: absolute;    width: 232px;    height: 270px;    display: block;    background: white;    overflow-y: scroll;}.barragePanel__funcPanel::-webkit-scrollbar {display:none}.barragePanel__muteTime {    position: absolute;    left: 25px;    top: 123px;    z-index: 5;}#copy-real-live {    cursor: pointer;}.ex-icon {	display: inline-block;	vertical-align: middle;	margin-right: 8px;	-moz-user-select:none; /*火狐*/    -webkit-user-select:none; /*webkit浏览器*/    -ms-user-select:none; /*IE10*/    -khtml-user-select:none; /*早期浏览器*/    user-select:none;}.extool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;}.extool__switch {	position: absolute;	right: 0;	bottom: 0;}.extool__bsize,.extool__sendgift {	margin-bottom: 5px;}.extool__redpacket_room,.extool__gold {	display: inline-block;}.ex_giftAnimation {	width: 100%;	height: 100%;	position: absolute;	z-index: 50;	pointer-events: none;}.ex-panel {	width: 550px;	height: 50px;	position: absolute;	bottom: 35px;	right: 50px;	background-color: rgba(255,255,255,0.9);	display: none;	border: 2px rgb(234,173,26) solid;	z-index: 7777;	user-select: none;}.ex-panel__wrap {	display: flex;	align-items: center;	justify-content: center;	width: 100%;	height: 100%;}.ex-panel__icon {	margin: 0 10px;	display: block;	position: relative;	padding: 5px;	transition: 0.5s;}.ex-panel__icon:hover {	transform: scale(1.25);}.ex-panel__tip {	display:none;	background:#f00;	border-radius:50%;	width:8px;	height:8px;	top:0px;	right:0px;	position:absolute;}.gift__panel {    width: 100%;    display: none;    margin-top: 4px;}#gift__title {    cursor: pointer;}#gift__select {    width: 190px;}.gift__option {    margin-top: 5px;}#gift__giftId {    width: 40px;}#gift__reply {    width: 150px;}.livetool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 245px;	position: relative;	bottom: 245px;	display: none;}.livetool__cell {	position: relative;    display: -webkit-box;    display: -webkit-flex;    display: flex;    box-sizing: border-box;    width: 100%;    padding: 10px 16px;    overflow: hidden;    color: #323233;    font-size: 14px;    line-height: 24px;	background-color: #fff;	border-bottom: 1px solid rgba(0,0,0,0.2);	flex-wrap: wrap;    -webkit-flex-wrap: wrap;}.livetool__cell_title {	flex: 1;    -webkit-box-flex: 1;}.livetool__cell_option {	flex: 1;	-webkit-box-flex: 1;	text-align: right;}.livetool__cell_switch {	float: right;}.mute__panel {    width: 100%;    display: none;    margin-top: 4px;}#mute__title {    cursor: pointer;}#mute__idlist {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#mute__select {    width: 110px;}.mute__option {    margin-top: 5px;}#mute__word {    width: 70px;}#mute__count {    width: 30px;}#mute__time {    width: 65px;}.reply__panel {    width: 100%;    display: none;    margin-top: 4px;}#reply__title {    cursor: pointer;}#reply__select {    width: 190px;}.reply__option {    margin-top: 5px;}#reply__word {    width: 70px;}#reply__reply {    width: 147px;}.livetool__Treasure {    width: 100%;    position: relative;    z-index: 999;}.vote__panel {    width: 100%;    display: none;    margin-top: 4px;}#vote__title {    cursor: pointer;}#vote__select {    width: 100px;}.vote__option {    margin-top: 5px;}#vote__theme {    width: 70px;}#vote__options {    width: 133px;}#vote__time {    width: 35px;}#vote__show-result {    cursor: pointer;    color: royalblue;    margin-left: 10px;}.vote__result {    position: absolute;    top: 0px;    width: 300px;    background: rgba(255,255,255,0.85);    left: 0px;    z-index: 999;    padding: 5px;    border-radius: 10px;    user-select: none;    display: none;}#vote__result-theme {    font-size: 20px;    font-weight: 600;    margin-bottom: 10px;}#vote__result-close {    position: absolute;    top: 5px;    right: 10px;    font-size: 14px;    cursor: pointer;    color: gray;}.vote__option-wrap {    margin-bottom: 10px;}.vote__option-choice {    display: inline-block;}.vote__option-num {    float: right;}.vote__progress {    width: 100%;    background-color: #ddd;}.vote__progress-bar {    width: 0%;    height: 10px;    background-color: #4CAF50;    text-align: center;    line-height: 30px;}#ex-point {    cursor: pointer;    float: left;    line-height: 30px;    -moz-user-select:none; /*火狐*/    -webkit-user-select:none; /*webkit浏览器*/    -ms-user-select:none; /*IE10*/    -khtml-user-select:none; /*早期浏览器*/    user-select:none;}#point__value {    color: #333;}#ex-exchange {    position: absolute;    left: 0;    bottom: 37px;    z-index: 100;}.exchange__panel {    width: 400px;    height: 500px;    position: relative;}.exchange__wrap {    width: 400px;    height: 500px;    background-color: white;    border-radius: 3%;    overflow-y: scroll;    overflow-x: hidden;    box-shadow: 0px 0px 20px 0px #888888;}.exchange__wrap::-webkit-scrollbar {    display:none}.exchange__close {    position: absolute;    color: rgb(127, 127, 137);    right: 10px;    top: 5px;    font-size: 15px;    cursor: pointer;    z-index: 101;}.item__wrap {    width: 100%;    height: 130px;    border-bottom: 1px solid rgba(121,127,137,0.4);    position: relative;}.item__pic {    left: 10px;    top: 10px;    position: absolute;    height: 110px;    width: 110px;}.item__name {    position: absolute;    top: 7px;    left: 130px;    color: #353536;;    font-size: 15px;    margin-right: 10px;}.item__description {    position: absolute;    top: 32px;    left: 130px;    font-size: 12px;    margin-right: 10px;    color: #969799;}.item__num {    position: absolute;    bottom: 27px;    left: 130px;    font-size: 12px;    color: #969799;}.item__price {    position: absolute;    bottom: 7px;    left: 130px;    font-size: 14px;    color: rgb(255,93,35);    font-weight: 600;}.item__exchange {    position: absolute;    bottom: 8px;    right: 10px;    font-size: 14px;    color: white;    text-align: center;    width: 80px;    height: 25px;        background-color: rgb(255,93,35);    border-radius: 999px;    cursor: pointer;}#ex-pointlist {    position: absolute;    width: 300px;    height: 400px;    background-color: white;    border-radius: 3%;    overflow: auto;    z-index: 100;    bottom: 37px;}#ex-pointlist::-webkit-scrollbar {    display:none}.pointlist__wrap {    width: 100%;    height: 100%;    margin: 15px 0;    position: absolute;}.pointlist__close {    position: absolute;    color: rgb(127, 127, 137);    right: 7px;    font-size: 15px;    cursor: pointer;}.pointlist__wrap table {    border-collapse: collapse;    margin: 0 auto;    text-align: center;}.pointlist__wrap td,.pointlist__wrap th {    border: 1px solid #cad9ea;    color: #666;    height: 30px;    width: 85px;}.pointlist__wrap thead th {    background-color: #CCE8EB;    width: 100px;}.pointlist__wrap tr:nth-child(odd) {    background: #fff;}.pointlist__wrap tr:nth-child(even) {    background: #F5FAFA;}.point__panel {    position: absolute;    left: 0px;    bottom: 37px;    display: none;    animation: move-in 0.75s;    z-index: 101;}@keyframes move-in {    0% {        opacity: 0;    }    100% {        opacity: 0.95;    }}.panel__wrap {    overflow: hidden;    background-color: white;    border-radius: 5%;    width: 120px;    box-shadow: 0px 2px 20px 0px #888888;    font-size: 14px;}.panel__cell {    width: 100%;    height: 37px;    line-height: 37px;    border-bottom: 1px solid rgba(121,127,137,0.4);    text-align: center;    cursor: pointer;}.panel__cell:hover {    background-color: rgb(217, 217, 217);    transition: 0.75s;}.panel__triangle {    width: 0px;    height: 0px;    border-color: white transparent transparent transparent;    border-style: solid;    border-width: 10px;    position: absolute;    left: 35px;}#ex-record {    width: 300px;    height: 400px;    position: absolute;    bottom: 67px;    z-index: 100;}.record__close {    position: absolute;    color: rgb(127, 127, 137);    right: -20px;    font-size: 15px;    cursor: pointer;}.records__wrap {    width: 100%;    height: 100%;    background-color: white;    border-radius: 3%;    box-shadow: 0px 0px 20px 0px #888888;    padding: 15px;    overflow-y: scroll;    overflow-x: hidden;}.records__wrap::-webkit-scrollbar {    display:none}.record__wrap {    height: 50px;    width: 100%;    border: 1px solid rgba(121,127,137,0.4);    margin-bottom: 10px;    display: -webkit-box;    display: -moz-box;     display: -ms-flexbox;    display: -webkit-flex;     display: flex;     transition: 0.75s;    cursor: pointer;}.record__wrap:hover {    background-color: #e9f5ff;}.record__left {    flex: 1;    position: relative;}.record__name {    position: absolute;    flex: 1;    color: #353536;;    font-size: 15px;    top: 2px;    margin-left: 5px;}.record__updatetime {    position: absolute;    margin-left: 5px;    font-size: 12px;    bottom: 2px;    color: #969799;}.record__price {    line-height: 50px;    color: rgb(255,93,35);    margin-right: 10px;}.record__pagenav {    display: -webkit-box;    display: -moz-box;     display: -ms-flexbox;    display: -webkit-flex;     display: flex;     width: 310px;    position: absolute;    bottom: -20px;    padding-left: 10px;    padding-right: 10px;    cursor: pointer;}.record__prev {    flex: 1;    text-align: center;    border: 1px solid rgba(121,127,137,0.8);    transition: 0.75s;    color: white;    background-color: rgb(57,169,237);}.record__prev:hover {    background-color: #7167ff;}.record__next {    flex: 1;    text-align: center;    border: 1px solid rgba(121,127,137,0.8);    transition: 0.75s;    background-color: rgb(57,169,237);    color: white;}.record__next:hover {    background-color: #7167ff;}.videoDiv {    width: 400px;    height: 200px;    background-color: rgba(255, 255, 255, 0);    position: absolute;    z-index: 7777;}.videoPlayer {    width: 100%;    height: 100%;    cursor: move;}.videoScale {    width: 10px;    height: 10px;    overflow: hidden;    cursor: se-resize;    position: absolute;    right: 0;    bottom: 0;    background-color: rgb(231, 57, 57);}.videoInfo {    width: 100%;    height: 30px;    background-color: gray;    position: absolute;    top: -30px;    line-height: 30px;}.videoClose {    width: 30px;    float: right;    color: white;}.videoQn, .videoCDN {    margin-left: 5px;}.videoRID {    margin: 0px 5px;    font-weight: 800;    font-size: medium;}#popup-player__prompt {    display: none;}.real-audience {    cursor: pointer;    display: flex;}#refresh-video {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.refresh-barrage {    display: inline-block;    vertical-align: top;    margin: 0 2px;    padding: 0 8px;    height: 22px;    line-height: 21px;    background-color: #fff;    border: 1px solid #e5e4e4;    -webkit-border-radius: 4px;    -moz-border-radius: 4px;    border-radius: 4px;    cursor: pointer;}#refresh-barrage__svg {    vertical-align: middle;}#ex-cinema {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.cinema__wrap {    display: none;    position: relative;    height: 100%;    margin-right: -15px;    border-radius: 4px;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    float: left;    right: -12px;}.cinema__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 70px;}.cinema__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.cinema__panel li:hover {    background-color: rgb(85, 85, 85);}  #ex-videospeed {    float: left;    width: 24px;    height: 24px;    margin-right: 20px;    cursor: pointer;    background-size: contain;}.videospeed__wrap {    display: none;    position: relative;    height: 100%;    margin-right: -15px;    border-radius: 4px;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    float: left;    right: -12px;}.videospeed__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 70px;}.videospeed__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.videospeed__panel li:hover {    background-color: rgb(85, 85, 85);}  #ex-videosync {    float: left;    width: 24px;    height: 24px;    margin-left: 20px;    cursor: pointer;    background-size: contain;}/*    Notice.css*/.noticejs-top{top:0;width:100%!important}.noticejs-top .item{border-radius:0!important;margin:0!important}.noticejs-topRight{top:10px;right:10px}.noticejs-topLeft{top:10px;left:10px}.noticejs-topCenter{top:10px;left:50%;transform:translate(-50%)}.noticejs-middleLeft,.noticejs-middleRight{right:10px;top:50%;transform:translateY(-50%)}.noticejs-middleLeft{left:10px}.noticejs-middleCenter{top:50%;left:50%;transform:translate(-50%,-50%)}.noticejs-bottom{bottom:0;width:100%!important}.noticejs-bottom .item{border-radius:0!important;margin:0!important}.noticejs-bottomRight{bottom:10px;right:10px}.noticejs-bottomLeft{bottom:10px;left:10px}.noticejs-bottomCenter{bottom:10px;left:50%;transform:translate(-50%)}.noticejs{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}.noticejs .item{margin:0 0 10px;border-radius:3px;overflow:hidden}.noticejs .item .close{float:right;font-size:18px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;opacity:1;margin-right:7px}.noticejs .item .close:hover{opacity:.5;color:#000}.noticejs .item a{color:#fff;border-bottom:1px dashed #fff}.noticejs .item a,.noticejs .item a:hover{text-decoration:none}.noticejs .success{background-color:#64ce83}.noticejs .success .noticejs-heading{background-color:#3da95c;color:#fff;padding:10px}.noticejs .success .noticejs-body{color:#fff;padding:10px}.noticejs .success .noticejs-body:hover{visibility:visible!important}.noticejs .success .noticejs-content{visibility:visible}.noticejs .info{background-color:#3ea2ff}.noticejs .info .noticejs-heading{background-color:#067cea;color:#fff;padding:10px}.noticejs .info .noticejs-body{color:#fff;padding:10px}.noticejs .info .noticejs-body:hover{visibility:visible!important}.noticejs .info .noticejs-content{visibility:visible}.noticejs .warning{background-color:#ff7f48}.noticejs .warning .noticejs-heading{background-color:#f44e06;color:#fff;padding:10px}.noticejs .warning .noticejs-body{color:#fff;padding:10px}.noticejs .warning .noticejs-body:hover{visibility:visible!important}.noticejs .warning .noticejs-content{visibility:visible}.noticejs .error{background-color:#e74c3c}.noticejs .error .noticejs-heading{background-color:#ba2c1d;color:#fff;padding:10px}.noticejs .error .noticejs-body{color:#fff;padding:10px}.noticejs .error .noticejs-body:hover{visibility:visible!important}.noticejs .error .noticejs-content{visibility:visible}.noticejs .progressbar{width:100%}.noticejs .progressbar .bar{width:1%;height:30px;background-color:#4caf50}.noticejs .success .noticejs-progressbar{width:100%;background-color:#64ce83;margin-top:-1px}.noticejs .success .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#3da95c}.noticejs .info .noticejs-progressbar{width:100%;background-color:#3ea2ff;margin-top:-1px}.noticejs .info .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#067cea}.noticejs .warning .noticejs-progressbar{width:100%;background-color:#ff7f48;margin-top:-1px}.noticejs .warning .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#f44e06}.noticejs .error .noticejs-progressbar{width:100%;background-color:#e74c3c;margin-top:-1px}.noticejs .error .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#ba2c1d}@keyframes noticejs-fadeOut{0%{opacity:1}to{opacity:0}}.noticejs-fadeOut{animation-name:noticejs-fadeOut}@keyframes noticejs-modal-in{to{opacity:.3}}@keyframes noticejs-modal-out{to{opacity:0}}.noticejs-rtl .noticejs-heading{direction:rtl}.noticejs-rtl .close{float:left!important;margin-left:7px;margin-right:0!important}.noticejs-rtl .noticejs-content{direction:rtl}.noticejs{position:fixed;z-index:10050;width:320px}.noticejs ::-webkit-scrollbar{width:8px}.noticejs ::-webkit-scrollbar-button{width:8px;height:5px}.noticejs ::-webkit-scrollbar-track{border-radius:10px}.noticejs ::-webkit-scrollbar-thumb{background:hsla(0,0%,100%,.5);border-radius:10px}.noticejs ::-webkit-scrollbar-thumb:hover{background:#fff}.noticejs-modal{position:fixed;width:100%;height:100%;background-color:#000;z-index:10000;opacity:.3;left:0;top:0}.noticejs-modal-open{opacity:0;animation:noticejs-modal-in .3s ease-out}.noticejs-modal-close{animation:noticejs-modal-out .3s ease-out;animation-fill-mode:forwards}/** * PostbirdAlertBox.js * -    原生javascript弹框插件 * Author:  Postbird - http://www.ptbird.cn * License: MIT * Date:    2017-09-23 */.postbird-box-container {    width: 100%;    height: 100%;    overflow: hidden;    position: fixed;    top: 0;    left: 0;    z-index: 9999;    background-color: rgba(0, 0, 0, 0.2);    display: block;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none}.postbird-box-container.active {    display: block}.postbird-box-content {    min-width: 400px;    max-width: 600px;    min-height: 150px;    background-color: #fff;    border: solid 1px #dfdfdf;    position: absolute;    top: 50%;    left: 50%;    transform: translate(-50%, -50%);    margin-top: -100px}.postbird-box-header {    width: 100%;    padding: 10px 15px;    position: relative;    font-size: 1.1em;    letter-spacing: 2px}.postbird-box-close-btn {    cursor: pointer;    font-weight: 700;    color: #000;    float: right;    opacity: .5;    font-size: 1.3em;    margin-top: -3px;    display: none}.postbird-box-close-btn:hover {    opacity: 1}.postbird-box-text {    box-sizing: border-box;    width: 100%;    padding: 0 10%;    text-align: center;    line-height: 40px;    font-size: 20px;    letter-spacing: 1px}.postbird-box-footer {    width: 100%;    position: absolute;    padding: 0;    margin: 0;    bottom: 0;    display: flex;    display: -webkit-flex;    justify-content: space-around;    border-top: solid 1px #dfdfdf;    align-items: flex-end}.postbird-box-footer .btn-footer {    line-height: 44px;    border: 0;    cursor: pointer;    background-color: #fff;    color: #0e90d2;    font-size: 1.1em;    letter-spacing: 2px;    transition: background-color .5s;    -webkit-transition: background-color .5s;    -o-transition: background-color .5s;    -moz-transition: background-color .5s;    outline: 0}.postbird-box-footer .btn-footer:hover {    background-color: #e5e5e5}.postbird-box-footer .btn-block-footer {    width: 100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer {    position: relative;    width: 100%}.postbird-box-footer .btn-left-footer::after {    content: "";    position: absolute;    right: 0;    top: 0;    background-color: #e5e5e5;    height: 100%;    width: 1px}.postbird-box-footer .btn-footer-cancel {    color: #333}.postbird-prompt-input {    width: 100%;    padding: 5px;    font-size: 16px;    border: 1px solid #ccc;    outline: 0}.onoffswitch {    position: relative; width: 45px;    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;}.onoffswitch-checkbox {    position: absolute;    opacity: 0;    pointer-events: none;}.onoffswitch-label {    display: block; overflow: hidden; cursor: pointer;    height: 20px; padding: 0; line-height: 20px;    border: 2px solid #E3E3E3; border-radius: 20px;    background-color: #FFFFFF;    transition: background-color 0.3s ease-in;}.onoffswitch-label:before {    content: "";    display: block; width: 20px; margin: 0px;    background: #FFFFFF;    position: absolute; top: 0; bottom: 0;    right: 23px;    border: 2px solid #E3E3E3; border-radius: 20px;    transition: all 0.3s ease-in 0s; }.onoffswitch-checkbox:checked + .onoffswitch-label {    background-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {   border-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label:before {    right: 0px; }.layui-timeline {    padding-left: 5px;}.layui-timeline-item {    position: relative;    padding-bottom: 20px;}li {    list-style: none;}.layui-timeline-item:first-child::before {    display: block;}.layui-timeline-item:last-child::before {    content: '';    position: absolute;    left: 5px;    top: 0;    z-index: 0;    width: 0;    height: 100%;}.layui-timeline-item::before {    content: '';    position: absolute;    left: 5px;    top: 0;    z-index: 0;    width: 1px;    height: 100%;}.layui-timeline-item::before,hr {    background-color: #e6e6e6;}.layui-timeline-axis {    position: absolute;    left: -5px;    top: 0;    z-index: 10;    width: 20px;    height: 20px;    line-height: 20px;    background-color: #fff;    color: #5FB878;    border-radius: 50%;    text-align: center;    cursor: pointer;}.layui-icon {    font-family: layui-icon !important;    font-size: 16px;    font-style: normal;}.layui-timeline-content {    padding-left: 25px;}.layui-text {    line-height: 22px;    font-size: 14px;    color: rgb(85,85,85);}.layui-timeline-title {    position: relative;}
 `));
 	document.head.appendChild(style);
 }
@@ -1075,9 +1075,9 @@ function initPkg_ExpandTool() {
 
 function initPkg_ExpandTool_Module() {
 	// initPkg_ExpandTool_RedPacket_Motorcade();
-	// initPkg_ExpandTool_Treasure();
+	initPkg_ExpandTool_Treasure();
 	initPkg_ExpandTool_Gold();
-	// initPkg_ExpandTool_RedPacket_Room();
+	initPkg_ExpandTool_RedPacket_Room();
 	initPkg_ExpandTool_ClearBag();
     initPkg_ExpandTool_SendGift();
     initPkg_ExpandTool_BarrageSize();
@@ -1546,6 +1546,139 @@ function fansToSuperRocket(m) {
 }
 
 
+let redpackets_room_arr = [];
+let redpacket_room_timer; // 时钟句柄
+function initPkg_ExpandTool_RedPacket_Room() {
+    ExpandTool_RedPacket_Room_insertDom();
+    ExpandTool_RedPacket_Room_insertFunc();
+    ExpandTool_RedPacket_Room_Set();
+}
+
+
+function ExpandTool_RedPacket_Room_insertDom() {
+    let html = "";
+    html += '<label><input style="margin-top:5px;" id="extool__redpacekt_room_start" type="checkbox">自动抢礼物红包</label>';
+    
+    let a = document.createElement("div");
+    a.className = "extool__redpacket_room";
+    a.innerHTML = html;
+    let b = document.getElementsByClassName("extool")[0];
+    b.insertBefore(a, b.childNodes[0]);
+
+}
+function ExpandTool_RedPacket_Room_insertFunc() {
+    document.getElementById("extool__redpacekt_room_start").addEventListener("click", function() {
+        verifyFans("5189167", 6).then(r => {
+            if (r == true) {
+                let ischecked = document.getElementById("extool__redpacekt_room_start").checked;
+                if (ischecked == true) {
+                    // 开始自动抢红包
+                    redpacket_room_timer = setInterval(() => {
+                        getRoomRedPacketsList(rid);
+                    }, 1100);
+                } else{
+                    // 停止自动抢红包
+                    clearInterval(redpacket_room_timer);
+                }
+                saveData_RedPacket_Room();
+            } else {
+                document.getElementById("extool__redpacekt_room_start").checked = false;
+                showMessage("本功能需拥有6级歆崽粉丝牌(5189167)才可使用", "error");
+            }
+        })
+	});
+
+}
+
+
+function getRoomRedPacketsList(room_id) {
+    fetch("https://www.douyu.com/japi/interactnc/web/propredpacket/getPrpList?type_id=1&room_id=" + room_id, {
+        method: 'GET',
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    }).then(res => {
+        return res.json();
+    }).then(ret => {
+        if (ret.data.list.length > 0) {
+            for (let i = 0; i < ret.data.list.length; i++) {
+                let rpid = ret.data.list[i].activityid;
+                let offset = redpackets_room_arr.indexOf(rpid);
+                let startTime = ret.data.list[i].startTime;
+                let to = Number(startTime) - Math.round(new Date().getTime()/1000);
+                to = 1000 * to - 2000;
+                if (offset == -1) {
+                    redpackets_room_arr.push(ret.data.list[i].activityid);
+                    if (to > 0) {
+                        setTimeout(() => {
+                            getRoomRedPacket(rpid);
+                            getRoomRedPacket(rpid);
+                            getRoomRedPacket(rpid);
+                            showMessage("【礼物红包】抢红包执行完毕！", "success");
+                        }, to);
+                    } else {
+                        getRoomRedPacket(rpid);
+                        getRoomRedPacket(rpid);
+                        getRoomRedPacket(rpid);
+                        showMessage("【礼物红包】抢红包执行完毕！", "success");
+                    }
+                }
+            }
+        }
+    }).catch(err => {
+        console.log("请求失败!", err);
+    })
+}
+
+
+
+function getRoomRedPacket(rpid) {
+    fetch("https://www.douyu.com/japi/interactnc/web/propredpacket/grab_prp", {
+        method: 'POST',
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'activityid=' + rpid + '&ctn=' + getCCN()
+    }).then(res => {
+        return res.json();
+    }).then((ret) =>{
+        if (ret.data.isSuc == 2) {
+            getRoomRedPacket(rpid);
+        }
+    })
+
+}
+
+
+function saveData_RedPacket_Room() {
+	let isGetRedPacket = document.getElementById("extool__redpacekt_room_start").checked;
+	let data = {
+		isGetRedPacket: isGetRedPacket
+	}
+	localStorage.setItem("ExSave_RedPacket_Room", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function ExpandTool_RedPacket_Room_Set() {
+	// 设置初始化
+    let ret = localStorage.getItem("ExSave_RedPacket_Room");
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if (retJson.isGetRedPacket == true) {
+            verifyFans("5189167", 6).then(r => {
+                if (r == true) {
+                    document.getElementById("extool__redpacekt_room_start").click();
+                } else {
+                    let data = {
+                        isGetRedPacket: false
+                    }
+                    localStorage.setItem("ExSave_RedPacket_Room", JSON.stringify(data)); // 存储弹幕列表
+                    showMessage("本功能需拥有6级歆崽粉丝牌(5189167)才可使用", "error");
+                }
+            })
+        }
+	}
+}
+
 function initPkg_ExpandTool_SendGift() {
     ExpandTool_SendGift_insertDom();
     ExpandTool_SendGift_insertFunc();
@@ -1612,6 +1745,138 @@ function sendGift_any(gid, count, rid) {
 		return res.json();
 	})
 }
+var isGetTreasure = false;
+function initPkg_ExpandTool_Treasure() {
+    ExpandTool_Treasure_insertDom();
+    ExpandTool_Treasure_insertFunc();
+    ExpandTool_Treasure_Set();
+}
+
+
+function ExpandTool_Treasure_insertDom() {
+    let html = "";
+    html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
+    html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
+    html += '<div><a href="http://www.ddocr.com/" target="_blank" style="color:blue" title="点击进入ddocr官网，将账号用户中心的接口秘钥填入右边然后开启功能即可">ddocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
+    
+    let a = document.createElement("div");
+    a.className = "extool__treasure";
+    a.innerHTML = html;
+    let b = document.getElementsByClassName("extool")[0];
+    b.insertBefore(a, b.childNodes[0]);
+
+}
+function ExpandTool_Treasure_insertFunc() {
+    document.getElementById("extool__treasure_start").addEventListener("click", function() {
+        verifyFans("5189167", 9).then(r => { // 请尊重作者劳动成果，在此感谢
+            if (r == true) {
+                let ischecked = document.getElementById("extool__treasure_start").checked;
+                if (ischecked == true) {
+                    // 开始
+                    isGetTreasure = true;
+                    getTreasure_Existing();
+                } else{
+                    // 停止
+                    isGetTreasure = false;
+                }
+                saveData_Treasure();
+            } else {
+                document.getElementById("extool__treasure_start").checked = false;
+                showMessage("本功能需拥有9级歆崽粉丝牌(5189167)才可使用", "error");
+            }
+        })
+	});
+
+}
+
+
+function saveData_Treasure() {
+    isGetTreasure = document.getElementById("extool__treasure_start").checked;
+    let delay = document.getElementById("extool__treasure_delay").value;
+    let skey = document.getElementById("extool__treasure_skey").value;
+	let data = {
+        isGetTreasure: isGetTreasure,
+        treasureDelay: delay,
+        skey: skey,
+	}
+	localStorage.setItem("ExSave_Treasure", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function ExpandTool_Treasure_Set() {
+	// 设置初始化
+    let ret = localStorage.getItem("ExSave_Treasure");
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("treasureDelay" in retJson == true) {
+            document.getElementById("extool__treasure_delay").value = retJson.treasureDelay;
+        } else {
+            document.getElementById("extool__treasure_delay").value = "3200";
+        }
+        if ("skey" in retJson == true) {
+            document.getElementById("extool__treasure_skey").value = retJson.skey;
+        }
+        if (retJson.isGetTreasure == true) {
+            verifyFans("5189167", 9).then(r => {
+                if (r == true) {
+                    document.getElementById("extool__treasure_start").click();
+                } else {
+                    let data = {
+                        isGetTreasure: false
+                    }
+                    localStorage.setItem("ExSave_Treasure", JSON.stringify(data)); // 存储弹幕列表
+                    showMessage("本功能需拥有9级歆崽粉丝牌(5189167)才可使用", "error");
+                }
+            })
+        }
+	}
+}
+
+
+function getTreasureDelay() {
+    let ret = document.getElementById("extool__treasure_delay").value;
+    return Number(ret);
+}
+
+function getTreasureSkey() {
+    let ret = document.getElementById("extool__treasure_skey").value;
+    return ret;
+}
+
+function getTreasure_Existing() {
+    getTslist(data => {
+        if (data == null) {
+            return;
+        }
+        let list = String(data.list).split("@S/");
+        for (let i = 0; i < list.length - 1; i++) {
+            let rpid = getStrMiddle(list[i], "rpid@A=", "@");
+            let ot = getStrMiddle(list[i], "Sot@A=", "@");
+            let did = getCookieValue("dy_did");
+            let timeout = Number(ot) - Math.floor(Date.now()/1000);
+
+            let a = document.createElement("div");
+            let idName = "Ex_Geetest_no" + String(treasureNum);
+            a.id = idName;
+            let b = document.getElementById("Ex_Geetest");
+            b.appendChild(a);
+
+            if (timeout >= 0) {
+                timeout = timeout * 1000 + getTreasureDelay();
+                treasureNum++;
+                setTimeout(() => {
+                    getTreasure(rid, rpid, did, idName);
+                }, timeout);
+            } else {
+                getTreasure(rid, rpid, did, idName);
+            }
+        }
+    });
+}
+
+function getTslist(callback) {
+    unsafeWindow.socketProxy.socketStream.subscribe('tslist', callback);
+}
+
 function initPkg_ExPanel() {
 	initPkg_ExPanel_insertDom();
 }
@@ -2314,11 +2579,16 @@ function LiveTool_Gift_insertFunc() {
         let a = document.getElementsByClassName("gift__panel")[0];
 		if (a.style.display != "block") {
             a.style.display = "block";
-            if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
-				document.getElementsByClassName("mute__panel")[0].style.display = "none";
+            if (rid != "5189167") {
+                if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+                    document.getElementsByClassName("mute__panel")[0].style.display = "none";
+                }
             }
             if (document.getElementsByClassName("reply__panel")[0].style.display == "block") {
 				document.getElementsByClassName("reply__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("vote__panel")[0].style.display == "block") {
+				document.getElementsByClassName("vote__panel")[0].style.display = "none";
 			}
 		} else {
 			a.style.display = "none";
@@ -2516,10 +2786,11 @@ function initPkg_LiveTool_Dom() {
 
 function initPkg_LiveTool_Module() {
 	// 添加模块
+	initPkg_LiveTool_Vote();
 	initPkg_LiveTool_Mute();
 	initPkg_LiveTool_Gift();
 	initPkg_LiveTool_Reply();
-	// initPkg_LiveTool_Treasure();
+	initPkg_LiveTool_Treasure();
 
 	// initPkg_LiveTool_Bojiang_Handle();
 }
@@ -2561,14 +2832,14 @@ function initPkg_LiveTool_HandleFunc() {
     // 开启ws，并且设置处理函数的入口
     // 是否生效由每个处理函数决定，可以设置一个变量保存开启状态，判断是否要执行
     let ws = new Ex_WebSocket_UnLogin(rid, (ret) => {
-		// initPkg_Guess_Handle(ret);
 
         initPkg_LiveTool_LiveNotice_Handle(ret); // 开播提醒
 		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
 		initPkg_LiveTool_Gift_Handle(ret); // 自动谢礼物
-		// initPkg_LiveTool_Treasure_Handle(ret);
+		initPkg_LiveTool_Treasure_Handle(ret);
 		// initPkg_LiveTool_Friend_Handle(ret);
+		initPkg_LiveTool_Vote_Handle(ret);
     });
 }
 
@@ -2699,6 +2970,9 @@ function LiveTool_Mute_insertFunc() {
             }
             if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
 				document.getElementsByClassName("gift__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("vote__panel")[0].style.display == "block") {
+				document.getElementsByClassName("vote__panel")[0].style.display = "none";
 			}
 		} else {
 			a.style.display = "none";
@@ -3028,11 +3302,16 @@ function LiveTool_Reply_insertFunc() {
         let a = document.getElementsByClassName("reply__panel")[0];
 		if (a.style.display != "block") {
             a.style.display = "block";
-            if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
-				document.getElementsByClassName("mute__panel")[0].style.display = "none";
+            if (rid !== "5189167") {
+                if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+                    document.getElementsByClassName("mute__panel")[0].style.display = "none";
+                }
             }
             if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
 				document.getElementsByClassName("gift__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("vote__panel")[0].style.display == "block") {
+				document.getElementsByClassName("vote__panel")[0].style.display = "none";
 			}
 		} else {
 			a.style.display = "none";
@@ -3198,6 +3477,500 @@ function initPkg_LiveTool_Reply_Handle(text) {
 }
 
 
+var treasureNum = 0;
+function initPkg_LiveTool_Treasure() {
+    LiveTool_Treasure_insertModal();
+}
+
+function LiveTool_Treasure_insertModal() {
+	let a = document.createElement("div");
+	a.className = "livetool__Treasure";
+	a.id = "Ex_Geetest";
+	let b = document.getElementsByClassName("Barrage-main")[0];
+	b.insertBefore(a, b.childNodes[0]);
+}
+
+function initPkg_LiveTool_Treasure_Handle(text) {
+    if (isGetTreasure == false) {
+        return;
+    }
+    if (getType(text) == "tsboxb") {
+        let ot = getStrMiddle(text, "ot@=", "/");
+        let rpid = getStrMiddle(text, "rpid@=", "/");
+        let rid = getStrMiddle(text, "rid@=", "/");
+        let did = getCookieValue("dy_did");
+        let timeout = Number(ot) - Math.floor(Date.now()/1000);
+        timeout = timeout * 1000 + getTreasureDelay();
+        treasureNum++;
+
+        let a = document.createElement("div");
+        let idName = "Ex_Geetest_no" + String(treasureNum);
+        a.id = idName;
+        let b = document.getElementById("Ex_Geetest");
+        b.appendChild(a);
+
+        setTimeout(() => {
+            getTreasure(rid, rpid, did, idName);
+        }, timeout);
+    }
+}
+
+function getTreasure(roomid, rpid, deviceid, idName) {
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://pcapi.douyucdn.cn/h5nc/member/getRedPacket?token=" + dyToken,
+        data: "room_id=" + roomid + "&package_room_id=" + roomid + "&device_id=" + deviceid + "&packerid=" + rpid + "&version=1",
+        responseType: "json",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        onload: function(response) {
+            let ret = response.response;
+            if (ret.data.code == "-1" && ret.data.validate != "0") {
+                let v = JSON.parse(ret.data.geetest.validate_str);
+                let success = v.success;
+                let challenge = v.challenge;
+                let gt = v.gt;
+
+                let skey = getTreasureSkey();
+                if (skey != "") {
+                    let url = window.location.href;
+                    getTreasure_Auto(skey, gt, challenge, url, deviceid, rpid, roomid);
+                    return;
+                }
+                
+
+                let handler = (e) => {
+                    showMessageWindow(rid, "【宝箱】请手动验证领取宝箱", () => {
+                        window.focus();
+                    });
+                    let idDiv = document.getElementById(idName);
+                    e.appendTo("#" + idName);
+                    e.onSuccess(() => {
+                        let result = e.getValidate();
+                        let geetest_challenge = result.geetest_challenge;
+                        let geetest_seccode = result.geetest_seccode;
+                        let geetest_validate = result.geetest_validate;
+                        let data = "room_id=" + roomid + "&package_room_id=" + roomid + "&device_id=" + deviceid + "&packerid=" + rpid + "&version=1";
+                        data = data + "&geetest_challenge=" + geetest_challenge + "&geetest_validate=" + geetest_validate + "&geetest_seccode=" + encodeURIComponent(geetest_seccode);
+                        GM_xmlhttpRequest({
+                            method: "POST",
+                            url: "https://pcapi.douyucdn.cn/h5nc/member/getRedPacket?token=" + dyToken,
+                            data: data,
+                            responseType: "json",
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            onload: function(response) {
+                                let ret = response.response;
+                                let msg = "";
+                                if (ret.data.prop_id == "") {
+                                    msg = "鱼丸x" + ret.data.silver;
+                                } else {
+                                    msg = ret.data.prop_name + "x" + ret.data.prop_count;
+                                }
+                                if (msg != "") {
+                                    showMessage("【宝箱】获得" + msg, "success");
+                                }
+                                if (idDiv != null) {
+                                    idDiv.remove();
+                                }
+                            }
+                        });
+                    });
+                };
+                if (unsafeWindow.initGeetest != undefined) {
+                    unsafeWindow.initGeetest({
+                        gt: gt,
+                        challenge: challenge,
+                        offline: !success,
+                        product: "float",
+                    }, handler);
+                } else {
+                    showMessage("自动抢宝箱初始化失败", "error");
+                }
+            } else if(ret.data.msg != "领取失败" && ret.data.msg != "验证码不正确") {
+                let msg = "";
+                if (ret.data.prop_id == "") {
+                    msg = "鱼丸x" + ret.data.silver;
+                } else {
+                    msg = ret.data.prop_name + "x" + ret.data.prop_count;
+                }
+                if (msg != "") {
+                    showMessage("【宝箱】获得" + msg, "success");
+                }
+            } else {
+                showMessage("【宝箱】领取失败", "error");
+            }
+        }
+    });
+}
+
+
+function getTreasure_Verify(challenge, validate, seccode, divId) {
+    let data = "room_id=" + roomid + "&package_room_id=" + roomid + "&device_id=" + deviceid + "&packerid=" + rpid + "&version=1";
+    data += "&geetest_challenge=" + challenge + "&geetest_validate=" + validate + "&geetest_seccode=" + encodeURIComponent(seccode);
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://pcapi.douyucdn.cn/h5nc/member/getRedPacket?token=" + dyToken,
+        data: data,
+        responseType: "json",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        onload: function(response) {
+            let ret = response.response;
+            if (document.getElementById(divId) != null) {
+                document.getElementById(divId).remove();
+            }
+        }
+    });
+}
+
+function getTreasure_Auto(skey, gt, challenge, referer, deviceid, rpid, roomid) {
+    let wtype = "geetest";
+    let data = "wtype=" + wtype + "&secretkey=" + skey + "&gt=" + gt + "&referer=" + referer + "&challenge=" + challenge + "&supporttype=3";
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "http://api.ddocr.com/api/gateway.jsonp",
+        data: data,
+        timeout: 60000,
+        responseType: "json",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        onload: function(response) {
+            let ret = response.response;
+            if (ret.status == "-1") {
+                showMessage("【宝箱】自动识别失败", "error");
+                return;
+            }
+            
+            let data = "room_id=" + roomid + "&package_room_id=" + roomid + "&device_id=" + deviceid + "&packerid=" + rpid + "&version=1";
+            data = data + "&geetest_challenge=" + ret.data.challenge + "&geetest_validate=" + ret.data.validate + "&geetest_seccode=" + ret.data.validate + "%7Cjordan";
+            GM_xmlhttpRequest({
+                method: "POST",
+                url: "https://pcapi.douyucdn.cn/h5nc/member/getRedPacket?token=" + dyToken,
+                data: data,
+                responseType: "json",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                onload: function(response) {
+                    let ret = response.response;
+                    if (ret.data.code == "-1") {
+                        showMessage("【宝箱】验证码不正确", "error")
+                        return;
+                    }
+                    let msg = "";
+                    if (ret.data.prop_id == "") {
+                        msg = "鱼丸x" + ret.data.silver;
+                    } else {
+                        msg = ret.data.prop_name + "x" + ret.data.prop_count;
+                    }
+                    if (msg != "") {
+                        showMessage("【宝箱】获得" + msg, "success");
+                    }
+                }
+            });
+        }
+    });
+}
+let isVoteOn = false;
+let voteList = {};
+let voteNameList = {};
+let voteWordList = {};
+let voteTotalNum = 0;
+let timer_Vote;
+let isRepeat = false;
+function initPkg_LiveTool_Vote() {
+    LiveTool_Vote_insertDom();
+    LiveTool_Vote_insertDom_VotePanel();
+    LiveTool_Vote_insertFunc();
+    initPkg_Vote_Set();
+}
+
+function LiveTool_Vote_insertDom() {
+    let a = document.createElement("div");
+    a.className = "livetool__cell";
+    let cell = `
+        <div class='livetool__cell_title'>
+            <span id='vote__title'>弹幕投票</span><span id='vote__show-result'>面板</span>
+        </div>
+        <div class='livetool__cell_option'>
+            <label style="margin-right:10px;"><input id="vote__repeat" type="checkbox">重复投票</label>
+            <div class="onoffswitch livetool__cell_switch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="vote__switch" tabindex="0" checked>
+                <label class="onoffswitch-label" for="vote__switch"></label>
+            </div>
+        </div>
+    `;
+    let panel = `
+        <div class='vote__panel'>
+            <select id='vote__select'>
+            </select>
+            <input style="width:40px;margin-left:10px;" type="button" id="vote__add" value="添加"/>
+            <input style="width:40px;margin-left:10px;" type="button" id="vote__del" value="删除"/>
+            <label style="margin-left:5px">限时：<input id="vote__time" type="text" placeholder="秒" /></label>
+            <div class="vote__option">
+                <label>主题：<input id="vote__theme" type="text"/></label>
+                <label>选项：<input id="vote__options" type="text" placeholder="用空格隔开每个选项"/></label>
+            </div>
+        </div>
+    `;
+    a.innerHTML = cell + panel;
+    
+    let b = document.getElementsByClassName("livetool")[0];
+    b.insertBefore(a, b.childNodes[0]);
+}
+
+
+function LiveTool_Vote_insertFunc() {
+    document.getElementById("vote__switch").addEventListener("click", () => {
+        let ischecked = document.getElementById("vote__switch").checked;
+        let selectDom = document.getElementById("vote__select");
+        let title = selectDom.options[selectDom.selectedIndex].text;
+        let options = voteList[title].options;
+        let time = voteList[title].time;
+		if (ischecked == true) {
+            // 开启关键词禁言
+            let arr = String(options).split(" ");
+            for (let i = 0; i < arr.length; i++) {
+                voteWordList[arr[i]] = {
+                    num: 0,
+                    index: i
+                };
+            }
+            document.getElementById("vote__repeat").disabled = true;
+            voteTotalNum = 0;
+            initVoteOptionsPanel(title, options);
+
+
+            isRepeat = document.getElementById("vote__repeat").checked;
+            isVoteOn = true;
+            timer_Vote = setTimeout(() => {
+                voteNameList = {};
+                voteWordList = {};
+                isVoteOn = false;
+                document.getElementById("vote__repeat").disabled = false;
+                document.getElementById("vote__switch").checked = false;
+            }, time * 1000);
+
+            document.getElementsByClassName("vote__result")[0].style.display = "block";
+		} else{
+            // 关闭关键词禁言
+            clearTimeout(timer_Vote);
+            voteNameList = {};
+            voteWordList = {};
+            isVoteOn = false;
+            document.getElementById("vote__repeat").disabled = false;
+        }
+    });
+    document.getElementById("vote__title").addEventListener("click", () => {
+        let a = document.getElementsByClassName("vote__panel")[0];
+		if (a.style.display != "block") {
+            a.style.display = "block";
+            if (rid !== "5189167") {
+                if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+                    document.getElementsByClassName("mute__panel")[0].style.display = "none";
+                }
+            }
+            if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
+				document.getElementsByClassName("gift__panel")[0].style.display = "none";
+            }
+            if (document.getElementsByClassName("reply__panel")[0].style.display == "block") {
+				document.getElementsByClassName("reply__panel")[0].style.display = "none";
+            }
+		} else {
+			a.style.display = "none";
+		}
+    });
+    
+    document.getElementById("vote__select").onclick = function() {
+        if (this.options.length == 0) {
+            return;
+        }
+        let title = this.options[this.selectedIndex].text;
+        let options = voteList[title].options;
+        let time = voteList[title].time;
+        document.getElementById("vote__theme").value = title;
+        document.getElementById("vote__options").value = options;
+        document.getElementById("vote__time").value = time;
+    };
+
+    document.getElementById("vote__add").addEventListener("click", () => {
+        let select_wordList = document.getElementById("vote__select");
+        let title = document.getElementById("vote__theme").value;
+        let options = document.getElementById("vote__options").value;
+        let time = document.getElementById("vote__time").value;
+
+        if (title == "" || options == "" || time == "") {
+            return;
+        }
+
+        // 构造json并添加json
+        voteList[title] = {
+            options: options,
+            time: time
+        }
+
+        // 添加到select中去
+        select_wordList.options.add(new Option(title, ""));
+
+        saveDate_Vote();
+    });
+
+    document.getElementById("vote__del").addEventListener("click", () => {
+        let select_wordList = document.getElementById("vote__select");
+        let title = select_wordList.options[select_wordList.selectedIndex].text;
+
+        // 删除json内的对象
+        delete voteList[title];
+
+        // 删除select里的option
+        select_wordList.options.remove(select_wordList.selectedIndex);
+        saveDate_Vote();
+    });
+
+    document.getElementById("vote__show-result").addEventListener("click", () => {
+        let a = document.getElementsByClassName("vote__result")[0];
+		if (a.style.display != "block") {
+			a.style.display = "block";
+		} else {
+			a.style.display = "none";
+		}
+    })
+}
+
+function initPkg_Vote_Set() {
+    document.getElementById("vote__switch").checked = isReplyOn;
+	// 设置初始化
+	let ret = localStorage.getItem("ExSave_Vote");
+	
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        voteList = retJson;
+        let select_wordList = document.getElementById("vote__select");
+		for (let key in retJson) {
+            if (retJson.hasOwnProperty(key)) {
+                select_wordList.options.add(new Option(key, ""));
+            }
+        }
+    }
+}
+
+function initPkg_LiveTool_Vote_Handle(text) {
+    if (isVoteOn == false) {
+        return;
+    }
+    if (getType(text) == "chatmsg") {
+        let uid = getStrMiddle(text, "uid@=", "/");
+        let txt = getStrMiddle(text, "txt@=", "/");
+        if (isRepeat) {
+            if (Object(voteWordList).hasOwnProperty(txt)) {
+                voteWordList[txt].num++;
+                voteTotalNum++;
+                console.log(voteTotalNum);
+                changeOptionsData();
+            }
+        } else {
+            if (Object(voteNameList).hasOwnProperty(uid) == false) {
+                if (Object(voteWordList).hasOwnProperty(txt)) {
+                    voteNameList[uid] = 0;
+                    voteWordList[txt].num++;
+                    voteTotalNum++;
+                    changeOptionsData();
+                }
+            }
+        }
+    }
+    
+}
+
+function saveDate_Vote() {
+    let data = voteList;
+	localStorage.setItem("ExSave_Vote", JSON.stringify(data)); // 存储弹幕列表
+}
+
+
+function LiveTool_Vote_insertDom_VotePanel() {
+    let a = document.createElement("div");
+    a.className = "vote__result";
+    let panel = `
+        <div id="vote__result-theme">投票主题</div>
+        <div id="vote__result-close">X</div>
+        <div id="vote__result-options"></div>
+    `;
+    a.innerHTML = panel;
+    
+    let b = document.getElementsByClassName("layout-Player-main")[0];
+    b.insertBefore(a, b.childNodes[0]);
+
+    let box = document.getElementsByClassName("vote__result")[0];
+    box.onmousedown = function (event) {
+        event.stopPropagation();
+        let xx = event.clientX - box.offsetLeft;
+        let yy = event.clientY - box.offsetTop;
+        let mouseX;
+        let mouseY;
+        document.onmousemove = function (event) {
+            event.stopPropagation();
+            mouseX = event.clientX - xx;
+            mouseY = event.clientY - yy;
+            box.style.left = mouseX + "px";
+            box.style.top = mouseY + "px";
+        }
+        document.onmouseup = function (event) {
+            event.stopPropagation();
+            document.onmousemove = null;
+            document.onmouseup = null;
+        }
+    }
+
+    document.getElementById("vote__result-close").addEventListener("click", () => {
+        document.getElementsByClassName("vote__result")[0].style.display = "none";
+    })
+}
+
+
+function initVoteOptionsPanel(theme, options) {
+    // 设置标题
+    document.getElementById("vote__result-theme").innerText = theme;
+
+    // 设置结果面板
+    document.getElementById("vote__result-options").innerHTML = ""; // 清空信息面板
+    setVoteOptionsDom(options);
+}
+
+function setVoteOptionsDom(options) {
+    let arr = options.split(" ");
+    let b = document.getElementById("vote__result-options");
+    for (let i = 0; i < arr.length; i++) {
+        let a = document.createElement("div");
+        a.className = "vote__option-wrap";
+        a.innerHTML = `
+            <div class="vote__option-choice">${ arr[i] }</div>
+            <div class="vote__option-num"></div>
+            <div class="vote__progress">
+                <div class="vote__progress-bar"></div>
+            </div>
+        `;
+        b.appendChild(a);
+    }
+}
+
+function changeOptionsData() {
+    for (const key in voteWordList) {
+        let item = voteWordList[key];
+        
+        let domNum = document.getElementsByClassName("vote__option-num")[item.index];
+        let domBar = document.getElementsByClassName("vote__progress-bar")[item.index];
+
+        let percent = String(Number(Number(item.num / voteTotalNum) * 100).toFixed(1)) + "%";
+        domNum.innerText = `${ item.num }（${ percent }）`;
+        domBar.style.width = percent;
+    }
+}
 let svg_night  = '<svg t="1587640254282" class="icon" viewBox="0 0 1055 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5670" width="26" height="26"><path d="M388.06497 594.013091c-96.566303-167.253333-39.067152-381.889939 128.217212-478.487273a348.656485 348.656485 0 0 1 256.248242-36.864C623.491879-5.306182 435.417212-11.170909 276.542061 80.616727 37.236364 218.763636-44.776727 524.815515 93.401212 764.152242c138.146909 239.305697 444.198788 321.318788 683.535515 183.140849 158.875152-91.725576 247.870061-257.520485 249.669818-428.559515a348.656485 348.656485 0 0 1-160.085333 203.496727c-167.253333 96.566303-381.889939 39.036121-478.487273-128.217212" p-id="5671" fill="#8a8a8a"></path></svg>';
 let svg_day = '<svg t="1587640423416" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2270" width="26" height="26"><path d="M270.016 197.248l-83.84-84.544-69.76 70.464 83.776 84.544 69.76-70.4zM139.648 465.024H0v93.888h139.648V465.024zM558.528 0H465.472v136.192h93.056V0z m349.056 183.168l-69.76-70.464-83.84 84.544L819.2 263.04l88.384-79.872z m-153.6 643.584l83.84 84.48 65.28-65.728L819.2 760.96l-65.216 65.792z m130.368-267.84H1024V465.024h-139.648v93.888zM512.064 230.08C358.4 230.08 232.768 356.992 232.768 512c0 155.008 125.632 281.856 279.296 281.856 153.6 0 279.232-126.848 279.232-281.856 0-154.944-125.632-281.856-279.232-281.856zM465.472 1024h93.056v-136.256H465.472V1024z m-349.056-183.232l69.76 70.4 83.84-84.48L204.8 760.96 116.48 840.768z" p-id="2271" fill="#8a8a8a"></path></svg>';
 let currentMode = 0; // 0日间模式 1夜间模式
@@ -6236,7 +7009,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.08.16.01"
+var curVersion = "2020.08.21.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
