@@ -192,7 +192,6 @@ function initPkg_LiveTool_Vote_Handle(text) {
             if (Object(voteWordList).hasOwnProperty(txt)) {
                 voteWordList[txt].num++;
                 voteTotalNum++;
-                console.log(voteTotalNum);
                 changeOptionsData();
             }
         } else {

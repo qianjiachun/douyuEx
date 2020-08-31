@@ -66,22 +66,26 @@
 
 .vote__option-choice {
     display: inline-block;
+    font-size: 14px;
 }
 
 .vote__option-num {
     float: right;
+    font-size: 14px;
 }
 
 .vote__progress {
     width: 100%;
     background-color: #ddd;
+    border-radius: 10px;
 }
 
 .vote__progress-bar {
     width: 0%;
-    height: 10px;
+    height: 14px;
     background-color: #4CAF50;
     text-align: center;
     line-height: 30px;
+    border-radius: 10px;
 }
 
