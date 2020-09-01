@@ -22,16 +22,19 @@ function initPkg_VideoTools_Module() {
     initPkg_VideoTools_Cinema();
     initPkg_VideoTools_VideoSync();
     initPkg_VideoTools_VideoRecall();
+    initPkg_VideoTools_Filter();
 }
 
 function initPkg_VideoTools_Func() {
     document.getElementById("js-player-toolbar").addEventListener("mouseover", () => {
         document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
+        document.getElementsByClassName("filter__wrap")[0].style.display = "none";
     });
     document.getElementById("js-player-asideMain").addEventListener("mouseover", () => {
         document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
+        document.getElementsByClassName("filter__wrap")[0].style.display = "none";
     });
     document.getElementsByClassName("inputView-2a65aa")[0].addEventListener("focus", () => {
         isInput = true;

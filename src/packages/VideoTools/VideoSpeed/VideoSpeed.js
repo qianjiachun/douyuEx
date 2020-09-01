@@ -32,6 +32,7 @@ function initPkg_VideoTools_VideoSpeed_Func() {
     document.getElementById("ex-videospeed").addEventListener("mouseover", function() {
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "block";
         document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
+        document.getElementsByClassName("filter__wrap")[0].style.display = "none";
     });
     document.getElementsByClassName("videospeed__wrap")[0].addEventListener("mouseout", function() {
         document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";

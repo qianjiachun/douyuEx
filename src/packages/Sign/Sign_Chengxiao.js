@@ -1,6 +1,9 @@
 async function initPkg_Sign_Chengxiao() {
     await signChengxiao();
     getChengxiaoQuestion();
+    await sleep(1000).then(() => {
+        initPkg_Sign_WuXuanyi();
+    })
 }
 function signChengxiao() {
     return new Promise(resolve => {

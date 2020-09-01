@@ -1,4 +1,4 @@
-const ACTIVITY_DAY_ID = "436";
+const ACTIVITY_DAY_ID = "490";
 
 function initPkg_Sign_Changzheng() {
     getChangzheng();
@@ -14,11 +14,9 @@ async function getChangzheng() {
     }
 
     ret = await getChangzhengBoxStatus_Day();
-    console.log(ret);
     if (ret.error == "0") {
         for (let i = 0; i < ret.data.freeCount; i++) {
             let ret2 = await getChangzhengBox_Day();
-            console.log(ret2);
             if (ret2.error == "0") {
                 showMessage("【长征签到】礼盒开启：" + ret2.data.giftName, "success");
             }

@@ -1,0 +1,92 @@
+#ex-filter {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+    cursor: pointer;
+    background-size: contain;
+}
+.filter__wrap {
+    display: none;
+    position: relative;
+    height: 100%;
+    margin-right: -15px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    float: left;
+    right: -12px;
+}
+
+.filter__panel {
+    position: absolute;
+    border: 1px solid #000;
+    border-radius: 4px;
+    transform: translateY(calc(-4px - 100%)) translateX(-50%);
+    left: 33%;
+    background-color: #000;
+    opacity: .75;
+    width: 300px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.filter__panel li {
+    padding: 0 2px;
+    white-space: nowrap;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.filter__panel li:hover {
+    background-color: rgb(85, 85, 85);
+}
+
+
+.filter__scroll {
+    width: 255px;
+    height: 5px;
+    background: #ccc;
+    position: relative;
+    display: inline-block;
+}
+
+.filter__scroll-bar {
+    width: 15px;
+    height: 15px;
+    background: #369;
+    position: absolute;
+    top: -5px;
+    left: 100px;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.filter__scroll-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #369;
+    width: 100px;
+    height: 5px;
+}
+
+.filter__title {
+    color: white;
+    display: inline-block;
+    cursor: initial;
+    margin-right: 2px;
+}
+
+#filter__select {
+    width: 260px;
+    float: right;
+}
+
+.filter__filter {
+    margin-top: 5px;
+}

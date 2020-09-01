@@ -39,10 +39,11 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_Ad_Yuba();
 		initPkg_Sign_Bycc();
 
-		// 这3个全到Bycc里去了
+		// 这4个全到Bycc里去了
 		// initPkg_Sign_Saobai();
 		// initPkg_Sign_Changzheng();
 		// initPkg_Sign_Chengxiao();
+		// initPkg_Sign_WuXuanyi();
 
 
 
