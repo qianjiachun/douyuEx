@@ -1,10 +1,12 @@
+let timeout;
 function initPkg_BagInfo() {
 	initPkg_BagInfo_Func();
 }
 
 function initPkg_BagInfo_Func() {
 	document.getElementsByClassName("BackpackButton")[0].addEventListener("click", function() {
-        setTimeout(() => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
             if (document.getElementsByClassName("Backpack JS_Backpack").length > 0) {
                 getBagGifts(rid, (ret) => {
                     let chunkNum = ret.data.list.length;
@@ -48,7 +50,7 @@ function initPkg_BagInfo_Func() {
                     }
                 });
             }
-        }, 200);
+        }, 500);
     });
 }
 

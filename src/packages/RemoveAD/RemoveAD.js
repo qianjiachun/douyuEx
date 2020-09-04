@@ -17,6 +17,7 @@ function removeAD() {
     .BattleShipTips{display:none !important;}
     .LastLiveTime,.recommendView-3e8b62{display:none !important;}
     .TurntableLottery-actTips{display:none !important;}
+    .feedback-e27241{display:none !important;}
     `);
 }
 function removeChatLimit() {
