@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.09.06.01
+// @version      2020.09.08.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -533,6 +533,7 @@ async function doLoopBarrage() {
 	}
 	if (document.getElementById("bloop__checkbox_tiangou").checked == true) {
 		let tiangouBarrage = await getBarrageTxt_Tiangou();
+		tiangouBarrage = String(tiangouBarrage).replace(/他/g,"她");
 		sendBarrage(tiangouBarrage);
 	} else {
 		sendBarrage(barrageArr[barrageOffset]);
@@ -2488,13 +2489,13 @@ async function setNewFollowList(panel) {
     }
     const FOLLOWLIST_LIMIT = 10; // 关注列表最多显示个数
     let limit = 0;
-    let html = `<div id="refreshFollowList"><svg t="1599379719000" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2379" width="18" height="18"><path d="M510.073 923.196 510.073 923.196c99.662-0.041 191.5-35.831 262.533-95.089 82.025-68.3 137.014-168.503 146.441-281.309L1023 546.863 859.829 348.752 696.358 546.63l108.763 0.067c-9.025 77.869-47.909 146.288-105.186 194.105-51.65 42.962-117.496 68.71-189.979 68.829-92.159 0.054-174.147-41.569-228.976-107.283-7.901-9.504-15.229-19.52-21.901-29.953l-74.663 90.969c3.072 3.948 6.133 7.862 9.338 11.668C268.988 865.627 383.075 923.369 510.073 923.196L510.073 923.196zM213.972 479.495c8.545-78.735 47.634-148.019 105.423-196.281 51.654-42.959 117.551-68.693 189.95-68.815 92.191-0.068 174.18 41.553 229.011 107.266 9.072 10.907 17.317 22.471 24.766 34.569l75.223-91.067c-4.111-5.485-8.317-10.931-12.728-16.199-75.285-90.528-189.382-148.303-316.402-148.164-99.597 0.1-191.468 35.896-262.463 95.142l-0.236 0.188c-82.564 68.788-137.647 169.924-146.484 283.672L1 480.086l163.856 197.511 162.78-198.406L213.972 479.495 213.972 479.495z" p-id="2380" fill="#8a8a8a"></path></svg></div>`;
+    let html = `<div id="refreshFollowList"><span style="margin-left:3px">长按弹出同屏播放</span><svg t="1599379719000" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2379" width="18" height="18"><path d="M510.073 923.196 510.073 923.196c99.662-0.041 191.5-35.831 262.533-95.089 82.025-68.3 137.014-168.503 146.441-281.309L1023 546.863 859.829 348.752 696.358 546.63l108.763 0.067c-9.025 77.869-47.909 146.288-105.186 194.105-51.65 42.962-117.496 68.71-189.979 68.829-92.159 0.054-174.147-41.569-228.976-107.283-7.901-9.504-15.229-19.52-21.901-29.953l-74.663 90.969c3.072 3.948 6.133 7.862 9.338 11.668C268.988 865.627 383.075 923.369 510.073 923.196L510.073 923.196zM213.972 479.495c8.545-78.735 47.634-148.019 105.423-196.281 51.654-42.959 117.551-68.693 189.95-68.815 92.191-0.068 174.18 41.553 229.011 107.266 9.072 10.907 17.317 22.471 24.766 34.569l75.223-91.067c-4.111-5.485-8.317-10.931-12.728-16.199-75.285-90.528-189.382-148.303-316.402-148.164-99.597 0.1-191.468 35.896-262.463 95.142l-0.236 0.188c-82.564 68.788-137.647 169.924-146.484 283.672L1 480.086l163.856 197.511 162.78-198.406L213.972 479.495 213.972 479.495z" p-id="2380" fill="#8a8a8a"></path></svg></div>`;
     let nowTime = Math.floor(Date.now()/1000);
     for (let i = 0; i < followList.data.list.length; i++) {
         let item = followList.data.list[i];
         if (item.show_status == "1" && item.videoLoop == "0") {
             // 开播且非录播
-            html += `<li class="DropPaneList FollowList"><a href="/${ item.room_id }" target="_blank"><div class="DropPaneList-cover"><div class="DyImg "><img src="${ String(item.avatar_small).replace("_big","_small") }" alt="${ item.nickname }" class="DyImg-content is-normal "></div></div><div class="DropPaneList-info"><p><span class="DropPaneList-hot"><i></i>${ item.online }</span><span class="DropPaneList-title">${ item.room_name }</span></p><p><span class="DropPaneList-name">${ item.nickname }</span><span class="DropPaneList-time">已播${ formatSeconds(nowTime - Number(item.show_time)) }</span></p></div></a></li>`
+            html += `<li class="DropPaneList FollowList ExFollowListItem" rid="${ item.room_id }"><a><div class="DropPaneList-cover"><div class="DyImg "><img src="${ String(item.avatar_small).replace("_big","_small") }" alt="${ item.nickname }" class="DyImg-content is-normal "></div></div><div class="DropPaneList-info"><p><span class="DropPaneList-hot"><i></i>${ item.online }</span><span class="DropPaneList-title">${ item.room_name }</span></p><p><span class="DropPaneList-name">${ item.nickname }</span><span class="DropPaneList-time">已播${ formatSeconds(nowTime - Number(item.show_time)) }</span></p></div></a></li>`
             limit++;
         }
         if (limit >= FOLLOWLIST_LIMIT) {
@@ -2509,6 +2510,17 @@ async function setNewFollowList(panel) {
             setNewFollowList(panel);
         }
     })
+
+    let followListItems = document.getElementsByClassName("ExFollowListItem");
+    for (let i = 0; i < followListItems.length; i++) {
+        let cclick = new CClick(followListItems[i]);
+        cclick.longClick(() => {
+            createNewVideo(videoPlayerArr.length, followListItems[i].getAttribute("rid"), "Douyu");
+        });
+        cclick.click(() => {
+            openPage("https://www.douyu.com/" + followListItems[i].getAttribute("rid"), true);
+        });
+    }
 }
 
 function getFollowList() {
@@ -4446,7 +4458,7 @@ async function exchangeItemEvent(item_id, item_num, item_price){
         return;
     }
 
-    showPrompt("请填写备注信息（联系方式/收获地址）",async (info) => {
+    showPrompt("请填写备注信息（联系方式/收货地址）",async (info) => {
         if (info == "") {
             showMessage("【积分系统】兑换失败：未填写备注信息", "error");
             return;
@@ -4692,7 +4704,7 @@ function bindRecord(recordJson) {
         }
     }
 }
-let videoPlayerArr = [];
+var videoPlayerArr = [];
 
 function initPkg_PopupPlayer() {
     initPkg_PopupPlayer_Dom();
@@ -4865,11 +4877,11 @@ function setElementDrag(id) {
             event.stopPropagation();
             mouseX = event.clientX - xx;
             mouseY = event.clientY - yy;
+            box.style.left = mouseX + "px";
+            box.style.top = mouseY + "px";
         }
         document.onmouseup = function (event) {
             event.stopPropagation();
-            box.style.left = mouseX + "px";
-            box.style.top = mouseY + "px";
             document.onmousemove = null;
             document.onmouseup = null;
         }
@@ -7033,7 +7045,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.09.06.01"
+var curVersion = "2020.09.08.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

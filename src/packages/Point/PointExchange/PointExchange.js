@@ -78,7 +78,7 @@ async function exchangeItemEvent(item_id, item_num, item_price){
         return;
     }
 
-    showPrompt("请填写备注信息（联系方式/收获地址）",async (info) => {
+    showPrompt("请填写备注信息（联系方式/收货地址）",async (info) => {
         if (info == "") {
             showMessage("【积分系统】兑换失败：未填写备注信息", "error");
             return;

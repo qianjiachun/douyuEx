@@ -150,6 +150,7 @@ async function doLoopBarrage() {
 	}
 	if (document.getElementById("bloop__checkbox_tiangou").checked == true) {
 		let tiangouBarrage = await getBarrageTxt_Tiangou();
+		tiangouBarrage = String(tiangouBarrage).replace(/他/g,"她");
 		sendBarrage(tiangouBarrage);
 	} else {
 		sendBarrage(barrageArr[barrageOffset]);

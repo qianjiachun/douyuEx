@@ -1,4 +1,4 @@
-let videoPlayerArr = [];
+var videoPlayerArr = [];
 
 function initPkg_PopupPlayer() {
     initPkg_PopupPlayer_Dom();
@@ -171,11 +171,11 @@ function setElementDrag(id) {
             event.stopPropagation();
             mouseX = event.clientX - xx;
             mouseY = event.clientY - yy;
+            box.style.left = mouseX + "px";
+            box.style.top = mouseY + "px";
         }
         document.onmouseup = function (event) {
             event.stopPropagation();
-            box.style.left = mouseX + "px";
-            box.style.top = mouseY + "px";
             document.onmousemove = null;
             document.onmouseup = null;
         }
