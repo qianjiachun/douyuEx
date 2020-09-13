@@ -23,8 +23,11 @@ async function getChangzheng() {
         }
     }
     
+    // await sleep(1000).then(() => {
+    //     initPkg_Sign_Chengxiao();
+    // })
     await sleep(1000).then(() => {
-        initPkg_Sign_Chengxiao();
+        initPkg_Sign_Lmjx();
     })
 }
 

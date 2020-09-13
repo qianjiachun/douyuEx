@@ -18,7 +18,12 @@ function removeAD() {
     .LastLiveTime,.recommendView-3e8b62{display:none !important;}
     .TurntableLottery-actTips{display:none !important;}
     .feedback-e27241{display:none !important;}
+
     `);
+    // .RomanticDatePanelModal-middle--small{height:220px !important;}
+    // .MainDialog-main--content{height:450px !important;}
+    // .RomanticDatePanelModal-middle--rowItemBottom--rowItemBottomBtn{margin-left:0px !important;margin-top:0px !important;width:170px !important;height:40px !important;background:orange !important;}
+    // }
 }
 function removeChatLimit() {
     let a;
