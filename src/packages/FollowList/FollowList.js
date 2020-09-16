@@ -58,6 +58,7 @@ async function setNewFollowList(panel) {
         let cclick = new CClick(followListItems[i]);
         cclick.longClick(() => {
             createNewVideo(videoPlayerArr.length, followListItems[i].getAttribute("rid"), "Douyu");
+            document.querySelector(".Follow .public-DropMenu").className = "public-DropMenu";
         });
         cclick.click(() => {
             openPage("https://www.douyu.com/" + followListItems[i].getAttribute("rid"), true);

@@ -26,7 +26,7 @@ function getFishPond_Task() {
 		console.log("请求失败!", err);
 	})
 	if (taskList.length == 0) {
-		showMessage("【鱼塘任务】暂无可领取的鱼粮", "info");
+		// showMessage("【鱼塘任务】暂无可领取的鱼粮", "info");
 		return;
 	}
 	let arr = taskList.concat();
@@ -47,7 +47,7 @@ function getFishPond_Task() {
 		})
 	}
 	taskList.length = 0;
-	FishPond_showTip(false);
+	// FishPond_showTip(false);
 }
 
 function getFishPond_TaskList() {
@@ -71,8 +71,8 @@ function getFishPond_TaskList_Day() {
 		
 		for (let i = 0; i < ret.data.list.length; i++) {
 			if (ret.data.list[i].status == "2") {
-				FishPond_showTip(true);
 				taskList.push(ret.data.list[i].id);
+				getAllFishPond();
 			}
 		}
 	}).catch(err => {
@@ -89,8 +89,8 @@ function getFishPond_TaskList_Week() {
 	}).then(ret => {
 		for (let i = 0; i < ret.data.list.length; i++) {
 			if (ret.data.list[i].status == "2") {
-				FishPond_showTip(true);
 				taskList.push(ret.data.list[i].id);
+				getAllFishPond();
 			}
 		}
 	}).catch(err => {
@@ -108,34 +108,11 @@ function getFishPond_TaskList_Ytzb() {
 	}).then(ret => {
 		for (let i = 0; i < ret.data.list.length; i++) {
 			if (ret.data.list[i].status == "2") {
-				FishPond_showTip(true);
 				taskList.push(ret.data.list[i].id);
+				getAllFishPond();
 			}
 		}
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
 }
-
-// function getFishPond_TaskList_Client() {
-// 	console.log("哦嚯嚯",dyToken);
-// 	GM_xmlhttpRequest({
-// 		method: "POST",
-// 		url: "https://pcapi.douyucdn.cn/japi/tasksys/ytxb/userStatusV2",
-// 		data: "cycleType=26&roomId=" + rid + "&tagId=1&token=" + dyToken,
-// 		responseType: "json",
-// 		headers: {
-// 			'Content-Type': 'application/x-www-form-urlencoded'
-// 		},
-// 		onload: function(response) {
-// 			let ret = response.response;
-// 			console.log("哈哈哈哈：",ret);
-// 			for (let i = 0; i < ret.data.list.length; i++) {
-// 				if (ret.data.list[i].status == "2") {
-// 					FishPond_showTip(true);
-// 					taskList.push(ret.data.list[i].id);
-// 				}
-// 			}
-// 		}
-// 	});
-// }

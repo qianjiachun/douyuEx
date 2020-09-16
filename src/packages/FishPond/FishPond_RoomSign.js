@@ -10,7 +10,7 @@ function initPkg_FishPond_RoomSign_Timer() {
 function getFishPond_RoomSign() {
 	// 清空roomSignList内的气泡
 	if (roomSignList.length == 0) {
-		showMessage("【签到宝箱】暂无可领取的鱼粮", "info");
+		// showMessage("【签到宝箱】暂无可领取的鱼粮", "info");
 		return;
 	}
     let arr = roomSignList.concat();
@@ -31,7 +31,7 @@ function getFishPond_RoomSign() {
             console.log("请求失败!", err);
         })
 	}
-	FishPond_showTip(false);
+	// FishPond_showTip(false);
 	roomSignList.length = 0;
 }
 
@@ -45,8 +45,8 @@ function getFishPond_RoomSignList() {
 	}).then(ret => {
         if (ret.error == "0" ) {
             if (ret.data.treasure.status == "1") {
-                FishPond_showTip(true);
                 roomSignList.push("1");
+                getAllFishPond();
             }
         }
 	}).catch(err => {

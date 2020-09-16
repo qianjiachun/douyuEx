@@ -1,9 +1,7 @@
 .ex-panel {
-	width: 550px;
-	height: 50px;
 	position: absolute;
 	bottom: 35px;
-	right: 50px;
+	right: 93px;
 	background-color: rgba(255,255,255,0.9);
 	display: none;
 	border: 2px rgb(234,173,26) solid;
@@ -25,7 +23,7 @@
 	transition: 0.5s;
 }
 .ex-panel__icon:hover {
-	transform: scale(1.25);
+	transform: scale(1.15);
 }
 .ex-panel__tip {
 	display:none;

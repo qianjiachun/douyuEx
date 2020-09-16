@@ -11,7 +11,7 @@ function initPkg_FishPond_Bubble_Timer() {
 function getFishPond_Bubble() {
 	// 清空bubbleList内的气泡
 	if (bubbleList.length == 0) {
-		showMessage("【鱼塘气泡】暂无可领取的鱼粮", "info");
+		// showMessage("【鱼塘气泡】暂无可领取的鱼粮", "info");
 		return;
 	}
 	
@@ -37,7 +37,7 @@ function getFishPond_Bubble() {
 			result = result + ret.data.prizeList[i].num + "个" + ret.data.prizeList[i].name + ",";
 		}
 		bubbleList.length = 0; // 此处领取完毕,小红点也要去掉
-		FishPond_showTip(false);
+		// FishPond_showTip(false);
 		showMessage("【鱼塘气泡】领取结果:" + result, "success");
 		// console.log("【鱼塘气泡】领取结果:" + result, ret);
 	}).catch(err => {
@@ -59,7 +59,7 @@ function getFishPond_BubbleList() {
 			if (ret.data.list[i] != null) {
 				if (ret.data.list[i].status == "2") {
 					bubbleList.push(ret.data.list[i].id);
-					FishPond_showTip(true);
+					getAllFishPond();
 				}
 			}
 		}

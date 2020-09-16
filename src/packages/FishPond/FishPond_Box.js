@@ -10,7 +10,7 @@ function initPkg_FishPond_Box_Timer() {
 function getFishPond_Box() {
 	// 清空boxList内的气泡
 	if (boxList.length == 0) {
-		showMessage("【鱼塘宝箱】暂无可领取的鱼粮", "info");
+		// showMessage("【鱼塘宝箱】暂无可领取的鱼粮", "info");
 		return;
 	}
 	let arr = boxList.concat();
@@ -29,7 +29,7 @@ function getFishPond_Box() {
 			}
 		});
 	}
-	FishPond_showTip(false);
+	// FishPond_showTip(false);
 	boxList.length = 0;
 }
 
@@ -48,8 +48,8 @@ function getFishPond_BoxList() {
 			for (let i = 0; i < response.response.data.length; i++) {
 				if (response.response.data[i] != null) {
 					if (response.response.data[i].status == "2") {
-						FishPond_showTip(true);
 						boxList.push(response.response.data[i].id);
+						getAllFishPond();
 					}
 				}
 			}
