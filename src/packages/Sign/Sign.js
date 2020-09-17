@@ -49,7 +49,6 @@ function initPkg_Sign_Main(isAll) {
 
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
-		initPkg_Sign_FishFood();
 		
 		// initPkg_Sign_Wangzhe();
 }
