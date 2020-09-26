@@ -1,4 +1,4 @@
-function initPkg_Chaoguan() {
+function initPkg_AdVideo_Chaoguan() {
 	startGetChaoguanFishBall();
 }
 async function startGetChaoguanFishBall() {
@@ -7,9 +7,11 @@ async function startGetChaoguanFishBall() {
         let completeNum = Number(status.data['20200914superbaba_T1'].curCompleteNum);
         let limitNum = Number(status.data['20200914superbaba_T1'].taskLimitNum);
         let leftNum = limitNum - completeNum;
-        console.log("剩余"+leftNum);
+        if (leftNum > 0) {
+            showMessage(`【超管来了】开始领取鱼丸，剩余${leftNum}次`, "info")
+        }
         for (let i = 0; i < leftNum; i++) {
-            getFishBall_Chaoguan();
+            await getFishBall_Chaoguan();
         }
     }
 }
@@ -23,7 +25,6 @@ async function getFishBall_Chaoguan() {
             await adWatchcer.finish();
         })
     }
-    
 }
 
 function getChaoguanStatus() {

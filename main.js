@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.09.21.01
+// @version      2020.09.26.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -51,7 +51,7 @@ function initPkg() {
 	initPkg_FishFood();
 	initPkg_Sign();
 	initPkg_BarragePanel();
-	initPkg_Chaoguan();
+	initPkg_AdVideo();
 }
 function initPkg_Timer() {
 	initPkg_FishPond_Timer();
@@ -301,6 +301,648 @@ function getUserName() {
 		})
 	})
 }
+function initPkg_AdVideo() {
+    initPkg_Sign_Ad_FishPond();
+}
+function initPkg_AdVideo_Chaoguan() {
+	startGetChaoguanFishBall();
+}
+async function startGetChaoguanFishBall() {
+    let status = await getChaoguanStatus();
+    if (status.error == "0") {
+        let completeNum = Number(status.data['20200914superbaba_T1'].curCompleteNum);
+        let limitNum = Number(status.data['20200914superbaba_T1'].taskLimitNum);
+        let leftNum = limitNum - completeNum;
+        if (leftNum > 0) {
+            showMessage(`【超管来了】开始领取鱼丸，剩余${leftNum}次`, "info")
+        }
+        for (let i = 0; i < leftNum; i++) {
+            await getFishBall_Chaoguan();
+        }
+    }
+}
+
+
+async function getFishBall_Chaoguan() {
+    let adWatchcer = new DyWacthAd("1054387", dyToken, rid);
+    let isStart = await adWatchcer.start();
+    if (isStart == true) {
+        await sleep(15000).then(async () => {
+            await adWatchcer.finish();
+        })
+    }
+}
+
+function getChaoguanStatus() {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/japi/carnival/nc/actTask/userStatus", {
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `tasks=20200914superbaba_T1&token=${dyToken}`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    })
+}
+function initPkg_Sign_Ad_666() {
+	getFishBall_Ad_666();
+}
+
+function getFishBall_Ad_666() {
+    let cnt = 0;
+    fetch("https://www.douyu.com/japi/tasksys/userStatus?ids=1033&token=" + dyToken + "&client_sys=android", {
+		method: 'GET',
+		mode: 'no-cors',
+		credentials: 'include'
+	}).then(res => {
+		return res.json();
+	}).then(async (retData) => {
+        cnt = Number(retData.data.list[0].taskLimitNum) - Number(retData.data.list[0].curCompleteNum);
+        if (cnt <= 0) {
+            // showMessage("【挑战鱼丸】今日次数已用完", "warning");
+            initPkg_Sign_Ad_Yuba();
+            return;
+        }
+        for (let i = 0; i < cnt; i++) {
+            let posid_ad_666 = "1114318";
+            let token = dyToken;
+            let uid = getUID();
+            let info = await getFishBall_Ad_666_info(posid_ad_666, token, uid);
+            if (info == false) {
+                initPkg_Sign_Ad_Yuba();
+                return;
+            }
+            let mid = info.mid;
+            let infoBack = info.infoBack;
+            let isStart = await getFishBall_Ad_666_start(posid_ad_666, token, uid, mid, infoBack);
+            if (isStart == true) {
+                showMessage("【挑战鱼丸】开始领取挑战鱼丸，需等待15秒", "info");
+                await sleep(15555).then(async () => {
+                    let isFinish = await getFishBall_Ad_666_finish(posid_ad_666, token, uid, mid, infoBack);
+                    if (isFinish == true) {
+                        await getFishBall_Ad_666_Bubble(token);
+                    }
+                })
+            }
+        }
+        initPkg_Sign_Ad_Yuba();
+	}).catch(err => {
+		console.log("请求失败!", err);
+	})
+}
+
+
+
+function getFishBall_Ad_666_info(posid_ad_666, token, uid) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
+            data: "posid=" + posid_ad_666 + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data.length == 0) {
+                        resolve(false);
+                        return;
+                    }
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    resolve({mid: mid, infoBack: infoBack});
+                }
+            }
+        });
+    })
+}
+
+function getFishBall_Ad_666_start(posid_ad_666, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_ad_666 + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_666_finish(posid_ad_666, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_ad_666 + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_666_Bubble(token) {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/japi/tasksys/getPrize?client_sys=android", {
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: "id=1033&roomId=" + rid + "&token=" + token
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            if (ret.error == "0") {
+                let retJson = JSON.parse(ret.data.ext);
+                showMessage("【挑战鱼丸】已领取" + retJson.data.items[1].prizeNum + "个" + retJson.data.items[1].prizeName, "success");
+            } else {
+                showMessage(ret.msg, "error");
+            }
+            resolve();
+        })
+    })
+}
+function initPkg_Sign_Ad_FishPond() {
+	getFishBall_Ad_FishPond();
+}
+
+function getFishBall_Ad_FishPond() {
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://apiv2.douyucdn.cn/japi/tasksys/ytxb/userStatusV3?client_sys=android",
+        data: "roomId=" + rid + "&token=" + dyToken,
+        responseType: "json",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        onload: async function(response) {
+            let ret = response.response.data.taskList;
+            for (let i = 0; i < ret.length; i++) {
+                if (ret[i].task.id == "182") {
+                    if (ret[i].task.status == "3") {
+                        // showMessage("【鱼塘鱼丸】已领取", "warning");
+                        initPkg_Sign_Ad_666();
+                        // initPkg_Sign_Ad_Yuba();
+                    } else {
+                        let posid_Ad_FishPond = "1114268";
+                        let token = dyToken;
+                        let uid = getUID();
+                        let info = await getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid);
+                        if (info == false) {
+                            initPkg_Sign_Ad_666();
+                            // initPkg_Sign_Ad_Yuba();
+                            return;
+                        }
+                        let mid = info.mid;
+                        let infoBack = info.infoBack;
+                        let isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                        if (isStart == false) {
+                            isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                            if (isStart == false) {
+                                isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                // 偷个懒，直接三次重试
+                            }
+                        }
+                        if (isStart == true) {
+                            showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待15秒", "info");
+                            await sleep(15555).then(async () => {
+                                let isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                if (isFinish == false) {
+                                    isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                    if (isFinish == false) {
+                                        isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                    }
+                                }
+                                if (isFinish == true) {
+                                    let isGet = await getFishBall_Ad_FishPond_Bubble(token);
+                                }
+                                
+                            })
+                        }
+                        initPkg_Sign_Ad_666();
+                        // initPkg_Sign_Ad_Yuba();
+                    }
+                }
+            }
+            
+        }
+    });
+}
+
+function getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
+            data: "posid=" + posid_Ad_FishPond + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data.length == 0) {
+                        resolve(false);
+                        return;
+                    }
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    resolve({mid: mid, infoBack: infoBack});
+                }
+            }
+        });
+    })
+}
+
+function getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_FishPond + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_FishPond + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_FishPond_Bubble(token) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/tasksys/ytxb/getPrize?client_sys=android",
+            data: "token=" + token + "&id=182",
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    showMessage("【鱼塘鱼丸】" + ret.data.msg, "success");
+                } else {
+                    showMessage("【鱼塘鱼丸】" + ret.msg, "error");
+                }
+                resolve(ret.error);
+            }
+        });
+    })
+}
+function initPkg_Sign_Ad_Guess() {
+	getFishBall_Ad_Guess();
+}
+
+async function getFishBall_Ad_Guess() {
+    let chance = await getFishBall_Ad_Guess_chance();
+    if (chance > 0) {
+        for (let i = 0; i < chance; i++) {
+            let adWatchcer = new DyWacthAd("1114337", dyToken, rid);
+            let isStart = await adWatchcer.start();
+            if (isStart == true) {
+                showMessage("【预言鱼丸】开始领取预言鱼丸，需等待15秒", "info");
+                await sleep(15555).then(async () => {
+                    if (await adWatchcer.finish() == true) {
+                        showMessage("【预言鱼丸】成功领取40鱼丸", "success");
+                    }
+                    await sleep(1000);
+                })
+            }
+        }
+    } else {
+        // showMessage("【预言鱼丸】今日次数已用完", "warning");
+    }
+    initPkg_AdVideo_Chaoguan();
+}
+
+
+function getFishBall_Ad_Guess_chance() {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
+            data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1114337&clientType=1",
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: async function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    let chance = ret.data.chanceNum;
+                    resolve(chance);
+                } else {
+                    resolve(0);
+                }
+            }
+        });
+    })
+}
+
+function initPkg_Sign_Ad_Search() {
+	getFishBall_Ad_Search();
+}
+
+function getFishBall_Ad_Search() {
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
+        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1124343&clientType=1",
+        responseType: "json",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        onload: async function(response) {
+            let ret = response.response;
+            if (ret.error == "0") {
+                let chance = ret.data.chanceNum;
+                if (chance > 0) {
+                    for (let i = 0; i < chance; i++) {
+                        let posid_Ad_Search = "1124343";
+                        let token = dyToken;
+                        let uid = getUID();
+                        let info = await getFishBall_Ad_Search_info(posid_Ad_Search, token, uid);
+                        if (info == false) {
+                            initPkg_Sign_Ad_Guess();
+                            return;
+                        }
+                        let mid = info.mid;
+                        let infoBack = info.infoBack;
+                        let isStart = await getFishBall_Ad_Search_start(posid_Ad_Search, token, uid, mid, infoBack);
+                        if (isStart == true) {
+                            showMessage("【搜索鱼丸】开始领取搜索鱼丸，需等待15秒", "info");
+                            await sleep(15555).then(async () => {
+                                let isFinish = await getFishBall_Ad_Search_finish(posid_Ad_Search, token, uid, mid, infoBack);
+                                if (isFinish == true) {
+                                    showMessage("【搜索鱼丸】成功领取40鱼丸", "success");
+                                    await sleep(1000);
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    // showMessage("【搜索鱼丸】今日次数已用完", "warning");
+                    initPkg_Sign_Ad_Guess();
+                    return;
+                }
+            }
+            initPkg_Sign_Ad_Guess();
+        }
+    });
+}
+
+
+
+function getFishBall_Ad_Search_info(posid_Ad_Search, token, uid) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
+            data: "posid=" + posid_Ad_Search + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data.length == 0) {
+                        resolve(false);
+                        return;
+                    }
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    resolve({mid: mid, infoBack: infoBack});
+                }
+            }
+        });
+    })
+}
+
+function getFishBall_Ad_Search_start(posid_Ad_Search, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Search + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_Search_finish(posid_Ad_Search, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Search + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data == "1") {
+                        resolve(true);
+                    }
+                }
+            }
+        });
+
+    })
+}
+
+function initPkg_Sign_Ad_Yuba() {
+	getFishBall_Ad_Yuba();
+}
+
+function getFishBall_Ad_Yuba() {
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
+        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1042329&clientType=1",
+        responseType: "json",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        onload: async function(response) {
+            let ret = response.response;
+            if (ret.error == "0") {
+                let chance = ret.data.chanceNum;
+                if (chance > 0) {
+                    for (let i = 0; i < chance; i++) {
+                        let posid_Ad_Yuba = "1042329";
+                        let token = dyToken;
+                        let uid = getUID();
+                        let info = await getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid);
+                        if (info == false) {
+                            initPkg_Sign_Ad_Search();
+                            return;
+                        }
+                        let mid = info.mid;
+                        let infoBack = info.infoBack;
+                        let isStart = await getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack);
+                        if (isStart == true) {
+                            showMessage("【鱼吧鱼丸】开始领取鱼吧鱼丸，需等待15秒", "info");
+                            await sleep(15555).then(async () => {
+                                let isFinish = await getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack);
+                                if (isFinish == true) {
+                                    showMessage("【鱼吧鱼丸】成功领取40鱼丸", "success");
+                                    await sleep(1000);
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    // showMessage("【鱼吧鱼丸】今日次数已用完", "warning");
+                    initPkg_Sign_Ad_Search();
+                    return;
+                }
+            }
+            initPkg_Sign_Ad_Search();
+        }
+    });
+}
+
+
+
+function getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
+            data: "posid=" + posid_Ad_Yuba + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data.length == 0) {
+                        resolve(false);
+                        return;
+                    }
+                    let mid = ret.data[0].mid;
+                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
+                    resolve({mid: mid, infoBack: infoBack});
+                }
+            }
+        });
+    })
+}
+
+function getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
+            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Yuba + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    resolve(true);
+                }
+            }
+        });
+
+    })
+}
+
+function getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
+            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Yuba + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                if (ret.error == "0") {
+                    if (ret.data == "1") {
+                        resolve(true);
+                    }
+                }
+            }
+        });
+
+    })
+}
+
 let timeout;
 function initPkg_BagInfo() {
 	initPkg_BagInfo_Func();
@@ -987,51 +1629,6 @@ function setBarragePanelTipFunc() {
     }
 }
 
-function initPkg_Chaoguan() {
-	startGetChaoguanFishBall();
-}
-async function startGetChaoguanFishBall() {
-    let status = await getChaoguanStatus();
-    if (status.error == "0") {
-        let completeNum = Number(status.data['20200914superbaba_T1'].curCompleteNum);
-        let limitNum = Number(status.data['20200914superbaba_T1'].taskLimitNum);
-        let leftNum = limitNum - completeNum;
-        console.log("剩余"+leftNum);
-        for (let i = 0; i < leftNum; i++) {
-            getFishBall_Chaoguan();
-        }
-    }
-}
-
-
-async function getFishBall_Chaoguan() {
-    let adWatchcer = new DyWacthAd("1054387", dyToken, rid);
-    let isStart = await adWatchcer.start();
-    if (isStart == true) {
-        await sleep(15000).then(async () => {
-            await adWatchcer.finish();
-        })
-    }
-    
-}
-
-function getChaoguanStatus() {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/actTask/userStatus", {
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `tasks=20200914superbaba_T1&token=${dyToken}`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
 function initPkg_Console() {
 	console_watermark_douyEx();
 }
@@ -2933,7 +3530,6 @@ function initPkg_LiveTool_HandleFunc() {
     // 开启ws，并且设置处理函数的入口
     // 是否生效由每个处理函数决定，可以设置一个变量保存开启状态，判断是否要执行
     let ws = new Ex_WebSocket_UnLogin(rid, (ret) => {
-
         initPkg_LiveTool_LiveNotice_Handle(ret); // 开播提醒
 		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
@@ -5590,7 +6186,7 @@ function initPkg_RemoveAD() {
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
@@ -5655,7 +6251,6 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Room(isAll);
 		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
 		initPkg_Sign_Ad_Sign();
-		initPkg_Sign_Ad_FishPond();
 		// initPkg_Sign_Aoligei();
 		// initPkg_Sign_Ad_Yuba();
 		// initPkg_Sign_Bycc();
@@ -5672,547 +6267,6 @@ function initPkg_Sign_Main(isAll) {
 		
 		// initPkg_Sign_Wangzhe();
 }
-function initPkg_Sign_Ad_666() {
-	getFishBall_Ad_666();
-}
-
-function getFishBall_Ad_666() {
-    let cnt = 0;
-    fetch("https://www.douyu.com/japi/tasksys/userStatus?ids=1033&token=" + dyToken + "&client_sys=android", {
-		method: 'GET',
-		mode: 'no-cors',
-		credentials: 'include'
-	}).then(res => {
-		return res.json();
-	}).then(async (retData) => {
-        cnt = Number(retData.data.list[0].taskLimitNum) - Number(retData.data.list[0].curCompleteNum);
-        if (cnt <= 0) {
-            showMessage("【挑战鱼丸】今日次数已用完", "warning");
-            initPkg_Sign_Ad_Yuba();
-            return;
-        }
-        for (let i = 0; i < cnt; i++) {
-            let posid_ad_666 = "1114318";
-            let token = dyToken;
-            let uid = getUID();
-            let info = await getFishBall_Ad_666_info(posid_ad_666, token, uid);
-            if (info == false) {
-                initPkg_Sign_Ad_Yuba();
-                return;
-            }
-            let mid = info.mid;
-            let infoBack = info.infoBack;
-            let isStart = await getFishBall_Ad_666_start(posid_ad_666, token, uid, mid, infoBack);
-            if (isStart == true) {
-                showMessage("【挑战鱼丸】开始领取挑战鱼丸，需等待15秒", "info");
-                await sleep(15555).then(async () => {
-                    let isFinish = await getFishBall_Ad_666_finish(posid_ad_666, token, uid, mid, infoBack);
-                    if (isFinish == true) {
-                        await getFishBall_Ad_666_Bubble(token);
-                    }
-                })
-            }
-        }
-        initPkg_Sign_Ad_Yuba();
-	}).catch(err => {
-		console.log("请求失败!", err);
-	})
-}
-
-
-
-function getFishBall_Ad_666_info(posid_ad_666, token, uid) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_ad_666 + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    if (ret.data.length == 0) {
-                        resolve(false);
-                        return;
-                    }
-                    let mid = ret.data[0].mid;
-                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
-                    resolve({mid: mid, infoBack: infoBack});
-                }
-            }
-        });
-    })
-}
-
-function getFishBall_Ad_666_start(posid_ad_666, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
-            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_ad_666 + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    resolve(true);
-                }
-            }
-        });
-
-    })
-}
-
-function getFishBall_Ad_666_finish(posid_ad_666, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
-            data: "uid=" + uid + "&clientType=1&posCode=" + posid_ad_666 + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    resolve(true);
-                }
-            }
-        });
-
-    })
-}
-
-function getFishBall_Ad_666_Bubble(token) {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/tasksys/getPrize?client_sys=android", {
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: "id=1033&roomId=" + rid + "&token=" + token
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            if (ret.error == "0") {
-                let retJson = JSON.parse(ret.data.ext);
-                showMessage("【挑战鱼丸】已领取" + retJson.data.items[1].prizeNum + "个" + retJson.data.items[1].prizeName, "success");
-            } else {
-                showMessage(ret.msg, "error");
-            }
-            resolve();
-        })
-    })
-}
-function initPkg_Sign_Ad_FishPond() {
-	getFishBall_Ad_FishPond();
-}
-
-function getFishBall_Ad_FishPond() {
-    GM_xmlhttpRequest({
-        method: "POST",
-        url: "https://apiv2.douyucdn.cn/japi/tasksys/ytxb/userStatusV3?client_sys=android",
-        data: "roomId=" + rid + "&token=" + dyToken,
-        responseType: "json",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        onload: async function(response) {
-            let ret = response.response.data.taskList;
-            for (let i = 0; i < ret.length; i++) {
-                if (ret[i].task.id == "182") {
-                    if (ret[i].task.status == "3") {
-                        showMessage("【鱼塘鱼丸】已领取", "warning");
-                        initPkg_Sign_Ad_666();
-                        // initPkg_Sign_Ad_Yuba();
-                    } else {
-                        let posid_Ad_FishPond = "1114268";
-                        let token = dyToken;
-                        let uid = getUID();
-                        let info = await getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid);
-                        if (info == false) {
-                            initPkg_Sign_Ad_666();
-                            // initPkg_Sign_Ad_Yuba();
-                            return;
-                        }
-                        let mid = info.mid;
-                        let infoBack = info.infoBack;
-                        let isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
-                        if (isStart == false) {
-                            isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
-                            if (isStart == false) {
-                                isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
-                                // 偷个懒，直接三次重试
-                            }
-                        }
-                        if (isStart == true) {
-                            showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待15秒", "info");
-                            await sleep(15555).then(async () => {
-                                let isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
-                                if (isFinish == false) {
-                                    isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
-                                    if (isFinish == false) {
-                                        isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
-                                    }
-                                }
-                                if (isFinish == true) {
-                                    let isGet = await getFishBall_Ad_FishPond_Bubble(token);
-                                }
-                                
-                            })
-                        }
-                        initPkg_Sign_Ad_666();
-                        // initPkg_Sign_Ad_Yuba();
-                    }
-                }
-            }
-            
-        }
-    });
-}
-
-function getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_Ad_FishPond + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    if (ret.data.length == 0) {
-                        resolve(false);
-                        return;
-                    }
-                    let mid = ret.data[0].mid;
-                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
-                    resolve({mid: mid, infoBack: infoBack});
-                }
-            }
-        });
-    })
-}
-
-function getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
-            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_FishPond + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    resolve(true);
-                }
-            }
-        });
-
-    })
-}
-
-function getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
-            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_FishPond + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    resolve(true);
-                }
-            }
-        });
-
-    })
-}
-
-function getFishBall_Ad_FishPond_Bubble(token) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/tasksys/ytxb/getPrize?client_sys=android",
-            data: "token=" + token + "&id=182",
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    showMessage("【鱼塘鱼丸】" + ret.data.msg, "success");
-                } else {
-                    showMessage("【鱼塘鱼丸】" + ret.msg, "error");
-                }
-                resolve(ret.error);
-            }
-        });
-    })
-}
-// 1112334
-function initPkg_Sign_Ad_Guess() {
-	getFishBall_Ad_Guess();
-}
-
-function getFishBall_Ad_Guess() {
-    GM_xmlhttpRequest({
-        method: "POST",
-        url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
-        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1114337&clientType=1",
-        responseType: "json",
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        onload: async function(response) {
-            let ret = response.response;
-            if (ret.error == "0") {
-                let chance = ret.data.chanceNum;
-                if (chance > 0) {
-                    for (let i = 0; i < chance; i++) {
-                        let posid_Ad_Guess = "1114337";
-                        let token = dyToken;
-                        let uid = getUID();
-                        let info = await getFishBall_Ad_Guess_info(posid_Ad_Guess, token, uid);
-                        if (info == false) {
-                            return;
-                        }
-                        let mid = info.mid;
-                        let infoBack = info.infoBack;
-                        let isStart = await getFishBall_Ad_Guess_start(posid_Ad_Guess, token, uid, mid, infoBack);
-                        if (isStart == true) {
-                            showMessage("【预言鱼丸】开始领取搜索鱼丸，需等待15秒", "info");
-                            await sleep(15555).then(async () => {
-                                let isFinish = await getFishBall_Ad_Guess_finish(posid_Ad_Guess, token, uid, mid, infoBack);
-                                if (isFinish == true) {
-                                    showMessage("【预言鱼丸】成功领取40鱼丸", "success");
-                                    await sleep(1000);
-                                }
-                            })
-                        }
-                    }
-                } else {
-                    showMessage("【预言鱼丸】今日次数已用完", "warning");
-                    return;
-                }
-            }
-        }
-    });
-}
-
-
-
-function getFishBall_Ad_Guess_info(posid_Ad_Guess, token, uid) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_Ad_Guess + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    if (ret.data.length == 0) {
-                        resolve(false);
-                        return;
-                    }
-                    let mid = ret.data[0].mid;
-                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
-                    resolve({mid: mid, infoBack: infoBack});
-                }
-            }
-        });
-    })
-}
-
-function getFishBall_Ad_Guess_start(posid_Ad_Guess, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
-            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Guess + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    resolve(true);
-                }
-            }
-        });
-
-    })
-}
-
-function getFishBall_Ad_Guess_finish(posid_Ad_Guess, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
-            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Guess + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    if (ret.data == "1") {
-                        resolve(true);
-                    }
-                }
-            }
-        });
-
-    })
-}
-
-function initPkg_Sign_Ad_Search() {
-	getFishBall_Ad_Search();
-}
-
-function getFishBall_Ad_Search() {
-    GM_xmlhttpRequest({
-        method: "POST",
-        url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
-        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1124343&clientType=1",
-        responseType: "json",
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        onload: async function(response) {
-            let ret = response.response;
-            if (ret.error == "0") {
-                let chance = ret.data.chanceNum;
-                if (chance > 0) {
-                    for (let i = 0; i < chance; i++) {
-                        let posid_Ad_Search = "1124343";
-                        let token = dyToken;
-                        let uid = getUID();
-                        let info = await getFishBall_Ad_Search_info(posid_Ad_Search, token, uid);
-                        if (info == false) {
-                            initPkg_Sign_Ad_Guess();
-                            return;
-                        }
-                        let mid = info.mid;
-                        let infoBack = info.infoBack;
-                        let isStart = await getFishBall_Ad_Search_start(posid_Ad_Search, token, uid, mid, infoBack);
-                        if (isStart == true) {
-                            showMessage("【搜索鱼丸】开始领取搜索鱼丸，需等待15秒", "info");
-                            await sleep(15555).then(async () => {
-                                let isFinish = await getFishBall_Ad_Search_finish(posid_Ad_Search, token, uid, mid, infoBack);
-                                if (isFinish == true) {
-                                    showMessage("【搜索鱼丸】成功领取40鱼丸", "success");
-                                    await sleep(1000);
-                                }
-                            })
-                        }
-                    }
-                } else {
-                    showMessage("【搜索鱼丸】今日次数已用完", "warning");
-                    initPkg_Sign_Ad_Guess();
-                    return;
-                }
-            }
-            initPkg_Sign_Ad_Guess();
-        }
-    });
-}
-
-
-
-function getFishBall_Ad_Search_info(posid_Ad_Search, token, uid) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_Ad_Search + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    if (ret.data.length == 0) {
-                        resolve(false);
-                        return;
-                    }
-                    let mid = ret.data[0].mid;
-                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
-                    resolve({mid: mid, infoBack: infoBack});
-                }
-            }
-        });
-    })
-}
-
-function getFishBall_Ad_Search_start(posid_Ad_Search, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
-            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Search + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    resolve(true);
-                }
-            }
-        });
-
-    })
-}
-
-function getFishBall_Ad_Search_finish(posid_Ad_Search, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
-            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Search + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    if (ret.data == "1") {
-                        resolve(true);
-                    }
-                }
-            }
-        });
-
-    })
-}
-
 function initPkg_Sign_Ad_Sign() {
 	getFishBall_Ad_Sign();
 }
@@ -6258,130 +6312,6 @@ function getFishBall_Ad_Sign() {
     
 	
 }
-function initPkg_Sign_Ad_Yuba() {
-	getFishBall_Ad_Yuba();
-}
-
-function getFishBall_Ad_Yuba() {
-    GM_xmlhttpRequest({
-        method: "POST",
-        url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/chance?client_sys=android",
-        data: "token=" + dyToken + "&uid=" + getUID() + "&posCode=1042329&clientType=1",
-        responseType: "json",
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        onload: async function(response) {
-            let ret = response.response;
-            if (ret.error == "0") {
-                let chance = ret.data.chanceNum;
-                if (chance > 0) {
-                    for (let i = 0; i < chance; i++) {
-                        let posid_Ad_Yuba = "1042329";
-                        let token = dyToken;
-                        let uid = getUID();
-                        let info = await getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid);
-                        if (info == false) {
-                            initPkg_Sign_Ad_Search();
-                            return;
-                        }
-                        let mid = info.mid;
-                        let infoBack = info.infoBack;
-                        let isStart = await getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack);
-                        if (isStart == true) {
-                            showMessage("【鱼吧鱼丸】开始领取鱼吧鱼丸，需等待15秒", "info");
-                            await sleep(15555).then(async () => {
-                                let isFinish = await getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack);
-                                if (isFinish == true) {
-                                    showMessage("【鱼吧鱼丸】成功领取40鱼丸", "success");
-                                    await sleep(1000);
-                                }
-                            })
-                        }
-                    }
-                } else {
-                    showMessage("【鱼吧鱼丸】今日次数已用完", "warning");
-                    initPkg_Sign_Ad_Search();
-                    return;
-                }
-            }
-            initPkg_Sign_Ad_Search();
-        }
-    });
-}
-
-
-
-function getFishBall_Ad_Yuba_info(posid_Ad_Yuba, token, uid) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://rtbapi.douyucdn.cn/japi/sign/app/getinfo?token=" + token + "&mdid=phone" + "&client_sys=android",
-            data: "posid=" + posid_Ad_Yuba + "&roomid=" + rid + "&cate1=1&cate2=1&chanid=30" + '&device={"nt":"1"}',
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    if (ret.data.length == 0) {
-                        resolve(false);
-                        return;
-                    }
-                    let mid = ret.data[0].mid;
-                    let infoBack = encodeURIComponent(JSON.stringify(ret.data));
-                    resolve({mid: mid, infoBack: infoBack});
-                }
-            }
-        });
-    })
-}
-
-function getFishBall_Ad_Yuba_start(posid_Ad_Yuba, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
-            data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid_Ad_Yuba + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    resolve(true);
-                }
-            }
-        });
-
-    })
-}
-
-function getFishBall_Ad_Yuba_finish(posid_Ad_Yuba, token, uid, mid, infoBack) {
-    return new Promise(resolve => {
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
-            data: "uid=" + uid + "&clientType=1&posCode=" + posid_Ad_Yuba + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
-            responseType: "json",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function(response) {
-                let ret = response.response;
-                if (ret.error == "0") {
-                    if (ret.data == "1") {
-                        resolve(true);
-                    }
-                }
-            }
-        });
-
-    })
-}
-
 const ACTIVITY_DAY_ID = "490";
 
 function initPkg_Sign_Changzheng() {
@@ -6495,6 +6425,7 @@ function signClient() {
 		}
 	});
 }
+const ACTIVITY_LMJX_ID = "509";
 function initPkg_Sign_Lmjx() {
     doLmjx();
 }
@@ -6530,6 +6461,16 @@ async function doLmjx() {
         }
     } else {
         showMessage("【黎明觉醒关注】奖励已领取", "warning");
+    }
+
+    let ret = await getLmjxBoxChance();
+    if (ret.error == "0") {
+        for (let i = 0; i < ret.data.freeCount; i++) {
+            let ret2 = await getLmjxBox();
+            if (ret2.error == "0") {
+                showMessage("【黎明觉醒】礼盒开启：" + ret2.data.giftName, "success");
+            }
+        }
     }
 
 }
@@ -6629,6 +6570,34 @@ function getLmjxStatus() {
     })
 }
 
+function getLmjxBoxChance() {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/japi/carnival/nc/lottery/remaining?activityId=" + ACTIVITY_LMJX_ID, {
+            method: 'GET',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json;charset=UTF-8'},
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        })
+    })
+}
+
+function getLmjxBox() {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json;charset=UTF-8'},
+            body: `{"activityId":"${ ACTIVITY_LMJX_ID }","token":"${ dyToken }"}`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        })
+    })
+}
 function initPkg_Sign_Motorcade() {
 	signMotorcade();
 }
@@ -7080,7 +7049,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.09.21.01"
+var curVersion = "2020.09.26.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

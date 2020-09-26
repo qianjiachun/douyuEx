@@ -16,7 +16,7 @@ function getFishBall_Ad_FishPond() {
             for (let i = 0; i < ret.length; i++) {
                 if (ret[i].task.id == "182") {
                     if (ret[i].task.status == "3") {
-                        showMessage("【鱼塘鱼丸】已领取", "warning");
+                        // showMessage("【鱼塘鱼丸】已领取", "warning");
                         initPkg_Sign_Ad_666();
                         // initPkg_Sign_Ad_Yuba();
                     } else {

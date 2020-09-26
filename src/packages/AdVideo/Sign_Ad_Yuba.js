@@ -40,7 +40,7 @@ function getFishBall_Ad_Yuba() {
                         }
                     }
                 } else {
-                    showMessage("【鱼吧鱼丸】今日次数已用完", "warning");
+                    // showMessage("【鱼吧鱼丸】今日次数已用完", "warning");
                     initPkg_Sign_Ad_Search();
                     return;
                 }

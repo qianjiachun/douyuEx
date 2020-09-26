@@ -13,7 +13,7 @@ function getFishBall_Ad_666() {
 	}).then(async (retData) => {
         cnt = Number(retData.data.list[0].taskLimitNum) - Number(retData.data.list[0].curCompleteNum);
         if (cnt <= 0) {
-            showMessage("【挑战鱼丸】今日次数已用完", "warning");
+            // showMessage("【挑战鱼丸】今日次数已用完", "warning");
             initPkg_Sign_Ad_Yuba();
             return;
         }
