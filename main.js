@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.09.26.01
+// @version      2020.10.01.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -6260,6 +6260,8 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Changzheng();
 		// initPkg_Sign_Chengxiao();
 		// initPkg_Sign_WuXuanyi();
+		initPkg_Sign_1000();
+		initPkg_Sign_Movie();
 
 
 		initPkg_Sign_TV();
@@ -6267,6 +6269,112 @@ function initPkg_Sign_Main(isAll) {
 		
 		// initPkg_Sign_Wangzhe();
 }
+
+function takeActPrize(name) {
+    // 关注20200911LMJX_T2
+    // 分享20200911LMJX_T5
+    return new Promise(resolve => {
+        fetch('https://www.douyu.com/japi/carnival/nc/actTask/takePrize',{
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `token=${ dyToken }&aid=android&taskAlias=${ name }`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    })
+}
+
+
+function addFollowRoom(rid) {
+    return new Promise(resolve => {
+        fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/add',{
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `rid=${ rid }&ctn=${ getCCN() }`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    })
+}
+
+
+function removeFollowRoom(rid) {
+    return new Promise(resolve => {
+        fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/rm',{
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `rid=${ rid }&ctn=${ getCCN() }`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    })
+}
+
+function shareAct(name) {
+    // 20200911LMJX
+    return new Promise(resolve => {
+        fetch('https://www.douyu.com/japi/carnival/common/share',{
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `actAlias=${ name }&token=${ dyToken }`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    })
+}
+function initPkg_Sign_1000() {
+	sign1000();
+}
+
+async function sign1000() {
+    let result = await takeActPrize("20201002dyspjnh_T2");
+    if (result.error == "0") {
+        showMessage("【斗鱼视频】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
+    } else {
+        showMessage("【斗鱼视频】" + result.msg, "warning");
+    }
+
+    result = await takeActPrize("20201002dyspjnh_T9");
+    if (result.error == "0") {
+        showMessage("【斗鱼视频】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
+    } else {
+        showMessage("【斗鱼视频】" + result.msg, "warning");
+    }
+    
+    await shareAct("20201002dyspjnh");
+    result = await takeActPrize("20201002dyspjnh_T7");
+    if (result.error == "0") {
+        showMessage("【斗鱼视频】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
+    } else {
+        showMessage("【斗鱼视频】" + result.msg, "warning");
+    }
+    
+}
+
 function initPkg_Sign_Ad_Sign() {
 	getFishBall_Ad_Sign();
 }
@@ -6475,82 +6583,6 @@ async function doLmjx() {
 
 }
 
-function shareAct(name) {
-    // 20200911LMJX
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/japi/carnival/common/share',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `actAlias=${ name }&token=${ dyToken }`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
-
-function takeActPrize(name) {
-    // 关注20200911LMJX_T2
-    // 分享20200911LMJX_T5
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/japi/carnival/nc/actTask/takePrize',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `token=${ dyToken }&aid=android&taskAlias=${ name }`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
-
-function addFollowRoom(rid) {
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/add',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `rid=${ rid }&ctn=${ getCCN() }`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
-
-
-function removeFollowRoom(rid) {
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/rm',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `rid=${ rid }&ctn=${ getCCN() }`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
-
 
 function getLmjxStatus() {
     return new Promise(resolve => {
@@ -6746,6 +6778,23 @@ function getMotorcadeID(tinyid, a2, identifier) {
         });
     })
 }
+function initPkg_Sign_Movie() {
+	signMovie();
+}
+
+async function signMovie() {
+    for (let i = 0; i < 3; i++) {
+        await addFollowRoom("8935403");
+        await removeFollowRoom("8935403");
+    }
+    let result = await takeActPrize("1001guanzhurenwu");
+    if (result.error == "0") {
+        showMessage("【影视主题乐园】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
+    } else {
+        showMessage("【影视主题乐园】" + result.msg, "warning");
+    }
+}
+
 
 function initPkg_Sign_Room(isAll) {
 	signAllRoom(isAll);
@@ -7049,7 +7098,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.09.26.01"
+var curVersion = "2020.10.01.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
