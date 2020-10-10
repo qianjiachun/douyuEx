@@ -44,7 +44,7 @@ function getBarrageColorArr() {
 	// 获取已解锁的弹幕颜色
 	barrageColorArr.length = 0;// 清空数组
 	barrageColorLength = 0;
-	let a = document.getElementsByClassName("FansBarrageColor-item");
+	let a = document.getElementsByClassName("FansBarrageSwitcher");
 	if (a.length == 0) {
 		isMatch = true;
 		let b = document.getElementsByClassName("MatchSystemFansBarrageSwitcher")[0];
@@ -56,6 +56,8 @@ function getBarrageColorArr() {
 		}
 		
 	} else {
+		a[0].click();
+		a = document.getElementsByClassName("FansBarrageColor-item");
 		isMatch = false;
 	}
 	
@@ -85,9 +87,10 @@ function selectBarrageColor(index) {
 	// 选择粉丝弹幕
 	let a;
 	if (isMatch == false) {
+		document.getElementsByClassName("FansBarrageSwitcher")[0].click();
 		a = document.getElementsByClassName("FansBarrageColor-item")[index];
 	} else{
-		document.getElementsByClassName("MatchSystemFansBarrageSwitcher")[0].click()
+		document.getElementsByClassName("MatchSystemFansBarrageSwitcher")[0].click();
 		a = document.getElementsByClassName("MatchSystemFansBarrageColor-item")[index];
 	}
 	

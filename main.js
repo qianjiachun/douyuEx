@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.10.02.01
+// @version      2020.10.10.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -1069,7 +1069,7 @@ function getBarrageColorArr() {
 	// 获取已解锁的弹幕颜色
 	barrageColorArr.length = 0;// 清空数组
 	barrageColorLength = 0;
-	let a = document.getElementsByClassName("FansBarrageColor-item");
+	let a = document.getElementsByClassName("FansBarrageSwitcher");
 	if (a.length == 0) {
 		isMatch = true;
 		let b = document.getElementsByClassName("MatchSystemFansBarrageSwitcher")[0];
@@ -1081,6 +1081,8 @@ function getBarrageColorArr() {
 		}
 		
 	} else {
+		a[0].click();
+		a = document.getElementsByClassName("FansBarrageColor-item");
 		isMatch = false;
 	}
 	
@@ -1110,9 +1112,10 @@ function selectBarrageColor(index) {
 	// 选择粉丝弹幕
 	let a;
 	if (isMatch == false) {
+		document.getElementsByClassName("FansBarrageSwitcher")[0].click();
 		a = document.getElementsByClassName("FansBarrageColor-item")[index];
 	} else{
-		document.getElementsByClassName("MatchSystemFansBarrageSwitcher")[0].click()
+		document.getElementsByClassName("MatchSystemFansBarrageSwitcher")[0].click();
 		a = document.getElementsByClassName("MatchSystemFansBarrageColor-item")[index];
 	}
 	
@@ -4827,6 +4830,7 @@ function setNightMode() {
     .layout-Container{background-color:rgb(35,36,39) !important;}
     .FansRankBottom-invisible,.ChatRankWeek-invisibleContent{background:rgb(47,48,53) !important;}
     .Barrage-roomVip--super{border-top: 1px solid rgb(37,38,42)!important;border-bottom: 1px solid rgb(37,38,42)!important;background: rgb(37,38,42)!important;}
+    .Barrage-userEnter--vip{background: rgb(37,38,42)!important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
@@ -5464,12 +5468,13 @@ function setElementResize(id) {
             h = Math.max(150, ev.clientY - pos.y + pos.h)
             w = w >= document.offsetWidth - box.offsetLeft ? document.offsetWidth - box.offsetLeft : w
             h = h >= document.offsetHeight - box.offsetTop ? document.offsetHeight - box.offsetTop : h
+            box.style.width = w + 'px';
+            box.style.height = h + 'px';
         }
         document.onmouseup = function (e) {
             e.stopPropagation();
             e.preventDefault();
-            box.style.width = w + 'px';
-            box.style.height = h + 'px';
+            
             
             document.onmousemove = null;
             document.onmouseup = null;
@@ -6261,7 +6266,6 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_Chengxiao();
 		// initPkg_Sign_WuXuanyi();
 		initPkg_Sign_1000();
-		initPkg_Sign_Movie();
         initPkg_Sign_Zhuli();
 
 		initPkg_Sign_TV();
@@ -6420,7 +6424,7 @@ function getFishBall_Ad_Sign() {
     
 	
 }
-const ACTIVITY_DAY_ID = "490";
+const ACTIVITY_DAY_ID = "543";
 
 function initPkg_Sign_Changzheng() {
     getChangzheng();
@@ -6778,23 +6782,6 @@ function getMotorcadeID(tinyid, a2, identifier) {
         });
     })
 }
-function initPkg_Sign_Movie() {
-	signMovie();
-}
-
-async function signMovie() {
-    for (let i = 0; i < 3; i++) {
-        await addFollowRoom("8935403");
-        await removeFollowRoom("8935403");
-    }
-    let result = await takeActPrize("1001guanzhurenwu");
-    if (result.error == "0") {
-        showMessage("【影视主题乐园】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
-    } else {
-        showMessage("【影视主题乐园】" + result.msg, "warning");
-    }
-}
-
 
 function initPkg_Sign_Room(isAll) {
 	signAllRoom(isAll);
@@ -7112,7 +7099,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.10.02.01"
+var curVersion = "2020.10.10.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

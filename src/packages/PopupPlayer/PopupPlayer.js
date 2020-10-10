@@ -145,12 +145,13 @@ function setElementResize(id) {
             h = Math.max(150, ev.clientY - pos.y + pos.h)
             w = w >= document.offsetWidth - box.offsetLeft ? document.offsetWidth - box.offsetLeft : w
             h = h >= document.offsetHeight - box.offsetTop ? document.offsetHeight - box.offsetTop : h
+            box.style.width = w + 'px';
+            box.style.height = h + 'px';
         }
         document.onmouseup = function (e) {
             e.stopPropagation();
             e.preventDefault();
-            box.style.width = w + 'px';
-            box.style.height = h + 'px';
+            
             
             document.onmousemove = null;
             document.onmouseup = null;
