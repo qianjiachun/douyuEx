@@ -45,6 +45,10 @@ function getBarrageColorArr() {
 	barrageColorArr.length = 0;// 清空数组
 	barrageColorLength = 0;
 	let a = document.getElementsByClassName("FansBarrageSwitcher");
+	let isNoble = false;
+	if (document.getElementsByClassName("NobleBarrageSwitcher is-active").length > 0) {
+		isNoble = true;
+	}
 	if (a.length == 0) {
 		isMatch = true;
 		let b = document.getElementsByClassName("MatchSystemFansBarrageSwitcher")[0];
@@ -70,6 +74,9 @@ function getBarrageColorArr() {
 	}
 	barrageColorLength = barrageColorLength - 1;
 	
+	if (isNoble = true) {
+		document.getElementsByClassName("NobleBarrageSwitcher")[0].click();
+	}
 }
 
 

@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.10.10.01
+// @version      2020.10.16.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -1070,6 +1070,10 @@ function getBarrageColorArr() {
 	barrageColorArr.length = 0;// 清空数组
 	barrageColorLength = 0;
 	let a = document.getElementsByClassName("FansBarrageSwitcher");
+	let isNoble = false;
+	if (document.getElementsByClassName("NobleBarrageSwitcher is-active").length > 0) {
+		isNoble = true;
+	}
 	if (a.length == 0) {
 		isMatch = true;
 		let b = document.getElementsByClassName("MatchSystemFansBarrageSwitcher")[0];
@@ -1095,6 +1099,9 @@ function getBarrageColorArr() {
 	}
 	barrageColorLength = barrageColorLength - 1;
 	
+	if (isNoble = true) {
+		document.getElementsByClassName("NobleBarrageSwitcher")[0].click();
+	}
 }
 
 
@@ -6265,8 +6272,8 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Changzheng();
 		// initPkg_Sign_Chengxiao();
 		// initPkg_Sign_WuXuanyi();
-		initPkg_Sign_1000();
-        initPkg_Sign_Zhuli();
+		// initPkg_Sign_1000();
+        // initPkg_Sign_Zhuli();
 
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
@@ -6536,103 +6543,6 @@ function signClient() {
 			}
 		}
 	});
-}
-const ACTIVITY_LMJX_ID = "509";
-function initPkg_Sign_Lmjx() {
-    doLmjx();
-}
-
-async function doLmjx() {
-    let status = await getLmjxStatus();
-    if (status.error != "0") {
-        return;
-    }
-    if (status.data['20200911LMJX_T5'].curCompleteNum == "0") {
-        // 没完成分享
-        await shareAct("20200911LMJX");
-        let result = await takeActPrize("20200911LMJX_T5");
-        if (result.error == "0") {
-            showMessage("【黎明觉醒分享】获得抽奖次数*1", "success");
-        } else {
-            showMessage("【黎明觉醒分享】" + result.msg, "warning");
-        }
-    } else {
-        showMessage("【黎明觉醒分享】奖励已领取", "warning");
-    }
-    if (status.data['20200911LMJX_T2'].curCompleteNum == "0") {
-        // 没完成关注
-        for (let i = 0; i < 3; i++) {
-            await addFollowRoom("9184529");
-            await removeFollowRoom("9184529");
-        }
-        let result = await takeActPrize("20200911LMJX_T2");
-        if (result.error == "0") {
-            showMessage("【黎明觉醒关注】获得抽奖次数*1", "success");
-        } else {
-            showMessage("【黎明觉醒关注】" + result.msg, "warning");
-        }
-    } else {
-        showMessage("【黎明觉醒关注】奖励已领取", "warning");
-    }
-
-    let ret = await getLmjxBoxChance();
-    if (ret.error == "0") {
-        for (let i = 0; i < ret.data.freeCount; i++) {
-            let ret2 = await getLmjxBox();
-            if (ret2.error == "0") {
-                showMessage("【黎明觉醒】礼盒开启：" + ret2.data.giftName, "success");
-            }
-        }
-    }
-
-}
-
-
-function getLmjxStatus() {
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/japi/carnival/nc/actTask/userStatus',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `tasks=20200911LMJX_T5%2C20200911LMJX_T2%2C20200911LMJX_T3%2C20200911LMJX_T4`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
-
-function getLmjxBoxChance() {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/lottery/remaining?activityId=" + ACTIVITY_LMJX_ID, {
-            method: 'GET',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/json;charset=UTF-8'},
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        })
-    })
-}
-
-function getLmjxBox() {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json;charset=UTF-8'},
-            body: `{"activityId":"${ ACTIVITY_LMJX_ID }","token":"${ dyToken }"}`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        })
-    })
 }
 function initPkg_Sign_Motorcade() {
 	signMotorcade();
@@ -7074,20 +6984,6 @@ function likeYubaPostComment(post_id, commnet_id, type) {
         });
     })
 }
-function initPkg_Sign_Zhuli() {
-	signZhuli();
-}
-
-async function signZhuli() {
-    await shareAct("202010ZBXSL");
-    let result = await takeActPrize("202010ZBXSL_T3");
-    if (result.error == "0") {
-        showMessage("【主播助力】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
-    } else {
-        showMessage("【主播助力】" + result.msg, "warning");
-    }
-}
-
 var _hmt = _hmt || [];
 
 function initPkg_Statistics() {
@@ -7099,7 +6995,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.10.10.01"
+var curVersion = "2020.10.16.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
