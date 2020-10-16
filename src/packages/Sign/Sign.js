@@ -43,7 +43,7 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Changzheng();
 		// initPkg_Sign_Chengxiao();
 		// initPkg_Sign_WuXuanyi();
-		// initPkg_Sign_1000();
+		initPkg_Sign_1000();
         // initPkg_Sign_Zhuli();
 
 		initPkg_Sign_TV();

@@ -45,8 +45,9 @@ function getBarrageColorArr() {
 	barrageColorArr.length = 0;// 清空数组
 	barrageColorLength = 0;
 	let a = document.getElementsByClassName("FansBarrageSwitcher");
+	let nobleIcon = document.getElementsByClassName("NobleBarrageSwitcher is-active");
 	let isNoble = false;
-	if (document.getElementsByClassName("NobleBarrageSwitcher is-active").length > 0) {
+	if (nobleIcon.length > 0) {
 		isNoble = true;
 	}
 	if (a.length == 0) {
@@ -74,7 +75,7 @@ function getBarrageColorArr() {
 	}
 	barrageColorLength = barrageColorLength - 1;
 	
-	if (isNoble = true) {
+	if (isNoble == true) {
 		document.getElementsByClassName("NobleBarrageSwitcher")[0].click();
 	}
 }
