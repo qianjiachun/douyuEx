@@ -21,7 +21,6 @@ async function getFishBall_Ad_Guess() {
     } else {
         // showMessage("【预言鱼丸】今日次数已用完", "warning");
     }
-    initPkg_AdVideo_Chaoguan();
 }
 
 

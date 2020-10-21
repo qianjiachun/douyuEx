@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.10.17.01
+// @version      2020.10.21.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -303,52 +303,6 @@ function getUserName() {
 }
 function initPkg_AdVideo() {
     initPkg_Sign_Ad_FishPond();
-}
-function initPkg_AdVideo_Chaoguan() {
-	startGetChaoguanFishBall();
-}
-async function startGetChaoguanFishBall() {
-    let status = await getChaoguanStatus();
-    if (status.error == "0") {
-        let completeNum = Number(status.data['20200914superbaba_T1'].curCompleteNum);
-        let limitNum = Number(status.data['20200914superbaba_T1'].taskLimitNum);
-        let leftNum = limitNum - completeNum;
-        if (leftNum > 0) {
-            showMessage(`【超管来了】开始领取鱼丸，剩余${leftNum}次`, "info")
-        }
-        for (let i = 0; i < leftNum; i++) {
-            await getFishBall_Chaoguan();
-        }
-    }
-}
-
-
-async function getFishBall_Chaoguan() {
-    let adWatchcer = new DyWacthAd("1054387", dyToken, rid);
-    let isStart = await adWatchcer.start();
-    if (isStart == true) {
-        await sleep(15000).then(async () => {
-            await adWatchcer.finish();
-        })
-    }
-}
-
-function getChaoguanStatus() {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/actTask/userStatus", {
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `tasks=20200914superbaba_T1&token=${dyToken}`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
 }
 function initPkg_Sign_Ad_666() {
 	getFishBall_Ad_666();
@@ -668,7 +622,6 @@ async function getFishBall_Ad_Guess() {
     } else {
         // showMessage("【预言鱼丸】今日次数已用完", "warning");
     }
-    initPkg_AdVideo_Chaoguan();
 }
 
 
@@ -6199,7 +6152,7 @@ function initPkg_RemoveAD() {
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;} /* 左侧悬浮广告 */
+    .CloudGameLink,.RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;}
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
@@ -6278,7 +6231,8 @@ function initPkg_Sign_Main(isAll) {
 
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
-		
+        
+        initPkg_Sign_Bowuyuan();
 		// initPkg_Sign_Wangzhe();
 }
 
@@ -6355,6 +6309,21 @@ function shareAct(name) {
             resolve(ret);
         }).catch(err => {
             console.log("请求失败!", err);
+        })
+    })
+}
+
+
+function getJackpot(id) {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json;charset=UTF-8'},
+            body: `{"activityId":"${ id }","token":"${ dyToken }"}`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
         })
     })
 }
@@ -6436,6 +6405,29 @@ function getFishBall_Ad_Sign() {
     
 	
 }
+function initPkg_Sign_Bowuyuan() {
+	signBowuyuan();
+}
+
+async function signBowuyuan() {
+    for (let i = 0; i < 3; i++) {
+        await addFollowRoom("952595");
+        await removeFollowRoom("952595");
+    }
+    let result = await takeActPrize("20201020_T3");
+    if (result.error == "0") {
+        showMessage("【博物院】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
+    } else {
+        showMessage("【博物院】" + result.msg, "warning");
+    }
+
+    result = await getJackpot("578");
+    if (result.error == "0") {
+        showMessage("【博物院】礼盒开启：" + result.data.giftName, "success");
+    }
+
+}
+
 const ACTIVITY_DAY_ID = "543";
 
 function initPkg_Sign_Changzheng() {
@@ -6454,7 +6446,7 @@ async function getChangzheng() {
     ret = await getChangzhengBoxStatus_Day();
     if (ret.error == "0") {
         for (let i = 0; i < ret.data.freeCount; i++) {
-            let ret2 = await getChangzhengBox_Day();
+            let ret2 = await getJackpot(ACTIVITY_DAY_ID);
             if (ret2.error == "0") {
                 showMessage("【长征签到】礼盒开启：" + ret2.data.giftName, "success");
             }
@@ -6485,20 +6477,6 @@ function signChangzheng() {
     })
 }
 
-
-function getChangzhengBox_Day() {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json;charset=UTF-8'},
-            body: `{"activityId":"${ ACTIVITY_DAY_ID }","token":"${ dyToken }"}`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        })
-    })
-}
 
 function getChangzhengBoxStatus_Day() {
     return new Promise(resolve => {
@@ -7000,7 +6978,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.10.17.01"
+var curVersion = "2020.10.21.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

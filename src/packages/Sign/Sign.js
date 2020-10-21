@@ -48,7 +48,8 @@ function initPkg_Sign_Main(isAll) {
 
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
-		
+        
+        initPkg_Sign_Bowuyuan();
 		// initPkg_Sign_Wangzhe();
 }
 
@@ -125,6 +126,21 @@ function shareAct(name) {
             resolve(ret);
         }).catch(err => {
             console.log("请求失败!", err);
+        })
+    })
+}
+
+
+function getJackpot(id) {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json;charset=UTF-8'},
+            body: `{"activityId":"${ id }","token":"${ dyToken }"}`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
         })
     })
 }

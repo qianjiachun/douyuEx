@@ -16,7 +16,7 @@ async function getChangzheng() {
     ret = await getChangzhengBoxStatus_Day();
     if (ret.error == "0") {
         for (let i = 0; i < ret.data.freeCount; i++) {
-            let ret2 = await getChangzhengBox_Day();
+            let ret2 = await getJackpot(ACTIVITY_DAY_ID);
             if (ret2.error == "0") {
                 showMessage("【长征签到】礼盒开启：" + ret2.data.giftName, "success");
             }
@@ -47,20 +47,6 @@ function signChangzheng() {
     })
 }
 
-
-function getChangzhengBox_Day() {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json;charset=UTF-8'},
-            body: `{"activityId":"${ ACTIVITY_DAY_ID }","token":"${ dyToken }"}`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        })
-    })
-}
 
 function getChangzhengBoxStatus_Day() {
     return new Promise(resolve => {
