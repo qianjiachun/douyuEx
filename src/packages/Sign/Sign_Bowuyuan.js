@@ -4,8 +4,8 @@ function initPkg_Sign_Bowuyuan() {
 
 async function signBowuyuan() {
     for (let i = 0; i < 3; i++) {
-        await addFollowRoom("952595");
-        await removeFollowRoom("952595");
+        await addFollowRoom("5992130");
+        await removeFollowRoom("5992130");
     }
     let result = await takeActPrize("20201020_T3");
     if (result.error == "0") {

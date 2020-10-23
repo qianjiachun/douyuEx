@@ -57,7 +57,7 @@ class DyWacthAd {
             GM_xmlhttpRequest({
                 method: "POST",
                 url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
-                data: "token=" + token + "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+                data: "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid + "&token=" + token + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
                 responseType: "json",
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
