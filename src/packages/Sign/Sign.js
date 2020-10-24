@@ -50,6 +50,7 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Yuba_Like();
         
         initPkg_Sign_Bowuyuan();
+        initPkg_Sign_ZBXSL2();
 		// initPkg_Sign_Wangzhe();
 }
 
