@@ -51,6 +51,7 @@ function initPkg_Sign_Main(isAll) {
         
         initPkg_Sign_Bowuyuan();
         initPkg_Sign_ZBXSL2();
+        initPkg_Sign_COD();
 		// initPkg_Sign_Wangzhe();
 }
 
@@ -138,6 +139,22 @@ function getJackpot(id) {
             method: 'POST',
             headers: {'Content-Type': 'application/json;charset=UTF-8'},
             body: `{"activityId":"${ id }","token":"${ dyToken }"}`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        })
+    })
+}
+
+
+function getActRemaining(id) {
+    return new Promise(resolve => {
+        fetch("https://www.douyu.com/japi/carnival/nc/lottery/remaining?activityId=" + id, {
+            method: 'GET',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json;charset=UTF-8'},
         }).then(res => {
             return res.json();
         }).then(ret => {

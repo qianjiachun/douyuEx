@@ -13,7 +13,7 @@ async function getChangzheng() {
         showMessage("【长征签到】" + ret.msg, "warning");
     }
 
-    ret = await getChangzhengBoxStatus_Day();
+    ret = await getActRemaining(ACTIVITY_DAY_ID);
     if (ret.error == "0") {
         for (let i = 0; i < ret.data.freeCount; i++) {
             let ret2 = await getJackpot(ACTIVITY_DAY_ID);
@@ -39,22 +39,6 @@ function signChangzheng() {
             credentials: 'include',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: 'token=' + dyToken + "&signAlias=" + "XSDXZC"
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        })
-    })
-}
-
-
-function getChangzhengBoxStatus_Day() {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/lottery/remaining?activityId=" + ACTIVITY_DAY_ID, {
-            method: 'GET',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/json;charset=UTF-8'},
         }).then(res => {
             return res.json();
         }).then(ret => {
