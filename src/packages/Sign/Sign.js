@@ -43,15 +43,15 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Changzheng();
 		// initPkg_Sign_Chengxiao();
 		// initPkg_Sign_WuXuanyi();
-		initPkg_Sign_1000();
+		// initPkg_Sign_1000();
         // initPkg_Sign_Zhuli();
 
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
         
-        initPkg_Sign_Bowuyuan();
+        // initPkg_Sign_Bowuyuan();
         initPkg_Sign_ZBXSL2();
-        initPkg_Sign_COD();
+        // initPkg_Sign_COD();
 		// initPkg_Sign_Wangzhe();
 }
 

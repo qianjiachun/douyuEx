@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.10.24.02
+// @version      2020.11.06.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -2229,7 +2229,7 @@ function ExpandTool_Treasure_insertDom() {
     let html = "";
     html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
     html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
-    html += '<div><a href="http://www.ddocr.com/" target="_blank" style="color:blue" title="点击进入ddocr官网，将账号用户中心的接口秘钥填入右边然后开启功能即可">ddocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
+    html += '<div style="display:none"><a href="http://www.ddocr.com/" target="_blank" style="color:blue" title="点击进入ddocr官网，将账号用户中心的接口秘钥填入右边然后开启功能即可">ddocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
     
     let a = document.createElement("div");
     a.className = "extool__treasure";
@@ -4055,12 +4055,14 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 let challenge = v.challenge;
                 let gt = v.gt;
 
-                let skey = getTreasureSkey();
-                if (skey != "") {
-                    let url = window.location.href;
-                    getTreasure_Auto(skey, gt, challenge, url, deviceid, rpid, roomid);
-                    return;
-                }
+
+                // 这里曾是自动领宝箱
+                // let skey = getTreasureSkey();
+                // if (skey != "") {
+                //     let url = window.location.href;
+                //     getTreasure_Auto(skey, gt, challenge, url, deviceid, rpid, roomid);
+                //     return;
+                // }
                 
 
                 let handler = (e) => {
@@ -5977,7 +5979,7 @@ function initPkg_Refresh_Video_Func() {
 }
 
 function refresh_Video_getStatus() {
-    let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+    let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
     if (dom_toolbar.style.visibility == "hidden") {
         return true;
     } else {
@@ -6088,15 +6090,15 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Changzheng();
 		// initPkg_Sign_Chengxiao();
 		// initPkg_Sign_WuXuanyi();
-		initPkg_Sign_1000();
+		// initPkg_Sign_1000();
         // initPkg_Sign_Zhuli();
 
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
         
-        initPkg_Sign_Bowuyuan();
+        // initPkg_Sign_Bowuyuan();
         initPkg_Sign_ZBXSL2();
-        initPkg_Sign_COD();
+        // initPkg_Sign_COD();
 		// initPkg_Sign_Wangzhe();
 }
 
@@ -6208,39 +6210,6 @@ function getActRemaining(id) {
     })
 }
 
-function initPkg_Sign_1000() {
-	sign1000();
-}
-
-async function sign1000() {
-    for (let i = 0; i < 3; i++) {
-        await addFollowRoom("7107176");
-        await removeFollowRoom("7107176");
-    }
-    let result = await takeActPrize("20201002dyspjnh_T2");
-    if (result.error == "0") {
-        showMessage("【斗鱼视频】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
-    } else {
-        showMessage("【斗鱼视频】" + result.msg, "warning");
-    }
-
-    result = await takeActPrize("20201002dyspjnh_T9");
-    if (result.error == "0") {
-        showMessage("【斗鱼视频】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
-    } else {
-        showMessage("【斗鱼视频】" + result.msg, "warning");
-    }
-    
-    await shareAct("20201002dyspjnh");
-    result = await takeActPrize("20201002dyspjnh_T7");
-    if (result.error == "0") {
-        showMessage("【斗鱼视频】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
-    } else {
-        showMessage("【斗鱼视频】" + result.msg, "warning");
-    }
-    
-}
-
 function initPkg_Sign_Ad_Sign() {
 	getFishBall_Ad_Sign();
 }
@@ -6286,29 +6255,6 @@ function getFishBall_Ad_Sign() {
     
 	
 }
-function initPkg_Sign_Bowuyuan() {
-	signBowuyuan();
-}
-
-async function signBowuyuan() {
-    for (let i = 0; i < 3; i++) {
-        await addFollowRoom("5992130");
-        await removeFollowRoom("5992130");
-    }
-    let result = await takeActPrize("20201020_T3");
-    if (result.error == "0") {
-        showMessage("【博物院】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
-    } else {
-        showMessage("【博物院】" + result.msg, "warning");
-    }
-
-    result = await getJackpot("578");
-    if (result.error == "0") {
-        showMessage("【博物院】礼盒开启：" + result.data.giftName, "success");
-    }
-
-}
-
 const ACTIVITY_DAY_ID = "543";
 
 function initPkg_Sign_Changzheng() {
@@ -6391,30 +6337,6 @@ function signClient() {
 		}
 	});
 }
-function initPkg_Sign_COD() {
-	signCOD();
-}
-
-async function signCOD() {
-    await shareAct("2020codmxfb");
-    let result = await takeActPrize("2020codmxfb_T1");
-    if (result.error == "0") {
-        showMessage("【COD先锋杯】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
-    } else {
-        showMessage("【COD先锋杯】" + result.msg, "warning");
-    }
-
-    ret = await getActRemaining("581");
-    if (ret.error == "0") {
-        for (let i = 0; i < ret.data.freeCount; i++) {
-            let ret2 = await getJackpot("581");
-            if (ret2.error == "0") {
-                showMessage("【COD先锋杯】礼盒开启：" + ret2.data.giftName, "success");
-            }
-        }
-    }
-}
-
 function initPkg_Sign_Motorcade() {
 	signMotorcade();
 }
@@ -6718,7 +6640,7 @@ function signYuba(group_id, t) {
                     let nums = numsRet.data.supplementary_cards;
                     for (let j = 0; j < nums; j++) {
                         let a = await signSupplementary(group_id);
-                        if (a.message == "补签失败") {
+                        if (a.message == "补签失败" || a.message == "系统维护中") {
                             break;
                         }
                     }
@@ -6883,7 +6805,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.10.24.02"
+var curVersion = "2020.11.06.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

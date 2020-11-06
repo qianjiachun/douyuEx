@@ -42,7 +42,7 @@ function initPkg_Refresh_Video_Func() {
 }
 
 function refresh_Video_getStatus() {
-    let dom_toolbar = document.getElementsByClassName("layout-Player-toolbar")[0];
+    let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
     if (dom_toolbar.style.visibility == "hidden") {
         return true;
     } else {

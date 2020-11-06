@@ -58,7 +58,7 @@ function signYuba(group_id, t) {
                     let nums = numsRet.data.supplementary_cards;
                     for (let j = 0; j < nums; j++) {
                         let a = await signSupplementary(group_id);
-                        if (a.message == "补签失败") {
+                        if (a.message == "补签失败" || a.message == "系统维护中") {
                             break;
                         }
                     }
