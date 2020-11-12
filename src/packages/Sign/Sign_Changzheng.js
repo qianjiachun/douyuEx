@@ -1,4 +1,4 @@
-const ACTIVITY_DAY_ID = "543";
+const ACTIVITY_DAY_ID = "610";
 
 function initPkg_Sign_Changzheng() {
     getChangzheng();
@@ -26,9 +26,9 @@ async function getChangzheng() {
     // await sleep(1000).then(() => {
     //     initPkg_Sign_Chengxiao();
     // })
-    await sleep(1000).then(() => {
-        initPkg_Sign_Lmjx();
-    })
+    // await sleep(1000).then(() => {
+    //     initPkg_Sign_Lmjx();
+    // })
 }
 
 function signChangzheng() {

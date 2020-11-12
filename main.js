@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.11.06.01
+// @version      2020.11.12.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -190,6 +190,18 @@ function getCCN() {
 	}
 	return ret;
 }
+
+function getCTN() {
+	// let cookie = document.cookie;
+	// let ret = getStrMiddle(cookie, "acf_ccn=", ";");
+	let ret = getCookieValue("acf_ctn");
+	if (ret == null) {
+		setCookie("acf_ctn", "1");
+		ret = "1";
+	}
+	return ret;
+}
+
 function getUID() {
 	let ret = getCookieValue("acf_uid");
 	return ret;
@@ -469,12 +481,12 @@ async function getFishBall_Ad_Guess() {
     let chance = await getFishBall_Ad_Guess_chance();
     if (chance > 0) {
         for (let i = 0; i < chance; i++) {
-            let adWatchcer = new DyWacthAd("1114337", dyToken, rid);
-            let isStart = await adWatchcer.start();
+            let adWatcher = new DyWacthAd("1114337", dyToken, rid);
+            let isStart = await adWatcher.start();
             if (isStart == true) {
                 showMessage("【预言鱼丸】开始领取预言鱼丸，需等待15秒", "info");
                 await sleep(15555).then(async () => {
-                    if (await adWatchcer.finish() == true) {
+                    if (await adWatcher.finish() == true) {
                         showMessage("【预言鱼丸】成功领取40鱼丸", "success");
                     }
                     await sleep(1000);
@@ -2229,7 +2241,7 @@ function ExpandTool_Treasure_insertDom() {
     let html = "";
     html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
     html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
-    html += '<div style="display:none"><a href="http://www.ddocr.com/" target="_blank" style="color:blue" title="点击进入ddocr官网，将账号用户中心的接口秘钥填入右边然后开启功能即可">ddocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
+    html += '<div><a href="http://www.ddocr.com/" target="_blank" style="color:blue" title="点击进入ddocr官网，将账号用户中心的接口秘钥填入右边然后开启功能即可">ddocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
     
     let a = document.createElement("div");
     a.className = "extool__treasure";
@@ -3717,7 +3729,7 @@ function addMuteUser(roomid, name, ban_time) {
             mode: 'no-cors',
             credentials: 'include',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'ban_nickname=' + name + '&room_id=' + roomid + '&ban_time=' + ban_time
+            body: 'ban_nickname=' + name + '&room_id=' + roomid + '&ban_time=' + ban_time + '&reason=7'
         }).then(res => {
             return res.json();
         }).then(ret => {
@@ -4056,13 +4068,12 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 let gt = v.gt;
 
 
-                // 这里曾是自动领宝箱
-                // let skey = getTreasureSkey();
-                // if (skey != "") {
-                //     let url = window.location.href;
-                //     getTreasure_Auto(skey, gt, challenge, url, deviceid, rpid, roomid);
-                //     return;
-                // }
+                let skey = getTreasureSkey();
+                if (skey != "") {
+                    let url = window.location.href;
+                    getTreasure_Auto(skey, gt, challenge, url, deviceid, rpid, roomid);
+                    return;
+                }
                 
 
                 let handler = (e) => {
@@ -6097,7 +6108,7 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Yuba_Like();
         
         // initPkg_Sign_Bowuyuan();
-        initPkg_Sign_ZBXSL2();
+        // initPkg_Sign_ZBXSL2();
         // initPkg_Sign_COD();
 		// initPkg_Sign_Wangzhe();
 }
@@ -6255,7 +6266,7 @@ function getFishBall_Ad_Sign() {
     
 	
 }
-const ACTIVITY_DAY_ID = "543";
+const ACTIVITY_DAY_ID = "610";
 
 function initPkg_Sign_Changzheng() {
     getChangzheng();
@@ -6283,9 +6294,9 @@ async function getChangzheng() {
     // await sleep(1000).then(() => {
     //     initPkg_Sign_Chengxiao();
     // })
-    await sleep(1000).then(() => {
-        initPkg_Sign_Lmjx();
-    })
+    // await sleep(1000).then(() => {
+    //     initPkg_Sign_Lmjx();
+    // })
 }
 
 function signChangzheng() {
@@ -6777,23 +6788,6 @@ function likeYubaPostComment(post_id, commnet_id, type) {
         });
     })
 }
-function initPkg_Sign_ZBXSL2() {
-	signZBXSL2();
-}
-
-async function signZBXSL2() {
-    for (let i = 0; i < 3; i++) {
-        await addFollowRoom("6889778");
-        await removeFollowRoom("6889778");
-    }
-    let result = await takeActPrize("202010ZBXSL_T9");
-    if (result.error == "0") {
-        showMessage("【主播新势力2】获得" + result.data.sendRes.items[0].prizeName + "*" + result.data.sendRes.items[0].prizeNum, "success");
-    } else {
-        showMessage("【主播新势力2】" + result.msg, "warning");
-    }
-}
-
 var _hmt = _hmt || [];
 
 function initPkg_Statistics() {
@@ -6805,7 +6799,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.11.06.01"
+var curVersion = "2020.11.12.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

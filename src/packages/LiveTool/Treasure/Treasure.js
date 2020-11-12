@@ -54,13 +54,12 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 let gt = v.gt;
 
 
-                // 这里曾是自动领宝箱
-                // let skey = getTreasureSkey();
-                // if (skey != "") {
-                //     let url = window.location.href;
-                //     getTreasure_Auto(skey, gt, challenge, url, deviceid, rpid, roomid);
-                //     return;
-                // }
+                let skey = getTreasureSkey();
+                if (skey != "") {
+                    let url = window.location.href;
+                    getTreasure_Auto(skey, gt, challenge, url, deviceid, rpid, roomid);
+                    return;
+                }
                 
 
                 let handler = (e) => {

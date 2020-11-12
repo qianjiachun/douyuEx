@@ -116,6 +116,18 @@ function getCCN() {
 	}
 	return ret;
 }
+
+function getCTN() {
+	// let cookie = document.cookie;
+	// let ret = getStrMiddle(cookie, "acf_ccn=", ";");
+	let ret = getCookieValue("acf_ctn");
+	if (ret == null) {
+		setCookie("acf_ctn", "1");
+		ret = "1";
+	}
+	return ret;
+}
+
 function getUID() {
 	let ret = getCookieValue("acf_uid");
 	return ret;

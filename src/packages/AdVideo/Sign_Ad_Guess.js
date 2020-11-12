@@ -6,12 +6,12 @@ async function getFishBall_Ad_Guess() {
     let chance = await getFishBall_Ad_Guess_chance();
     if (chance > 0) {
         for (let i = 0; i < chance; i++) {
-            let adWatchcer = new DyWacthAd("1114337", dyToken, rid);
-            let isStart = await adWatchcer.start();
+            let adWatcher = new DyWacthAd("1114337", dyToken, rid);
+            let isStart = await adWatcher.start();
             if (isStart == true) {
                 showMessage("【预言鱼丸】开始领取预言鱼丸，需等待15秒", "info");
                 await sleep(15555).then(async () => {
-                    if (await adWatchcer.finish() == true) {
+                    if (await adWatcher.finish() == true) {
                         showMessage("【预言鱼丸】成功领取40鱼丸", "success");
                     }
                     await sleep(1000);

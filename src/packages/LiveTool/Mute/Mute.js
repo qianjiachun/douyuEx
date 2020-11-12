@@ -335,7 +335,7 @@ function addMuteUser(roomid, name, ban_time) {
             mode: 'no-cors',
             credentials: 'include',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'ban_nickname=' + name + '&room_id=' + roomid + '&ban_time=' + ban_time
+            body: 'ban_nickname=' + name + '&room_id=' + roomid + '&ban_time=' + ban_time + '&reason=7'
         }).then(res => {
             return res.json();
         }).then(ret => {
