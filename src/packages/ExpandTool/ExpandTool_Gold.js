@@ -113,8 +113,8 @@ function goldBarrageList(m) {
 
         let userLevelObj = chatArea.querySelector(".UserLevel");
         if( userLevelObj!=null){
-            userLevelObj.className = "UserLevel UserLevel--120";
-            userLevelObj.setAttribute("title", "用户等级：120");
+            userLevelObj.className = "UserLevel UserLevel--150";
+            userLevelObj.setAttribute("title", "用户等级：150");
         }
         let roomLevelObj = chatArea.querySelector(".RoomLevel");
         if( roomLevelObj!=null){
