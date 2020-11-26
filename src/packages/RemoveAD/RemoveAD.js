@@ -18,6 +18,8 @@ function removeAD() {
     .LastLiveTime,.recommendView-3e8b62{display:none !important;}
     .TurntableLottery-actTips{display:none !important;}
     .feedback-e27241{display:none !important;}
+
+    .Header-follow-listBox{max-height:640px !important;}
     
     `);
     // body{transform: translateZ(0)!important;}
