@@ -10,11 +10,15 @@ function initPkg_FollowList() {
 }
 
 function handleFollowList(m) {
+    let active = document.getElementsByClassName("Header-follow-tab is-active")[0].innerText;
+    if (active == "特别关注") {
+        return;
+    }
     let panel = document.getElementsByClassName("Header-follow-listBox");
     if (panel.length == 0) {
         return;
     }
-
+    
     setNewFollowList(panel[0]);
 }
 async function setNewFollowList(panel) {

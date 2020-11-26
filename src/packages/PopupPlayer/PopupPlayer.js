@@ -105,7 +105,7 @@ function createNewVideo(id, rid, platform) {
 
 function setElementVideo(id, l) {
     if (flvjs.isSupported()) {
-        var videoElement = document.getElementById("videoPlayer" + String(id));
+        var videoElement = document.getElementById("exVideoPlayer" + String(id));
         var flvPlayer = flvjs.createPlayer({
             type: 'flv',
             url: l
@@ -123,9 +123,9 @@ function setElementVideo(id, l) {
 }
 
 function setElementResize(id) {
-    let box = document.getElementById("videoDiv" + String(id));
+    let box = document.getElementById("exVideoDiv" + String(id));
     
-    let scale = document.getElementById("videoScale" + String(id));
+    let scale = document.getElementById("exVideoScale" + String(id));
     scale.onmousedown = function (e) {
         // 阻止冒泡,避免缩放时触发移动事件
         e.stopPropagation();
@@ -161,7 +161,7 @@ function setElementResize(id) {
 }
 
 function setElementDrag(id) {
-    let box = document.getElementById("videoDiv" + String(id));
+    let box = document.getElementById("exVideoDiv" + String(id));
     box.onmousedown = function (event) {
         event.stopPropagation();
         let xx = event.clientX - box.offsetLeft;
@@ -200,16 +200,16 @@ function createNewVideo_Douyu(id, rid) {
             }
             let a = document.createElement("div");
             let html = "";
-            a.id = "videoDiv" + String(id);
+            a.id = "exVideoDiv" + String(id);
             a.rid = rid;
-            a.className = "videoDiv";
-            html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><a title='复制直播流地址'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span></a>";
-            html += "<select class='videoQn' id='videoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='0'>蓝光</option></select>";
-            html += "<select style='display:none' class='videoCDN' id='videoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路5</option><option value='3'>备用线路6</option></select>";
+            a.className = "exVideoDiv";
+            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制直播流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span></a>";
+            html += "<select class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='0'>蓝光</option></select>";
+            html += "<select style='display:none' class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路5</option><option value='3'>备用线路6</option></select>";
             html += "<a style='margin-left:5px' href='" + lurl_host + "' target='_blank'>无视频？</a>";
-            html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>";
+            html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>";
             html += "</div>";
-            html += "<video controls='controls' class='videoPlayer' id='videoPlayer" + String(id) + "'></video><div class='videoScale' id='videoScale" + String(id) + "'></div>";
+            html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
             let b = document.getElementsByClassName("layout-Main")[0];
             b.insertBefore(a, b.childNodes[0]);
@@ -223,11 +223,11 @@ function createNewVideo_Douyu(id, rid) {
 
 
 function setElementFunc_Douyu(id, rid) {
-    let box = document.getElementById("videoDiv" + String(id));
-    let videoPlayer = document.getElementById("videoPlayer" + String(id));
-    let info = document.getElementById("videoInfo" + String(id));
-    let scale = document.getElementById("videoScale" + String(id));
-    videoPlayer.onclick = function(e) {
+    let box = document.getElementById("exVideoDiv" + String(id));
+    let exVideoPlayer = document.getElementById("exVideoPlayer" + String(id));
+    let info = document.getElementById("exVideoInfo" + String(id));
+    let scale = document.getElementById("exVideoScale" + String(id));
+    exVideoPlayer.onclick = function(e) {
         e.stopPropagation();
         e.preventDefault();
         if (scale.style.display != "block") {
@@ -238,7 +238,7 @@ function setElementFunc_Douyu(id, rid) {
             info.style.display = "none";
         }
         for (let i = 0; i < videoPlayerArr.length; i++) {
-            let box = document.getElementById("videoDiv" + String(i));
+            let box = document.getElementById("exVideoDiv" + String(i));
             if (box != null) {
                 if (i == id) {
                     box.style.zIndex = 7778;
@@ -248,28 +248,28 @@ function setElementFunc_Douyu(id, rid) {
             }
         }
     }
-    let videoQn = document.getElementById("videoQn" + String(id));
-    let videoCDN = document.getElementById("videoCDN" + String(id));
-    let videoClose = document.getElementById("videoClose" + String(id));
-    videoQn.onchange = function() {
-        getRealLive_Douyu(rid, true, videoQn.value, (lurl) => {
+    let exVideoQn = document.getElementById("exVideoQn" + String(id));
+    let exVideoCDN = document.getElementById("exVideoCDN" + String(id));
+    let exVideoClose = document.getElementById("exVideoClose" + String(id));
+    exVideoQn.onchange = function() {
+        getRealLive_Douyu(rid, true, exVideoQn.value, (lurl) => {
             videoPlayerArr[id].destroy();
             setElementVideo(id, lurl);
         })
     }
-    videoCDN.onchange = function() {
-        getRealLive_Douyu(rid, true, videoQn.value, (lurl) => {
+    exVideoCDN.onchange = function() {
+        getRealLive_Douyu(rid, true, exVideoQn.value, (lurl) => {
 			videoPlayerArr[id].destroy();
             setElementVideo(id, lurl);
         })
     }
-    videoClose.onclick = function() {
+    exVideoClose.onclick = function() {
         box.remove();
     }
 
-    let videoRID = document.getElementById("videoRID" + String(id));
-    videoRID.onclick = function() {
-        getRealLive_Douyu(rid, true, videoQn.value, (lurl) => {
+    let exVideoRID = document.getElementById("exVideoRID" + String(id));
+    exVideoRID.onclick = function() {
+        getRealLive_Douyu(rid, true, exVideoQn.value, (lurl) => {
             GM_setClipboard(String(lurl).replace("https", "http"));
             showMessage("复制成功", "success");
         })
@@ -283,15 +283,15 @@ function createNewVideo_Bilibili(id, rid){
         if (lurl != "" || lurl != null) {
             let a = document.createElement("div");
             let html = "";
-            a.id = "videoDiv" + String(id);
+            a.id = "exVideoDiv" + String(id);
             a.rid = rid;
-            a.className = "videoDiv";
-            html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><a title='复制直播流地址'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "Bilibili - " + rid + "</span></a>";
-            html += "<select class='videoQn' id='videoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='4'>蓝光</option><option value='5'>原画</option></select>";
-            html += "<select class='videoCDN' id='videoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option><option value='4'>备用线路3</option></select>";
-            html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
+            a.className = "exVideoDiv";
+            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制直播流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "Bilibili - " + rid + "</span></a>";
+            html += "<select class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='4'>蓝光</option><option value='5'>原画</option></select>";
+            html += "<select class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option><option value='4'>备用线路3</option></select>";
+            html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>"
             html += "</div>";
-            html += "<video controls='controls' class='videoPlayer' id='videoPlayer" + String(id) + "'></video><div class='videoScale' id='videoScale" + String(id) + "'></div>";
+            html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
             let b = document.getElementsByClassName("layout-Main")[0];
             b.insertBefore(a, b.childNodes[0]);
@@ -304,11 +304,11 @@ function createNewVideo_Bilibili(id, rid){
 }
 
 function setElementFunc_Bilibili(id, rid) {
-    let box = document.getElementById("videoDiv" + String(id));
-    let videoPlayer = document.getElementById("videoPlayer" + String(id));
-    let info = document.getElementById("videoInfo" + String(id));
-    let scale = document.getElementById("videoScale" + String(id));
-    videoPlayer.onclick = function(e) {
+    let box = document.getElementById("exVideoDiv" + String(id));
+    let exVideoPlayer = document.getElementById("exVideoPlayer" + String(id));
+    let info = document.getElementById("exVideoInfo" + String(id));
+    let scale = document.getElementById("exVideoScale" + String(id));
+    exVideoPlayer.onclick = function(e) {
         e.stopPropagation();
         e.preventDefault();
         if (scale.style.display != "block") {
@@ -319,7 +319,7 @@ function setElementFunc_Bilibili(id, rid) {
             info.style.display = "none";
         }
         for (let i = 0; i < videoPlayerArr.length; i++) {
-            let box = document.getElementById("videoDiv" + String(i));
+            let box = document.getElementById("exVideoDiv" + String(i));
             if (box != null) {
                 if (i == id) {
                     box.style.zIndex = 7778;
@@ -329,29 +329,29 @@ function setElementFunc_Bilibili(id, rid) {
             }
         }
     }
-    let videoQn = document.getElementById("videoQn" + String(id));
-    let videoCDN = document.getElementById("videoCDN" + String(id));
-    let videoClose = document.getElementById("videoClose" + String(id));
-    videoQn.onchange = function() {
-        getRealLive_Bilibili(rid, videoQn.value, videoCDN.value, (lurl) => {
+    let exVideoQn = document.getElementById("exVideoQn" + String(id));
+    let exVideoCDN = document.getElementById("exVideoCDN" + String(id));
+    let exVideoClose = document.getElementById("exVideoClose" + String(id));
+    exVideoQn.onchange = function() {
+        getRealLive_Bilibili(rid, exVideoQn.value, exVideoCDN.value, (lurl) => {
             videoPlayerArr[id].destroy();
             setElementVideo(id, lurl);
         })
     }
-    videoCDN.onchange = function() {
-        getRealLive_Bilibili(rid, videoQn.value, videoCDN.value, (lurl) => {
+    exVideoCDN.onchange = function() {
+        getRealLive_Bilibili(rid, exVideoQn.value, exVideoCDN.value, (lurl) => {
 			videoPlayerArr[id].destroy();
             setElementVideo(id, lurl);
         })
     }
-    videoClose.onclick = function() {
+    exVideoClose.onclick = function() {
         box.remove();
     }
 
 
-    let videoRID = document.getElementById("videoRID" + String(id));
-    videoRID.onclick = function() {
-        getRealLive_Bilibili(rid, videoQn.value, videoCDN.value, (lurl) => {
+    let exVideoRID = document.getElementById("exVideoRID" + String(id));
+    exVideoRID.onclick = function() {
+        getRealLive_Bilibili(rid, exVideoQn.value, exVideoCDN.value, (lurl) => {
             GM_setClipboard(lurl);
             showMessage("复制成功", "success");
         })
@@ -369,15 +369,15 @@ function createNewVideo_Huya(id, rid, rname){
             }
             let a = document.createElement("div");
             let html = "";
-            a.id = "videoDiv" + String(id);
+            a.id = "exVideoDiv" + String(id);
             a.rid = rid;
-            a.className = "videoDiv";
-            html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><a title='复制直播流地址'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "Huya - " + rname + "</span></a>";
-            html += "<select class='videoQn' id='videoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>超清</option><option value='3'>蓝光4M</option><option value='4'>原画</option></select>";
-            // html += "<select class='videoCDN' id='videoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option></select>";
-            html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
+            a.className = "exVideoDiv";
+            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制直播流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "Huya - " + rname + "</span></a>";
+            html += "<select class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>超清</option><option value='3'>蓝光4M</option><option value='4'>原画</option></select>";
+            // html += "<select class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option></select>";
+            html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>"
             html += "</div>";
-            html += "<video controls='controls' class='videoPlayer' id='videoPlayer" + String(id) + "'></video><div class='videoScale' id='videoScale" + String(id) + "'></div>";
+            html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
             let b = document.getElementsByClassName("layout-Main")[0];
             b.insertBefore(a, b.childNodes[0]);
@@ -390,11 +390,11 @@ function createNewVideo_Huya(id, rid, rname){
 }
 
 function setElementFunc_Huya(id, rid) {
-    let box = document.getElementById("videoDiv" + String(id));
-    let videoPlayer = document.getElementById("videoPlayer" + String(id));
-    let info = document.getElementById("videoInfo" + String(id));
-    let scale = document.getElementById("videoScale" + String(id));
-    videoPlayer.onclick = function(e) {
+    let box = document.getElementById("exVideoDiv" + String(id));
+    let exVideoPlayer = document.getElementById("exVideoPlayer" + String(id));
+    let info = document.getElementById("exVideoInfo" + String(id));
+    let scale = document.getElementById("exVideoScale" + String(id));
+    exVideoPlayer.onclick = function(e) {
         e.stopPropagation();
         e.preventDefault();
         if (scale.style.display != "block") {
@@ -405,7 +405,7 @@ function setElementFunc_Huya(id, rid) {
             info.style.display = "none";
         }
         for (let i = 0; i < videoPlayerArr.length; i++) {
-            let box = document.getElementById("videoDiv" + String(i));
+            let box = document.getElementById("exVideoDiv" + String(i));
             if (box != null) {
                 if (i == id) {
                     box.style.zIndex = 7778;
@@ -415,11 +415,11 @@ function setElementFunc_Huya(id, rid) {
             }
         }
     }
-    let videoQn = document.getElementById("videoQn" + String(id));
-    // let videoCDN = document.getElementById("videoCDN" + String(id));
-    let videoClose = document.getElementById("videoClose" + String(id));
-    videoQn.onchange = function() {
-        getRealLive_Huya(rid, videoQn.value, (lurl, msg) => {
+    let exVideoQn = document.getElementById("exVideoQn" + String(id));
+    // let exVideoCDN = document.getElementById("exVideoCDN" + String(id));
+    let exVideoClose = document.getElementById("exVideoClose" + String(id));
+    exVideoQn.onchange = function() {
+        getRealLive_Huya(rid, exVideoQn.value, (lurl, msg) => {
             if (msg != "") {
                 showMessage(msg, "error");
                 return;
@@ -428,14 +428,14 @@ function setElementFunc_Huya(id, rid) {
             setElementVideo(id, lurl);
         })
     }
-    videoClose.onclick = function() {
+    exVideoClose.onclick = function() {
         box.remove();
     }
 
 
-    let videoRID = document.getElementById("videoRID" + String(id));
-    videoRID.onclick = function() {
-        getRealLive_Huya(rid, videoQn.value, (lurl, msg) => {
+    let exVideoRID = document.getElementById("exVideoRID" + String(id));
+    exVideoRID.onclick = function() {
+        getRealLive_Huya(rid, exVideoQn.value, (lurl, msg) => {
             if (msg != "") {
                 showMessage(msg, "error");
                 return;
@@ -456,14 +456,14 @@ function createNewVideo_iframe(id, url) {
     let rid = rid_arr[rid_arr.length - 1];
     let a = document.createElement("div");
     let html = "";
-    a.id = "videoDiv" + String(id);
+    a.id = "exVideoDiv" + String(id);
     a.rid = rid;
-    a.className = "videoDiv";
-    html += "<div class='videoInfo' id='videoInfo" + String(id) + "'><span class='videoRID' id='videoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span>";
-    html += "<a><div class='videoClose' id='videoClose" + String(id) + "'>X</div></a>"
+    a.className = "exVideoDiv";
+    html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span>";
+    html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>"
     html += "</div>";
-    html += "<iframe class='videoPlayer' id='videoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
-    html += "<div class='videoScale' id='videoScale" + String(id) + "'></div>";
+    html += "<iframe class='exVideoPlayer' id='exVideoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
+    html += "<div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
     a.innerHTML = html;
     let b = document.getElementsByClassName("layout-Main")[0];
     b.insertBefore(a, b.childNodes[0]);
@@ -478,16 +478,16 @@ function createNewVideo_iframe(id, url) {
 }
 
 function setElementFunc_iframe(id) {
-    let box = document.getElementById("videoDiv" + String(id));
-    let videoClose = document.getElementById("videoClose" + String(id));
-    videoClose.onclick = function() {
+    let box = document.getElementById("exVideoDiv" + String(id));
+    let exVideoClose = document.getElementById("exVideoClose" + String(id));
+    exVideoClose.onclick = function() {
         box.remove();
     }
     box.onclick = function(e) {
         e.stopPropagation();
         e.preventDefault();
         for (let i = 0; i < videoPlayerArr.length; i++) {
-            let box = document.getElementById("videoDiv" + String(i));
+            let box = document.getElementById("exVideoDiv" + String(i));
             if (box != null) {
                 if (i == id) {
                     box.style.zIndex = 7778;

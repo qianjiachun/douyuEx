@@ -1,4 +1,4 @@
-.videoDiv {
+.exVideoDiv {
     width: 400px;
     height: 200px;
     background-color: rgba(255, 255, 255, 0);
@@ -6,13 +6,13 @@
     z-index: 7777;
 }
 
-.videoPlayer {
+.exVideoPlayer {
     width: 100%;
     height: 100%;
     cursor: move;
 }
 
-.videoScale {
+.exVideoScale {
     width: 10px;
     height: 10px;
     overflow: hidden;
@@ -23,7 +23,7 @@
     background-color: rgb(231, 57, 57);
 }
 
-.videoInfo {
+.exVideoInfo {
     width: 100%;
     height: 30px;
     background-color: gray;
@@ -32,17 +32,17 @@
     line-height: 30px;
 }
 
-.videoClose {
+.exVideoClose {
     width: 30px;
     float: right;
     color: white;
 }
 
-.videoQn, .videoCDN {
+.exVideoQn, .exVideoCDN {
     margin-left: 5px;
 }
 
-.videoRID {
+.exVideoRID {
     margin: 0px 5px;
     font-weight: 800;
     font-size: medium;
