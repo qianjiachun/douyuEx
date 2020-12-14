@@ -13,6 +13,7 @@ function initPkg_LiveTool_Dom() {
 function initPkg_LiveTool_Module() {
 	// 添加模块
 	initPkg_LiveTool_Vote();
+	initPkg_LiveTool_Enter();
 	initPkg_LiveTool_Mute();
 	initPkg_LiveTool_Gift();
 	initPkg_LiveTool_Reply();
@@ -63,6 +64,7 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
 		initPkg_LiveTool_Gift_Handle(ret); // 自动谢礼物
 		initPkg_LiveTool_Treasure_Handle(ret);
+		initPkg_LiveTool_Enter_Handle(ret);
 		// initPkg_LiveTool_Friend_Handle(ret);
 		initPkg_LiveTool_Vote_Handle(ret);
     });

@@ -130,6 +130,9 @@ function LiveTool_Gift_insertFunc() {
                     document.getElementsByClassName("mute__panel")[0].style.display = "none";
                 }
             }
+            if (document.getElementsByClassName("enter__panel")[0].style.display == "block") {
+				document.getElementsByClassName("enter__panel")[0].style.display = "none";
+            }
             if (document.getElementsByClassName("reply__panel")[0].style.display == "block") {
 				document.getElementsByClassName("reply__panel")[0].style.display = "none";
             }

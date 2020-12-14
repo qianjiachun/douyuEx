@@ -61,6 +61,9 @@ function LiveTool_Reply_insertFunc() {
                     document.getElementsByClassName("mute__panel")[0].style.display = "none";
                 }
             }
+            if (document.getElementsByClassName("enter__panel")[0].style.display == "block") {
+				document.getElementsByClassName("enter__panel")[0].style.display = "none";
+            }
             if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
 				document.getElementsByClassName("gift__panel")[0].style.display = "none";
             }

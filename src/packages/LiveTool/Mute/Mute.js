@@ -109,6 +109,9 @@ function LiveTool_Mute_insertFunc() {
             if (document.getElementsByClassName("reply__panel")[0].style.display == "block") {
 				document.getElementsByClassName("reply__panel")[0].style.display = "none";
             }
+            if (document.getElementsByClassName("enter__panel")[0].style.display == "block") {
+				document.getElementsByClassName("enter__panel")[0].style.display = "none";
+            }
             if (document.getElementsByClassName("gift__panel")[0].style.display == "block") {
 				document.getElementsByClassName("gift__panel")[0].style.display = "none";
             }

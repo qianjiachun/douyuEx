@@ -1,0 +1,28 @@
+.enter__panel {
+    width: 100%;
+    display: none;
+    margin-top: 4px;
+}
+#enter__title {
+    cursor: pointer;
+
+}
+#enter__select {
+    width: 190px;
+}
+
+.enter__option {
+    margin-top: 5px;
+}
+
+#enter__enterId {
+    width: 40px;
+}
+
+#enter__reply {
+    width: 150px;
+}
+
+#enter__word {
+    width: 210px;
+}

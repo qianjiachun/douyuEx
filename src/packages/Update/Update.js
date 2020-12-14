@@ -1,7 +1,7 @@
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.11.27.01"
+var curVersion = "2020.12.14.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -27,7 +27,25 @@ function initPkg_Update_Func() {
 }
 
 function Update_checkVersion() {
-	fetch('https://greasyfork.org/zh-CN/scripts/394497',{
+	// fetch('https://greasyfork.org/zh-CN/scripts/394497',{
+	// 	method: 'GET',
+	// 	mode: 'cors',
+	// 	cache: 'no-store',
+	// 	credentials: 'omit',
+	// }).then(res => {
+	// 	return res.text();
+	// }).then(txt => {
+	// 	txt = (new DOMParser()).parseFromString(txt, 'text/html');
+	// 	let v = txt.getElementsByClassName("script-show-version")[1];
+	// 	if(v != undefined){
+	// 		if (v.innerText != curVersion) {
+	// 			Update_showTip(true);
+	// 		}
+	// 	}
+	// }).catch(err => {
+	// 	console.error('请求失败', err);
+	// })
+	fetch('https://www.douyuex.com/src/douyuex_version.txt',{
 		method: 'GET',
 		mode: 'cors',
 		cache: 'no-store',
@@ -35,10 +53,8 @@ function Update_checkVersion() {
 	}).then(res => {
 		return res.text();
 	}).then(txt => {
-		txt = (new DOMParser()).parseFromString(txt, 'text/html');
-		let v = txt.getElementsByClassName("script-show-version")[1];
-		if(v != undefined){
-			if (v.innerText != curVersion) {
+		if(txt != undefined){
+			if (txt != curVersion) {
 				Update_showTip(true);
 			}
 		}
@@ -48,7 +64,7 @@ function Update_checkVersion() {
 }
 
 function Update_openUpdatePage() {
-	openPage("https://greasyfork.org/zh-CN/scripts/394497", true);
+	openPage("https://www.douyuex.com/install/web.html", true);
 }
 
 function Update_showTip(a) {
