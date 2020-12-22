@@ -27,6 +27,7 @@ function LiveTool_Enter_insertDom() {
             <input style="width:40px;margin-left:10px;" type="button" id="enter__add" value="添加"/>
             <input style="width:40px;margin-left:10px;" type="button" id="enter__del" value="删除"/>
             <div class="enter__option">
+                <label>等级≥<input id="enter__level" type="text" value="1"/></label>
                 <label>当前欢迎词：<input id="enter__word" type="text" placeholder="欢迎<id>光临直播间"/></label>
             </div>
         </div>
@@ -79,21 +80,26 @@ function LiveTool_Enter_insertFunc() {
             return;
         }
         let word = this.options[this.selectedIndex].text;
+        let level = enterWordList[word].enter;
         document.getElementById("enter__word").value = word;
-
+        document.getElementById("enter__level").value = level;
         localStorage.setItem("ExSave_LastEnterWord", word); // 存储弹幕列表
     };
 
     document.getElementById("enter__add").addEventListener("click", () => {
         let select_wordList = document.getElementById("enter__select");
         let word = document.getElementById("enter__word").value;
+        let level = document.getElementById("enter__level").value;
 
         if (word == "") {
             return;
         }
+        if (level == "") {
+            return;
+        }
         // 构造json并添加json
         enterWordList[word] = {
-            enter: "1",
+            enter: Number(level),
         }
 
         // 添加到select中去
@@ -147,7 +153,10 @@ function saveData_isEnter() {
 
 function initPkg_Enter_Set() {
 	// 设置初始化
-	let ret = localStorage.getItem("ExSave_Enter");
+    let ret = localStorage.getItem("ExSave_Enter");
+    if (ret == "") {
+        return;
+    }
 	let select_wordList = document.getElementById("enter__select");
 	if (ret != null) {
         let retJson = JSON.parse(ret);
@@ -161,10 +170,16 @@ function initPkg_Enter_Set() {
     
     ret = localStorage.getItem("ExSave_LastEnterWord");
     if (ret != null) {
+        let i = 0;
         for (const key in enterWordList) {
             if (key == ret) {
-                select_wordList.options[select_wordList.selectedIndex].text = ret;
+                select_wordList.selectedIndex = i;
+                let level = enterWordList[ret].enter;
+                document.getElementById("enter__word").value = ret;
+                document.getElementById("enter__level").value = level;
+                break;
             }
+            i++;
         }
     } 
 
@@ -198,12 +213,15 @@ function initPkg_LiveTool_Enter_Handle(text) {
             return;
         }
         let nn = getStrMiddle(text, "nn@=", "/");
+        let level = getStrMiddle(text, "level@=", "/");
         let select_wordList = document.getElementById("enter__select");
         let reply = select_wordList.options[select_wordList.selectedIndex].text;
-
+        let levelLimit = enterWordList[reply].enter;
+        if (Number(level) < Number(levelLimit)) {
+            return;
+        }
         reply = String(reply).replace(/<id>/g, nn);
         sendBarrage(reply);
     }
-    
 }
 

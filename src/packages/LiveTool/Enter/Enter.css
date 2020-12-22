@@ -24,5 +24,10 @@
 }
 
 #enter__word {
-    width: 210px;
+    width: 140px;
+}
+
+#enter__level {
+    width: 25px;
+    text-align: center;
 }

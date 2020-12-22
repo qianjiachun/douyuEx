@@ -40,7 +40,7 @@ function initPkg_Sign_Main(isAll) {
 
 		// saobai后每秒签到一个
 		// initPkg_Sign_Saobai();
-		initPkg_Sign_Changzheng();
+		// initPkg_Sign_Changzheng();
 		// initPkg_Sign_Chengxiao();
 		// initPkg_Sign_WuXuanyi();
 		// initPkg_Sign_1000();
@@ -49,116 +49,118 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_TV();
 		initPkg_Sign_Yuba_Like();
         
+        // initPkg_Sign_Renlei();
+        initPkg_Sign_Act();
         // initPkg_Sign_Bowuyuan();
         // initPkg_Sign_ZBXSL2();
         // initPkg_Sign_COD();
 		// initPkg_Sign_Wangzhe();
 }
 
-function takeActPrize(name) {
-    // 关注20200911LMJX_T2
-    // 分享20200911LMJX_T5
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/japi/carnival/nc/actTask/takePrize',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `token=${ dyToken }&aid=android&taskAlias=${ name }`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
+// function takeActPrize(name) {
+//     // 关注20200911LMJX_T2
+//     // 分享20200911LMJX_T5
+//     return new Promise(resolve => {
+//         fetch('https://www.douyu.com/japi/carnival/nc/actTask/takePrize',{
+//             method: 'POST',
+//             mode: 'no-cors',
+//             credentials: 'include',
+//             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+//             body: `token=${ dyToken }&aid=android&taskAlias=${ name }`
+//         }).then(res => {
+//             return res.json();
+//         }).then(ret => {
+//             resolve(ret);
+//         }).catch(err => {
+//             console.log("请求失败!", err);
+//         })
+//     })
+// }
 
 
-function addFollowRoom(rid) {
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/add',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `rid=${ rid }&ctn=${ getCCN() }`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
+// function addFollowRoom(rid) {
+//     return new Promise(resolve => {
+//         fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/add',{
+//             method: 'POST',
+//             mode: 'no-cors',
+//             credentials: 'include',
+//             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+//             body: `rid=${ rid }&ctn=${ getCCN() }`
+//         }).then(res => {
+//             return res.json();
+//         }).then(ret => {
+//             resolve(ret);
+//         }).catch(err => {
+//             console.log("请求失败!", err);
+//         })
+//     })
+// }
 
 
-function removeFollowRoom(rid) {
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/rm',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `rid=${ rid }&ctn=${ getCCN() }`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
+// function removeFollowRoom(rid) {
+//     return new Promise(resolve => {
+//         fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/rm',{
+//             method: 'POST',
+//             mode: 'no-cors',
+//             credentials: 'include',
+//             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+//             body: `rid=${ rid }&ctn=${ getCCN() }`
+//         }).then(res => {
+//             return res.json();
+//         }).then(ret => {
+//             resolve(ret);
+//         }).catch(err => {
+//             console.log("请求失败!", err);
+//         })
+//     })
+// }
 
-function shareAct(name) {
-    // 20200911LMJX
-    return new Promise(resolve => {
-        fetch('https://www.douyu.com/japi/carnival/common/share',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `actAlias=${ name }&token=${ dyToken }`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
-
-
-function getJackpot(id) {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json;charset=UTF-8'},
-            body: `{"activityId":"${ id }","token":"${ dyToken }"}`
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        })
-    })
-}
+// function shareAct(name) {
+//     // 20200911LMJX
+//     return new Promise(resolve => {
+//         fetch('https://www.douyu.com/japi/carnival/common/share',{
+//             method: 'POST',
+//             mode: 'no-cors',
+//             credentials: 'include',
+//             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+//             body: `actAlias=${ name }&token=${ dyToken }`
+//         }).then(res => {
+//             return res.json();
+//         }).then(ret => {
+//             resolve(ret);
+//         }).catch(err => {
+//             console.log("请求失败!", err);
+//         })
+//     })
+// }
 
 
-function getActRemaining(id) {
-    return new Promise(resolve => {
-        fetch("https://www.douyu.com/japi/carnival/nc/lottery/remaining?activityId=" + id, {
-            method: 'GET',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/json;charset=UTF-8'},
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        })
-    })
-}
+// function getJackpot(id) {
+//     return new Promise(resolve => {
+//         fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
+//             method: 'POST',
+//             headers: {'Content-Type': 'application/json;charset=UTF-8'},
+//             body: `{"activityId":"${ id }","token":"${ dyToken }"}`
+//         }).then(res => {
+//             return res.json();
+//         }).then(ret => {
+//             resolve(ret);
+//         })
+//     })
+// }
+
+
+// function getActRemaining(id) {
+//     return new Promise(resolve => {
+//         fetch("https://www.douyu.com/japi/carnival/nc/lottery/remaining?activityId=" + id, {
+//             method: 'GET',
+//             mode: 'no-cors',
+//             credentials: 'include',
+//             headers: {'Content-Type': 'application/json;charset=UTF-8'},
+//         }).then(res => {
+//             return res.json();
+//         }).then(ret => {
+//             resolve(ret);
+//         })
+//     })
+// }
