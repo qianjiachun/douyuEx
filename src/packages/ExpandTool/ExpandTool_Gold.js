@@ -132,7 +132,7 @@ function goldBarrageList(m) {
                 if(fansBackgroundImg.innerHTML.indexOf("background-image:")==-1){//common fans medal
                     let fansTag = document.createElement("div");
                     let fansSpan = document.createElement("span");
-                    fansTag.className="FansMedal level-30 js-fans-dysclick Barrage-icon";
+                    fansTag.className="FansMedal level-50 js-fans-dysclick Barrage-icon";
                     // fansTag.setAttribute("data-rid",roomId);//id is same to roomId
                     fansSpan.className = "FansMedal-name js-fans-dysclick";
                     // fansSpan.setAttribute("data-rid",roomId);
@@ -153,7 +153,7 @@ function goldBarrageList(m) {
                 }
             }else{//point to a fans medal when room have none of fans medal
                 let fansTag2 = document.createElement("div");
-                fansTag2.className="FansMedal level-30 js-fans-dysclick Barrage-icon";
+                fansTag2.className="FansMedal level-50 js-fans-dysclick Barrage-icon";
                 fansTag2.setAttribute("data-rid","5189167");
                 let fansSpan2 = document.createElement("span");
                 fansSpan2.className = "FansMedal-name js-fans-dysclick";
@@ -184,7 +184,7 @@ function goldBarrageList(m) {
 }
 
 function goldFansMedal() {
-    document.getElementsByClassName("FansMedalEnter-enterContent")[0].setAttribute("data-medal-level","30");
+    document.getElementsByClassName("FansMedalEnter-enterContent")[0].setAttribute("data-medal-level","50");
 }
 
 function goldBarrage(m) {

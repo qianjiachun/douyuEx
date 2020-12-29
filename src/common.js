@@ -47,6 +47,7 @@ function formatSeconds(value) {
 }
 
 async function verifyFans(room_id, level) {
+	return true; // 2020年12月22日18:28:18
 	let ret = false;
 	let doc = await fetch('https://www.douyu.com/member/cp/getFansBadgeList',{
 		method: 'GET',

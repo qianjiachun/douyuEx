@@ -1,4 +1,6 @@
 .real-audience {
     cursor: pointer;
     display: flex;
+    padding: 0 7px;
+    line-height: 33px;
 }
