@@ -13,6 +13,7 @@ function initPkg_RealAudience() {
 	initPkg_RealAudience_StyleHook();
 	initPkg_RealAudience_Dom();
 	initPkg_RealAudience_Func();
+	setAvatarVideo();
 	
 	fetch("https://www.douyu.com/swf_api/h5room/" + rid, {
 		method: 'GET',
@@ -33,7 +34,7 @@ function initPkg_RealAudience() {
 function initPkg_RealAudience_StyleHook() {
 	StyleHook_set("Ex_Style_RealAudience", `
     .VideoEntry{display:none !important;}
-    .layout-Player-rank{top:34px !important;}
+	.layout-Player-rank{top:34px !important;}
     `);
 }
 
@@ -112,5 +113,60 @@ function getRealViewer() {
 		
 	}).catch(err => {
 		console.log("请求失败!", err);
+	})
+}
+
+function setAvatarVideo() {
+	// 1. 插入对应的dom
+	// 2. 绑定相应的函数
+	// 3. 拉高黑框
+	// 4. 对头像框鼠标移入移出事件绑定
+	let homeDom = document.querySelectorAll(".VideoEntry-tabItem>a")[0];
+	if (homeDom == undefined) {
+		return;
+	}
+	let videoUrl = homeDom.href + "?type=video";
+	let videoReplayUrl = homeDom.href + "?type=liveReplay";
+	
+	setAvatarVideo_Dom();
+	setAvatarVideo_Func(videoUrl, videoReplayUrl);
+	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "none";
+	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.height = "44px";
+
+	document.getElementsByClassName("Title-anchorPicBack")[0].addEventListener("mouseenter", () => {
+		document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "block";
+	});
+	document.getElementsByClassName("Title-anchorPicBack")[0].addEventListener("mouseleave", () => {
+		document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "none";
+	});
+}
+
+function setAvatarVideo_Dom() {
+	let a = document.createElement("div");
+	a.id = "Ex_VideoReview";
+	a.className = "Title-anchorPic-bottomItem";
+	a.innerHTML = "<span>回看</span>";
+
+	let a1 = document.createElement("i");
+	a1.style = "top: 28px";
+
+	let a2 = document.createElement("div");
+	a2.id = "Ex_VideoSubmit";
+	a2.className = "Title-anchorPic-bottomItem";
+	a2.innerHTML = "<span>投稿</span>";
+
+	let b = document.getElementsByClassName("Title-anchorPic-bottom")[0];
+	b.insertBefore(a, b.childNodes[0]);
+	b.insertBefore(a1, b.childNodes[0]);
+	b.insertBefore(a2, b.childNodes[0]);
+}
+
+function setAvatarVideo_Func(videoUrl, videoReplayUrl) {
+	document.getElementById("Ex_VideoSubmit").addEventListener("click", () => {
+		openPage(videoUrl, true);
+	})
+
+	document.getElementById("Ex_VideoReview").addEventListener("click", () => {
+		openPage(videoReplayUrl, true);
 	})
 }

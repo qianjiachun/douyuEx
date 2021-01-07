@@ -7,7 +7,8 @@ function ExpandTool_SendGift_insertDom() {
     let html = "";
     html += '<label>送礼：[用于打榜,例如送出999个飞机]</label><a style="margin-left:10px;color:blue;" href="http://open.douyucdn.cn/api/RoomApi/room/' + rid + '" target="_blank">礼物id示例</a><br />';
     html += '<label>礼物ID：</label><input id="extool__sendgift_id" type="text" style="width:50px;text-align:center;margin-right:10px;" value="20000" />';
-    html += '<label>数量：</label><input id="extool__sendgift_cnt" type="text" style="width:30px;text-align:center;" value="1" />';
+    html += '<label>数量：</label><input id="extool__sendgift_cnt" type="text" style="width:30px;text-align:center;margin-right:10px;" value="1" />';
+    html += '<label>间隔ms：</label><input id="extool__sendgift_delay" type="text" style="width:30px;text-align:center;" value="0" />';
     html += '<input style="width:40px;margin-left:10px;" type="button" id="extool__sendgift_btn" value="送出" />';
     let a = document.createElement("div");
     a.className = "extool__sendgift";
@@ -17,12 +18,13 @@ function ExpandTool_SendGift_insertDom() {
 }
 
 function ExpandTool_SendGift_insertFunc() {
-    document.getElementById("extool__sendgift_btn").addEventListener("click", function() {
+    document.getElementById("extool__sendgift_btn").addEventListener("click", async () => {
         if (confirm("确认送出？") != true) {
             return;
         }
         let gid = document.getElementById("extool__sendgift_id").value;
         let gcnt = document.getElementById("extool__sendgift_cnt").value;
+        let delay = Number(document.getElementById("extool__sendgift_delay").value);
         let t_num = 0;
         let t_price = 0;
         for (let i = 0; i < Number(gcnt); i++) {
@@ -44,6 +46,9 @@ function ExpandTool_SendGift_insertFunc() {
             }).catch(err => {
                 console.log("请求失败!", err);
             })
+            if (delay > 0) {
+                await sleep(delay);
+            }
         }
         showMessage("【送礼】执行中...", "info");
     });

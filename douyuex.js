@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2020.12.29.02
+// @version      2021.01.07.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -35,6 +35,8 @@
 // @connect      bilibili.com
 // @connect      huya.com
 // @connect      jsdelivr.net
+// @connect      shadiao.app
+// @connect      fz996.com
 // ==/UserScript==
 function init() {
 	initPkg_Night_Set_Fast();
@@ -70,7 +72,7 @@ function initPkg_Timer() {
 }
 function initTimer() {
 	initPkg_Timer();
-	exTimer = setInterval(initPkg_Timer, 20000);
+	exTimer = setInterval(initPkg_Timer, 30000);
 }
 
 function initStyles() {
@@ -2235,7 +2237,8 @@ function ExpandTool_SendGift_insertDom() {
     let html = "";
     html += '<label>送礼：[用于打榜,例如送出999个飞机]</label><a style="margin-left:10px;color:blue;" href="http://open.douyucdn.cn/api/RoomApi/room/' + rid + '" target="_blank">礼物id示例</a><br />';
     html += '<label>礼物ID：</label><input id="extool__sendgift_id" type="text" style="width:50px;text-align:center;margin-right:10px;" value="20000" />';
-    html += '<label>数量：</label><input id="extool__sendgift_cnt" type="text" style="width:30px;text-align:center;" value="1" />';
+    html += '<label>数量：</label><input id="extool__sendgift_cnt" type="text" style="width:30px;text-align:center;margin-right:10px;" value="1" />';
+    html += '<label>间隔ms：</label><input id="extool__sendgift_delay" type="text" style="width:30px;text-align:center;" value="0" />';
     html += '<input style="width:40px;margin-left:10px;" type="button" id="extool__sendgift_btn" value="送出" />';
     let a = document.createElement("div");
     a.className = "extool__sendgift";
@@ -2245,12 +2248,13 @@ function ExpandTool_SendGift_insertDom() {
 }
 
 function ExpandTool_SendGift_insertFunc() {
-    document.getElementById("extool__sendgift_btn").addEventListener("click", function() {
+    document.getElementById("extool__sendgift_btn").addEventListener("click", async () => {
         if (confirm("确认送出？") != true) {
             return;
         }
         let gid = document.getElementById("extool__sendgift_id").value;
         let gcnt = document.getElementById("extool__sendgift_cnt").value;
+        let delay = Number(document.getElementById("extool__sendgift_delay").value);
         let t_num = 0;
         let t_price = 0;
         for (let i = 0; i < Number(gcnt); i++) {
@@ -2272,6 +2276,9 @@ function ExpandTool_SendGift_insertFunc() {
             }).catch(err => {
                 console.log("请求失败!", err);
             })
+            if (delay > 0) {
+                await sleep(delay);
+            }
         }
         showMessage("【送礼】执行中...", "info");
     });
@@ -5951,6 +5958,7 @@ function initPkg_RealAudience() {
 	initPkg_RealAudience_StyleHook();
 	initPkg_RealAudience_Dom();
 	initPkg_RealAudience_Func();
+	setAvatarVideo();
 	
 	fetch("https://www.douyu.com/swf_api/h5room/" + rid, {
 		method: 'GET',
@@ -5971,7 +5979,7 @@ function initPkg_RealAudience() {
 function initPkg_RealAudience_StyleHook() {
 	StyleHook_set("Ex_Style_RealAudience", `
     .VideoEntry{display:none !important;}
-    .layout-Player-rank{top:34px !important;}
+	.layout-Player-rank{top:34px !important;}
     `);
 }
 
@@ -6053,6 +6061,60 @@ function getRealViewer() {
 	})
 }
 
+function setAvatarVideo() {
+	// 1. 插入对应的dom
+	// 2. 绑定相应的函数
+	// 3. 拉高黑框
+	// 4. 对头像框鼠标移入移出事件绑定
+	let homeDom = document.querySelectorAll(".VideoEntry-tabItem>a")[0];
+	if (homeDom == undefined) {
+		return;
+	}
+	let videoUrl = homeDom.href + "?type=video";
+	let videoReplayUrl = homeDom.href + "?type=liveReplay";
+	
+	setAvatarVideo_Dom();
+	setAvatarVideo_Func(videoUrl, videoReplayUrl);
+	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "none";
+	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.height = "44px";
+
+	document.getElementsByClassName("Title-anchorPicBack")[0].addEventListener("mouseenter", () => {
+		document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "block";
+	});
+	document.getElementsByClassName("Title-anchorPicBack")[0].addEventListener("mouseleave", () => {
+		document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "none";
+	});
+}
+
+function setAvatarVideo_Dom() {
+	let a = document.createElement("div");
+	a.id = "Ex_VideoReview";
+	a.className = "Title-anchorPic-bottomItem";
+	a.innerHTML = "<span>回看</span>";
+
+	let a1 = document.createElement("i");
+	a1.style = "top: 28px";
+
+	let a2 = document.createElement("div");
+	a2.id = "Ex_VideoSubmit";
+	a2.className = "Title-anchorPic-bottomItem";
+	a2.innerHTML = "<span>投稿</span>";
+
+	let b = document.getElementsByClassName("Title-anchorPic-bottom")[0];
+	b.insertBefore(a, b.childNodes[0]);
+	b.insertBefore(a1, b.childNodes[0]);
+	b.insertBefore(a2, b.childNodes[0]);
+}
+
+function setAvatarVideo_Func(videoUrl, videoReplayUrl) {
+	document.getElementById("Ex_VideoSubmit").addEventListener("click", () => {
+		openPage(videoUrl, true);
+	})
+
+	document.getElementById("Ex_VideoReview").addEventListener("click", () => {
+		openPage(videoReplayUrl, true);
+	})
+}
 function initPkg_Refresh() {
 	initPkg_Refresh_BarrageFrame();
 	initPkg_Refresh_Video();
@@ -7107,7 +7169,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2020.12.29.02"
+var curVersion = "2021.01.07.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
