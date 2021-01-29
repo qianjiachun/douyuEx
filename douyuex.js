@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.01.07.01
+// @version      2021.01.29.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -37,6 +37,7 @@
 // @connect      jsdelivr.net
 // @connect      shadiao.app
 // @connect      fz996.com
+// @connect      toubang.tv
 // ==/UserScript==
 function init() {
 	initPkg_Night_Set_Fast();
@@ -1247,6 +1248,9 @@ function setBarragePanelCallBack() {
                     tmp[0].remove();
                 }
                 let barragePanel = document.getElementsByClassName("danmudiv-32f498")[0];
+                if (barragePanel == undefined) {
+                    return;
+                }
                 let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
                 
                 let id = "";
@@ -4953,6 +4957,7 @@ function setNightMode() {
     .FansRankBottom-invisible,.ChatRankWeek-invisibleContent{background:rgb(47,48,53) !important;}
     .Barrage-roomVip--super{border-top: 1px solid rgb(37,38,42)!important;border-bottom: 1px solid rgb(37,38,42)!important;background: rgb(37,38,42)!important;}
     .Barrage-userEnter--vip{background: rgb(37,38,42)!important;}
+    .ChatRankWeek-nobleInvisible{1px solid rgb(121,127,137) !important}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
@@ -5959,21 +5964,8 @@ function initPkg_RealAudience() {
 	initPkg_RealAudience_Dom();
 	initPkg_RealAudience_Func();
 	setAvatarVideo();
-	
-	fetch("https://www.douyu.com/swf_api/h5room/" + rid, {
-		method: 'GET',
-		mode: 'no-cors',
-		credentials: 'include'
-	}).then(res => {
-		return res.json();
-	}).then(retData => {
-		real_info.showtime = retData.data.show_time;
-		real_info.isShow = retData.data.show_status;
-		getRealViewer();
-		setInterval(getRealViewer, 30000);
-	}).catch(err => {
-		console.log("请求失败!", err);
-	})
+	getRealViewer();
+	setInterval(getRealViewer, 30000);
 }
 
 function initPkg_RealAudience_StyleHook() {
@@ -6018,47 +6010,33 @@ function getRealViewer() {
 	if(document.querySelector(".MatchSystemChatRoomEntry") != null){
 		document.querySelector(".MatchSystemChatRoomEntry").style.display = "none";
 	}
-	fetch("https://bojianger.com/data/api/common/search.do?keyword=" + rid,{
-		method: 'GET',
-	}).then(res => {
-		return res.json();
-	}).then(retData => {
-		let showedTime = 0;
-		if (real_info.isShow == 2) {
-			showedTime = 0;
-		} else {
-			if (real_info.showtime == 777) {
-				showedTime = 0;
-			} else {
-				showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
-			}
+	GM_xmlhttpRequest({
+		method: "GET",
+		url: "http://wx.toubang.tv/api/anchor/get/info?pt=1&rid=" + rid + "&dt=0&date=0",
+		responseType: "json",
+		onload: function(response) {
+			let retData = response.response;
+			console.log(retData);
+			let showedTime = retData.data.liveTime;
+			real_info.view = retData.data.avgInteractNum || 0;
+			real_info.danmu_person_count = retData.data.avgMsgUserNum || 0;
+			real_info.gift_person_count = retData.data.avgGiftUserNum || 0;
+			real_info.money_yc = Number(retData.data.giftWorth / 100 || 0).toFixed(2);
+			real_info.money_total = Number(retData.data.giftAllWorth / 100 || 0).toFixed(2);
+			
+			document.getElementById("real-audience__total").innerText = real_info.view;
+			document.getElementById("real-audience__t").title = "总人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count;
+			document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
+			// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
+			document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
+			document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
+			
+			document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
+			document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000"))));
+			
 		}
-		real_info.view = retData.data.anchorVo.audience_count;
-		real_info.danmu_person_count = retData.data.anchorVo.danmu_person_count;
-		real_info.gift_person_count = retData.data.anchorVo.gift_person_count;
-		real_info.money_yc = retData.data.anchorVo.gift_new_yc;
-		if (real_info.money_yc == "undefined" || real_info.money_yc == undefined) {
-			real_info.money_yc = 0;
-			real_info.money_bag = 0;
-			real_info.money_total = 0;
-		} else {
-			real_info.money_bag = retData.data.anchorVo.gift_new_bag;
-			real_info.money_total = retData.data.anchorVo.yc_gift_value;
-		}
-		
-		document.getElementById("real-audience__total").innerText = real_info.view;
-		document.getElementById("real-audience__t").title = "总人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count;
-		document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
-		// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
-		document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
-		document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc + " 背包礼物:" + real_info.money_bag;
-		
-		document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
-		document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000"))));
-		
-	}).catch(err => {
-		console.log("请求失败!", err);
-	})
+	});
+	
 }
 
 function setAvatarVideo() {
@@ -6365,7 +6343,7 @@ function initPkg_RemoveAD() {
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .CloudGameLink,.RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;}
+    #js-bottom-right-cloudGame,.CloudGameLink,.RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;}
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
@@ -7169,7 +7147,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.01.07.01"
+var curVersion = "2021.01.29.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

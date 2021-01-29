@@ -45,6 +45,9 @@ function setBarragePanelCallBack() {
                     tmp[0].remove();
                 }
                 let barragePanel = document.getElementsByClassName("danmudiv-32f498")[0];
+                if (barragePanel == undefined) {
+                    return;
+                }
                 let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
                 
                 let id = "";

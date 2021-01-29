@@ -14,21 +14,8 @@ function initPkg_RealAudience() {
 	initPkg_RealAudience_Dom();
 	initPkg_RealAudience_Func();
 	setAvatarVideo();
-	
-	fetch("https://www.douyu.com/swf_api/h5room/" + rid, {
-		method: 'GET',
-		mode: 'no-cors',
-		credentials: 'include'
-	}).then(res => {
-		return res.json();
-	}).then(retData => {
-		real_info.showtime = retData.data.show_time;
-		real_info.isShow = retData.data.show_status;
-		getRealViewer();
-		setInterval(getRealViewer, 30000);
-	}).catch(err => {
-		console.log("请求失败!", err);
-	})
+	getRealViewer();
+	setInterval(getRealViewer, 30000);
 }
 
 function initPkg_RealAudience_StyleHook() {
@@ -73,47 +60,33 @@ function getRealViewer() {
 	if(document.querySelector(".MatchSystemChatRoomEntry") != null){
 		document.querySelector(".MatchSystemChatRoomEntry").style.display = "none";
 	}
-	fetch("https://bojianger.com/data/api/common/search.do?keyword=" + rid,{
-		method: 'GET',
-	}).then(res => {
-		return res.json();
-	}).then(retData => {
-		let showedTime = 0;
-		if (real_info.isShow == 2) {
-			showedTime = 0;
-		} else {
-			if (real_info.showtime == 777) {
-				showedTime = 0;
-			} else {
-				showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
-			}
+	GM_xmlhttpRequest({
+		method: "GET",
+		url: "http://wx.toubang.tv/api/anchor/get/info?pt=1&rid=" + rid + "&dt=0&date=0",
+		responseType: "json",
+		onload: function(response) {
+			let retData = response.response;
+			console.log(retData);
+			let showedTime = retData.data.liveTime;
+			real_info.view = retData.data.avgInteractNum || 0;
+			real_info.danmu_person_count = retData.data.avgMsgUserNum || 0;
+			real_info.gift_person_count = retData.data.avgGiftUserNum || 0;
+			real_info.money_yc = Number(retData.data.giftWorth / 100 || 0).toFixed(2);
+			real_info.money_total = Number(retData.data.giftAllWorth / 100 || 0).toFixed(2);
+			
+			document.getElementById("real-audience__total").innerText = real_info.view;
+			document.getElementById("real-audience__t").title = "总人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count;
+			document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
+			// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
+			document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
+			document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
+			
+			document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
+			document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000"))));
+			
 		}
-		real_info.view = retData.data.anchorVo.audience_count;
-		real_info.danmu_person_count = retData.data.anchorVo.danmu_person_count;
-		real_info.gift_person_count = retData.data.anchorVo.gift_person_count;
-		real_info.money_yc = retData.data.anchorVo.gift_new_yc;
-		if (real_info.money_yc == "undefined" || real_info.money_yc == undefined) {
-			real_info.money_yc = 0;
-			real_info.money_bag = 0;
-			real_info.money_total = 0;
-		} else {
-			real_info.money_bag = retData.data.anchorVo.gift_new_bag;
-			real_info.money_total = retData.data.anchorVo.yc_gift_value;
-		}
-		
-		document.getElementById("real-audience__total").innerText = real_info.view;
-		document.getElementById("real-audience__t").title = "总人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count;
-		document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
-		// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
-		document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
-		document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc + " 背包礼物:" + real_info.money_bag;
-		
-		document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
-		document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000"))));
-		
-	}).catch(err => {
-		console.log("请求失败!", err);
-	})
+	});
+	
 }
 
 function setAvatarVideo() {
