@@ -15,7 +15,21 @@ function initPkg_RealAudience() {
 	initPkg_RealAudience_Func();
 	setAvatarVideo();
 	getRealViewer();
-	setInterval(getRealViewer, 30000);
+
+	fetch("https://www.douyu.com/swf_api/h5room/" + rid, {
+		method: 'GET',
+		mode: 'no-cors',
+		credentials: 'include'
+	}).then(res => {
+		return res.json();
+	}).then(retData => {
+		real_info.showtime = retData.data.show_time;
+		real_info.isShow = retData.data.show_status;
+		getRealViewer();
+		setInterval(getRealViewer, 30000);
+	}).catch(err => {
+		console.log("请求失败!", err);
+	})
 }
 
 function initPkg_RealAudience_StyleHook() {
