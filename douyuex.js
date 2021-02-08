@@ -52,6 +52,7 @@ function initPkg() {
 	initPkg_CopyRealLive();
 	initPkg_RemoveAD();
 	initPkg_BagInfo();
+    initPkg_FollowList();
 	initPkg_Update();
 	initPkg_MiniProgram();
 	initPkg_PopupPlayer();
@@ -66,7 +67,6 @@ function initPkg() {
 	initPkg_Sign();
 	initPkg_BarragePanel();
 	initPkg_AdVideo();
-    initPkg_FollowList();
 }
 function initPkg_Timer() {
 	initPkg_FishPond_Timer();
