@@ -80,8 +80,17 @@ function getRealViewer() {
 		responseType: "json",
 		onload: function(response) {
 			let retData = response.response;
-			console.log(retData);
-			let showedTime = retData.data.liveTime;
+			
+			let showedTime = 0;
+			if (real_info.isShow == 2) {
+				showedTime = 0;
+			} else {
+				if (real_info.showtime == 777) {
+					showedTime = 0;
+				} else {
+					showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
+				}
+			}
 			real_info.view = retData.data.avgInteractNum || 0;
 			real_info.danmu_person_count = retData.data.avgMsgUserNum || 0;
 			real_info.gift_person_count = retData.data.avgGiftUserNum || 0;
