@@ -1,3 +1,21 @@
+function doSign(alias) {
+    return new Promise(resolve => {
+        fetch('https://www.douyu.com/japi/carnival/nc/hostSnowSign/doSign',{
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `actAlias=${alias}&token=${dyToken}&ctn=${getCCN()}`
+        }).then(res => {
+            return res.json();
+        }).then(ret => {
+            resolve(ret);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    })
+}
+
 function signAct(alias) {
     return new Promise(resolve => {
         fetch("https://www.douyu.com/japi/carnival/nc/signAct/signIn", {
