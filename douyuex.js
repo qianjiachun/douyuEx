@@ -6623,7 +6623,7 @@ async function getAct() {
                 case "shareAct":
                     await shareAct(value);
                     break;
-                case "shareAct":
+                case "doSign":
                     await doSign(value);
                     break;
                 case "getActRemaining":
@@ -7174,7 +7174,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.02.10.01"
+var curVersion = "2021.02.10.02"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
