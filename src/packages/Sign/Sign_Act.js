@@ -55,7 +55,7 @@ async function getAct() {
                 case "shareAct":
                     await shareAct(value);
                     break;
-                case "shareAct":
+                case "doSign":
                     await doSign(value);
                     break;
                 case "getActRemaining":

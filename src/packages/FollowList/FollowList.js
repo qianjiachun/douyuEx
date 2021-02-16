@@ -14,11 +14,12 @@ function handleFollowList(m) {
     if (active == "特别关注") {
         return;
     }
-    let panel = document.getElementsByClassName("Header-follow-listBox");
+    let panel = document.getElementsByClassName("Header-follow-listWrap");
     if (panel.length == 0) {
         return;
     }
-    
+    panel[0].style.marginTop = "12px";
+    document.getElementsByClassName("Header-follow-listBox")[0].style.display = "none";
     setNewFollowList(panel[0]);
 }
 async function setNewFollowList(panel) {
@@ -42,7 +43,7 @@ async function setNewFollowList(panel) {
             break;
         }
     }
-    panel.innerHTML = html;
+    panel.innerHTML += html;
 
 
     let followListItems = document.getElementsByClassName("ExFollowListItem");
