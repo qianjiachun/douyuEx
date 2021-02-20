@@ -23,12 +23,12 @@ class Ex_WebSocket_UnLogin {
             this.ws.onmessage = (e) => { 
                 let reader = new FileReader();
                 reader.onload = () => {
-                    let arr = String(reader.result).split("type@="); // 分包
+                    let arr = String(reader.result).split("\0"); // 分包
                     reader = null;
                     for (let i = 0; i < arr.length; i++) {
                         if (arr[i].length > 12) {
                             // 过滤第一条和心跳包
-                            callback("type@=" + arr[i]);
+                            callback(arr[i]);
                         }
                     }
                 };

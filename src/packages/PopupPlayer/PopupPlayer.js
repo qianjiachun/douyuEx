@@ -187,7 +187,7 @@ function setElementDrag(id) {
 
 // Douyu
 function createNewVideo_Douyu(id, rid) {
-    getRealLive_Douyu(rid, true, "1", (lurl) => {
+    getRealLive_Douyu(rid, true, true, "1", (lurl) => {
         if (lurl != "" || lurl != null) {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
@@ -252,13 +252,13 @@ function setElementFunc_Douyu(id, rid) {
     let exVideoCDN = document.getElementById("exVideoCDN" + String(id));
     let exVideoClose = document.getElementById("exVideoClose" + String(id));
     exVideoQn.onchange = function() {
-        getRealLive_Douyu(rid, true, exVideoQn.value, (lurl) => {
+        getRealLive_Douyu(rid, true, true, exVideoQn.value, (lurl) => {
             videoPlayerArr[id].destroy();
             setElementVideo(id, lurl);
         })
     }
     exVideoCDN.onchange = function() {
-        getRealLive_Douyu(rid, true, exVideoQn.value, (lurl) => {
+        getRealLive_Douyu(rid, true, true, exVideoQn.value, (lurl) => {
 			videoPlayerArr[id].destroy();
             setElementVideo(id, lurl);
         })
@@ -269,11 +269,47 @@ function setElementFunc_Douyu(id, rid) {
 
     let exVideoRID = document.getElementById("exVideoRID" + String(id));
     exVideoRID.onclick = function() {
-        getRealLive_Douyu(rid, true, exVideoQn.value, (lurl) => {
+        getRealLive_Douyu(rid, true, true, exVideoQn.value, (lurl) => {
             GM_setClipboard(String(lurl).replace("https", "http"));
             showMessage("复制成功", "success");
         })
     }
+}
+
+function createNewAudio_Douyu(id, rid) {
+    getRealLive_Douyu(rid, false, true, "1", (lurl) => {
+        console.log(lurl);
+        if (lurl != "" || lurl != null) {
+            if (lurl == "None") {
+                showMessage("房间未开播或其他错误", "error");
+                return;
+            }
+            let lurl_host_arr = String(lurl).split("/live");
+            let lurl_host = "";
+            if (lurl_host_arr.length > 0) {
+                lurl_host = lurl_host_arr[0];
+            }
+            let a = document.createElement("div");
+            let html = "";
+            a.id = "exVideoDiv" + String(id);
+            a.rid = rid;
+            a.className = "exVideoDiv";
+            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制音频流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span></a>";
+            html += "<select style='display:none' class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='0'>蓝光</option></select>";
+            html += "<select style='display:none' class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路5</option><option value='3'>备用线路6</option></select>";
+            html += "<a style='margin-left:5px' href='" + lurl_host + "' target='_blank'>无视频？</a>";
+            html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>";
+            html += "</div>";
+            html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
+            a.innerHTML = html;
+            let b = document.getElementsByClassName("layout-Main")[0];
+            b.insertBefore(a, b.childNodes[0]);
+            setElementDrag(id);
+            setElementResize(id);
+            setElementFunc_Douyu(id, rid);
+            setElementVideo(id, lurl);
+        }
+    });
 }
 
 

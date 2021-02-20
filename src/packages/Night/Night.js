@@ -160,6 +160,7 @@ function setNightMode() {
     .Barrage-roomVip--super{border-top: 1px solid rgb(37,38,42)!important;border-bottom: 1px solid rgb(37,38,42)!important;background: rgb(37,38,42)!important;}
     .Barrage-userEnter--vip{background: rgb(37,38,42)!important;}
     .ChatRankWeek-nobleInvisible{1px solid rgb(121,127,137) !important}
+    #refresh-video2-svg{fill:#ffffff !important}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
