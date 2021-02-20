@@ -5778,7 +5778,7 @@ function createNewAudio_Douyu(id, rid) {
             html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制音频流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span></a>";
             html += "<select style='display:none' class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='0'>蓝光</option></select>";
             html += "<select style='display:none' class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路5</option><option value='3'>备用线路6</option></select>";
-            html += "<a style='margin-left:5px' href='" + lurl_host + "' target='_blank'>无视频？</a>";
+            html += "<a style='margin-left:5px;display:none' href='" + lurl_host + "' target='_blank'>无视频？</a>";
             html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>";
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
@@ -6379,7 +6379,6 @@ function Refresh_Video_insertIcon() {
     let b = document.getElementsByClassName("right-e7ea5d")[0];
     b.insertBefore(a, b.childNodes[0]);
 
-    // PlayerToolbar-Content
     a = document.createElement("div");
     a.id = "refresh-video2";
     a.title = "视频区简洁模式";
@@ -6403,7 +6402,6 @@ function initPkg_Refresh_Video_Func() {
             dom_video.style = "bottom:0;z-index:25";
             dom_refresh2.style.display = "block";
             refresh_Video_setStyle();
-
         }
         saveData_Refresh();
     });
@@ -6421,7 +6419,6 @@ function initPkg_Refresh_Video_Func() {
             dom_video.style = "bottom:0;z-index:25";
             dom_refresh2.style.display = "block";
             refresh_Video_setStyle();
-
         }
         saveData_Refresh();
     });
