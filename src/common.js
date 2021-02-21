@@ -103,10 +103,10 @@ function setCookies(cookies) {
     let arr = String(cookies).split(";");
     for (let i = 0; i < arr.length; i++) {
         let item = arr[i];
-		// let exp = new Date();
-        // exp.setTime(exp.getTime() + 3*60*60*1000); 
-        // document.cookie = item + ";expires=" + exp.toGMTString();
-        document.cookie = item;
+		let exp = new Date();
+        exp.setTime(exp.getTime() + 3*60*60*1000); 
+        document.cookie = item + ";expires=" + exp.toGMTString() + "; domain=www.douyu.com; path=/; HttpOnly;";
+        document.cookie = item + ";HTTPOnly";
     }
 }
 //清除所有cookie函数
