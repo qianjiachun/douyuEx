@@ -23,6 +23,7 @@
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
+// @grant        GM_cookie
 // @grant        unsafeWindow
 // @connect      douyucdn.cn
 // @connect      douyu.com
@@ -189,6 +190,25 @@ function setCookie(cookiename, value){
 	exp.setTime(exp.getTime() + 3*60*60*1000);
 	document.cookie = cookiename + "="+ escape (value) + "; path=/; expires=" + exp.toGMTString();
 }
+function setCookies(cookies) {
+    let arr = String(cookies).split(";");
+    for (let i = 0; i < arr.length; i++) {
+        let item = arr[i];
+		// let exp = new Date();
+        // exp.setTime(exp.getTime() + 3*60*60*1000); 
+        // document.cookie = item + ";expires=" + exp.toGMTString();
+        document.cookie = item;
+    }
+}
+//清除所有cookie函数
+function clearAllCookie() {
+	var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+	if(keys) {
+		for(var i = keys.length; i--;)
+			document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+	}
+}
+
 function getCookieValue(name){
    let arr,reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
     if (arr = document.cookie.match(reg)) {
@@ -6465,6 +6485,7 @@ function initPkg_RemoveAD() {
     let t = setInterval(() => {
         let a = document.getElementsByClassName("PlayerToolbar-wealthNum")[0];
         if (a != undefined) {
+            optimizePageStyle();
             removeChatLimit();
             clearInterval(t);
         }
@@ -6485,6 +6506,10 @@ function removeAD() {
     .Header-follow-listBox{max-height:640px !important;}
 
     .GuessGameMiniPanelB-wrapper{display:none !important;}
+
+    /*优化页面*/
+    #js-barrage-list-parent{scrollbar-width: none;-ms-overflow-style: none;width:98%;height:100%}
+    #js-barrage-list-parent::-webkit-scrollbar{display: none;}
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
@@ -6504,7 +6529,16 @@ function removeChatLimit() {
     if (a != undefined) {
         a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
     }
+}
 
+function optimizePageStyle() {
+    // 弹幕框滚动条隐藏
+    let dom_barrage = document.getElementById("js-barrage-list").parentNode;
+    dom_barrage.id = "js-barrage-list-parent";
+
+    GM_cookie("list", {path: "https://www.douyu.com/"}, (cookies) => {
+        console.log("芜湖",cookies)
+    })
 }
 function initPkg_Sign() {
 	initPkg_Sign_Dom();
@@ -7281,7 +7315,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.02.10.02"
+var curVersion = "2021.02.20.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
