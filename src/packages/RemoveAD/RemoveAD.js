@@ -53,7 +53,7 @@ function optimizePageStyle() {
     let dom_barrage = document.getElementById("js-barrage-list").parentNode;
     dom_barrage.id = "js-barrage-list-parent";
 
-    GM_cookie("list", {path: "https://www.douyu.com/"}, (cookies) => {
+    GM_cookie("list", {path: "/"}, (cookies) => {
         console.log("芜湖",cookies)
     })
 }
