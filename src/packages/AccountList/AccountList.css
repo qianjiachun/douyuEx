@@ -1,0 +1,15 @@
+#ex-accountList-wrap {
+    left: -152px;
+    top: -16px;
+}
+
+.ex-accountList-item {
+    padding: 10px;
+    text-align: center;
+    /* border-radius: 10px; */
+    margin-bottom: 10px;
+}
+
+.ex-accountList-item:hover {
+    background: rgb(244,244,244);
+}

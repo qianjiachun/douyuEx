@@ -1,13 +1,15 @@
 function initRouter(href) {
-    if (String(href).indexOf("msg.douyu.com") != -1) {
+    if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun")) {
+        initRouter_Passport();
+	} else if (String(href).indexOf("msg.douyu.com") != -1) {
         initRouter_Motorcade();
-	} else {
+    } else {
         if (String(href).indexOf("exid=chun") != -1) {
             initRouter_DouyuRoom_Popup();
         } else {
             initRouter_DouyuRoom_Main();
         }
-	}
+    }
 }
 
 function initRouter_Motorcade() {
@@ -56,3 +58,25 @@ function initPkgSpecial() {
 // function initRouter_Novel() {
 //     startWatchNovel();
 // }
+
+
+function initRouter_Passport() {
+    let lock = 0;
+    GM_cookie("list", {
+        path: "/"
+    }, (cookies) => {
+        if (cookies) {
+            for (let i = 0; i < cookies.length; i++) {
+                GM_cookie("delete", {
+                    name: cookies[i]["name"]
+                }, function (error) {
+                    console.log(error || "del " + cookies[i]["name"]);
+                    lock++;
+                    if (lock >= cookies.length){
+                    }
+                });
+            }
+        } else {
+        }
+    });
+}
