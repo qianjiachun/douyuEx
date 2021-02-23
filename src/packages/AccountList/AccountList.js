@@ -1,5 +1,5 @@
 let svg_accountList = `<svg t="1613993967937" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2122" width="16" height="16"><path d="M217.472 311.808l384.64 384.64-90.432 90.56-384.64-384.64z" fill="#8A8A8A" p-id="2123"></path><path d="M896.32 401.984l-384.64 384.64-90.56-90.496 384.64-384.64z" fill="#8A8A8A" p-id="2124"></path></svg>`
-
+let cleanOverTimes = 0; // 用于判断是否全部清空并跳转
 function initPkg_AccountList() {
     // GM_deleteValue("Ex_accountList");
     // GM_deleteValue("Ex_accountListPassport");
@@ -20,6 +20,7 @@ function AccountList_insertIcon() {
         <div id="ex-accountList-wrap" class="public-DropMenu-drop">
             <div class="public-DropMenu-drop-main">
                 <div id="ex-accountList-iframe"></div>
+                <div id="ex-accountList-iframe2"></div>
                 <div id="ex-accountList-content" style="width: 300px;font-size: 14px;padding: 10px;">
                 </div>
             </div>
@@ -41,7 +42,25 @@ function initPkg_AccountList_Func() {
     unsafeWindow.addEventListener("message", (event) => {
         switch (event.data) {
             case "cleanOver":
-                window.location.reload();
+                cleanOverTimes++;
+                if (cleanOverTimes >= 3) {
+                    cleanOverTimes = 0;
+                    window.location.reload();
+                }
+                break;
+            case "msgCleanOver":
+                cleanOverTimes++;
+                if (cleanOverTimes >= 3) {
+                    cleanOverTimes = 0;
+                    window.location.reload();
+                }
+                break;
+            case "yubaCleanOver":
+                cleanOverTimes++;
+                if (cleanOverTimes >= 3) {
+                    cleanOverTimes = 0;
+                    window.location.reload();
+                }
                 break;
             case "cmdOver":
                 window.location.reload();
@@ -70,6 +89,7 @@ function renderAccountList(obj) {
         let uid = item.getAttribute("uid");
         item.addEventListener("click", () => {
             switchAccount(uid, () => {});
+            setYubaAndMsgClean();
             setPassportCmd("switch", uid);
         })
         item.getElementsByClassName("ex-accountList-item__btn")[0].addEventListener("click", (e) => {
@@ -311,7 +331,16 @@ function cleanCookie(callback) {
 }
 
 function setPassportCmd(cmd, uid) {
-    document.getElementById("ex-accountList-iframe").innerHTML = `<iframe id="login-passport-frame" width="100%" height="100%" scrolling="no" frameborder="0" src="https://passport.douyu.com/index/login?passport_reg_callback=PASSPORT_REG_SUCCESS_CALLBACK&exid=chun&cmd=${cmd}&uid=${uid}&domain=${encodeURIComponent(window.location.href)}&"></iframe>`;
+    document.getElementById("ex-accountList-iframe").innerHTML = `
+    <iframe id="login-passport-frame" width="100%" height="100%" scrolling="no" frameborder="0" src="https://passport.douyu.com/index/login?passport_reg_callback=PASSPORT_REG_SUCCESS_CALLBACK&exid=chun&cmd=${cmd}&uid=${uid}&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    `;
+}
+
+function setYubaAndMsgClean() {
+    document.getElementById("ex-accountList-iframe2").innerHTML = `
+    <iframe id="ex-yuba-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://yuba.douyu.com/iframe/tab/0?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    <iframe id="ex-msg-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://msg.douyu.com/web/index.html?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    `
 }
 
 function deleteAccount(uid, callback) {

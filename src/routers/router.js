@@ -2,7 +2,13 @@ function initRouter(href) {
     if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun") != -1) {
         initRouter_Passport();
 	} else if (String(href).indexOf("msg.douyu.com") != -1) {
-        initRouter_Motorcade();
+        if (href.indexOf("?exClean") != -1) {
+            initRouter_CleanMsg();
+        } else {
+            initRouter_Motorcade();
+        }
+    } else if (String(href).indexOf("yuba.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
+        initRouter_CleanYuba();
     } else {
         if (String(href).indexOf("exid=chun") != -1) {
             initRouter_DouyuRoom_Popup();
@@ -90,4 +96,18 @@ function initRouter_Passport() {
             break;
     }
     return;
+}
+
+function initRouter_CleanMsg() {
+    let domain = getStrMiddle(window.location.href, "domain=", "&");
+    cleanCookie(() => {
+        window.parent.postMessage("msgCleanOver", decodeURIComponent(domain));
+    });
+}
+
+function initRouter_CleanYuba() {
+    let domain = getStrMiddle(window.location.href, "domain=", "&");
+    cleanCookie(() => {
+        window.parent.postMessage("yubaCleanOver", decodeURIComponent(domain));
+    });
 }

@@ -17,6 +17,9 @@
 #ex-accountList-iframe {
     display: none;
 }
+#ex-accountList-iframe2 {
+    display: none;
+}
 
 #ex-accountList-item-add {
     padding: 10px;
