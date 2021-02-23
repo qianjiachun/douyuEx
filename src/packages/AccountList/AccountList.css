@@ -5,11 +5,57 @@
 
 .ex-accountList-item {
     padding: 10px;
-    text-align: center;
-    /* border-radius: 10px; */
     margin-bottom: 10px;
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+}
+.ex-accountList-item:hover {
+    background-color: rgb(244,244,244);
 }
 
-.ex-accountList-item:hover {
-    background: rgb(244,244,244);
+#ex-accountList-iframe {
+    display: none;
+}
+
+#ex-accountList-item-add {
+    padding: 10px;
+    text-align: center;
+    margin-bottom:0px;
+    border-radius: 10px;
+}
+
+#ex-accountList-item-add:hover {
+    background-color: rgb(244,244,244);
+}
+
+.ex-accountList-item__imgWrap {
+    flex: 0 0 25%;
+}
+
+.ex-accountList-item__img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.ex-accountList-item__name {
+    line-height: 50px;
+    flex: 0 0 55%;
+}
+
+.ex-accountList-item__btn {
+    height: 30px;
+    width: 50px;
+    border-radius: 10px;
+    align-items: center;
+    flex: auto;
+    text-align: center;
+    line-height: 28px;
+    color: white;
+    background-color: rgb(245,108,108);
+}
+
+.ex-accountList-item__btn:hover {
+    background-color: rgb(247,137,137);
 }

@@ -99,24 +99,6 @@ function setCookie(cookiename, value){
 	exp.setTime(exp.getTime() + 3*60*60*1000);
 	document.cookie = cookiename + "="+ escape (value) + "; path=/; expires=" + exp.toGMTString();
 }
-function setCookies(cookies) {
-    let arr = String(cookies).split(";");
-    for (let i = 0; i < arr.length; i++) {
-        let item = arr[i];
-		let exp = new Date();
-        exp.setTime(exp.getTime() + 3*60*60*1000); 
-        document.cookie = item + ";expires=" + exp.toGMTString() + "; domain=www.douyu.com; path=/; HttpOnly;";
-        document.cookie = item + ";HTTPOnly";
-    }
-}
-//清除所有cookie函数
-function clearAllCookie() {
-	var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-	if(keys) {
-		for(var i = keys.length; i--;)
-			document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
-	}
-}
 
 function getCookieValue(name){
    let arr,reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");

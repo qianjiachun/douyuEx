@@ -1,5 +1,5 @@
 function initRouter(href) {
-    if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun")) {
+    if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun") != -1) {
         initRouter_Passport();
 	} else if (String(href).indexOf("msg.douyu.com") != -1) {
         initRouter_Motorcade();
@@ -61,22 +61,33 @@ function initPkgSpecial() {
 
 
 function initRouter_Passport() {
-    let lock = 0;
-    GM_cookie("list", {
-        path: "/"
-    }, (cookies) => {
-        if (cookies) {
-            for (let i = 0; i < cookies.length; i++) {
-                GM_cookie("delete", {
-                    name: cookies[i]["name"]
-                }, function (error) {
-                    console.log(error || "del " + cookies[i]["name"]);
-                    lock++;
-                    if (lock >= cookies.length){
-                    }
-                });
-            }
-        } else {
-        }
-    });
+    let cmd = getStrMiddle(window.location.href, "cmd=", "&");
+    let uid = getStrMiddle(window.location.href, "uid=", "&");
+    let domain = getStrMiddle(window.location.href, "domain=", "&");
+    if (cmd !== "clean") {
+        addAccountPassport(uid);
+    }
+    switch (cmd) {
+        case "clean":
+            // 清空cookie，用于重新登录
+            cleanCookie(() => {
+                window.parent.postMessage("cleanOver", decodeURIComponent(domain));
+            });
+            break;
+        case "switch":
+            // 切换用户
+            switchAccountPassport(uid, () => {
+                window.parent.postMessage("cmdOver", decodeURIComponent(domain));
+            });
+            break;
+        case "delete":
+            // 删除用户
+            deleteAccountPassport(uid, () => {
+                window.parent.postMessage("deleteOver", decodeURIComponent(domain));
+            });
+            break;
+        default:
+            break;
+    }
+    return;
 }
