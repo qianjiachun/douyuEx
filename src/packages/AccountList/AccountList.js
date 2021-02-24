@@ -52,7 +52,7 @@ function initPkg_AccountList_Func() {
                 if (cleanOverTimes >= 3) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
-                        // window.location.reload();
+                        window.location.reload();
                     }, 50);
                 }
                 break;
@@ -62,7 +62,7 @@ function initPkg_AccountList_Func() {
                 if (cleanOverTimes >= 3) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
-                        // window.location.reload();
+                        window.location.reload();
                     }, 50);
                 }
                 break;
@@ -72,7 +72,7 @@ function initPkg_AccountList_Func() {
                 if (cleanOverTimes >= 3) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
-                        // window.location.reload();
+                        window.location.reload();
                     }, 50);
                 }
                 break;
