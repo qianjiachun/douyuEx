@@ -42,28 +42,39 @@ function initPkg_AccountList_Func() {
     unsafeWindow.addEventListener("message", (event) => {
         switch (event.data) {
             case "cleanOver":
-                cleanOverTimes++;
-                if (cleanOverTimes >= 3) {
-                    cleanOverTimes = 0;
+                setTimeout(() => {
                     window.location.reload();
-                }
+                }, 50);
                 break;
             case "msgCleanOver":
                 cleanOverTimes++;
+                console.log(cleanOverTimes);
                 if (cleanOverTimes >= 3) {
                     cleanOverTimes = 0;
-                    window.location.reload();
+                    setTimeout(() => {
+                        // window.location.reload();
+                    }, 50);
                 }
                 break;
             case "yubaCleanOver":
                 cleanOverTimes++;
+                console.log(cleanOverTimes);
                 if (cleanOverTimes >= 3) {
                     cleanOverTimes = 0;
-                    window.location.reload();
+                    setTimeout(() => {
+                        // window.location.reload();
+                    }, 50);
                 }
                 break;
-            case "cmdOver":
-                window.location.reload();
+            case "switchOver":
+                cleanOverTimes++;
+                console.log(cleanOverTimes);
+                if (cleanOverTimes >= 3) {
+                    cleanOverTimes = 0;
+                    setTimeout(() => {
+                        // window.location.reload();
+                    }, 50);
+                }
                 break;
             case "deleteOver":
                 renderAccountList();
@@ -338,7 +349,7 @@ function setPassportCmd(cmd, uid) {
 
 function setYubaAndMsgClean() {
     document.getElementById("ex-accountList-iframe2").innerHTML = `
-    <iframe id="ex-yuba-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://yuba.douyu.com/iframe/tab/0?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    <iframe id="ex-yuba-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://yuba.douyu.com/iframe/tab/6416853?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     <iframe id="ex-msg-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://msg.douyu.com/web/index.html?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     `
 }

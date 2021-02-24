@@ -83,7 +83,7 @@ function initRouter_Passport() {
         case "switch":
             // 切换用户
             switchAccountPassport(uid, () => {
-                window.parent.postMessage("cmdOver", decodeURIComponent(domain));
+                window.parent.postMessage("switchOver", decodeURIComponent(domain));
             });
             break;
         case "delete":
