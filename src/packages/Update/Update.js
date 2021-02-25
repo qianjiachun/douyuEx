@@ -1,7 +1,7 @@
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.02.23.03"
+var curVersion = "2021.02.25.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -19,7 +19,6 @@ function Update_insertIcon() {
 	
 	let b = document.getElementsByClassName("ex-panel__wrap")[0];
 	b.insertBefore(a, b.childNodes[0]);
-	
 }
 
 function initPkg_Update_Func() {

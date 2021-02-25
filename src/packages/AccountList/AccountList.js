@@ -48,7 +48,6 @@ function initPkg_AccountList_Func() {
                 break;
             case "msgCleanOver":
                 cleanOverTimes++;
-                console.log(cleanOverTimes);
                 if (cleanOverTimes >= 3) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
@@ -58,7 +57,6 @@ function initPkg_AccountList_Func() {
                 break;
             case "yubaCleanOver":
                 cleanOverTimes++;
-                console.log(cleanOverTimes);
                 if (cleanOverTimes >= 3) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
@@ -68,7 +66,6 @@ function initPkg_AccountList_Func() {
                 break;
             case "switchOver":
                 cleanOverTimes++;
-                console.log(cleanOverTimes);
                 if (cleanOverTimes >= 3) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
@@ -100,8 +97,8 @@ function renderAccountList(obj) {
         let uid = item.getAttribute("uid");
         item.addEventListener("click", () => {
             switchAccount(uid, () => {});
-            setYubaAndMsgClean();
             setPassportCmd("switch", uid);
+            setYubaAndMsgClean();
         })
         item.getElementsByClassName("ex-accountList-item__btn")[0].addEventListener("click", (e) => {
             e.stopPropagation();
@@ -329,6 +326,7 @@ function cleanCookie(callback) {
                 GM_cookie("delete", {
                     name: cookies[i]["name"]
                 }, function (error) {
+                    console.log(cookies[i]['domain'], cookies[i]["name"], error)
                     lock++;
                     if (lock >= cookies.length){
                         callback();

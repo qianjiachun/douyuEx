@@ -1,11 +1,18 @@
 #ex-accountList-wrap {
     left: -152px;
     top: -16px;
+    /* max-height: 330px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; */
 }
+
+/* #ex-accountList-wrap::-webkit-scrollbar {
+    display: none;
+} */
 
 .ex-accountList-item {
     padding: 10px;
-    margin-bottom: 10px;
     display: flex;
     border-radius: 10px;
     align-items: center;
