@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.02.25.01
+// @version      2021.02.25.02
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -20,6 +20,7 @@
 // @match        *://passport.douyu.com/*
 // @match        *://msg.douyu.com/*
 // @match        *://yuba.douyu.com/*
+// @match        *://v.douyu.com/*
 // @require      https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js
 // @require      https://cdn.jsdelivr.net/npm/svgaplayerweb@2.3.1/build/svga.min.js
 // @grant        GM_openInTab
@@ -389,7 +390,7 @@ function initPkg_AccountList_Func() {
                 break;
             case "msgCleanOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 3) {
+                if (cleanOverTimes >= 4) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -398,7 +399,16 @@ function initPkg_AccountList_Func() {
                 break;
             case "yubaCleanOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 3) {
+                if (cleanOverTimes >= 4) {
+                    cleanOverTimes = 0;
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 50);
+                }
+                break;
+            case "videoCleanOver":
+                cleanOverTimes++;
+                if (cleanOverTimes >= 4) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -407,7 +417,7 @@ function initPkg_AccountList_Func() {
                 break;
             case "switchOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 3) {
+                if (cleanOverTimes >= 4) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -439,7 +449,7 @@ function renderAccountList(obj) {
         item.addEventListener("click", () => {
             switchAccount(uid, () => {});
             setPassportCmd("switch", uid);
-            setYubaAndMsgClean();
+            setYubaAndMsgAndVideoClean();
         })
         item.getElementsByClassName("ex-accountList-item__btn")[0].addEventListener("click", (e) => {
             e.stopPropagation();
@@ -686,10 +696,11 @@ function setPassportCmd(cmd, uid) {
     `;
 }
 
-function setYubaAndMsgClean() {
+function setYubaAndMsgAndVideoClean() {
     document.getElementById("ex-accountList-iframe2").innerHTML = `
     <iframe id="ex-yuba-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://yuba.douyu.com/iframe/tab/6416853?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     <iframe id="ex-msg-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://msg.douyu.com/web/index.html?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    <iframe id="ex-video-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://v.douyu.com/show/0?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     `
 }
 
@@ -7667,7 +7678,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.02.25.01"
+var curVersion = "2021.02.25.02"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
@@ -9174,6 +9185,8 @@ function initRouter(href) {
         }
     } else if (String(href).indexOf("yuba.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
         initRouter_CleanYuba();
+    } else if (String(href).indexOf("v.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
+        initRouter_CleanVideo();
     } else {
         if (String(href).indexOf("exid=chun") != -1) {
             initRouter_DouyuRoom_Popup();
@@ -9274,6 +9287,13 @@ function initRouter_CleanYuba() {
     let domain = getStrMiddle(window.location.href, "domain=", "&");
     cleanCookie(() => {
         window.parent.postMessage("yubaCleanOver", decodeURIComponent(domain));
+    });
+}
+
+function initRouter_CleanVideo() {
+    let domain = getStrMiddle(window.location.href, "domain=", "&");
+    cleanCookie(() => {
+        window.parent.postMessage("videoCleanOver", decodeURIComponent(domain));
     });
 }
 

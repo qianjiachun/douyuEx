@@ -9,6 +9,8 @@ function initRouter(href) {
         }
     } else if (String(href).indexOf("yuba.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
         initRouter_CleanYuba();
+    } else if (String(href).indexOf("v.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
+        initRouter_CleanVideo();
     } else {
         if (String(href).indexOf("exid=chun") != -1) {
             initRouter_DouyuRoom_Popup();
@@ -109,5 +111,12 @@ function initRouter_CleanYuba() {
     let domain = getStrMiddle(window.location.href, "domain=", "&");
     cleanCookie(() => {
         window.parent.postMessage("yubaCleanOver", decodeURIComponent(domain));
+    });
+}
+
+function initRouter_CleanVideo() {
+    let domain = getStrMiddle(window.location.href, "domain=", "&");
+    cleanCookie(() => {
+        window.parent.postMessage("videoCleanOver", decodeURIComponent(domain));
     });
 }
