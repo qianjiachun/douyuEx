@@ -55,6 +55,7 @@ function init() {
 	initPkg_FollowList();
 }
 function initPkg() {
+    initPkg_Night();
 	initPkg_ExIcon();
 	initPkg_ExPanel();
 	initPkg_RealAudience();
@@ -68,7 +69,6 @@ function initPkg() {
 	initPkg_LiveTool();
 	initPkg_VideoTools();
 	initPkg_ExpandTool();
-	initPkg_Night();
 	initPkg_Refresh();
 	initPkg_BarrageLoop();
 	initPkg_FansContinue();
