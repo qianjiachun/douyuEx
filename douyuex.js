@@ -55,7 +55,7 @@ function init() {
 	initPkg_FollowList();
 }
 function initPkg() {
-    initPkg_Night();
+	initPkg_Night();
 	initPkg_ExIcon();
 	initPkg_ExPanel();
 	initPkg_RealAudience();
@@ -677,7 +677,6 @@ function cleanCookie(callback) {
                 GM_cookie("delete", {
                     name: cookies[i]["name"]
                 }, function (error) {
-                    console.log(cookies[i]['domain'], cookies[i]["name"], error)
                     lock++;
                     if (lock >= cookies.length){
                         callback();
@@ -1956,6 +1955,7 @@ function initPkg_Console() {
 }
 
 function console_watermark_douyEx() {
+    console.log("DouyuEx插件官网 https://www.douyuex.com")
     return;
 }
 function initPkg_CopyRealLive() {
@@ -3056,6 +3056,9 @@ function getFishFoodV2() {
 	}).then(res => {
 		return res.json();
 	}).then(async (ret) =>{
+		if (ret.data == null) {
+			return;
+		}
 		let cnt = Number(ret.data.leftChance);
 		if (cnt == 0) {
 			showMessage("【高级寻宝】" + "今日寻宝次数已到达上限", "warning");

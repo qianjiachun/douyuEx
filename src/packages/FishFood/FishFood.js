@@ -75,6 +75,9 @@ function getFishFoodV2() {
 	}).then(res => {
 		return res.json();
 	}).then(async (ret) =>{
+		if (ret.data == null) {
+			return;
+		}
 		let cnt = Number(ret.data.leftChance);
 		if (cnt == 0) {
 			showMessage("【高级寻宝】" + "今日寻宝次数已到达上限", "warning");

@@ -335,7 +335,6 @@ function cleanCookie(callback) {
                 GM_cookie("delete", {
                     name: cookies[i]["name"]
                 }, function (error) {
-                    console.log(cookies[i]['domain'], cookies[i]["name"], error)
                     lock++;
                     if (lock >= cookies.length){
                         callback();
