@@ -9,6 +9,7 @@ function initPkg_FishPond_Timer() {
 	initPkg_FishPond_Box_Timer();
 	initPkg_FishPond_Task_Timer();
 	initPkg_FishPond_RoomSign_Timer();
+	initPkg_FishPond_Task2_Timer();
 }
 function initPkg_FishPond_Func() {
 }
@@ -24,6 +25,7 @@ function getAllFishPond() {
 	initPkg_FishPond_Box();
 	initPkg_FishPond_Task();
 	initPkg_FishPond_RoomSign();
+	initPkg_FishPond_Task2();
 }
 
 function FishPond_showTip(a) {

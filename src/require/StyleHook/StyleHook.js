@@ -19,3 +19,21 @@ function StyleHook_remove(styleName) {
         document.getElementById(styleName).remove();
     }
 }
+
+function StyleHook_setIframe(dom, styleName, styleText) {
+    // styleName：样式id名，建议以Ex_Style_大驼峰的形式命名
+    // document.getElementsByClassName("BottomGroup")[0].getElementsByTagName("iframe")[0].contentWindow.document
+    if (dom.getElementById(styleName) == null) {
+        let styleElement = dom.createElement("style");
+        styleElement.id = styleName;
+        styleElement.innerHTML = styleText;
+        dom.body.append(styleElement);
+    }
+}
+
+function StyleHook_removeIframe(dom, styleName) {
+    let e = dom.getElementById(styleName);
+    if (e !== null) {
+        dom.getElementById(styleName).remove();
+    }
+}

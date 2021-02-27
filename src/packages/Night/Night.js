@@ -5,6 +5,7 @@ function initPkg_Night() {
 	initPkg_Night_Dom();
     initPkg_Night_Func();
     initPkg_Night_Set();
+    watchBottomIframe();
 }
 
 function initPkg_Night_Dom() {
@@ -65,11 +66,13 @@ function initPkg_Night_Func() {
             a.innerHTML = svg_night;
             a.title = "切换日间模式";
             setNightMode();
+            setNightModeIframe();
         } else {
             currentMode = 0;
             a.innerHTML = svg_day;
             a.title = "切换夜间模式";
             cancelNightMode();
+            cancelNightModeIframe();
         }
         saveData_Mode();
     });
@@ -100,7 +103,7 @@ function setNightMode() {
     .Barrage{border:1px solid rgba(35,36,39,1) !important;}
     .layout-Player-chat{border-top:1px solid rgba(47,48,53,1) !important;}
     .layout-Player-announce{background-color:rgb(29,32,35) !important;border:1px solid rgb(29,32,35) !important;}
-    .FansRankBottom,.AnchorFriend-footer{border-top:1px solid rgb(121,127,137) !important;}
+    .FansRankBottom,.AnchorFriend-footer{border-top:1px solid rgb(47,48,53) !important;}
     .Title-official{background:rgb(35,36,39) !important;}
     .Header-wrap{background:rgb(45,46,54) !important;border-bottom:1px solid rgb(45,46,54) !important;}
     .layout-Menu{background:rgb(47,48,53) !important;border-color:rgb(35,36,39) !important;}
@@ -115,7 +118,7 @@ function setNightMode() {
     .GuessReturnYwFdSlider{background:rgba(47,48,53,0.7); !important;border-left:1px solid rgb(35,36,39) !important;}
     .GuessGuideList-itemBox,.GuessGuideList-moreGuess{background-color:rgba(47,48,53) !important;color:rgb(204,204,204) !important;}
     .AnchorFriend-footer a{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
-    .AnchorFriendPane-title{border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;}
+    .AnchorFriendPane-title{border-bottom:1px solid rgb(47,48,53) !important;background-color:rgb(35,36,39) !important;}
     .AnchorLike-friendList .AnchorFriendPane-title h3,.Title svg{color:rgb(153,153,153) !important;}
     .GiftExpandPanel{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .GiftInfoPanel-cont{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
@@ -132,7 +135,7 @@ function setNightMode() {
     .NormalCard-common,.GuessRankPanel{background-color:rgb(47,48,53) !important;border:1px solid rgb(47,48,53) !important;}
     .FansMedalPanel-OwnerInfo,.FansMedalPanel-list{background-color:rgb(47,48,53) !important;color:rgb(187,187,187) !important;}
     .FansMedalList-item:hover{background-color:rgb(37,38,42) !important;}
-    .AnchorFriend-content,.SociatyAnchor-content{background-color:rgb(35,36,39) !important;border-top:1px solid rgb(35,36,39) !important;}
+    .AnchorFriend-content,.SociatyAnchor-content{background-color:rgb(35,36,39) !important;border-top:1px solid rgb(47,48,53) !important;}
     .SociatyLabelPop-title{border-bottom:1px solid rgb(121,127,137) !important;background-color:rgb(35,36,39) !important;color:rgb(153,153,153) !important;}
     .Barrage-nickName{color:rgb(255,119,0) !important;}
     .wm-general-wrapper{background:rgb(35,36,39) !important;}
@@ -159,12 +162,62 @@ function setNightMode() {
     .FansRankBottom-invisible,.ChatRankWeek-invisibleContent{background:rgb(47,48,53) !important;}
     .Barrage-roomVip--super{border-top: 1px solid rgb(37,38,42)!important;border-bottom: 1px solid rgb(37,38,42)!important;background: rgb(37,38,42)!important;}
     .Barrage-userEnter--vip{background: rgb(37,38,42)!important;}
-    .ChatRankWeek-nobleInvisible{1px solid rgb(121,127,137) !important}
+    .ChatRankWeek-nobleInvisible{border-top:1px solid rgb(121,127,137) !important;}
     #refresh-video2-svg{fill:#ffffff !important}
+    .VideoRecommendItem a{border-bottom: 3px solid rgb(35,36,39) !important;}
+    .AnchorFriendPane-title a:after{display:none !important;}
+
+    .MedalOwnerInfo-box{border-bottom: 1px solid rgb(79 81 88)!important;}
+    .FansMedalList-item.is-NoWear{border-top: 1px solid rgb(79 81 88)!important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
 }
 function cancelNightMode() {
     StyleHook_remove("Ex_Style_NightMode");
+}
+
+function watchBottomIframe() {
+    let h = new DomHook(".BottomGroup", true, (m) => {
+        if (currentMode == 0) {
+            return;
+        }
+        if (m.length == 1) {
+            setNightModeIframe();
+        }
+    })
+}
+
+function setNightModeIframe() {
+    // 设置底部鱼吧的夜间模式
+    StyleHook_setIframe(document.getElementsByClassName("BottomGroup")[0].getElementsByTagName("iframe")[0].contentWindow.document, "Ex_Style_NightModeIframe", `
+    body,#groupListBox,.mainbg,.wb_card-wbCardDetail-1wzCV,.video-imgWrap-3Mf6v{background: rgb(35,36,39) !important;}
+    .wb_card-wbCardWrap-22KrE,.wb_card-topListItemBox-1ui_g{border-bottom: 1px solid rgb(47,48,53) !important;}
+    .wb_card-wbInfo-19JiQ a,.wb_card-wbText-2fk2Y{color: rgb(204,204,204) !important;}
+    .wb_handle-wbRowLine-3OXI6 li,.wb_card-groupnameAndGrouplevel-38MGW{background: rgb(47,48,53) !important;}
+    .index-dyPage-260IV a{background-color: rgb(47,48,53)!important;border: 1px solid rgb(47,48,53)!important;}
+    .index-topTypeStyle-2ksW4{background-color: rgb(47,48,53)!important;color: rgb(204,204,204) !important;}
+    .index-dyPage-260IV span{background-color: rgb(47,48,53)!important;}
+
+    .index-editorArea-3XhrM input[data-input=title]{background-color: rgb(47,48,53)!important;color:rgb(204,204,204)!important;border: 1px solid rgb(47,48,53)!important;}
+    .index-dyPageGoNumber-LGN4a{background-color: rgb(47,48,53)!important;color:rgb(204,204,204)!important;}
+    span.index-dyPageActive-op79B{color:rgb(204,204,204)!important;}
+
+    .editor-editorPluginsWrapper-HGPzc{background-color: rgb(47,48,53)!important;border-bottom: 1px solid rgb(47,48,53)!important;border-top: 1px solid rgb(47,48,53)!important;}
+    .style-voteicon-3aTqD{color:rgb(204,204,204)!important;}
+    .editor-editorWrapper-2fChb{border: 1px solid rgb(47,48,53)!important;}
+    .editor-editorPluginsWrapper-HGPzc [data-role="menu"]:hover{background-color: rgb(47,48,53)!important;cursor: pointer!important;}
+    .editor-editorContentRoot-3PCjH{color: rgb(204,204,204) !important;}
+    .editor-editorNotLoginMask-1hCr-{background-color: rgb(47,48,53)!important;color: rgb(204,204,204) !important;}
+
+    .style-newvoteTopwrapper-3PgJY{background: rgb(47,48,53)!important;}
+    .style-newvoteHead-j0bH1{color: rgb(204,204,204) !important;}
+    .style-newvoteHeadAttendView-1EgXK, .style-newvoteHeadAttendView-1EgXK:focus{background: rgb(47,48,53)!important;}
+    .style-optionWrapper-2FhfD{background: rgb(35,36,39) !important;cursor: pointer!important;}
+    .style-newvotestyleTitle-32flx{color: rgb(204,204,204) !important;}
+    `)
+}
+
+function cancelNightModeIframe() {
+    StyleHook_removeIframe(document.getElementsByClassName("BottomGroup")[0].getElementsByTagName("iframe")[0].contentWindow.document, "Ex_Style_NightModeIframe")
 }

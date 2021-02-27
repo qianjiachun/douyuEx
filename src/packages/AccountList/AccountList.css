@@ -5,6 +5,19 @@
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none; */
+    -webkit-transition: all .2s cubic-bezier(.22,.58,.12,.98);
+    -o-transition: all cubic-bezier(.22,.58,.12,.98) .2s;
+    -moz-transition: all cubic-bezier(.22,.58,.12,.98) .2s;
+    transition: all .2s cubic-bezier(.22,.58,.12,.98);
+    -webkit-transform-origin: 80% 0;
+    -moz-transform-origin: 80% 0;
+    -ms-transform-origin: 80% 0;
+    -o-transform-origin: 80% 0;
+    transform-origin: 80% 0;
+    -webkit-animation: scale-in-ease .5s cubic-bezier(.22,.58,.12,.98);
+    -moz-animation: scale-in-ease cubic-bezier(.22,.58,.12,.98) .5s;
+    -o-animation: scale-in-ease cubic-bezier(.22,.58,.12,.98) .5s;
+    animation: scale-in-ease .5s cubic-bezier(.22,.58,.12,.98);
 }
 
 /* #ex-accountList-wrap::-webkit-scrollbar {

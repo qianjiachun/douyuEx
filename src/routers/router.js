@@ -1,18 +1,28 @@
 function initRouter(href) {
     if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun") != -1) {
+        // 账号
         initRouter_Passport();
 	} else if (String(href).indexOf("msg.douyu.com") != -1) {
+        // 车队
         if (href.indexOf("?exClean") != -1) {
             initRouter_CleanMsg();
         } else {
             initRouter_Motorcade();
         }
-    } else if (String(href).indexOf("yuba.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
-        initRouter_CleanYuba();
+    } else if (String(href).indexOf("yuba.douyu.com") != -1) {
+        // 鱼吧
+        if (String(href).indexOf("?exClean") != -1) {
+            initRouter_CleanYuba();
+        } else {
+            initRouter_Yuba();
+        }
+        
     } else if (String(href).indexOf("v.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
+        // 视频
         initRouter_CleanVideo();
     } else {
         if (String(href).indexOf("exid=chun") != -1) {
+            // 主站
             initRouter_DouyuRoom_Popup();
         } else {
             initRouter_DouyuRoom_Main();
@@ -43,6 +53,7 @@ function initRouter_DouyuRoom_Popup() {
 
 function initRouter_DouyuRoom_Main() {
     // 主要
+    document.domain = "douyu.com";
     init();
     let intID = setInterval(() => {
         if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined") {
@@ -67,6 +78,9 @@ function initPkgSpecial() {
 //     startWatchNovel();
 // }
 
+function initRouter_Yuba() {
+    document.domain = "douyu.com";
+}
 
 function initRouter_Passport() {
     let cmd = getStrMiddle(window.location.href, "cmd=", "&");

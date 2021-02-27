@@ -18,6 +18,7 @@ function FishFood_insertIcon() {
 
 function initPkg_FishFood_Func() {
 	document.getElementsByClassName("fish-food")[0].addEventListener("click", function() {
+		getFishFoodV2();
 		fetch("https://www.douyu.com/japi/activepointnc/api/getActivePointInfo", {
 			method: 'POST',
 			mode: 'no-cors',
@@ -62,5 +63,50 @@ function initPkg_FishFood_Func() {
 			}
 		})
 	})
-	
+}
+
+function getFishFoodV2() {
+	fetch("https://www.douyu.com/japi/activepointnc/apinc/seniorLotteryV2", {
+		method: 'POST',
+		mode: 'no-cors',
+		credentials: 'include',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		body: 'ctn=' + getCCN()
+	}).then(res => {
+		return res.json();
+	}).then(async (ret) =>{
+		let cnt = Number(ret.data.leftChance);
+		if (cnt == 0) {
+			showMessage("【高级寻宝】" + "今日寻宝次数已到达上限", "warning");
+			return;
+		}
+		if (Number(ret.data.yuliang) < Number(ret.data.cost)) {
+			showMessage("【高级寻宝】" + "鱼粮不足", "warning");
+			return;
+		}
+		for (let i = 0; i < cnt; i++) {
+			await sleep(1500).then(() => {
+				fetch("https://www.douyu.com/japi/activepointnc/apinc/doSeniorLotteryV2", {
+					method: 'POST',
+					mode: 'no-cors',
+					credentials: 'include',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					body: 'rid=' + rid + '&ctn=' + getCCN()
+				}).then(res => {
+					return res.json();
+				}).then(ret => {
+					if (ret.data != null) {
+						if (Object.keys(ret.data).length != 0) {
+							showMessage("【高级寻宝】" + ret.data.lotteryRes.data.msg, "success");
+						}
+					} else {
+						showMessage("【高级寻宝】" + ret.msg, "warning");
+					}
+					// console.log("【寻宝】" + ret.data.msg);
+				}).catch(err => {
+					console.log("请求失败!", err);
+				})
+			})
+		}
+	})
 }
