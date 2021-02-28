@@ -3124,8 +3124,8 @@ function getAllFishPond() {
 	initPkg_FishPond_Bubble();
 	initPkg_FishPond_Box();
 	initPkg_FishPond_Task();
-	initPkg_FishPond_RoomSign();
-	initPkg_FishPond_Task2();
+	// initPkg_FishPond_RoomSign();
+	// initPkg_FishPond_Task2();
 }
 
 function FishPond_showTip(a) {
@@ -3283,30 +3283,45 @@ function initPkg_FishPond_RoomSign_Timer() {
 
 function getFishPond_RoomSign() {
 	// 清空roomSignList内的气泡
-	if (roomSignList.length == 0) {
-		// showMessage("【签到宝箱】暂无可领取的鱼粮", "info");
-		return;
-	}
-    let arr = roomSignList.concat();
-	for (let i = 0; i < arr.length; i++) {
-		fetch('https://www.douyu.com/japi/roomuserlevel/apinc/getPrize',{
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'rid=' + rid + '&ctn=' + getCCN()
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            if (ret.error == "0") {
-                showMessage("【签到宝箱】领取结果:" + ret.msg, "success");
-            }
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-	}
-	// FishPond_showTip(false);
-	roomSignList.length = 0;
+	// if (roomSignList.length == 0) {
+	// 	// showMessage("【签到宝箱】暂无可领取的鱼粮", "info");
+	// 	return;
+	// }
+    // let arr = roomSignList.concat();
+	// for (let i = 0; i < arr.length; i++) {
+	// 	fetch('https://www.douyu.com/japi/roomuserlevel/apinc/getPrize',{
+    //         method: 'POST',
+    //         mode: 'no-cors',
+    //         credentials: 'include',
+    //         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    //         body: 'rid=' + rid + '&ctn=' + getCCN()
+    //     }).then(res => {
+    //         return res.json();
+    //     }).then(ret => {
+    //         if (ret.error == "0") {
+    //             showMessage("【签到宝箱】领取结果:" + ret.msg, "success");
+    //         }
+    //     }).catch(err => {
+    //         console.log("请求失败!", err);
+    //     })
+	// }
+	// // FishPond_showTip(false);
+	// roomSignList.length = 0;
+    fetch('https://www.douyu.com/japi/roomuserlevel/apinc/getPrize',{
+        method: 'POST',
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'rid=' + rid + '&ctn=' + getCCN()
+    }).then(res => {
+        return res.json();
+    }).then(ret => {
+        if (ret.error == "0") {
+            showMessage("【签到宝箱】领取结果:" + ret.msg, "success");
+        }
+    }).catch(err => {
+        console.log("请求失败!", err);
+    })
 }
 
 function getFishPond_RoomSignList() {
@@ -3319,8 +3334,9 @@ function getFishPond_RoomSignList() {
 	}).then(ret => {
         if (ret.error == "0" ) {
             if (ret.data.treasure.status == "1") {
-                roomSignList.push("1");
-                getAllFishPond();
+                // roomSignList.push("1");
+                // getAllFishPond();
+                getFishPond_RoomSign();
             }
         }
 	}).catch(err => {
@@ -7053,7 +7069,7 @@ function initPkg_RemoveAD() {
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .FudaiGiftToolBarTips,.UserInfo-tryEnterHiddenLead,.BargainingKit,.AnchorPocketTips,.FishShopTip,.FollowGuide,#js-bottom-right-cloudGame,.CloudGameLink,.RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;}
+    .CustomGroupGuide,.FudaiGiftToolBarTips,.UserInfo-tryEnterHiddenLead,.BargainingKit,.AnchorPocketTips,.FishShopTip,.FollowGuide,#js-bottom-right-cloudGame,.CloudGameLink,.RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;}
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
