@@ -153,7 +153,8 @@ function getAccountListHtml(object) {
 
 function switchAccount(uid, callback) {
     let list = JSON.parse(GM_getValue("Ex_accountList"));
-    let l = list[uid]["data"];
+    // let l = list[uid]["data"];
+    let l = [];
     let delock = 0;
     GM_cookie("list", { path: "/" }, function(cookies) {
         for(let i = 0; i < cookies.length; i++){
@@ -187,7 +188,8 @@ function switchAccount(uid, callback) {
 
 function switchAccountPassport(uid, callback) {
     let list = JSON.parse(GM_getValue("Ex_accountListPassport"));
-    let l = Array(list.global).concat(list[uid]);
+    // let l = Array(list.global).concat(list[uid]);
+    let l = list[uid];
     let delock = 0;
     GM_cookie("list", { path: "/" }, function(cookies) {
         for(let i = 0; i < cookies.length; i++){
@@ -283,6 +285,7 @@ function addAccount() {
         item.data = c;
         item.update_time = String(new Date().getTime());
         accountListData[uid] = item;
+        console.log("这是主页的cookie", accountListData)
         GM_setValue("Ex_accountList", JSON.stringify(accountListData));
         renderAccountList(accountListData);
     });
@@ -309,6 +312,7 @@ function addAccountPassport(uid) {
         accountListData.global = global_arr;
         accountListData[uid] = private_arr;
         accountListData.update_time = String(new Date().getTime());
+        console.log("这是passport的cookie", accountListData)
         GM_setValue("Ex_accountListPassport", JSON.stringify(accountListData));
     });
 };
@@ -349,7 +353,7 @@ function cleanCookie(callback) {
 
 function setPassportCmd(cmd, uid) {
     document.getElementById("ex-accountList-iframe").innerHTML = `
-    <iframe id="login-passport-frame" width="100%" height="100%" scrolling="no" frameborder="0" src="https://passport.douyu.com/index/login?passport_reg_callback=PASSPORT_REG_SUCCESS_CALLBACK&exid=chun&cmd=${cmd}&uid=${uid}&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    <iframe id="login-passport-frame" width="100%" height="100%" scrolling="no" frameborder="0" src="https://passport.douyu.com/index/error/show404?&exid=chun&cmd=${cmd}&uid=${uid}&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     `;
 }
 

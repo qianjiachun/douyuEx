@@ -3,6 +3,6 @@ function initPkg_Console() {
 }
 
 function console_watermark_douyEx() {
-    console.log("DouyuEx插件官网 https://www.douyuex.com")
+    // console.log("DouyuEx插件官网 https://www.douyuex.com")
     return;
 }

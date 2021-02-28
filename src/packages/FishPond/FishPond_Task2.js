@@ -34,7 +34,7 @@ function getFishPond_Task2List() {
     })
 }
 
-function getFishPond_Task2Panel(panelList) {
+async function getFishPond_Task2Panel(panelList) {
     for (let i = 0; i < panelList.length; i++) {
         let item = panelList[i];
         for (let j = 0; j < item.taskList.length; j++) {
@@ -42,7 +42,9 @@ function getFishPond_Task2Panel(panelList) {
             if (taskItem.status == 2) {
                 let id = taskItem.id;
                 // 领取
-                getFishPond_Task2GetPrize(id);
+                await sleep(1000).then(() => {
+                    getFishPond_Task2GetPrize(id);
+                })
             }
         }
     }
@@ -68,12 +70,14 @@ function getFishPond_Task2GetPrize(id) {
     })
 }
 
-function getFishPond_Task2Bubble(bubbleList) {
+async function getFishPond_Task2Bubble(bubbleList) {
     for (let i = 0; i < bubbleList.length; i++) {
         let item = bubbleList[i];
         if (item.status == 2) {
             let id = item.id;
-            getFishPond_Task2GetPrize(id);
+            await sleep(1000).then(() => {
+                getFishPond_Task2GetPrize(id);
+            })
         }
     }
 }

@@ -495,7 +495,8 @@ function getAccountListHtml(object) {
 
 function switchAccount(uid, callback) {
     let list = JSON.parse(GM_getValue("Ex_accountList"));
-    let l = list[uid]["data"];
+    // let l = list[uid]["data"];
+    let l = [];
     let delock = 0;
     GM_cookie("list", { path: "/" }, function(cookies) {
         for(let i = 0; i < cookies.length; i++){
@@ -529,7 +530,8 @@ function switchAccount(uid, callback) {
 
 function switchAccountPassport(uid, callback) {
     let list = JSON.parse(GM_getValue("Ex_accountListPassport"));
-    let l = Array(list.global).concat(list[uid]);
+    // let l = Array(list.global).concat(list[uid]);
+    let l = list[uid];
     let delock = 0;
     GM_cookie("list", { path: "/" }, function(cookies) {
         for(let i = 0; i < cookies.length; i++){
@@ -625,6 +627,7 @@ function addAccount() {
         item.data = c;
         item.update_time = String(new Date().getTime());
         accountListData[uid] = item;
+        console.log("这是主页的cookie", accountListData)
         GM_setValue("Ex_accountList", JSON.stringify(accountListData));
         renderAccountList(accountListData);
     });
@@ -651,6 +654,7 @@ function addAccountPassport(uid) {
         accountListData.global = global_arr;
         accountListData[uid] = private_arr;
         accountListData.update_time = String(new Date().getTime());
+        console.log("这是passport的cookie", accountListData)
         GM_setValue("Ex_accountListPassport", JSON.stringify(accountListData));
     });
 };
@@ -691,7 +695,7 @@ function cleanCookie(callback) {
 
 function setPassportCmd(cmd, uid) {
     document.getElementById("ex-accountList-iframe").innerHTML = `
-    <iframe id="login-passport-frame" width="100%" height="100%" scrolling="no" frameborder="0" src="https://passport.douyu.com/index/login?passport_reg_callback=PASSPORT_REG_SUCCESS_CALLBACK&exid=chun&cmd=${cmd}&uid=${uid}&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    <iframe id="login-passport-frame" width="100%" height="100%" scrolling="no" frameborder="0" src="https://passport.douyu.com/index/error/show404?&exid=chun&cmd=${cmd}&uid=${uid}&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     `;
 }
 
@@ -1955,7 +1959,7 @@ function initPkg_Console() {
 }
 
 function console_watermark_douyEx() {
-    console.log("DouyuEx插件官网 https://www.douyuex.com")
+    // console.log("DouyuEx插件官网 https://www.douyuex.com")
     return;
 }
 function initPkg_CopyRealLive() {
@@ -3481,7 +3485,7 @@ function getFishPond_Task2List() {
     })
 }
 
-function getFishPond_Task2Panel(panelList) {
+async function getFishPond_Task2Panel(panelList) {
     for (let i = 0; i < panelList.length; i++) {
         let item = panelList[i];
         for (let j = 0; j < item.taskList.length; j++) {
@@ -3489,7 +3493,9 @@ function getFishPond_Task2Panel(panelList) {
             if (taskItem.status == 2) {
                 let id = taskItem.id;
                 // 领取
-                getFishPond_Task2GetPrize(id);
+                await sleep(1000).then(() => {
+                    getFishPond_Task2GetPrize(id);
+                })
             }
         }
     }
@@ -3515,12 +3521,14 @@ function getFishPond_Task2GetPrize(id) {
     })
 }
 
-function getFishPond_Task2Bubble(bubbleList) {
+async function getFishPond_Task2Bubble(bubbleList) {
     for (let i = 0; i < bubbleList.length; i++) {
         let item = bubbleList[i];
         if (item.status == 2) {
             let id = item.id;
-            getFishPond_Task2GetPrize(id);
+            await sleep(1000).then(() => {
+                getFishPond_Task2GetPrize(id);
+            })
         }
     }
 }
@@ -7045,7 +7053,7 @@ function initPkg_RemoveAD() {
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
 function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
-    .UserInfo-tryEnterHiddenLead,.BargainingKit,.AnchorPocketTips,.FishShopTip,.FollowGuide,#js-bottom-right-cloudGame,.CloudGameLink,.RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;}
+    .FudaiGiftToolBarTips,.UserInfo-tryEnterHiddenLead,.BargainingKit,.AnchorPocketTips,.FishShopTip,.FollowGuide,#js-bottom-right-cloudGame,.CloudGameLink,.RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.pwd-990896,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;}
     .Barrage-topFloater{z-index:999}
     .danmuAuthor-3d7b4a, .danmuContent-25f266{overflow: initial}
     .BattleShipTips{display:none !important;}
@@ -7820,12 +7828,13 @@ function initPkg_Sign_Yuba_Like() {
 }
 
 function likeYuba() {
-    let pid = "184419561592747400";
-    likeYubaPostComment(pid, "1483548421625277411", "-1").then(() => {likeYubaPostComment(pid, "1483548421625277411", "1")});
+    let pid = "502737841569427537";
+    // likeYubaPostComment(pid, "1483548421625277411", "-1").then(() => {likeYubaPostComment(pid, "1483548421625277411", "1")});
     // likeYubaPostComment(pid, "1483548421625277411", "-1").then(() => {likeYubaPostComment(pid, "1483548421625277411", "1")});
     // likeYubaPostComment(pid, "1482171839375552044", "-1").then(() => {likeYubaPostComment(pid, "1482171839375552044", "1")});
     // likeYubaPostComment(pid, "1481389816302095706", "-1").then(() => {likeYubaPostComment(pid, "1481389816302095706", "1")});
     // likeYubaPostComment(pid, "1470603012833589758", "-1").then(() => {likeYubaPostComment(pid, "1470603012833589758", "1")});
+    likeYubaPost(pid, "-1").then(() => {likeYubaPost(pid, "1")});
     showMessage("【鱼吧点赞】已完成", "success");
 }
 
@@ -7841,7 +7850,29 @@ function likeYubaPostComment(post_id, commnet_id, type) {
                 "dy-token": dyToken,
                 "dy-client": "pc",
                 "Content-Type": "application/x-www-form-urlencoded",
-                "Referer": "https://yuba.douyu.com/p/184419561592747400"
+                "Referer": "https://yuba.douyu.com/p/502737841569427537"
+            },
+            onload: function(response) {
+                let ret = response.response;
+                resolve(ret);
+            }
+        });
+    })
+}
+
+function likeYubaPost(post_id, type) {
+    let data = `pid=${ post_id }&type=${ type }`;
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://yuba.douyu.com/ybapi/follow/like",
+            data: data,
+            responseType: "json",
+            headers: {
+                "dy-token": dyToken,
+                "dy-client": "pc",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Referer": "https://yuba.douyu.com/p/" + post_id
             },
             onload: function(response) {
                 let ret = response.response;

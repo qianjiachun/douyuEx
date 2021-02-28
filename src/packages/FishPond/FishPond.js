@@ -24,8 +24,8 @@ function getAllFishPond() {
 	initPkg_FishPond_Bubble();
 	initPkg_FishPond_Box();
 	initPkg_FishPond_Task();
-	initPkg_FishPond_RoomSign();
-	initPkg_FishPond_Task2();
+	// initPkg_FishPond_RoomSign();
+	// initPkg_FishPond_Task2();
 }
 
 function FishPond_showTip(a) {
