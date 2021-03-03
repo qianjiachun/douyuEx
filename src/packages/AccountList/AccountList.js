@@ -296,7 +296,9 @@ function addAccountPassport(uid) {
     let private_arr = [];
     let global_arr = [];
     GM_cookie("list", { path: "/" }, function(cookies) {
-        
+        if (cookies == undefined) {
+            return;
+        }
         for(let i = 0; i < cookies.length; i++) {
             if (cookies[i]["name"] == "LTP0") {
                 private_arr.push(cookies[i]);

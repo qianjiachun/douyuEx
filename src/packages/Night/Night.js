@@ -190,7 +190,11 @@ function watchBottomIframe() {
 
 function setNightModeIframe() {
     // 设置底部鱼吧的夜间模式
-    StyleHook_setIframe(document.getElementsByClassName("BottomGroup")[0].getElementsByTagName("iframe")[0].contentWindow.document, "Ex_Style_NightModeIframe", `
+    let dom = document.getElementsByClassName("BottomGroup")[0].getElementsByTagName("iframe")[0];
+    if (dom == undefined) {
+        return
+    }
+    StyleHook_setIframe(dom.contentWindow.document, "Ex_Style_NightModeIframe", `
     body,#groupListBox,.mainbg,.wb_card-wbCardDetail-1wzCV,.video-imgWrap-3Mf6v{background: rgb(35,36,39) !important;}
     .wb_card-wbCardWrap-22KrE,.wb_card-topListItemBox-1ui_g{border-bottom: 1px solid rgb(47,48,53) !important;}
     .wb_card-wbInfo-19JiQ a,.wb_card-wbText-2fk2Y{color: rgb(204,204,204) !important;}
