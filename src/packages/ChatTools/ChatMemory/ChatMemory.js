@@ -1,25 +1,28 @@
 let barrageMemoryArr = [];
 let barrageMemoryIndex = 0; // 当前 指向索引
+let prevTextareaPosition = 0;
 function initPkg_ChatMemory() {
     initPkg_ChatMemory_Func();
 }
 
 function initPkg_ChatMemory_Func() {
     document.getElementsByClassName("ChatSend-txt")[0].addEventListener("keydown", (e) => {
+        let dom = e.target;
         if (e.keyCode == 38) {
             // ↑
-            barrageMemoryIndex = barrageMemoryIndex > 0 ? barrageMemoryIndex - 1 : barrageMemoryIndex;
-            chatMemory_setBarrage();
-            console.log("↑");
+            if (getTextareaPosition(dom) == 0) {
+                barrageMemoryIndex = barrageMemoryIndex > 0 ? barrageMemoryIndex - 1 : barrageMemoryIndex;
+                chatMemory_setBarrage();
+            }
         } else if (e.keyCode == 40) {
             // ↓
-            barrageMemoryIndex = barrageMemoryIndex < barrageMemoryArr.length - 1 ? barrageMemoryIndex + 1 : barrageMemoryIndex;
-            chatMemory_setBarrage();
-            console.log("↓")
+            if (getTextareaPosition(dom) == dom.value.length) {
+                barrageMemoryIndex = barrageMemoryIndex < barrageMemoryArr.length - 1 ? barrageMemoryIndex + 1 : barrageMemoryIndex;
+                chatMemory_setBarrage();
+            }
         } else if (e.keyCode == 13) {
             // enter
             chatMemory_pushBarrage(getBarrageValue());
-            console.log("enter")
         }
     });
     document.getElementsByClassName("ChatSend-button")[0].addEventListener("click", () => {

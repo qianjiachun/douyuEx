@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.03.01.02
+// @version      2021.03.03.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -31,6 +31,7 @@
 // @grant        GM_listValues
 // @grant        GM_deleteValue
 // @grant        GM_cookie
+// @grant        GM_registerMenuCommand
 // @grant        unsafeWindow
 // @connect      douyucdn.cn
 // @connect      douyu.com
@@ -78,6 +79,7 @@ function initPkg() {
 	initPkg_AdVideo();
 	initPkg_AccountList();
 	initPkg_ChatTools();
+	initPkg_TampermonkeyMenu();
 }
 function initPkg_Timer() {
 	initPkg_FishPond_Timer();
@@ -340,6 +342,19 @@ function getUserName() {
 			console.error('请求失败', err);
 		})
 	})
+}
+
+function getTextareaPosition(element) {
+	// 获取textarea光标的位置
+    let cursorPos = 0;
+    if (document.selection) {//IE
+        let selectRange = document.selection.createRange();
+        selectRange.moveStart('character', -element.value.length);
+        cursorPos = selectRange.text.length;
+    } else if (element.selectionStart || element.selectionStart == '0') {
+        cursorPos = element.selectionStart;
+    }
+    return cursorPos;
 }
 let svg_accountList = `<svg t="1613993967937" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2122" width="16" height="16"><path d="M217.472 311.808l384.64 384.64-90.432 90.56-384.64-384.64z" fill="#8A8A8A" p-id="2123"></path><path d="M896.32 401.984l-384.64 384.64-90.56-90.496 384.64-384.64z" fill="#8A8A8A" p-id="2124"></path></svg>`
 let cleanOverTimes = 0; // 用于判断是否全部清空并跳转
@@ -628,7 +643,6 @@ function addAccount() {
         item.data = c;
         item.update_time = String(new Date().getTime());
         accountListData[uid] = item;
-        console.log("这是主页的cookie", accountListData)
         GM_setValue("Ex_accountList", JSON.stringify(accountListData));
         renderAccountList(accountListData);
     });
@@ -655,7 +669,6 @@ function addAccountPassport(uid) {
         accountListData.global = global_arr;
         accountListData[uid] = private_arr;
         accountListData.update_time = String(new Date().getTime());
-        console.log("这是passport的cookie", accountListData)
         GM_setValue("Ex_accountListPassport", JSON.stringify(accountListData));
     });
 };
@@ -1957,26 +1970,29 @@ function setBarragePanelTipFunc() {
 
 let barrageMemoryArr = [];
 let barrageMemoryIndex = 0; // 当前 指向索引
+let prevTextareaPosition = 0;
 function initPkg_ChatMemory() {
     initPkg_ChatMemory_Func();
 }
 
 function initPkg_ChatMemory_Func() {
     document.getElementsByClassName("ChatSend-txt")[0].addEventListener("keydown", (e) => {
+        let dom = e.target;
         if (e.keyCode == 38) {
             // ↑
-            barrageMemoryIndex = barrageMemoryIndex > 0 ? barrageMemoryIndex - 1 : barrageMemoryIndex;
-            chatMemory_setBarrage();
-            console.log("↑");
+            if (getTextareaPosition(dom) == 0) {
+                barrageMemoryIndex = barrageMemoryIndex > 0 ? barrageMemoryIndex - 1 : barrageMemoryIndex;
+                chatMemory_setBarrage();
+            }
         } else if (e.keyCode == 40) {
             // ↓
-            barrageMemoryIndex = barrageMemoryIndex < barrageMemoryArr.length - 1 ? barrageMemoryIndex + 1 : barrageMemoryIndex;
-            chatMemory_setBarrage();
-            console.log("↓")
+            if (getTextareaPosition(dom) == dom.value.length) {
+                barrageMemoryIndex = barrageMemoryIndex < barrageMemoryArr.length - 1 ? barrageMemoryIndex + 1 : barrageMemoryIndex;
+                chatMemory_setBarrage();
+            }
         } else if (e.keyCode == 13) {
             // enter
             chatMemory_pushBarrage(getBarrageValue());
-            console.log("enter")
         }
     });
     document.getElementsByClassName("ChatSend-button")[0].addEventListener("click", () => {
@@ -7961,6 +7977,12 @@ function initPkg_Statistics() {
   let s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 }
+function initPkg_TampermonkeyMenu() {
+    GM_registerMenuCommand("哈哈哈", () => {
+        alert("哈哈哈")
+    })
+}
+
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";

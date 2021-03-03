@@ -241,3 +241,16 @@ function getUserName() {
 		})
 	})
 }
+
+function getTextareaPosition(element) {
+	// 获取textarea光标的位置
+    let cursorPos = 0;
+    if (document.selection) {//IE
+        let selectRange = document.selection.createRange();
+        selectRange.moveStart('character', -element.value.length);
+        cursorPos = selectRange.text.length;
+    } else if (element.selectionStart || element.selectionStart == '0') {
+        cursorPos = element.selectionStart;
+    }
+    return cursorPos;
+}

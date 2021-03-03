@@ -285,7 +285,6 @@ function addAccount() {
         item.data = c;
         item.update_time = String(new Date().getTime());
         accountListData[uid] = item;
-        console.log("这是主页的cookie", accountListData)
         GM_setValue("Ex_accountList", JSON.stringify(accountListData));
         renderAccountList(accountListData);
     });
@@ -312,7 +311,6 @@ function addAccountPassport(uid) {
         accountListData.global = global_arr;
         accountListData[uid] = private_arr;
         accountListData.update_time = String(new Date().getTime());
-        console.log("这是passport的cookie", accountListData)
         GM_setValue("Ex_accountListPassport", JSON.stringify(accountListData));
     });
 };
