@@ -42,7 +42,7 @@ async function getFishPond_Task2Panel(panelList) {
             if (taskItem.status == 2) {
                 let id = taskItem.id;
                 // 领取
-                await sleep(1000).then(() => {
+                await sleep(1500).then(() => {
                     getFishPond_Task2GetPrize(id);
                 })
             }
@@ -75,7 +75,7 @@ async function getFishPond_Task2Bubble(bubbleList) {
         let item = bubbleList[i];
         if (item.status == 2) {
             let id = item.id;
-            await sleep(1000).then(() => {
+            await sleep(1500).then(() => {
                 getFishPond_Task2GetPrize(id);
             })
         }
