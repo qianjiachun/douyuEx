@@ -36,6 +36,9 @@ function chatMemory_pushBarrage(txt) {
 }
 
 function chatMemory_setBarrage() {
+    if (barrageMemoryArr[barrageMemoryIndex] == undefined) {
+        return;
+    }
     setBarrageValue(barrageMemoryArr[barrageMemoryIndex] || "");
 }
 
