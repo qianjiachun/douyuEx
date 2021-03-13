@@ -9559,7 +9559,7 @@ function initRouter_DouyuRoom_Main() {
     document.domain = "douyu.com";
     init();
     let intID = setInterval(() => {
-        if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined") {
+        if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined" && typeof(document.getElementsByClassName("Barrage-main")[0]) != "undefined") {
             setTimeout(() => {
                 initStyles();
                 initPkg();
