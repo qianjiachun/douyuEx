@@ -66,15 +66,16 @@ function initPkg_Night_Func() {
             a.innerHTML = svg_night;
             a.title = "切换日间模式";
             setNightMode();
+            saveData_Mode();
             setNightModeIframe();
         } else {
             currentMode = 0;
             a.innerHTML = svg_day;
             a.title = "切换夜间模式";
             cancelNightMode();
+            saveData_Mode();
             cancelNightModeIframe();
         }
-        saveData_Mode();
     });
 }
 

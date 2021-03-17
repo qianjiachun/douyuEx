@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.03.13.01
+// @version      2021.03.17.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -5510,15 +5510,16 @@ function initPkg_Night_Func() {
             a.innerHTML = svg_night;
             a.title = "切换日间模式";
             setNightMode();
+            saveData_Mode();
             setNightModeIframe();
         } else {
             currentMode = 0;
             a.innerHTML = svg_day;
             a.title = "切换夜间模式";
             cancelNightMode();
+            saveData_Mode();
             cancelNightModeIframe();
         }
-        saveData_Mode();
     });
 }
 
@@ -7127,7 +7128,7 @@ function initPkg_Refresh_Video_Set() {
 
 function refresh_Video_setStyle() {
     StyleHook_set("Ex_Style_VideoRefresh", `
-    .LiveRoomLoopVideo,.LiveRoomDianzan,.maiMaitView-68e80c,.PkView{display:none !important;}
+    .RandomPKBar,.LiveRoomLoopVideo,.LiveRoomDianzan,.maiMaitView-68e80c,.PkView{display:none !important;}
     `)
 }
 
@@ -7987,7 +7988,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.03.13.01"
+var curVersion = "2021.03.17.01"
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();

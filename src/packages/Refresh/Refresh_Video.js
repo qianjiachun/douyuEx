@@ -100,7 +100,7 @@ function initPkg_Refresh_Video_Set() {
 
 function refresh_Video_setStyle() {
     StyleHook_set("Ex_Style_VideoRefresh", `
-    .LiveRoomLoopVideo,.LiveRoomDianzan,.maiMaitView-68e80c,.PkView{display:none !important;}
+    .RandomPKBar,.LiveRoomLoopVideo,.LiveRoomDianzan,.maiMaitView-68e80c,.PkView{display:none !important;}
     `)
 }
 
