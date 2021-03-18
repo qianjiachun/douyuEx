@@ -63,9 +63,10 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 
 
                 let handler = (e) => {
-                    showMessageWindow(rid, "【宝箱】请手动验证领取宝箱", () => {
-                        window.focus();
-                    });
+                    // 2021-3-18 09:51:47 免打扰
+                    // showMessageWindow(rid, "【宝箱】请手动验证领取宝箱", () => {
+                    //     window.focus();
+                    // });
                     let idDiv = document.getElementById(idName);
                     e.appendTo("#" + idName);
                     e.onSuccess(() => {
