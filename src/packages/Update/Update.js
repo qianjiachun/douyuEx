@@ -2,11 +2,16 @@
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
 var curVersion = "2021.03.17.01"
+var isNeedUpdate = false
+var lastestVersion = ""
 function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
 
-	Update_checkVersion(); // 首次检查更新
+	// Update_checkVersion(); // 首次检查更新
+	if (isNeedUpdate) {
+		Update_showTip(true);
+	}
 }
 
 function initPkg_Update_Dom() {
@@ -24,42 +29,71 @@ function Update_insertIcon() {
 function initPkg_Update_Func() {
 	document.getElementsByClassName("ex-update")[0].addEventListener("click", Update_openUpdatePage);
 }
-
-function Update_checkVersion() {
-	// fetch('https://greasyfork.org/zh-CN/scripts/394497',{
-	// 	method: 'GET',
-	// 	mode: 'cors',
-	// 	cache: 'no-store',
-	// 	credentials: 'omit',
-	// }).then(res => {
-	// 	return res.text();
-	// }).then(txt => {
-	// 	txt = (new DOMParser()).parseFromString(txt, 'text/html');
-	// 	let v = txt.getElementsByClassName("script-show-version")[1];
-	// 	if(v != undefined){
-	// 		if (v.innerText != curVersion) {
-	// 			Update_showTip(true);
-	// 		}
-	// 	}
-	// }).catch(err => {
-	// 	console.error('请求失败', err);
-	// })
-	fetch('https://www.douyuex.com/src/douyuex_version.txt',{
-		method: 'GET',
-		mode: 'cors',
-		cache: 'no-store',
-		credentials: 'omit',
-	}).then(res => {
-		return res.text();
-	}).then(txt => {
-		if(txt != undefined){
-			if (txt != curVersion) {
-				Update_showTip(true);
+function checkUpdate_Src() {
+	return new Promise((resolve, reject) => {
+		fetch('https://www.douyuex.com/src/douyuex_version.txt',{
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-store',
+			credentials: 'omit',
+		}).then(res => {
+			return res.text();
+		}).then(txt => {
+			if(txt != undefined){
+				if (txt != curVersion) {
+					resolve([true, txt]);
+				}
 			}
-		}
-	}).catch(err => {
-		console.error('请求失败', err);
+			resolve(false);
+		}).catch(err => {
+			console.error('请求失败', err);
+			reject();
+		})
 	})
+}
+
+function checkUpdate_GreasyFork() {
+	return new Promise((resolve, reject) => {
+		fetch('https://greasyfork.org/zh-CN/scripts/394497',{
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-store',
+			credentials: 'omit',
+		}).then(res => {
+			return res.text();
+		}).then(txt => {
+			txt = (new DOMParser()).parseFromString(txt, 'text/html');
+			let v = txt.getElementsByClassName("script-show-version")[1];
+			if(v != undefined){
+				if (v.innerText != curVersion) {
+					resolve([true, v.innerText]);
+				}
+			}
+			resolve(false);
+		}).catch(err => {
+			console.error('请求失败', err);
+			reject();
+		})
+	})
+}
+
+async function Update_checkVersion(isShowNotUpdate = false) {
+	// 用解构赋值会导致函数undefined，暂不知原因
+	let tmp = [];
+	tmp = await checkUpdate_Src().catch(async (err) => {
+		tmp = await checkUpdate_GreasyFork().catch(err => {
+			tmp = [false, curVersion];
+		})
+	})
+	isNeedUpdate = tmp[0];
+	lastestVersion = tmp[1];
+	if (isNeedUpdate) {
+		Update_showMessage();
+	} else {
+		if (isShowNotUpdate) {
+			showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
+		}
+	}
 }
 
 function Update_openUpdatePage() {
@@ -70,10 +104,14 @@ function Update_showTip(a) {
 	let d = document.getElementById("ex-update__tip");
 	if (a == true) {
 		if (d.style.display != "block") {
-			showMessage("【版本更新】插件有新版本，请及时更新~", "error");
 			d.style.display = "block";
 		}
 	} else {
 		d.style.display = "none";
 	}
+}
+// 【版本更新】最新版本：2010.02.10.01，点击官方源或者greasyfork源更新
+function Update_showMessage() {
+	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://www.douyuex.com/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新`
+	showMessage(msg, "error");
 }
