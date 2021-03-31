@@ -20,7 +20,7 @@ function AudioLine_insertIcon() {
 function initPkg_AudioLine_Func() {
 	document.getElementById("ex-audio-line").addEventListener("click", function() {
         document.getElementsByClassName("pause-c594e8")[0].click(); // 暂停视频播放
-        getRealLive_Douyu(rid, true, false, "777", (lurl) => {
+        getRealLive_Douyu(rid, true, false, "1015", (lurl) => {
             createNewAudio_Douyu(videoPlayerArr.length, rid);
         })
     });

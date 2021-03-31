@@ -241,9 +241,9 @@ function setElementFunc_Douyu(id, rid) {
             let box = document.getElementById("exVideoDiv" + String(i));
             if (box != null) {
                 if (i == id) {
-                    box.style.zIndex = 7778;
+                    box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 7777;
+                    box.style.zIndex = 1015;
                 }
             }
         }
@@ -358,9 +358,9 @@ function setElementFunc_Bilibili(id, rid) {
             let box = document.getElementById("exVideoDiv" + String(i));
             if (box != null) {
                 if (i == id) {
-                    box.style.zIndex = 7778;
+                    box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 7777;
+                    box.style.zIndex = 1015;
                 }
             }
         }
@@ -444,9 +444,9 @@ function setElementFunc_Huya(id, rid) {
             let box = document.getElementById("exVideoDiv" + String(i));
             if (box != null) {
                 if (i == id) {
-                    box.style.zIndex = 7778;
+                    box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 7777;
+                    box.style.zIndex = 1015;
                 }
             }
         }
@@ -526,9 +526,9 @@ function setElementFunc_iframe(id) {
             let box = document.getElementById("exVideoDiv" + String(i));
             if (box != null) {
                 if (i == id) {
-                    box.style.zIndex = 7778;
+                    box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 7777;
+                    box.style.zIndex = 1015;
                 }
             }
         }
