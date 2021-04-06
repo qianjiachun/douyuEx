@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.03.31.01
+// @version      2021.04.06.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -17,6 +17,7 @@
 // @match			*://*.douyu.com/8*
 // @match			*://*.douyu.com/9*
 // @match			*://*.douyu.com/topic/*
+// @match        *://www.douyu.com/member/cp/getFansBadgeList
 // @match        *://passport.douyu.com/*
 // @match        *://msg.douyu.com/*
 // @match        *://yuba.douyu.com/*
@@ -31,7 +32,6 @@
 // @grant        GM_listValues
 // @grant        GM_deleteValue
 // @grant        GM_cookie
-// @grant        GM_registerMenuCommand
 // @grant        unsafeWindow
 // @connect      douyucdn.cn
 // @connect      douyu.com
@@ -52,12 +52,10 @@ function init() {
 	initPkg_Night_Set_Fast();
 	removeAD();
 	initPkg_Statistics();
-	initPkg_Menu();
 	initPkg_Console();
 	initPkg_FollowList();
 }
 function initPkg() {
-	Update_checkVersion();
 	initPkg_Night();
 	initPkg_ExIcon();
 	initPkg_ExPanel();
@@ -2945,6 +2943,33 @@ function initPkg_ExPanel_insertDom() {
 	
 }
 
+function initPkg_FansBadgeList() {
+    setFansBadgeList();
+}
+
+function setFansBadgeList() {
+    // document.querySelectorAll(".fans-badge-list tr")[1].getAttribute("data-fans-gbdgts")
+    let nowTime = new Date().getTime();
+    let items = document.querySelectorAll(".fans-badge-list tr");
+    if (items.length <= 1) {
+        return;
+    }
+    // items[0].getElementsByTagName("th")[1].setAttribute("width", "30%");
+    // 跳过表头
+    for (let i = 1; i < items.length; i++) {
+        let item = items[i];
+        let tt = Number(item.getAttribute("data-fans-gbdgts")) * 1000;
+        let ttStr = dateFormat("yyyy-MM-dd hh:mm:ss",new Date(tt)); // 获取日期
+        let days = Math.floor((nowTime - tt) / 86400000); // 距今天数
+        let style = days >= 365 ? "font-weight:600;color:red;" : "";
+        let td = item.getElementsByTagName("td")[1];
+        // td.innerHTML += `获取于：${ttStr}（${days}天）`;
+        td.innerHTML += `
+        已获取 <span style="${style}">${days}</span> 天<br/>
+        ${ttStr}`;
+        // td.innerHTML += `于${ttStr}获取（${days}天）`;
+    }
+}
 function initPkg_FansContinue() {
 	initPkg_FansContinue_Dom();
 	initPkg_FansContinue_Func();
@@ -4283,9 +4308,9 @@ let muteWordList = {};
 let muteIdList = {};
 let muteIdListShow = [];
 function initPkg_LiveTool_Mute() {
-    if (rid == "5189167") {
-        return;
-    }
+    // if (rid == "5189167") {
+    //     return;
+    // }
     LiveTool_Mute_insertDom();
     LiveTool_Mute_insertFunc();
     initPkg_Mute_Set();
@@ -4522,9 +4547,9 @@ async function initPkg_LiveTool_Mute_Handle(text) {
     if (isMuteOn == false) {
         return;
     }
-    if (rid == "5189167") {
-        return;
-    }
+    // if (rid == "5189167") {
+    //     return;
+    // }
     if (getType(text) == "chatmsg") {
         let uid = getStrMiddle(text, "uid@=", "/");
         if (uid == my_uid) { // 不算自己
@@ -9557,7 +9582,7 @@ function initRouter(href) {
     if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun") != -1) {
         // 账号
         initRouter_Passport();
-	} else if (String(href).indexOf("msg.douyu.com") != -1) {
+    } else if (String(href).indexOf("msg.douyu.com") != -1) {
         // 车队
         if (href.indexOf("?exClean") != -1) {
             initRouter_CleanMsg();
@@ -9571,10 +9596,13 @@ function initRouter(href) {
         } else {
             initRouter_Yuba();
         }
-        
+
     } else if (String(href).indexOf("v.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
         // 视频
         initRouter_CleanVideo();
+    } else if (String(href).indexOf("getFansBadgeList") != -1) {
+        // 粉丝牌
+        initRouter_FansBadgeList();
     } else {
         if (String(href).indexOf("exid=chun") != -1) {
             // 主站
@@ -9595,7 +9623,7 @@ function initRouter_Motorcade() {
 function initRouter_DouyuRoom_Popup() {
     // 画中画
     let intID = setInterval(() => {
-        if (typeof(document.querySelector('div.wfs-2a8e83')) != "undefined") {
+        if (typeof (document.querySelector('div.wfs-2a8e83')) != "undefined") {
             document.querySelector('div.wfs-2a8e83').click();
             document.querySelector('label.layout-Player-asidetoggleButton').click();
             let l = document.querySelectorAll(".tip-e3420a > ul > li").length;
@@ -9611,7 +9639,7 @@ function initRouter_DouyuRoom_Main() {
     document.domain = "douyu.com";
     init();
     let intID = setInterval(() => {
-        if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined" && typeof(document.getElementsByClassName("Barrage-main")[0]) != "undefined") {
+        if (typeof (document.getElementsByClassName("BackpackButton")[0]) != "undefined" && typeof (document.getElementsByClassName("Barrage-main")[0]) != "undefined") {
             setTimeout(() => {
                 initStyles();
                 initPkg();
@@ -9690,3 +9718,6 @@ function initRouter_CleanVideo() {
     });
 }
 
+function initRouter_FansBadgeList() {
+    initPkg_FansBadgeList();
+}

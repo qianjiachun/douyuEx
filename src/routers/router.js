@@ -2,7 +2,7 @@ function initRouter(href) {
     if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun") != -1) {
         // 账号
         initRouter_Passport();
-	} else if (String(href).indexOf("msg.douyu.com") != -1) {
+    } else if (String(href).indexOf("msg.douyu.com") != -1) {
         // 车队
         if (href.indexOf("?exClean") != -1) {
             initRouter_CleanMsg();
@@ -16,10 +16,13 @@ function initRouter(href) {
         } else {
             initRouter_Yuba();
         }
-        
+
     } else if (String(href).indexOf("v.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
         // 视频
         initRouter_CleanVideo();
+    } else if (String(href).indexOf("getFansBadgeList") != -1) {
+        // 粉丝牌
+        initRouter_FansBadgeList();
     } else {
         if (String(href).indexOf("exid=chun") != -1) {
             // 主站
@@ -40,7 +43,7 @@ function initRouter_Motorcade() {
 function initRouter_DouyuRoom_Popup() {
     // 画中画
     let intID = setInterval(() => {
-        if (typeof(document.querySelector('div.wfs-2a8e83')) != "undefined") {
+        if (typeof (document.querySelector('div.wfs-2a8e83')) != "undefined") {
             document.querySelector('div.wfs-2a8e83').click();
             document.querySelector('label.layout-Player-asidetoggleButton').click();
             let l = document.querySelectorAll(".tip-e3420a > ul > li").length;
@@ -56,7 +59,7 @@ function initRouter_DouyuRoom_Main() {
     document.domain = "douyu.com";
     init();
     let intID = setInterval(() => {
-        if (typeof(document.getElementsByClassName("BackpackButton")[0]) != "undefined" && typeof(document.getElementsByClassName("Barrage-main")[0]) != "undefined") {
+        if (typeof (document.getElementsByClassName("BackpackButton")[0]) != "undefined" && typeof (document.getElementsByClassName("Barrage-main")[0]) != "undefined") {
             setTimeout(() => {
                 initStyles();
                 initPkg();
@@ -133,4 +136,8 @@ function initRouter_CleanVideo() {
     cleanCookie(() => {
         window.parent.postMessage("videoCleanOver", decodeURIComponent(domain));
     });
+}
+
+function initRouter_FansBadgeList() {
+    initPkg_FansBadgeList();
 }

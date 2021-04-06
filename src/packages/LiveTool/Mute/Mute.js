@@ -4,9 +4,9 @@ let muteWordList = {};
 let muteIdList = {};
 let muteIdListShow = [];
 function initPkg_LiveTool_Mute() {
-    if (rid == "5189167") {
-        return;
-    }
+    // if (rid == "5189167") {
+    //     return;
+    // }
     LiveTool_Mute_insertDom();
     LiveTool_Mute_insertFunc();
     initPkg_Mute_Set();
@@ -243,9 +243,9 @@ async function initPkg_LiveTool_Mute_Handle(text) {
     if (isMuteOn == false) {
         return;
     }
-    if (rid == "5189167") {
-        return;
-    }
+    // if (rid == "5189167") {
+    //     return;
+    // }
     if (getType(text) == "chatmsg") {
         let uid = getStrMiddle(text, "uid@=", "/");
         if (uid == my_uid) { // 不算自己
