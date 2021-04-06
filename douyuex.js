@@ -2961,7 +2961,9 @@ function setFansBadgeList() {
         let tt = Number(item.getAttribute("data-fans-gbdgts")) * 1000;
         let ttStr = dateFormat("yyyy-MM-dd hh:mm:ss",new Date(tt)); // 获取日期
         let days = Math.floor((nowTime - tt) / 86400000); // 距今天数
-        let style = days >= 365 ? "font-weight:600;color:red;" : "";
+        let style = days >= 300 ? "font-weight:600;color:red;" : "";
+        // let className = days >= 300 ? "fansBadgeDays" : "";
+
         let td = item.getElementsByTagName("td")[1];
         // td.innerHTML += `获取于：${ttStr}（${days}天）`;
         td.innerHTML += `
