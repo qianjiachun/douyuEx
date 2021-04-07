@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.04.07.02
+// @version      2021.04.07.03
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -54,6 +54,7 @@ function init() {
 	removeAD();
 	initPkg_Statistics();
 	initPkg_Console();
+	Update_checkVersion();
 	initPkg_Menu();
 	initPkg_FollowList();
 }
@@ -8029,7 +8030,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.04.07.02"
+var curVersion = "2021.04.07.03"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -8111,6 +8112,15 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 	tmp = await checkUpdate_Src().catch(async (err) => {
 		tmp = await checkUpdate_GreasyFork().catch(err => {
 			tmp = [false, curVersion];
+			isNeedUpdate = tmp[0];
+			lastestVersion = tmp[1];
+			if (isNeedUpdate) {
+				Update_showMessage();
+			} else {
+				if (isShowNotUpdate) {
+					showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
+				}
+			}
 		})
 	})
 	isNeedUpdate = tmp[0];

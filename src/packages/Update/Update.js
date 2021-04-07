@@ -1,7 +1,7 @@
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.04.07.02"
+var curVersion = "2021.04.07.03"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -83,6 +83,15 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 	tmp = await checkUpdate_Src().catch(async (err) => {
 		tmp = await checkUpdate_GreasyFork().catch(err => {
 			tmp = [false, curVersion];
+			isNeedUpdate = tmp[0];
+			lastestVersion = tmp[1];
+			if (isNeedUpdate) {
+				Update_showMessage();
+			} else {
+				if (isShowNotUpdate) {
+					showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
+				}
+			}
 		})
 	})
 	isNeedUpdate = tmp[0];
