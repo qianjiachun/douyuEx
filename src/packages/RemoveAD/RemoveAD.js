@@ -26,6 +26,8 @@ function removeAD() {
 
     .ZoomTip{display:none !important;}
 
+    /*福利券*/
+    .PlayerToolbar-couponInfo{display:none !important;}
     /*优化页面*/
     #js-barrage-list-parent{scrollbar-width: none;-ms-overflow-style: none;width:98%;height:100%}
     #js-barrage-list-parent::-webkit-scrollbar{display: none;}

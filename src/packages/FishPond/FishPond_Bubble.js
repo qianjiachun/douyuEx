@@ -67,5 +67,3 @@ function getFishPond_BubbleList() {
 		console.log("请求失败!", err);
 	})
 }
-
-
