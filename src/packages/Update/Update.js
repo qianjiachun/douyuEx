@@ -1,7 +1,7 @@
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.04.19.01"
+var curVersion = "2021.04.19.02"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -87,6 +87,9 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 			lastestVersion = tmp[1];
 			if (isNeedUpdate) {
 				Update_showMessage();
+				if (isNeedUpdate) {
+					Update_showTip(true);
+				}
 			} else {
 				if (isShowNotUpdate) {
 					showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
@@ -98,6 +101,9 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 	lastestVersion = tmp[1];
 	if (isNeedUpdate) {
 		Update_showMessage();
+		if (isNeedUpdate) {
+			Update_showTip(true);
+		}
 	} else {
 		if (isShowNotUpdate) {
 			showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
@@ -111,13 +117,16 @@ function Update_openUpdatePage() {
 
 function Update_showTip(a) {
 	let d = document.getElementById("ex-update__tip");
-	if (a == true) {
-		if (d.style.display != "block") {
-			d.style.display = "block";
+	if (d) {
+		if (a) {
+			if (d.style.display != "block") {
+				d.style.display = "block";
+			}
+		} else {
+			d.style.display = "none";
 		}
-	} else {
-		d.style.display = "none";
 	}
+	
 }
 // 【版本更新】最新版本：2010.02.10.01，点击官方源或者greasyfork源更新
 function Update_showMessage() {
