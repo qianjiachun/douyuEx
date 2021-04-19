@@ -16,7 +16,7 @@ function MonthCost_insertIcon() {
 	let a = document.createElement("span");
 	a.className = "month-cost";
 	a.innerHTML = `本月已消费 <span id="monthcost__money">***</span> 元`;
-	
+	a.title = "数据每日更新，根据个人中心消费数据统计"
 	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
