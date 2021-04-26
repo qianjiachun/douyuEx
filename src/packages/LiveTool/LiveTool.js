@@ -18,6 +18,7 @@ function initPkg_LiveTool_Module() {
 	initPkg_LiveTool_Gift();
 	initPkg_LiveTool_Reply();
 	initPkg_LiveTool_Treasure();
+	initPkg_LiveTool_BarrageSpeed();
 
 	// initPkg_LiveTool_Bojiang_Handle();
 }
@@ -63,10 +64,11 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
 		initPkg_LiveTool_Gift_Handle(ret); // 自动谢礼物
-		initPkg_LiveTool_Treasure_Handle(ret);
-		initPkg_LiveTool_Enter_Handle(ret);
+		initPkg_LiveTool_Treasure_Handle(ret); // 自动抢宝箱
+		initPkg_LiveTool_Enter_Handle(ret); // 自动欢迎
 		// initPkg_LiveTool_Friend_Handle(ret);
-		initPkg_LiveTool_Vote_Handle(ret);
+		initPkg_LiveTool_Vote_Handle(ret); // 投票
+		initPkg_LiveTool_BarrageSpeed_Handle(ret); // 弹幕时速
     });
 }
 

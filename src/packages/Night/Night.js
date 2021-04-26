@@ -170,6 +170,9 @@ function setNightMode() {
 
     .MedalOwnerInfo-box{border-bottom: 1px solid rgb(79 81 88)!important;}
     .FansMedalList-item.is-NoWear{border-top: 1px solid rgb(79 81 88)!important;}
+
+    /*弹幕时速*/
+    .barrageSpeed{color: rgba(255,255,255,0.5) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
