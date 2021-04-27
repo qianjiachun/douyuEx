@@ -17,9 +17,14 @@ function initRouter(href) {
             initRouter_Yuba();
         }
 
-    } else if (String(href).indexOf("v.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
+    } else if (String(href).indexOf("v.douyu.com") != -1) {
         // 视频
-        initRouter_CleanVideo();
+        if (String(href).indexOf("?exClean") != -1) {
+            initRouter_CleanVideo();
+        } else if (String(href).indexOf("show/") != -1) {
+            initRouter_Video();
+        }
+        
     } else if (String(href).indexOf("getFansBadgeList") != -1) {
         // 粉丝牌
         initRouter_FansBadgeList();
@@ -136,6 +141,10 @@ function initRouter_CleanVideo() {
     cleanCookie(() => {
         window.parent.postMessage("videoCleanOver", decodeURIComponent(domain));
     });
+}
+
+function initRouter_Video() {
+    initPkg_VideoTime();
 }
 
 function initRouter_FansBadgeList() {

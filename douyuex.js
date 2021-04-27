@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.04.18.01
+// @version      2021.04.27.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -148,6 +148,29 @@ function formatSeconds(value) {
 	if (hourTime > 0) {
 		result = "" + parseInt(hourTime) + "小时" + result;
 	}
+	return result;
+}
+
+function formatSeconds2(value) {
+	var secondTime = parseInt(value); // 秒
+	var minuteTime = 0; // 分
+	var hourTime = 0; // 小时
+	if (secondTime > 60) {
+		minuteTime = parseInt(secondTime / 60);
+		secondTime = parseInt(secondTime % 60);
+		if (minuteTime > 60) {
+			hourTime = parseInt(minuteTime / 60);
+			minuteTime = parseInt(minuteTime % 60);
+		}
+	}
+	var result ="" +(parseInt(secondTime) < 10? "0" + parseInt(secondTime): parseInt(secondTime));
+
+	// if (minuteTime > 0) {
+		result ="" + (parseInt(minuteTime) < 10? "0" + parseInt(minuteTime) : parseInt(minuteTime)) + ":" + result;
+	// }
+	// if (hourTime > 0) {
+		result ="" + (parseInt(hourTime) < 10 ? "0" + parseInt(hourTime): parseInt(hourTime)) +":" + result;
+	// }
 	return result;
 }
 
@@ -3744,7 +3767,7 @@ function LiveTool_BarrageSpeed_Dom() {
     let a = document.createElement("div");
     a.className = "barrageSpeed";
     let html = `
-        <span class='barrageSpeed__value'>**</span>条/分
+        弹幕时速：<span class='barrageSpeed__value'>**</span>条/分
     `
     a.innerHTML = html;
     
@@ -4312,11 +4335,11 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
 		initPkg_LiveTool_Gift_Handle(ret); // 自动谢礼物
-		initPkg_LiveTool_Treasure_Handle(ret);
-		initPkg_LiveTool_Enter_Handle(ret);
+		initPkg_LiveTool_Treasure_Handle(ret); // 自动抢宝箱
+		initPkg_LiveTool_Enter_Handle(ret); // 自动欢迎
 		// initPkg_LiveTool_Friend_Handle(ret);
-		initPkg_LiveTool_Vote_Handle(ret);
-		initPkg_LiveTool_BarrageSpeed_Handle(ret);
+		initPkg_LiveTool_Vote_Handle(ret); // 投票
+		initPkg_LiveTool_BarrageSpeed_Handle(ret); // 弹幕时速
     });
 }
 
@@ -8250,7 +8273,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.04.23.01"
+var curVersion = "2021.04.27.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -8383,6 +8406,79 @@ function Update_showMessage() {
 	showMessage(msg, "error");
 }
 
+let videoStartTime = 0;
+let videoTime_domhook_videoChange = null;
+let videoTime_domhook_showtime = null;
+let videoTime_timeout = 0;
+function initPkg_VideoTime() {
+    let timer = setInterval(() => {
+        VideoTime_setData();
+        let videoDom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("__video");
+        let showtimeDom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview");
+
+        if (videoDom !== undefined && videoDom !== null) {
+            clearInterval(timer);
+            videoTime_domhook_videoChange = new MutationObserver(function(mutations) {
+                VideoTime_setData();
+            });
+            videoTime_domhook_videoChange.observe(videoDom, { attributes: true, childList: true, subtree: false });
+
+            videoTime_domhook_showtime = new MutationObserver(function(mutations) {
+                for (let i = 0; i < mutations.length; i++) {
+                    let item = mutations[i];
+                    if (item.attributeName == "showtime") {
+                        // 此时修改时间
+                        let showtime = Number(VideoTime_getShowTime());
+                        VideoTime_setShowTime(formatSeconds2(showtime) + "<br/>" + String(dateFormat("yyyy-MM-dd hh:mm:ss", new Date(Number(videoStartTime + showtime * 1000)))));
+                        break;
+                    } else if (item.attributeName == "isshow") {
+                        clearTimeout(videoTime_timeout);
+                        let showtime = Number(VideoTime_getShowTime());
+                        // 宏任务 模拟nextTick
+                        videoTime_timeout = setTimeout(() => {
+                            VideoTime_setShowTime(formatSeconds2(showtime) + "<br/>" + String(dateFormat("yyyy-MM-dd hh:mm:ss", new Date(Number(videoStartTime + showtime * 1000)))));
+                        }, 0);
+                        break;
+                    }
+                }
+            });
+            videoTime_domhook_showtime.observe(showtimeDom, { attributes: true, childList: true, subtree: false });
+        }
+    }, 1000)
+}
+
+function VideoTime_setData() {
+    let pathnameArr = String(window.location.pathname).split("/");
+    let videoId = pathnameArr[pathnameArr.length - 1];
+    fetch("https://v.douyu.com/video/video/getVideoUrl?vid=" + videoId, {
+        method: 'GET',
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    }).then(res => {
+        return res.json();
+    }).then(ret => {
+        let imgUrl = ret.data.viewthumb[0].url;
+        let timeStr = getStrMiddle(imgUrl, "--", "/");
+        videoStartTime = new Date(timeStr.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/, "$1-$2-$3 $4:$5:$6")).getTime();
+    }).catch(err => {
+        console.log("请求失败!", err);
+    })
+}
+
+function VideoTime_getShowTime() {
+    let t = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview").getAttribute("showtime");
+    return Number(t).toFixed(0);
+}
+
+function VideoTime_setShowTime(timeStr) {
+    let dom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview").shadowRoot.querySelector(".Preview-Time");
+    if (dom) {
+        dom.style.marginTop="42px";
+        dom.style.backgroundColor="rgba(0,0,0,0.5)";
+        dom.innerHTML = timeStr;
+    }
+}
 function initPkg_VideoTools_Cinema() {
     initPkg_VideoTools_Cinema_Dom();
     initPkg_VideoTools_Cinema_Func();
@@ -9840,9 +9936,14 @@ function initRouter(href) {
             initRouter_Yuba();
         }
 
-    } else if (String(href).indexOf("v.douyu.com") != -1 && String(href).indexOf("?exClean") != -1) {
+    } else if (String(href).indexOf("v.douyu.com") != -1) {
         // 视频
-        initRouter_CleanVideo();
+        if (String(href).indexOf("?exClean") != -1) {
+            initRouter_CleanVideo();
+        } else if (String(href).indexOf("show/") != -1) {
+            initRouter_Video();
+        }
+        
     } else if (String(href).indexOf("getFansBadgeList") != -1) {
         // 粉丝牌
         initRouter_FansBadgeList();
@@ -9959,6 +10060,10 @@ function initRouter_CleanVideo() {
     cleanCookie(() => {
         window.parent.postMessage("videoCleanOver", decodeURIComponent(domain));
     });
+}
+
+function initRouter_Video() {
+    initPkg_VideoTime();
 }
 
 function initRouter_FansBadgeList() {

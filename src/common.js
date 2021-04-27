@@ -46,6 +46,29 @@ function formatSeconds(value) {
 	return result;
 }
 
+function formatSeconds2(value) {
+	var secondTime = parseInt(value); // 秒
+	var minuteTime = 0; // 分
+	var hourTime = 0; // 小时
+	if (secondTime > 60) {
+		minuteTime = parseInt(secondTime / 60);
+		secondTime = parseInt(secondTime % 60);
+		if (minuteTime > 60) {
+			hourTime = parseInt(minuteTime / 60);
+			minuteTime = parseInt(minuteTime % 60);
+		}
+	}
+	var result ="" +(parseInt(secondTime) < 10? "0" + parseInt(secondTime): parseInt(secondTime));
+
+	// if (minuteTime > 0) {
+		result ="" + (parseInt(minuteTime) < 10? "0" + parseInt(minuteTime) : parseInt(minuteTime)) + ":" + result;
+	// }
+	// if (hourTime > 0) {
+		result ="" + (parseInt(hourTime) < 10 ? "0" + parseInt(hourTime): parseInt(hourTime)) +":" + result;
+	// }
+	return result;
+}
+
 async function verifyFans(room_id, level) {
 	return true; // 2020年12月22日18:28:18
 	let ret = false;
