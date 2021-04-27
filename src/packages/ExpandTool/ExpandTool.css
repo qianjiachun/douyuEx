@@ -5,6 +5,7 @@
 	position: relative;
 	bottom: 200px;
 	display: none;
+	z-index: 1015;
 }
 
 .extool__switch {

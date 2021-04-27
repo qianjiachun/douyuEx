@@ -5,6 +5,7 @@
 	position: relative;
 	bottom: 290px;
 	display: none;
+	z-index: 1015;
 }
 
 .livetool__cell {
