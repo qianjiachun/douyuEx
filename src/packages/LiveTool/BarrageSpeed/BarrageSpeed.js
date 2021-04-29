@@ -1,10 +1,11 @@
 let barrageSpeed_count = 0;
 function initPkg_LiveTool_BarrageSpeed() {
-    LiveTool_BarrageSpeed_Dom();
+    // LiveTool_BarrageSpeed_Dom();
     setInterval(() => {
         let barrageSpeed = (barrageSpeed_count / 5) * 60;
         barrageSpeed_count = 0;
-        document.getElementsByClassName("barrageSpeed__value")[0].innerText = barrageSpeed;
+        document.getElementsByClassName("ChatSend-txt")[0].placeholder = "弹幕时速：" + barrageSpeed + "条/分";
+        // document.getElementsByClassName("barrageSpeed__value")[0].innerText = barrageSpeed;
     }, 5000)
 }
 
