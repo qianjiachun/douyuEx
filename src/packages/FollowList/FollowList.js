@@ -56,6 +56,12 @@ async function setNewFollowList(panel) {
         cclick.click(() => {
             openPage("https://www.douyu.com/" + followListItems[i].getAttribute("rid"), true);
         });
+        followListItems[i].addEventListener("mousedown", (event) => {
+            if (event.button == 1) {
+                // 鼠标中键
+                openPage("https://www.douyu.com/" + followListItems[i].getAttribute("rid"), false);
+            }
+        })
     }
 }
 
