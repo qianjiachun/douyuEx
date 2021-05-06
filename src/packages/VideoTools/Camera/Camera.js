@@ -64,8 +64,8 @@ function initPkg_VideoTools_Camera_Func() {
             height: camera_height,
             workerScript: gifworkerBlob
         });;
-        cameraAddFarme(camera_canvas, gif);
-        timer = setInterval(() => {cameraAddFarme(camera_canvas, gif)}, camera_fps);
+        cameraAddFrame(camera_canvas, gif);
+        timer = setInterval(() => {cameraAddFrame(camera_canvas, gif)}, camera_fps);
     })
     camera.addEventListener("mouseup", (e) => {
         let upTime = new Date().getTime();
@@ -97,7 +97,7 @@ function initPkg_VideoTools_Camera_Func() {
     })
 }
 
-function cameraAddFarme(camera_canvas, gif) {
+function cameraAddFrame(camera_canvas, gif) {
     camera_canvas.getContext('2d').drawImage(liveVideoNode, 0, 0, camera_canvas.width, camera_canvas.height);
     gif.addFrame(camera_canvas, {
         copy: true,
