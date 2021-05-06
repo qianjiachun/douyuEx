@@ -21,14 +21,14 @@ function initPkg_VideoTime() {
                     if (item.attributeName == "showtime") {
                         // 此时修改时间
                         let showtime = Number(VideoTime_getShowTime());
-                        VideoTime_setShowTime(formatSeconds2(showtime) + "<br/>" + String(dateFormat("yyyy-MM-dd hh:mm:ss", new Date(Number(videoStartTime + showtime * 1000)))));
+                        VideoTime_setShowTime(String(dateFormat("yyyy-MM-dd hh:mm:ss", new Date(Number(videoStartTime + showtime * 1000)))) + "<br/>" + formatSeconds2(showtime));
                         break;
                     } else if (item.attributeName == "isshow") {
                         clearTimeout(videoTime_timeout);
                         let showtime = Number(VideoTime_getShowTime());
                         // 宏任务 模拟nextTick
                         videoTime_timeout = setTimeout(() => {
-                            VideoTime_setShowTime(formatSeconds2(showtime) + "<br/>" + String(dateFormat("yyyy-MM-dd hh:mm:ss", new Date(Number(videoStartTime + showtime * 1000)))));
+                            VideoTime_setShowTime(String(dateFormat("yyyy-MM-dd hh:mm:ss", new Date(Number(videoStartTime + showtime * 1000)))) + "<br/>" + formatSeconds2(showtime));
                         }, 0);
                         break;
                     }
@@ -66,8 +66,9 @@ function VideoTime_getShowTime() {
 function VideoTime_setShowTime(timeStr) {
     let dom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview").shadowRoot.querySelector(".Preview-Time");
     if (dom) {
-        dom.style.marginTop="42px";
-        dom.style.backgroundColor="rgba(0,0,0,0.5)";
+        dom.style.position = "relative";
+        dom.style.bottom = "60px"
+        dom.style.backgroundColor = "rgba(0,0,0,0.4)";
         dom.innerHTML = timeStr;
     }
 }
