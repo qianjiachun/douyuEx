@@ -31,6 +31,8 @@ function removeAD() {
     /*优化页面*/
     #js-barrage-list-parent{scrollbar-width: none;-ms-overflow-style: none;width:98%;height:100%}
     #js-barrage-list-parent::-webkit-scrollbar{display: none;}
+    /*陪玩*/
+    .InteractPlayWithEnter-enterTips1{display:none !important;}
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}

@@ -1,0 +1,27 @@
+#ex-camera {
+    background: rgba(0,0,0,0.7);
+    position: absolute;
+    right: 20px;
+    bottom: 290px;
+    z-index: 10;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #2d2c2c;
+    box-sizing: border-box;
+}
+
+#ex-camera:hover > svg > path {
+    fill: rgb(252, 199, 84);
+}
+
+#ex-camera:active > svg > path {
+    fill: rgb(253, 60, 60);
+}
