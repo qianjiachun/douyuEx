@@ -7,7 +7,7 @@ let camera_canvas;
 let camera_canvas_img;
 let camera_width;
 let camera_height;
-const camera_fps = 83;
+const camera_fps = 83; // 12fps
 
 function initPkg_VideoTools_Camera() {
     camera_width = liveVideoNode.videoWidth * 0.25;
@@ -41,13 +41,29 @@ function Camera_insertIcon() {
 
 function initPkg_VideoTools_Camera_Func() {
     let dom = document.getElementsByClassName("layout-Player-video")[0];
+    let dom_video = document.getElementsByClassName("room-Player-Box")[0];
     let camera = document.getElementById("ex-camera");
     let gif = null;
     let timer = 0;
     let downTime = 0;
     let imgBase64;
+    let timer_timeout = 0;
     dom.addEventListener("mouseenter", () => {
         camera.style.display = "flex";
+        timer_timeout = setTimeout(() => {
+            camera.style.display = "none";
+        }, 2000);
+    })
+    dom_video.addEventListener("mousemove", () => {
+        camera.style.display = "flex";
+        clearTimeout(timer_timeout);
+        timer_timeout = setTimeout(() => {
+            camera.style.display = "none";
+        }, 2000);
+    })
+    camera.addEventListener("mouseenter", () => {
+        camera.style.display = "flex";
+        clearTimeout(timer_timeout);
     })
     dom.addEventListener("mouseleave", () => {
         camera.style.display = "none";
@@ -75,7 +91,7 @@ function initPkg_VideoTools_Camera_Func() {
             gif.on('finished', blob => {
                 let el = document.createElement('a');
                 el.href = URL.createObjectURL(blob);
-                el.download = `【${rid}】${dateFormat("yyyy-MM-dd hh:mm:ss",new Date())}`;
+                el.download = `【${rid}】${dateFormat("yyyy-MM-dd hh-mm-ss",new Date())}`;
                 document.body.appendChild(el);
                 let evt = document.createEvent("MouseEvents");
                 evt.initEvent("click", false, false);
@@ -85,7 +101,7 @@ function initPkg_VideoTools_Camera_Func() {
             gif.render();
         } else {
             let el = document.createElement("a");
-            el.download = `【${rid}】${dateFormat("yyyy-MM-dd hh:mm:ss",new Date())}`;
+            el.download = `【${rid}】${dateFormat("yyyy-MM-dd hh-mm-ss",new Date())}`;
             el.href = imgBase64;
             document.body.appendChild(el);
             let evt = document.createEvent("MouseEvents");
