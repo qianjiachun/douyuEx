@@ -144,7 +144,9 @@ function initRouter_CleanVideo() {
 }
 
 function initRouter_Video() {
+    initStyles();
     initPkg_VideoTime();
+    initPkg_VideoTools_Camera_Video();
 }
 
 function initRouter_FansBadgeList() {
