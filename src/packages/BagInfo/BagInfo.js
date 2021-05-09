@@ -26,7 +26,7 @@ function initPkg_BagInfo_Func() {
                             totalIntimate = totalIntimate + Number(intimate) * Number(count);
                             let expiryDiv = document.createElement("div");
                             expiryDiv.className = "bag-info";
-                            expiryDiv.innerHTML = expiry;
+                            expiryDiv.innerHTML = expiry - 1;
                             chunk.insertBefore(expiryDiv, chunk.childNodes[0]);
                         }
                         document.getElementsByClassName("Backpack-space")[0].innerText = "总价值：" + String(Number(totalPrice / 100).toFixed(2)) + " 总亲密度：" + String(totalIntimate);
