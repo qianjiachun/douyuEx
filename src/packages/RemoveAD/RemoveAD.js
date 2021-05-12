@@ -29,7 +29,7 @@ function removeAD() {
     /*福利券*/
     .PlayerToolbar-couponInfo{display:none !important;}
     /*太空探险tips*/
-    .AroundStarsPlanetTips{display:none !important;}
+    .AroundStarsMoonBoxTips,.AroundStarsPlanetTips{display:none !important;}
     /*优化页面*/
     #js-barrage-list-parent{scrollbar-width: none;-ms-overflow-style: none;width:98%;height:100%}
     #js-barrage-list-parent::-webkit-scrollbar{display: none;}
@@ -41,7 +41,6 @@ function removeAD() {
     // .MainDialog-main--content{height:450px !important;}
     // .RomanticDatePanelModal-middle--rowItemBottom--rowItemBottomBtn{margin-left:0px !important;margin-top:0px !important;width:170px !important;height:40px !important;background:orange !important;}
     // }
-
 }
 function removeChatLimit() {
     let a;
