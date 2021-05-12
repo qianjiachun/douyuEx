@@ -10,6 +10,7 @@ function initPkg_FishPond_Timer() {
 	initPkg_FishPond_Task_Timer();
 	initPkg_FishPond_RoomSign_Timer();
 	initPkg_FishPond_Task2_Timer();
+	initPkg_FishPond_PubgBox_Timer();
 }
 function initPkg_FishPond_Func() {
 }

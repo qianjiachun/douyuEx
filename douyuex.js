@@ -259,6 +259,15 @@ function getCTN() {
 	return ret;
 }
 
+function getCSRF() {
+	let ret = getCookieValue("cvl_csrf_token");
+	if (ret == null) {
+		setCookie("cvl_csrf_token", "1");
+		ret = "1";
+	}
+	return ret;
+}
+
 function getUID() {
 	let ret = getCookieValue("acf_uid");
 	return ret;
@@ -3243,6 +3252,7 @@ function initPkg_FishPond_Timer() {
 	initPkg_FishPond_Task_Timer();
 	initPkg_FishPond_RoomSign_Timer();
 	initPkg_FishPond_Task2_Timer();
+	initPkg_FishPond_PubgBox_Timer();
 }
 function initPkg_FishPond_Func() {
 }
@@ -3678,6 +3688,60 @@ async function getFishPond_Task2Bubble(bubbleList) {
         }
     }
 }
+
+function initPkg_FishPond_PubgBox_Timer() {
+    getPubgBox();
+}
+
+function getPubgBox() {
+    fetch('https://www.douyu.com/japi/carnivalApi/nc/crowdTask/baseTask/status?actAlias=20210508EQYDJ', {
+        method: 'GET',
+        mode: 'no-cors',
+        cache: 'default',
+        credentials: 'include',
+    }).then(res => {
+        return res.json();
+    }).then(ret => {
+        if (ret.error == 0 && ret.data.third.taskStatus !== 1) {
+            fetch('https://www.douyu.com/japi/carnival/nc/actTask/takePrize', {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'default',
+                credentials: 'include',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `csrfToken=${getCSRF()}&taskAlias=20210508EQYDJ_T8&rid=${rid}`
+            }).then(res => {
+                return res.json();
+            }).then(ret => {
+                if (ret.error == 0) {
+                    let prize_name = ret.data.sendRes.items[0].prizeName;
+                    let prize_num = ret.data.sendRes.items[0].prizeNum;
+                    showMessage("【PUBG寻宝】获得" + prize_name + "*" + prize_num, "success");
+                }
+            }).catch(err => {
+                console.log("请求失败!", err);
+            })
+        }
+    }).catch(err => {
+        console.log("请求失败!", err);
+    })
+}
+
+// 领大的
+// fetch('https://www.douyu.com/japi/carnivalApi/nc/crowdTask/takePrize', {
+//         method: 'POST',
+//         mode: 'no-cors',
+//         cache: 'default',
+//         credentials: 'include',
+//         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+//         body: `csrfToken=${getCSRF()}&actAlias=20210508EQYDJ&taskAlias=20210508EQYDJ_T8&exchangeBurst=true`
+//     }).then(res => {
+//         return res.json();
+//     }).then(ret => {
+//         console.log(ret)
+//     }).catch(err => {
+//         console.log("请求失败!", err);
+//     })
 
 let followListHook;
 function initPkg_FollowList() {

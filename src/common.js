@@ -153,6 +153,15 @@ function getCTN() {
 	return ret;
 }
 
+function getCSRF() {
+	let ret = getCookieValue("cvl_csrf_token");
+	if (ret == null) {
+		setCookie("cvl_csrf_token", "1");
+		ret = "1";
+	}
+	return ret;
+}
+
 function getUID() {
 	let ret = getCookieValue("acf_uid");
 	return ret;
