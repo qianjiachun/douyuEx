@@ -223,6 +223,9 @@ function setNightModeIframe() {
     .style-newvoteHeadAttendView-1EgXK, .style-newvoteHeadAttendView-1EgXK:focus{background: rgb(47,48,53)!important;}
     .style-optionWrapper-2FhfD{background: rgb(35,36,39) !important;cursor: pointer!important;}
     .style-newvotestyleTitle-32flx{color: rgb(204,204,204) !important;}
+    
+    .editor-3MzrC{background: rgb(47,48,53)!important;border-top: 1px solid rgb(47,48,53)!important;border-bottom: 1px solid rgb(47,48,53)!important;}
+    .editor-2y1wx{border: 1px solid rgb(47,48,53)!important;color:rgb(204,204,204)!important;}
     `)
 }
 
