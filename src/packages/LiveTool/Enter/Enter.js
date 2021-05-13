@@ -56,10 +56,8 @@ function LiveTool_Enter_insertFunc() {
         let a = document.getElementsByClassName("enter__panel")[0];
 		if (a.style.display != "block") {
             a.style.display = "block";
-            if (rid !== "5189167") {
-                if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
-                    document.getElementsByClassName("mute__panel")[0].style.display = "none";
-                }
+            if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+                document.getElementsByClassName("mute__panel")[0].style.display = "none";
             }
             if (document.getElementsByClassName("reply__panel")[0].style.display == "block") {
 				document.getElementsByClassName("reply__panel")[0].style.display = "none";

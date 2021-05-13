@@ -8,7 +8,12 @@
 
 }
 #reply__select {
-    width: 190px;
+    /* width: 190px; */
+    width: 100px;
+}
+
+#reply__time {
+    width: 35px;
 }
 
 .reply__option {

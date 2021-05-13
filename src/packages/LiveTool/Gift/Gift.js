@@ -63,10 +63,8 @@ function LiveTool_Gift_insertFunc() {
         let a = document.getElementsByClassName("gift__panel")[0];
 		if (a.style.display != "block") {
             a.style.display = "block";
-            if (rid != "5189167") {
-                if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
-                    document.getElementsByClassName("mute__panel")[0].style.display = "none";
-                }
+            if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+                document.getElementsByClassName("mute__panel")[0].style.display = "none";
             }
             if (document.getElementsByClassName("enter__panel")[0].style.display == "block") {
 				document.getElementsByClassName("enter__panel")[0].style.display = "none";

@@ -39,7 +39,9 @@ function ExpandTool_Treasure_insertFunc() {
             }
         })
 	});
-
+    document.getElementById("extool__treasure_skey").addEventListener("change", () => {
+        saveData_Treasure();
+    })
 }
 
 

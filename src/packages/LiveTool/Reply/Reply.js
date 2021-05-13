@@ -1,5 +1,7 @@
 let isReplyOn = false;
 let replyWordList = {};
+let isReplyCD = false;
+let replyCd = 0;
 function initPkg_LiveTool_Reply() {
     LiveTool_Reply_insertDom();
     LiveTool_Reply_insertFunc();
@@ -26,6 +28,7 @@ function LiveTool_Reply_insertDom() {
             </select>
             <input style="width:40px;margin-left:10px;" type="button" id="reply__add" value="添加"/>
             <input style="width:40px;margin-left:10px;" type="button" id="reply__del" value="删除"/>
+            <label style="margin-left:5px">CD：<input id="reply__time" type="text" placeholder="秒" /></label>
             <div class="reply__option">
                 <label>词：<input id="reply__word" type="text" placeholder="re(式)=结果"/></label>
                 <label>回复：<input id="reply__reply" type="text" placeholder="<id>用户名 <txt>弹幕"/></label>
@@ -41,6 +44,7 @@ function LiveTool_Reply_insertDom() {
 
 function LiveTool_Reply_insertFunc() {
     document.getElementById("reply__switch").addEventListener("click", () => {
+        replyCd = String(document.getElementById("reply__time").value) || 0;
         let ischecked = document.getElementById("reply__switch").checked;
 		if (ischecked == true) {
             // 开启关键词禁言
@@ -50,16 +54,14 @@ function LiveTool_Reply_insertFunc() {
             isReplyOn = false;
         }
         saveData_isReply();
-
+        saveData_ReplyCd();
     });
     document.getElementById("reply__title").addEventListener("click", () => {
         let a = document.getElementsByClassName("reply__panel")[0];
 		if (a.style.display != "block") {
             a.style.display = "block";
-            if (rid !== "5189167") {
-                if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
-                    document.getElementsByClassName("mute__panel")[0].style.display = "none";
-                }
+            if (document.getElementsByClassName("mute__panel")[0].style.display == "block") {
+                document.getElementsByClassName("mute__panel")[0].style.display = "none";
             }
             if (document.getElementsByClassName("enter__panel")[0].style.display == "block") {
 				document.getElementsByClassName("enter__panel")[0].style.display = "none";
@@ -124,6 +126,11 @@ function saveData_Reply() {
 	localStorage.setItem("ExSave_Reply", JSON.stringify(data)); // 存储弹幕列表
 }
 
+function saveData_ReplyCd() {
+	let data = document.getElementById("reply__time").value;
+	localStorage.setItem("ExSave_ReplyCd", data); // 存储弹幕列表
+}
+
 function saveData_isReply() {
     let ridArr = [];
     let ret = localStorage.getItem("ExSave_isReply");
@@ -180,6 +187,13 @@ function initPkg_Reply_Set() {
         isReplyOn = false;
         document.getElementById("reply__switch").checked = isReplyOn;
     }
+
+    ret = localStorage.getItem("ExSave_ReplyCd");
+	
+	if (ret != null) {
+        document.getElementById("reply__time").value = ret;
+	}
+    
 }
 
 function initPkg_LiveTool_Reply_Handle(text) {
@@ -225,7 +239,16 @@ function initPkg_LiveTool_Reply_Handle(text) {
                 let reply = replyWordList[key].reply;
                 reply = String(reply).replace(/<id>/g, nn);
                 reply = String(reply).replace(/<txt>/g, txt);
-                sendBarrage(reply);
+                if (isReplyCD == false) {
+                    sendBarrage(reply);
+                    // 设置CD
+                    if (replyCd > 0) {
+                        isReplyCD = true;
+                        setTimeout(() => {
+                            isReplyCD = false;
+                        }, replyCd * 1000);
+                    }
+                }
                 break;
             }
         }
