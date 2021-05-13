@@ -18,7 +18,7 @@ function getPubgBox() {
                 cache: 'default',
                 credentials: 'include',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: `csrfToken=${getCSRF()}&taskAlias=20210508EQYDJ_T8&rid=${rid}`
+                body: `csrfToken=${getCSRF()}&taskAlias=${ret.data.third.taskAlias}&rid=${rid}`
             }).then(res => {
                 return res.json();
             }).then(ret => {
