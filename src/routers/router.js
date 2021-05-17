@@ -22,13 +22,17 @@ function initRouter(href) {
         } else {
             initRouter_Yuba();
         }
-
     } else if (String(href).indexOf("v.douyu.com") != -1) {
         // 视频
         if (String(href).indexOf("?exClean") != -1) {
             initRouter_CleanVideo();
         } else if (String(href).indexOf("show/") != -1) {
             initRouter_Video();
+        }
+    } else if (String(href).indexOf("cz.douyu.com") != -1) {
+        // 充值
+        if (String(href).indexOf("?exClean") != -1) {
+            initRouter_CleanCz();
         }
         
     } else if (String(href).indexOf("getFansBadgeList") != -1) {
@@ -146,6 +150,13 @@ function initRouter_CleanVideo() {
     let domain = getStrMiddle(window.location.href, "domain=", "&");
     cleanCookie(() => {
         window.parent.postMessage("videoCleanOver", decodeURIComponent(domain));
+    });
+}
+
+function initRouter_CleanCz() {
+    let domain = getStrMiddle(window.location.href, "domain=", "&");
+    cleanCookie(() => {
+        window.parent.postMessage("czCleanOver", decodeURIComponent(domain));
     });
 }
 

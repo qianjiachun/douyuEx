@@ -22,6 +22,7 @@
 // @match        *://msg.douyu.com/*
 // @match        *://yuba.douyu.com/*
 // @match        *://v.douyu.com/*
+// @match        *://cz.douyu.com/*
 // @require      https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js
 // @require      https://cdn.jsdelivr.net/npm/svgaplayerweb@2.3.1/build/svga.min.js
 // @require      https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.min.js
@@ -442,7 +443,7 @@ function initPkg_AccountList_Func() {
                 break;
             case "msgCleanOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 4) {
+                if (cleanOverTimes >= 5) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -451,7 +452,7 @@ function initPkg_AccountList_Func() {
                 break;
             case "yubaCleanOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 4) {
+                if (cleanOverTimes >= 5) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -460,7 +461,16 @@ function initPkg_AccountList_Func() {
                 break;
             case "videoCleanOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 4) {
+                if (cleanOverTimes >= 5) {
+                    cleanOverTimes = 0;
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 50);
+                }
+                break;
+            case "czCleanOver":
+                cleanOverTimes++;
+                if (cleanOverTimes >= 5) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -469,7 +479,7 @@ function initPkg_AccountList_Func() {
                 break;
             case "switchOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 4) {
+                if (cleanOverTimes >= 5) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -756,9 +766,9 @@ function setYubaAndMsgAndVideoClean() {
     <iframe id="ex-yuba-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://yuba.douyu.com/iframe/tab/6416853?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     <iframe id="ex-msg-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://msg.douyu.com/web/index.html?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     <iframe id="ex-video-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://v.douyu.com/show/0?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    <iframe id="ex-cz-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://cz.douyu.com/item/gold?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     `
 }
-
 function deleteAccount(uid, callback) {
     let obj = JSON.parse(GM_getValue("Ex_accountList") || "{}");
     delete obj[uid];
@@ -10291,13 +10301,17 @@ function initRouter(href) {
         } else {
             initRouter_Yuba();
         }
-
     } else if (String(href).indexOf("v.douyu.com") != -1) {
         // 视频
         if (String(href).indexOf("?exClean") != -1) {
             initRouter_CleanVideo();
         } else if (String(href).indexOf("show/") != -1) {
             initRouter_Video();
+        }
+    } else if (String(href).indexOf("cz.douyu.com") != -1) {
+        // 充值
+        if (String(href).indexOf("?exClean") != -1) {
+            initRouter_CleanCz();
         }
         
     } else if (String(href).indexOf("getFansBadgeList") != -1) {
@@ -10415,6 +10429,13 @@ function initRouter_CleanVideo() {
     let domain = getStrMiddle(window.location.href, "domain=", "&");
     cleanCookie(() => {
         window.parent.postMessage("videoCleanOver", decodeURIComponent(domain));
+    });
+}
+
+function initRouter_CleanCz() {
+    let domain = getStrMiddle(window.location.href, "domain=", "&");
+    cleanCookie(() => {
+        window.parent.postMessage("czCleanOver", decodeURIComponent(domain));
     });
 }
 

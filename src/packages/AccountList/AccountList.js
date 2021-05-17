@@ -48,7 +48,7 @@ function initPkg_AccountList_Func() {
                 break;
             case "msgCleanOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 4) {
+                if (cleanOverTimes >= 5) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -57,7 +57,7 @@ function initPkg_AccountList_Func() {
                 break;
             case "yubaCleanOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 4) {
+                if (cleanOverTimes >= 5) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -66,7 +66,16 @@ function initPkg_AccountList_Func() {
                 break;
             case "videoCleanOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 4) {
+                if (cleanOverTimes >= 5) {
+                    cleanOverTimes = 0;
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 50);
+                }
+                break;
+            case "czCleanOver":
+                cleanOverTimes++;
+                if (cleanOverTimes >= 5) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -75,7 +84,7 @@ function initPkg_AccountList_Func() {
                 break;
             case "switchOver":
                 cleanOverTimes++;
-                if (cleanOverTimes >= 4) {
+                if (cleanOverTimes >= 5) {
                     cleanOverTimes = 0;
                     setTimeout(() => {
                         window.location.reload();
@@ -362,9 +371,9 @@ function setYubaAndMsgAndVideoClean() {
     <iframe id="ex-yuba-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://yuba.douyu.com/iframe/tab/6416853?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     <iframe id="ex-msg-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://msg.douyu.com/web/index.html?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     <iframe id="ex-video-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://v.douyu.com/show/0?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
+    <iframe id="ex-cz-iframe" width="100%" height="100%" scrolling="no" frameborder="0" src="https://cz.douyu.com/item/gold?exClean&domain=${encodeURIComponent(window.location.href)}&"></iframe>
     `
 }
-
 function deleteAccount(uid, callback) {
     let obj = JSON.parse(GM_getValue("Ex_accountList") || "{}");
     delete obj[uid];
