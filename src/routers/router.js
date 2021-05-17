@@ -1,4 +1,10 @@
 function initRouter(href) {
+    // 用于优先载入夜间模式
+    if (String(href).indexOf("www.douyu.com") && String(href).indexOf("getFansBadgeList") == -1) {
+        initPkg_Night_Set_Fast();
+    }
+
+    // 路由转发
     if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun") != -1) {
         // 账号
         initRouter_Passport();
