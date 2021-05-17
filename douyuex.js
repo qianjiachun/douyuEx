@@ -51,6 +51,7 @@
 // @connect      toubang.tv
 // ==/UserScript==
 function init() {
+	initPkg_Night_Set_Fast();
 	removeAD();
 	initPkg_Statistics();
 	initPkg_Console();
@@ -3829,7 +3830,7 @@ let barrageSpeed_count = 0;
 function initPkg_LiveTool_BarrageSpeed() {
     // LiveTool_BarrageSpeed_Dom();
     setInterval(() => {
-        let barrageSpeed = (barrageSpeed_count / 5) * 60;
+        let barrageSpeed = Number((barrageSpeed_count / 5) * 60).toFixed(0);
         barrageSpeed_count = 0;
         document.getElementsByClassName("ChatSend-txt")[0].placeholder = "弹幕时速：" + barrageSpeed + "条/分";
         // document.getElementsByClassName("barrageSpeed__value")[0].innerText = barrageSpeed;
@@ -5817,7 +5818,7 @@ function initPkg_Night() {
 	initPkg_Night_Dom();
     initPkg_Night_Func();
     initPkg_Night_Set();
-    // watchBottomIframe();
+    watchBottomIframe();
 }
 
 function initPkg_Night_Dom() {
@@ -5834,52 +5835,52 @@ function Night_insertIcon() {
 }
 function saveData_Mode() {
 	// 0日间模式 1夜间模式
-	// let data = {
-	// 	mode: currentMode
-	// }
-	// localStorage.setItem("ExSave_Mode", JSON.stringify(data));
-    GM_setValue("ExSave_NightMode", currentMode);
+	let data = {
+		mode: currentMode
+	}
+	localStorage.setItem("ExSave_Mode", JSON.stringify(data));
+    // GM_setValue("ExSave_NightMode", currentMode);
 }
 function initPkg_Night_Set_Fast() {
-    // let ret = localStorage.getItem("ExSave_Mode");
-    // if (ret != null) {
-    //     let retJson = JSON.parse(ret);
-    //     if ("mode" in retJson == false) {
-    //         retJson.mode = 0;
-    //     }
-    //     if (retJson.mode == 1) {
-    //         setNightMode();
-    //     }
-    // }
-    let ret = GM_getValue("ExSave_NightMode");
-    if (ret && ret == 1) {
-        setNightMode();
+    let ret = localStorage.getItem("ExSave_Mode");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if ("mode" in retJson == false) {
+            retJson.mode = 0;
+        }
+        if (retJson.mode == 1) {
+            setNightMode();
+        }
     }
+    // let ret = GM_getValue("ExSave_NightMode");
+    // if (ret && ret == 1) {
+    //     setNightMode();
+    // }
 }
 
 function initPkg_Night_Set() {
-    // let ret = localStorage.getItem("ExSave_Mode");
-    // let a = document.getElementById("ex-night");
-    // if (ret != null) {
-    //     let retJson = JSON.parse(ret);
-        
-    //     if ("mode" in retJson == false) {
-    //         retJson.mode = 0;
-    //     }
-    //     if (retJson.mode == 1) {
-    //         currentMode = 1;
-    //         a.innerHTML = svg_night;
-    //         a.title = "切换日间模式";
-    //         // setNightMode();
-    //     }
-    // }
-    let ret = GM_getValue("ExSave_NightMode");
+    let ret = localStorage.getItem("ExSave_Mode");
     let a = document.getElementById("ex-night");
-    if (ret && ret == 1) {
-        currentMode = 1;
-        a.innerHTML = svg_night;
-        a.title = "切换日间模式";
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        
+        if ("mode" in retJson == false) {
+            retJson.mode = 0;
+        }
+        if (retJson.mode == 1) {
+            currentMode = 1;
+            a.innerHTML = svg_night;
+            a.title = "切换日间模式";
+            // setNightMode();
+        }
     }
+    // let ret = GM_getValue("ExSave_NightMode");
+    // let a = document.getElementById("ex-night");
+    // if (ret && ret == 1) {
+    //     currentMode = 1;
+    //     a.innerHTML = svg_night;
+    //     a.title = "切换日间模式";
+    // }
 
 }
 
@@ -5998,34 +5999,6 @@ function setNightMode() {
 
     /*弹幕时速*/
     .barrageSpeed{color: rgba(255,255,255,0.5) !important;}
-
-    body,#groupListBox,.mainbg,.wb_card-wbCardDetail-1wzCV,.video-imgWrap-3Mf6v{background: rgb(35,36,39) !important;}
-    .wb_card-wbCardWrap-22KrE,.wb_card-topListItemBox-1ui_g{border-bottom: 1px solid rgb(47,48,53) !important;}
-    .wb_card-wbInfo-19JiQ a,.wb_card-wbText-2fk2Y{color: rgb(204,204,204) !important;}
-    .wb_handle-wbRowLine-3OXI6 li,.wb_card-groupnameAndGrouplevel-38MGW{background: rgb(47,48,53) !important;}
-    .index-dyPage-260IV a{background-color: rgb(47,48,53)!important;border: 1px solid rgb(47,48,53)!important;}
-    .index-topTypeStyle-2ksW4{background-color: rgb(47,48,53)!important;color: rgb(204,204,204) !important;}
-    .index-dyPage-260IV span{background-color: rgb(47,48,53)!important;}
-
-    .index-editorArea-3XhrM input[data-input=title]{background-color: rgb(47,48,53)!important;color:rgb(204,204,204)!important;border: 1px solid rgb(47,48,53)!important;}
-    .index-dyPageGoNumber-LGN4a{background-color: rgb(47,48,53)!important;color:rgb(204,204,204)!important;}
-    span.index-dyPageActive-op79B{color:rgb(204,204,204)!important;}
-
-    .editor-editorPluginsWrapper-HGPzc{background-color: rgb(47,48,53)!important;border-bottom: 1px solid rgb(47,48,53)!important;border-top: 1px solid rgb(47,48,53)!important;}
-    .style-voteicon-3aTqD{color:rgb(204,204,204)!important;}
-    .editor-editorWrapper-2fChb{border: 1px solid rgb(47,48,53)!important;}
-    .editor-editorPluginsWrapper-HGPzc [data-role="menu"]:hover{background-color: rgb(47,48,53)!important;cursor: pointer!important;}
-    .editor-editorContentRoot-3PCjH{color: rgb(204,204,204) !important;}
-    .editor-editorNotLoginMask-1hCr-{background-color: rgb(47,48,53)!important;color: rgb(204,204,204) !important;}
-
-    .style-newvoteTopwrapper-3PgJY{background: rgb(47,48,53)!important;}
-    .style-newvoteHead-j0bH1{color: rgb(204,204,204) !important;}
-    .style-newvoteHeadAttendView-1EgXK, .style-newvoteHeadAttendView-1EgXK:focus{background: rgb(47,48,53)!important;}
-    .style-optionWrapper-2FhfD{background: rgb(35,36,39) !important;cursor: pointer!important;}
-    .style-newvotestyleTitle-32flx{color: rgb(204,204,204) !important;}
-    
-    .editor-3MzrC{background: rgb(47,48,53)!important;border-top: 1px solid rgb(47,48,53)!important;border-bottom: 1px solid rgb(47,48,53)!important;}
-    .editor-2y1wx{border: 1px solid rgb(47,48,53)!important;color:rgb(204,204,204)!important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
@@ -6079,6 +6052,8 @@ function setNightModeIframe() {
     
     .editor-3MzrC{background: rgb(47,48,53)!important;border-top: 1px solid rgb(47,48,53)!important;border-bottom: 1px solid rgb(47,48,53)!important;}
     .editor-2y1wx{border: 1px solid rgb(47,48,53)!important;color:rgb(204,204,204)!important;}
+
+    .VideoRecommendItem-liveTitle,.Bottom-tab--header{color:rgb(204,204,204)!important;}
     `)
 }
 
@@ -10294,9 +10269,9 @@ class Ex_WebSocket_UnLogin {
 }
 function initRouter(href) {
     // 用于优先载入夜间模式
-    if (String(href).indexOf("www.douyu.com") && String(href).indexOf("getFansBadgeList") == -1) {
-        initPkg_Night_Set_Fast();
-    }
+    // if (String(href).indexOf("www.douyu.com") && String(href).indexOf("getFansBadgeList") == -1) {
+    //     initPkg_Night_Set_Fast();
+    // }
 
     // 路由转发
     if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun") != -1) {
