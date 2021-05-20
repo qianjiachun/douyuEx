@@ -12,7 +12,7 @@ function initPkg_ExpandTool_Module() {
 	initPkg_ExpandTool_RedPacket_Room();
 	initPkg_ExpandTool_ClearBag();
     initPkg_ExpandTool_SendGift();
-    initPkg_ExpandTool_BarrageSize();
+    // initPkg_ExpandTool_BarrageSize();
 }
 
 function initPkg_ExpandTool_Dom() {
