@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.05.19.01
+// @version      2021.05.20.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -3155,9 +3155,55 @@ function FishFood_insertIcon() {
 }
 
 function initPkg_FishFood_Func() {
+	// document.getElementsByClassName("fish-food")[0].addEventListener("click", function() {
+	// 	getFishFoodV2();
+	// 	fetch("https://www.douyu.com/japi/activepointnc/api/getActivePointInfo", {
+	// 		method: 'POST',
+	// 		mode: 'no-cors',
+	// 		credentials: 'include',
+	// 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	// 	}).then(res => {
+	// 		return res.json();
+	// 	}).then(async (ret) =>{
+	// 		let cnt = Math.floor(Number(ret.data.userActivePoint) / Number(ret.data.onceLotteryActivePoint));
+	// 		if (cnt == 0) {
+	// 			showMessage("【寻宝】" + "鱼粮不足", "warning");
+	// 			return;
+	// 		}
+	// 		cnt = Number(ret.data.dailyMaxLotteryTimes) - Number(ret.data.usedLotteryCount);
+	// 		if (cnt == 0) {
+	// 			showMessage("【寻宝】" + "今日寻宝次数已到达上限", "warning");
+	// 			return;
+	// 		}
+	// 		for (let i = 0; i < cnt; i++) {
+	// 			await sleep(1500).then(() => {
+	// 				fetch("https://www.douyu.com/japi/activepointnc/api/dolottery", {
+	// 					method: 'POST',
+	// 					mode: 'no-cors',
+	// 					credentials: 'include',
+	// 					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+	// 					body: 'rid=' + rid + '&ctn=' + getCCN()
+	// 				}).then(res => {
+	// 					return res.json();
+	// 				}).then(ret => {
+	// 					if (ret.data != null) {
+	// 						if (Object.keys(ret.data).length != 0) {
+	// 							showMessage("【寻宝】" + ret.data.msg, "success");
+	// 						}
+	// 					} else {
+	// 						showMessage("【寻宝】" + ret.msg, "warning");
+	// 					}
+	// 					// console.log("【寻宝】" + ret.data.msg);
+	// 				}).catch(err => {
+	// 					console.log("请求失败!", err);
+	// 				})
+	// 			})
+	// 		}
+	// 	})
+	// })
 	document.getElementsByClassName("fish-food")[0].addEventListener("click", function() {
 		getFishFoodV2();
-		fetch("https://www.douyu.com/japi/activepointnc/api/getActivePointInfo", {
+		fetch("https://www.douyu.com/japi/activepointnc/apinc/lotteryV2", {
 			method: 'POST',
 			mode: 'no-cors',
 			credentials: 'include',
@@ -3165,19 +3211,19 @@ function initPkg_FishFood_Func() {
 		}).then(res => {
 			return res.json();
 		}).then(async (ret) =>{
-			let cnt = Math.floor(Number(ret.data.userActivePoint) / Number(ret.data.onceLotteryActivePoint));
+			let cnt = Math.floor(Number(ret.data.yuliang) / Number(ret.data.cost));
 			if (cnt == 0) {
 				showMessage("【寻宝】" + "鱼粮不足", "warning");
 				return;
 			}
-			cnt = Number(ret.data.dailyMaxLotteryTimes) - Number(ret.data.usedLotteryCount);
+			cnt = Number(ret.data.leftChance);
 			if (cnt == 0) {
 				showMessage("【寻宝】" + "今日寻宝次数已到达上限", "warning");
 				return;
 			}
 			for (let i = 0; i < cnt; i++) {
 				await sleep(1500).then(() => {
-					fetch("https://www.douyu.com/japi/activepointnc/api/dolottery", {
+					fetch("https://www.douyu.com/japi/activepointnc/apinc/doLotteryV2", {
 						method: 'POST',
 						mode: 'no-cors',
 						credentials: 'include',
@@ -3188,7 +3234,7 @@ function initPkg_FishFood_Func() {
 					}).then(ret => {
 						if (ret.data != null) {
 							if (Object.keys(ret.data).length != 0) {
-								showMessage("【寻宝】" + ret.data.msg, "success");
+								showMessage("【寻宝】" + ret.data.lotteryRes.data.msg, "success");
 							}
 						} else {
 							showMessage("【寻宝】" + ret.msg, "warning");
@@ -8394,7 +8440,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.05.19.01"
+var curVersion = "2021.05.20.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
