@@ -3,6 +3,7 @@ let real_info = {
 	showtime: 1015,
 	danmu_person_count: "",
 	gift_person_count: "",
+	paid_person_count: "",
 	isShow: 2,
 	money_yc: 0,
 	money_bag: 0,
@@ -26,7 +27,7 @@ function initPkg_RealAudience() {
 		real_info.showtime = retData.data.show_time;
 		real_info.isShow = retData.data.show_status;
 		getRealViewer();
-		setInterval(getRealViewer, 30000);
+		setInterval(getRealViewer, 120000);
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
@@ -76,7 +77,7 @@ function getRealViewer() {
 	}
 	GM_xmlhttpRequest({
 		method: "GET",
-		url: "http://wx.toubang.tv/api/anchor/get/info?pt=1&rid=" + rid + "&dt=0&date=0",
+		url: `https://www.doseeing.com/crew/room/aggr?rid=${rid}&dt=0`,
 		responseType: "json",
 		onload: function(response) {
 			let retData = response.response;
@@ -91,14 +92,15 @@ function getRealViewer() {
 					showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
 				}
 			}
-			real_info.view = retData.data.avgInteractNum || 0;
-			real_info.danmu_person_count = retData.data.avgMsgUserNum || 0;
-			real_info.gift_person_count = retData.data.avgGiftUserNum || 0;
-			real_info.money_yc = Number(retData.data.giftWorth / 100 || 0).toFixed(2);
-			real_info.money_total = Number(retData.data.giftAllWorth / 100 || 0).toFixed(2);
+			real_info.view = retData.data["active.uv"] || 0;
+			real_info.danmu_person_count = retData.data["chat.uv"] || 0;
+			real_info.gift_person_count = retData.data["gift.all.uv"] || 0;
+			real_info.paid_person_count = retData.data["gift.paid.uv"] || 0;
+			real_info.money_yc = Number(retData.data["gift.paid.price"] / 100 || 0).toFixed(2);
+			real_info.money_total = Number(retData.data["gift.all.price"] / 100 || 0).toFixed(2);
 			
 			document.getElementById("real-audience__total").innerText = real_info.view;
-			document.getElementById("real-audience__t").title = "总人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count;
+			document.getElementById("real-audience__t").title = "活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
 			document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
 			// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
 			document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
