@@ -76,6 +76,9 @@ function getRealViewer() {
 	GM_xmlhttpRequest({
 		method: "GET",
 		url: `https://www.doseeing.com/wecr/room/aggr?rid=${rid}&dt=0`,
+		headers: {
+			"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/90.0.4430.212"
+		},
 		responseType: "json",
 		onload: function(response) {
 			let retData = response.response;
