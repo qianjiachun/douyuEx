@@ -27,7 +27,7 @@ function initPkg_RealAudience() {
 		real_info.showtime = retData.data.show_time;
 		real_info.isShow = retData.data.show_status;
 		getRealViewer();
-		setInterval(getRealViewer, 120000);
+		setInterval(getRealViewer, 150000);
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
@@ -65,7 +65,7 @@ function initPkg_RealAudience_Dom() {
 
 function initPkg_RealAudience_Func() {
 	document.getElementsByClassName("real-audience")[0].addEventListener("click", function() {
-		openPage(`http://www.toubang.tv/anchor/1_${ rid }.html`, true);
+		openPage(`https://www.doseeing.com/room/${rid}`, true);
 	})
 }
 
@@ -75,7 +75,7 @@ function getRealViewer() {
 	}
 	GM_xmlhttpRequest({
 		method: "GET",
-		url: `https://www.doseeing.com/crew/room/aggr?rid=${rid}&dt=0`,
+		url: `https://www.doseeing.com/wecr/room/aggr?rid=${rid}&dt=0`,
 		responseType: "json",
 		onload: function(response) {
 			let retData = response.response;

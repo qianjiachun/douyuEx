@@ -7,10 +7,9 @@ function initPkg_FishPond_Timer() {
 	// 这里挂载每个子模块的时钟周期函数
 	initPkg_FishPond_Bubble_Timer();
 	initPkg_FishPond_Box_Timer();
-	initPkg_FishPond_Task_Timer();
+	// initPkg_FishPond_Task_Timer();
 	initPkg_FishPond_RoomSign_Timer();
 	initPkg_FishPond_Task2_Timer();
-	initPkg_FishPond_PubgBox_Timer();
 }
 function initPkg_FishPond_Func() {
 }
@@ -24,7 +23,7 @@ function FishPond_insertIcon() {
 function getAllFishPond() {
 	initPkg_FishPond_Bubble();
 	initPkg_FishPond_Box();
-	initPkg_FishPond_Task();
+	// initPkg_FishPond_Task();
 	// initPkg_FishPond_RoomSign();
 	// initPkg_FishPond_Task2();
 }

@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.05.22.01
+// @version      2021.05.27.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -842,55 +842,69 @@ function initPkg_Sign_Ad_FishPond() {
 function getFishBall_Ad_FishPond() {
     GM_xmlhttpRequest({
         method: "POST",
-        url: "https://apiv2.douyucdn.cn/japi/tasksys/ytxb/userStatusV3?client_sys=android",
-        data: "roomId=" + rid + "&token=" + dyToken,
+        url: "https://apiv2.douyucdn.cn/japi/fishpoolTask/m/apinc/taskList?client_sys=android",
+        data: "rid=" + rid + "&token=" + dyToken,
         responseType: "json",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         onload: async function(response) {
-            let ret = response.response.data.taskList;
+            let panel = response.response.data.panel;
+            let ret = null;
+            for (let i = 0; i < panel.length; i++) {
+                if (panel[i].id == 34) {
+                    // 每日活跃
+                    ret = panel[i].taskList;
+                    break;
+                }
+            }
+            if (!ret) {
+                return;
+            }
             for (let i = 0; i < ret.length; i++) {
-                if (ret[i].task.id == "182") {
+                if (ret[i].task.id == "5578") {
                     if (ret[i].task.status == "3") {
                         // showMessage("【鱼塘鱼丸】已领取", "warning");
                         // initPkg_Sign_Ad_666();
                         initPkg_Sign_Ad_Yuba();
                     } else {
-                        let posid_Ad_FishPond = "1114268";
-                        let token = dyToken;
-                        let uid = getUID();
-                        let info = await getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid);
-                        if (info == false) {
-                            // initPkg_Sign_Ad_666();
-                            initPkg_Sign_Ad_Yuba();
-                            return;
-                        }
-                        let mid = info.mid;
-                        let infoBack = info.infoBack;
-                        let isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
-                        if (isStart == false) {
-                            isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                        for (let j = 0; j < ret[i].task.max - ret[i].task.cur; j++) {
+                            let posid_Ad_FishPond = "1114268";
+                            let token = dyToken;
+                            let uid = getUID();
+                            let info = await getFishBall_Ad_FishPond_info(posid_Ad_FishPond, token, uid);
+                            if (info == false) {
+                                // initPkg_Sign_Ad_666();
+                                initPkg_Sign_Ad_Yuba();
+                                return;
+                            }
+                            let mid = info.mid;
+                            let infoBack = info.infoBack;
+                            let isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
                             if (isStart == false) {
                                 isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
-                                // 偷个懒，直接三次重试
+                                if (isStart == false) {
+                                    isStart = await getFishBall_Ad_FishPond_start(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                    // 偷个懒，直接三次重试
+                                }
                             }
-                        }
-                        if (isStart == true) {
-                            showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待15秒", "info");
-                            await sleep(15555).then(async () => {
-                                let isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
-                                if (isFinish == false) {
-                                    isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                            if (isStart == true) {
+                                showMessage("【鱼塘鱼丸】开始领取鱼塘鱼丸，需等待15秒", "info");
+                                await sleep(15555).then(async () => {
+                                    let isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
                                     if (isFinish == false) {
                                         isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                        if (isFinish == false) {
+                                            isFinish = await getFishBall_Ad_FishPond_finish(posid_Ad_FishPond, token, uid, mid, infoBack);
+                                        }
                                     }
-                                }
-                                if (isFinish == true) {
-                                    let isGet = await getFishBall_Ad_FishPond_Bubble(token);
-                                }
-                                
-                            })
+                                    if (isFinish == true) {
+                                        // let isGet = await getFishBall_Ad_FishPond_Bubble(token);
+                                        showMessage("【鱼塘鱼丸】任务完成", "success");
+                                    }
+                                    
+                                })
+                            }
                         }
                         // initPkg_Sign_Ad_666();
                         initPkg_Sign_Ad_Yuba();
@@ -3308,10 +3322,9 @@ function initPkg_FishPond_Timer() {
 	// 这里挂载每个子模块的时钟周期函数
 	initPkg_FishPond_Bubble_Timer();
 	initPkg_FishPond_Box_Timer();
-	initPkg_FishPond_Task_Timer();
+	// initPkg_FishPond_Task_Timer();
 	initPkg_FishPond_RoomSign_Timer();
 	initPkg_FishPond_Task2_Timer();
-	initPkg_FishPond_PubgBox_Timer();
 }
 function initPkg_FishPond_Func() {
 }
@@ -3325,7 +3338,7 @@ function FishPond_insertIcon() {
 function getAllFishPond() {
 	initPkg_FishPond_Bubble();
 	initPkg_FishPond_Box();
-	initPkg_FishPond_Task();
+	// initPkg_FishPond_Task();
 	// initPkg_FishPond_RoomSign();
 	// initPkg_FishPond_Task2();
 }
@@ -3747,60 +3760,6 @@ async function getFishPond_Task2Bubble(bubbleList) {
         }
     }
 }
-
-function initPkg_FishPond_PubgBox_Timer() {
-    getPubgBox();
-}
-
-function getPubgBox() {
-    fetch('https://www.douyu.com/japi/carnivalApi/nc/crowdTask/baseTask/status?actAlias=20210508EQYDJ', {
-        method: 'GET',
-        mode: 'no-cors',
-        cache: 'default',
-        credentials: 'include',
-    }).then(res => {
-        return res.json();
-    }).then(ret => {
-        if (ret.error == 0 && ret.data.third.taskStatus !== 1) {
-            fetch('https://www.douyu.com/japi/carnival/nc/actTask/takePrize', {
-                method: 'POST',
-                mode: 'no-cors',
-                cache: 'default',
-                credentials: 'include',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: `csrfToken=${getCSRF()}&taskAlias=${ret.data.third.taskAlias}&rid=${rid}`
-            }).then(res => {
-                return res.json();
-            }).then(ret => {
-                if (ret.error == 0) {
-                    let prize_name = ret.data.sendRes.items[0].prizeName;
-                    let prize_num = ret.data.sendRes.items[0].prizeNum;
-                    showMessage("【PUBG寻宝】获得" + prize_name + "*" + prize_num, "success");
-                }
-            }).catch(err => {
-                console.log("请求失败!", err);
-            })
-        }
-    }).catch(err => {
-        console.log("请求失败!", err);
-    })
-}
-
-// 领大的
-// fetch('https://www.douyu.com/japi/carnivalApi/nc/crowdTask/takePrize', {
-//         method: 'POST',
-//         mode: 'no-cors',
-//         cache: 'default',
-//         credentials: 'include',
-//         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-//         body: `csrfToken=${getCSRF()}&actAlias=20210508EQYDJ&taskAlias=20210508EQYDJ_T8&exchangeBurst=true`
-//     }).then(res => {
-//         return res.json();
-//     }).then(ret => {
-//         console.log(ret)
-//     }).catch(err => {
-//         console.log("请求失败!", err);
-//     })
 
 let followListHook;
 function initPkg_FollowList() {
@@ -7165,7 +7124,7 @@ function initPkg_RealAudience() {
 		real_info.showtime = retData.data.show_time;
 		real_info.isShow = retData.data.show_status;
 		getRealViewer();
-		setInterval(getRealViewer, 120000);
+		setInterval(getRealViewer, 150000);
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
@@ -7203,7 +7162,7 @@ function initPkg_RealAudience_Dom() {
 
 function initPkg_RealAudience_Func() {
 	document.getElementsByClassName("real-audience")[0].addEventListener("click", function() {
-		openPage(`http://www.toubang.tv/anchor/1_${ rid }.html`, true);
+		openPage(`https://www.doseeing.com/room/${rid}`, true);
 	})
 }
 
@@ -7213,7 +7172,7 @@ function getRealViewer() {
 	}
 	GM_xmlhttpRequest({
 		method: "GET",
-		url: `https://www.doseeing.com/crew/room/aggr?rid=${rid}&dt=0`,
+		url: `https://www.doseeing.com/wecr/room/aggr?rid=${rid}&dt=0`,
 		responseType: "json",
 		onload: function(response) {
 			let retData = response.response;
@@ -8442,7 +8401,7 @@ function initPkg_Statistics() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.05.22.01"
+var curVersion = "2021.05.27.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
