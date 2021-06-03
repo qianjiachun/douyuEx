@@ -19,22 +19,24 @@ function CopyRealLive_insertIcon() {
 
 function initPkg_CopyRealLive_Func() {
 	document.getElementById("copy-real-live").addEventListener("click", function() {
-        getRealLive_Douyu(rid, true, false, "1015", (lurl) => {
+        getRealLive_Douyu(rid, true, true, "1015", (lurl) => {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
             } else {
-                GM_setClipboard(String(lurl).replace("https", "http"));
+                // GM_setClipboard(String(lurl).replace("https", "http"));
+                GM_setClipboard(String(lurl));
                 showMessage("复制成功", "success");
             }
             
         })
     });
     document.getElementsByClassName("Title-header")[0].addEventListener("click", function() {
-        getRealLive_Douyu(rid, true, false, "1015", (lurl) => {
+        getRealLive_Douyu(rid, true, true, "1015", (lurl) => {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
             } else {
-                GM_setClipboard(String(lurl).replace("https", "http"));
+                // GM_setClipboard(String(lurl).replace("https", "http"));
+                GM_setClipboard(String(lurl));
                 showMessage("复制成功", "success");
             }
             
