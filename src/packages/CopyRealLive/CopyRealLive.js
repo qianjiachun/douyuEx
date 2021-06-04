@@ -23,8 +23,9 @@ function initPkg_CopyRealLive_Func() {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
             } else {
+                let str = "flv:\n" + String(lurl) + "\n\nm3u8:\n" + String(lurl).replace("flv", "m3u8");
                 // GM_setClipboard(String(lurl).replace("https", "http"));
-                GM_setClipboard(String(lurl));
+                GM_setClipboard(str);
                 showMessage("复制成功", "success");
             }
             
@@ -35,8 +36,10 @@ function initPkg_CopyRealLive_Func() {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
             } else {
-                // GM_setClipboard(String(lurl).replace("https", "http"));
-                GM_setClipboard(String(lurl));
+                // // GM_setClipboard(String(lurl).replace("https", "http"));
+                // GM_setClipboard(String(lurl));
+                let str = "flv: " + String(lurl) + "\nm3u8: " + String(lurl).replace("flv", "m3u8");
+                GM_setClipboard(str);
                 showMessage("复制成功", "success");
             }
             
