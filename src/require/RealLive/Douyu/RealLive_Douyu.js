@@ -83,7 +83,7 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
                 } else {
                     if (qn == "1015") {
                         // qn写1015则不返回清晰度，即默认
-                        realLive = "https://tx2play1.douyucdn.cn/live/" + result + ".flv?uuid=";
+                        realLive = "http://tx2play1.douyucdn.cn/live/" + result + ".xs?uuid=";
                     } else {
                         realLive = "https://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
                     }

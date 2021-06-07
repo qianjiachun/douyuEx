@@ -19,11 +19,11 @@ function CopyRealLive_insertIcon() {
 
 function initPkg_CopyRealLive_Func() {
 	document.getElementById("copy-real-live").addEventListener("click", function() {
-        getRealLive_Douyu(rid, true, true, "1015", (lurl) => {
+        getRealLive_Douyu(rid, true, false, "1015", (lurl) => {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
             } else {
-                let str = "flv:\n" + String(lurl) + "\n\nm3u8:\n" + String(lurl).replace("flv", "m3u8");
+                let str = String(lurl);
                 // GM_setClipboard(String(lurl).replace("https", "http"));
                 GM_setClipboard(str);
                 showMessage("复制成功", "success");
@@ -32,13 +32,13 @@ function initPkg_CopyRealLive_Func() {
         })
     });
     document.getElementsByClassName("Title-header")[0].addEventListener("click", function() {
-        getRealLive_Douyu(rid, true, true, "1015", (lurl) => {
+        getRealLive_Douyu(rid, true, false, "1015", (lurl) => {
             if (lurl == "None") {
                 showMessage("房间未开播或其他错误", "error");
             } else {
                 // // GM_setClipboard(String(lurl).replace("https", "http"));
                 // GM_setClipboard(String(lurl));
-                let str = "flv: " + String(lurl) + "\nm3u8: " + String(lurl).replace("flv", "m3u8");
+                let str = String(lurl);
                 GM_setClipboard(str);
                 showMessage("复制成功", "success");
             }
