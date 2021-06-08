@@ -15,7 +15,7 @@ function getFishBall_Ad_FishPond() {
             let panel = response.response.data.panel;
             let ret = null;
             for (let i = 0; i < panel.length; i++) {
-                if (panel[i].id == 34) {
+                if (panel[i].id == 37) {
                     // 每日活跃
                     ret = panel[i].taskList;
                     break;
