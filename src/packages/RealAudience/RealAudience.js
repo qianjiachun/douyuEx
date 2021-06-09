@@ -15,7 +15,6 @@ function initPkg_RealAudience() {
 	initPkg_RealAudience_Dom();
 	initPkg_RealAudience_Func();
 	setAvatarVideo();
-	getRealViewer();
 
 	fetch("https://www.douyu.com/swf_api/h5room/" + rid, {
 		method: 'GET',
@@ -74,11 +73,13 @@ function getRealViewer() {
 		document.querySelector(".MatchSystemChatRoomEntry").style.display = "none";
 	}
 	GM_xmlhttpRequest({
-		method: "GET",
-		url: `https://www.doseeing.com/wecr/room/aggr?rid=${rid}&dt=0`,
+		method: "POST",
+		url: `https://www.doseeing.com/wecr/room/aggr`,
 		headers: {
-			"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/90.0.4430.212"
+			"Content-Type": "application/json;charset=UTF-8",
+			"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/91.0.4472.77"
 		},
+		data: `{"m":"${window.btoa(`rid=${rid}&dt=0`).split("").reverse().join("")}"}`,
 		responseType: "json",
 		onload: function(response) {
 			let retData = response.response;
