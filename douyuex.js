@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.06.22.01
+// @version      2021.06.29.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -103,10 +103,6 @@ function initStyles() {
 `));
 	document.head.appendChild(style);
 }
-
-(function() {
-	initRouter(window.location.href);
-})();
 // 全局变量及公共函数
 var exTimer = 0; // 总时钟句柄
 var url = document.getElementsByTagName('html')[0].innerHTML;
@@ -2878,7 +2874,7 @@ function ExpandTool_Treasure_insertDom() {
     let html = "";
     html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
     html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
-    html += '<div><a href="http://www.ddocr.com/" target="_blank" style="color:blue" title="点击进入ddocr官网，将账号用户中心的接口秘钥填入右边然后开启功能即可">ddocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
+    html += '<div><a href="https://www.rrocr.com/" target="_blank" style="color:blue" title="点击进入rrocr官网，将账号用户中心的appkey填入右边然后开启功能即可">rrocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
     
     let a = document.createElement("div");
     a.className = "extool__treasure";
@@ -5251,11 +5247,13 @@ function getTreasure_Verify(challenge, validate, seccode, divId) {
 }
 
 function getTreasure_Auto(skey, gt, challenge, referer, deviceid, rpid, roomid) {
-    let wtype = "geetest";
-    let data = "wtype=" + wtype + "&secretkey=" + skey + "&gt=" + gt + "&referer=" + referer + "&challenge=" + challenge + "&supporttype=3";
+    // let wtype = "geetest";
+    // let data = "wtype=" + wtype + "&secretkey=" + skey + "&gt=" + gt + "&referer=" + referer + "&challenge=" + challenge + "&supporttype=3";
+    let data = `appkey=${skey}&gt=${gt}&challenge=${challenge}&referer=${referer}&ip=&host=&sharecode=6fb45916efd144e592f3dbd905b618a5`
     GM_xmlhttpRequest({
         method: "POST",
-        url: "http://api.ddocr.com/api/gateway.jsonp",
+        // url: "http://api.ddocr.com/api/gateway.jsonp",
+        url: "http://api.rrocr.com/api/recognize.html",
         data: data,
         timeout: 60000,
         responseType: "json",
@@ -7561,7 +7559,7 @@ function initPkg_Refresh_Video_Set() {
 
 function refresh_Video_setStyle() {
     StyleHook_set("Ex_Style_VideoRefresh", `
-    .RandomPKBar,.LiveRoomLoopVideo,.LiveRoomDianzan,.maiMaitView-68e80c,.PkView{display:none !important;}
+    .MorePk,.RandomPKBar,.LiveRoomLoopVideo,.LiveRoomDianzan,.maiMaitView-68e80c,.PkView{display:none !important;}
     `)
 }
 
@@ -8441,7 +8439,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.06.22.01"
+var curVersion = "2021.06.29.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -9977,9 +9975,10 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
                 } else {
                     if (qn == "1015") {
                         // qn写1015则不返回清晰度，即默认
-                        realLive = "http://tx2play1.douyucdn.cn/live/" + result + ".xs?uuid=";
+                        // realLive = "http://tx2play1.douyucdn.cn/live/" + result + ".xs?uuid=";
+                        realLive = "http://dyscdnali1.douyucdn.cn/live/" + result + ".flv?uuid=";
                     } else {
-                        realLive = "https://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
+                        realLive = "http://dyscdnali1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
                     }
                 }
                 realLive = is_video ? realLive : realLive + "&only-audio=1";
@@ -10494,3 +10493,7 @@ function initRouter_Video() {
 function initRouter_FansBadgeList() {
     initPkg_FansBadgeList();
 }
+
+(function() {
+	initRouter(window.location.href);
+})();

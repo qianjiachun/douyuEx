@@ -83,9 +83,10 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
                 } else {
                     if (qn == "1015") {
                         // qn写1015则不返回清晰度，即默认
-                        realLive = "http://tx2play1.douyucdn.cn/live/" + result + ".xs?uuid=";
+                        // realLive = "http://tx2play1.douyucdn.cn/live/" + result + ".xs?uuid=";
+                        realLive = "http://dyscdnali1.douyucdn.cn/live/" + result + ".flv?uuid=";
                     } else {
-                        realLive = "https://tx2play1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
+                        realLive = "http://dyscdnali1.douyucdn.cn/live/" + result + "_" + cl + ".flv?uuid=";
                     }
                 }
                 realLive = is_video ? realLive : realLive + "&only-audio=1";

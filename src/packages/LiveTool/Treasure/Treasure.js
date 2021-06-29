@@ -151,11 +151,13 @@ function getTreasure_Verify(challenge, validate, seccode, divId) {
 }
 
 function getTreasure_Auto(skey, gt, challenge, referer, deviceid, rpid, roomid) {
-    let wtype = "geetest";
-    let data = "wtype=" + wtype + "&secretkey=" + skey + "&gt=" + gt + "&referer=" + referer + "&challenge=" + challenge + "&supporttype=3";
+    // let wtype = "geetest";
+    // let data = "wtype=" + wtype + "&secretkey=" + skey + "&gt=" + gt + "&referer=" + referer + "&challenge=" + challenge + "&supporttype=3";
+    let data = `appkey=${skey}&gt=${gt}&challenge=${challenge}&referer=${referer}&ip=&host=&sharecode=6fb45916efd144e592f3dbd905b618a5`
     GM_xmlhttpRequest({
         method: "POST",
-        url: "http://api.ddocr.com/api/gateway.jsonp",
+        // url: "http://api.ddocr.com/api/gateway.jsonp",
+        url: "http://api.rrocr.com/api/recognize.html",
         data: data,
         timeout: 60000,
         responseType: "json",
