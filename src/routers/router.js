@@ -74,15 +74,18 @@ function initRouter_DouyuRoom_Main() {
     document.domain = "douyu.com";
     init();
     let intID = setInterval(() => {
-        if (typeof (document.getElementsByClassName("BackpackButton")[0]) != "undefined" && typeof (document.getElementsByClassName("Barrage-main")[0]) != "undefined") {
-            setTimeout(() => {
-                initStyles();
-                initPkg();
-                initPkgSpecial();
-                initTimer();
-            }, 1500)
-            clearInterval(intID);
+        let dom1 = document.getElementsByClassName("BackpackButton")[0];
+        let dom2 = document.getElementsByClassName("Barrage-main")[0];
+        if (!dom1 || !dom2) {
+            return;
         }
+        setTimeout(() => {
+            initStyles();
+            initPkg();
+            initPkgSpecial();
+            initTimer();
+        }, 1500)
+        clearInterval(intID);
     }, 1000);
 }
 

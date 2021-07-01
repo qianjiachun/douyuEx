@@ -4,6 +4,10 @@ function initPkg_BagInfo() {
 }
 
 function initPkg_BagInfo_Func() {
+    let backpackDom = document.getElementsByClassName("BackpackButton")[0];
+    if (!backpackDom) {
+        return;
+    }
 	document.getElementsByClassName("BackpackButton")[0].addEventListener("click", function() {
         clearTimeout(timeout);
         timeout = setTimeout(() => {

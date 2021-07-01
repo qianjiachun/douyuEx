@@ -5,10 +5,10 @@
 }
 #gift__title {
     cursor: pointer;
-
+    user-select: none;
 }
 #gift__select {
-    width: 190px;
+    width: 113px;
 }
 
 .gift__option {
@@ -21,4 +21,16 @@
 
 #gift__reply {
     width: 150px;
+}
+
+#gift__export {
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 10px;
+}
+
+#gift__import {
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 5px;
 }

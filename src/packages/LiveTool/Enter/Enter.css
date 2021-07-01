@@ -5,7 +5,7 @@
 }
 #enter__title {
     cursor: pointer;
-
+    user-select: none;
 }
 #enter__select {
     width: 190px;

@@ -5,6 +5,7 @@
 }
 #mute__title {
     cursor: pointer;
+    user-select: none;
 }
 #mute__idlist {
     cursor: pointer;

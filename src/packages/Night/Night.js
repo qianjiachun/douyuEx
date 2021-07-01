@@ -190,6 +190,12 @@ function setNightMode() {
 
     /*用户等级*/
     ${getUserLevelNightModeStyle()}
+
+    /*新背包*/
+    .BackpackHeader{border-bottom: 1px solid rgb(37,38,42) !important;}
+    .BackpackHeader-tabItem{color:rgb(121,127,137)!important;}
+    .RightsPropsList{background-color: rgb(35,36,39) !important;color: rgb(149,149,149)!important;}
+    .RightsPropsList-item{background: rgb(47,48,53) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 

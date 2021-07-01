@@ -12,6 +12,8 @@ function LiveTool_Gift_insertDom() {
     let cell = `
         <div class='livetool__cell_title'>
             <span id='gift__title'>自动谢礼物</span>
+            <span id='gift__export'>导出</span>
+            <span id='gift__import'>导入</span>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -26,6 +28,7 @@ function LiveTool_Gift_insertDom() {
             </select>
             <input style="width:40px;margin-left:10px;" type="button" id="gift__add" value="添加"/>
             <input style="width:40px;margin-left:10px;" type="button" id="gift__del" value="删除"/>
+            <input style="width:64px;margin-left:10px;" type="button" id="gift__template" value="生成模板"/>
             <div class="gift__option">
                 <label><a id="reply__show_gid" style="color:blue;" href="javascript:void(0);">礼物id：</a><input id="gift__giftId" type="text"/></label>
                 <label>回复：<input id="gift__reply" type="text" placeholder="<id>=用户名 <cnt>个数"/></label>
@@ -121,6 +124,38 @@ function LiveTool_Gift_insertFunc() {
         saveData_Gift();
     });
 
+    document.getElementById("gift__export").addEventListener("click", () => {
+        GM_setClipboard(JSON.stringify(giftWordList));
+        showMessage("【自动谢礼物】导出完毕，已复制到剪贴板", "success");
+    });
+
+    document.getElementById("gift__import").addEventListener("click", () => {
+        PostbirdAlertBox.prompt({
+            'title': "请输入json文本（会覆盖原来的设置）",
+            'okBtn': '确定',
+            onConfirm: function (data) {
+                let select_wordList = document.getElementById("gift__select");
+                let obj = JSON.parse(data || "{}") || {};
+                if (typeof obj == "object") {
+                    giftWordList = {...obj};
+                    select_wordList.options.length = 0;
+                    for (let key in giftWordList) {
+                        if (giftWordList.hasOwnProperty(key)) {
+                            select_wordList.options.add(new Option(key, ""));
+                        }
+                    }
+                    saveData_Gift();
+                }
+                showMessage("【自动谢礼物】导入完毕");
+            },
+            onCancel: function (data) {
+            },
+        });
+    });
+
+    document.getElementById("gift__template").addEventListener("click", () => {
+        setAllGiftTemplate();
+    })
 }
 
 
@@ -210,5 +245,58 @@ function initPkg_LiveTool_Gift_Handle(text) {
             }
         }
     }
+}
+
+async function setAllGiftTemplate() {
+    let ret = {};
+    let roomGiftObj = {};
+    let roomGift = await getRoomGiftTemplate();
+    for (let i = 0; i < roomGift.data.gift.length; i++) {
+        let item = roomGift.data.gift[i];
+        roomGiftObj[item.id] = {
+            reply: `感谢<id>赠送的${item.name}x<cnt>`
+        };
+    }
+    let bagGift = await getBagGiftTemplate();
+    let bagGiftObj = {};
+    bagGift = bagGift.substring(0, bagGift.length - 2);
+    bagGift = bagGift.replace("DYConfigCallback(", "");
+    bagGift = JSON.parse(bagGift || "{}") || {};
+    for (const key in bagGift.data) {
+        bagGiftObj[key] = {
+            reply: `感谢<id>赠送的${bagGift.data[key].name}x<cnt>`
+        };
+    }
     
+    ret = {...roomGiftObj, ...bagGiftObj};
+    GM_setClipboard(JSON.stringify(ret));
+    showMessage("【自动谢礼物】礼物模板生成完毕，已复制到剪贴板，可直接导入", "success");
+}
+
+function getRoomGiftTemplate() {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: "http://open.douyucdn.cn/api/RoomApi/room/" + rid,
+            responseType: "json",
+            onload: function(response) {
+                let ret = response.response;
+                resolve(ret);
+            }
+        });
+    })
+}
+
+function getBagGiftTemplate() {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: "http://webconf.douyucdn.cn/resource/common/prop_gift_list/prop_gift_config.json",
+            responseType: "text",
+            onload: function(response) {
+                let ret = response.response;
+                resolve(ret);
+            }
+        });
+    })
 }

@@ -5,7 +5,7 @@
 }
 #vote__title {
     cursor: pointer;
-
+    user-select: none;
 }
 #vote__select {
     width: 100px;

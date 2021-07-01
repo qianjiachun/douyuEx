@@ -5,7 +5,7 @@
 }
 #reply__title {
     cursor: pointer;
-
+    user-select: none;
 }
 #reply__select {
     /* width: 190px; */
