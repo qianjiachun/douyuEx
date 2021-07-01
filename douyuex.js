@@ -5234,7 +5234,6 @@ function getTreasure(roomid, rpid, deviceid, idName) {
         },
         onload: function(response) {
             let ret = response.response;
-            console.log("getRedPacket", ret)
             if (ret.data.code == "-1" && ret.data.validate != "0") {
                 let v = JSON.parse(ret.data.geetest.validate_str);
                 let success = v.success;
@@ -5342,7 +5341,6 @@ function getTreasure_Auto(skey, gt, challenge, referer, deviceid, rpid, roomid) 
     // let wtype = "geetest";
     // let data = "wtype=" + wtype + "&secretkey=" + skey + "&gt=" + gt + "&referer=" + referer + "&challenge=" + challenge + "&supporttype=3";
     let data = `appkey=${skey}&gt=${gt}&challenge=${challenge}&referer=${referer}&ip=&host=&sharecode=6fb45916efd144e592f3dbd905b618a5`
-    console.log("data", data)
     GM_xmlhttpRequest({
         method: "POST",
         // url: "http://api.ddocr.com/api/gateway.jsonp",
@@ -5355,7 +5353,6 @@ function getTreasure_Auto(skey, gt, challenge, referer, deviceid, rpid, roomid) 
         },
         onload: function(response) {
             let ret = response.response;
-            console.log("recognize", ret)
             if (ret.status == "-1") {
                 showMessage("【宝箱】自动识别失败", "error");
                 return;
@@ -5373,7 +5370,6 @@ function getTreasure_Auto(skey, gt, challenge, referer, deviceid, rpid, roomid) 
                 },
                 onload: function(response) {
                     let ret = response.response;
-                    console.log("getRedPacket2", ret)
                     if (ret.data.code == "-1") {
                         showMessage("【宝箱】验证码不正确", "error")
                         return;
