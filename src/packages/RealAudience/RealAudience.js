@@ -74,7 +74,7 @@ function getRealViewer() {
 	}
 	GM_xmlhttpRequest({
 		method: "POST",
-		url: `https://www.doseeing.com/weee/room/aggr`,
+		url: `https://www.doseeing.com/xeee/room/aggr`,
 		headers: {
 			"Connection": "keep-alive",
 			"Content-Type": "application/json;charset=UTF-8",

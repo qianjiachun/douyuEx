@@ -39,12 +39,14 @@ async function getFishPond_Task2Panel(panelList) {
         let item = panelList[i];
         for (let j = 0; j < item.taskList.length; j++) {
             let taskItem = item.taskList[j].task;
-            if (taskItem.status == 2) {
-                let id = taskItem.id;
-                // 领取
-                await sleep(1500).then(() => {
-                    getFishPond_Task2GetPrize(id);
-                })
+            if (taskItem) {
+                if (taskItem.status == 2) {
+                    let id = taskItem.id;
+                    // 领取
+                    await sleep(1500).then(() => {
+                        getFishPond_Task2GetPrize(id);
+                    })
+                }
             }
         }
     }
