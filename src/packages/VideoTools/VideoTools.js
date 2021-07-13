@@ -10,7 +10,7 @@ function initPkg_VideoTools() {
             initPkg_VideoTools_Func();
         }
         videotools_num++;
-        if (videotools_num >= 15) {
+        if (videotools_num >= 100) {
             clearInterval(timer);
         }
     }, 1500);
