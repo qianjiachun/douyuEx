@@ -1,7 +1,7 @@
 let followListHook;
 function initPkg_FollowList() {
     let intID = setInterval(() => {
-        if (typeof(document.getElementsByClassName("DropPane-icon Follow-icon")[0]) != "undefined") {
+        if (typeof(document.getElementsByClassName("Header-follow-content")[0]) != "undefined") {
             followListHook = new DomHook(".Header-follow-content", false, handleFollowList)
             clearInterval(intID);
         }
@@ -11,7 +11,7 @@ function initPkg_FollowList() {
 
 function handleFollowList(m) {
     let active = document.getElementsByClassName("Header-follow-tab is-active")[0].innerText;
-    if (active == "特别关注") {
+    if (active === "特别关注" || active === "视频动态") {
         return;
     }
     let panel = document.getElementsByClassName("Header-follow-listWrap");
