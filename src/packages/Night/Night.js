@@ -261,6 +261,22 @@ function setNightModeIframe() {
     .editor-2y1wx{border: 1px solid rgb(47,48,53)!important;color:rgb(204,204,204)!important;}
 
     .VideoRecommendItem-liveTitle,.Bottom-tab--header{color:rgb(204,204,204)!important;}
+
+    .wb_card-wbCardDetail-3bz_l{background-color: rgb(35,36,39)!important;}
+    .wb_card-topListItemBox-7rXH3{border-bottom: 1px solid rgb(47,48,53)!important;}
+    .wb_card-wbCardWrap-2iAew{border-bottom: 1px solid rgb(47,48,53)!important;}
+    .wb_card-wbInfo-CLCyv a{color: rgb(204,204,204)!important;}
+    .wb_card-groupnameAndGrouplevel-1KuV5{background: rgb(47,48,53)!important;}
+    .wb_handle-line-FzKRd{color: rgb(125,125,125)!important;}
+    .wb_handle-wbRowLine-2qn-s li{background: rgb(47,48,53)!important;}
+    .wb_card-wbText-3sLfN{color: rgb(167,167,167)!important;}
+
+    .editor-editorWrapper-2y1wx{border: 1px solid rgb(47,48,53)!important;}
+    .editor-editorPluginsWrapper-3MzrC{border-top: 1px solid rgb(47,48,53)!important;border-bottom: 1px solid rgb(47,48,53)!important;background-color: rgb(47,48,53)!important;}
+    .index-dyPageGoNumber-2Ib1r,.index-topTypeStyle-3MKuW,.editor-editorNotLoginMask-35J9d{background-color: rgb(47,48,53)!important;color: rgb(125,125,125)!important;}
+    .index-titleInput-1uVJS{border: 1px solid rgb(47,48,53)!important;background: rgb(47,48,53)!important;color: rgb(167,167,167)!important;}
+    .index-dyPage-1CwXA span, .index-dyPage-1CwXA a{color: rgb(125,125,125)!important;background-color: rgb(47,48,53)!important;border: 1px solid rgb(47,48,53)!important;}
+    .editor-editorContentRoot-3QvJi{color: rgb(167,167,167)!important;}
     `)
 }
 
