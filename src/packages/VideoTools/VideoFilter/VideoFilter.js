@@ -2,6 +2,13 @@ let currentBrightness = "";
 let currentContrast = "";
 let currentSaturate = "";
 let liveVideoParentClassName = "";
+let isMirror = false;
+let rotateAngle = 0;
+let transformCss = {
+    rotateY: "",
+    rotate: "",
+    scale: "",
+}
 
 function initPkg_VideoTools_Filter() {
     liveVideoParentClassName = liveVideoNode.parentNode.className;
@@ -67,6 +74,7 @@ function Filter_insertIcon() {
             </div>
             <ul style="clear:both">
                 <li id="filter__mirror">镜像画面</li>
+                <li id="filter__rotate">旋转画面</li>
                 <li id="filter__reset">重置</li>
             </ul>
         </div>
@@ -106,6 +114,12 @@ function initPkg_VideoTools_Filter_Func() {
         StyleHook_remove("Ex_Style_Filter");
         document.getElementById("filter__select").selectedIndex = 0;
         liveVideoNode.style.filter = "";
+        rotateAngle = 0;
+        transformCss = {
+            rotateY: "",
+            rotate: "",
+            scale: "",
+        }
         liveVideoNode.parentNode.style.transform = "";
         document.getElementById("bar__bright").style.left = "100px";
         document.getElementById("bar__contrast").style.left = "100px";
@@ -117,11 +131,27 @@ function initPkg_VideoTools_Filter_Func() {
         
     });
     document.getElementById("filter__mirror").addEventListener("click", () => {
-        if (liveVideoNode.parentNode.style.transform == "") {
-            liveVideoNode.parentNode.style.transform = "rotateY(180deg)";
+        if (!isMirror) {
+            isMirror = true;
+            transformCss.rotateY = "rotateY(180deg)";
         } else {
-            liveVideoNode.parentNode.style.transform = "";
+            isMirror = false;
+            transformCss.rotateY = "rotateY(0deg)";
         }
+        liveVideoNode.parentNode.style.transition = "all .5s";
+        liveVideoNode.parentNode.style.transform = transformCss.rotateY + " " + transformCss.rotate + " " + transformCss.scale;
+    });
+
+    document.getElementById("filter__rotate").addEventListener("click", () => {
+        rotateAngle += 90;
+        transformCss.rotate = `rotate(${String(rotateAngle)}deg)`;
+        liveVideoNode.parentNode.style.transition = "all .5s";
+        if ((rotateAngle/90) % 2 !== 0) {
+            transformCss.scale = "scale(" + String(liveVideoNode.videoHeight / liveVideoNode.videoWidth) + ")";
+        } else {
+            transformCss.scale = "";
+        }
+        liveVideoNode.parentNode.style.transform = transformCss.rotateY + " " + transformCss.rotate + " " + transformCss.scale;
     });
 
     document.getElementById("filter__select").onchange = function() {
