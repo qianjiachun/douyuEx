@@ -8,7 +8,7 @@ function initPkg_Refresh_Video() {
             initPkg_Refresh_Video_Set();
         }
         video_num++;
-        if (video_num >= 15) {
+        if (video_num >= 100) {
             clearInterval(timer);
         }
     }, 1500);

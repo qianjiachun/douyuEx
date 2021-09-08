@@ -4,7 +4,7 @@ function initPkg_Sign_Act() {
 
 async function getAct() {
     let actList = await getActList();
-    actList = JSON.parse(decodeURIComponent(escape(window.atob(actList))));
+    actList = JSON.parse(decodeURIComponent(escape(window.atob(actList))) || "{}");
     if ("data" in actList == false) {
         return;
     }

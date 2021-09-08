@@ -8,6 +8,9 @@ function initPkg_FishPond_Box_Timer() {
 }
 
 function getFishPond_Box() {
+	if (!boxList) {
+		return;
+	}
 	// 清空boxList内的气泡
 	if (boxList.length == 0) {
 		// showMessage("【鱼塘宝箱】暂无可领取的鱼粮", "info");
@@ -44,6 +47,9 @@ function getFishPond_BoxList() {
 		  "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 		},
 		onload: function(response) {
+			if (!boxList) {
+				return;
+			}
 			boxList.length = 0;
 			for (let i = 0; i < response.response.data.length; i++) {
 				if (response.response.data[i] != null) {

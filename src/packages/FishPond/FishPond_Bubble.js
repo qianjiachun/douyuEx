@@ -9,6 +9,9 @@ function initPkg_FishPond_Bubble_Timer() {
 }
 
 function getFishPond_Bubble() {
+	if (!bubbleList) {
+		return;
+	}
 	// 清空bubbleList内的气泡
 	if (bubbleList.length == 0) {
 		// showMessage("【鱼塘气泡】暂无可领取的鱼粮", "info");
@@ -54,6 +57,9 @@ function getFishPond_BubbleList() {
 	}).then(res => {
 		return res.json();
 	}).then(ret => {
+		if (!bubbleList) {
+			return;
+		}
 		bubbleList.length = 0;
 		for (let i = 0; i < ret.data.list.length; i++) {
 			if (ret.data.list[i] != null) {

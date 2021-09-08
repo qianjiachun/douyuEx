@@ -196,6 +196,9 @@ function setNightMode() {
     .BackpackHeader-tabItem{color:rgb(121,127,137)!important;}
     .RightsPropsList{background-color: rgb(35,36,39) !important;color: rgb(149,149,149)!important;}
     .RightsPropsList-item{background: rgb(47,48,53) !important;}
+
+    /*加入公会*/
+    .SociatyLabelPop-content{background:rgb(35,36,39) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 

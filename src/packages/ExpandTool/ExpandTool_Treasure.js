@@ -102,10 +102,13 @@ function getTreasure_Existing() {
         if (data == null) {
             return;
         }
-        let list = String(data.list).split("@S/");
-        for (let i = 0; i < list.length - 1; i++) {
-            let rpid = getStrMiddle(list[i], "rpid@A=", "@");
-            let ot = getStrMiddle(list[i], "Sot@A=", "@");
+        // let list = String(data.list).split("@S/");
+        for (let i = 0; i < data.list.length - 1; i++) {
+            let item = data.list[i];
+            // let rpid = getStrMiddle(list[i], "rpid@A=", "@");
+            let rpid = item.rpid;
+            // let ot = getStrMiddle(list[i], "Sot@A=", "@");
+            let ot = item.ot;
             let did = getCookieValue("dy_did");
             let timeout = Number(ot) - Math.floor(Date.now()/1000);
 
