@@ -25,8 +25,9 @@ function initPkg_RealAudience() {
 	}).then(retData => {
 		real_info.showtime = retData.data.show_time;
 		real_info.isShow = retData.data.show_status;
-		getRealViewer();
-		setInterval(getRealViewer, 150000);
+		setRealViewer();
+		setInterval(setRealViewer, 150000);
+		setInterval(switchRealAndTodayWatch, 30000);
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
@@ -55,7 +56,8 @@ function initPkg_RealAudience_Dom() {
 	// html += "<div style='display: inline-block;margin-right:3px;' title='送礼人数'>" + real_giftIcon + '<span id="real-audience__gift">****</span></div>';
 	html += "<div id='real-audience__money' style='display: inline-block;margin-right:3px;' title='今日累计礼物价值'>" + real_money_yc + '<span id="real-audience__money_yc">****</span></div>';
 	html += "</div>";
-	html += '<span id="real-audience__time" style="white-space: nowrap">' + "已播:" + "****" + "</span>";
+	html += '<span id="real-audience__time" style="white-space: nowrap;display: block;">' + "已播:" + "****" + "</span>";
+	html += '<span id="real-audience__watchtime" style="white-space: nowrap;display: none;">' + "已观看:" + "****" + "</span>";
 	a.innerHTML = html;
 	
 	let b = document.getElementsByClassName("layout-Player-announce")[0];
@@ -68,55 +70,42 @@ function initPkg_RealAudience_Func() {
 	})
 }
 
-function getRealViewer() {
+async function setRealViewer() {
 	if(document.querySelector(".MatchSystemChatRoomEntry") != null){
 		document.querySelector(".MatchSystemChatRoomEntry").style.display = "none";
 	}
-	GM_xmlhttpRequest({
-		method: "POST",
-		url: `https://www.doseeing.com/xeee/room/aggr`,
-		headers: {
-			"Connection": "keep-alive",
-			"Content-Type": "application/json;charset=UTF-8",
-			"Origin": "https://www.doseeing.com",
-			"Referer": "https://www.doseeing.com/room/" + rid,
-			"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/91.0.4472.114"
-		},
-		data: `{"m":"${window.btoa(`rid=${rid}&dt=0`).split("").reverse().join("")}"}`,
-		responseType: "json",
-		onload: function(response) {
-			let retData = response.response;
-			
-			let showedTime = 0;
-			if (real_info.isShow == 2) {
-				showedTime = 0;
-			} else {
-				if (real_info.showtime == 1015) {
-					showedTime = 0;
-				} else {
-					showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
-				}
-			}
-			real_info.view = retData.data["active.uv"] || 0;
-			real_info.danmu_person_count = retData.data["chat.uv"] || 0;
-			real_info.gift_person_count = retData.data["gift.all.uv"] || 0;
-			real_info.paid_person_count = retData.data["gift.paid.uv"] || 0;
-			real_info.money_yc = Number(retData.data["gift.paid.price"] / 100 || 0).toFixed(2);
-			real_info.money_total = Number(retData.data["gift.all.price"] / 100 || 0).toFixed(2);
-			
-			document.getElementById("real-audience__total").innerText = real_info.view;
-			document.getElementById("real-audience__t").title = "活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
-			document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
-			// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
-			document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
-			document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
-			
-			document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
-			document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000"))));
-			
+	let retData = await getRealViewer(rid);
+	let todayWatchData = await getTodayWatch(rid);
+	let showedTime = 0;
+	if (real_info.isShow == 2) {
+		showedTime = 0;
+	} else {
+		if (real_info.showtime == 1015) {
+			showedTime = 0;
+		} else {
+			showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
 		}
-	});
+	}
+	real_info.view = retData.data["active.uv"] || 0;
+	real_info.danmu_person_count = retData.data["chat.uv"] || 0;
+	real_info.gift_person_count = retData.data["gift.all.uv"] || 0;
+	real_info.paid_person_count = retData.data["gift.paid.uv"] || 0;
+	real_info.money_yc = Number(retData.data["gift.paid.price"] / 100 || 0).toFixed(2);
+	real_info.money_total = Number(retData.data["gift.all.price"] / 100 || 0).toFixed(2);
 	
+	document.getElementById("real-audience__total").innerText = real_info.view;
+	document.getElementById("real-audience__t").title = "活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
+	document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
+	// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
+	document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
+	document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
+	
+	document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
+	document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000")))) + "\n已观看:" + formatSeconds(todayWatchData.data.todayWatch);;
+	
+	if (todayWatchData.error == 0) {
+		document.getElementById("real-audience__watchtime").innerText = "已观看:" + formatSeconds(todayWatchData.data.todayWatch);
+	}
 }
 
 function setAvatarVideo() {
@@ -172,4 +161,56 @@ function setAvatarVideo_Func(videoUrl, videoReplayUrl) {
 	document.getElementById("Ex_VideoReview").addEventListener("click", () => {
 		openPage(videoReplayUrl, true);
 	})
+}
+
+function getTodayWatch(rid) {
+	return new Promise((resolve, reject) => {
+		fetch('https://www.douyu.com/japi/interactnc/web/fsjk/getCardTaskInfo?rid=' + rid,{
+			method: 'GET',
+			mode: 'no-cors',
+			credentials: 'include'
+		}).then(res => {
+			return res.json();
+		}).then(ret => {
+			resolve(ret);
+		}).catch(err => {
+			reject(err);
+		})
+	})
+}
+
+function getRealViewer(rid) {
+	return new Promise((resolve, reject) => {
+		GM_xmlhttpRequest({
+			method: "POST",
+			url: `https://www.doseeing.com/xeee/room/aggr`,
+			headers: {
+				"Connection": "keep-alive",
+				"Content-Type": "application/json;charset=UTF-8",
+				"Origin": "https://www.doseeing.com",
+				"Referer": "https://www.doseeing.com/room/" + rid,
+				"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/91.0.4472.114"
+			},
+			data: `{"m":"${window.btoa(`rid=${rid}&dt=0`).split("").reverse().join("")}"}`,
+			responseType: "json",
+			onload: (response) => {
+				resolve(response.response);
+			},
+			onerror: (err) => {
+				reject(err);
+			}
+		});
+	})
+}
+
+function switchRealAndTodayWatch() {
+	let realDom = document.getElementById("real-audience__time");
+	let watchDom = document.getElementById("real-audience__watchtime");
+	if (realDom.style.display == "none") {
+		realDom.style.display = "block";
+		watchDom.style.display = "none";
+	} else {
+		realDom.style.display = "none";
+		watchDom.style.display = "block";
+	}
 }

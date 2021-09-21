@@ -31,7 +31,7 @@ function initPkg_Update_Func() {
 }
 function checkUpdate_Src() {
 	return new Promise((resolve, reject) => {
-		fetch('https://www.douyuex.com/src/douyuex_version.txt',{
+		fetch('http://src.douyuex.com/src/douyuex_version.txt',{
 			method: 'GET',
 			mode: 'cors',
 			cache: 'no-store',
@@ -39,6 +39,7 @@ function checkUpdate_Src() {
 		}).then(res => {
 			return res.text();
 		}).then(txt => {
+			console.log("获取到的版本是", txt)
 			if(txt != undefined){
 				if (txt != curVersion) {
 					resolve([true, txt]);
@@ -80,22 +81,20 @@ function checkUpdate_GreasyFork() {
 async function Update_checkVersion(isShowNotUpdate = false) {
 	// 用解构赋值会导致函数undefined，暂不知原因
 	let tmp = [];
-	tmp = await checkUpdate_Src().catch(async (err) => {
-		tmp = await checkUpdate_GreasyFork().catch(err => {
-			tmp = [false, curVersion];
-			isNeedUpdate = tmp[0];
-			lastestVersion = tmp[1];
+	tmp = await checkUpdate_GreasyFork().catch(err => {
+		tmp = [false, curVersion];
+		isNeedUpdate = tmp[0];
+		lastestVersion = tmp[1];
+		if (isNeedUpdate) {
+			Update_showMessage();
 			if (isNeedUpdate) {
-				Update_showMessage();
-				if (isNeedUpdate) {
-					Update_showTip(true);
-				}
-			} else {
-				if (isShowNotUpdate) {
-					showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
-				}
+				Update_showTip(true);
 			}
-		})
+		} else {
+			if (isShowNotUpdate) {
+				showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
+			}
+		}
 	})
 	isNeedUpdate = tmp[0];
 	lastestVersion = tmp[1];
@@ -112,7 +111,7 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 }
 
 function Update_openUpdatePage() {
-	openPage("https://www.douyuex.com/install/web.html", true);
+	openPage("https://xiaochunchun.gitee.io/douyuex/install/web.html", true);
 }
 
 function Update_showTip(a) {
@@ -130,6 +129,6 @@ function Update_showTip(a) {
 }
 // 【版本更新】最新版本：2010.02.10.01，点击官方源或者greasyfork源更新
 function Update_showMessage() {
-	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://www.douyuex.com/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新`
+	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://xiaochunchun.gitee.io/douyuex/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新`
 	showMessage(msg, "error");
 }

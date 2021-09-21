@@ -1,7 +1,7 @@
 ## DouyuEx-斗鱼直播间增强插件![icon.png](https://img.douyucdn.cn/data/yuba/weibo/2020/02/18/202002182111554630626652946.png)
 
 ## 🌐 官方网站
-DouyuEx[官方网站](https://www.douyuex.com/)上线啦！域名好记: www.douyuex.com  
+DouyuEx[官方网站](http://www.douyuex.com/)上线啦！域名好记: www.douyuex.com  
 所有数据源/资料等后续都将在官网更新，greasyfork仅作为导航页，不再继续更新代码  
 
 [访问官网(http://www.douyuex.com/)](http://www.douyuex.com/)

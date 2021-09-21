@@ -159,7 +159,7 @@ function getActRemaining(id) {
 
 function getActList() {
     return new Promise(resolve => {
-        fetch('https://www.douyuex.com/src/actList.txt',{
+        fetch('http://src.douyuex.com/src/actList.txt',{
             method: 'GET',
             mode: 'cors',
             cache: 'no-store',
