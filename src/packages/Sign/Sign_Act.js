@@ -1,10 +1,33 @@
+// 本地化的活动地址
+// {
+//     "version": "2021.01.29.01",
+//     "data": [{
+//             "name": "斗鱼党宣",
+//             "script": [{
+//                 "name": "signAct",
+//                 "value": "XSDXZC"
+//             }, {
+//                 "name": "getActRemaining",
+//                 "value": "610"
+//             }]
+//         },
+//         {
+//             "name": "春节签到",
+//             "script": [{
+//                 "name": "doSign",
+//                 "value": "20210210lhqd"
+//             }]
+//         },
+//     ]
+// }
+let actList = {};
+
 function initPkg_Sign_Act() {
     getAct();
 }
 
 async function getAct() {
-    let actList = await getActList();
-    actList = JSON.parse(decodeURIComponent(escape(window.atob(actList))) || "{}");
+    // actList = JSON.parse(decodeURIComponent(escape(window.atob(actList))) || "{}");
     if ("data" in actList == false) {
         return;
     }

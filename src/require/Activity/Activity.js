@@ -158,20 +158,20 @@ function getActRemaining(id) {
 }
 
 function getActList() {
-    return new Promise(resolve => {
-        fetch('http://src.douyuex.com/src/actList.txt',{
-            method: 'GET',
-            mode: 'cors',
-            cache: 'no-store',
-            credentials: 'omit',
-        }).then(res => {
-            return res.text();
-        }).then(txt => {
-            resolve(txt);
-        }).catch(err => {
-            console.error('请求失败', err);
-        })
-    })
+    // return new Promise(resolve => {
+    //     fetch('http://src.douyuex.com/src/actList.txt',{
+    //         method: 'GET',
+    //         mode: 'cors',
+    //         cache: 'no-store',
+    //         credentials: 'omit',
+    //     }).then(res => {
+    //         return res.text();
+    //     }).then(txt => {
+    //         resolve(txt);
+    //     }).catch(err => {
+    //         console.error('请求失败', err);
+    //     })
+    // })
 }
 
 

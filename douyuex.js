@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.09.08.01
+// @version      2021.09.26.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -71,7 +71,7 @@ function initPkg() {
 	initPkg_RemoveAD();
 	initPkg_BagInfo();
 	initPkg_Update();
-	initPkg_MiniProgram();
+	// initPkg_MiniProgram();
 	initPkg_PopupPlayer();
 	initPkg_LiveTool();
 	initPkg_VideoTools();
@@ -2094,11 +2094,20 @@ function initPkg_ChatTools() {
 }
 
 function initPkg_Console() {
-	console_watermark_douyEx();
+    console_watermark_douyEx();
 }
 
 function console_watermark_douyEx() {
-    // console.log("DouyuEx插件官网 https://www.douyuex.com")
+    // console.log("DouyuEx插件官网 http://www.douyuex.com")
+    console.log(`%c
+   ______                    _____)
+  (, /    )                /
+    /    / ___             )__   __/
+  _/___ /_(_)(_(_(_/_(_(_/        /(__
+(_/___ /        .-/     (_____)  /
+               (_/
+
+%cver ${curVersion}`,'color:rgb(255,121,35);font-size:20px;font-weight:bold;', "color:red;font-size:16px;")
     return;
 }
 function initPkg_CopyRealLive() {
@@ -3787,8 +3796,8 @@ async function getFishPond_Task2Bubble(bubbleList) {
 let followListHook;
 function initPkg_FollowList() {
     let intID = setInterval(() => {
-        if (typeof(document.getElementsByClassName("Header-follow-content")[0]) != "undefined") {
-            followListHook = new DomHook(".Header-follow-content", false, handleFollowList)
+        if (typeof(document.getElementsByClassName("PlayerToolbar-wealthNum")[0]) != "undefined") {
+            followListHook = new DomHook(".Header-follow-content", false, handleFollowList);
             clearInterval(intID);
         }
     }, 1000);
@@ -3804,7 +3813,7 @@ function handleFollowList(m) {
     if (panel.length == 0) {
         return;
     }
-    panel[0].style.marginTop = "12px";
+    // panel[0].style.marginTop = "12px";
     document.getElementsByClassName("Header-follow-listBox")[0].style.display = "none";
     setNewFollowList(panel[0]);
 }
@@ -7273,8 +7282,9 @@ function initPkg_RealAudience() {
 	}).then(retData => {
 		real_info.showtime = retData.data.show_time;
 		real_info.isShow = retData.data.show_status;
-		getRealViewer();
-		setInterval(getRealViewer, 150000);
+		setRealViewer();
+		setInterval(setRealViewer, 150000);
+		setInterval(switchRealAndTodayWatch, 30000);
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
@@ -7303,7 +7313,8 @@ function initPkg_RealAudience_Dom() {
 	// html += "<div style='display: inline-block;margin-right:3px;' title='送礼人数'>" + real_giftIcon + '<span id="real-audience__gift">****</span></div>';
 	html += "<div id='real-audience__money' style='display: inline-block;margin-right:3px;' title='今日累计礼物价值'>" + real_money_yc + '<span id="real-audience__money_yc">****</span></div>';
 	html += "</div>";
-	html += '<span id="real-audience__time" style="white-space: nowrap">' + "已播:" + "****" + "</span>";
+	html += '<span id="real-audience__time" style="white-space: nowrap;display: block;">' + "已播:" + "****" + "</span>";
+	html += '<span id="real-audience__watchtime" style="white-space: nowrap;display: none;">' + "已观看:" + "****" + "</span>";
 	a.innerHTML = html;
 	
 	let b = document.getElementsByClassName("layout-Player-announce")[0];
@@ -7316,55 +7327,42 @@ function initPkg_RealAudience_Func() {
 	})
 }
 
-function getRealViewer() {
+async function setRealViewer() {
 	if(document.querySelector(".MatchSystemChatRoomEntry") != null){
 		document.querySelector(".MatchSystemChatRoomEntry").style.display = "none";
 	}
-	GM_xmlhttpRequest({
-		method: "POST",
-		url: `https://www.doseeing.com/xeee/room/aggr`,
-		headers: {
-			"Connection": "keep-alive",
-			"Content-Type": "application/json;charset=UTF-8",
-			"Origin": "https://www.doseeing.com",
-			"Referer": "https://www.doseeing.com/room/" + rid,
-			"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/91.0.4472.114"
-		},
-		data: `{"m":"${window.btoa(`rid=${rid}&dt=0`).split("").reverse().join("")}"}`,
-		responseType: "json",
-		onload: function(response) {
-			let retData = response.response;
-			
-			let showedTime = 0;
-			if (real_info.isShow == 2) {
-				showedTime = 0;
-			} else {
-				if (real_info.showtime == 1015) {
-					showedTime = 0;
-				} else {
-					showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
-				}
-			}
-			real_info.view = retData.data["active.uv"] || 0;
-			real_info.danmu_person_count = retData.data["chat.uv"] || 0;
-			real_info.gift_person_count = retData.data["gift.all.uv"] || 0;
-			real_info.paid_person_count = retData.data["gift.paid.uv"] || 0;
-			real_info.money_yc = Number(retData.data["gift.paid.price"] / 100 || 0).toFixed(2);
-			real_info.money_total = Number(retData.data["gift.all.price"] / 100 || 0).toFixed(2);
-			
-			document.getElementById("real-audience__total").innerText = real_info.view;
-			document.getElementById("real-audience__t").title = "活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
-			document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
-			// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
-			document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
-			document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
-			
-			document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
-			document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000"))));
-			
+	let retData = await getRealViewer(rid);
+	let todayWatchData = await getTodayWatch(rid);
+	let showedTime = 0;
+	if (real_info.isShow == 2) {
+		showedTime = 0;
+	} else {
+		if (real_info.showtime == 1015) {
+			showedTime = 0;
+		} else {
+			showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
 		}
-	});
+	}
+	real_info.view = retData.data["active.uv"] || 0;
+	real_info.danmu_person_count = retData.data["chat.uv"] || 0;
+	real_info.gift_person_count = retData.data["gift.all.uv"] || 0;
+	real_info.paid_person_count = retData.data["gift.paid.uv"] || 0;
+	real_info.money_yc = Number(retData.data["gift.paid.price"] / 100 || 0).toFixed(2);
+	real_info.money_total = Number(retData.data["gift.all.price"] / 100 || 0).toFixed(2);
 	
+	document.getElementById("real-audience__total").innerText = real_info.view;
+	document.getElementById("real-audience__t").title = "活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
+	document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
+	// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
+	document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
+	document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
+	
+	document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
+	document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000")))) + "\n已观看:" + formatSeconds(todayWatchData.data.todayWatch);;
+	
+	if (todayWatchData.error == 0) {
+		document.getElementById("real-audience__watchtime").innerText = "已观看:" + formatSeconds(todayWatchData.data.todayWatch);
+	}
 }
 
 function setAvatarVideo() {
@@ -7420,6 +7418,58 @@ function setAvatarVideo_Func(videoUrl, videoReplayUrl) {
 	document.getElementById("Ex_VideoReview").addEventListener("click", () => {
 		openPage(videoReplayUrl, true);
 	})
+}
+
+function getTodayWatch(rid) {
+	return new Promise((resolve, reject) => {
+		fetch('https://www.douyu.com/japi/interactnc/web/fsjk/getCardTaskInfo?rid=' + rid,{
+			method: 'GET',
+			mode: 'no-cors',
+			credentials: 'include'
+		}).then(res => {
+			return res.json();
+		}).then(ret => {
+			resolve(ret);
+		}).catch(err => {
+			reject(err);
+		})
+	})
+}
+
+function getRealViewer(rid) {
+	return new Promise((resolve, reject) => {
+		GM_xmlhttpRequest({
+			method: "POST",
+			url: `https://www.doseeing.com/xeee/room/aggr`,
+			headers: {
+				"Connection": "keep-alive",
+				"Content-Type": "application/json;charset=UTF-8",
+				"Origin": "https://www.doseeing.com",
+				"Referer": "https://www.doseeing.com/room/" + rid,
+				"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/91.0.4472.114"
+			},
+			data: `{"m":"${window.btoa(`rid=${rid}&dt=0`).split("").reverse().join("")}"}`,
+			responseType: "json",
+			onload: (response) => {
+				resolve(response.response);
+			},
+			onerror: (err) => {
+				reject(err);
+			}
+		});
+	})
+}
+
+function switchRealAndTodayWatch() {
+	let realDom = document.getElementById("real-audience__time");
+	let watchDom = document.getElementById("real-audience__watchtime");
+	if (realDom.style.display == "none") {
+		realDom.style.display = "block";
+		watchDom.style.display = "none";
+	} else {
+		realDom.style.display = "none";
+		watchDom.style.display = "block";
+	}
 }
 function initPkg_Refresh() {
 	initPkg_Refresh_BarrageFrame();
@@ -7928,13 +7978,36 @@ function initPkg_Sign_Main(isAll) {
 //     })
 // }
 
+// 本地化的活动地址
+// {
+//     "version": "2021.01.29.01",
+//     "data": [{
+//             "name": "斗鱼党宣",
+//             "script": [{
+//                 "name": "signAct",
+//                 "value": "XSDXZC"
+//             }, {
+//                 "name": "getActRemaining",
+//                 "value": "610"
+//             }]
+//         },
+//         {
+//             "name": "春节签到",
+//             "script": [{
+//                 "name": "doSign",
+//                 "value": "20210210lhqd"
+//             }]
+//         },
+//     ]
+// }
+let actList = {};
+
 function initPkg_Sign_Act() {
     getAct();
 }
 
 async function getAct() {
-    let actList = await getActList();
-    actList = JSON.parse(decodeURIComponent(escape(window.atob(actList))) || "{}");
+    // actList = JSON.parse(decodeURIComponent(escape(window.atob(actList))) || "{}");
     if ("data" in actList == false) {
         return;
     }
@@ -8572,7 +8645,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.09.08.01"
+var curVersion = "2021.09.26.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -8602,7 +8675,7 @@ function initPkg_Update_Func() {
 }
 function checkUpdate_Src() {
 	return new Promise((resolve, reject) => {
-		fetch('https://www.douyuex.com/src/douyuex_version.txt',{
+		fetch('http://src.douyuex.com/src/douyuex_version.txt',{
 			method: 'GET',
 			mode: 'cors',
 			cache: 'no-store',
@@ -8651,22 +8724,20 @@ function checkUpdate_GreasyFork() {
 async function Update_checkVersion(isShowNotUpdate = false) {
 	// 用解构赋值会导致函数undefined，暂不知原因
 	let tmp = [];
-	tmp = await checkUpdate_Src().catch(async (err) => {
-		tmp = await checkUpdate_GreasyFork().catch(err => {
-			tmp = [false, curVersion];
-			isNeedUpdate = tmp[0];
-			lastestVersion = tmp[1];
+	tmp = await checkUpdate_GreasyFork().catch(err => {
+		tmp = [false, curVersion];
+		isNeedUpdate = tmp[0];
+		lastestVersion = tmp[1];
+		if (isNeedUpdate) {
+			Update_showMessage();
 			if (isNeedUpdate) {
-				Update_showMessage();
-				if (isNeedUpdate) {
-					Update_showTip(true);
-				}
-			} else {
-				if (isShowNotUpdate) {
-					showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
-				}
+				Update_showTip(true);
 			}
-		})
+		} else {
+			if (isShowNotUpdate) {
+				showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
+			}
+		}
 	})
 	isNeedUpdate = tmp[0];
 	lastestVersion = tmp[1];
@@ -8683,7 +8754,7 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 }
 
 function Update_openUpdatePage() {
-	openPage("https://www.douyuex.com/install/web.html", true);
+	openPage("https://xiaochunchun.gitee.io/douyuex/install/web.html", true);
 }
 
 function Update_showTip(a) {
@@ -8701,7 +8772,7 @@ function Update_showTip(a) {
 }
 // 【版本更新】最新版本：2010.02.10.01，点击官方源或者greasyfork源更新
 function Update_showMessage() {
-	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://www.douyuex.com/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新`
+	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://xiaochunchun.gitee.io/douyuex/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新`
 	showMessage(msg, "error");
 }
 
@@ -9668,20 +9739,20 @@ function getActRemaining(id) {
 }
 
 function getActList() {
-    return new Promise(resolve => {
-        fetch('https://www.douyuex.com/src/actList.txt',{
-            method: 'GET',
-            mode: 'cors',
-            cache: 'no-store',
-            credentials: 'omit',
-        }).then(res => {
-            return res.text();
-        }).then(txt => {
-            resolve(txt);
-        }).catch(err => {
-            console.error('请求失败', err);
-        })
-    })
+    // return new Promise(resolve => {
+    //     fetch('http://src.douyuex.com/src/actList.txt',{
+    //         method: 'GET',
+    //         mode: 'cors',
+    //         cache: 'no-store',
+    //         credentials: 'omit',
+    //     }).then(res => {
+    //         return res.text();
+    //     }).then(txt => {
+    //         resolve(txt);
+    //     }).catch(err => {
+    //         console.error('请求失败', err);
+    //     })
+    // })
 }
 
 
@@ -10577,9 +10648,9 @@ function initRouter_DouyuRoom_Main() {
 }
 
 function initPkgSpecial() {
-    if (rid == "5189167") {
-        initPkg_Point();
-    }
+    // if (rid == "5189167") {
+    //     initPkg_Point();
+    // }
 }
 
 // function initRouter_Novel() {

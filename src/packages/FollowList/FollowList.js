@@ -1,8 +1,8 @@
 let followListHook;
 function initPkg_FollowList() {
     let intID = setInterval(() => {
-        if (typeof(document.getElementsByClassName("Header-follow-content")[0]) != "undefined") {
-            followListHook = new DomHook(".Header-follow-content", false, handleFollowList)
+        if (typeof(document.getElementsByClassName("PlayerToolbar-wealthNum")[0]) != "undefined") {
+            followListHook = new DomHook(".Header-follow-content", false, handleFollowList);
             clearInterval(intID);
         }
     }, 1000);
@@ -18,7 +18,7 @@ function handleFollowList(m) {
     if (panel.length == 0) {
         return;
     }
-    panel[0].style.marginTop = "12px";
+    // panel[0].style.marginTop = "12px";
     document.getElementsByClassName("Header-follow-listBox")[0].style.display = "none";
     setNewFollowList(panel[0]);
 }

@@ -1,7 +1,7 @@
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.09.08.01"
+var curVersion = "2021.09.26.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -39,7 +39,6 @@ function checkUpdate_Src() {
 		}).then(res => {
 			return res.text();
 		}).then(txt => {
-			console.log("获取到的版本是", txt)
 			if(txt != undefined){
 				if (txt != curVersion) {
 					resolve([true, txt]);
