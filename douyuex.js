@@ -2167,6 +2167,65 @@ function initPkg_CopyRealLive_Func() {
     document.getElementsByClassName("Title-header")[0].style.cursor = "pointer";
     document.getElementsByClassName("Title-header")[0].title = tit + "点击复制直播流";
 }
+function initPkg_DyVideoDownload() {
+    let timer = setInterval(() => {
+        let toolBar = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector(".ToolBar-positiveUl");
+        if (toolBar) {
+            clearInterval(timer);
+            initPkg_DyVideoDownload_Dom(toolBar);
+            initPkg_DyVideoDownload_Func();
+        }
+    }, 1000);
+}
+
+function initPkg_DyVideoDownload_Dom(dom) {
+    let html = `
+    <span class="ToolBar-icon ">
+        <svg t="1634113402576" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7734" width="28" height="28"><path d="M761.98 413.12c0.25-4.4 0.39-8.82 0.39-13.28 0-127.18-102.84-230.28-229.71-230.28s-229.71 103.1-229.71 230.28c0 0.67 0.02 1.33 0.03 2a213.156 213.156 0 0 0-38.91-3.58c-117.2 0-212.21 95.25-212.21 212.74 0 117.49 95.01 212.74 212.21 212.74 2.94 0 5.86-0.08 8.77-0.2 2.54 0.13 5.09 0.2 7.66 0.2h467.35c2.82 0 5.61-0.09 8.39-0.24 108.96-5.16 195.72-95.13 195.72-205.36 0.01-108.3-83.73-197.04-189.98-205.02zM616.33 584.24l-90.86 93.93c-0.78 1.11-1.66 2.17-2.63 3.17-3.95 4.09-8.9 6.62-14.09 7.61-8.34 1.77-17.38-0.51-23.97-6.89a25.975 25.975 0 0 1-3.16-3.68l-93.5-90.45c-10.53-10.19-10.81-26.99-0.62-37.52 10.19-10.53 26.99-10.81 37.52-0.62l45.09 43.62c0-0.06-0.01-0.12-0.01-0.18l-2.43-146.62c-0.3-17.83 13.92-32.52 31.75-32.82 17.83-0.3 32.52 13.92 32.82 31.75l2.43 146.63v0.17l43.52-44.99c10.19-10.53 26.99-10.81 37.52-0.62 10.53 10.17 10.81 26.97 0.62 37.51z" p-id="7735" fill="#515151"></path></svg>
+    </span>
+    <span class="ToolBar-iconText">下载</span>
+    `
+
+    let a = document.createElement("li");
+	a.title = "下载视频";
+	a.innerHTML = html;
+    a.id = "btn-download";
+
+    dom.appendChild(a);
+}
+
+function initPkg_DyVideoDownload_Func() {
+    let $DATA = unsafeWindow.$DATA;
+
+    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#btn-download").addEventListener("click", async () => {
+        const m3u8 = new M3U8();
+
+        let dyVideoSign = new DyVideoSign($DATA.ROOM.point_id);
+        let sign = dyVideoSign.getSign();
+        let vid = $DATA.ROOM.vid;
+        dyVideoSign = null;
+        let ret = await getVideoStreamUrl(vid, sign);
+        m3u8.start(ret.data.thumb_video.high.url);
+    })
+}
+
+function getVideoStreamUrl(vid, sign) {
+    return new Promise(resolve => {
+        fetch("https://v.douyu.com/api/stream/getStreamUrl", {
+            method: 'POST',
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            body: `${sign}&vid=${vid}`
+        }).then(result => {
+            return result.json();
+        }).then(ret => {
+            resolve(ret);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    })
+}
 function initPkg_ExIcon() {
 	initPkg_ExIcon_insertDom();
 	initPkg_ExIcon_Func();
@@ -9895,6 +9954,65 @@ class DomHook {
         this.observer.disconnect();
     }
 }
+// 获取斗鱼视频站post body sign
+// -By 小淳
+// 用法: let dyVideoSign = new DyVideoSign("视频point_id"); let sign = dyVideoSign.getSign();
+// 注意: 使用完记得将实例null，point_id为window.$DATA.ROOM.point_id
+
+class DyVideoSign {
+    constructor(pointId) {
+        this.pointId = pointId;
+        this.decoder = new TextDecoder();
+    }
+    
+    getSign() {
+        let did = "10000000000000000000000000001501"; // DEFAULT_DID$1
+        let tt = parseInt((new Date).getTime() / 1e3, 10);
+        return unsafeWindow[this.d539fa2cf7732d2a(256042, "9f4f419501570ad13334")](this.pointId, did, tt);
+    }
+
+    d539fa2cf7732d2a(e, t) {
+        for (var n = CryptoJS.MM(e.toString()).toString(), r = n[0].charCodeAt(0), a = n[16].charCodeAt(0), i = [], o = 0; o < 4; o++) i[o] = r << 24 | r << 16 | r << 8 | r, i[o + 4] = a << 24 | a << 16 | a << 8 | a;
+        var s = Math.floor(t.length / 16) % 4,
+            l = [],
+            d = t.length % 8,
+            c = Math.floor(t.length / 8);
+        for (o = 0; o < c; o++) l[o] = 255 & parseInt(t.substr(8 * o, 2), 16) | parseInt(t.substr(8 * o + 2, 2), 16) << 8 & 65280 | parseInt(t.substr(8 * o + 4, 2), 16) << 24 >>> 8 | parseInt(t.substr(8 * o + 6, 2), 16) << 24;
+        var p = [];
+        p = 0 == s ? e86500e2(l, i) : 1 == s ? this.c30070a4(l, i) : d831eb20(l, i);
+        var h = [];
+        for (o = 0; o < p.length; o++) {
+            var f = 255 & p[o],
+                u = p[o] >>> 8 & 255,
+                m = p[o] >>> 16 & 255,
+                g = p[o] >>> 24 & 255;
+            f && h.push(f), u && h.push(u), m && h.push(m), g && h.push(g)
+        }
+        var b = Math.floor(d / 2);
+        for (o = 0; o < b; o++) h.push(255 & parseInt(t.substr(8 * c + 2 * o, 2), 16));
+        return this.decoder.decode(new Uint8Array(h))
+    }
+
+    c30070a4(e, t) {
+        for (var n = Math.floor(e.length / 2), r = e.slice(0), a = 0; a < n; a++) {
+            var i = this.f5a40d76(e.slice(2 * a, 2 * a + 2), 32, t.slice(4 * a % 8, 4 * a % 8 + 4));
+            r[2 * a + 0] = i[0], r[2 * a + 1] = i[1]
+        }
+        return r
+    }
+
+    f5a40d76(e, t, n) {
+        for (var r = 0; r < e.length; r += 2) {
+            var a, i = e[r],
+                o = e[r + 1],
+                s = 2654435769 * t;
+            for (a = 0; a < t; a++) i -= ((o -= (i << 4 ^ i >>> 5) + i ^ s + n[s >>> 11 & 3]) << 4 ^ o >>> 5) + o ^ (s -= 2654435769) + n[3 & s];
+            e[r] = i, e[r + 1] = o
+        }
+        return e
+    }
+}
+
 class DyWacthAd {
     constructor(posid, token, rid) {
         this.posid = posid;
@@ -9995,6 +10113,294 @@ class DyWacthAd {
             });
     
         })
+    }
+}
+
+function M3U8() {
+    var _this = this; // access root scope
+
+    this.ie = navigator.appVersion.toString().indexOf(".NET") > 0;
+    this.ios = navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+
+
+    this.start = function(m3u8, options) {
+
+        if (!options)
+            options = {};
+
+        var callbacks = {
+            progress: null,
+            finished: null,
+            error: null,
+            aborted: null
+        }
+
+        var recur; // the recursive download instance to later be initialized. Scoped here so callbakcs can access and manage it.
+
+        function handleCb(key, payload) {
+            if (key && callbacks[key])
+                callbacks[key](payload);
+        }
+
+        if (_this.ios)
+            return handleCb("error", "Downloading on IOS is not supported.");
+
+        var startObj = {
+            on: function(str, cb) {
+                switch (str) {
+                    case "progress": {
+                        callbacks.progress = cb;
+                        break;
+                    }
+                    case "finished": {
+                        callbacks.finished = cb;
+                        break;
+                    }
+                    case "error": {
+                        callbacks.error = cb;
+                        break;
+                    }
+                    case "aborted": {
+                        callbacks.aborted = cb;
+                        break;
+                    }
+                }
+
+                return startObj;
+            },
+            abort: function() {
+                ;
+                recur && (recur.aborted = function() {
+                    handleCb("aborted");
+                });
+            }
+        }
+
+        var download = new Promise(function(resolve, reject) {
+            var url = new URL(m3u8);
+
+            var req = fetch(m3u8)
+                .then(function(d) {
+                    return d.text();
+                })
+                .then(function(d) {
+
+                    var filtered = filter(d.split(/(\r\n|\r|\n)/gi), function(item) {
+                        return item.indexOf(".ts") > -1; // select only ts files
+                    });
+
+                    var mapped = map(filtered, function(v, i) {
+                        if (v.indexOf("http") === 0 || v.indexOf("ftp") === 0) { // absolute url
+                            return v;
+                        }
+                        return url.protocol + "//" + url.host + url.pathname + "/./../" + v; // map ts files into url
+                    });
+
+                    if (!mapped.length) {
+                        reject("Invalid m3u8 playlist");
+                        return handleCb("error", "Invalid m3u8 playlist");
+                    }
+
+                    recur = new RecurseDownload(mapped, function(data) {
+
+                        var blob = new Blob(data, {
+                            type: "octet/stream"
+                        });
+
+                        handleCb("progress", {
+                            status: "Processing..."
+                        });
+
+                        if (!options.returnBlob) {
+                            if (_this.ios) {
+                                // handle ios?
+                            } else if (_this.ie) {
+                                handleCb("progress", {
+                                    status: "Sending video to Internet Explorer... this may take a while depending on your device's performance."
+                                });
+                                window.navigator.msSaveBlob(blob, (options && options.filename) || "video.mp4");
+                            } else {
+                                handleCb("progress", {
+                                    status: "Sending video to browser..."
+                                });
+                                var a = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+                                a.href = URL.createObjectURL(blob);
+                                a.download = (options && options.filename) || "video.mp4";
+                                a.style.display = "none";
+                                document.body.appendChild(a); // Firefox fix
+                                a.click();
+                                handleCb("finished", {
+                                    status: "Successfully downloaded video",
+                                    data: blob
+                                });
+                                resolve(blob);
+                            }
+                        } else {
+                            handleCb("finished", {
+                                status: "Successfully downloaded video",
+                                data: blob
+                            });
+                            resolve(blob)
+                        }
+
+
+                    }, 0, []);
+
+                    recur.onprogress = function(obj) {
+                        handleCb("progress", obj);
+                    }
+
+                })
+                .catch(function(err) {
+                    handleCb("error", "Something went wrong when downloading m3u8 playlist: " + err);
+                });
+        });
+
+        return startObj;
+
+    }
+
+    function RecurseDownload(arr, cb, i, data) { // recursively download asynchronously 2 at the time
+        var _this = this;
+
+        this.aborted = false;
+
+        recurseDownload(arr, cb, i, data);
+
+        function recurseDownload(arr, cb, i, data) {
+            var req = Promise.all([fetch(arr[i]), arr[i + 1] ? fetch(arr[i + 1]) : Promise.resolve()]) // HTTP protocol dictates only TWO requests can be simultaneously performed
+                .then(function(d) {
+                    return map(filter(d, function(v) {
+                        return v && v.blob;
+                    }), function(v) {
+                        return v.blob();
+                    });
+                })
+                .then(function(d) {
+                    return Promise.all(d);
+                })
+                .then(function(d) {
+
+                    var blobs = map(d, function(v, j) {
+                        return new Promise(function(resolve, reject) {
+                            var reader = new FileReader();
+
+                            var read = reader.readAsArrayBuffer(new Blob([v], {
+                                type: "octet/stream"
+                            })); // IE can't read Blob.arrayBuffer :(
+
+                            reader.addEventListener("loadend", function(event) { // event listener, my old friend we meet again... I cenrtainly haven't missed you in place of promise
+
+                                resolve(reader.result);;
+                                (_this.onprogress && _this.onprogress({
+                                    segment: i + j + 1,
+                                    total: arr.length,
+                                    percentage: ((i + j + 1) / arr.length * 100).toFixed(3),
+                                    downloaded: formatNumber(+reduce(map(data, function(v) {
+                                        return v.byteLength;
+                                    }), function(t, c) {
+                                        return t + c;
+                                    }, 0)),
+                                    status: "Downloading..."
+                                }));
+                            });
+                        });
+                    });
+
+                    Promise.all(blobs).then(function(d) {
+                        for (var n = 0; n < d.length; n++) { // polymorphism
+                            data.push(d[n]);
+                        }
+
+                        var increment = arr[i + 2] ? 2 : 1; // look ahead to see if we can perform 2 requests at the same time again
+
+                        if (_this.aborted) {
+                            data = null; // purge data... client side calling of garbage collector isn't possible. I know about opera and ie's garbage collectors but they're not ideal.
+                            _this.aborted();
+                            return; // exit promise
+                        } else if (arr[i + increment]) {
+
+                            setTimeout(function() {
+                                recurseDownload(arr, cb, i + increment, data);
+                            }, _this.ie ? 500 : 0);
+                        } else {
+                            cb(data);
+                        }
+                    });
+
+                })
+                .catch(function(err) {
+                    ;
+                    _this.onerror && _this.onerror("Something went wrong when downloading ts file, nr. " + i + ": " + err);
+                });
+        }
+
+    }
+
+    function filter(arr, condition) {
+        var result = [];
+        for (var i = 0; i < arr.length; i++) {
+            if (condition(arr[i], i)) {
+                result.push(arr[i]);
+            }
+        }
+        return result;
+    }
+
+    function map(arr, condition) {
+        var result = arr.slice(0);
+        for (var i = 0; i < arr.length; i++) {
+            result[i] = condition(arr[i], i);
+        }
+        return result;
+    }
+
+    function reduce(arr, condition, start) {
+        var result = start;
+        arr.forEach(function(v, i) {
+            var res = +condition(result, v, i);
+            result = res;
+        });
+        return result;
+    }
+
+
+
+    function formatNumber(n) {
+
+        var ranges = [{
+                divider: 1e18,
+                suffix: "EB"
+            },
+            {
+                divider: 1e15,
+                suffix: "PB"
+            },
+            {
+                divider: 1e12,
+                suffix: "TB"
+            },
+            {
+                divider: 1e9,
+                suffix: "GB"
+            },
+            {
+                divider: 1e6,
+                suffix: "MB"
+            },
+            {
+                divider: 1e3,
+                suffix: "kB"
+            }
+        ]
+        for (var i = 0; i < ranges.length; i++) {
+            if (n >= ranges[i].divider) {
+                var res = (n / ranges[i].divider).toString()
+
+                return res.toString().split(".")[0] + ranges[i].suffix;
+            }
+        }
+        return n.toString();
     }
 }
 
@@ -10722,9 +11128,13 @@ function initRouter_CleanCz() {
 }
 
 function initRouter_Video() {
-    initStyles();
-    initPkg_VideoTime();
-    initPkg_VideoTools_Camera_Video();
+    if (unsafeWindow.$DATA && "ROOM" in unsafeWindow.$DATA) {
+        // 在视频观看页面
+        initStyles();
+        initPkg_VideoTime();
+        initPkg_VideoTools_Camera_Video();
+        initPkg_DyVideoDownload();
+    }
 }
 
 function initRouter_FansBadgeList() {

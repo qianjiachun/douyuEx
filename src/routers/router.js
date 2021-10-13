@@ -164,9 +164,13 @@ function initRouter_CleanCz() {
 }
 
 function initRouter_Video() {
-    initStyles();
-    initPkg_VideoTime();
-    initPkg_VideoTools_Camera_Video();
+    if (unsafeWindow.$DATA && "ROOM" in unsafeWindow.$DATA) {
+        // 在视频观看页面
+        initStyles();
+        initPkg_VideoTime();
+        initPkg_VideoTools_Camera_Video();
+        initPkg_DyVideoDownload();
+    }
 }
 
 function initRouter_FansBadgeList() {
