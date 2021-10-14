@@ -146,11 +146,27 @@ function M3U8() {
         var _this = this;
 
         this.aborted = false;
+        this.threadNum = 10;
+        this.step = 0;
 
         recurseDownload(arr, cb, i, data);
 
         function recurseDownload(arr, cb, i, data) {
-            var req = Promise.all([fetch(arr[i]), arr[i + 1] ? fetch(arr[i + 1]) : Promise.resolve()]) // HTTP protocol dictates only TWO requests can be simultaneously performed
+            let taskList = [];
+            for (let j = 0; j < _this.threadNum; j++) {
+                if (arr[i+j]) {
+                    taskList.push(fetch(arr[i+j]).catch(err => {
+                        fetch(arr[i+j]).catch(err => {
+                            fetch(arr[i+j]);
+                        })
+                    }));
+                } else {
+                    taskList.push(Promise.resolve());
+                    break;
+                }
+            }
+            _this.step = taskList.length;
+            var req = Promise.all(taskList) // HTTP protocol dictates only TWO requests can be simultaneously performed
                 .then(function(d) {
                     return map(filter(d, function(v) {
                         return v && v.blob;
@@ -193,18 +209,21 @@ function M3U8() {
                         for (var n = 0; n < d.length; n++) { // polymorphism
                             data.push(d[n]);
                         }
-
+                        let step = _this.step;
                         var increment = arr[i + 2] ? 2 : 1; // look ahead to see if we can perform 2 requests at the same time again
 
                         if (_this.aborted) {
                             data = null; // purge data... client side calling of garbage collector isn't possible. I know about opera and ie's garbage collectors but they're not ideal.
                             _this.aborted();
                             return; // exit promise
-                        } else if (arr[i + increment]) {
-
-                            setTimeout(function() {
-                                recurseDownload(arr, cb, i + increment, data);
-                            }, _this.ie ? 500 : 0);
+                        } else if (arr[i + step]) {
+                            if (_this.ie) {
+                                setTimeout(function() {
+                                    recurseDownload(arr, cb, i + step, data);
+                                }, 500);
+                            } else {
+                                recurseDownload(arr, cb, i + step, data);
+                            }
                         } else {
                             cb(data);
                         }
