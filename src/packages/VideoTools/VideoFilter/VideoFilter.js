@@ -9,6 +9,7 @@ let transformCss = {
     rotate: "",
     scale: "",
 }
+let panorama = null;
 
 function initPkg_VideoTools_Filter() {
     liveVideoParentClassName = liveVideoNode.parentNode.className;
@@ -75,6 +76,7 @@ function Filter_insertIcon() {
             <ul style="clear:both">
                 <li id="filter__mirror">镜像画面</li>
                 <li id="filter__rotate">旋转画面</li>
+                <li id="filter__panorama">全景</li>
                 <li id="filter__reset">重置</li>
             </ul>
         </div>
@@ -222,6 +224,29 @@ function initPkg_VideoTools_Filter_Func() {
                 break;
         }
     }
+
+    document.getElementById("filter__panorama").addEventListener("click", () => {
+        let tmp = document.getElementById("ex-panorama");
+        if (tmp) {
+            tmp.remove();
+            panorama = null;
+        } else {
+            let node = document.getElementById("__h5player");
+            let dom = document.createElement("div");
+            dom.id = "ex-panorama";
+            dom.style = "width:100%;height:100%;z-index:1;background:black;"
+            node.insertBefore(dom, node.childNodes[0]);
+            panorama = new PanoramaVideo(dom, liveVideoNode);
+            panoramaAnimation(panorama);
+        }
+    })
+}
+
+function panoramaAnimation(panorama) {
+    requestAnimationFrame(() => {
+        panoramaAnimation(panorama)
+    })
+    panorama.update();
 }
 
 function setVideoFilter(style) {
