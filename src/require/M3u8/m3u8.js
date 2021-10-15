@@ -187,7 +187,7 @@ function M3U8() {
                                 type: "octet/stream"
                             })); // IE can't read Blob.arrayBuffer :(
 
-                            reader.addEventListener("loadend", function(event) { // event listener, my old friend we meet again... I cenrtainly haven't missed you in place of promise
+                            reader.addEventListener("loadend", function(event) { 
 
                                 resolve(reader.result);;
                                 (_this.onprogress && _this.onprogress({
@@ -210,10 +210,10 @@ function M3U8() {
                             data.push(d[n]);
                         }
                         let step = _this.step;
-                        var increment = arr[i + 2] ? 2 : 1; // look ahead to see if we can perform 2 requests at the same time again
+                        var increment = arr[i + 2] ? 2 : 1; 
 
                         if (_this.aborted) {
-                            data = null; // purge data... client side calling of garbage collector isn't possible. I know about opera and ie's garbage collectors but they're not ideal.
+                            data = null; 
                             _this.aborted();
                             return; // exit promise
                         } else if (arr[i + step]) {

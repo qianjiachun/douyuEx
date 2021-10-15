@@ -2,7 +2,6 @@
 
 ## 🌐 官方网站
 DouyuEx[官方网站](http://www.douyuex.com/)上线啦！域名好记: www.douyuex.com  
-所有数据源/资料等后续都将在官网更新，greasyfork仅作为导航页，不再继续更新代码  
 
 [访问官网(http://www.douyuex.com/)](http://www.douyuex.com/)
 
@@ -47,10 +46,3 @@ DouyuEx[官方网站](http://www.douyuex.com/)上线啦！域名好记: www.douy
 [如何编译与维护](https://qianjiachun.github.io/DouyuEx/compile)
 
 --------------------------------------------------
-
-## 💖投喂
-淳宝要饿死惹 QwQ  
-
-[投喂名单](https://qianjiachun.github.io/DouyuEx/donate)  
-
-![qrcode.jpg](https://qianjiachun.github.io/DouyuEx/qrcode.jpg)
