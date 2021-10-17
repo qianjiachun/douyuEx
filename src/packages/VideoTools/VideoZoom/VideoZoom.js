@@ -3,7 +3,7 @@ function initPkg_VideoTools_VideoZoom() {
     let domWrap = document.getElementsByClassName("layout-Player-video")[0];
     let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
     
-    domVideoWrap.style.transition = "all 0.3s";
+    domVideoWrap.style.transition = "all 0.1s";
     domWrap.addEventListener("mousewheel", e => {
         if (!e.ctrlKey) {
             return;
