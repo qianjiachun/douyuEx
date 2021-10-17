@@ -130,6 +130,19 @@ function initPkg_VideoTools_Filter_Func() {
         document.getElementById("mask__bright").style.width = "100px";
         document.getElementById("mask__contrast").style.width = "100px";
         document.getElementById("mask__saturate").style.width = "100px";
+
+        // 重置全景
+        let domPanorama = document.getElementById("ex-panorama");
+        if (domPanorama) {
+            domPanorama.remove();
+            panorama = null;
+        }
+
+        // 重置缩放
+        let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
+        domVideoWrap.style.transform = "";
+        domVideoWrap.style.transformOrigin = "";
+        videoScale = 1;
         
     });
     document.getElementById("filter__mirror").addEventListener("click", () => {
