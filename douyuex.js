@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.10.15.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载
+// @version      2021.10.18.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载 直播画面局部缩放
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -8742,7 +8742,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.10.15.01"
+var curVersion = "2021.10.18.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -9375,6 +9375,19 @@ function initPkg_VideoTools_Filter_Func() {
         document.getElementById("mask__bright").style.width = "100px";
         document.getElementById("mask__contrast").style.width = "100px";
         document.getElementById("mask__saturate").style.width = "100px";
+
+        // 重置全景
+        let domPanorama = document.getElementById("ex-panorama");
+        if (domPanorama) {
+            domPanorama.remove();
+            panorama = null;
+        }
+
+        // 重置缩放
+        let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
+        domVideoWrap.style.transform = "";
+        domVideoWrap.style.transformOrigin = "";
+        videoScale = 1;
         
     });
     document.getElementById("filter__mirror").addEventListener("click", () => {
@@ -9666,11 +9679,12 @@ function initPkg_VideoTools() {
 function initPkg_VideoTools_Module() {
     // 添加模块
     initPkg_VideoTools_VideoSpeed();
-    initPkg_VideoTools_Cinema();
+    // initPkg_VideoTools_Cinema();
     initPkg_VideoTools_VideoSync();
     initPkg_VideoTools_VideoRecall();
     initPkg_VideoTools_Filter();
     initPkg_VideoTools_Camera();
+    initPkg_VideoTools_VideoZoom();
 }
 
 function initPkg_VideoTools_Func() {
@@ -9700,6 +9714,33 @@ function initPkg_VideoTools_Func() {
         }
     });
 }
+
+let videoScale = 1;
+function initPkg_VideoTools_VideoZoom() {
+    let domWrap = document.getElementsByClassName("layout-Player-video")[0];
+    let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
+    
+    domVideoWrap.style.transition = "all 0.1s";
+    domWrap.addEventListener("mousewheel", e => {
+        if (!e.ctrlKey) {
+            return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        let delta = e.wheelDelta || -e.detail;
+        let x = e.screenX - domWrap.getBoundingClientRect().left;
+        let y = e.screenY - domWrap.getBoundingClientRect().top;
+        if (delta >= 0) {
+            videoScale += 0.1;
+        } else {
+            videoScale -= 0.1;
+        }
+        domVideoWrap.style.transform = `scale(${videoScale})`;
+        domVideoWrap.style.transformOrigin = `${x}px ${y}px`;
+    }, true);
+
+}
+
 
 function doSign(alias) {
     return new Promise(resolve => {
