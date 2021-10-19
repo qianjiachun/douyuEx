@@ -1,24 +1,20 @@
-#ex-videospeed {
-    float: left;
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-    cursor: pointer;
-    background-size: contain;
+
+#ex-videospeed:hover > .videospeed__wrap {
+    display: block;
 }
+
 .videospeed__wrap {
     display: none;
-    position: relative;
-    height: 100%;
-    margin-right: -15px;
-    border-radius: 4px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    float: left;
-    right: -12px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    position: absolute;
+    left: 201px;
+    min-width: 100px;
+    top: 120px;
 }
+
 
 .videospeed__panel {
     position: absolute;

@@ -18,6 +18,7 @@
     user-select: none;
     float: left;
     right: -12px;
+    bottom: 10px;
 }
 
 .filter__panel {

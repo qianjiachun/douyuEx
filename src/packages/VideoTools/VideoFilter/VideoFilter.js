@@ -74,10 +74,7 @@ function Filter_insertIcon() {
                 </select>
             </div>
             <ul style="clear:both">
-                <li id="filter__mirror">镜像画面</li>
-                <li id="filter__rotate">旋转画面</li>
-                <li id="filter__panorama">全景</li>
-                <li id="filter__reset">重置</li>
+                <li id="filter__reset2">重置</li>
             </ul>
         </div>
     </div>
@@ -85,6 +82,32 @@ function Filter_insertIcon() {
     `;
     let b = document.getElementsByClassName("right-e7ea5d")[0];
     b.insertBefore(a, b.childNodes[0]);
+
+    b = document.getElementsByClassName("menu-da2a9e")[0];
+
+    let domPanorama = document.createElement("li");
+    domPanorama.id = "filter__panorama";
+    domPanorama.innerText = "全景";
+    b.insertBefore(domPanorama, b.childNodes[1]);
+
+    let domMirror = document.createElement("li");
+    domMirror.id = "filter__mirror";
+    domMirror.innerText = "镜像画面";
+    b.insertBefore(domMirror, b.childNodes[1]);
+
+    let domRotate = document.createElement("li");
+    domRotate.id = "filter__rotate";
+    domRotate.innerText = "旋转画面";
+    b.insertBefore(domRotate, b.childNodes[1]);
+
+    let domReset = document.createElement("li");
+    domReset.id = "filter__reset";
+    domReset.innerText = "重置";
+    b.insertBefore(domReset, b.childNodes[1]);
+
+    let domDivider = document.createElement("div");
+    domDivider.className = "divider-f9d33d";
+    b.insertBefore(domDivider, b.childNodes[1]);
 }
 
 function initPkg_VideoTools_Filter_Func() {
@@ -106,44 +129,15 @@ function initPkg_VideoTools_Filter_Func() {
 
     document.getElementById("ex-filter").addEventListener("mouseover", function () {
         document.getElementsByClassName("filter__wrap")[0].style.display = "block";
-        document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
-        document.getElementsByClassName("cinema__wrap")[0].style.display = "none"
     });
     document.getElementsByClassName("filter__wrap")[0].addEventListener("mouseleave", function () {
         document.getElementsByClassName("filter__wrap")[0].style.display = "none"
     });
     document.getElementById("filter__reset").addEventListener("click", () => {
-        StyleHook_remove("Ex_Style_Filter");
-        document.getElementById("filter__select").selectedIndex = 0;
-        liveVideoNode.style.filter = "";
-        rotateAngle = 0;
-        transformCss = {
-            rotateY: "",
-            rotate: "",
-            scale: "",
-        }
-        liveVideoNode.parentNode.style.transform = "";
-        document.getElementById("bar__bright").style.left = "100px";
-        document.getElementById("bar__contrast").style.left = "100px";
-        document.getElementById("bar__saturate").style.left = "100px";
-
-        document.getElementById("mask__bright").style.width = "100px";
-        document.getElementById("mask__contrast").style.width = "100px";
-        document.getElementById("mask__saturate").style.width = "100px";
-
-        // 重置全景
-        let domPanorama = document.getElementById("ex-panorama");
-        if (domPanorama) {
-            domPanorama.remove();
-            panorama = null;
-        }
-
-        // 重置缩放
-        let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
-        domVideoWrap.style.transform = "";
-        domVideoWrap.style.transformOrigin = "";
-        videoScale = 1;
-        
+        resetVideoFilter();
+    });
+    document.getElementById("filter__reset2").addEventListener("click", () => {
+        resetVideoFilter();
     });
     document.getElementById("filter__mirror").addEventListener("click", () => {
         if (!isMirror) {
@@ -239,10 +233,12 @@ function initPkg_VideoTools_Filter_Func() {
     }
 
     document.getElementById("filter__panorama").addEventListener("click", () => {
+        let domPanorama= document.getElementById("filter__panorama");
         let tmp = document.getElementById("ex-panorama");
         if (tmp) {
             tmp.remove();
             panorama = null;
+            domPanorama.innerText = "全景";
         } else {
             let node = document.getElementById("__h5player");
             let dom = document.createElement("div");
@@ -251,8 +247,42 @@ function initPkg_VideoTools_Filter_Func() {
             node.insertBefore(dom, node.childNodes[0]);
             panorama = new PanoramaVideo(dom, liveVideoNode);
             panoramaAnimation(panorama);
+            domPanorama.innerText = "√ 全景";
         }
     })
+}
+
+function resetVideoFilter() {
+    StyleHook_remove("Ex_Style_Filter");
+    document.getElementById("filter__select").selectedIndex = 0;
+    liveVideoNode.style.filter = "";
+    rotateAngle = 0;
+    transformCss = {
+        rotateY: "",
+        rotate: "",
+        scale: "",
+    }
+    liveVideoNode.parentNode.style.transform = "";
+    document.getElementById("bar__bright").style.left = "100px";
+    document.getElementById("bar__contrast").style.left = "100px";
+    document.getElementById("bar__saturate").style.left = "100px";
+
+    document.getElementById("mask__bright").style.width = "100px";
+    document.getElementById("mask__contrast").style.width = "100px";
+    document.getElementById("mask__saturate").style.width = "100px";
+
+    // 重置全景
+    let domPanorama = document.getElementById("ex-panorama");
+    if (domPanorama) {
+        domPanorama.remove();
+        panorama = null;
+    }
+
+    // 重置缩放
+    let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
+    domVideoWrap.style.transform = "";
+    domVideoWrap.style.transformOrigin = "";
+    videoScale = 1;
 }
 
 function panoramaAnimation(panorama) {

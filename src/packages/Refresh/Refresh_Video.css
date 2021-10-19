@@ -1,11 +1,11 @@
-#refresh-video {
+/* #refresh-video {
     float: left;
     width: 24px;
     height: 24px;
     margin-right: 5px;
     cursor: pointer;
     background-size: contain;
-}
+} */
 
 #refresh-video2 {
     display: none;

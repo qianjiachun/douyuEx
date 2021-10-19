@@ -6,6 +6,7 @@ function initPkg_VideoTools() {
         if (document.getElementsByClassName("right-e7ea5d").length > 0) {
             clearInterval(timer);
             liveVideoNode = document.querySelector(".layout-Player-videoEntity video");
+            document.getElementsByClassName("disable-23f484")[0].innerHTML = `DouyuEx_${curVersion}`;
             initPkg_VideoTools_Module();
             initPkg_VideoTools_Func();
         }
@@ -19,7 +20,7 @@ function initPkg_VideoTools() {
 function initPkg_VideoTools_Module() {
     // 添加模块
     initPkg_VideoTools_VideoSpeed();
-    // initPkg_VideoTools_Cinema();
+    initPkg_VideoTools_Cinema();
     initPkg_VideoTools_VideoSync();
     initPkg_VideoTools_VideoRecall();
     initPkg_VideoTools_Filter();
@@ -29,13 +30,9 @@ function initPkg_VideoTools_Module() {
 
 function initPkg_VideoTools_Func() {
     document.getElementById("js-player-toolbar").addEventListener("mouseover", () => {
-        document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
-        document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
         document.getElementsByClassName("filter__wrap")[0].style.display = "none";
     });
     document.getElementById("js-player-asideMain").addEventListener("mouseover", () => {
-        document.getElementsByClassName("cinema__wrap")[0].style.display = "none";
-        document.getElementsByClassName("videospeed__wrap")[0].style.display = "none";
         document.getElementsByClassName("filter__wrap")[0].style.display = "none";
     });
     document.getElementsByClassName("inputView-2a65aa")[0].addEventListener("focus", () => {

@@ -82,3 +82,7 @@
 .ex-accountList-item__btn:hover {
     background-color: rgb(247,137,137);
 }
+
+#ex-accountList-icon:hover > #ex-accountList-wrap {
+    display: block;
+}

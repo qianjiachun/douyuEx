@@ -99,12 +99,6 @@ function initPkg_AccountList_Func() {
                 break;
         }
     })
-    document.getElementById("ex-accountList-icon").addEventListener("mouseenter", () => {
-        document.getElementById("ex-accountList-wrap").style.display = "block";
-    });
-    document.getElementById("ex-accountList-icon").addEventListener("mouseleave", () => {
-        document.getElementById("ex-accountList-wrap").style.display = "none";
-    });
 }
 
 function renderAccountList(obj) {
