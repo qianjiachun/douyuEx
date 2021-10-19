@@ -233,12 +233,10 @@ function initPkg_VideoTools_Filter_Func() {
     }
 
     document.getElementById("filter__panorama").addEventListener("click", () => {
-        let domPanorama= document.getElementById("filter__panorama");
         let tmp = document.getElementById("ex-panorama");
         if (tmp) {
             tmp.remove();
             panorama = null;
-            domPanorama.innerText = "全景";
         } else {
             let node = document.getElementById("__h5player");
             let dom = document.createElement("div");
@@ -247,7 +245,6 @@ function initPkg_VideoTools_Filter_Func() {
             node.insertBefore(dom, node.childNodes[0]);
             panorama = new PanoramaVideo(dom, liveVideoNode);
             panoramaAnimation(panorama);
-            domPanorama.innerText = "√ 全景";
         }
     })
 }
