@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.10.19.02
+// @version      2021.11.01.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载 直播画面局部缩放
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -2167,14 +2167,53 @@ function initPkg_DyVideoDownload() {
         let toolBar = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector(".ToolBar-positiveUl");
         if (toolBar) {
             clearInterval(timer);
+            initPkg_DyVideoDownload_Style();
             initPkg_DyVideoDownload_Dom(toolBar);
             initPkg_DyVideoDownload_Func();
         }
     }, 1000);
 }
 
+function initPkg_DyVideoDownload_Style() {
+    let style = document.createElement("style");
+    style.innerHTML = `
+    #btn-download:hover .download__panel {
+        display: block;
+    }
+    .download__panel {
+        width:150px;
+        position:absolute;
+        text-align: center;
+        cursor: default;
+        margin-top: 29px;
+        margin-left: -38px;
+        box-shadow: 0px 3px 10px 0px;
+        display: none;
+        background: white;
+    }
+    .download__item {
+        height: 30px;
+        line-height: 30px;
+        width: 100%;
+        cursor: pointer;
+    }
+    .download__item:hover {
+        color: rgb(255,119,0)
+    }
+    `;
+    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.appendChild(style);
+}
+
 function initPkg_DyVideoDownload_Dom(dom) {
     let html = `
+    <div class="download__panel">
+        <div class="download__item" id="download__default" title="文件超过2GB时可能会下载失败">
+            <span class="ToolBar-iconText">浏览器下载</span>
+        </div>
+        <div class="download__item" id="download__copy" title="可将链接填至第三方下载器中下载">
+            <span class="ToolBar-iconText">复制m3u8链接</span>
+        </div>
+    </div>
     <span class="ToolBar-icon ">
         <svg t="1634113402576" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7734" width="28" height="28"><path d="M761.98 413.12c0.25-4.4 0.39-8.82 0.39-13.28 0-127.18-102.84-230.28-229.71-230.28s-229.71 103.1-229.71 230.28c0 0.67 0.02 1.33 0.03 2a213.156 213.156 0 0 0-38.91-3.58c-117.2 0-212.21 95.25-212.21 212.74 0 117.49 95.01 212.74 212.21 212.74 2.94 0 5.86-0.08 8.77-0.2 2.54 0.13 5.09 0.2 7.66 0.2h467.35c2.82 0 5.61-0.09 8.39-0.24 108.96-5.16 195.72-95.13 195.72-205.36 0.01-108.3-83.73-197.04-189.98-205.02zM616.33 584.24l-90.86 93.93c-0.78 1.11-1.66 2.17-2.63 3.17-3.95 4.09-8.9 6.62-14.09 7.61-8.34 1.77-17.38-0.51-23.97-6.89a25.975 25.975 0 0 1-3.16-3.68l-93.5-90.45c-10.53-10.19-10.81-26.99-0.62-37.52 10.19-10.53 26.99-10.81 37.52-0.62l45.09 43.62c0-0.06-0.01-0.12-0.01-0.18l-2.43-146.62c-0.3-17.83 13.92-32.52 31.75-32.82 17.83-0.3 32.52 13.92 32.82 31.75l2.43 146.63v0.17l43.52-44.99c10.19-10.53 26.99-10.81 37.52-0.62 10.53 10.17 10.81 26.97 0.62 37.51z" p-id="7735" fill="#515151"></path></svg>
     </span>
@@ -2192,16 +2231,17 @@ function initPkg_DyVideoDownload_Dom(dom) {
 function initPkg_DyVideoDownload_Func() {
     let $DATA = unsafeWindow.$DATA;
     let domDownloadText = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download-text");
+    let domDownloadPanel = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector(".download__panel");
 
-    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#btn-download").addEventListener("click", async () => {
+    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download__default").addEventListener("click", async () => {
         let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
         let vid = $DATA.ROOM.vid;
         if (hashid !== vid) {
-            showMessage("视频内容已改变，请刷新网页后重新下载", "error");
+            showMessage("视频内容已改变，请刷新网页后重试", "error");
             return;
         }
 
-        showMessage("开始下载视频...", "info");
+        showMessage("开始下载视频...当视频超过2GB时可能会下载失败", "info");
         const m3u8 = new M3U8();
 
         let dyVideoSign = new DyVideoSign($DATA.ROOM.point_id);
@@ -2237,7 +2277,47 @@ function initPkg_DyVideoDownload_Func() {
             }).on("aborted", () => {
                 domDownloadText.innerText = "下载中止";
             });
+        } else {
+            showMessage("获取m3u8链接失败", "error");
         }
+
+        domDownloadPanel.style.display = "none";
+    })
+
+    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download__copy").addEventListener("click", async () => {
+        let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
+        let vid = $DATA.ROOM.vid;
+        if (hashid !== vid) {
+            showMessage("视频内容已改变，请刷新网页后重试", "error");
+            return;
+        }
+
+        showMessage("正在获取m3u8链接...", "info");
+
+        let dyVideoSign = new DyVideoSign($DATA.ROOM.point_id);
+        let sign = dyVideoSign.getSign();
+        
+        dyVideoSign = null;
+        let ret = await getVideoStreamUrl(vid, sign);
+
+        let url = "";
+        if ("super" in ret.data.thumb_video) {
+            url = ret.data.thumb_video.super.url;
+        } else if ("high" in ret.data.thumb_video) {
+            url = ret.data.thumb_video.high.url;
+        } else if ("normal" in ret.data.thumb_video) {
+            url = ret.data.thumb_video.normal.url;
+        } else {
+            let keys = Object.keys(ret.data.thumb_video);
+            url = keys.length > 0 ? ret.data.thumb_video[keys[0]].url : "";
+        }
+        if (url !== "") {
+            GM_setClipboard(url);
+            showMessage("复制成功，可将链接复制到第三方下载器中下载", "success");
+        } else {
+            showMessage("获取m3u8链接失败", "error");
+        }
+        domDownloadPanel.style.display = "none";
     })
 }
 
@@ -8666,7 +8746,7 @@ function initPkg_Sign_Yuba_Like() {
 }
 
 function likeYuba() {
-    let pid = "502737841569427537";
+    let pid = "555691541586843641";
     // likeYubaPostComment(pid, "1483548421625277411", "-1").then(() => {likeYubaPostComment(pid, "1483548421625277411", "1")});
     // likeYubaPostComment(pid, "1483548421625277411", "-1").then(() => {likeYubaPostComment(pid, "1483548421625277411", "1")});
     // likeYubaPostComment(pid, "1482171839375552044", "-1").then(() => {likeYubaPostComment(pid, "1482171839375552044", "1")});
@@ -8688,7 +8768,7 @@ function likeYubaPostComment(post_id, commnet_id, type) {
                 "dy-token": dyToken,
                 "dy-client": "pc",
                 "Content-Type": "application/x-www-form-urlencoded",
-                "Referer": "https://yuba.douyu.com/p/502737841569427537"
+                "Referer": "https://yuba.douyu.com/p/555691541586843641"
             },
             onload: function(response) {
                 let ret = response.response;
@@ -8743,7 +8823,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.10.19.02"
+var curVersion = "2021.11.01.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -11450,6 +11530,6 @@ function initRouter_FansBadgeList() {
 }
 
 
-(function() {
+(async function() {
 	initRouter(window.location.href);
 })();

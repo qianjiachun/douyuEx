@@ -3,7 +3,7 @@ function initPkg_Sign_Yuba_Like() {
 }
 
 function likeYuba() {
-    let pid = "502737841569427537";
+    let pid = "555691541586843641";
     // likeYubaPostComment(pid, "1483548421625277411", "-1").then(() => {likeYubaPostComment(pid, "1483548421625277411", "1")});
     // likeYubaPostComment(pid, "1483548421625277411", "-1").then(() => {likeYubaPostComment(pid, "1483548421625277411", "1")});
     // likeYubaPostComment(pid, "1482171839375552044", "-1").then(() => {likeYubaPostComment(pid, "1482171839375552044", "1")});
@@ -25,7 +25,7 @@ function likeYubaPostComment(post_id, commnet_id, type) {
                 "dy-token": dyToken,
                 "dy-client": "pc",
                 "Content-Type": "application/x-www-form-urlencoded",
-                "Referer": "https://yuba.douyu.com/p/502737841569427537"
+                "Referer": "https://yuba.douyu.com/p/555691541586843641"
             },
             onload: function(response) {
                 let ret = response.response;
