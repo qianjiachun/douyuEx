@@ -41,18 +41,7 @@ function LiveTool_insertIcon() {
 
 function initPkg_LiveTool_Func() {
 	document.getElementsByClassName("livetool-icon")[0].addEventListener("click", function() {
-        let a = document.getElementsByClassName("livetool")[0];
-		if (a.style.display != "block") {
-			a.style.display = "block";
-			if (document.getElementsByClassName("bloop")[0].style.display == "block") {
-				document.getElementsByClassName("bloop")[0].style.display = "none";
-            }
-            if (document.getElementsByClassName("extool")[0].style.display == "block") {
-				document.getElementsByClassName("extool")[0].style.display = "none";
-			}
-		} else {
-			a.style.display = "none";
-		}
+		showExRightPanel("直播间工具");
 	});
 }
 

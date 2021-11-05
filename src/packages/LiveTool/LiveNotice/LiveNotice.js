@@ -14,7 +14,7 @@ function initPkg_LiveTool_LiveNotice_Handle(text) {
         } else {
             clearInterval(timer_closing);
             timer_closing = setInterval(() => {
-                if (closingNum > 30) {
+                if (closingNum > 60) {
                     clearInterval(timer_closing);
                     closingNum = 0;
                 }
@@ -24,7 +24,7 @@ function initPkg_LiveTool_LiveNotice_Handle(text) {
                     x[0].click();
                 }
                 closingNum++;
-            }, 500);
+            }, 200);
         }
     }
 }

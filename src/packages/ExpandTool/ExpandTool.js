@@ -44,17 +44,6 @@ function initPkg_ExpandTool_Func() {
 	// 函数初始化
 	// 将onclick事件绑定在这里
 	document.getElementsByClassName("extool-icon")[0].addEventListener("click", function() {
-		let a = document.getElementsByClassName("extool")[0];
-		if (a.style.display != "block") {
-			a.style.display = "block";
-			if (document.getElementsByClassName("bloop")[0].style.display == "block") {
-				document.getElementsByClassName("bloop")[0].style.display = "none";
-			}
-			if (document.getElementsByClassName("livetool")[0].style.display == "block") {
-				document.getElementsByClassName("livetool")[0].style.display = "none";
-			}
-		} else {
-			a.style.display = "none";
-		}
+		showExRightPanel("扩展功能");
 	});
 }

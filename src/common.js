@@ -10,6 +10,7 @@ urlLen = null;
 ridPos = null;
 var my_uid = getCookieValue("acf_uid"); // 自己的uid
 var dyToken = getToken();
+
 function showExPanel() {
 	// 显示功能条
 	let a = document.getElementsByClassName("ex-panel")[0];
@@ -167,13 +168,15 @@ function getUID() {
 	return ret;
 }
 
-function showMessage(msg, type) {
+function showMessage(msg, type="success", options) {
 	// type: success[green] error[red] warning[orange] info[blue]
-	new NoticeJs({
+	let option = {
 		text: msg,
 		type: type,
 		position: 'bottomRight',
-	}).show();
+		...options
+	}
+	new NoticeJs(option).show();
 }
 
 function openPage(url, b) {
@@ -285,4 +288,57 @@ function getTextareaPosition(element) {
         cursorPos = element.selectionStart;
     }
     return cursorPos;
+}
+
+function showExRightPanel(name) {
+	let panels = [
+		{
+			name: "弹幕发送小助手",
+			className: "bloop",
+		},
+		{
+			name: "扩展功能",
+			className: "extool",
+		},
+		{
+			name: "直播间工具",
+			className: "livetool",
+		},
+		{
+			name: "全站抽奖信息",
+			className: "exlottery"
+		},
+	];
+	for (let i = 0; i < panels.length; i++) {
+		let item = panels[i];
+		let dom = document.getElementsByClassName(item.className)[0];
+		if (dom) {
+			if (name === item.name) {
+				dom.style.display = dom.style.display !== "block" ? "block" : "none";
+			} else {
+				dom.style.display = "none";
+			}
+		}
+	}
+}
+
+function getTimeDiff(t1, t2) {
+	if (t1 < t2) {
+		return -1;
+	} else{
+		let ret = "";
+		let date3 = Math.abs(t1 - t2);
+		let days = Math.floor(date3/(24*3600*1000));
+		ret += days > 0 ? days + "天" : "";
+		let leave1 = date3%(24*3600*1000);
+		let hours = Math.floor(leave1/(3600*1000));
+		ret += hours > 0 ? hours + "时" : "";
+		let leave2 = leave1%(3600*1000);
+		let minutes = Math.floor(leave2/(60*1000));
+		ret += minutes > 0 ? minutes + "分" : "";
+		let leave3 = leave2%(60*1000);
+		let seconds = Math.round(leave3/1000);
+		ret += seconds > 0 ? seconds + "秒" : "";
+		return ret;
+	}
 }

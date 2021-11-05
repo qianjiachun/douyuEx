@@ -27,7 +27,7 @@ function ExpandTool_RedPacket_Room_insertFunc() {
                     // 开始自动抢红包
                     redpacket_room_timer = setInterval(() => {
                         getRoomRedPacketsList(rid);
-                    }, 1100);
+                    }, 60000);
                 } else{
                     // 停止自动抢红包
                     clearInterval(redpacket_room_timer);

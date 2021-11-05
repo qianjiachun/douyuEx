@@ -1,0 +1,88 @@
+.exlottery {
+	background-color: rgba(255,255,255,1);
+	width: 100%;
+	height: 250px;
+	position: relative;
+	bottom: 250px;
+	display: none;
+	z-index: 1015;
+    overflow: auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.lottery__default {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #d0d0d0;
+    z-index: 998;
+}
+
+.lottery__wrap {
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+}
+
+.lottery__a:hover .lottery__item {
+    background-color: rgb(244,244,244);
+}
+
+.lottery__item {
+    display: flex;
+    padding: 5px 0;
+    border-bottom: 1px solid #d0d0d0;
+    color: #606266;
+}
+
+.lottery__img img {
+    width: 150px;
+    border-radius: 5px;
+}
+
+.lottery__anchor {
+    position: absolute;
+    background-color: rgba(255,255,255,0.9);
+    border-radius: 5px 0px 5px 0px;
+}
+
+.lottery__info {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    margin-left: 10px;
+    overflow: hidden;
+}
+
+.lottery__prize {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    font-size: 14px;
+}
+
+.lottery__expireTime {
+    position: absolute;
+    margin-top: -18px;
+    background-color: rgba(255,255,255,0.9);
+    border-radius: 0px 5px 0px 5px;
+}
+
+ /*滚动条样式*/
+.exlottery::-webkit-scrollbar {
+    width: 4px;    
+}
+.exlottery::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.2);
+}
+.exlottery::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 0;
+    background: rgba(0,0,0,0.1);
+}

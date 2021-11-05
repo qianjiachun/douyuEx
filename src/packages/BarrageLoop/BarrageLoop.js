@@ -179,18 +179,7 @@ function initPkg_BarrageLoop_Func() {
 	// 函数初始化
 	// 将onclick事件绑定在这里
 	document.getElementsByClassName("bloop-icon")[0].addEventListener("click", function() {
-		let a = document.getElementsByClassName("bloop")[0];
-		if (a.style.display != "block") {
-			a.style.display = "block";
-			if (document.getElementsByClassName("extool")[0].style.display == "block") {
-				document.getElementsByClassName("extool")[0].style.display = "none";
-			}
-			if (document.getElementsByClassName("livetool")[0].style.display == "block") {
-				document.getElementsByClassName("livetool")[0].style.display = "none";
-			}
-		} else {
-			a.style.display = "none";
-		}
+		showExRightPanel("弹幕发送小助手");
 	});
 	document.getElementById("bloop__checkbox_changeColor").addEventListener("click", function() {
 		isChangeColor = document.getElementById("bloop__checkbox_changeColor").checked;

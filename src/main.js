@@ -73,6 +73,7 @@ function initPkg() {
 	initPkg_RemoveAD();
 	initPkg_BagInfo();
 	initPkg_Update();
+	initPkg_Lottery();
 	// initPkg_MiniProgram();
 	initPkg_PopupPlayer();
 	initPkg_LiveTool();
@@ -92,10 +93,11 @@ function initPkg() {
 }
 function initPkg_Timer() {
 	initPkg_FishPond_Timer();
+	initPkg_Lottery_Timer();
 }
 function initTimer() {
 	initPkg_Timer();
-	exTimer = setInterval(initPkg_Timer, 30000);
+	exTimer = setInterval(initPkg_Timer, 35000);
 }
 
 function initStyles() {

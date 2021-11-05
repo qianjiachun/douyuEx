@@ -69,6 +69,12 @@ function initPkg_DyVideoDownload_Func() {
     let domDownloadText = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download-text");
     let domDownloadPanel = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector(".download__panel");
 
+    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#btn-download").addEventListener("click", () => {
+        if (domDownloadText.innerText === "下载完成") {
+            showMessage("请刷新页面后再下载", "warning");
+        }
+    })
+
     document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download__default").addEventListener("click", async () => {
         let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
         let vid = $DATA.ROOM.vid;

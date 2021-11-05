@@ -5,44 +5,47 @@ function initRouter(href) {
     // }
 
     // 路由转发
-    if (String(href).indexOf("passport.douyu.com") != -1 && String(href).indexOf("exid=chun") != -1) {
+    if (String(href).indexOf("passport.douyu.com") !== -1 && String(href).indexOf("exid=chun") !== -1) {
         // 账号
         initRouter_Passport();
-    } else if (String(href).indexOf("msg.douyu.com") != -1) {
+    } else if (String(href).indexOf("msg.douyu.com") !== -1) {
         // 车队
-        if (href.indexOf("?exClean") != -1) {
+        if (href.indexOf("?exClean") !== -1) {
             initRouter_CleanMsg();
         } else {
             initRouter_Motorcade();
         }
-    } else if (String(href).indexOf("yuba.douyu.com") != -1) {
+    } else if (String(href).indexOf("yuba.douyu.com") !== -1) {
         // 鱼吧
-        if (String(href).indexOf("?exClean") != -1) {
+        if (String(href).indexOf("?exClean") !== -1) {
             initRouter_CleanYuba();
         } else {
             initRouter_Yuba();
         }
-    } else if (String(href).indexOf("v.douyu.com") != -1) {
+    } else if (String(href).indexOf("v.douyu.com") !== -1) {
         // 视频
-        if (String(href).indexOf("?exClean") != -1) {
+        if (String(href).indexOf("?exClean") !== -1) {
             initRouter_CleanVideo();
-        } else if (String(href).indexOf("show/") != -1) {
+        } else if (String(href).indexOf("show/") !== -1) {
             initRouter_Video();
         }
-    } else if (String(href).indexOf("cz.douyu.com") != -1) {
+    } else if (String(href).indexOf("cz.douyu.com") !== -1) {
         // 充值
-        if (String(href).indexOf("?exClean") != -1) {
+        if (String(href).indexOf("?exClean") !== -1) {
             initRouter_CleanCz();
         }
         
-    } else if (String(href).indexOf("getFansBadgeList") != -1) {
+    } else if (String(href).indexOf("getFansBadgeList") !== -1) {
         // 粉丝牌
         initRouter_FansBadgeList();
     } else {
-        if (String(href).indexOf("exid=chun") != -1) {
+        if (String(href).indexOf("exid=chun") !== -1) {
             // 主站
             initRouter_DouyuRoom_Popup();
         } else {
+            if (String(href).indexOf("template/") !== -1) {
+                return;
+            }
             initRouter_DouyuRoom_Main();
         }
     }
@@ -58,7 +61,7 @@ function initRouter_Motorcade() {
 function initRouter_DouyuRoom_Popup() {
     // 画中画
     let intID = setInterval(() => {
-        if (typeof (document.querySelector('div.wfs-2a8e83')) != "undefined") {
+        if (typeof (document.querySelector('div.wfs-2a8e83')) !== "undefined") {
             document.querySelector('div.wfs-2a8e83').click();
             document.querySelector('label.layout-Player-asidetoggleButton').click();
             let l = document.querySelectorAll(".tip-e3420a > ul > li").length;
