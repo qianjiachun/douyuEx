@@ -93,7 +93,6 @@ function initPkg() {
 }
 function initPkg_Timer() {
 	initPkg_FishPond_Timer();
-	initPkg_Lottery_Timer();
 }
 function initTimer() {
 	initPkg_Timer();

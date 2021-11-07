@@ -342,3 +342,21 @@ function getTimeDiff(t1, t2) {
 		return ret;
 	}
 }
+
+function debounce(func, wait) {
+    let timer;
+    return function() {
+      let context = this;
+      let args = arguments;
+ 
+      if (timer) clearTimeout(timer);
+ 
+      let callNow = !timer;
+ 
+      timer = setTimeout(() => {
+        timer = null;
+      }, wait)
+ 
+      if (callNow) func.apply(context, args);
+    }
+}

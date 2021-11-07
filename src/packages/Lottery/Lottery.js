@@ -2,11 +2,17 @@
 let myFansBadgeList = [];
 let lotteryHasNoticed = {};
 let lotteryHTML = "";
+let isLotteryNotice = true;
+let timer_lottery = 0;
 
 function initPkg_Lottery() {
     setFansBadgeList();
 	initPkg_Lottery_Dom();
 	initPkg_Lottery_Func();
+    Lottery_Set();
+    timer_lottery = setInterval(() => {
+        initPkg_Lottery_Timer();
+    }, 60000);
 }
 
 function initPkg_Lottery_Dom() {
@@ -27,15 +33,22 @@ function Lottery_insertModal() {
 	let a = document.createElement("div");
 	a.className = "exlottery";
 	a.innerHTML = `
-        <div class="lottery__wrap">
-            <div class="lottery__default">暂无数据</div>
+        <div class="lottery__func">
+            <div id="lottery-refresh">
+                <svg t="1636115506027" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2454" width="16" height="16"><path d="M927.999436 531.028522a31.998984 31.998984 0 0 0-31.998984 31.998984c0 51.852948-10.147341 102.138098-30.163865 149.461048a385.47252 385.47252 0 0 1-204.377345 204.377345c-47.32295 20.016524-97.6081 30.163865-149.461048 30.163865s-102.138098-10.147341-149.461048-30.163865a385.47252 385.47252 0 0 1-204.377345-204.377345c-20.016524-47.32295-30.163865-97.6081-30.163865-149.461048s10.147341-102.138098 30.163865-149.461048a385.47252 385.47252 0 0 1 204.377345-204.377345c47.32295-20.016524 97.6081-30.163865 149.461048-30.163865a387.379888 387.379888 0 0 1 59.193424 4.533611l-56.538282 22.035878A31.998984 31.998984 0 1 0 537.892156 265.232491l137.041483-53.402685a31.998984 31.998984 0 0 0 18.195855-41.434674L639.723197 33.357261a31.998984 31.998984 0 1 0-59.630529 23.23882l26.695923 68.502679a449.969005 449.969005 0 0 0-94.786785-10.060642c-60.465003 0-119.138236 11.8488-174.390489 35.217667a449.214005 449.214005 0 0 0-238.388457 238.388457c-23.361643 55.252253-35.22128 113.925486-35.22128 174.390489s11.8488 119.138236 35.217668 174.390489a449.214005 449.214005 0 0 0 238.388457 238.388457c55.252253 23.368867 113.925486 35.217667 174.390489 35.217667s119.138236-11.8488 174.390489-35.217667A449.210393 449.210393 0 0 0 924.784365 737.42522c23.368867-55.270316 35.217667-113.925486 35.217667-174.390489a31.998984 31.998984 0 0 0-32.002596-32.006209z" fill="" p-id="2455"></path></svg>
+            </div>
+            <div class="lottery__notice">
+                <label class="lottery__notice"><input class="lottery__notice" id="lottery-notice" type="checkbox" checked="checked">开启提醒</label>
+            </div>
         </div>
+        <div class="lottery__wrap"></div>
     `;
 	let b = document.getElementsByClassName("layout-Player-chat")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
 
 function initPkg_Lottery_Func() {
+    let dom_notice = document.getElementById("lottery-notice");
     document.getElementsByClassName("ex-lottery")[0].addEventListener("click", () => {
         showExRightPanel("全站抽奖信息");
         let dom = document.getElementsByClassName("lottery__wrap")[0];
@@ -43,7 +56,24 @@ function initPkg_Lottery_Func() {
             dom.innerHTML = lotteryHTML;
         }
     })
+
+    document.getElementById("lottery-refresh").addEventListener("click", debounce(() => {
+        initPkg_Lottery_Timer();
+    }, 3000))
+
+    dom_notice.addEventListener("click", () => {
+        let ischecked = dom_notice.checked;
+        if (ischecked == true) {
+            // 开启提醒
+            isLotteryNotice = true;
+        } else{
+            // 停止提醒
+            isLotteryNotice =  false;
+        }
+        saveData_Lottery();
+    })
 }
+
 
 async function initPkg_Lottery_Timer() {
     let html = "";
@@ -52,7 +82,7 @@ async function initPkg_Lottery_Timer() {
         let item = lotteryList.data.list[i];
         if (item.status !== 0) {
             // status不为0说明已经开奖
-            return;
+            continue;
         }
         let lotteryInfo = await getExLotteryInfo(item.room_id);
         let condition = lotteryInfo.data.join_condition;
@@ -60,15 +90,14 @@ async function initPkg_Lottery_Timer() {
         let expireTime = Number(lotteryInfo.data.start_at) + Number(lotteryInfo.data.join_condition.expire_time);
         let expireText = getTimeDiff(expireTime * 1000, new Date().getTime());
         expireText = expireText == -1 ? "已结束" : "距结束：" + expireText;
-
         // 有这个房间的牌子或者不需要成为粉丝的 就都能参加
-        let canJoin = myFansBadgeList.indexOf(item.room_id) !== -1 || condition.lottery_range <= 1;
+        let canJoin = myFansBadgeList.indexOf(String(item.room_id)) !== -1 || condition.lottery_range <= 1;
 
-        if (canJoin) {
+        if (canJoin && isLotteryNotice) {
             let keyName = `${lotteryInfo.data.prize_name}|${lotteryInfo.data.start_at}`;
             if (!(keyName in lotteryHasNoticed)) {
                 lotteryHasNoticed[keyName] = 1;
-                showMessage(`<a style="font-size:14px;border:none;" target="_blank" href="https://www.douyu.com/${item.room_id}">【${lotteryInfo.data.prize_name}x${lotteryInfo.data.prize_num}】${joinText}</a>`, "special", {timeout: 150});
+                showMessage(`<a style="font-size:14px;border:none;" target="_blank" href="https://www.douyu.com/${item.room_id}">【${lotteryInfo.data.prize_name}x${lotteryInfo.data.prize_num}】${joinText}</a>`, "special", {timeout: 100});
             }
         }
 
@@ -89,10 +118,11 @@ async function initPkg_Lottery_Timer() {
             </a>
         `;
     }
-    if (html == "") {
-        html = `<div class="lottery__default">暂无数据</div>`;
-    }
     lotteryHTML = html;
+    let dom = document.getElementsByClassName("lottery__wrap")[0];
+    if (dom) {
+        dom.innerHTML = lotteryHTML;
+    }
 }
 
 function getJoinCondition(condition) {
@@ -170,4 +200,23 @@ async function setFansBadgeList() {
 		ret.push(rid);
 	}
 	myFansBadgeList = ret;
+}
+
+
+function saveData_Lottery() {
+	let data = {
+		isNotice: isLotteryNotice
+	}
+	localStorage.setItem("ExSave_Lottery", JSON.stringify(data));
+}
+
+function Lottery_Set() {
+	// 设置初始化
+    let ret = localStorage.getItem("ExSave_Lottery");
+	if (ret != null) {
+        let retJson = JSON.parse(ret);
+        if (retJson.isNotice == false) {
+            document.getElementById("lottery-notice").click();
+        }
+    }
 }

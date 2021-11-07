@@ -11,16 +11,6 @@
     box-sizing: border-box;
 }
 
-.lottery__default {
-    width: 100%;
-    height: 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    color: #d0d0d0;
-    z-index: 998;
-}
 
 .lottery__wrap {
     display: flex;
@@ -85,4 +75,15 @@
     box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     border-radius: 0;
     background: rgba(0,0,0,0.1);
+}
+
+.lottery__func {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    user-select: none;
+}
+
+.lottery__notice,#lottery-refresh {
+    cursor: pointer;
 }
