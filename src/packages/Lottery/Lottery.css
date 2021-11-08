@@ -82,6 +82,7 @@
     justify-content: space-between;
     margin-top: 5px;
     user-select: none;
+    border-bottom: 1px solid #d0d0d0;
 }
 
 .lottery__notice,#lottery-refresh {

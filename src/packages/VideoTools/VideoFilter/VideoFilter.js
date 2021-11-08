@@ -280,6 +280,12 @@ function resetVideoFilter() {
     domVideoWrap.style.transform = "";
     domVideoWrap.style.transformOrigin = "";
     videoScale = 1;
+
+    // 重置影院模式
+    StyleHook_remove("Ex_Style_Cinema");
+
+    // 重置视频倍速
+    liveVideoNode.playbackRate = 1;
 }
 
 function panoramaAnimation(panorama) {
