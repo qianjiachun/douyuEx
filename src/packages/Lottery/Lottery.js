@@ -41,6 +41,7 @@ function Lottery_insertModal() {
                 <label class="lottery__notice"><input class="lottery__notice" id="lottery-notice" type="checkbox" checked="checked">开启提醒</label>
             </div>
         </div>
+        <div class="lottery__nodata">暂无数据</div>
         <div class="lottery__wrap"></div>
     `;
 	let b = document.getElementsByClassName("layout-Player-chat")[0];
@@ -118,6 +119,13 @@ async function initPkg_Lottery_Timer() {
             </a>
         `;
     }
+
+    let domNodata = document.getElementsByClassName("lottery__nodata")[0];
+    if (html.trim() !== "") {
+        domNodata.style.display = "none";
+    } else {
+        domNodata.style.display = "block";
+    }
     lotteryHTML = html;
     let dom = document.getElementsByClassName("lottery__wrap")[0];
     if (dom) {
@@ -148,18 +156,18 @@ function getJoinCondition(condition) {
 
 function getExLotteryList() {
     return new Promise((resolve, reject) => {
-        fetch("https://www.douyu.com/lapi/interact/lottery/getHallList", {
-            method: 'GET',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        }).then(res => {
-            return res.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            reject(err);
-        })
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: "https://www.douyu.com/lapi/interact/lottery/getHallList",
+            responseType: "json",
+            onload: response => {
+                let ret = response.response;
+                resolve(ret);
+            },
+            onerror: err => {
+                reject(err);
+            }
+        });
     })
 }
 

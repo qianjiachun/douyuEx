@@ -11,6 +11,14 @@
     box-sizing: border-box;
 }
 
+.lottery__nodata {
+    z-index: 998;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    color: #606266;
+}
 
 .lottery__wrap {
     display: flex;
@@ -87,4 +95,5 @@
 
 .lottery__notice,#lottery-refresh {
     cursor: pointer;
+    color: #606266;
 }
