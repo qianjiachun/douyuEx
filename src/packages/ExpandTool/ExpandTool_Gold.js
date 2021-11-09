@@ -35,8 +35,8 @@ function ExpandTool_Gold_insertFunc() {
     document.getElementById("extool__gold_start").addEventListener("click", async function() {
         let ischecked = document.getElementById("extool__gold_start").checked;
         if (ischecked == true) {
-            // 开启幻神模式
-            goldBarrageHook = new DomHook(".danmu-6e95c1", true, goldBarrage);
+            // 开启幻神模式  danmu-6e95c1
+            goldBarrageHook = new DomHook(".danmu-e7f029", true, goldBarrage);
             goldBarrageListHook = new DomHook(".Barrage-list", true, goldBarrageList);
             goldFansMedal();
         } else{
@@ -195,19 +195,19 @@ function goldBarrage(m) {
         return;
     }
     let itemNode = m[0].addedNodes[0];
-    if(itemNode.className.indexOf("noble-bf13ad")==-1 && itemNode.innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
+    if(itemNode.className.indexOf("noble-f439ef")==-1 && itemNode.innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
         itemNode.style.zIndex = "30";
-        itemNode.className = "danmuItem-31f924 noble-bf13ad";
+        itemNode.className = "danmuItem-f8e204 noble-f439ef";
         // itemNode.setAttribute("style",characterStyle);
         //noble icon without redupliction remove
         let nobleImgTag = document.createElement("img");
-        nobleImgTag.className = "super-noble-icon-9aacaf";
+        nobleImgTag.className = "super-noble-icon-54c62c";
         nobleImgTag.setAttribute("src","https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h1_dcd226.png");
         nobleImgTag.setAttribute("style","margin-left: -57px; margin-top: -4px;");
         itemNode.insertBefore(nobleImgTag,itemNode.firstElementChild);
         //user avatar img
         let userIconTag = document.createElement("img");
-        userIconTag.className = "super-user-icon-574f31";
+        userIconTag.className = "super-user-icon-253711";
         let userIconObj = document.getElementsByClassName("Avatar is-circle")[0];
         if(userIconObj !=undefined){
             userIconObj = userIconObj.getElementsByTagName("img")[0].getAttribute("src");
@@ -217,22 +217,23 @@ function goldBarrage(m) {
         }
         itemNode.insertBefore(userIconTag,itemNode.firstElementChild);
         //remove out tail tag
-        let tailTag = itemNode.getElementsByClassName("afterpic-8a2e13")[0];
+        let tailTag = itemNode.getElementsByClassName("afterpic-f864c2")[0];
         tailTag.remove();
         //transform barrage effect
-        let textContent = itemNode.getElementsByClassName("text-879f3e")[0];
-        textContent.className = "super-text-0281ca";
+        let textContent = itemNode.getElementsByClassName("text-edf4e7")[0];
+        textContent.className = "super-text-188279";
         textContent.setAttribute("style","font: bold 23px SimHei, 'Microsoft JhengHei', Arial, Helvetica, sans-serif; color: rgb(255, 255, 255); background: url('https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h2_8e5e64.png'); height: 44px;");
         //add tag tail includes fire icon or sign icon
         let afterpicTag = document.createElement("div");
-        afterpicTag.setAttribute("class","afterpic-8a2e13");
+        afterpicTag.setAttribute("class","afterpic-f864c2");
         afterpicTag.setAttribute("style","margin-top: 7px; margin-left: -1px;");// afterpicTag.setAttribute("style","margin-top: 7px; margin-left: -43px;");
         textContent.appendChild(afterpicTag);
         //tail icon
         let superTailImg = document.createElement("img");
-        superTailImg.className = "super-tail-bffa58";
+        superTailImg.className = "super-tail-6a0446";
         superTailImg.setAttribute("src","https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h3_fd2e5b.png");
         itemNode.appendChild(superTailImg);
+        console.log(superTailImg)
     }
 }
 

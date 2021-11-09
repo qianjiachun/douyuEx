@@ -13,6 +13,8 @@ class DomHook {
         this.observer.observe(targetNode, { attributes: true, childList: true, subtree: this.isSubtree });
     }
     closeHook() {
-        this.observer.disconnect();
+        if (this.observer) {
+            this.observer.disconnect();
+        }
     }
 }

@@ -43,7 +43,7 @@ function initRouter(href) {
             // 主站
             initRouter_DouyuRoom_Popup();
         } else {
-            if (String(href).indexOf("template/") !== -1) {
+            if (String(href).indexOf("template/") !== -1 || String(href).indexOf("h5/") !== -1) {
                 return;
             }
             initRouter_DouyuRoom_Main();
