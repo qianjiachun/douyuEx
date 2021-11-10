@@ -1,8 +1,4 @@
 function initPkg_FansBadgeList() {
-    setFansBadgeList();
-}
-
-function setFansBadgeList() {
     // document.querySelectorAll(".fans-badge-list tr")[1].getAttribute("data-fans-gbdgts")
     let nowTime = new Date().getTime();
     let items = document.querySelectorAll(".fans-badge-list tr");
