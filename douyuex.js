@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.11.08.02
+// @version      2021.11.10.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载 直播画面局部缩放 全站抽奖信息
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -2654,8 +2654,8 @@ function ExpandTool_Gold_insertFunc() {
     document.getElementById("extool__gold_start").addEventListener("click", async function() {
         let ischecked = document.getElementById("extool__gold_start").checked;
         if (ischecked == true) {
-            // 开启幻神模式
-            goldBarrageHook = new DomHook(".danmu-6e95c1", true, goldBarrage);
+            // 开启幻神模式  danmu-6e95c1
+            goldBarrageHook = new DomHook(".danmu-e7f029", true, goldBarrage);
             goldBarrageListHook = new DomHook(".Barrage-list", true, goldBarrageList);
             goldFansMedal();
         } else{
@@ -2814,19 +2814,19 @@ function goldBarrage(m) {
         return;
     }
     let itemNode = m[0].addedNodes[0];
-    if(itemNode.className.indexOf("noble-bf13ad")==-1 && itemNode.innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
+    if(itemNode.className.indexOf("noble-f439ef")==-1 && itemNode.innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
         itemNode.style.zIndex = "30";
-        itemNode.className = "danmuItem-31f924 noble-bf13ad";
+        itemNode.className = "danmuItem-f8e204 noble-f439ef";
         // itemNode.setAttribute("style",characterStyle);
         //noble icon without redupliction remove
         let nobleImgTag = document.createElement("img");
-        nobleImgTag.className = "super-noble-icon-9aacaf";
+        nobleImgTag.className = "super-noble-icon-54c62c";
         nobleImgTag.setAttribute("src","https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h1_dcd226.png");
         nobleImgTag.setAttribute("style","margin-left: -57px; margin-top: -4px;");
         itemNode.insertBefore(nobleImgTag,itemNode.firstElementChild);
         //user avatar img
         let userIconTag = document.createElement("img");
-        userIconTag.className = "super-user-icon-574f31";
+        userIconTag.className = "super-user-icon-253711";
         let userIconObj = document.getElementsByClassName("Avatar is-circle")[0];
         if(userIconObj !=undefined){
             userIconObj = userIconObj.getElementsByTagName("img")[0].getAttribute("src");
@@ -2836,22 +2836,23 @@ function goldBarrage(m) {
         }
         itemNode.insertBefore(userIconTag,itemNode.firstElementChild);
         //remove out tail tag
-        let tailTag = itemNode.getElementsByClassName("afterpic-8a2e13")[0];
+        let tailTag = itemNode.getElementsByClassName("afterpic-f864c2")[0];
         tailTag.remove();
         //transform barrage effect
-        let textContent = itemNode.getElementsByClassName("text-879f3e")[0];
-        textContent.className = "super-text-0281ca";
+        let textContent = itemNode.getElementsByClassName("text-edf4e7")[0];
+        textContent.className = "super-text-188279";
         textContent.setAttribute("style","font: bold 23px SimHei, 'Microsoft JhengHei', Arial, Helvetica, sans-serif; color: rgb(255, 255, 255); background: url('https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h2_8e5e64.png'); height: 44px;");
         //add tag tail includes fire icon or sign icon
         let afterpicTag = document.createElement("div");
-        afterpicTag.setAttribute("class","afterpic-8a2e13");
+        afterpicTag.setAttribute("class","afterpic-f864c2");
         afterpicTag.setAttribute("style","margin-top: 7px; margin-left: -1px;");// afterpicTag.setAttribute("style","margin-top: 7px; margin-left: -43px;");
         textContent.appendChild(afterpicTag);
         //tail icon
         let superTailImg = document.createElement("img");
-        superTailImg.className = "super-tail-bffa58";
+        superTailImg.className = "super-tail-6a0446";
         superTailImg.setAttribute("src","https://shark2.douyucdn.cn/front-publish/live_player-master/assets/images/h3_fd2e5b.png");
         itemNode.appendChild(superTailImg);
+        console.log(superTailImg)
     }
 }
 
@@ -9102,7 +9103,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.11.08.02"
+var curVersion = "2021.11.10.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -10465,7 +10466,9 @@ class DomHook {
         this.observer.observe(targetNode, { attributes: true, childList: true, subtree: this.isSubtree });
     }
     closeHook() {
-        this.observer.disconnect();
+        if (this.observer) {
+            this.observer.disconnect();
+        }
     }
 }
 // 获取斗鱼视频站post body sign
@@ -11680,7 +11683,7 @@ function initRouter(href) {
             // 主站
             initRouter_DouyuRoom_Popup();
         } else {
-            if (String(href).indexOf("template/") !== -1) {
+            if (String(href).indexOf("template/") !== -1 || String(href).indexOf("h5/") !== -1) {
                 return;
             }
             initRouter_DouyuRoom_Main();
