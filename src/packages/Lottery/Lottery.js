@@ -98,7 +98,9 @@ async function initPkg_Lottery_Timer() {
             let keyName = `${lotteryInfo.data.prize_name}|${lotteryInfo.data.start_at}`;
             if (!(keyName in lotteryHasNoticed)) {
                 lotteryHasNoticed[keyName] = 1;
-                showMessage(`<a style="font-size:14px;border:none;" target="_blank" href="https://www.douyu.com/${item.room_id}">【${lotteryInfo.data.prize_name}x${lotteryInfo.data.prize_num}】${joinText}</a>`, "special", {timeout: 100});
+                showMessage(`<a style="font-size:14px;border:none;" target="_blank" href="https://www.douyu.com/${item.room_id}">【${lotteryInfo.data.prize_name}x${lotteryInfo.data.prize_num}】${joinText}</a>`, "special", {
+                    timeout: 100,
+                });
             }
         }
 

@@ -173,7 +173,7 @@ function showMessage(msg, type="success", options) {
 	let option = {
 		text: msg,
 		type: type,
-		position: 'bottomRight',
+		position: 'bottomLeft',
 		...options
 	}
 	new NoticeJs(option).show();
