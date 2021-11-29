@@ -35,6 +35,12 @@ function removeAD() {
     #js-barrage-list-parent::-webkit-scrollbar{display: none;}
     /*陪玩*/
     .InteractPlayWithEnter-enterTips1{display:none !important;}
+
+
+    /*恢复emoji彩色 chrome加粗情况下emoji会变灰，需要找一个fontweight起始值在500的字体库才可以兼容*/
+    .scroll-1559f8{
+        font: 400 24px SimHei,Microsoft JhengHei,Arial,Helvetica,sans-serif !important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
