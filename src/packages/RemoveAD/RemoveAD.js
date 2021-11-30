@@ -39,7 +39,7 @@ function removeAD() {
 
     /*恢复emoji彩色 chrome加粗情况下emoji会变灰，需要找一个fontweight起始值在500的字体库才可以兼容*/
     .scroll-1559f8{
-        font: 400 24px SimHei,Microsoft JhengHei,Arial,Helvetica,sans-serif !important;
+        font-weight:400!important;
     }
     `);
     // body{transform: translateZ(0)!important;}

@@ -36,15 +36,19 @@ function getRealLive_Huya(url, qn, reallive_callback) {
         onload: resp=>{
             let msg = "";
             let ret = resp.responseText;
-            let liveUrl = /\<script\>\s*var liveLineUrl = "(.+)";\s*\<\/script\>/.exec(ret);
+            let liveUrl = getStrMiddle(ret, `liveLineUrl":"`, `",`);
+            liveUrl = window.atob(liveUrl);
+            // let liveUrl = /\<script\>\s*var liveLineUrl = "(.+)";\s*\<\/script\>/.exec(ret);
             if (liveUrl == null) {
                 msg = "房间暂未开播";
             } else {
-                liveUrl = liveUrl[1];
-                liveUrl = liveUrl.replace(/(_\d+)(.m3u8)/, '$2');
+                // liveUrl = liveUrl[1];
+                // liveUrl = liveUrl.replace(/(_\d+)(.m3u8)/, '$2');
+                // liveUrl = "https:" + liveUrl;
+                // liveUrl = liveUrl + "&ratio=" + qn_data;
+                // liveUrl = String(liveUrl).replace("m3u8", "flv");
                 liveUrl = "https:" + liveUrl;
-                liveUrl = liveUrl + "&ratio=" + qn_data;
-                liveUrl = String(liveUrl).replace("m3u8", "flv");
+                liveUrl = String(liveUrl).replace("hls", "flv").replace("m3u8", "flv");
             }
             reallive_callback(liveUrl, msg);
         }

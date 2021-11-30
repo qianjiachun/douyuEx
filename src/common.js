@@ -179,7 +179,7 @@ function showMessage(msg, type="success", options) {
 	new NoticeJs(option).show();
 }
 
-function openPage(url, b) {
+function openPage(url, b=true) {
 	GM_openInTab(url, {
 		active: b
 	});
