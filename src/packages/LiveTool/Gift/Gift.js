@@ -247,7 +247,7 @@ function initPkg_LiveTool_Gift_Handle(text) {
         if (uid == my_uid) { // 不算自己
             return;
         }
-        let nn = getStrMiddle(text, "nn@=", "/");
+        let nn = getStrMiddle(text, "nick@=", "/");
         let gfid = typeName === "odfbc" ? "开通钻粉" : "续费钻粉";
         let gfcnt = "1";
         if (gfid in giftWordList) {
