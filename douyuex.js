@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2021.11.30.01
+// @version      2021.12.06.01
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载 直播画面局部缩放 全站抽奖信息
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -4585,7 +4585,8 @@ function initPkg_LiveTool_Gift_Handle(text) {
     if (isGiftOn == false) {
         return;
     }
-    if (getType(text) == "dgb") {
+    let typeName = getType(text);
+    if (typeName === "dgb") {
         let uid = getStrMiddle(text, "uid@=", "/");
         if (uid == my_uid) { // 不算自己
             return;
@@ -4593,14 +4594,25 @@ function initPkg_LiveTool_Gift_Handle(text) {
         let nn = getStrMiddle(text, "nn@=", "/");
         let gfid = getStrMiddle(text, "gfid@=", "/");
         let gfcnt = getStrMiddle(text, "gfcnt@=", "/");
-        for (let key in giftWordList) {
-            if (gfid == key) {
-                let reply = giftWordList[key].reply;
-                reply = String(reply).replace(/<id>/g, nn);
-                reply = String(reply).replace(/<cnt>/g, gfcnt);
-                sendBarrage(reply);
-                break;
-            }
+        if (gfid in giftWordList) {
+            let reply = giftWordList[gfid].reply;
+            reply = String(reply).replace(/<id>/g, nn);
+            reply = String(reply).replace(/<cnt>/g, gfcnt);
+            sendBarrage(reply);
+        }
+    } else if (typeName === "odfbc" || typeName === "rndfbc") {
+        let uid = getStrMiddle(text, "uid@=", "/");
+        if (uid == my_uid) { // 不算自己
+            return;
+        }
+        let nn = getStrMiddle(text, "nn@=", "/");
+        let gfid = typeName === "odfbc" ? "开通钻粉" : "续费钻粉";
+        let gfcnt = "1";
+        if (gfid in giftWordList) {
+            let reply = giftWordList[gfid].reply;
+            reply = String(reply).replace(/<id>/g, nn);
+            reply = String(reply).replace(/<cnt>/g, gfcnt);
+            sendBarrage(reply);
         }
     }
 }
@@ -4625,8 +4637,17 @@ async function setAllGiftTemplate() {
             reply: `感谢<id>赠送的${bagGift.data[key].name}x<cnt>`
         };
     }
+
+    let diamondObj = {
+        "开通钻粉": {
+            reply: `感谢<id>开通钻粉`,
+        },
+        "续费钻粉": {
+            reply: `感谢<id>续费钻粉`,
+        },
+    }
     
-    ret = {...roomGiftObj, ...bagGiftObj};
+    ret = {...roomGiftObj, ...bagGiftObj, ...diamondObj};
     GM_setClipboard(JSON.stringify(ret));
     showMessage("【自动谢礼物】礼物模板生成完毕，已复制到剪贴板，可直接导入", "success");
 }
@@ -8271,8 +8292,13 @@ function removeAD() {
 
 
     /*恢复emoji彩色 chrome加粗情况下emoji会变灰，需要找一个fontweight起始值在500的字体库才可以兼容*/
-    .scroll-1559f8{
+    .text-afec45,.scroll-1559f8{
         font-weight:400!important;
+    }
+
+    /*右侧分享*/
+    .SharePanel,.CommonShareToolkit{
+        display: none!important;
     }
     `);
     // body{transform: translateZ(0)!important;}
@@ -9133,7 +9159,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2021.11.30.01"
+var curVersion = "2021.12.06.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -11734,6 +11760,7 @@ function initRouter_Motorcade() {
 
 function initRouter_DouyuRoom_Popup() {
     // 画中画
+    removeAD();
     let intID = setInterval(() => {
         if (typeof (document.querySelector('div.wfs-2a8e83')) !== "undefined") {
             document.querySelector('div.wfs-2a8e83').click();

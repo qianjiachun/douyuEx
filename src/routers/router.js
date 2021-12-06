@@ -60,6 +60,7 @@ function initRouter_Motorcade() {
 
 function initRouter_DouyuRoom_Popup() {
     // 画中画
+    removeAD();
     let intID = setInterval(() => {
         if (typeof (document.querySelector('div.wfs-2a8e83')) !== "undefined") {
             document.querySelector('div.wfs-2a8e83').click();

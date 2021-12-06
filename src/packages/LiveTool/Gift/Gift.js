@@ -227,7 +227,8 @@ function initPkg_LiveTool_Gift_Handle(text) {
     if (isGiftOn == false) {
         return;
     }
-    if (getType(text) == "dgb") {
+    let typeName = getType(text);
+    if (typeName === "dgb") {
         let uid = getStrMiddle(text, "uid@=", "/");
         if (uid == my_uid) { // 不算自己
             return;
@@ -235,14 +236,25 @@ function initPkg_LiveTool_Gift_Handle(text) {
         let nn = getStrMiddle(text, "nn@=", "/");
         let gfid = getStrMiddle(text, "gfid@=", "/");
         let gfcnt = getStrMiddle(text, "gfcnt@=", "/");
-        for (let key in giftWordList) {
-            if (gfid == key) {
-                let reply = giftWordList[key].reply;
-                reply = String(reply).replace(/<id>/g, nn);
-                reply = String(reply).replace(/<cnt>/g, gfcnt);
-                sendBarrage(reply);
-                break;
-            }
+        if (gfid in giftWordList) {
+            let reply = giftWordList[gfid].reply;
+            reply = String(reply).replace(/<id>/g, nn);
+            reply = String(reply).replace(/<cnt>/g, gfcnt);
+            sendBarrage(reply);
+        }
+    } else if (typeName === "odfbc" || typeName === "rndfbc") {
+        let uid = getStrMiddle(text, "uid@=", "/");
+        if (uid == my_uid) { // 不算自己
+            return;
+        }
+        let nn = getStrMiddle(text, "nn@=", "/");
+        let gfid = typeName === "odfbc" ? "开通钻粉" : "续费钻粉";
+        let gfcnt = "1";
+        if (gfid in giftWordList) {
+            let reply = giftWordList[gfid].reply;
+            reply = String(reply).replace(/<id>/g, nn);
+            reply = String(reply).replace(/<cnt>/g, gfcnt);
+            sendBarrage(reply);
         }
     }
 }
@@ -267,8 +279,17 @@ async function setAllGiftTemplate() {
             reply: `感谢<id>赠送的${bagGift.data[key].name}x<cnt>`
         };
     }
+
+    let diamondObj = {
+        "开通钻粉": {
+            reply: `感谢<id>开通钻粉`,
+        },
+        "续费钻粉": {
+            reply: `感谢<id>续费钻粉`,
+        },
+    }
     
-    ret = {...roomGiftObj, ...bagGiftObj};
+    ret = {...roomGiftObj, ...bagGiftObj, ...diamondObj};
     GM_setClipboard(JSON.stringify(ret));
     showMessage("【自动谢礼物】礼物模板生成完毕，已复制到剪贴板，可直接导入", "success");
 }
