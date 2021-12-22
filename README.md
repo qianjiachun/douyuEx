@@ -1,9 +1,27 @@
-## DouyuEx-斗鱼直播间增强插件![icon.png](https://img.douyucdn.cn/data/yuba/weibo/2020/02/18/202002182111554630626652946.png)
+<p align="center">
+    <a href="https://github.com/vueblocks/ve-charts">
+        <img src="./icon.svg" width="152">
+    </a>
+    <h3 align="center">DouyuEx</h3>
+    <br>
+    <p align="center">
+        <a href="https://github.com/qianjiachun/douyuEx"><img src="https://img.shields.io/github/languages/code-size/qianjiachun/douyuEx?color=blueviolet"></a>
+        <a href="https://github.com/qianjiachun/douyuEx"><img src="https://img.shields.io/github/stars/qianjiachun/douyuEx?color=green"></a>
+        <a href="https://github.com/qianjiachun/douyuEx"><img src="https://img.shields.io/github/commit-activity/m/qianjiachun/douyuEx?color=9cf"></a>
+        <a href="https://github.com/qianjiachun/douyuEx"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+    </p>
+    <p align="center">
+       Powerful Plugin For DouyuWeb<br>
+    </p>
+</p>
+
+> `DouyuEx` 是基于 `原生JavaScript` 开发的 `TamperMonkey` 插件，用于增强斗鱼Web端体验。`DouyuEx` 集合斗鱼全端的特色功能，增强原生网页，复杂的操作一键完成，给用户沉浸式的直播体验。代码**开源**，功能**实用**，交互**友好**，不过度改变网页本来的结构，所有功能都在用户可控范围之内。
+
+## DouyuEx-斗鱼直播间增强插件
 
 ## 🌐 官方网站
-DouyuEx[官方网站](http://www.douyuex.com/)上线啦！域名好记: www.douyuex.com  
 
-[访问官网(http://www.douyuex.com/)](http://www.douyuex.com/)
+[https://www.douyuex.com/](https://www.douyuex.com/)
 
 
 ### 🎯 目标
@@ -31,12 +49,12 @@ DouyuEx[官方网站](http://www.douyuex.com/)上线啦！域名好记: www.douy
 - 作者：小淳 / QQ：189964430
 
 ### 💎功能
-[功能介绍](https://qianjiachun.github.io/DouyuEx/introduction)
+[功能介绍](https://xiaochunchun.gitee.io/douyuex/introduction/)
 
 --------------------------------------------------
 
 ## 📕更新内容
-[更新内容](https://qianjiachun.github.io/DouyuEx/update)
+[更新内容](https://xiaochunchun.gitee.io/douyuex/update/)
 
 --------------------------------------------------
 
