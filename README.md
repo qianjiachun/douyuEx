@@ -1,7 +1,5 @@
 <p align="center">
-    <a href="https://github.com/vueblocks/ve-charts">
-        <img src="./icon.svg" width="128">
-    </a>
+    <img src="./icon.svg" width="128">
     <h3 align="center">DouyuEx</h3>
     <br>
     <p align="center">
