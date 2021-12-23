@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/qianjiachun/douyuEx">
-        <img style="width: 150px;height: 150px;" src="https://s4.ax1x.com/2021/12/23/TGMxk8.png">
+        <img src="https://s4.ax1x.com/2021/12/23/TGMxk8.png" width="150" height="150"/>
     </a>
     <h3 align="center">DouyuEx</h3>
     <br>
