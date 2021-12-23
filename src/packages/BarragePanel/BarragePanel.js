@@ -207,7 +207,7 @@ function setBarrgePanelFunc(parentDom, id) {
     
     document.getElementById("barragePanel__search").onclick = async () => {
         insertBarragePanel_SearchBarrage_Dom(parentDom);
-        barragePanelLastName = id;
+        let barragePanelLastName = id;
         let ret = await getUserRecentBarrage(id);
         let retJson = JSON.parse(ret.data);
         let panel = document.getElementById("barragePanel__searchPanel");
@@ -278,7 +278,7 @@ function getUserRecentBarrage(name) {
     return new Promise(resolve => {
         GM_xmlhttpRequest({
             method: "GET",
-            url: "https://dyapi.fz996.com/api/Wx/GetDataBarrage?keyword=" + name,
+            url: "http://dyapi.fz996.com/api/Wx/GetDataBarrage?keyword=" + name,
             responseType: "json",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
