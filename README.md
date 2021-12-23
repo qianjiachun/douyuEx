@@ -1,5 +1,7 @@
 <p align="center">
-    <img src="./icon.svg" width="150">
+    <a href="https://github.com/qianjiachun/douyuEx">
+        <img style="width: 150px;height: 150px;" src="https://s4.ax1x.com/2021/12/23/TGMxk8.png">
+    </a>
     <h3 align="center">DouyuEx</h3>
     <br>
     <p align="center">
