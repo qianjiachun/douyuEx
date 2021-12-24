@@ -283,15 +283,23 @@ function setNightModeIframe() {
 
 
     .wb_card-wbCardDetail-wYiL6{background: rgb(35,36,39)!important;}
-    .wb_handle-wbHandle-Stme\\+>ul>li{rgb(47,48,53)!important;}
+    .wb_handle-wbRowLine-L5WHa>li{background: rgb(47,48,53)!important;}
     .wb_handle-line-lCiNT{color: rgb(125,125,125)!important;}
     .wb_card-wbCardWrap-OQ\\+ac{border-bottom: rgba(47,48,53,1) solid 1px !important;}
     .wb_card-groupnameAndGrouplevel-Q8fGX{background: rgb(47,48,53)!important;color: rgb(125,125,125)!important;}
     .wb_card-hiddenText-oUz98{color: rgb(125,125,125)!important;}
     .wb_card-wbCardWrap-OQ+ac,.wb_card-topListItemBox-wRCrz{border-bottom:1px solid rgba(47,48,53,1)!important;}
+    .index-topTypeStyle-WHbMC{background: rgb(47,48,53)!important;color: rgb(125,125,125)!important;}
+    .index-tagWrapper-x5Bnl{color: rgb(125,125,125)!important;}
 
     .index-dyPage-\\+pup\\+ span, .index-dyPage-\\+pup\\+ a{background-color: rgb(47,48,53)!important;border: 1px solid rgb(125,125,125)!important;}
     input[type="text"], textarea{background-color: rgb(47,48,53)!important;border: 1px solid rgb(125,125,125)!important;}
+
+    .style-newvoteHeadAttendView-JwNdc, .style-indexLefttabcontentItemVote-VxGBz{background: rgb(47,48,53)!important;}
+    .style-newvoteHead-CetsR strong{color: rgb(125,125,125)!important;}
+    .style-optionWrapper-GJ6RJ{background: rgb(125,125,125)!important;}
+    .style-newvotestyleTitle-j27SH{color:rgb(47,48,53)!important;}
+    
     `)
 }
 

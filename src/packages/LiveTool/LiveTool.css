@@ -32,8 +32,6 @@
 }
 
 .livetool__cell_option {
-	flex: 1;
-	-webkit-box-flex: 1;
 	text-align: right;
 }
 

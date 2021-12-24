@@ -12,6 +12,11 @@
     color: royalblue;
     margin-left: 10px;
 }
+#mute__export, #mute__import {
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 5px;
+}
 #mute__select {
     width: 110px;
 }

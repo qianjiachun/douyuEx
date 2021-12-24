@@ -146,7 +146,7 @@ function LiveTool_Gift_insertFunc() {
                     }
                     saveData_Gift();
                 }
-                showMessage("【自动谢礼物】导入完毕");
+                showMessage("【自动谢礼物】导入完毕", "success");
             },
             onCancel: function (data) {
             },

@@ -17,7 +17,10 @@ function LiveTool_Mute_insertDom() {
     a.className = "livetool__cell";
     let cell = `
         <div class='livetool__cell_title'>
-            <span id='mute__title'>关键词禁言</span><span id='mute__idlist'>名单</span>
+            <span id='mute__title'>关键词禁言</span>
+            <span id='mute__idlist'>名单</span>
+            <span id='mute__export'>导出</span>
+            <span id='mute__import'>导入</span>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -62,6 +65,34 @@ function LiveTool_Mute_insertDom() {
 
 
 function LiveTool_Mute_insertFunc() {
+    document.getElementById("mute__export").addEventListener("click", () => {
+        GM_setClipboard(JSON.stringify(muteWordList));
+        showMessage("【关键词禁言】导出完毕，已复制到剪贴板", "success");
+    });
+    document.getElementById("mute__import").addEventListener("click", () => {
+        PostbirdAlertBox.prompt({
+            'title': "请输入json文本（会覆盖原来的设置）",
+            'okBtn': '确定',
+            onConfirm: function (data) {
+                let select_wordList = document.getElementById("mute__select");
+                let obj = JSON.parse(data || "{}") || {};
+                if (typeof obj == "object") {
+                    muteWordList = {...obj};
+                    select_wordList.options.length = 0;
+                    for (let key in muteWordList) {
+                        if (muteWordList.hasOwnProperty(key)) {
+                            select_wordList.options.add(new Option(key, ""));
+                        }
+                    }
+                    saveData_Mute();
+                }
+                showMessage("【关键词禁言】导入完毕", "success");
+            },
+            onCancel: function (data) {
+            },
+        });
+    });
+
     document.getElementById("mute__idlist").addEventListener("click", () => {
         if (muteIdListShow.length == 0) {
             showMessage("暂无禁言名单", "warning");
