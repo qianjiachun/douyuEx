@@ -12,6 +12,8 @@ function LiveTool_Enter_insertDom() {
     let cell = `
         <div class='livetool__cell_title'>
             <span id='enter__title'>进场欢迎</span>
+            <span id='enter__export'>导出</span>
+            <span id='enter__import'>导入</span>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -40,6 +42,35 @@ function LiveTool_Enter_insertDom() {
 
 
 function LiveTool_Enter_insertFunc() {
+    document.getElementById("enter__export").addEventListener("click", () => {
+        GM_setClipboard(JSON.stringify(enterWordList));
+        showMessage("【进场欢迎】导出完毕，已复制到剪贴板", "success");
+    });
+
+    document.getElementById("enter__import").addEventListener("click", () => {
+        PostbirdAlertBox.prompt({
+            'title': "请输入json文本（会覆盖原来的设置）",
+            'okBtn': '确定',
+            onConfirm: function (data) {
+                let select_wordList = document.getElementById("enter__select");
+                let obj = JSON.parse(data || "{}") || {};
+                if (typeof obj == "object") {
+                    enterWordList = {...obj};
+                    select_wordList.options.length = 0;
+                    for (let key in enterWordList) {
+                        if (enterWordList.hasOwnProperty(key)) {
+                            select_wordList.options.add(new Option(key, ""));
+                        }
+                    }
+                    saveData_Enter();
+                }
+                showMessage("【进场欢迎】导入完毕", "success");
+            },
+            onCancel: function (data) {
+            },
+        });
+    });
+
     document.getElementById("enter__switch").addEventListener("click", () => {
         let ischecked = document.getElementById("enter__switch").checked;
 		if (ischecked == true) {

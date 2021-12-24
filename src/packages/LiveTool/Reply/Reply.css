@@ -27,3 +27,15 @@
 #reply__reply {
     width: 147px;
 }
+
+#reply__export {
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 10px;
+}
+
+#reply__import {
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 5px;
+}

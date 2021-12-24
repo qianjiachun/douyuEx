@@ -14,6 +14,8 @@ function LiveTool_Reply_insertDom() {
     let cell = `
         <div class='livetool__cell_title'>
             <span id='reply__title'>关键词回复</span>
+            <span id='reply__export'>导出</span>
+            <span id='reply__import'>导入</span>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -43,6 +45,35 @@ function LiveTool_Reply_insertDom() {
 
 
 function LiveTool_Reply_insertFunc() {
+    document.getElementById("reply__export").addEventListener("click", () => {
+        GM_setClipboard(JSON.stringify(replyWordList));
+        showMessage("【关键词回复】导出完毕，已复制到剪贴板", "success");
+    });
+
+    document.getElementById("reply__import").addEventListener("click", () => {
+        PostbirdAlertBox.prompt({
+            'title': "请输入json文本（会覆盖原来的设置）",
+            'okBtn': '确定',
+            onConfirm: function (data) {
+                let select_wordList = document.getElementById("reply__select");
+                let obj = JSON.parse(data || "{}") || {};
+                if (typeof obj == "object") {
+                    replyWordList = {...obj};
+                    select_wordList.options.length = 0;
+                    for (let key in replyWordList) {
+                        if (replyWordList.hasOwnProperty(key)) {
+                            select_wordList.options.add(new Option(key, ""));
+                        }
+                    }
+                    saveData_Reply();
+                }
+                showMessage("【关键词回复】导入完毕", "success");
+            },
+            onCancel: function (data) {
+            },
+        });
+    });
+
     document.getElementById("reply__switch").addEventListener("click", () => {
         replyCd = String(document.getElementById("reply__time").value) || 0;
         let ischecked = document.getElementById("reply__switch").checked;

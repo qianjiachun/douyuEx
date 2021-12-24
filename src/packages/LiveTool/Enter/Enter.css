@@ -31,3 +31,15 @@
     width: 25px;
     text-align: center;
 }
+
+#enter__export {
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 10px;
+}
+
+#enter__import {
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 5px;
+}
