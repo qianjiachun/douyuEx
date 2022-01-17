@@ -91,6 +91,7 @@ function initPkg() {
 	initPkg_ChatTools();
 	initPkg_MonthCost();
 	initPkg_TabSwitch();
+	initPkg_WeeklyPanel();
 }
 function initPkg_Timer() {
 	initPkg_FishPond_Timer();

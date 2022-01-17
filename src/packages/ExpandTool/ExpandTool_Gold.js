@@ -127,30 +127,39 @@ function goldBarrageList(m) {
             fansMedal.style = "display:none;";
         }
         let fansMedalName = document.getElementsByClassName("FansMedal-name")[0];//fans medal
-            let fansBackgroundImg = document.getElementsByClassName("FansRankList-item FansRankList-item--top")[0];
-            if(fansMedalName!=undefined && fansBackgroundImg!= undefined ){
-                if(fansBackgroundImg.innerHTML.indexOf("background-image:")==-1){//common fans medal
-                    let fansTag = document.createElement("div");
-                    let fansSpan = document.createElement("span");
-                    fansTag.className="FansMedal level-50 js-fans-dysclick Barrage-icon";
-                    // fansTag.setAttribute("data-rid",roomId);//id is same to roomId
-                    fansSpan.className = "FansMedal-name js-fans-dysclick";
-                    // fansSpan.setAttribute("data-rid",roomId);
-                    fansSpan.innerHTML = fansMedalName.innerText;
-                    fansTag.appendChild(fansSpan);
-                    chatArea.insertBefore(fansTag,chatArea.querySelector(".UserLevel"));
-                }else{//special fans medal
-                    let fansTag1 = document.createElement("div");
-                    fansTag1.className="FansMedal is-made js-fans-dysclick Barrage-icon";
-                    fansTag1.setAttribute("style", fansBackgroundImg.getElementsByClassName("FansMedal is-made")[0].getAttribute("style") );
-                    // fansTag1.setAttribute("data-rid",roomId);
-                    let fansSpan1 = document.createElement("span");
-                    fansSpan1.className = "FansMedal-name js-fans-dysclick";
-                    // fansSpan1.setAttribute("data-rid",roomId);
-                    fansSpan1.innerHTML = fansMedalName.innerText;
-                    fansTag1.appendChild(fansSpan1);
-                    chatArea.insertBefore(fansTag1,chatArea.querySelector(".UserLevel"));
-                }
+            let fansBackgroundImg = document.getElementsByClassName("DiamondsFansRankList-item DiamondsFansRankList-item--top")[0];
+            if(fansMedalName){
+                let fansTag = document.createElement("div");
+                let fansSpan = document.createElement("span");
+                fansTag.className="FansMedal level-50 js-fans-dysclick Barrage-icon";
+                // fansTag.setAttribute("data-rid",roomId);//id is same to roomId
+                fansSpan.className = "FansMedal-name js-fans-dysclick";
+                // fansSpan.setAttribute("data-rid",roomId);
+                fansSpan.innerHTML = fansMedalName.innerText;
+                fansTag.appendChild(fansSpan);
+                chatArea.insertBefore(fansTag,chatArea.querySelector(".UserLevel"));
+                // if(fansBackgroundImg && fansBackgroundImg.innerHTML.indexOf("background-image:")==-1){//common fans medal
+                //     let fansTag = document.createElement("div");
+                //     let fansSpan = document.createElement("span");
+                //     fansTag.className="FansMedal level-50 js-fans-dysclick Barrage-icon";
+                //     // fansTag.setAttribute("data-rid",roomId);//id is same to roomId
+                //     fansSpan.className = "FansMedal-name js-fans-dysclick";
+                //     // fansSpan.setAttribute("data-rid",roomId);
+                //     fansSpan.innerHTML = fansMedalName.innerText;
+                //     fansTag.appendChild(fansSpan);
+                //     chatArea.insertBefore(fansTag,chatArea.querySelector(".UserLevel"));
+                // }else{//special fans medal
+                //     let fansTag1 = document.createElement("div");
+                //     fansTag1.className="FansMedal is-made js-fans-dysclick Barrage-icon";
+                //     fansTag1.setAttribute("style", fansBackgroundImg.getElementsByClassName("FansMedal is-made")[0].getAttribute("style") );
+                //     // fansTag1.setAttribute("data-rid",roomId);
+                //     let fansSpan1 = document.createElement("span");
+                //     fansSpan1.className = "FansMedal-name js-fans-dysclick";
+                //     // fansSpan1.setAttribute("data-rid",roomId);
+                //     fansSpan1.innerHTML = fansMedalName.innerText;
+                //     fansTag1.appendChild(fansSpan1);
+                //     chatArea.insertBefore(fansTag1,chatArea.querySelector(".UserLevel"));
+                // }
             }else{//point to a fans medal when room have none of fans medal
                 let fansTag2 = document.createElement("div");
                 fansTag2.className="FansMedal level-50 js-fans-dysclick Barrage-icon";
