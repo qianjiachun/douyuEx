@@ -1,0 +1,48 @@
+.weeklypanel__panel-wrap {
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.weeklypanel__panel {
+    height: 600px;
+    width: 500px;
+    background-color: white;
+    border-radius: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.weeklypanel__content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+.weeklypanel__text {
+    font-size: 18px;
+}
+
+.weeklypanel__text a {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.weeklypanel__close {
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+}
