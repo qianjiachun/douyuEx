@@ -16,7 +16,7 @@ function initPkg_WeeklyPanel_Dom() {
 				<div class="weeklypanel__text">请点击下方链接，在右上角点个免费的⭐吧！</div>
 				<div class="weeklypanel__text">以鼓励我长期维护下去，感谢使用😇</div>
 				<div class="weeklypanel__text"><a href="https://github.com/qianjiachun/douyuEx" target="_blank">https://github.com/qianjiachun/douyuEx</a></div>
-				<img style="width: 500px;margin-top:50px;" class="weeklypanel__img" src="https://s4.ax1x.com/2022/01/17/7dLnjs.png"/>
+				<img style="width: 500px;margin-top:50px;" class="weeklypanel__img" src="https://img.douyucdn.cn/data/yuba/weibo/2022/01/18/202201181035499149780732227.png"/>
 			</div>
 			
 		</div>
@@ -36,14 +36,15 @@ function initPkg_WeeklyPanel_Func() {
 function isShowWeeklyPanel() {
     const LOCAL_NAME = "Ex_WeeklyPanel_NextTime";
     let tt = new Date().getTime();
+    let nt = tt + 604800000;
     let nextTime = Number(localStorage.getItem(LOCAL_NAME));
     if (nextTime) {
         if (tt >= nextTime) {
-            localStorage.setItem(LOCAL_NAME, tt + 604800000);
+            localStorage.setItem(LOCAL_NAME, nt);
             return true;
         }
     } else {
-        localStorage.setItem(LOCAL_NAME, tt + 604800000);
+        localStorage.setItem(LOCAL_NAME, nt);
         return true;
     }
     return false;
