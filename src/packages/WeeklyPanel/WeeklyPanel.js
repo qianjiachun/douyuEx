@@ -18,11 +18,10 @@ function initPkg_WeeklyPanel_Dom() {
 				<div class="weeklypanel__text"><a href="https://github.com/qianjiachun/douyuEx" target="_blank">https://github.com/qianjiachun/douyuEx</a></div>
 				<img style="width: 500px;margin-top:50px;" class="weeklypanel__img" src="https://img.douyucdn.cn/data/yuba/weibo/2022/01/18/202201181035499149780732227.png"/>
 			</div>
-			
 		</div>
 	`;
 	
-	let b = document.getElementsByClassName("layout-Container")[0];
+	let b = document.getElementById("root");
 	b.insertBefore(a, b.childNodes[0]);
 }
 

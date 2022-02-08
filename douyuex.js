@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2022.01.18.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载 直播画面局部缩放 全站抽奖信息
+// @version      2022.02.08.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕下载 直播画面局部缩放 全站抽奖信息
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -27,6 +27,7 @@
 // @require      https://cdn.jsdelivr.net/npm/svgaplayerweb@2.3.1/build/svga.min.js
 // @require      https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.min.js
 // @require      https://lib.baomitu.com/three.js/80/three.min.js
+// @require      https://lib.baomitu.com/xlsx/0.16.4/xlsx.full.min.js
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
@@ -468,6 +469,56 @@ function debounce(func, wait) {
  
       if (callNow) func.apply(context, args);
     }
+}
+
+function exportJsonToExcel(header, body, fileName = 'download.xlsx') {
+    let aoa = [];
+    aoa.push(header, ...body);
+    let sheet = XLSX.utils.aoa_to_sheet(aoa);
+    openDownloadDialog(sheet2blob(sheet), fileName);
+}
+ 
+function openDownloadDialog(url, saveName)
+{
+	if(typeof url == 'object' && url instanceof Blob)
+	{
+		url = URL.createObjectURL(url); // 创建blob地址
+	}
+	var aLink = document.createElement('a');
+	aLink.href = url;
+	aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
+	var event;
+	if(window.MouseEvent) event = new MouseEvent('click');
+	else
+	{
+		event = document.createEvent('MouseEvents');
+		event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+	}
+	aLink.dispatchEvent(event);
+}
+function sheet2blob(sheet, sheetName) {
+	sheetName = sheetName || 'sheet1';
+	var workbook = {
+		SheetNames: [sheetName],
+		Sheets: {}
+	};
+	workbook.Sheets[sheetName] = sheet;
+	// 生成excel的配置项
+	var wopts = {
+		bookType: 'xlsx', // 要生成的文件类型
+		bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+		type: 'binary'
+	};
+	var wbout = XLSX.write(workbook, wopts);
+	var blob = new Blob([s2ab(wbout)], {type:"application/octet-stream"});
+	// 字符串转ArrayBuffer
+	function s2ab(s) {
+		var buf = new ArrayBuffer(s.length);
+		var view = new Uint8Array(buf);
+		for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+		return buf;
+	}
+	return blob;
 }
 let svg_accountList = `<svg t="1613993967937" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2122" width="16" height="16"><path d="M217.472 311.808l384.64 384.64-90.432 90.56-384.64-384.64z" fill="#8A8A8A" p-id="2123"></path><path d="M896.32 401.984l-384.64 384.64-90.56-90.496 384.64-384.64z" fill="#8A8A8A" p-id="2124"></path></svg>`
 let cleanOverTimes = 0; // 用于判断是否全部清空并跳转
@@ -2279,6 +2330,9 @@ function initPkg_DyVideoDownload_Dom(dom) {
         <div class="download__item" id="download__copy" title="可将链接填至第三方下载器中下载">
             <span class="ToolBar-iconText">复制m3u8链接</span>
         </div>
+        <div class="download__item" id="download__barrage" title="下载弹幕">
+            <span class="ToolBar-iconText">下载弹幕</span>
+        </div>
     </div>
     <span class="ToolBar-icon ">
         <svg t="1634113402576" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7734" width="28" height="28"><path d="M761.98 413.12c0.25-4.4 0.39-8.82 0.39-13.28 0-127.18-102.84-230.28-229.71-230.28s-229.71 103.1-229.71 230.28c0 0.67 0.02 1.33 0.03 2a213.156 213.156 0 0 0-38.91-3.58c-117.2 0-212.21 95.25-212.21 212.74 0 117.49 95.01 212.74 212.21 212.74 2.94 0 5.86-0.08 8.77-0.2 2.54 0.13 5.09 0.2 7.66 0.2h467.35c2.82 0 5.61-0.09 8.39-0.24 108.96-5.16 195.72-95.13 195.72-205.36 0.01-108.3-83.73-197.04-189.98-205.02zM616.33 584.24l-90.86 93.93c-0.78 1.11-1.66 2.17-2.63 3.17-3.95 4.09-8.9 6.62-14.09 7.61-8.34 1.77-17.38-0.51-23.97-6.89a25.975 25.975 0 0 1-3.16-3.68l-93.5-90.45c-10.53-10.19-10.81-26.99-0.62-37.52 10.19-10.53 26.99-10.81 37.52-0.62l45.09 43.62c0-0.06-0.01-0.12-0.01-0.18l-2.43-146.62c-0.3-17.83 13.92-32.52 31.75-32.82 17.83-0.3 32.52 13.92 32.82 31.75l2.43 146.63v0.17l43.52-44.99c10.19-10.53 26.99-10.81 37.52-0.62 10.53 10.17 10.81 26.97 0.62 37.51z" p-id="7735" fill="#515151"></path></svg>
@@ -2353,7 +2407,7 @@ function initPkg_DyVideoDownload_Func() {
             showMessage("获取m3u8链接失败", "error");
         }
 
-        domDownloadPanel.style.display = "none";
+        // domDownloadPanel.style.display = "none";
     })
 
     document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download__copy").addEventListener("click", async () => {
@@ -2389,7 +2443,29 @@ function initPkg_DyVideoDownload_Func() {
         } else {
             showMessage("获取m3u8链接失败", "error");
         }
-        domDownloadPanel.style.display = "none";
+        // domDownloadPanel.style.display = "none";
+    })
+
+    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download__barrage").addEventListener("click", async () => {
+        let videoTitle = document.getElementsByTagName("demand-video-title")[0].shadowRoot.querySelector(".Title-Main").innerText;
+        let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
+        showMessage("正在获取弹幕数据，请勿切换页面...", "info");
+        
+        let pre = 0;
+        let header = ["vid", "hashid", "uid", "昵称", "弹幕", "时间", "发送时间"];
+        let body = [];
+        do {
+            let data = await getVideoBarrageByTime(hashid, pre);
+            pre = data.data.pre;
+            for (let i = 0; i < data.data.list.length; i++) {
+                let item = data.data.list[i];
+                body.push([item.vid, hashid, item.uid, item.nn, item.ctt, formatSeconds2(item.tl / 1000), dateFormat("yyyy-MM-dd hh:mm:ss", new Date(item.sts * 1000))]);
+            }
+        } while (pre >= 0);
+
+        exportJsonToExcel(header, body, `【${videoTitle}】弹幕数据.xlsx`);
+
+        // domDownloadPanel.style.display = "none";
     })
 }
 
@@ -2401,6 +2477,27 @@ function getVideoStreamUrl(vid, sign) {
             credentials: 'include',
             headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
             body: `${sign}&vid=${vid}`
+        }).then(result => {
+            return result.json();
+        }).then(ret => {
+            resolve(ret);
+        }).catch(err => {
+            console.log("请求失败!", err);
+        })
+    })
+}
+
+function getVideoBarrageByTime(vid, pre = 0) {
+    // pre来自接口返回值data.pre中
+    // 若为-1则不再获取
+    if (pre < 0) {
+        return;
+    }
+    return new Promise(resolve => {
+        fetch(`https://v.douyu.com/wgapi/vod/center/getBarrageListByPage?vid=${vid}&offset=${pre}`, {
+            method: 'GET',
+            mode: 'no-cors',
+            credentials: 'include',
         }).then(result => {
             return result.json();
         }).then(ret => {
@@ -9278,7 +9375,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2022.01.18.01"
+var curVersion = "2022.02.08.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -10348,11 +10445,10 @@ function initPkg_WeeklyPanel_Dom() {
 				<div class="weeklypanel__text"><a href="https://github.com/qianjiachun/douyuEx" target="_blank">https://github.com/qianjiachun/douyuEx</a></div>
 				<img style="width: 500px;margin-top:50px;" class="weeklypanel__img" src="https://img.douyucdn.cn/data/yuba/weibo/2022/01/18/202201181035499149780732227.png"/>
 			</div>
-			
 		</div>
 	`;
 	
-	let b = document.getElementsByClassName("layout-Container")[0];
+	let b = document.getElementById("root");
 	b.insertBefore(a, b.childNodes[0]);
 }
 
