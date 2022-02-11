@@ -43,7 +43,7 @@ function removeAD() {
         display: none!important;
     }
 
-    /*去除还在电脑面前吗的mask*/
+    /*去除还在电脑面前的mask*/
     .mask1-63237a,.mask2-a8df6e,.panel1-1484c9,.panel2-5ece0e{
         display: none!important;
     }
