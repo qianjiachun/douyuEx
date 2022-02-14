@@ -1,5 +1,5 @@
 function initPkg_AdVideo_Xiaoxiaole() {
-	startGetXiaoxiaoleFishBall();
+    // startGetXiaoxiaoleFishBall()
 }
 async function startGetXiaoxiaoleFishBall() {
     let status = await getXiaoxiaoleStatus();
