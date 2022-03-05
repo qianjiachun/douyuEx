@@ -84,7 +84,7 @@ function initPkg() {
 	initPkg_Refresh();
 	initPkg_BarrageLoop();
 	initPkg_FansContinue();
-	initPkg_FishFood();
+	// initPkg_FishFood();
 	initPkg_Sign();
 	initPkg_BarragePanel();
 	initPkg_AdVideo();
@@ -95,7 +95,7 @@ function initPkg() {
 	initPkg_WeeklyPanel();
 }
 function initPkg_Timer() {
-	initPkg_FishPond_Timer();
+	// initPkg_FishPond_Timer();
 }
 function initTimer() {
 	initPkg_Timer();

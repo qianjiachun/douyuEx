@@ -1,7 +1,7 @@
 .ex-panel {
 	position: absolute;
 	bottom: 32px;
-	right: 5px;
+	right: 40px;
 	background-color: rgba(255,255,255,0.9);
 	display: none;
 	border: 2px rgb(234,173,26) solid;
