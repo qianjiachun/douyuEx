@@ -51,7 +51,7 @@ async function signMotorcade_Sign() {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
 	}).then(res => {
-		return res;
+		return res.json();
 	}).then(ret => {
 		console.log("weekly:", ret);
 		if (ret.data.is_sign == "1") {
@@ -69,7 +69,7 @@ async function signMotorcade_Sign() {
 				},
 				body: "to_mid="+ mid +"&expression=" + String(Number(ret.data.total) + 1)
 			}).then(res => {
-				return res;
+				return res.json;
 			}).then(ret => {
 				if (Math.floor(ret.status_code / 100) == 2){
 					console.log("【车队】签到成功")
@@ -100,7 +100,7 @@ function motorcadeConnect() {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 		}).then(res => {
-			return res;
+			return res.json;
 		}).then(ret => {
 			resolve(ret);
 		}).catch(err => {
