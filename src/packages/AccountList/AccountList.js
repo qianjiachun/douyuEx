@@ -108,6 +108,7 @@ function renderAccountList(obj) {
         let item = items[i];
         let uid = item.getAttribute("uid");
         item.addEventListener("click", () => {
+            showMessage("【账号管理】正在切换账号，请耐心等待...", "info");
             switchAccount(uid, () => {});
             setPassportCmd("switch", uid);
             setYubaAndMsgAndVideoClean();

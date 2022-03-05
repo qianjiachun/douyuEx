@@ -4,6 +4,8 @@ function initPkg_RemoveAD() {
         if (a != undefined) {
             optimizePageStyle();
             removeChatLimit();
+
+            initPkg_RemoveMsgNotice();
             clearInterval(t);
         }
     }, 1000);
