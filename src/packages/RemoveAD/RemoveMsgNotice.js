@@ -9,8 +9,8 @@ function initPkg_RemoveMsgNotice_Dom() {
 	let a = document.createElement("div");
     a.style = "position: absolute;right: 5px;top: 40px;cursor: pointer;"
     a.id = "ex-removeMsgNotice";
-    a.innerHTML = `<label id="msg-removeNotice" style="cursor: pointer;"><input type="checkbox" />关闭提醒</label>`;
-    a.title = "关闭消息提醒";
+    a.innerHTML = `<label id="msg-removeNotice" style="cursor: pointer;"><input type="checkbox" />关闭角标提醒</label>`;
+    a.title = "关闭角标提醒";
 	let b = document.getElementsByClassName("PrivateLetter-frame")[0];
 	b.appendChild(a);
 }
@@ -22,7 +22,7 @@ function initPkg_RemoveMsgNotice_Func() {
         let ischecked = checkbox.checked;
 		if (ischecked == true) {
             isRemoveMsgNotice = 1;
-            StyleHook_set("Ex_Style_RemoveMsgNotice", `.ChatLetter-PopUnread{display:none!important;}`)
+            StyleHook_set("Ex_Style_RemoveMsgNotice", `.ChatLetter-PopUnread,.UserInfo .Badge {display:none!important;}`)
 		} else{
             isRemoveMsgNotice = 0;
             StyleHook_remove("Ex_Style_RemoveMsgNotice")
