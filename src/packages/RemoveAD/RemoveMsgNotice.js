@@ -22,10 +22,10 @@ function initPkg_RemoveMsgNotice_Func() {
         let ischecked = checkbox.checked;
 		if (ischecked == true) {
             isRemoveMsgNotice = 1;
-            StyleHook_set("Ex_Style_RemoveMsgNotice", `.ChatLetter-PopUnread,.UserInfo .Badge {display:none!important;}`)
+            removeMsgNotice();
 		} else{
             isRemoveMsgNotice = 0;
-            StyleHook_remove("Ex_Style_RemoveMsgNotice")
+            removeMsgNoticeCanel();
         }
         saveData_removeMsgNotice();
     })
@@ -35,9 +35,17 @@ function initPkg_RemoveMsgNotice_Set() {
     let ret = localStorage.getItem("ExSave_isRemoveMsgNotice");
     if (ret && ret == "1") {
         isRemoveMsgNotice = 1;
-        StyleHook_set("Ex_Style_RemoveMsgNotice", `.ChatLetter-PopUnread{display:none!important;}`);
+        removeMsgNotice();
         document.getElementById("msg-removeNotice").querySelector("input").checked = true;
     }
+}
+
+function removeMsgNotice() {
+    StyleHook_set("Ex_Style_RemoveMsgNotice", `.UserInfo .Badge,.ChatLetter-PopUnread{display:none!important;}`);
+}
+
+function removeMsgNoticeCanel() {
+    StyleHook_remove("Ex_Style_RemoveMsgNotice");
 }
 
 function saveData_removeMsgNotice() {

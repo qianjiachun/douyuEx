@@ -26,86 +26,72 @@ async function signMotorcade_Sign() {
 	let retConnect = await motorcadeConnect();
 	let retConnect2 = await motorcadeConnect2(retConnect.data.uid, retConnect.data.sig);
 	let mid = await getMotorcadeID(retConnect2.TinyId, retConnect2.A2Key, retConnect.data.uid);
-	if (mid == null) {
-		closePage();
-		return;
-	}
-	if (mid == undefined) {
-		closePage();
-		return;
-	}
-	if (mid == "") {
+	if (!mid || mid == "") {
 		closePage();
 		return;
 	}
 	console.log("mid是：", mid);
 	mid = encodeURIComponent(mid);
-	fetch('https://msg.douyu.com/v3/motorcade/signs/weekly?mid=' + mid + '&timestamp=' + Math.random().toFixed(17), {
-		method: 'GET',
-		mode: 'cors',
-		credentials: 'include',
+
+	GM_xmlhttpRequest({
+		method: "GET",
+		url: 'https://msg.douyu.com/v3/motorcade/signs/weekly?mid=' + mid + '&timestamp=' + Math.random().toFixed(17),
+		responseType: "json",
 		headers: {
 			'dy-device-id':'-',
 			"dy-client": "web",
 			"dy-csrf-token":getCookie("post-csrfToken"),
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
-	}).then(res => {
-		return res.json();
-	}).then(ret => {
-		console.log("weekly:", ret);
-		if (ret.data.is_sign == "1") {
-			closePage();
-		} else {
-			fetch('https://msg.douyu.com/v3/msign/add?timestamp=' + Math.random().toFixed(17), {
-				method: 'POST',
-				mode: 'cors',
-				credentials: 'include',
-				headers: {
-					'dy-device-id':'-',
-					"dy-client": "web",
-					"dy-csrf-token":getCookie("post-csrfToken"),
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				body: "to_mid="+ mid +"&expression=" + String(Number(ret.data.total) + 1)
-			}).then(res => {
-				return res.json;
-			}).then(ret => {
-				if (Math.floor(ret.status_code / 100) == 2){
-					console.log("【车队】签到成功")
-				} else {
-					console.log(ret.message);
-				}
+		onload: function(response) {
+			let ret = response.response;
+			console.log("weekly:", ret);
+			if (ret.data.is_sign == "1") {
 				closePage();
-			}).catch(err => {
-				console.log("请求失败!", err)
-				closePage();
-			})
+			} else {
+				GM_xmlhttpRequest({
+					method: "POST",
+					url: 'https://msg.douyu.com/v3/msign/add?timestamp=' + Math.random().toFixed(17),
+					data: "to_mid="+ mid +"&expression=" + String(Number(ret.data.total) + 1),
+					responseType: "json",
+					headers: {
+						'dy-device-id':'-',
+						"dy-client": "web",
+						"dy-csrf-token":getCookie("post-csrfToken"),
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					onload: function(response) {
+						
+						if (Math.floor(response.response.status_code / 100) == 2){
+							console.log("【车队】签到成功")
+						} else {
+							console.log(response.response.message);
+						}
+						closePage();
+					}
+				});
+			}
 		}
-	}).catch(err => {
-		console.log("请求失败!", err)
-	})
+	});
 }
 
 function motorcadeConnect() {
     return new Promise(resolve => {
-        fetch('https://msg.douyu.com/v3/login/getusersig?t=' + String(new Date().getTime()) + '&timestamp=' + Math.random().toFixed(17), {
-			method: 'GET',
-			mode: 'cors',
-			credentials: 'include',
-			headers: {
-				'dy-device-id':'-',
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: 'https://msg.douyu.com/v3/login/getusersig?t=' + String(new Date().getTime()) + '&timestamp=' + Math.random().toFixed(17),
+            data: '{"State":"Online"}',
+            responseType: "json",
+            headers: {
+                'dy-device-id':'-',
 				"dy-client": "web",
 				"dy-csrf-token":getCookie("post-csrfToken"),
 				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-		}).then(res => {
-			return res.json;
-		}).then(ret => {
-			resolve(ret);
-		}).catch(err => {
-			console.log("请求失败!", err)
-		})
+            },
+            onload: function(response) {
+                resolve(response.response);
+            }
+        });
     })
 }
 
@@ -137,7 +123,7 @@ function getMotorcadeID(tinyid, a2, identifier) {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
             onload: function(response) {
-				if (response.response.GroupIdList.length > 0) {
+				if (response.response.GroupIdList && response.response.GroupIdList.length > 0) {
 					resolve(response.response.GroupIdList[0].GroupId);
 				} else {
 					resolve("");

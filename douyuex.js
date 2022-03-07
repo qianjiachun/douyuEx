@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         https://s2.ax1x.com/2020/01/12/loQI3V.png
-// @version      2022.03.07.01
+// @version      2022.03.07.02
 // @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕下载 直播画面局部缩放 全站抽奖信息 直播音效增强
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -7951,10 +7951,10 @@ function initPkg_RemoveMsgNotice_Func() {
         let ischecked = checkbox.checked;
 		if (ischecked == true) {
             isRemoveMsgNotice = 1;
-            StyleHook_set("Ex_Style_RemoveMsgNotice", `.ChatLetter-PopUnread,.UserInfo .Badge {display:none!important;}`)
+            removeMsgNotice();
 		} else{
             isRemoveMsgNotice = 0;
-            StyleHook_remove("Ex_Style_RemoveMsgNotice")
+            removeMsgNoticeCanel();
         }
         saveData_removeMsgNotice();
     })
@@ -7964,9 +7964,17 @@ function initPkg_RemoveMsgNotice_Set() {
     let ret = localStorage.getItem("ExSave_isRemoveMsgNotice");
     if (ret && ret == "1") {
         isRemoveMsgNotice = 1;
-        StyleHook_set("Ex_Style_RemoveMsgNotice", `.ChatLetter-PopUnread{display:none!important;}`);
+        removeMsgNotice();
         document.getElementById("msg-removeNotice").querySelector("input").checked = true;
     }
+}
+
+function removeMsgNotice() {
+    StyleHook_set("Ex_Style_RemoveMsgNotice", `.UserInfo .Badge,.ChatLetter-PopUnread{display:none!important;}`);
+}
+
+function removeMsgNoticeCanel() {
+    StyleHook_remove("Ex_Style_RemoveMsgNotice");
 }
 
 function saveData_removeMsgNotice() {
@@ -8347,86 +8355,72 @@ async function signMotorcade_Sign() {
 	let retConnect = await motorcadeConnect();
 	let retConnect2 = await motorcadeConnect2(retConnect.data.uid, retConnect.data.sig);
 	let mid = await getMotorcadeID(retConnect2.TinyId, retConnect2.A2Key, retConnect.data.uid);
-	if (mid == null) {
-		closePage();
-		return;
-	}
-	if (mid == undefined) {
-		closePage();
-		return;
-	}
-	if (mid == "") {
+	if (!mid || mid == "") {
 		closePage();
 		return;
 	}
 	console.log("mid是：", mid);
 	mid = encodeURIComponent(mid);
-	fetch('https://msg.douyu.com/v3/motorcade/signs/weekly?mid=' + mid + '&timestamp=' + Math.random().toFixed(17), {
-		method: 'GET',
-		mode: 'cors',
-		credentials: 'include',
+
+	GM_xmlhttpRequest({
+		method: "GET",
+		url: 'https://msg.douyu.com/v3/motorcade/signs/weekly?mid=' + mid + '&timestamp=' + Math.random().toFixed(17),
+		responseType: "json",
 		headers: {
 			'dy-device-id':'-',
 			"dy-client": "web",
 			"dy-csrf-token":getCookie("post-csrfToken"),
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
-	}).then(res => {
-		return res.json();
-	}).then(ret => {
-		console.log("weekly:", ret);
-		if (ret.data.is_sign == "1") {
-			closePage();
-		} else {
-			fetch('https://msg.douyu.com/v3/msign/add?timestamp=' + Math.random().toFixed(17), {
-				method: 'POST',
-				mode: 'cors',
-				credentials: 'include',
-				headers: {
-					'dy-device-id':'-',
-					"dy-client": "web",
-					"dy-csrf-token":getCookie("post-csrfToken"),
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				body: "to_mid="+ mid +"&expression=" + String(Number(ret.data.total) + 1)
-			}).then(res => {
-				return res.json;
-			}).then(ret => {
-				if (Math.floor(ret.status_code / 100) == 2){
-					console.log("【车队】签到成功")
-				} else {
-					console.log(ret.message);
-				}
+		onload: function(response) {
+			let ret = response.response;
+			console.log("weekly:", ret);
+			if (ret.data.is_sign == "1") {
 				closePage();
-			}).catch(err => {
-				console.log("请求失败!", err)
-				closePage();
-			})
+			} else {
+				GM_xmlhttpRequest({
+					method: "POST",
+					url: 'https://msg.douyu.com/v3/msign/add?timestamp=' + Math.random().toFixed(17),
+					data: "to_mid="+ mid +"&expression=" + String(Number(ret.data.total) + 1),
+					responseType: "json",
+					headers: {
+						'dy-device-id':'-',
+						"dy-client": "web",
+						"dy-csrf-token":getCookie("post-csrfToken"),
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					onload: function(response) {
+						
+						if (Math.floor(response.response.status_code / 100) == 2){
+							console.log("【车队】签到成功")
+						} else {
+							console.log(response.response.message);
+						}
+						closePage();
+					}
+				});
+			}
 		}
-	}).catch(err => {
-		console.log("请求失败!", err)
-	})
+	});
 }
 
 function motorcadeConnect() {
     return new Promise(resolve => {
-        fetch('https://msg.douyu.com/v3/login/getusersig?t=' + String(new Date().getTime()) + '&timestamp=' + Math.random().toFixed(17), {
-			method: 'GET',
-			mode: 'cors',
-			credentials: 'include',
-			headers: {
-				'dy-device-id':'-',
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: 'https://msg.douyu.com/v3/login/getusersig?t=' + String(new Date().getTime()) + '&timestamp=' + Math.random().toFixed(17),
+            data: '{"State":"Online"}',
+            responseType: "json",
+            headers: {
+                'dy-device-id':'-',
 				"dy-client": "web",
 				"dy-csrf-token":getCookie("post-csrfToken"),
 				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-		}).then(res => {
-			return res.json;
-		}).then(ret => {
-			resolve(ret);
-		}).catch(err => {
-			console.log("请求失败!", err)
-		})
+            },
+            onload: function(response) {
+                resolve(response.response);
+            }
+        });
     })
 }
 
@@ -8458,7 +8452,7 @@ function getMotorcadeID(tinyid, a2, identifier) {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
             onload: function(response) {
-				if (response.response.GroupIdList.length > 0) {
+				if (response.response.GroupIdList && response.response.GroupIdList.length > 0) {
 					resolve(response.response.GroupIdList[0].GroupId);
 				} else {
 					resolve("");
@@ -8806,7 +8800,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2022.03.07.01"
+var curVersion = "2022.03.07.02"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
