@@ -299,7 +299,23 @@ function setNightModeIframe() {
     .style-newvoteHead-CetsR strong{color: rgb(125,125,125)!important;}
     .style-optionWrapper-GJ6RJ{background: rgb(125,125,125)!important;}
     .style-newvotestyleTitle-j27SH{color:rgb(47,48,53)!important;}
-    
+
+    .index-wrapperBox-fPzNk{background: rgb(35,36,39)!important;}
+    .index-content-pC8LK,.index-hotTopTitle-q1ajK,.index-title-Hmt3k{color:rgb(167,167,167)!important;}
+    .index-aboutTitle-gEBas,.index-title-Hmt3k,.index-itemTitle-M\\+\\+1W{color:rgb(167,167,167)!important;}
+    .index-itemContent-ti7Xk{background:rgb(47,48,53)!important;}
+    .index-controlBgL-tdJKP,.index-controlBg-Pexdr{background: transparent!important;}
+    .index-wrapperBox-fPzNk{border:1px solid rgb(125,125,125) !important;}
+    .wb_card-wbCardWrap-4JJpr,.wb_card-topListItemBox-035It{border-bottom:1px solid rgb(125,125,125)!important;}
+
+    .index-aboutTopic-akyQd .index-itemWrap-6-qcp{background: rgb(47,48,53)!important;}
+    .index-aboutTopic-akyQd .index-topicName-a5Qxh{color:rgb(167,167,167)!important;}
+
+    .wb_card-wbCardDetail-HysKF{background: rgb(35,36,39)!important;}
+    .wb_card-wbInfo-a7-LR a,.wb_card-wbText-mwDSN{color:rgb(167,167,167)!important;}
+    .wb_card-groupnameAndGrouplevel-EbL7t{background: rgb(47,48,53)!important;color: rgb(125,125,125)!important;}
+    .wb_handle-wbRowLine-6D3SZ a{background: rgb(47,48,53)!important;color: rgb(125,125,125)!important;}
+    .wb_handle-line-Dd0zJ{color: rgb(125,125,125)!important;}
     `)
 }
 
