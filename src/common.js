@@ -410,3 +410,16 @@ function sheet2blob(sheet, sheetName) {
 	}
 	return blob;
 }
+
+function downloadFile(name, data) {
+    var urlObject = unsafeWindow.URL || unsafeWindow.webkitURL || unsafeWindow;
+    var export_blob = new Blob([data]);
+    var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+    save_link.href = urlObject.createObjectURL(export_blob);
+    save_link.download = name;
+
+	var ev = document.createEvent("MouseEvents");
+    ev.initMouseEvent("click", true, false, unsafeWindow, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    save_link.dispatchEvent(ev);
+} 
+    

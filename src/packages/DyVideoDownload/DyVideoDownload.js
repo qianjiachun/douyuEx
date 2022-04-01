@@ -49,8 +49,11 @@ function initPkg_DyVideoDownload_Dom(dom) {
         <div class="download__item" id="download__copy" title="可将链接填至第三方下载器中下载">
             <span class="ToolBar-iconText">复制m3u8链接</span>
         </div>
-        <div class="download__item" id="download__barrage" title="下载弹幕">
-            <span class="ToolBar-iconText">下载弹幕</span>
+        <div class="download__item" id="download__barrage" title="下载弹幕(.xlsx)">
+            <span class="ToolBar-iconText">下载弹幕(.xlsx)</span>
+        </div>
+        <div class="download__item" id="download__barrageass" title="下载弹幕(.ass)">
+            <span class="ToolBar-iconText">下载弹幕(.ass)</span>
         </div>
     </div>
     <span class="ToolBar-icon ">
@@ -183,8 +186,29 @@ function initPkg_DyVideoDownload_Func() {
         } while (pre >= 0);
 
         exportJsonToExcel(header, body, `【${videoTitle}】弹幕数据.xlsx`);
+    })
 
-        // domDownloadPanel.style.display = "none";
+    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download__barrageass").addEventListener("click", async () => {
+        let videoTitle = document.getElementsByTagName("demand-video-title")[0].shadowRoot.querySelector(".Title-Main").innerText;
+        let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
+        showMessage("正在获取弹幕数据，请勿切换页面...", "info");
+        let pre = 0;
+        let ass = new ASS({title: videoTitle});
+        let list = [];
+        do {
+            let data = await getVideoBarrageByTime(hashid, pre);
+            pre = data.data.pre;
+            for (let i = 0; i < data.data.list.length; i++) {
+                let item = data.data.list[i];
+                list.push({
+                    time: Number(item.tl),
+                    txt: item.ctt,
+                    color: item.col,
+                });
+            }
+        } while (pre >= 0);
+        let result = ass.generate(list);
+        downloadFile(`${videoTitle}.ass`, result);
     })
 }
 

@@ -12,11 +12,14 @@ function initPkg_RemoveMsgNotice_Dom() {
     a.innerHTML = `<label id="msg-removeNotice" style="cursor: pointer;"><input type="checkbox" />关闭角标提醒</label>`;
     a.title = "关闭角标提醒";
 	let b = document.getElementsByClassName("PrivateLetter-frame")[0];
-	b.appendChild(a);
+    if (b) {
+        b.appendChild(a);
+    }
 }
 
 function initPkg_RemoveMsgNotice_Func() {
     let dom = document.getElementById("msg-removeNotice");
+    if (!dom) return;
     let checkbox = dom.querySelector("input");
     dom.addEventListener("click", () => {
         let ischecked = checkbox.checked;
@@ -36,7 +39,10 @@ function initPkg_RemoveMsgNotice_Set() {
     if (ret && ret == "1") {
         isRemoveMsgNotice = 1;
         removeMsgNotice();
-        document.getElementById("msg-removeNotice").querySelector("input").checked = true;
+        let dom = document.getElementById("msg-removeNotice");
+        if (dom) {
+            dom.querySelector("input").checked = true;
+        }
     }
 }
 

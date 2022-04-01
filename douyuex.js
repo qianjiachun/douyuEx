@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTA4cHgiIGhlaWdodD0iMTA4cHgiIHZpZXdCb3g9IjAgMCAxMDggMTA4IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPHRpdGxlPueyvueBteeQgzwvdGl0bGU+CiAgICA8ZyBpZD0i6aG16Z2iLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSLnsr7ngbXnkIMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuODMwNzY5LCAwLjgzMDc2OSkiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01My4xNjkyMzA3LDEwNi4zMzg0NjEgQzIzLjgyNzY5MjIsMTA2LjMzODQ2MSAwLDgyLjUxMDc2OTIgMCw1My4xNjkyMzA3IEMwLDUxLjAwMzA3NjkgMS43NzIzMDc3NSw0OS4yMzA3NjkyIDMuOTM4NDYxNSw0OS4yMzA3NjkyIEwzMy40NzY5MjMsNDkuMjMwNzY5MiBDMzUuNjQzMDc2OSw0OS4yMzA3NjkyIDM3LjQxNTM4NDUsNTEuMDAzMDc3IDM3LjQxNTM4NDYsNTMuMTY5MjMwNyBDMzcuNDE1Mzg0Niw2MS44MzM4NDYxIDQ0LjUwNDYxNTQsNjguOTIzMDc2OSA1My4xNjkyMzA3LDY4LjkyMzA3NjkgQzYxLjgzMzg0NjEsNjguOTIzMDc2OSA2OC45MjMwNzY5LDYxLjgzMzg0NjEgNjguOTIzMDc2OSw1My4xNjkyMzA3IEM2OC45MjMwNzY5LDUxLjAwMzA3NjkgNzAuNjk1Mzg0Niw0OS4yMzA3NjkyIDcyLjg2MTUzODUsNDkuMjMwNzY5MiBMMTAyLjQsNDkuMjMwNzY5MiBDMTA0LjU2NjE1NCw0OS4yMzA3NjkyIDEwNi4zMzg0NjEsNTEuMDAzMDc3IDEwNi4zMzg0NjEsNTMuMTY5MjMwNyBDMTA2LjMzODQ2MSw4Mi41MTA3NjkyIDgyLjUxMDc2OTIsMTA2LjMzODQ2MSA1My4xNjkyMzA3LDEwNi4zMzg0NjEgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iIzMzMzYzQSI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNOC4wNzM4NDYxMiw1Ny4xMDc2OTIyIEMxMC4wNDMwNzY5LDgwLjI0NjE1MzcgMjkuNTM4NDYxNSw5OC40NjE1Mzg1IDUzLjE2OTIzMDcsOTguNDYxNTM4NSBDNzYuOCw5OC40NjE1Mzg1IDk2LjI5NTM4NDYsODAuMjQ2MTUzOSA5OC4yNjQ2MTU0LDU3LjEwNzY5MjIgTDc2LjUwNDYxNTQsNTcuMTA3NjkyMiBDNzQuNjMzODQ2MSw2OC4yMzM4NDYxIDY0Ljg4NjE1MzksNzYuOCA1My4xNjkyMzA3LDc2LjggQzQxLjQ1MjMwNzYsNzYuOCAzMS43MDQ2MTU0LDY4LjIzMzg0NjEgMjkuODMzODQ2MSw1Ny4xMDc2OTIyIEw4LjA3Mzg0NjEyLDU3LjEwNzY5MjIgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNTMuMTY5MjMwOCwzLjkzODQ2MTUgQzI1Ljk5Mzg0NjEsMy45Mzg0NjE1IDMuOTM4NDYxNSwyNS45OTM4NDYxIDMuOTM4NDYxNSw1My4xNjkyMzA3IEwzMy40NzY5MjMsNTMuMTY5MjMwNyBDMzMuNDc2OTIzLDQyLjMzODQ2MTUgNDIuMzM4NDYxNSwzMy40NzY5MjMgNTMuMTY5MjMwOCwzMy40NzY5MjMgQzY0LDMzLjQ3NjkyMyA3Mi44NjE1Mzg1LDQyLjMzODQ2MTUgNzIuODYxNTM4NSw1My4xNjkyMzA3IEwxMDIuNCw1My4xNjkyMzA3IEMxMDIuNCwyNS45OTM4NDYxIDgwLjM0NDYxNTQsMy45Mzg0NjE1IDUzLjE2OTIzMDgsMy45Mzg0NjE1IFoiIGlkPSLot6/lvoQiIGZpbGw9IiNENjA5MDkiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTEwMi40LDU3LjEwNzY5MjIgTDcyLjg2MTUzODUsNTcuMTA3NjkyMiBDNzAuNjk1Mzg0Niw1Ny4xMDc2OTIyIDY4LjkyMzA3Nyw1NS4zMzUzODQ1IDY4LjkyMzA3NjksNTMuMTY5MjMwNyBDNjguOTIzMDc2OSw0NC41MDQ2MTU0IDYxLjgzMzg0NjEsMzcuNDE1Mzg0NiA1My4xNjkyMzA3LDM3LjQxNTM4NDYgQzQ0LjUwNDYxNTQsMzcuNDE1Mzg0NiAzNy40MTUzODQ2LDQ0LjUwNDYxNTQgMzcuNDE1Mzg0Niw1My4xNjkyMzA3IEMzNy40MTUzODQ2LDU1LjMzNTM4NDYgMzUuNjQzMDc2OSw1Ny4xMDc2OTIyIDMzLjQ3NjkyMyw1Ny4xMDc2OTIyIEwzLjkzODQ2MTUsNTcuMTA3NjkyMiBDMS43NzIzMDc2Miw1Ny4xMDc2OTIyIDAsNTUuMzM1Mzg0NSAwLDUzLjE2OTIzMDcgQzAsMjMuODI3NjkyMiAyMy44Mjc2OTIzLDAgNTMuMTY5MjMwNywwIEM4Mi41MTA3NjkyLDAgMTA2LjMzODQ2MSwyMy44Mjc2OTIyIDEwNi4zMzg0NjEsNTMuMTY5MjMwNyBDMTA2LjMzODQ2MSw1NS4zMzUzODQ2IDEwNC41NjYxNTQsNTcuMTA3NjkyMiAxMDIuNCw1Ny4xMDc2OTIyIFoiIGlkPSLot6/lvoQiIGZpbGw9IiMzMzM2M0EiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTc2LjUwNDYxNTQsNDkuMjMwNzY5MyBMOTguMzYzMDc2OSw0OS4yMzA3NjkzIEM5Ni4yOTUzODQ2LDI2LjA5MjMwNzYgNzYuOCw3Ljg3NjkyMyA1My4xNjkyMzA3LDcuODc2OTIzIEMyOS41Mzg0NjE1LDcuODc2OTIzIDEwLjA0MzA3NjksMjYuMDkyMzA3NiA4LjA3Mzg0NjEyLDQ5LjIzMDc2OTMgTDI5LjkzMjMwNzYsNDkuMjMwNzY5MyBDMzEuNzA0NjE1NCwzOC4xMDQ2MTU0IDQxLjQ1MjMwNzYsMjkuNTM4NDYxNSA1My4xNjkyMzA3LDI5LjUzODQ2MTUgQzY0Ljg4NjE1MzksMjkuNTM4NDYxNSA3NC42MzM4NDYxLDM4LjEwNDYxNTQgNzYuNTA0NjE1NCw0OS4yMzA3NjkzIEw3Ni41MDQ2MTU0LDQ5LjIzMDc2OTMgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0Q2MDkwOSI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNTMuMTY5MjMwNyw3Ni44IEM0MC4xNzIzMDc2LDc2LjggMjkuNTM4NDYxNSw2Ni4xNjYxNTM5IDI5LjUzODQ2MTUsNTMuMTY5MjMwNyBDMjkuNTM4NDYxNSw0MC4xNzIzMDc2IDQwLjE3MjMwNzYsMjkuNTM4NDYxNSA1My4xNjkyMzA3LDI5LjUzODQ2MTUgQzY2LjE2NjE1MzksMjkuNTM4NDYxNSA3Ni44LDQwLjE3MjMwNzYgNzYuOCw1My4xNjkyMzA3IEM3Ni44LDY2LjE2NjE1MzkgNjYuMTY2MTUzOSw3Ni44IDUzLjE2OTIzMDcsNzYuOCBaIiBpZD0i6Lev5b6EIiBmaWxsPSIjMzMzNjNBIj48L3BhdGg+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01My4xNjkyMzA3LDM3LjQxNTM4NDYgQzQ0LjUwNDYxNTQsMzcuNDE1Mzg0NiAzNy40MTUzODQ2LDQ0LjUwNDYxNTQgMzcuNDE1Mzg0Niw1My4xNjkyMzA3IEMzNy40MTUzODQ2LDYxLjgzMzg0NjEgNDQuNTA0NjE1NCw2OC45MjMwNzY5IDUzLjE2OTIzMDcsNjguOTIzMDc2OSBDNjEuODMzODQ2MSw2OC45MjMwNzY5IDY4LjkyMzA3NjksNjEuODMzODQ2MSA2OC45MjMwNzY5LDUzLjE2OTIzMDcgQzY4LjkyMzA3NjksNDQuNTA0NjE1NCA2MS44MzM4NDYxLDM3LjQxNTM4NDYgNTMuMTY5MjMwNywzNy40MTUzODQ2IEw1My4xNjkyMzA3LDM3LjQxNTM4NDYgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNDMuMzIzMDc2OSw1My4xNjkyMzA3IEM0My4zMjMwNzY5LDU4LjYwNzExMTQgNDcuNzMxMzUwMSw2My4wMTUzODQ2IDUzLjE2OTIzMDcsNjMuMDE1Mzg0NiBDNTguNjA3MTExNCw2My4wMTUzODQ2IDYzLjAxNTM4NDYsNTguNjA3MTExNCA2My4wMTUzODQ2LDUzLjE2OTIzMDcgQzYzLjAxNTM4NDYsNDcuNzMxMzUwMSA1OC42MDcxMTE0LDQzLjMyMzA3NjkgNTMuMTY5MjMwNyw0My4zMjMwNzY5IEM0Ny43MzEzNTAxLDQzLjMyMzA3NjkgNDMuMzIzMDc2OSw0Ny43MzEzNTAxIDQzLjMyMzA3NjksNTMuMTY5MjMwNyBaIiBpZD0i6Lev5b6EIiBmaWxsPSIjMzMzNjNBIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=
-// @version      2022.03.11.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕下载 直播画面局部缩放 全站抽奖信息 直播音效增强
+// @version      2022.04.01.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕ass下载 直播画面局部缩放 全站抽奖信息 直播音效增强 阻止P2P上传
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -57,6 +57,7 @@
 
 function init() {
 	initPkg_Night_Set_Fast();
+	initKillP2P();
 	removeAD();
 	initPkg_Statistics();
 	initPkg_Console();
@@ -520,6 +521,19 @@ function sheet2blob(sheet, sheetName) {
 	}
 	return blob;
 }
+
+function downloadFile(name, data) {
+    var urlObject = unsafeWindow.URL || unsafeWindow.webkitURL || unsafeWindow;
+    var export_blob = new Blob([data]);
+    var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+    save_link.href = urlObject.createObjectURL(export_blob);
+    save_link.download = name;
+
+	var ev = document.createEvent("MouseEvents");
+    ev.initMouseEvent("click", true, false, unsafeWindow, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    save_link.dispatchEvent(ev);
+} 
+    
 let svg_accountList = `<svg t="1613993967937" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2122" width="16" height="16"><path d="M217.472 311.808l384.64 384.64-90.432 90.56-384.64-384.64z" fill="#8A8A8A" p-id="2123"></path><path d="M896.32 401.984l-384.64 384.64-90.56-90.496 384.64-384.64z" fill="#8A8A8A" p-id="2124"></path></svg>`
 let cleanOverTimes = 0; // 用于判断是否全部清空并跳转
 function initPkg_AccountList() {
@@ -2332,8 +2346,11 @@ function initPkg_DyVideoDownload_Dom(dom) {
         <div class="download__item" id="download__copy" title="可将链接填至第三方下载器中下载">
             <span class="ToolBar-iconText">复制m3u8链接</span>
         </div>
-        <div class="download__item" id="download__barrage" title="下载弹幕">
-            <span class="ToolBar-iconText">下载弹幕</span>
+        <div class="download__item" id="download__barrage" title="下载弹幕(.xlsx)">
+            <span class="ToolBar-iconText">下载弹幕(.xlsx)</span>
+        </div>
+        <div class="download__item" id="download__barrageass" title="下载弹幕(.ass)">
+            <span class="ToolBar-iconText">下载弹幕(.ass)</span>
         </div>
     </div>
     <span class="ToolBar-icon ">
@@ -2466,8 +2483,29 @@ function initPkg_DyVideoDownload_Func() {
         } while (pre >= 0);
 
         exportJsonToExcel(header, body, `【${videoTitle}】弹幕数据.xlsx`);
+    })
 
-        // domDownloadPanel.style.display = "none";
+    document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("#download__barrageass").addEventListener("click", async () => {
+        let videoTitle = document.getElementsByTagName("demand-video-title")[0].shadowRoot.querySelector(".Title-Main").innerText;
+        let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
+        showMessage("正在获取弹幕数据，请勿切换页面...", "info");
+        let pre = 0;
+        let ass = new ASS({title: videoTitle});
+        let list = [];
+        do {
+            let data = await getVideoBarrageByTime(hashid, pre);
+            pre = data.data.pre;
+            for (let i = 0; i < data.data.list.length; i++) {
+                let item = data.data.list[i];
+                list.push({
+                    time: Number(item.tl),
+                    txt: item.ctt,
+                    color: item.col,
+                });
+            }
+        } while (pre >= 0);
+        let result = ass.generate(list);
+        downloadFile(`${videoTitle}.ass`, result);
     })
 }
 
@@ -2561,6 +2599,7 @@ function initPkg_ExpandTool_Module() {
 	initPkg_ExpandTool_ClearBag();
     initPkg_ExpandTool_SendGift();
     // initPkg_ExpandTool_BarrageSize();
+	initPkg_ExpandTool_P2P();
 }
 
 function initPkg_ExpandTool_Dom() {
@@ -3025,6 +3064,82 @@ function fansToSuperRocket(m) {
 }
 
 
+function initPkg_ExpandTool_P2P() {
+    ExpandTool_P2P_insertDom();
+    ExpandTool_P2P_insertFunc();
+    initPkg_ExpandTool_P2P_Set();
+}
+
+function ExpandTool_P2P_insertDom() {
+    let a = document.createElement("div");
+    // a.className = "extool__bsize";
+    a.innerHTML = '<label title="阻止p2p在后台占用网速，开启后直播画面会在刚进入页面时卡一下"><input style="margin-top:5px;" id="extool__p2p" type="checkbox">阻止p2p上传</label>';
+    
+    let b = document.getElementsByClassName("extool")[0];
+    b.insertBefore(a, b.childNodes[0]);
+}
+
+
+function getP2P() {
+    return document.getElementById("extool__p2p").checked;
+}
+function ExpandTool_P2P_insertFunc() {
+    document.getElementById("extool__p2p").addEventListener("click", function() {
+        saveData_P2P();
+        if (getP2P()) {
+            showMessage("阻止p2p上传成功，刷新页面生效", "success");
+        }
+    });
+}
+
+function saveData_P2P() {
+	let data = {
+		isKillP2P: getP2P()
+	}
+	localStorage.setItem("ExSave_P2P", JSON.stringify(data)); // 存储弹幕列表
+}
+function initPkg_ExpandTool_P2P_Set() {
+	// 设置初始化
+	let ret = localStorage.getItem("ExSave_P2P");
+	if (ret != null) {
+		let retJson = JSON.parse(ret);
+        if (retJson.isKillP2P) {
+            document.getElementById("extool__p2p").checked = retJson.isKillP2P;
+        }
+	}
+}
+
+
+function initKillP2P() {
+	let ret = localStorage.getItem("ExSave_P2P");
+	if (ret != null) {
+		let retJson = JSON.parse(ret);
+        if (retJson.isKillP2P) {
+            killP2P();
+        }
+	}
+}
+
+function killP2P() {
+    let funNameList = [
+        'RTCPeerConnection',
+        'webkitRTCPeerConnection',
+        'mozRTCPeerConnection',
+        'msRTCPeerConnectio',
+    ]
+    funNameList.forEach(name => {
+        if (typeof unsafeWindow.RTCPeerConnection === "undefined") unsafeWindow.RTCPeerConnection = unsafeWindow[name];
+        if (typeof unsafeWindow[name] !== "undefined") unsafeWindow[name] = MyPeerConnection;
+    })
+    console.log('已屏蔽p2p上传功能')
+
+    function MyPeerConnection(args) {
+        console.log(`PeerConnection() 被调用！
+当前页面尝试建立p2p连接！
+调用参数: ${JSON.stringify(args)}`)
+        return HookFlag ? new unsafeWindow.RTCPeerConnection(args) : undefined
+    }
+}
 let redpackets_room_arr = [];
 let redpacket_room_timer; // 时钟句柄
 function initPkg_ExpandTool_RedPacket_Room() {
@@ -7970,11 +8085,14 @@ function initPkg_RemoveMsgNotice_Dom() {
     a.innerHTML = `<label id="msg-removeNotice" style="cursor: pointer;"><input type="checkbox" />关闭角标提醒</label>`;
     a.title = "关闭角标提醒";
 	let b = document.getElementsByClassName("PrivateLetter-frame")[0];
-	b.appendChild(a);
+    if (b) {
+        b.appendChild(a);
+    }
 }
 
 function initPkg_RemoveMsgNotice_Func() {
     let dom = document.getElementById("msg-removeNotice");
+    if (!dom) return;
     let checkbox = dom.querySelector("input");
     dom.addEventListener("click", () => {
         let ischecked = checkbox.checked;
@@ -7994,7 +8112,10 @@ function initPkg_RemoveMsgNotice_Set() {
     if (ret && ret == "1") {
         isRemoveMsgNotice = 1;
         removeMsgNotice();
-        document.getElementById("msg-removeNotice").querySelector("input").checked = true;
+        let dom = document.getElementById("msg-removeNotice");
+        if (dom) {
+            dom.querySelector("input").checked = true;
+        }
     }
 }
 
@@ -8829,7 +8950,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2022.03.11.01"
+var curVersion = "2022.04.01.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -8919,7 +9040,7 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 			}
 		} else {
 			if (isShowNotUpdate) {
-				showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
+				showMessage(`【版本更新】当前版本${curVersion}已为最新，<a href="https://xiaochunchun.gitee.io/douyuex/update/" target="_blank">点击查看更新内容</a>`, "success")
 			}
 		}
 	})
@@ -8932,7 +9053,7 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 		}
 	} else {
 		if (isShowNotUpdate) {
-			showMessage(`【版本更新】当前版本${curVersion}已为最新`, "success")
+			showMessage(`【版本更新】当前版本${curVersion}已为最新，<a href="https://xiaochunchun.gitee.io/douyuex/update/" target="_blank">点击查看更新内容</a>`, "success")
 		}
 	}
 }
@@ -8954,10 +9075,11 @@ function Update_showTip(a) {
 	}
 	
 }
-// 【版本更新】最新版本：2010.02.10.01，点击官方源或者greasyfork源更新
 function Update_showMessage() {
-	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://xiaochunchun.gitee.io/douyuex/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新`
-	showMessage(msg, "error");
+	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://xiaochunchun.gitee.io/douyuex/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新，<a href="https://xiaochunchun.gitee.io/douyuex/update/" target="_blank">点击查看更新内容</a>`
+	showMessage(msg, "error", {
+		timeout: 50,
+	});
 }
 
 let videoStartTime = 0;
@@ -10199,6 +10321,105 @@ function getActList() {
 // }
 
 
+// https://blog.csdn.net/hongszh/article/details/104354252
+/**
+ * options:
+ *  - width: 视频宽度
+ *  - height: 视频高度
+ *  - fontSize: 字体大小
+ *  - color: 字体颜色
+ *  - alpha: 字体透明度 0~256
+ *  - stayTime: 弹幕停留时间
+ */
+class ASS {
+    constructor(options) {
+        let defaultOptions = {
+            width: 1920,
+            height: 1080,
+            fontSize: 36,
+            alpha: this._prefixInteger(Number(0).toString(16), 2), // 0~255 0不透明 255全透明
+            stayTime: 10,
+            title: "Default"
+        };
+        this.options = {
+            ...defaultOptions,
+            ...options,
+            ...options ? options.alpha ? this._prefixInteger(this.options.alpha.toString(16), 2) : {} : {},
+        };
+
+        this.lines = 20; // 弹幕行数
+        this.lineBase = this.options.height / this.lines; // 占半屏的5行
+        this.currentLine = 0; // 当前行数
+        this.diffTime = 3000; // 如果上下两条在n秒内连续发送，就换行
+    }
+
+    generate(list) {
+        /**
+         * list<Array>: 
+         *  - time: 时间，单位毫秒
+         *  - txt: 文本
+         *  - color: 颜色
+         */
+        let sortList = list.sort((a, b) => {
+            return a.time - b.time;
+        })
+        let result = this._getScriptInfo() + this._getV4Styles() + this._getEvents();
+        for (let i = 0; i < sortList.length; i++) {
+            if (i > 0 && sortList[i].time - sortList[i-1].time <= this.diffTime) {
+                this.currentLine++;
+            } else {
+                this.currentLine = 0;
+            }
+            if (this.currentLine >= this.lines) {
+                this.currentLine = 0;
+            }
+            let item = sortList[i];
+            let endTime = Number(item.time) + Number(this.options.stayTime) * 1000;
+            let heightOffset = this.lineBase * this.currentLine + this.options.fontSize;
+            let fontWidth = this.options.fontSize * item.txt.length / 2;
+            result += `Dialogue: 0,${formatSeconds2(Number(item.time)/1000)}.00,${formatSeconds2(endTime/1000)}.00,Color${item.color},,0,0,0,,{\\move(${this.options.width + fontWidth},${heightOffset},${-fontWidth},${heightOffset})}${item.txt}\n`;
+        }
+        return result;
+    }
+
+    _prefixInteger(num, length) {
+        num = '' + num;
+        return Array(length + 1 - num.length).join('0') + num;
+    }
+
+    _getScriptInfo() {
+        return `[Script Info]
+; DouyuEx -By qianjiachun
+; https://github.com/qianjiachun/douyuEx
+ScriptType: v4.00+
+Title: ${this.options.title}
+PlayResX: ${this.options.width}
+PlayResY: ${this.options.height}
+`
+    }
+
+    _getV4Styles() {
+        return `
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, BorderStyle, Outline, Shadow, Encoding
+Style: Color0,黑体,${this.options.fontSize},&H${this.options.alpha}FFFFFF,0,0,0,134
+Style: Color7,黑体,${this.options.fontSize},&H${this.options.alpha}FF5654,0,0,0,134
+Style: Color8,黑体,${this.options.fontSize},&H${this.options.alpha}FF7523,0,0,0,134
+Style: Color9,黑体,${this.options.fontSize},&H${this.options.alpha}FE69B3,0,0,0,134
+Style: Color10,黑体,${this.options.fontSize},&H${this.options.alpha}FFBC00,0,0,0,134
+Style: Color11,黑体,${this.options.fontSize},&H${this.options.alpha}78C946,0,0,0,134  
+Style: Color12,黑体,${this.options.fontSize},&H${this.options.alpha}9E7FFF,0,0,0,134  
+Style: Color13,黑体,${this.options.fontSize},&H${this.options.alpha}3D9BFF,0,0,0,134 
+`
+    }
+
+    _getEvents() {
+        return `
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+`
+    }
+}
 /* 
     CClick
     单双击/长按不冲突的解决方案 
