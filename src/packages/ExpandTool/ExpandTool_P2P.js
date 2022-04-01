@@ -65,12 +65,8 @@ function killP2P() {
         if (typeof unsafeWindow.RTCPeerConnection === "undefined") unsafeWindow.RTCPeerConnection = unsafeWindow[name];
         if (typeof unsafeWindow[name] !== "undefined") unsafeWindow[name] = MyPeerConnection;
     })
-    console.log('已屏蔽p2p上传功能')
 
-    function MyPeerConnection(args) {
-        console.log(`PeerConnection() 被调用！
-当前页面尝试建立p2p连接！
-调用参数: ${JSON.stringify(args)}`)
-        return HookFlag ? new unsafeWindow.RTCPeerConnection(args) : undefined
+    function MyPeerConnection() {
+        return undefined;
     }
 }
