@@ -25,9 +25,9 @@ class ASS {
         };
 
         this.lines = 20; // 弹幕行数
-        this.lineBase = this.options.height / this.lines; // 占半屏的5行
+        this.lineBase = this.options.height / this.lines; // 每行高度
         this.currentLine = 0; // 当前行数
-        this.diffTime = 3000; // 如果上下两条在n秒内连续发送，就换行
+        this.diffTime = 1500; // 如果上下两条在n秒内连续发送，就换行
     }
 
     generate(list) {
@@ -53,7 +53,7 @@ class ASS {
             let item = sortList[i];
             let endTime = Number(item.time) + Number(this.options.stayTime) * 1000;
             let heightOffset = this.lineBase * this.currentLine + this.options.fontSize;
-            let fontWidth = this.options.fontSize * item.txt.length / 2;
+            let fontWidth = this.options.fontSize * item.txt.length;
             result += `Dialogue: 0,${formatSeconds2(Number(item.time)/1000)}.00,${formatSeconds2(endTime/1000)}.00,Color${item.color},,0,0,0,,{\\move(${this.options.width + fontWidth},${heightOffset},${-fontWidth},${heightOffset})}${item.txt}\n`;
         }
         return result;
@@ -78,15 +78,15 @@ PlayResY: ${this.options.height}
     _getV4Styles() {
         return `
 [V4+ Styles]
-Format: Name, Fontname, Fontsize, PrimaryColour, BorderStyle, Outline, Shadow, Encoding
-Style: Color0,黑体,${this.options.fontSize},&H${this.options.alpha}FFFFFF,0,0,0,134
-Style: Color7,黑体,${this.options.fontSize},&H${this.options.alpha}FF5654,0,0,0,134
-Style: Color8,黑体,${this.options.fontSize},&H${this.options.alpha}FF7523,0,0,0,134
-Style: Color9,黑体,${this.options.fontSize},&H${this.options.alpha}FE69B3,0,0,0,134
-Style: Color10,黑体,${this.options.fontSize},&H${this.options.alpha}FFBC00,0,0,0,134
-Style: Color11,黑体,${this.options.fontSize},&H${this.options.alpha}78C946,0,0,0,134  
-Style: Color12,黑体,${this.options.fontSize},&H${this.options.alpha}9E7FFF,0,0,0,134  
-Style: Color13,黑体,${this.options.fontSize},&H${this.options.alpha}3D9BFF,0,0,0,134 
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Color0,黑体,${this.options.fontSize},&H${this.options.alpha}FFFFFF,&H80000000,&H80000000,&H80000000,0,0,0,0,100,100,0,0,0,0,0,0,0,0,0,134
+Style: Color7,黑体,${this.options.fontSize},&H${this.options.alpha}5456FF,&H80000000,&H80000000,&H80000000,0,0,0,0,100,100,0,0,0,0,0,0,0,0,0,134
+Style: Color8,黑体,${this.options.fontSize},&H${this.options.alpha}2375FF,&H80000000,&H80000000,&H80000000,0,0,0,0,100,100,0,0,0,0,0,0,0,0,0,134
+Style: Color9,黑体,${this.options.fontSize},&H${this.options.alpha}B369FE,&H80000000,&H80000000,&H80000000,0,0,0,0,100,100,0,0,0,0,0,0,0,0,0,134
+Style: Color10,黑体,${this.options.fontSize},&H${this.options.alpha}00BCFF,&H80000000,&H80000000,&H80000000,0,0,0,0,100,100,0,0,0,0,0,0,0,0,0,134
+Style: Color11,黑体,${this.options.fontSize},&H${this.options.alpha}46C978,&H80000000,&H80000000,&H80000000,0,0,0,0,100,100,0,0,0,0,0,0,0,0,0,134
+Style: Color12,黑体,${this.options.fontSize},&H${this.options.alpha}FF7F9E,&H80000000,&H80000000,&H80000000,0,0,0,0,100,100,0,0,0,0,0,0,0,0,0,134
+Style: Color13,黑体,${this.options.fontSize},&H${this.options.alpha}FF9B3D,&H80000000,&H80000000,&H80000000,0,0,0,0,100,100,0,0,0,0,0,0,0,0,0,134
 `
     }
 
