@@ -53,6 +53,7 @@
 // @connect      fz996.com
 // @connect      toubang.tv
 // @connect      doseeing.com
+// @antifeature  tracking
 // ==/UserScript==
 
 function init() {
