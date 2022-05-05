@@ -261,13 +261,11 @@ function getBarrageTxt_Tiangou() {
 	return new Promise(resolve => {
 		GM_xmlhttpRequest({
             method: "GET",
-            url: "https://chp.shadiao.app/api.php",
-            responseType: "text",
+            url: "https://api.shadiao.app/chp",
+            responseType: "json",
             onload: function(response) {
                 let ret = response.response;
-                if (ret != "") {
-					resolve(ret);
-				}
+                resolve(ret.data.text);
             }
         });
 	})
