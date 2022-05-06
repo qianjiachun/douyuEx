@@ -5,6 +5,7 @@
     margin-right: 10px;
     cursor: pointer;
     background-size: contain;
+    pointer-events: all;
 }
 #ex-joysound img {
     width: 24px;

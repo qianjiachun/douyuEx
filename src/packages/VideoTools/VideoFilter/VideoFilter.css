@@ -5,6 +5,7 @@
     margin-right: 10px;
     cursor: pointer;
     background-size: contain;
+    pointer-events: all;
 }
 .filter__wrap {
     display: none;
