@@ -4,19 +4,15 @@
 */
 
 function getRealRid_Bilibili(url, realrid_callback) {
+    let arr = url.split("/");
+    let rid = arr[arr.length - 1];
     GM_xmlhttpRequest({
 		method: "GET",
-		url: url,
-        responseType: "text",
+		url: "https://api.live.bilibili.com/room/v1/Room/room_init?id=" + rid,
+        responseType: "json",
 		onload: function(response) {
             let ret = response.response;
-            let rid = "";
-            rid =  getStrMiddle(ret, 'room_id":', ',');
-            rid = rid.trim();
-            if (rid == "") {
-                rid = "-1";
-            }
-            realrid_callback(rid);
+            realrid_callback(ret.data.room_id);
         }
 	});
 }

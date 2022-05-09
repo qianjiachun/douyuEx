@@ -35,8 +35,12 @@ function getRealLive_Bilibili(room_id, qn, cdn, reallive_callback) {
 		onload: function(response) {
             let ret = response.response;
             let rurl = "";
-            if (ret.data.durl != null) {
-                rurl = ret.data.durl[Number(cdn)].url;
+            if (ret.data.durl != null && ret.data.durl.length > 0) {
+                if (Number(cdn) > ret.data.durl.length - 1) {
+                    rurl = ret.data.durl[0].url;
+                } else {
+                    rurl = ret.data.durl[Number(cdn)].url;
+                }
             } else {
                 rurl = "";
             }
