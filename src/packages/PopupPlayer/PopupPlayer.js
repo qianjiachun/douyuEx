@@ -321,7 +321,7 @@ function createNewAudio_Douyu(id, rid) {
             a.id = "exVideoDiv" + String(id);
             a.rid = rid;
             a.className = "exVideoDiv";
-            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制音频流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span></a>";
+            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制直播流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span></a>";
             html += "<select style='display:none' class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='0'>蓝光</option></select>";
             html += "<select style='display:none' class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路5</option><option value='3'>备用线路6</option></select>";
             html += "<a style='margin-left:5px;display:none' href='" + lurl_host + "' target='_blank'>无视频？</a>";
@@ -349,7 +349,7 @@ function createNewVideo_Bilibili(id, rid){
             a.id = "exVideoDiv" + String(id);
             a.rid = rid;
             a.className = "exVideoDiv";
-            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制直播流地址' target='_blank' href='https://live.bilibili.com/"+  rid + "'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "Bilibili - " + rid + "</span></a>";
+            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='进入直播间' target='_blank' href='https://live.bilibili.com/"+  rid + "'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "Bilibili - " + rid + "</span></a>";
             html += "<select class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='4'>蓝光</option><option value='5'>原画</option></select>";
             html += "<select class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option><option value='4'>备用线路3</option></select>";
             html += `<input id='exVideoEmbed${String(id)}' type='button' value='嵌入视频' style='height:30px;'>`;
@@ -458,7 +458,7 @@ function createNewVideo_Huya(id, rid, rname){
             a.id = "exVideoDiv" + String(id);
             a.rid = rid;
             a.className = "exVideoDiv";
-            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制直播流地址' target='_blank' href='" + rid + "'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "Huya - " + rname + "</span></a>";
+            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='进入直播间' target='_blank' href='" + rid + "'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "Huya - " + rname + "</span></a>";
             html += "<select class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>超清</option><option value='3'>蓝光4M</option><option value='4'>原画</option></select>";
             // html += "<select class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option></select>";
             html += `<input id='exVideoEmbed${String(id)}' type='button' value='嵌入视频' style='height:30px;'>`;
