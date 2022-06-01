@@ -19,6 +19,7 @@ function initPkg_LiveTool_Module() {
 	initPkg_LiveTool_Reply();
 	initPkg_LiveTool_Treasure();
 	initPkg_LiveTool_BarrageSpeed();
+	initPkg_LiveTool_RankList();
 
 	// initPkg_LiveTool_Bojiang_Handle();
 }
