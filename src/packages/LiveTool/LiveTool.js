@@ -58,6 +58,7 @@ function initPkg_LiveTool_HandleFunc() {
 		// initPkg_LiveTool_Friend_Handle(ret);
 		initPkg_LiveTool_Vote_Handle(ret); // 投票
 		initPkg_LiveTool_BarrageSpeed_Handle(ret); // 弹幕时速
+		initPkg_LiveTool_RankList_Handle(ret); // 排行榜
     });
 }
 

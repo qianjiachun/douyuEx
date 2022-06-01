@@ -24,7 +24,7 @@
 // @match        *://v.douyu.com/*
 // @match        *://cz.douyu.com/*
 // @require      https://lib.baomitu.com/flv.js/1.6.2/flv.min.js
-// @require      https://cdn.jsdelivr.net/npm/svgaplayerweb@2.3.1/build/svga.min.js
+// @require      https://fastly.jsdelivr.net/npm/svgaplayerweb@2.3.1/build/svga.min.js
 // @require      https://lib.baomitu.com/gif.js/0.2.0/gif.js
 // @require      https://lib.baomitu.com/three.js/80/three.min.js
 // @require      https://lib.baomitu.com/xlsx/0.16.4/xlsx.full.min.js

@@ -1,0 +1,11 @@
+.exRankPoint {
+    position: absolute;
+    right: 16px;
+}
+
+.exRankPoint--top {
+    position: absolute;
+    bottom: -12px;
+    right: 0;
+    left: 0;
+}
