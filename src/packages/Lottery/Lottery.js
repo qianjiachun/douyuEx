@@ -79,6 +79,7 @@ function initPkg_Lottery_Func() {
 async function initPkg_Lottery_Timer() {
     let html = "";
     let lotteryList = await getExLotteryList();
+    if (!lotteryList.data.list) return;
     for (let i = 0; i < lotteryList.data.list.length; i++) {
         let item = lotteryList.data.list[i];
         if (item.status !== 0) {
