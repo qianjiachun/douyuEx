@@ -33,6 +33,7 @@ function initPkg_LiveTool_RankList_Handle(text) {
 }
 
 function setRankListData(rankItemType, rankItems) {
+    if (!rankItems) return;
     for (let i = rankItemType === "week" ? 10 : 0; i < rankItems.length; i++) {
         let rankItem = rankItems[i];
         let rankItemName = rankItem.innerHTML.split("<span")[0];
