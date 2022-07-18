@@ -17,3 +17,7 @@
 .bloop__mode {
 	display: inline-block;
 }
+
+#bloop__select {
+	width: 150px;
+}

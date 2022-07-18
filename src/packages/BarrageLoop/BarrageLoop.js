@@ -8,6 +8,7 @@ let barrageColorOffset = 0;
 let isChangeColor = true;
 let isMatch = false; //是否为赛事直播间
 let bloopStopTimer;
+let barrageOptions = [];
 
 function initPkg_BarrageLoop() {
 	initPkg_BarrageLoop_Dom();
@@ -20,11 +21,17 @@ function BarrageLoop_insertModal() {
 	let a = document.createElement("div");
 	a.className = "bloop";
 	html += '<div style="display:inline-block"><label>弹幕：</label></div>';
-	html += '<div class="bloop__mode"><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label></div>';
+	html += `
+	<span style="float:right;margin-right:15px;">
+		<select id="bloop__select"></select>
+		<input style="width:40px;margin-left:10px;" type="button" id="bloop__save" value="保存"/>
+		<input style="width:40px;margin-left:10px;" type="button" id="bloop__delete" value="删除"/>
+	</span>
+	`;
 	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50"></textarea>';
 	html += '<div><label>速度(ms)：</label><input id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
 	html += '<div><label>限时(min)：</label><input id="bloop__text_stoptime" type="text" style="width:50px;text-align:center;" value="1" /></div>';
-	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label></div>';
+	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label></div>';
 	html += '<div class="bloop__switch"><label><input id="bloop__checkbox_startSend" type="checkbox">开始发送</label></div>';
 	
 	a.innerHTML = html;
@@ -134,7 +141,7 @@ function saveData_BarrageLoop() {
 		stopTime = 5;
 	}
 	let data = {
-		text: document.getElementById("bloop__textarea").value,
+		text: barrageOptions,
 		speed1: speed1,
 		speed2: speed2,
 		stopTime: stopTime,
@@ -142,7 +149,7 @@ function saveData_BarrageLoop() {
 		isTiangouMode: tiangouMode,
 	}
 	
-	localStorage.setItem("ExSave_BarrageLoop", JSON.stringify(data)); // 存储弹幕列表
+	localStorage.setItem("ExSave_BarrageLoopOptions", JSON.stringify(data).replace(/\\n/g, "\\r")); // 存储弹幕列表
 }
 
 
@@ -217,7 +224,38 @@ function initPkg_BarrageLoop_Func() {
 		}
 		saveData_BarrageLoop();
 	});
+
+  document.getElementById("bloop__select").onclick = function() {
+    if (this.options.length == 0) {
+      return;
+    }
+    let area = document.getElementById("bloop__textarea");
+    let text = this.options[this.selectedIndex].text;
+    area.value = text;
+    area.value = area.value.replace(/\\r/g, "\r");
+  };
+
+	document.getElementById("bloop__save").addEventListener("click", () => {
+		// ExSave_BarrageLoopOptions
+    let select_bloop = document.getElementById("bloop__select");
+    let text = document.getElementById("bloop__textarea").value;
+    if (text == "") return;
+    barrageOptions.push(text);
+    select_bloop.options.add(new Option(text.replace(/\n/g, "\\r"), true));
+    saveData_BarrageLoop();
+	});
+
+	document.getElementById("bloop__delete").addEventListener("click", () => {
+		let select_bloop = document.getElementById("bloop__select");
+    let index = select_bloop.options[select_bloop.selectedIndex];
+    if (!index) return;
+    let text = index.text;
+    barrageOptions = barrageOptions.filter(item => item === text);
+    select_bloop.options.remove(select_bloop.selectedIndex);
+    saveData_BarrageLoop();
+	});
 }
+
 
 function initPkg_BarrageLoop_Dom() {
 	// Dom初始化
@@ -227,7 +265,7 @@ function initPkg_BarrageLoop_Dom() {
 
 function initPkg_BarrageLoop_Set() {
 	// 设置初始化
-	let ret = localStorage.getItem("ExSave_BarrageLoop");
+	let ret = localStorage.getItem("ExSave_BarrageLoopOptions");
 	
 	if (ret != null) {
 		let retJson = JSON.parse(ret);
@@ -243,7 +281,11 @@ function initPkg_BarrageLoop_Set() {
 		if ("isTiangouMode" in retJson == false) {
 			retJson.isTiangouMode = false;
 		}
-		document.getElementById("bloop__textarea").value = retJson.text;
+    let select_bloop = document.getElementById("bloop__select");
+    retJson.text.forEach(item => {
+      select_bloop.options.add(new Option(item.replace(/\r/g, "\\r"), ""));
+    });
+    barrageOptions = retJson.text;
 		document.getElementById("bloop__checkbox_changeColor").checked = retJson.isChangeColor;
 		isChangeColor = Boolean(retJson.isChangeColor);
 		document.getElementById("bloop__text_speed1").value = retJson.speed1;
