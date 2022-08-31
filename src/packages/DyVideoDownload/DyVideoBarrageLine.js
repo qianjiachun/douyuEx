@@ -1,8 +1,16 @@
 function initPkg_DyVideoBarrageLine() {
     let timer = setInterval(() => {
         let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector(".ProgressBar-Safearea");
-        if (progress) {
+        let hashidShadow = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
+        if (progress && hashidShadow) {
             clearInterval(timer);
+            let hashid = hashidShadow.querySelector("share-hover").getAttribute("hashid");
+            let vid = $DATA.ROOM.vid;
+            if (hashid !== vid) {
+                showMessage("视频内容已改变，请刷新网页后重试", "error");
+                return;
+            }
+            renderVideoBarrageLine(hashid);
         }
     }, 1000);
 }
@@ -155,15 +163,18 @@ async function renderVideoBarrageLine(hashid) {
     let arr = progressTimeText.split("/");
     if (arr.length <= 0) return;
     let totalMs = timeText2Ms(arr[1]);
+    let step = totalMs / 100;
     
-
+    let list = new Array(101).fill(0, 0, 101);
     let pre = 0;
     do {
         let data = await getVideoBarrageByTime(hashid, pre);
         pre = data.data.pre;
         for (let i = 0; i < data.data.list.length; i++) {
             let item = data.data.list[i];
-            body.push([item.vid, hashid, item.uid, item.nn, item.ctt, formatSeconds2(item.tl / 1000), dateFormat("yyyy-MM-dd hh:mm:ss", new Date(item.sts * 1000))]);
+            let index = Math.floor(item.tl / step);
+            list[index]++;
         }
     } while (pre >= 0);
+    console.log("哈哈",list)
 }

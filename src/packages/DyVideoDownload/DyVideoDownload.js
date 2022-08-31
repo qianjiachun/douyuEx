@@ -1,10 +1,11 @@
 function initPkg_DyVideoDownload() {
     let timer = setInterval(() => {
-        let toolBar = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector(".ToolBar-positiveUl");
-        if (toolBar) {
+        let toolBarShadow = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
+        if (toolBarShadow) {
             clearInterval(timer);
+            let toolbar = toolBarShadow.querySelector(".ToolBar-positiveUl");
             initPkg_DyVideoDownload_Style();
-            initPkg_DyVideoDownload_Dom(toolBar);
+            initPkg_DyVideoDownload_Dom(toolbar);
             initPkg_DyVideoDownload_Func();
         }
     }, 1000);

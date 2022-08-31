@@ -174,6 +174,7 @@ function initRouter_Video() {
         initPkg_VideoTime();
         initPkg_VideoTools_Camera_Video();
         initPkg_DyVideoDownload();
+        initPkg_DyVideoBarrageLine();
     }
 }
 
