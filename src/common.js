@@ -422,4 +422,16 @@ function downloadFile(name, data) {
     ev.initMouseEvent("click", true, false, unsafeWindow, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
     save_link.dispatchEvent(ev);
 } 
-    
+
+function timeText2Ms(text) {
+	let ret = 0;
+	let arr = text.split(":");
+	if (arr.length === 1) {
+		ret = Number(arr[0]);
+	} else if (arr.length === 2) {
+		ret = Number(arr[0]) * 60 + Number(arr[1]);
+	} else if (arr.length === 3) {
+		ret = Number(arr[0]) * 3600 + Number(arr[1]) * 60 + Number(arr[2]);
+	}
+	return ret * 1000;
+}
