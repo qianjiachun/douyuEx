@@ -33,7 +33,7 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Motorcade();
 		initPkg_Sign_Room(isAll);
 		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
-		initPkg_Sign_Ad_Sign();
+		// initPkg_Sign_Ad_Sign(); // 2022年9月1日23:41:59 失效
 		// initPkg_Sign_Aoligei();
 		// initPkg_Sign_Ad_Yuba();
 		// initPkg_Sign_Bycc();
@@ -46,7 +46,7 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_1000();
         // initPkg_Sign_Zhuli();
 
-		initPkg_Sign_TV();
+		// initPkg_Sign_TV(); // 2022年9月1日23:41:59 失效
 		initPkg_Sign_Yuba_Like();
         
         // initPkg_Sign_Renlei();

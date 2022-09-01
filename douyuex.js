@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTA4cHgiIGhlaWdodD0iMTA4cHgiIHZpZXdCb3g9IjAgMCAxMDggMTA4IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPHRpdGxlPueyvueBteeQgzwvdGl0bGU+CiAgICA8ZyBpZD0i6aG16Z2iLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSLnsr7ngbXnkIMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuODMwNzY5LCAwLjgzMDc2OSkiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01My4xNjkyMzA3LDEwNi4zMzg0NjEgQzIzLjgyNzY5MjIsMTA2LjMzODQ2MSAwLDgyLjUxMDc2OTIgMCw1My4xNjkyMzA3IEMwLDUxLjAwMzA3NjkgMS43NzIzMDc3NSw0OS4yMzA3NjkyIDMuOTM4NDYxNSw0OS4yMzA3NjkyIEwzMy40NzY5MjMsNDkuMjMwNzY5MiBDMzUuNjQzMDc2OSw0OS4yMzA3NjkyIDM3LjQxNTM4NDUsNTEuMDAzMDc3IDM3LjQxNTM4NDYsNTMuMTY5MjMwNyBDMzcuNDE1Mzg0Niw2MS44MzM4NDYxIDQ0LjUwNDYxNTQsNjguOTIzMDc2OSA1My4xNjkyMzA3LDY4LjkyMzA3NjkgQzYxLjgzMzg0NjEsNjguOTIzMDc2OSA2OC45MjMwNzY5LDYxLjgzMzg0NjEgNjguOTIzMDc2OSw1My4xNjkyMzA3IEM2OC45MjMwNzY5LDUxLjAwMzA3NjkgNzAuNjk1Mzg0Niw0OS4yMzA3NjkyIDcyLjg2MTUzODUsNDkuMjMwNzY5MiBMMTAyLjQsNDkuMjMwNzY5MiBDMTA0LjU2NjE1NCw0OS4yMzA3NjkyIDEwNi4zMzg0NjEsNTEuMDAzMDc3IDEwNi4zMzg0NjEsNTMuMTY5MjMwNyBDMTA2LjMzODQ2MSw4Mi41MTA3NjkyIDgyLjUxMDc2OTIsMTA2LjMzODQ2MSA1My4xNjkyMzA3LDEwNi4zMzg0NjEgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iIzMzMzYzQSI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNOC4wNzM4NDYxMiw1Ny4xMDc2OTIyIEMxMC4wNDMwNzY5LDgwLjI0NjE1MzcgMjkuNTM4NDYxNSw5OC40NjE1Mzg1IDUzLjE2OTIzMDcsOTguNDYxNTM4NSBDNzYuOCw5OC40NjE1Mzg1IDk2LjI5NTM4NDYsODAuMjQ2MTUzOSA5OC4yNjQ2MTU0LDU3LjEwNzY5MjIgTDc2LjUwNDYxNTQsNTcuMTA3NjkyMiBDNzQuNjMzODQ2MSw2OC4yMzM4NDYxIDY0Ljg4NjE1MzksNzYuOCA1My4xNjkyMzA3LDc2LjggQzQxLjQ1MjMwNzYsNzYuOCAzMS43MDQ2MTU0LDY4LjIzMzg0NjEgMjkuODMzODQ2MSw1Ny4xMDc2OTIyIEw4LjA3Mzg0NjEyLDU3LjEwNzY5MjIgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNTMuMTY5MjMwOCwzLjkzODQ2MTUgQzI1Ljk5Mzg0NjEsMy45Mzg0NjE1IDMuOTM4NDYxNSwyNS45OTM4NDYxIDMuOTM4NDYxNSw1My4xNjkyMzA3IEwzMy40NzY5MjMsNTMuMTY5MjMwNyBDMzMuNDc2OTIzLDQyLjMzODQ2MTUgNDIuMzM4NDYxNSwzMy40NzY5MjMgNTMuMTY5MjMwOCwzMy40NzY5MjMgQzY0LDMzLjQ3NjkyMyA3Mi44NjE1Mzg1LDQyLjMzODQ2MTUgNzIuODYxNTM4NSw1My4xNjkyMzA3IEwxMDIuNCw1My4xNjkyMzA3IEMxMDIuNCwyNS45OTM4NDYxIDgwLjM0NDYxNTQsMy45Mzg0NjE1IDUzLjE2OTIzMDgsMy45Mzg0NjE1IFoiIGlkPSLot6/lvoQiIGZpbGw9IiNENjA5MDkiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTEwMi40LDU3LjEwNzY5MjIgTDcyLjg2MTUzODUsNTcuMTA3NjkyMiBDNzAuNjk1Mzg0Niw1Ny4xMDc2OTIyIDY4LjkyMzA3Nyw1NS4zMzUzODQ1IDY4LjkyMzA3NjksNTMuMTY5MjMwNyBDNjguOTIzMDc2OSw0NC41MDQ2MTU0IDYxLjgzMzg0NjEsMzcuNDE1Mzg0NiA1My4xNjkyMzA3LDM3LjQxNTM4NDYgQzQ0LjUwNDYxNTQsMzcuNDE1Mzg0NiAzNy40MTUzODQ2LDQ0LjUwNDYxNTQgMzcuNDE1Mzg0Niw1My4xNjkyMzA3IEMzNy40MTUzODQ2LDU1LjMzNTM4NDYgMzUuNjQzMDc2OSw1Ny4xMDc2OTIyIDMzLjQ3NjkyMyw1Ny4xMDc2OTIyIEwzLjkzODQ2MTUsNTcuMTA3NjkyMiBDMS43NzIzMDc2Miw1Ny4xMDc2OTIyIDAsNTUuMzM1Mzg0NSAwLDUzLjE2OTIzMDcgQzAsMjMuODI3NjkyMiAyMy44Mjc2OTIzLDAgNTMuMTY5MjMwNywwIEM4Mi41MTA3NjkyLDAgMTA2LjMzODQ2MSwyMy44Mjc2OTIyIDEwNi4zMzg0NjEsNTMuMTY5MjMwNyBDMTA2LjMzODQ2MSw1NS4zMzUzODQ2IDEwNC41NjYxNTQsNTcuMTA3NjkyMiAxMDIuNCw1Ny4xMDc2OTIyIFoiIGlkPSLot6/lvoQiIGZpbGw9IiMzMzM2M0EiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTc2LjUwNDYxNTQsNDkuMjMwNzY5MyBMOTguMzYzMDc2OSw0OS4yMzA3NjkzIEM5Ni4yOTUzODQ2LDI2LjA5MjMwNzYgNzYuOCw3Ljg3NjkyMyA1My4xNjkyMzA3LDcuODc2OTIzIEMyOS41Mzg0NjE1LDcuODc2OTIzIDEwLjA0MzA3NjksMjYuMDkyMzA3NiA4LjA3Mzg0NjEyLDQ5LjIzMDc2OTMgTDI5LjkzMjMwNzYsNDkuMjMwNzY5MyBDMzEuNzA0NjE1NCwzOC4xMDQ2MTU0IDQxLjQ1MjMwNzYsMjkuNTM4NDYxNSA1My4xNjkyMzA3LDI5LjUzODQ2MTUgQzY0Ljg4NjE1MzksMjkuNTM4NDYxNSA3NC42MzM4NDYxLDM4LjEwNDYxNTQgNzYuNTA0NjE1NCw0OS4yMzA3NjkzIEw3Ni41MDQ2MTU0LDQ5LjIzMDc2OTMgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0Q2MDkwOSI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNTMuMTY5MjMwNyw3Ni44IEM0MC4xNzIzMDc2LDc2LjggMjkuNTM4NDYxNSw2Ni4xNjYxNTM5IDI5LjUzODQ2MTUsNTMuMTY5MjMwNyBDMjkuNTM4NDYxNSw0MC4xNzIzMDc2IDQwLjE3MjMwNzYsMjkuNTM4NDYxNSA1My4xNjkyMzA3LDI5LjUzODQ2MTUgQzY2LjE2NjE1MzksMjkuNTM4NDYxNSA3Ni44LDQwLjE3MjMwNzYgNzYuOCw1My4xNjkyMzA3IEM3Ni44LDY2LjE2NjE1MzkgNjYuMTY2MTUzOSw3Ni44IDUzLjE2OTIzMDcsNzYuOCBaIiBpZD0i6Lev5b6EIiBmaWxsPSIjMzMzNjNBIj48L3BhdGg+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01My4xNjkyMzA3LDM3LjQxNTM4NDYgQzQ0LjUwNDYxNTQsMzcuNDE1Mzg0NiAzNy40MTUzODQ2LDQ0LjUwNDYxNTQgMzcuNDE1Mzg0Niw1My4xNjkyMzA3IEMzNy40MTUzODQ2LDYxLjgzMzg0NjEgNDQuNTA0NjE1NCw2OC45MjMwNzY5IDUzLjE2OTIzMDcsNjguOTIzMDc2OSBDNjEuODMzODQ2MSw2OC45MjMwNzY5IDY4LjkyMzA3NjksNjEuODMzODQ2MSA2OC45MjMwNzY5LDUzLjE2OTIzMDcgQzY4LjkyMzA3NjksNDQuNTA0NjE1NCA2MS44MzM4NDYxLDM3LjQxNTM4NDYgNTMuMTY5MjMwNywzNy40MTUzODQ2IEw1My4xNjkyMzA3LDM3LjQxNTM4NDYgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNDMuMzIzMDc2OSw1My4xNjkyMzA3IEM0My4zMjMwNzY5LDU4LjYwNzExMTQgNDcuNzMxMzUwMSw2My4wMTUzODQ2IDUzLjE2OTIzMDcsNjMuMDE1Mzg0NiBDNTguNjA3MTExNCw2My4wMTUzODQ2IDYzLjAxNTM4NDYsNTguNjA3MTExNCA2My4wMTUzODQ2LDUzLjE2OTIzMDcgQzYzLjAxNTM4NDYsNDcuNzMxMzUwMSA1OC42MDcxMTE0LDQzLjMyMzA3NjkgNTMuMTY5MjMwNyw0My4zMjMwNzY5IEM0Ny43MzEzNTAxLDQzLjMyMzA3NjkgNDMuMzIzMDc2OSw0Ny43MzEzNTAxIDQzLjMyMzA3NjksNTMuMTY5MjMwNyBaIiBpZD0i6Lev5b6EIiBmaWxsPSIjMzMzNjNBIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=
-// @version      2022.08.21.01
-// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕ass下载 直播画面局部缩放 全站抽奖信息 直播音效增强 阻止P2P上传 显示贡献榜贡献值 恢复弹幕显示
+// @version      2022.09.01.01
+// @description  弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕ass下载 直播画面局部缩放 全站抽奖信息 直播音效增强 阻止P2P上传 显示贡献榜贡献值 恢复弹幕显示 斗鱼视频弹幕高能进度条
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -536,7 +536,19 @@ function downloadFile(name, data) {
     ev.initMouseEvent("click", true, false, unsafeWindow, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
     save_link.dispatchEvent(ev);
 } 
-    
+
+function timeText2Ms(text) {
+	let ret = 0;
+	let arr = text.split(":");
+	if (arr.length === 1) {
+		ret = Number(arr[0]);
+	} else if (arr.length === 2) {
+		ret = Number(arr[0]) * 60 + Number(arr[1]);
+	} else if (arr.length === 3) {
+		ret = Number(arr[0]) * 3600 + Number(arr[1]) * 60 + Number(arr[2]);
+	}
+	return ret * 1000;
+}
 let svg_accountList = `<svg t="1613993967937" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2122" width="16" height="16"><path d="M217.472 311.808l384.64 384.64-90.432 90.56-384.64-384.64z" fill="#8A8A8A" p-id="2123"></path><path d="M896.32 401.984l-384.64 384.64-90.56-90.496 384.64-384.64z" fill="#8A8A8A" p-id="2124"></path></svg>`
 let cleanOverTimes = 0; // 用于判断是否全部清空并跳转
 function initPkg_AccountList() {
@@ -2346,13 +2358,160 @@ function initPkg_DisableCloseJump_Timer() {
     }
   }, 1000);
 }
+function getVideoStreamUrl(vid, sign) {
+  return new Promise(resolve => {
+      fetch("https://v.douyu.com/api/stream/getStreamUrl", {
+          method: 'POST',
+          mode: 'no-cors',
+          credentials: 'include',
+          headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+          body: `${sign}&vid=${vid}`
+      }).then(result => {
+          return result.json();
+      }).then(ret => {
+          resolve(ret);
+      }).catch(err => {
+          console.log("请求失败!", err);
+      })
+  })
+}
+
+function getVideoBarrageByTime(vid, pre = 0) {
+  // pre来自接口返回值data.pre中
+  // 若为-1则不再获取
+  if (pre < 0) {
+      return;
+  }
+  return new Promise(resolve => {
+      fetch(`https://v.douyu.com/wgapi/vod/center/getBarrageListByPage?vid=${vid}&offset=${pre}`, {
+          method: 'GET',
+          mode: 'no-cors',
+          credentials: 'include',
+      }).then(result => {
+          return result.json();
+      }).then(ret => {
+          resolve(ret);
+      }).catch(err => {
+          console.log("请求失败!", err);
+      })
+  })
+}
+let dyVideoBarrage_domhook_videoChange = null;
+let dyVideoBarrage_hasRendered = false;
+const dyVideoBarrage_domName = "ex-barrageLine";
+function initPkg_DyVideoBarrageLine() {
+    let timer = setInterval(() => {
+        let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector(".ProgressBar-Safearea");
+        let hashidShadow = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
+        let hashIdDom = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
+        if (progress && hashidShadow && hashIdDom) {
+            clearInterval(timer);
+            renderVideoBarrageLine();
+            let shareHoverDom = hashIdDom.querySelector("share-hover");
+            dyVideoBarrage_domhook_videoChange = new MutationObserver(function(mutations) {
+                renderVideoBarrageLine();
+            });
+            dyVideoBarrage_domhook_videoChange.observe(shareHoverDom, { attributes: true, childList: true, subtree: false });
+        }
+    }, 1000);
+}
+
+async function renderVideoBarrageLine() {
+    if (dyVideoBarrage_hasRendered) return;
+    dyVideoBarrage_hasRendered = true;
+    setTimeout(() => {
+        dyVideoBarrage_hasRendered = false;
+    }, 1000);
+    showMessage("弹幕高能进度条加载中，请耐心等待", "info");
+    let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot;
+    let progressBar = progress.querySelector(".ProgressBar");
+    let barrageLineDom = progress.querySelector("#" + dyVideoBarrage_domName);
+    if (barrageLineDom) barrageLineDom.remove();
+    let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
+    let xAxisStepNum = 100;
+    let progressTimeText = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("#time-label").innerText;
+    let arr = progressTimeText.split("/");
+    if (arr.length <= 0) return;
+    let totalMs = timeText2Ms(arr[1]);
+    let msStep = totalMs / (xAxisStepNum - 1);
+    
+    let list = new Array(xAxisStepNum).fill(0, 0, xAxisStepNum);
+    let pre = 0;
+    do {
+        let data = await getVideoBarrageByTime(hashid, pre);
+        pre = data.data.pre;
+        if (data.data.list) {
+            for (let i = 0; i < data.data.list.length; i++) {
+                let item = data.data.list[i];
+                let index = Math.floor(item.tl / msStep);
+                list[index]++;
+            }
+        }
+    } while (pre >= 0);
+
+
+    // viewbox 长1000 高100
+    let xStep = 1000 / list.length;
+    let yStep = Math.max(...list) / 100;
+
+    let positionArray = [];
+
+    for (let i = 0; i < list.length; i++) {
+        let barrageNum = list[i];
+        let x = i * xStep;
+        let y = barrageNum / yStep;
+        positionArray.push([x, y]);
+    }
+
+    let d = "M 0 100 L 0 80 ";
+    let c = "";
+    for (let i = 0; i < positionArray.length - 1; i++) {
+        let current = positionArray[i];
+        let next = positionArray[i + 1];
+        let [x1, y1] = current;
+        let [x2, y2] = next;
+
+        let cx1 = x1;
+        let cy1 = (y1 + y2) / 2;
+        let cx2 = x2;
+        let cy2 = (y1 + y2) / 2;
+        c += "C ";
+        c += `${cx1} ${80 - cy1}, ${cx2} ${80 - cy2}, ${x2} ${80 - y2} `;
+        // let smoothArr = smooth([current, next]);
+        // for (let j = 1; j < smoothArr.length; j++) {
+        //     c += `${smoothArr[j][0]} ${100 - smoothArr[j][1]}`;
+        //     if (j === smoothArr.length - 1) {
+        //         c += " ";
+        //     } else {
+        //         c += ", "
+        //     }
+        // }
+    }
+    c += "L 1000 100 Z";
+    let path = d + c;
+    let html = `
+    <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 1000 100" >
+        <path fill="rgba(255,255,255,0.3)" d="${path}" />
+    </svg>`;
+    if (path.indexOf("NaN") !== -1) {
+        console.log(path)
+        showMessage("弹幕高能进度条加载失败", "error");
+    }
+    let a = document.createElement("div");
+	a.id = dyVideoBarrage_domName;
+    a.style = "position:absolute;width:100%;height:30px;bottom:0px;pointer-events:none;cursor: default;";
+	a.innerHTML = html;
+	
+    progressBar.insertBefore(a, progressBar.childNodes[0]);
+}
 function initPkg_DyVideoDownload() {
     let timer = setInterval(() => {
-        let toolBar = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector(".ToolBar-positiveUl");
-        if (toolBar) {
+        let toolBarShadow = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
+        if (toolBarShadow) {
             clearInterval(timer);
+            let toolbar = toolBarShadow.querySelector(".ToolBar-positiveUl");
             initPkg_DyVideoDownload_Style();
-            initPkg_DyVideoDownload_Dom(toolBar);
+            initPkg_DyVideoDownload_Dom(toolbar);
             initPkg_DyVideoDownload_Func();
         }
     }, 1000);
@@ -2557,45 +2716,6 @@ function initPkg_DyVideoDownload_Func() {
         } while (pre >= 0);
         let result = ass.generate(list);
         downloadFile(`${videoTitle}.ass`, result);
-    })
-}
-
-function getVideoStreamUrl(vid, sign) {
-    return new Promise(resolve => {
-        fetch("https://v.douyu.com/api/stream/getStreamUrl", {
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            body: `${sign}&vid=${vid}`
-        }).then(result => {
-            return result.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
-    })
-}
-
-function getVideoBarrageByTime(vid, pre = 0) {
-    // pre来自接口返回值data.pre中
-    // 若为-1则不再获取
-    if (pre < 0) {
-        return;
-    }
-    return new Promise(resolve => {
-        fetch(`https://v.douyu.com/wgapi/vod/center/getBarrageListByPage?vid=${vid}&offset=${pre}`, {
-            method: 'GET',
-            mode: 'no-cors',
-            credentials: 'include',
-        }).then(result => {
-            return result.json();
-        }).then(ret => {
-            resolve(ret);
-        }).catch(err => {
-            console.log("请求失败!", err);
-        })
     })
 }
 function initPkg_ExIcon() {
@@ -8345,7 +8465,7 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_Motorcade();
 		initPkg_Sign_Room(isAll);
 		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
-		initPkg_Sign_Ad_Sign();
+		// initPkg_Sign_Ad_Sign(); // 2022年9月1日23:41:59 失效
 		// initPkg_Sign_Aoligei();
 		// initPkg_Sign_Ad_Yuba();
 		// initPkg_Sign_Bycc();
@@ -8358,7 +8478,7 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_1000();
         // initPkg_Sign_Zhuli();
 
-		initPkg_Sign_TV();
+		// initPkg_Sign_TV(); // 2022年9月1日23:41:59 失效
 		initPkg_Sign_Yuba_Like();
         
         // initPkg_Sign_Renlei();
@@ -9130,7 +9250,7 @@ function initPkg_TabSwitch() {
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2022.08.21.01"
+var curVersion = "2022.09.01.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -12025,6 +12145,7 @@ function initRouter_Video() {
         initPkg_VideoTime();
         initPkg_VideoTools_Camera_Video();
         initPkg_DyVideoDownload();
+        initPkg_DyVideoBarrageLine();
     }
 }
 

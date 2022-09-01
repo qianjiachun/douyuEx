@@ -1,21 +1,35 @@
+let dyVideoBarrage_domhook_videoChange = null;
+let dyVideoBarrage_hasRendered = false;
+const dyVideoBarrage_domName = "ex-barrageLine";
 function initPkg_DyVideoBarrageLine() {
     let timer = setInterval(() => {
         let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector(".ProgressBar-Safearea");
         let hashidShadow = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
-        if (progress && hashidShadow) {
+        let hashIdDom = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
+        if (progress && hashidShadow && hashIdDom) {
             clearInterval(timer);
-            let hashid = hashidShadow.querySelector("share-hover").getAttribute("hashid");
-            // let vid = $DATA.ROOM.vid;
-            // if (hashid !== vid) {
-            //     showMessage("视频内容已改变，请刷新网页后重试", "error");
-            //     return;
-            // }
-            renderVideoBarrageLine(hashid);
+            renderVideoBarrageLine();
+            let shareHoverDom = hashIdDom.querySelector("share-hover");
+            dyVideoBarrage_domhook_videoChange = new MutationObserver(function(mutations) {
+                renderVideoBarrageLine();
+            });
+            dyVideoBarrage_domhook_videoChange.observe(shareHoverDom, { attributes: true, childList: true, subtree: false });
         }
     }, 1000);
 }
 
-async function renderVideoBarrageLine(hashid) {
+async function renderVideoBarrageLine() {
+    if (dyVideoBarrage_hasRendered) return;
+    dyVideoBarrage_hasRendered = true;
+    setTimeout(() => {
+        dyVideoBarrage_hasRendered = false;
+    }, 1000);
+    showMessage("弹幕高能进度条加载中，请耐心等待", "info");
+    let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot;
+    let progressBar = progress.querySelector(".ProgressBar");
+    let barrageLineDom = progress.querySelector("#" + dyVideoBarrage_domName);
+    if (barrageLineDom) barrageLineDom.remove();
+    let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
     let xAxisStepNum = 100;
     let progressTimeText = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("#time-label").innerText;
     let arr = progressTimeText.split("/");
@@ -28,10 +42,12 @@ async function renderVideoBarrageLine(hashid) {
     do {
         let data = await getVideoBarrageByTime(hashid, pre);
         pre = data.data.pre;
-        for (let i = 0; i < data.data.list.length; i++) {
-            let item = data.data.list[i];
-            let index = Math.floor(item.tl / msStep);
-            list[index]++;
+        if (data.data.list) {
+            for (let i = 0; i < data.data.list.length; i++) {
+                let item = data.data.list[i];
+                let index = Math.floor(item.tl / msStep);
+                list[index]++;
+            }
         }
     } while (pre >= 0);
 
@@ -54,13 +70,39 @@ async function renderVideoBarrageLine(hashid) {
     for (let i = 0; i < positionArray.length - 1; i++) {
         let current = positionArray[i];
         let next = positionArray[i + 1];
-        console.log([current, next])
-        let smoothArr = smooth([current, next]);
+        let [x1, y1] = current;
+        let [x2, y2] = next;
+
+        let cx1 = x1;
+        let cy1 = (y1 + y2) / 2;
+        let cx2 = x2;
+        let cy2 = (y1 + y2) / 2;
         c += "C ";
-        for (let j = 1; j < smoothArr.length; j++) {
-            c += `${smoothArr[j][0]} ${100 - smoothArr[j][1]} `
-        }
+        c += `${cx1} ${80 - cy1}, ${cx2} ${80 - cy2}, ${x2} ${80 - y2} `;
+        // let smoothArr = smooth([current, next]);
+        // for (let j = 1; j < smoothArr.length; j++) {
+        //     c += `${smoothArr[j][0]} ${100 - smoothArr[j][1]}`;
+        //     if (j === smoothArr.length - 1) {
+        //         c += " ";
+        //     } else {
+        //         c += ", "
+        //     }
+        // }
     }
     c += "L 1000 100 Z";
-    console.log("嘿嘿", d + c);
+    let path = d + c;
+    let html = `
+    <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 1000 100" >
+        <path fill="rgba(255,255,255,0.3)" d="${path}" />
+    </svg>`;
+    if (path.indexOf("NaN") !== -1) {
+        console.log(path)
+        showMessage("弹幕高能进度条加载失败", "error");
+    }
+    let a = document.createElement("div");
+	a.id = dyVideoBarrage_domName;
+    a.style = "position:absolute;width:100%;height:30px;bottom:0px;pointer-events:none;cursor: default;";
+	a.innerHTML = html;
+	
+    progressBar.insertBefore(a, progressBar.childNodes[0]);
 }
