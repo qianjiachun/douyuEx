@@ -47,7 +47,7 @@ function initPkg_Sign_Main(isAll) {
         // initPkg_Sign_Zhuli();
 
 		// initPkg_Sign_TV(); // 2022年9月1日23:41:59 失效
-		initPkg_Sign_Yuba_Like();
+		// initPkg_Sign_Yuba_Like(); // 2022年9月1日23:41:59 失效
         
         // initPkg_Sign_Renlei();
         initPkg_Sign_Act();
