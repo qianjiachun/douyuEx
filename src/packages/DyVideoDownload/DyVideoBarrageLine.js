@@ -1,6 +1,7 @@
 let dyVideoBarrage_domhook_videoChange = null;
 let dyVideoBarrage_hasRendered = false;
 const dyVideoBarrage_domName = "ex-barrageLine";
+const dyVideoBarrage_switchDomName = "ex-barrageLine-switch";
 function initPkg_DyVideoBarrageLine() {
     let timer = setInterval(() => {
         let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector(".ProgressBar-Safearea");
@@ -8,6 +9,7 @@ function initPkg_DyVideoBarrageLine() {
         let hashIdDom = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
         if (progress && hashidShadow && hashIdDom) {
             clearInterval(timer);
+            initPkg_DyVideoBarrageLine_Dom();
             renderVideoBarrageLine();
             let shareHoverDom = hashIdDom.querySelector("share-hover");
             dyVideoBarrage_domhook_videoChange = new MutationObserver(function(mutations) {
@@ -17,6 +19,17 @@ function initPkg_DyVideoBarrageLine() {
         }
     }, 1000);
 }
+
+function initPkg_DyVideoBarrageLine_Dom() {
+    let a = document.createElement("style");
+    a.innerHTML = `.no-hasLR #ex-barrageLine {
+        display: none !important;
+    }`;
+    
+    let b = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot;
+    b.append(a);
+}
+
 
 async function renderVideoBarrageLine() {
     if (dyVideoBarrage_hasRendered) return;
