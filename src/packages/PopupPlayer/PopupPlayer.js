@@ -94,7 +94,7 @@ function createNewVideo(id, rid, platform) {
             break;
         case "Huya":
             let a = String(rid).split("/");
-            createNewVideo_Huya(id, rid, a[a.length - 1]);
+            createNewVideo_Huya(id, a[a.length - 1], a[a.length - 1]);
             break;
         default:
             createNewVideo_Douyu(id, rid);
