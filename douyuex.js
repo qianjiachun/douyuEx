@@ -9063,7 +9063,6 @@ function readPosts() {
       "dy-client": "pc"
 		},
 		onload: function(response) {
-			console.log(response.response)
 		}
 	});
 }
