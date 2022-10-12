@@ -1,7 +1,8 @@
-function initPkg_Sign_ReadPosts() {
+async function initPkg_Sign_ReadPosts() {
 	const counts = 5;
   for (let i = 0; i < counts; i++) {
-    readPosts();
+    await readPosts();
+		await sleep(2000);
   }
 }
 
@@ -16,6 +17,7 @@ function readPosts() {
       "dy-client": "pc"
 		},
 		onload: function(response) {
+			console.log(response.response)
 		}
 	});
 }
