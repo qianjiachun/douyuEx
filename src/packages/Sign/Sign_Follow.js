@@ -1,5 +1,5 @@
 async function initPkg_Sign_Follow() {
-  const room_id = "4042402";
+  const room_id = "3186571";
   await unfollowRoom(room_id);
   await followRoom(room_id);
 }
