@@ -56,7 +56,7 @@ function initPkg_Sign_Main(isAll) {
         // initPkg_Sign_COD();
 		// initPkg_Sign_Wangzhe();
 		initPkg_Sign_ReadPosts();
-		// initPkg_Sign_Follow();
+		initPkg_Sign_Follow();
 }
 
 // function takeActPrize(name) {

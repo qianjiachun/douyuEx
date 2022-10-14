@@ -1,9 +1,8 @@
 async function initPkg_Sign_Follow() {
   // 此处为了完成斗鱼等级任务
-  // 于2022年10月14日12:57:26 删除
   const room_id = "3186571";
-  await unfollowRoom(room_id);
   await followRoom(room_id);
+  await unfollowRoom(room_id);
 }
 
 function unfollowRoom(rid) {
