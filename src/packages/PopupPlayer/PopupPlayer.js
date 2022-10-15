@@ -271,6 +271,7 @@ function setElementFunc_Douyu(id, rid) {
     }
     exVideoClose.onclick = function() {
         originVideo.style.display = "block";
+        videoPlayerArr[id].destroy();
         exVideoPlayer.remove();
         box.remove();
     }
@@ -415,6 +416,7 @@ function setElementFunc_Bilibili(id, rid) {
     }
     exVideoClose.onclick = function() {
         originVideo.style.display = "block";
+        videoPlayerArr[id].destroy();
         exVideoPlayer.remove();
         box.remove();
     }
@@ -522,6 +524,7 @@ function setElementFunc_Huya(id, rid) {
     }
     exVideoClose.onclick = function() {
         originVideo.style.display = "block";
+        videoPlayerArr[id].destroy();
         exVideoPlayer.remove();
         box.remove();
     }
@@ -591,6 +594,7 @@ function setElementFunc_iframe(id) {
     let box = document.getElementById("exVideoDiv" + String(id));
     let exVideoClose = document.getElementById("exVideoClose" + String(id));
     exVideoClose.onclick = function() {
+        videoPlayerArr[id].destroy();
         box.remove();
     }
     box.onclick = function(e) {
