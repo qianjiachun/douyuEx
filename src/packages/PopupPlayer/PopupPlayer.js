@@ -279,7 +279,7 @@ function setElementFunc_Douyu(id, rid) {
     let exVideoCopy = document.getElementById("exVideoCopy" + String(id)) || document.getElementById("exVideoRID" + String(id));
     if (exVideoCopy) {
         exVideoCopy.onclick = function() {
-            getRealLive_Douyu(rid, true, true, exVideoQn.value, (lurl) => {
+            getRealLive_Douyu(rid, !exVideoCopy.innerHTML.includes("斗鱼音频流"), true, exVideoQn.value, (lurl) => {
                 GM_setClipboard(String(lurl).replace("https", "http"));
                 showMessage("复制成功", "success");
             })
@@ -322,7 +322,7 @@ function createNewAudio_Douyu(id, rid) {
             a.id = "exVideoDiv" + String(id);
             a.rid = rid;
             a.className = "exVideoDiv";
-            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制直播流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span></a>";
+            html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='复制直播流地址'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼音频流 - " + rid + "</span></a>";
             html += "<select style='display:none' class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='0'>蓝光</option></select>";
             html += "<select style='display:none' class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路5</option><option value='3'>备用线路6</option></select>";
             html += "<a style='margin-left:5px;display:none' href='" + lurl_host + "' target='_blank'>无视频？</a>";
