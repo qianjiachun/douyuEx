@@ -57,6 +57,7 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_Wangzhe();
 		initPkg_Sign_ReadPosts();
 		initPkg_Sign_Follow();
+		initPkg_Sign_FansTree();
 }
 
 // function takeActPrize(name) {
