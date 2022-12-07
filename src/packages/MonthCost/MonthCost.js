@@ -105,7 +105,7 @@ async function calcMonthCost(type) {
     let ret;
 
     do {
-        ret = await MonthCost_queryData(host + "?" + `firstId=&lastId=${lastId}&propType=0&beginTime=${beginTime}&endTime=${endTime}&type=${type}&pageNum=${currentPage}&pageSize=100`)
+        ret = await MonthCost_queryData(host + "?" + `firstId=&lastId=${lastId}&propType=0&beginTime=${beginTime}&endTime=${endTime}&type=${type}&pageNum=${currentPage}&pageSize=50`)
         if (ret.code == "0") {
             let len = ret.data.details.length;
             if (len == 0) {
