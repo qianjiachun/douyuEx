@@ -58,6 +58,7 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_ReadPosts();
 		initPkg_Sign_Follow();
 		initPkg_Sign_FansTree();
+		initPkg_Sign_SuperFans();
 }
 
 // function takeActPrize(name) {
