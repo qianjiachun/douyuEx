@@ -25,38 +25,60 @@ function initPkg_FansContinue_Func() {
 		if (sendNum == "") {
 			return;
 		}
-		fetch('https://www.douyu.com/member/cp/getFansBadgeList',{
-			method: 'GET',
-			mode: 'no-cors',
-			cache: 'default',
-			credentials: 'include',
-		}).then(res => {
-			return res.text();
-		}).then(async (doc) => {
-			doc = (new DOMParser()).parseFromString(doc, 'text/html');
-			let a = doc.getElementsByClassName("fans-badge-list")[0].lastElementChild;
-			let n = a.children.length;
-			for (let i = 0; i < n; i++) {
-				let rid = a.children[i].getAttribute("data-fans-room"); // 获取房间号
-				await sleep(250).then(() => {
-					sendGift_bag(268, Number(sendNum), rid).then(data => {
-						if (data.msg == "success") {
-							showMessage("【续牌】" + rid + "赠送荧光棒成功", "success");
-							// console.log(rid + "赠送一根荧光棒成功");
-						} else {
-							showMessage("【续牌】" + rid + "赠送失败 " + data.msg, "error");
-							// console.log(rid + "赠送失败");
-							console.log(rid, data);
-						}
-					}).catch(err => {
-						showMessage("【续牌】" + rid + "赠送失败", "error");
-						console.log(rid, err);
-					})
-				});
+		let giftId = 0;
+		getBagGifts(rid, (ret) => {
+			let chunkNum = ret.data.list.length;
+			if (chunkNum > 0) {
+				for (let i = 0; i < chunkNum; i++) {
+					if (ret.data.list[i].id == 268) {
+						giftId = 268;
+						break;
+					}
+					if (ret.data.list[i].id == 2358) {
+						giftId = 2358;
+					}
+				}
+				if (giftId == 0) {
+					showMessage("没有足够的道具", "error");
+					return;
+				};
+				fetch('https://www.douyu.com/member/cp/getFansBadgeList',{
+					method: 'GET',
+					mode: 'no-cors',
+					cache: 'default',
+					credentials: 'include',
+				}).then(res => {
+					return res.text();
+				}).then(async (doc) => {
+					doc = (new DOMParser()).parseFromString(doc, 'text/html');
+					let a = doc.getElementsByClassName("fans-badge-list")[0].lastElementChild;
+					let n = a.children.length;
+					for (let i = 0; i < n; i++) {
+						let rid = a.children[i].getAttribute("data-fans-room"); // 获取房间号
+						await sleep(250).then(() => {
+							sendGift_bag(giftId, Number(sendNum), rid).then(data => {
+								if (data.msg == "success") {
+									showMessage("【续牌】" + rid + "赠送荧光棒成功", "success");
+									// console.log(rid + "赠送一根荧光棒成功");
+								} else {
+									showMessage("【续牌】" + rid + "赠送失败 " + data.msg, "error");
+									// console.log(rid + "赠送失败");
+									console.log(rid, data);
+								}
+							}).catch(err => {
+								showMessage("【续牌】" + rid + "赠送失败", "error");
+								console.log(rid, err);
+							})
+						});
+					}
+				}).catch(err => {
+					console.log("请求失败!", err);
+				})
+			} else {
+				showMessage("背包礼物为空", "error");
 			}
-		}).catch(err => {
-			console.log("请求失败!", err);
-		})
+		});
+		
 	});
 }
 
