@@ -9,6 +9,7 @@ let real_info = {
 	money_bag: 0,
 	money_total: 0,
 }
+let hasAvatarBottom = false;
 
 function initPkg_RealAudience() {
 	initPkg_RealAudience_StyleHook();
@@ -123,7 +124,7 @@ function setAvatarVideo() {
 	setAvatarVideo_Dom();
 	setAvatarVideo_Func(videoUrl, videoReplayUrl);
 	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "none";
-	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.height = "44px";
+	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.height = hasAvatarBottom ? "44px" : "22px";
 
 	document.getElementsByClassName("Title-anchorPicBack")[0].addEventListener("mouseenter", () => {
 		document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "block";
@@ -135,22 +136,16 @@ function setAvatarVideo() {
 
 function setAvatarVideo_Dom() {
 	let a = document.createElement("div");
-	a.id = "Ex_VideoReview";
-	a.className = "Title-anchorPic-bottomItem";
-	a.innerHTML = "<span>回看</span>";
+	hasAvatarBottom = !!document.getElementsByClassName("Title-anchorPic-bottom")[0];
 
-	let a1 = document.createElement("i");
-	a1.style = "top: 28px";
-
-	let a2 = document.createElement("div");
-	a2.id = "Ex_VideoSubmit";
-	a2.className = "Title-anchorPic-bottomItem";
-	a2.innerHTML = "<span>投稿</span>";
-
-	let b = document.getElementsByClassName("Title-anchorPic-bottom")[0];
-	b.insertBefore(a, b.childNodes[0]);
-	b.insertBefore(a1, b.childNodes[0]);
-	b.insertBefore(a2, b.childNodes[0]);
+	a.className = hasAvatarBottom ? "" : "Title-anchorPic-bottom";
+	a.innerHTML = `
+	<div id="Ex_VideoReview" class="Title-anchorPic-bottomItem"><span>回看</span></div>
+	<i style="top: 28px"></i>
+	<div id="Ex_VideoSubmit" class="Title-anchorPic-bottomItem"><span>投稿</span></div>
+	`
+	let b = document.getElementsByClassName("Title-anchorPic-bottom")[0] || document.getElementsByClassName("Title-anchorPicBack")[0];
+	b.append(a);
 }
 
 function setAvatarVideo_Func(videoUrl, videoReplayUrl) {
