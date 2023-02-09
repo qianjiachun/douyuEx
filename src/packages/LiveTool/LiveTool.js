@@ -60,6 +60,7 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_Vote_Handle(ret); // 投票
 		initPkg_LiveTool_BarrageSpeed_Handle(ret); // 弹幕时速
 		initPkg_LiveTool_RankList_Handle(ret); // 排行榜
+        initPkg_LiveTool_AiReport_handle(ret); // AI闲聊
     });
 }
 
