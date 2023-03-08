@@ -9,7 +9,6 @@
 }
 
 .bag-button {
-    position: relative;
     color: rgb(255, 255, 255);
     text-align: center;
     height: 15px;
@@ -19,6 +18,5 @@
     background: rgb(70, 171, 255);
     border-radius: 9px;
     padding: 0px 10px;
-    float: right;
     right: 20px;
 }

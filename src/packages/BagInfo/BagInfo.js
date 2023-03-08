@@ -33,14 +33,9 @@ function initPkg_BagInfo_Func() {
                             expiryDiv.innerHTML = expiry - 1;
                             chunk.insertBefore(expiryDiv, chunk.childNodes[0]);
                         }
-                        document.getElementsByClassName("Backpack-space")[0].innerText = "总价值：" + String(Number(totalPrice / 100).toFixed(2)) + " 总亲密度：" + String(totalIntimate);
+                        let html = document.getElementsByClassName("BackpackHeader-extInfo")[0].innerHTML;
+                        document.getElementsByClassName("BackpackHeader-extInfo")[0].innerHTML = `<span style="float: left">` + "总价值：" + String(Number(totalPrice / 100).toFixed(2)) + " 总亲密度：" + String(totalIntimate) + `<span class="bag-button" id="Backpack__clearbag">清空背包</span></span>` + html;
                         
-                        let a = document.getElementsByClassName("Backpack-title")[0];
-                        let b = document.createElement("div");
-                        b.className = "bag-button";
-                        b.id = "Backpack__clearbag";
-                        b.innerText = "清空背包";
-                        a.appendChild(b);
                         document.getElementById("Backpack__clearbag").addEventListener("click", () => {
                             if (confirm("确认清空？") != true) {
                                 return;
