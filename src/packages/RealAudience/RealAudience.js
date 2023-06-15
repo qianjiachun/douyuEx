@@ -28,7 +28,7 @@ function initPkg_RealAudience() {
 		real_info.isShow = retData.data.show_status;
 		setRealViewer();
 		setInterval(setRealViewer, 150000);
-		setInterval(switchRealAndTodayWatch, 30000);
+		setInterval(switchRealAndTodayWatch, 10000);
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
@@ -102,10 +102,11 @@ async function setRealViewer() {
 	document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
 	
 	document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
-	document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000")))) + "\n已观看:" + formatSeconds(todayWatchData.data.todayWatch);;
+	document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000")))) + "\n已观看:" + formatSeconds(todayWatchData.data.todayWatch);
 	
 	if (todayWatchData.error == 0) {
 		document.getElementById("real-audience__watchtime").innerText = "已观看:" + formatSeconds(todayWatchData.data.todayWatch);
+		document.getElementById("real-audience__watchtime").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000")))) + "\n已观看:" + formatSeconds(todayWatchData.data.todayWatch);
 	}
 }
 
