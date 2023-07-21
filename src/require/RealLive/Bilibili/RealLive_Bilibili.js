@@ -22,7 +22,7 @@ function getRealLive_Bilibili(room_id, qn, cdn, reallive_callback) {
             qn_data = "400";
             break;
         case "5":
-            qn_data = "10000";
+            qn_data = "20000";
             break;
         default:
             qn_data = "80";
@@ -42,6 +42,10 @@ function getRealLive_Bilibili(room_id, qn, cdn, reallive_callback) {
                     let base_url = item.format[0].codec[0].base_url;
                     rurl = `${url_info.host}${base_url}${url_info.extra}`;
                 }
+            }
+            let streamList = ret.data?.durl;
+            if (streamList) {
+                rurl = streamList.length > 0 ? streamList[0].url : "";
             }
             reallive_callback(rurl);
         }

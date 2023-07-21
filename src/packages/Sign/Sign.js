@@ -30,7 +30,7 @@ function initPkg_Sign_Main(isAll) {
 		// 入口即为调用
 		initPkg_Sign_Yuba(); // 鱼吧签到
 		initPkg_Sign_Client();
-		initPkg_Sign_Motorcade();
+		// initPkg_Sign_Motorcade();
 		initPkg_Sign_Room(isAll);
 		// initPkg_Sign_Ad_666(); // 此处移动到鱼塘鱼丸领取中去以免观看冲突
 		// initPkg_Sign_Ad_Sign(); // 2022年9月1日23:41:59 失效
