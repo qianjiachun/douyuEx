@@ -43,7 +43,7 @@ function getRealLive_Bilibili(room_id, qn, cdn, reallive_callback) {
                     rurl = `${url_info.host}${base_url}${url_info.extra}`;
                 }
             }
-            let streamList = ret.data?.durl;
+            let streamList = ret.data.durl;
             if (streamList) {
                 rurl = streamList.length > 0 ? streamList[0].url : "";
             }
