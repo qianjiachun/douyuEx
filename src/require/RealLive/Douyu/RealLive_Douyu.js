@@ -17,7 +17,8 @@ function getRealLive_Douyu(room_id, is_video, is_https, qn, reallive_callback) {
             let ub9_ex = String(a[0]).replace("ub98484234", "ub98484234_ex");
             eval1(ub9_ex, "exScript1");
             let tt0 = Math.round(new Date().getTime()/1000).toString();
-            RealLive_get_sign_url(room_id, tt0, is_https, qn, reallive_callback, is_video);
+            // RealLive_get_sign_url(room_id, tt0, is_https, qn, reallive_callback, is_video);
+            RealLive_get_sign_url(room_id, tt0, true, qn, reallive_callback, is_video);
         }
 	});
 }
