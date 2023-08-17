@@ -8,19 +8,35 @@ function getRealLive_Douyu(room_id, is_video, is_https, qn, reallive_callback) {
     // 第三个参数传入bool,表示是否返回https地址。注意https地址只能使用一次，使用过以后需要再次获取；http地址无限制
     // 第四个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:0) 填写1015则返回默认清晰度
     // 第五个参数传入回调函数，最好是箭头函数，用于处理返回的地址，例: (url) => {console.log(url)}
-    GM_xmlhttpRequest({
-		method: "GET",
-		url: 'https://m.douyu.com/' + room_id,
-		responseType: "text",
-		onload: function(response) {
-            let a = response.response.match(/(function ub9.*)[\s\S](var.*)/i);
-            let ub9_ex = String(a[0]).replace("ub98484234", "ub98484234_ex");
-            eval1(ub9_ex, "exScript1");
-            let tt0 = Math.round(new Date().getTime()/1000).toString();
-            // RealLive_get_sign_url(room_id, tt0, is_https, qn, reallive_callback, is_video);
-            RealLive_get_sign_url(room_id, tt0, true, qn, reallive_callback, is_video);
-        }
-	});
+    let tt0 = Math.round(new Date().getTime()/1000).toString();
+    if (is_video) {
+        // 由于pc获取的流没办法通过在后缀增加&only-audio=1来实现音频流，所以分开来实现
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: 'https://www.douyu.com/' + room_id,
+            responseType: "text",
+            onload: function(response) {
+                let a = response.response.match(/(vdwdae325w_64we[\s\S]*?function ub98484234[\s\S]*?)function/i);
+                let ub9_ex = String(a[1]).replace("ub98484234", "ub98484234_ex_pc");
+                eval1(ub9_ex, "exScript2");
+                // RealLive_get_sign_url(room_id, tt0, is_https, qn, reallive_callback, is_video);
+                RealLive_get_sign_url_pc(room_id, tt0, true, qn, reallive_callback, is_video);
+            }
+        });
+    } else {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: 'https://m.douyu.com/' + room_id,
+            responseType: "text",
+            onload: function(response) {
+                let a = response.response.match(/(function ub9.*)[\s\S](var.*)/i);
+                let ub9_ex = String(a[0]).replace("ub98484234", "ub98484234_ex");
+                eval1(ub9_ex, "exScript1");
+                // RealLive_get_sign_url(room_id, tt0, is_https, qn, reallive_callback, is_video);
+                RealLive_get_sign_url(room_id, tt0, true, qn, reallive_callback, is_video);
+            }
+        });
+    }
 }
 
 function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video) {
@@ -98,6 +114,31 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
         }
     });
 }
+
+function RealLive_get_sign_url_pc(r, tt, is_https, qn, reallive_callback) {
+    let param1 = ub98484234_ex_pc(r, getDyDid(), tt);
+    let postData;
+    postData = param1 + "&ver=219032101&cdn=tct-h5&rid=" + r + "&rate=" + qn;
+    document.getElementById("exScript2").remove();
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: "https://www.douyu.com/lapi/live/getH5Play/" + r,
+        data: postData,
+        responseType: "json",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        onload: function(response) {
+            let ret = response.response;
+            let realLive = "";
+            if (ret.error === 0) {
+                realLive = `${ret.data.rtmp_url}/${ret.data.rtmp_live}`
+            }
+            reallive_callback(realLive);
+        }
+    });
+}
+
 
 
 function eval1(str, iid) {
