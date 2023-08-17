@@ -118,7 +118,11 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
 function RealLive_get_sign_url_pc(r, tt, is_https, qn, reallive_callback) {
     let param1 = ub98484234_ex_pc(r, getDyDid(), tt);
     let postData;
-    postData = param1 + "&ver=219032101&cdn=tct-h5&rid=" + r + "&rate=" + qn;
+    if (qn == "1015") {
+        postData = param1 + "&ver=219032101&cdn=tct-h5&rid=" + r + "&rate=0";
+    } else {
+        postData = param1 + "&ver=219032101&cdn=tct-h5&rid=" + r + "&rate=" + qn;
+    }
     document.getElementById("exScript2").remove();
     GM_xmlhttpRequest({
         method: "POST",
@@ -130,6 +134,7 @@ function RealLive_get_sign_url_pc(r, tt, is_https, qn, reallive_callback) {
         },
         onload: function(response) {
             let ret = response.response;
+            console.log(ret);
             let realLive = "";
             if (ret.error === 0) {
                 realLive = `${ret.data.rtmp_url}/${ret.data.rtmp_live}`
