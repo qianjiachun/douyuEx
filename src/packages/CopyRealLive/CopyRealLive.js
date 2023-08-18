@@ -17,32 +17,46 @@ function CopyRealLive_insertIcon() {
     }
 }
 
+function CopyRealLive_getQn(qnName) {
+    if (String(qnName).includes("蓝光8M")) return 8;
+    if (String(qnName).includes("蓝光4M")) return 4;
+    if (String(qnName).includes("超清")) return 3;
+    if (String(qnName).includes("高清")) return 2;
+    return 0;
+}
+
 function initPkg_CopyRealLive_Func() {
+
 	document.getElementById("copy-real-live").addEventListener("click", function() {
-        getRealLive_Douyu(rid, true, false, "1015", (lurl) => {
-            if (lurl == "None") {
-                showMessage("房间未开播或其他错误", "error");
-            } else {
-                let str = String(lurl);
-                // GM_setClipboard(String(lurl).replace("https", "http"));
-                GM_setClipboard(str);
-                showMessage("复制成功", "success");
+        document.querySelectorAll(".tipItem-898596 > ul > li").forEach(item => {
+            if (item.className.includes("selected")) {
+                getRealLive_Douyu(rid, true, false, CopyRealLive_getQn(item.innerText), (lurl) => {
+                    if (lurl == "None") {
+                        showMessage("房间未开播或其他错误", "error");
+                    } else {
+                        let str = String(lurl);
+                        // GM_setClipboard(String(lurl).replace("https", "http"));
+                        GM_setClipboard(str);
+                        showMessage("复制成功", "success");
+                    }
+                })
             }
-            
         })
     });
     document.getElementsByClassName("Title-header")[0].addEventListener("click", function() {
-        getRealLive_Douyu(rid, true, false, "1015", (lurl) => {
-            if (lurl == "None") {
-                showMessage("房间未开播或其他错误", "error");
-            } else {
-                // // GM_setClipboard(String(lurl).replace("https", "http"));
-                // GM_setClipboard(String(lurl));
-                let str = String(lurl);
-                GM_setClipboard(str);
-                showMessage("复制成功", "success");
+        document.querySelectorAll(".tipItem-898596 > ul > li").forEach(item => {
+            if (item.className.includes("selected")) {
+                getRealLive_Douyu(rid, true, false, CopyRealLive_getQn(item.innerText), (lurl) => {
+                    if (lurl == "None") {
+                        showMessage("房间未开播或其他错误", "error");
+                    } else {
+                        let str = String(lurl);
+                        // GM_setClipboard(String(lurl).replace("https", "http"));
+                        GM_setClipboard(str);
+                        showMessage("复制成功", "success");
+                    }
+                })
             }
-            
         })
     });
 
