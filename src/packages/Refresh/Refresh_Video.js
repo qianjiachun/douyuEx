@@ -34,7 +34,7 @@ function Refresh_Video_insertIcon() {
 
 function initPkg_Refresh_Video_Func() {
 	document.getElementById("refresh-video").addEventListener("click", (e) => {
-        let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
+        let dom_toolbar = document.getElementsByClassName("PlayerToolbar")[0];
         let dom_video = document.getElementsByClassName("layout-Player-video")[0];
         let dom_refresh = document.getElementById("refresh-video");
         let dom_refresh2 = document.getElementById("refresh-video2");
@@ -54,7 +54,7 @@ function initPkg_Refresh_Video_Func() {
         saveData_Refresh();
     });
     document.getElementById("refresh-video2").addEventListener("click", () => {
-        let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
+        let dom_toolbar = document.getElementsByClassName("PlayerToolbar")[0];
         let dom_video = document.getElementsByClassName("layout-Player-video")[0];
         let dom_refresh = document.getElementById("refresh-video");
         let dom_refresh2 = document.getElementById("refresh-video2");
@@ -76,7 +76,7 @@ function initPkg_Refresh_Video_Func() {
 }
 
 function refresh_Video_getStatus() {
-    let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
+    let dom_toolbar = document.getElementsByClassName("PlayerToolbar")[0];
     if (dom_toolbar.style.visibility == "hidden") {
         return true;
     } else {
@@ -92,7 +92,7 @@ function initPkg_Refresh_Video_Set() {
             retJson.video = {status: false};
         }
         if (retJson.video.status == true) {
-            let dom_toolbar = document.getElementsByClassName("PlayerToolbar-Content")[0];
+            let dom_toolbar = document.getElementsByClassName("PlayerToolbar")[0];
             let dom_video = document.getElementsByClassName("layout-Player-video")[0];
             let dom_refresh2 = document.getElementById("refresh-video2");
             let dom_refresh = document.getElementById("refresh-video");
