@@ -1,4 +1,5 @@
-function initPkg_LiveTool() {
+async function initPkg_LiveTool() {
+		myName = await getUserName();
     initPkg_LiveTool_Dom();
     initPkg_LiveTool_Module();
     initPkg_LiveTool_Func();
@@ -20,6 +21,7 @@ function initPkg_LiveTool_Module() {
 	initPkg_LiveTool_Treasure();
 	initPkg_LiveTool_BarrageSpeed();
 	initPkg_LiveTool_RankList();
+	initPkg_LiveTool_BarrageSendCheck();
 
 	// initPkg_LiveTool_Bojiang_Handle();
 }
@@ -60,6 +62,7 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_Vote_Handle(ret); // 投票
 		initPkg_LiveTool_BarrageSpeed_Handle(ret); // 弹幕时速
 		initPkg_LiveTool_RankList_Handle(ret); // 排行榜
+		initPkg_LiveTool_BarrageSendCheck_Handle(ret); // 检查弹幕是否发送成功
     });
 }
 

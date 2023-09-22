@@ -9,6 +9,7 @@ url = null;
 urlLen = null;
 ridPos = null;
 var my_uid = getCookieValue("acf_uid"); // 自己的uid
+var myName = "";
 var dyToken = getToken();
 
 function showExPanel() {
