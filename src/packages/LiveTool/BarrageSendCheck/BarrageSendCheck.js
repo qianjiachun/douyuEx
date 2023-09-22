@@ -1,6 +1,7 @@
 let myLastBarrage = ""; // 浏览器弹幕框中的最后一条自己的弹幕内容
 let barrageSendCheckTimer = 0;
-function initPkg_LiveTool_BarrageSendCheck() {
+async function initPkg_LiveTool_BarrageSendCheck() {
+  myName = await getUserName();
   let a = new DomHook("#js-barrage-list", false, (m) => {
       if (m.length <= 0) return;
       if (m[0].addedNodes.length <= 0) return;

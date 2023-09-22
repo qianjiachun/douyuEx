@@ -1,5 +1,4 @@
-async function initPkg_LiveTool() {
-		myName = await getUserName();
+function initPkg_LiveTool() {
     initPkg_LiveTool_Dom();
     initPkg_LiveTool_Module();
     initPkg_LiveTool_Func();
