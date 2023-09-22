@@ -11,7 +11,7 @@ async function initPkg_LiveTool_BarrageSendCheck() {
       let localLastBarrage = dom.getElementsByClassName("Barrage-content")[0].innerText.trim();
       clearTimeout(barrageSendCheckTimer);
       barrageSendCheckTimer = setTimeout(() => {
-        if (!myLastBarrage.includes(localLastBarrage)) {
+        if (!myLastBarrage.replace(/\s+/g, ' ').includes(localLastBarrage.replace(/\s+/g, ' '))) {
           dom.style.display = "none";
           showMessage(`弹幕【${localLastBarrage}】发送失败`, "error");
         };
