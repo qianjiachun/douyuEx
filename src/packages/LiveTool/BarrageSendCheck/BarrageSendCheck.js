@@ -12,10 +12,12 @@ async function initPkg_LiveTool_BarrageSendCheck() {
       clearTimeout(barrageSendCheckTimer);
       barrageSendCheckTimer = setTimeout(() => {
         if (!myLastBarrage.replace(/\s+/g, ' ').includes(localLastBarrage.replace(/\s+/g, ' '))) {
-          dom.style.display = "none";
-          showMessage(`弹幕【${localLastBarrage}】发送失败`, "error");
+          if (myLastBarrage !== "") {
+            dom.style.display = "none";
+            showMessage(`弹幕【${localLastBarrage}】发送失败`, "error");
+          }
         };
-      }, 250);
+      }, 300);
   })
 }
 
