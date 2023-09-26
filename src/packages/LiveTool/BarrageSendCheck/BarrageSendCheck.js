@@ -11,12 +11,14 @@ async function initPkg_LiveTool_BarrageSendCheck() {
       let localLastBarrage = dom.getElementsByClassName("Barrage-content")[0].innerText.trim();
       clearTimeout(barrageSendCheckTimer);
       barrageSendCheckTimer = setTimeout(() => {
-        if (!myLastBarrage.replace(/\s+/g, ' ').includes(localLastBarrage.replace(/\s+/g, ' '))) {
-          if (myLastBarrage !== "") {
+        if (myLastBarrage !== "" && localLastBarrage !== "") {
+          let data = stt_deserialize(myLastBarrage);
+          if (!data.txt) return;
+          if (data.txt.replace(/\s+/g, ' ') !== localLastBarrage.replace(/\s+/g, ' ')) {
             dom.style.display = "none";
             showMessage(`弹幕【${localLastBarrage}】发送失败`, "error");
           }
-        };
+        }
       }, 300);
   })
 }
