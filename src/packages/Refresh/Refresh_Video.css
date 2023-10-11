@@ -36,3 +36,7 @@
 #refresh-barrage__svg {
     vertical-align: middle;
 }
+
+.top-0-important {
+    top: 0 !important;
+}

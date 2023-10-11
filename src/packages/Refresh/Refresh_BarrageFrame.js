@@ -21,11 +21,13 @@ function initPkg_Refresh_BarrageFrame_Func() {
         let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
         let dom_barrage = document.getElementById("js-player-barrage");
         let dom_activity = document.getElementById("js-room-activity");
+        let dom_topBarrage = document.getElementsByClassName("Barrage")[0];
         if (dom_rank.style.display == "none") {
             // 被拉高
             dom_rank.style.display = "block";
             dom_barrage.style = "";
             dom_activity.style.display = "block";
+            dom_topBarrage.className = "Barrage";
             document.getElementById("refresh-barrage-frame__text").innerText = "拉高";
 
         } else {
@@ -34,6 +36,7 @@ function initPkg_Refresh_BarrageFrame_Func() {
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
             dom_barrage.style = "top:" + topHeight + "px";
+            dom_topBarrage.className = "Barrage top-0-important";
             document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
         saveData_Refresh();
