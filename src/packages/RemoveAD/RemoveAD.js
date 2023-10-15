@@ -49,6 +49,10 @@ function removeAD() {
     .mask1-63237a,.mask2-a8df6e,.panel1-1484c9,.panel2-5ece0e{
         display: none!important;
     }
+    /*左侧悬浮二维码广告*/
+    .IconCardAdCard{
+        display: none!important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
