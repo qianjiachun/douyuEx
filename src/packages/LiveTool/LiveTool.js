@@ -62,7 +62,9 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_BarrageSpeed_Handle(ret); // 弹幕时速
 		initPkg_LiveTool_RankList_Handle(ret); // 排行榜
 		initPkg_LiveTool_BarrageSendCheck_Handle(ret); // 检查弹幕是否发送成功
-    });
+    }, () => {
+			initPkg_LiveTool_HandleFunc();
+		});
 }
 
 function getType(str) {

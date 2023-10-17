@@ -7,7 +7,7 @@ class Ex_WebSocket_UnLogin {
     // 连接：let a = new Ex_WebSocket_UnLogin("房间号", 消息回调函数);
     // 关闭连接: a.WebSocket_Close(); a = null; 记得null掉变量再重新连接
     // 消息回调函数建议用箭头函数，示例：(msg) => {// TODO}
-    constructor(rid, callback) {
+    constructor(rid, callback, closeHandler) {
         if ("WebSocket" in window) {
             this.timer = 0;
             this.roomid = rid;
@@ -35,8 +35,8 @@ class Ex_WebSocket_UnLogin {
                 reader.readAsText(e.data);
             };
             this.ws.onclose = () => { 
-                showMessage("服务器连接丢失，请尝试刷新页面", "error");
-                console.log("服务器连接丢失");
+                showMessage("弹幕服务器连接丢失，正在重连", "warning");
+                closeHandler && closeHandler();
             };
         }
     }
