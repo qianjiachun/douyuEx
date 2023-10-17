@@ -15,8 +15,19 @@ async function initPkg_LiveTool_BarrageSendCheck() {
           let data = stt_deserialize(myLastBarrage);
           if (!data.txt) return;
           if (data.txt.replace(/\s+/g, ' ') !== localLastBarrage.replace(/\s+/g, ' ')) {
-            dom.style.display = "none";
-            showMessage(`弹幕【${localLastBarrage}】发送失败`, "error");
+            let contentDom = dom.getElementsByClassName("Barrage-content")[0];
+            contentDom.style.textDecoration = "line-through gray 1px";
+            // 创建一个新的 DOM 元素
+            let span = document.createElement("span");
+            span.textContent = "(发送失败)";
+            span.style.marginLeft = "4px";
+            span.style.color = "gray";
+            span.style.fontSize = "9px";
+            span.style.cursor = "point";
+            span.title = "该条弹幕发送失败，不会被其他人看到（可能会误判）";
+            if (contentDom && contentDom.parentNode) {
+              contentDom.parentNode.insertBefore(span, contentDom.nextSibling);
+            }
           }
         }
       }, 300);
