@@ -13,6 +13,7 @@ function initPkg_ExpandTool_Module() {
 	initPkg_ExpandTool_ClearBag();
     initPkg_ExpandTool_SendGift();
     // initPkg_ExpandTool_BarrageSize();
+	initPkg_ExpandTool_TabSwitch();
 	initPkg_ExpandTool_P2P();
 }
 

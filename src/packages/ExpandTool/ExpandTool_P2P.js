@@ -5,7 +5,7 @@ function initPkg_ExpandTool_P2P() {
 }
 
 function ExpandTool_P2P_insertDom() {
-    let a = document.createElement("div");
+    let a = document.createElement("span");
     // a.className = "extool__bsize";
     a.innerHTML = '<label title="阻止p2p在后台占用网速，开启后直播画面会在刚进入页面时卡一下"><input style="margin-top:5px;" id="extool__p2p" type="checkbox">阻止p2p上传</label>';
     
