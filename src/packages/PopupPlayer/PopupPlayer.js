@@ -28,7 +28,7 @@ function PopupPlayer_insertPrompt() {
     html += '<div class="postbird-box-dialog">';
     html += '<div style="min-height:170px" class="postbird-box-content">';
     html += '<div class="postbird-box-header">';
-    html += '<span class="postbird-box-title"><span>请输入直播间地址：</span></span>';
+    html += '<span class="postbird-box-title"><span>请输入直播间地址：</span><a style="float:right;color:royalblue;" href="http://live.douyuex.com/" target="_blank">DouyuEx联播</a></span>';
     html += '</div>'; // header
     html += '<div class="postbird-box-text">';
     html += '<input id="popup-player__url" value="https://www.douyu.com/5189167" style="height:30px;box-sizing:border-box" type="text" class="postbird-prompt-input" autofocus="true">';

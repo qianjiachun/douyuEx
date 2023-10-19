@@ -51,3 +51,7 @@
 #popup-player__prompt {
     display: none;
 }
+
+.postbird-box-header {
+    width: auto !important;
+}
