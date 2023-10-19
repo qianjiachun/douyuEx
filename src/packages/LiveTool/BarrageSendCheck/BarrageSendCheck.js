@@ -19,7 +19,7 @@ async function initPkg_LiveTool_BarrageSendCheck() {
             contentDom.style.textDecoration = "line-through gray 1px";
             // 创建一个新的 DOM 元素
             let span = document.createElement("span");
-            span.textContent = "(发送失败)";
+            span.textContent = "(可能发送失败)";
             span.style.marginLeft = "4px";
             span.style.color = "gray";
             span.style.fontSize = "9px";
