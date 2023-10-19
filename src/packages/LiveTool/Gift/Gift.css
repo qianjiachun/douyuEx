@@ -6,6 +6,7 @@
 #gift__title {
     cursor: pointer;
     user-select: none;
+    color: royalblue;
 }
 #gift__select {
     width: 113px;

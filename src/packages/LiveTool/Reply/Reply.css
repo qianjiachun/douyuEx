@@ -6,6 +6,7 @@
 #reply__title {
     cursor: pointer;
     user-select: none;
+    color: royalblue;
 }
 #reply__select {
     /* width: 190px; */

@@ -1,5 +1,5 @@
 let isEnterOn = false;
-let enterWordList = {};
+let enterWordList = [];
 function initPkg_LiveTool_Enter() {
     LiveTool_Enter_insertDom();
     LiveTool_Enter_insertFunc();
@@ -120,32 +120,38 @@ function LiveTool_Enter_insertFunc() {
         let word = document.getElementById("enter__word").value;
         let level = document.getElementById("enter__level").value;
 
-        if (word == "") {
+        if (word == "") return;
+        if (level == "") return;
+
+        let isExist = false;
+
+        for (const item of enterWordList) {
+            if (Number(level) === Number(item.level)) {
+                isExist = true;
+                break;
+            }
+        }
+        if (isExist) {
+            showMessage("【进场欢迎】等级已存在", "error");
             return;
         }
-        if (level == "") {
-            return;
-        }
-        // 构造json并添加json
-        enterWordList[word] = {
-            enter: Number(level),
-        }
-
-        // 添加到select中去
-        select_wordList.options.add(new Option(word, ""));
-
+        
+        enterWordList.push({
+            level,
+            word
+        });
+        
+        enterWordList.sort((a, b) => b.level - a.level);
+        refreshEnterSelectOptions();
         saveData_Enter();
     });
 
     document.getElementById("enter__del").addEventListener("click", () => {
         let select_wordList = document.getElementById("enter__select");
         let word = select_wordList.options[select_wordList.selectedIndex].text;
-
-        // 删除json内的对象
-        delete enterWordList[word];
-
-        // 删除select里的option
-        select_wordList.options.remove(select_wordList.selectedIndex);
+        enterWordList.splice(select_wordList.selectedIndex, 1);
+        enterWordList.sort((a, b) => b.level - a.level);
+        refreshEnterSelectOptions();
         saveData_Enter();
     });
 
@@ -180,6 +186,14 @@ function saveData_isEnter() {
 	localStorage.setItem("ExSave_isEnter", JSON.stringify(data)); // 存储弹幕列表
 }
 
+function refreshEnterSelectOptions() {
+    let select_wordList = document.getElementById("enter__select");
+    select_wordList.options.length = 0;
+    for (const item of enterWordList) {
+        select_wordList.options.add(new Option(`【${item.level}级】${item.word}`, ""));
+    }
+}
+
 function initPkg_Enter_Set() {
 	// 设置初始化
     let ret = localStorage.getItem("ExSave_Enter");
@@ -189,28 +203,28 @@ function initPkg_Enter_Set() {
 	let select_wordList = document.getElementById("enter__select");
 	if (ret != null) {
         let retJson = JSON.parse(ret);
-        enterWordList = retJson;
-		for (let key in retJson) {
-            if (retJson.hasOwnProperty(key)) {
-                select_wordList.options.add(new Option(key, ""));
-            }
+        if (!Array.isArray(retJson)) {
+            retJson = [];
+            saveData_Enter();
         }
+        enterWordList = retJson;
+		refreshEnterSelectOptions();
     }
     
-    ret = localStorage.getItem("ExSave_LastEnterWord");
-    if (ret != null) {
-        let i = 0;
-        for (const key in enterWordList) {
-            if (key == ret) {
-                select_wordList.selectedIndex = i;
-                let level = enterWordList[ret].enter;
-                document.getElementById("enter__word").value = ret;
-                document.getElementById("enter__level").value = level;
-                break;
-            }
-            i++;
-        }
-    } 
+    // ret = localStorage.getItem("ExSave_LastEnterWord");
+    // if (ret != null) {
+    //     let i = 0;
+    //     for (const key in enterWordList) {
+    //         if (key == ret) {
+    //             select_wordList.selectedIndex = i;
+    //             let level = enterWordList[ret].enter;
+    //             document.getElementById("enter__word").value = ret;
+    //             document.getElementById("enter__level").value = level;
+    //             break;
+    //         }
+    //         i++;
+    //     }
+    // } 
 
     ret = localStorage.getItem("ExSave_isEnter");
 	
@@ -243,14 +257,13 @@ function initPkg_LiveTool_Enter_Handle(text) {
         }
         let nn = getStrMiddle(text, "nn@=", "/");
         let level = getStrMiddle(text, "level@=", "/");
-        let select_wordList = document.getElementById("enter__select");
-        let reply = select_wordList.options[select_wordList.selectedIndex].text;
-        let levelLimit = enterWordList[reply].enter;
-        if (Number(level) < Number(levelLimit)) {
-            return;
+        for (const item of enterWordList) {
+            if (Number(level) >= Number(item.level)) {
+                reply = String(item.word).replace(/<id>/g, nn);
+                sendBarrage(reply);
+                break;
+            }
         }
-        reply = String(reply).replace(/<id>/g, nn);
-        sendBarrage(reply);
     }
 }
 

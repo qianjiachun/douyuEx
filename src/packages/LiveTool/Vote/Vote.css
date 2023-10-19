@@ -6,6 +6,7 @@
 #vote__title {
     cursor: pointer;
     user-select: none;
+    color: royalblue;
 }
 #vote__select {
     width: 100px;

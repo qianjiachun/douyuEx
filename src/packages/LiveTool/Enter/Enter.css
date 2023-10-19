@@ -6,6 +6,7 @@
 #enter__title {
     cursor: pointer;
     user-select: none;
+    color: royalblue;
 }
 #enter__select {
     width: 190px;

@@ -6,6 +6,7 @@
 #mute__title {
     cursor: pointer;
     user-select: none;
+    color: royalblue;
 }
 #mute__idlist {
     cursor: pointer;
