@@ -4802,6 +4802,7 @@ function initPkg_LiveTool_HandleFunc() {
     // 开启ws，并且设置处理函数的入口
     // 是否生效由每个处理函数决定，可以设置一个变量保存开启状态，判断是否要执行
     let ws = new Ex_WebSocket_UnLogin(rid, (ret) => {
+			console.log(ret)
         initPkg_LiveTool_LiveNotice_Handle(ret); // 开播提醒
 		initPkg_LiveTool_Mute_Handle(ret); // 关键词禁言
 		initPkg_LiveTool_Reply_Handle(ret); // 关键词回复
@@ -4813,9 +4814,7 @@ function initPkg_LiveTool_HandleFunc() {
 		initPkg_LiveTool_BarrageSpeed_Handle(ret); // 弹幕时速
 		initPkg_LiveTool_RankList_Handle(ret); // 排行榜
 		initPkg_LiveTool_BarrageSendCheck_Handle(ret); // 检查弹幕是否发送成功
-    }, () => {
-			initPkg_LiveTool_HandleFunc();
-		});
+    });
 }
 
 function getType(str) {
@@ -12334,48 +12333,63 @@ function hex(e) {
     By: 小淳
 */
 class Ex_WebSocket_UnLogin {
-    // 调用方法：
-    // 连接：let a = new Ex_WebSocket_UnLogin("房间号", 消息回调函数);
-    // 关闭连接: a.WebSocket_Close(); a = null; 记得null掉变量再重新连接
-    // 消息回调函数建议用箭头函数，示例：(msg) => {// TODO}
-    constructor(rid, callback, closeHandler) {
+    constructor(rid, msgHandler) {
         if ("WebSocket" in window) {
             this.timer = 0;
-            this.roomid = rid;
-            this.ws = new WebSocket("wss://danmuproxy.douyu.com:850" + String(getRandom(2,5))); // 负载均衡 8502~8504都可以用
-            this.ws.onopen = () => {
-                this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + rid));
-                this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + rid + "/gid@=-9999/"));
-                this.timer = setInterval(() => {
-                    this.ws.send(WebSocket_Packet("type@=mrkl/"));
-                }, 40000)
-                // console.log("WebSocket已连接");
-            };
-            this.ws.onmessage = (e) => { 
-                let reader = new FileReader();
-                reader.onload = () => {
-                    let arr = String(reader.result).split("\0"); // 分包
-                    reader = null;
-                    for (let i = 0; i < arr.length; i++) {
-                        if (arr[i].length > 12) {
-                            // 过滤第一条和心跳包
-                            callback(arr[i]);
-                        }
-                    }
-                };
-                reader.readAsText(e.data);
-            };
-            this.ws.onclose = () => { 
-                showMessage("弹幕服务器连接丢失，正在重连", "warning");
-                closeHandler && closeHandler();
-            };
+            this.rid = rid;
+            this.msgHandler = msgHandler;
+            this.connect();
         }
     }
+
+    connect() {
+        this.ws = new WebSocket("wss://danmuproxy.douyu.com:850" + String(getRandom(2, 5)));
+        this.ws.onopen = () => {
+            this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + this.rid));
+            this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + this.rid + "/gid@=-9999/"));
+            // this.ws.send(WebSocket_Packet("type@=sub/mt@=asr_caption/"));
+            this.timer = setInterval(() => {
+                this.ws.send(WebSocket_Packet("type@=mrkl/"));
+            }, 40000);
+        };
+
+        this.ws.onerror = () => {
+            this.close();
+        };
+
+        this.ws.onmessage = (e) => {
+            let reader = new FileReader();
+            reader.onload = () => {
+                let arr = String(reader.result).split("\0"); // 分包
+                reader = null;
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i].length > 12) {
+                        // 过滤第一条和心跳包
+                        this.msgHandler(arr[i]);
+                    }
+                }
+            };
+            reader.readAsText(e.data);
+        };
+
+        this.ws.onclose = () => {
+            this.close();
+            this.reconnect();
+        };
+    }
+
+    reconnect() {
+        setTimeout(() => {
+            this.connect();
+        }, 3000); // 3秒后尝试重新连接
+    }
+
     close() {
         clearInterval(this.timer);
         this.ws.close();
     }
 }
+
 function initRouter(href) {
     // 用于优先载入夜间模式
     // if (String(href).indexOf("www.douyu.com") && String(href).indexOf("getFansBadgeList") == -1) {
