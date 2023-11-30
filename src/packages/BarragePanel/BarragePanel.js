@@ -206,48 +206,9 @@ function setBarrgePanelFunc(parentDom, id) {
     };
     
     document.getElementById("barragePanel__search").onclick = async () => {
-        insertBarragePanel_SearchBarrage_Dom(parentDom);
-        let barragePanelLastName = id;
-        let ret = await getUserRecentBarrage(id);
-        let retJson = JSON.parse(ret.data);
-        let panel = document.getElementById("barragePanel__searchPanel");
-        if(retJson.msg == "成功") {
-            if ("danmuVoList" in retJson.data == false) {
-                return;
-            }
-            for (let i = 0; i < retJson.data.danmuVoList.length; i++) {
-                let item = retJson.data.danmuVoList[i];
-                let a = document.createElement("li");
-                a.className = "layui-timeline-item";
-                a.innerHTML = `
-                <i class="layui-icon layui-timeline-axis"></i>
-                <div class="layui-timeline-content layui-text">
-                    <h3 class="layui-timeline-title">${item.time}</h3>
-                    <p>
-                        <span style="font-size:12px">${item.anchorName}：</span><br/>
-                        ${item.txt}
-                    </p>
-                </div>
-                `;
-                if (panel != null || panel != undefined) {
-                    panel.appendChild(a);
-                }
-            }
-            let end = document.createElement("li");
-            end.className = "layui-timeline-item";
-            end.innerHTML = `
-            <i class="layui-icon layui-timeline-axis"></i>
-            <div class="layui-timeline-content layui-text">
-                <div class="layui-timeline-title"></div>
-            </div>
-            `;
-            if (panel != null || panel != undefined) {
-                panel.appendChild(end);
-            }
-            
-
-        } else {
-            showMessage("【查弹幕】查询失败", "error");
+        let uid = await getUserUid(id);
+        if (uid !== "") {
+            openPage(`https://www.doseeing.com/data/fan/${uid}?type=chat&dt=0`, true);
         }
     };
 }
@@ -290,3 +251,32 @@ function getUserRecentBarrage(name) {
         });
     });
 }
+
+function getUserUid(name) {
+    return new Promise(resolve => {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: "https://www.doseeing.com/api/suggest_all?type=room&nickname=" + encodeURIComponent(name),
+            responseType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function(response) {
+                let ret = response.response;
+                let success = true;
+                if (!ret.suggest) success = false;
+                if (!ret.suggest.fan) success = false;
+                if (ret.suggest.fan.length === 0) success = false;
+                if (ret.suggest.fan[0].nickname !== name) success = false;
+                if (success) {
+                    resolve(ret.suggest.fan[0].user_id);
+                } else {
+                    resolve("");
+                    return;
+                }
+            }
+        });
+    });
+}
+
+
