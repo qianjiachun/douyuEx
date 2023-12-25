@@ -27,6 +27,7 @@ function initPkg_VideoTools_Module() {
     initPkg_VideoTools_Filter();
     initPkg_VideoTools_Camera();
     initPkg_VideoTools_VideoZoom();
+    initPkg_VideoTools_MetaData();
 }
 
 function initPkg_VideoTools_Func() {

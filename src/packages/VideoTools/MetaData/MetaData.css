@@ -1,0 +1,45 @@
+#exVideoDivFake {
+  display: none;
+}
+
+
+#ex-metadata:hover > .metadata__wrap {
+  display: block;
+}
+
+.metadata__wrap {
+  display: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  position: absolute;
+  left: 201px;
+  min-width: 100px;
+  top: 0px;
+  white-space: nowrap;
+}
+
+
+.metadata__panel {
+  position: absolute;
+  border: 1px solid #000;
+  border-radius: 4px;
+  transform: translateY(calc(-4px - 100%)) translateX(-50%);
+  left: 33%;
+  background-color: #000;
+  opacity: .75;
+  width: 70px;
+}
+
+.metadata__panel li {
+  padding: 0 2px;
+  white-space: nowrap;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+
+.metadata__panel li:hover {
+  background-color: rgb(85, 85, 85);
+}  
