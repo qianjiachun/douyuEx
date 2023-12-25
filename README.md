@@ -61,6 +61,12 @@
 ## ⚙如何维护与编译
 [项目地址](https://github.com/qianjiachun/douyuEx)
 
-[如何编译与维护](https://qianjiachun.github.io/DouyuEx/compile)
+1. 在`./src`下修改代码
+2. `npm run build`
+3. 把`./dist/douyuex.js`的代码复制到tampermonkey中去
+
+
+
+> [如何编译与维护（已过期）](https://qianjiachun.github.io/DouyuEx/compile)
 
 --------------------------------------------------
