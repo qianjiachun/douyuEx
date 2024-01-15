@@ -9,3 +9,7 @@
     -khtml-user-select:none; /*早期浏览器*/
     user-select:none;
 }
+
+#js-player-toolbar {
+    overflow: hidden !important;
+}
