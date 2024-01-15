@@ -6,6 +6,8 @@
     font-weight: 800;
     height: 20px;
     text-align: center;
+    z-index: 10;
+    bottom: 0;
 }
 
 .bag-button {
