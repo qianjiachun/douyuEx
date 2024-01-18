@@ -10,6 +10,8 @@
     user-select:none;
 }
 
-.PlayerToolbar-Wealth {
-    margin-top: 0 !important;
+.ex-icon a {
+    display: flex;
+    justify-items: center;
+    align-items: center;
 }
