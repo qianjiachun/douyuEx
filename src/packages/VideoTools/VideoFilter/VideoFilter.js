@@ -156,7 +156,11 @@ function initPkg_VideoTools_Filter_Func() {
         transformCss.rotate = `rotate(${String(rotateAngle)}deg)`;
         liveVideoNode.parentNode.style.transition = "all .5s";
         if ((rotateAngle/90) % 2 !== 0) {
-            transformCss.scale = "scale(" + String(liveVideoNode.videoHeight / liveVideoNode.videoWidth) + ")";
+            if (window.innerWidth > window.innerHeight) {
+                transformCss.scale = "scale(" + String(liveVideoNode.videoHeight / liveVideoNode.videoWidth) + ")";
+            } else {
+                transformCss.scale = "scale(" + String(liveVideoNode.videoWidth / liveVideoNode.videoHeight) + ")";
+            }
         } else {
             transformCss.scale = "";
         }
