@@ -78,6 +78,7 @@ function initPkg() {
 	initPkg_RemoveAD();
 	initPkg_BagInfo();
 	initPkg_Update();
+	initPkg_SyncJoy();
 	initPkg_Monitor();
 	initPkg_Lottery();
 	// initPkg_MiniProgram();
