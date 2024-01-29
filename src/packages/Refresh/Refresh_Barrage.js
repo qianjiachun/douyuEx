@@ -24,9 +24,13 @@ function initPkg_Refresh_Barrage_Func() {
             // 简化
             current_barrage_status = 1;
             setRefreshBarrage();
+            document.getElementById("refresh-barrage").style.backgroundColor = "rgb(18,150,219)";
+            document.getElementById("refresh-barrage__text").style.color = "#fff";
         } else {
             current_barrage_status = 0;
             cancelRefreshBarrage();
+            document.getElementById("refresh-barrage").style.backgroundColor = "#fff";
+            document.getElementById("refresh-barrage__text").style.color = "";
         }
         saveData_Refresh();
     });
