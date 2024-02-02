@@ -22,15 +22,9 @@ function initPkg_Refresh_Barrage_Func() {
 	document.getElementById("refresh-barrage").addEventListener("click", function() {
         if (current_barrage_status == 0) {
             // 简化
-            current_barrage_status = 1;
             setRefreshBarrage();
-            document.getElementById("refresh-barrage").style.backgroundColor = "rgb(18,150,219)";
-            document.getElementById("refresh-barrage__text").style.color = "#fff";
         } else {
-            current_barrage_status = 0;
             cancelRefreshBarrage();
-            document.getElementById("refresh-barrage").style.backgroundColor = "#fff";
-            document.getElementById("refresh-barrage__text").style.color = "";
         }
         saveData_Refresh();
     });
@@ -55,7 +49,6 @@ function initPkg_Refresh_Barrage_Set() {
             retJson.barrage = {status: false};
         }
         if (retJson.barrage.status == true) {
-            current_barrage_status = 1;
             setRefreshBarrage();
         }
     }
@@ -67,8 +60,14 @@ function setRefreshBarrage() {
     /*.Barrage-listItem .UserLevel{display:none !important;}*/
     `;
     StyleHook_set("Ex_Style_RefreshBarrage", cssText);
+    current_barrage_status = 1;
+    document.getElementById("refresh-barrage").style.backgroundColor = "rgb(18,150,219)";
+    document.getElementById("refresh-barrage__text").style.color = "#fff";
 }
 
 function cancelRefreshBarrage() {
     StyleHook_remove("Ex_Style_RefreshBarrage");
+    current_barrage_status = 0;
+    document.getElementById("refresh-barrage").style.backgroundColor = "#fff";
+    document.getElementById("refresh-barrage__text").style.color = "";
 }
