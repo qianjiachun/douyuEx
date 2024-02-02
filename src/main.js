@@ -61,6 +61,7 @@ function init() {
 	initPkg_Night_Set_Fast();
 	initPkg_ShowDanmaku();
 	initKillP2P();
+	initFullScreen();
 	removeAD();
 	initPkg_Statistics();
 	initPkg_Console();
