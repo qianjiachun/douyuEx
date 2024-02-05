@@ -52,6 +52,7 @@ function initPkg_Refresh_Video_Func() {
             refresh_Video_setStyle();
         }
         saveData_Refresh();
+        resizeWindow();
     });
     document.getElementById("refresh-video2").addEventListener("click", () => {
         let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
@@ -72,6 +73,7 @@ function initPkg_Refresh_Video_Func() {
             refresh_Video_setStyle();
         }
         saveData_Refresh();
+        resizeWindow();
     });
 }
 
@@ -101,6 +103,7 @@ function initPkg_Refresh_Video_Set() {
             dom_refresh2.style.display = "block";
             dom_refresh.innerText = "√ 简洁模式";
             refresh_Video_setStyle();
+            resizeWindow();
         }
     }
 }

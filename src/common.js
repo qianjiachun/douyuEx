@@ -436,3 +436,8 @@ function timeText2Ms(text) {
 	}
 	return ret * 1000;
 }
+
+function resizeWindow() {
+  const resizeEvent = new Event("resize");
+  window.dispatchEvent(resizeEvent);
+}
