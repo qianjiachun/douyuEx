@@ -1,13 +1,15 @@
 function initPkg_ExpandTool_FullScreen() {
     ExpandTool_FullScreen_insertDom();
     ExpandTool_FullScreen_insertFunc();
+    ExpandTool_HighestVideoQuality_insertFunc();
     initPkg_ExpandTool_FullScreen_Set();
+    initPkg_ExpandTool_HighestVideoQuality_Set();
 }
 
 function ExpandTool_FullScreen_insertDom() {
     let a = document.createElement("span");
     // a.className = "extool__bsize";
-    a.innerHTML = '<label title="自动网页全屏+最高画质"><input style="margin-top:5px;" id="extool__fullscreen" type="checkbox">自动全屏+最高画质</label>';
+    a.innerHTML = '<label title="自动网页全屏"><input style="margin-top:5px;" id="extool__fullscreen" type="checkbox">自动网页全屏</label><label title="自动最高画质"><input id="extool__highestvideoquality" type="checkbox">自动最高画质</label>';
     
     let b = document.getElementsByClassName("extool")[0];
     b.insertBefore(a, b.childNodes[0]);
@@ -30,7 +32,7 @@ function saveData_FullScreen() {
 	let data = {
 		isFullScreen: getFullScreen()
 	}
-	localStorage.setItem("ExSave_FullScreen", JSON.stringify(data)); // 存储弹幕列表
+	localStorage.setItem("ExSave_FullScreen", JSON.stringify(data));
 }
 function initPkg_ExpandTool_FullScreen_Set() {
 	// 设置初始化
@@ -62,6 +64,56 @@ function fullScreen() {
         if (document.getElementsByClassName("wfs-2a8e83").length > 0) {
             clearInterval(intID1);
             document.querySelector("div.wfs-2a8e83").click();
+        }
+    }, 1000);
+}
+
+function getHighestVideoQuality() {
+    return document.getElementById("extool__highestvideoquality").checked;
+}
+function ExpandTool_HighestVideoQuality_insertFunc() {
+    document.getElementById("extool__highestvideoquality").addEventListener("click", function() {
+        saveData_HighestVideoQuality();
+        if (getHighestVideoQuality()) {
+            showMessage("刷新页面生效", "success");
+        }
+    });
+}
+
+function saveData_HighestVideoQuality() {
+	let data = {
+		isHighestVideoQuality: getHighestVideoQuality()
+	}
+	localStorage.setItem("ExSave_HighestVideoQuality", JSON.stringify(data));
+}
+function initPkg_ExpandTool_HighestVideoQuality_Set() {
+	// 设置初始化
+	let ret = localStorage.getItem("ExSave_HighestVideoQuality");
+	if (ret != null) {
+		let retJson = JSON.parse(ret);
+        if (retJson.isHighestVideoQuality) {
+            document.getElementById("extool__highestvideoquality").checked = retJson.isHighestVideoQuality;
+        }
+	}
+}
+
+function initHighestVideoQuality() {
+	let ret = localStorage.getItem("ExSave_HighestVideoQuality");
+	if (ret != null) {
+		let retJson = JSON.parse(ret);
+        if (retJson.isHighestVideoQuality) {
+            highestVideoQuality();
+        }
+	}
+}
+
+function highestVideoQuality() {
+    let count = 0;
+    let intID1 = setInterval(() => {
+        count++;
+        if (count > 100) clearInterval(intID1);
+        if (document.getElementsByClassName("tipItem-898596").length > 0) {
+            clearInterval(intID1);
             document.querySelectorAll(".tipItem-898596 > ul > li")[0].click();
         }
     }, 1000);
