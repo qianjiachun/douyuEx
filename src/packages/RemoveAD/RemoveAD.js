@@ -53,6 +53,10 @@ function removeAD() {
     .IconCardAdCard{
         display: none!important;
     }
+    // 视频右侧的游戏手柄按钮AD
+    .IconCardAd {
+        display: none!important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
