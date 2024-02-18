@@ -57,6 +57,10 @@ function removeAD() {
     .IconCardAd {
         display: none!important;
     }
+    /*视频区视频广告*/
+    .CloseVideoPlayerAd{
+        display: none!important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
