@@ -58,7 +58,7 @@ function removeAD() {
         display: none!important;
     }
     /*视频区视频广告*/
-    .CloseVideoPlayerAd{
+    .CloseVideoPlayerAd,.IconCardAdBoundsBox{
         display: none!important;
     }
     `);
