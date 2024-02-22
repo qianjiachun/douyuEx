@@ -13,7 +13,7 @@ function LiveTool_BarrageSpeed_Dom() {
     let a = document.createElement("div");
     a.className = "barrageSpeed";
     let html = `
-        弹幕时速：<span class='barrageSpeed__value'>**</span>条/分
+        弹幕时速：<span class='barrageSpeed__value'>**</span>条/分 按↑或↓查看历史弹幕 视频区按←或→可回退快进 按ctrl+滚轮可放大缩小
     `
     a.innerHTML = html;
     
