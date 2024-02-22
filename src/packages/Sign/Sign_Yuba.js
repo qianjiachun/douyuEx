@@ -17,7 +17,6 @@ function signYubaFast() {
             "token": dyToken,
         },
         onload: function (response) {
-            console.log("快速签到",response.response)
             if (response.response.message == "" && response.response.data != 0) {
                 // showMessage("【鱼吧】一键签到成功! 获得经验" + response.response.data, "success");
                 // console.log("【极速鱼吧】" + group_id + "签到成功! 连续" + response.response.data.count + "天 获得经验" + response.response.data.exp);
