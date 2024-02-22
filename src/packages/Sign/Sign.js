@@ -51,6 +51,7 @@ function initPkg_Sign_Main(isAll) {
         
         // initPkg_Sign_Renlei();
         initPkg_Sign_Act();
+				initPkg_Sign_ActqzsUserTask();
         // initPkg_Sign_Bowuyuan();
         // initPkg_Sign_ZBXSL2();
         // initPkg_Sign_COD();
