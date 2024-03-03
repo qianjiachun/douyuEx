@@ -1,0 +1,8 @@
+.ChatBarrageCollect .TagItem {
+  height: auto !important;
+}
+
+.ChatBarrageCollect .TagItem-txt {
+  overflow: auto !important;
+  white-space: normal !important;
+}
