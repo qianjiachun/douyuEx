@@ -53,12 +53,20 @@ function removeAD() {
     .IconCardAdCard{
         display: none!important;
     }
-    // 视频右侧的游戏手柄按钮AD
+    /*视频右侧的游戏手柄按钮AD*/
     .IconCardAd {
         display: none!important;
     }
     /*视频区视频广告*/
     .CloseVideoPlayerAd,.IconCardAdBoundsBox{
+        display: none!important;
+    }
+    /*直播间顶部广告*/
+    .room-top-banner-box {
+        display: none!important;
+    }
+    /*弹幕框底部进场弹幕信息*/
+    #js-barrage-extend-container {
         display: none!important;
     }
     `);
