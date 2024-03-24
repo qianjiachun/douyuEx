@@ -101,6 +101,7 @@ function initPkg() {
 	initPkg_MonthCost();
 	initPkg_WeeklyPanel();
 	initPkg_DanmakuCollect();
+	initPkg_ImageDanmaku();
 }
 function initPkg_Timer() {
 	// initPkg_FishPond_Timer();
