@@ -1,4 +1,14 @@
 function initPkg_DanmakuCollect() {
+  const textarea = document.getElementsByClassName("ChatSend-txt")[0];
+  const collectButton = document.getElementsByClassName("ChatBarrageCollect")[0];
+  textarea.addEventListener("input", function() {
+    const length = textarea.value.length;
+    if (length > 25) {
+      collectButton.style.display = "none";
+    } else if (collectButton.style.display == "none") {
+      collectButton.style.display = "";
+    }
+  });
   responseHook((url, text) => {
     if (url.includes(`bulletscreen/query`)) {
       let obj = JSON.parse(text);
@@ -55,4 +65,3 @@ function delLocalDanmakuCollect(id) {
   let ret = getLocalDanmakuCollect();
   localStorage.setItem("ExSave_DanmakuCollect", JSON.stringify(ret.filter(item => item.id !== id)));
 }
-
