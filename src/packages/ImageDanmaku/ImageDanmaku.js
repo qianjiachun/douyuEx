@@ -32,33 +32,48 @@ function initPkg_ImageDanmaku_Func() {
     }
   });
 
-  new DomHook("#js-barrage-list", false, (m) => {
-    if (m.length <= 0) return;
-    if (m[0].addedNodes.length <= 0) return;
-    let dom = m[0].addedNodes[0];
-    const text = dom.getElementsByClassName("Barrage-content")[0].innerHTML;
-    if (!text.includes("[DouyuEx图片")) return;
-    let newText = text.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
-    dom.getElementsByClassName("Barrage-content")[0].innerHTML = newText;
-  });
-  new DomHook(".danmu-6e95c1", false, (m) => {
-    if (m.length <= 0) return;
-    if (m[0].addedNodes.length <= 0) return;
-    let dom = m[0].addedNodes[0];
-    const text = dom.innerHTML;
-    if (!text.includes("[DouyuEx图片")) return;
-    let newText = text.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
-    dom.innerHTML = newText;
-  });
+  let timer = setInterval(() => {
+    if (typeof document.getElementById("js-barrage-list") != "undefined") {
+      clearInterval(timer);
+      new DomHook("#js-barrage-list", false, (m) => {
+        if (m.length <= 0) return;
+        if (m[0].addedNodes.length <= 0) return;
+        let dom = m[0].addedNodes[0];
+        const contentDom = dom.getElementsByClassName("Barrage-content");
+        if (!contentDom || (contentDom && contentDom.length === 0)) return;
+        const text = contentDom[0].innerHTML;
+        if (!text.includes("[DouyuEx图片")) return;
+        let newText = text.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
+        dom.getElementsByClassName("Barrage-content")[0].innerHTML = newText;
+      });
+    }
+  }, 1000);
+
+  let timer2 = setInterval(() => {
+    if (typeof document.getElementsByClassName("danmu-6e95c1")[0] != "undefined") {
+      clearInterval(timer2);
+      new DomHook(".danmu-6e95c1", false, (m) => {
+        if (m.length <= 0) return;
+        if (m[0].addedNodes.length <= 0) return;
+        let dom = m[0].addedNodes[0];
+        if (!dom || (dom && !dom.innerHTML)) return;
+        const text = dom.innerHTML;
+        console.log("卧槽", text)
+        if (!text.includes("[DouyuEx图片")) return;
+        let newText = text.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
+        dom.innerHTML = newText;
+      });
+    }
+  }, 1000);
 
   document.getElementById("ex-upload-image-svg").addEventListener("click", () => {
     document.getElementById("ex-upload-image-input").click();
   });
-  
+
   document.getElementById("ex-upload-image-input").addEventListener("change", async (e) => {
     chatDom.value += `[DouyuEx图片上传中]`;
     let file = e.target.files[0];
-    const url = await getUploadImageUrl(file).catch(err=> console.log(err));
+    const url = await getUploadImageUrl(file).catch((err) => console.log(err));
     addImageDanmaku(url);
   });
 }
