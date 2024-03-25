@@ -35,39 +35,6 @@ async function initPkg_LiveTool_BarrageSendCheck() {
       });
     }
   }, 1000);
-
-  let timer2 = setInterval(() => {
-    if (typeof document.getElementsByClassName("danmu-6e95c1")[0] != "undefined") {
-      clearInterval(timer2);
-      new DomHook(".danmu-6e95c1", false, (m) => {
-        if (m.length <= 0) return;
-        if (m[0].addedNodes.length <= 0) return;
-        let dom = m[0].addedNodes[0];
-        let isSelf = dom.innerHTML.includes("border:");
-        if (!isSelf) return;
-        const contentDom = dom.getElementsByClassName("text-879f3e");
-        if (!contentDom || (contentDom && contentDom.length === 0)) return;
-        let localLastBarrage = contentDom[0].textContent.trim();
-        clearTimeout(barrageSendCheckTimer2);
-        barrageSendCheckTimer2 = setTimeout(() => {
-          if (myLastBarrage !== "" && localLastBarrage !== "") {
-            let data = stt_deserialize(myLastBarrage);
-            if (!data.txt) return;
-            if (data.txt.includes(`[DouyuEx图片`)) {
-              data.txt = data.txt.replace(/\[DouyuEx图片[^\]]+\]/g, "").trim();
-            }
-            if (data.txt.replace(/\s+/g, " ") !== localLastBarrage.replace(/\s+/g, " ")) {
-              let contentDom = dom.getElementsByClassName("text-879f3e")[0];
-              contentDom.style.textDecoration = "line-through gray 1px";
-              if (contentDom && contentDom.parentNode) {
-                contentDom.parentNode.insertBefore(createBarrageFailDom(), contentDom.nextSibling);
-              }
-            }
-          }
-        }, 300);
-      });
-    }
-  }, 1000);
 }
 
 function createBarrageFailDom() {
