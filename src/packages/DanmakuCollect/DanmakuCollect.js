@@ -1,4 +1,5 @@
 function initPkg_DanmakuCollect() {
+  initPkg_DanmakuCollect_Dom();
   const textarea = document.getElementsByClassName("ChatSend-txt")[0];
   const collectButton = document.getElementsByClassName("ChatBarrageCollect")[0];
   textarea.addEventListener("input", function() {
@@ -40,6 +41,44 @@ function initPkg_DanmakuCollect() {
       delLocalDanmakuCollect(id);
     }
   });
+}
+
+function initPkg_DanmakuCollect_Dom() {
+  let timer = setInterval(() => {
+    if (typeof document.getElementsByClassName("ChatBarrageCollect")[0] != "undefined") {
+      clearInterval(timer);
+      new DomHook(".ChatBarrageCollect", false, (m) => {
+        const titleDom = document.getElementsByClassName("ChatBarrageCollectPop-title");
+        if (!titleDom) {
+          document.getElementById("ex-danmaku-collect-search").removeEventListener("input", searchCollectDanmaku);
+          return;
+        }
+        if (titleDom.length === 0) return;
+        let inputDom = document.createElement("input");
+        inputDom.id = "ex-danmaku-collect-search";
+        inputDom.placeholder = "搜索弹幕";
+        inputDom.style.marginLeft = "6px";
+        titleDom[0].appendChild(inputDom);
+
+        inputDom.addEventListener("input", searchCollectDanmaku);
+      });
+    }
+  }, 1000);
+}
+
+function searchCollectDanmaku(e) {
+  const searchText = e.target.value;
+  let parentDom = document.getElementsByClassName("ChatBarrageCollectPop-barrageContent")[0].parentElement;
+  let danmakuDoms = parentDom.getElementsByClassName("TagItem");
+  // 找出所有doms里面包含searchText的dom，其他全部display为none，如果searchText为空，则全部显示
+  for (let i = 0; i < danmakuDoms.length; i++) {
+    let danmakuDom = danmakuDoms[i];
+    if (danmakuDom.innerText.includes(searchText)) {
+      danmakuDom.style.display = "";
+    } else {
+      danmakuDom.style.display = "none";
+    }
+  }
 }
 
 function getLocalDanmakuCollect() {
