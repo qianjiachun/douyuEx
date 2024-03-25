@@ -95,7 +95,7 @@ function initPkg() {
 	// initPkg_FishFood();
 	initPkg_Sign();
 	initPkg_BarragePanel();
-	initPkg_AdVideo();
+	// initPkg_AdVideo();
 	initPkg_AccountList();
 	initPkg_ChatTools();
 	initPkg_MonthCost();
