@@ -1,7 +1,7 @@
 // 版本号
 // 格式 yyyy.MM.dd.**
 // var curVersion = "2020.01.12.01";
-var curVersion = "2024.03.13.01"
+var curVersion = "2024.03.25.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
