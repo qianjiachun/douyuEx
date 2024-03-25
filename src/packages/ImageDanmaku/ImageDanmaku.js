@@ -58,7 +58,6 @@ function initPkg_ImageDanmaku_Func() {
         let dom = m[0].addedNodes[0];
         if (!dom || (dom && !dom.innerHTML)) return;
         const text = dom.innerHTML;
-        console.log("卧槽", text)
         if (!text.includes("[DouyuEx图片")) return;
         let newText = text.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
         dom.innerHTML = newText;
