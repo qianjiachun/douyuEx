@@ -60,11 +60,23 @@ function setBarragePanelCallBack() {
                     setReplyBarrageButton(barragePanel);
                     setBarrgePanelFunc(barragePanel, id);
                 }
-
+                const contentDom = document.getElementsByClassName("danmuContent-25f266")[0];
+                if (!contentDom) return;
+                if (!contentDom.innerHTML.includes(`[DouyuEx图片`)) return;
+                let newText = contentDom.innerHTML.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
+                contentDom.innerHTML = newText;
             }
-            
         }
     });
+
+    new DomHook("#Ex_BarragePanel", false, (m) => {
+        const contentDom = document.getElementsByClassName("danmuContent-25f266")[0];
+        if (!contentDom) return;
+        if (!contentDom.innerHTML.includes(`[DouyuEx图片`)) return;
+        let newText = contentDom.innerHTML.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
+        contentDom.innerHTML = newText;
+    })
+    
 }
 
 function getUserFansMedal(userName) {

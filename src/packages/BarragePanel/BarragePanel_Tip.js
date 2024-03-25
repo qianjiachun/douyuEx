@@ -39,7 +39,7 @@ function setBarragePanelTipFunc() {
         const dom = document.getElementById("comment-higher-container");
         if (dom.getElementsByClassName("ex-image-danmaku").length > 0) {
             const textDom = dom.getElementsByClassName("text-879f3e")[0];
-            sendBarrage(textDom.innerHTML.replace(/<img\s+(?:.*?\s+)?src="(.*?)"[^>]*?\/?>/g, (match, src) => {
+            sendBarrage(textDom.innerHTML.replace(/<a[^>]*><img\s+(?:.*?\s+)?src="(.*?)"[^>]*?\/?><\/a>/g, (match, src) => {
                 return getImageDanmakuFromImgSrc(src);
             }));
         } else {
