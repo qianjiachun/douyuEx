@@ -14,6 +14,9 @@ async function initPkg_LiveTool_BarrageSendCheck() {
         if (myLastBarrage !== "" && localLastBarrage !== "") {
           let data = stt_deserialize(myLastBarrage);
           if (!data.txt) return;
+          if (data.txt.includes(`[douyuEx图片`)) {
+            data.txt = data.txt.replace(/\[douyuEx图片[^\]]+\]/g, "");
+          }
           if (data.txt.replace(/\s+/g, ' ') !== localLastBarrage.replace(/\s+/g, ' ')) {
             let contentDom = dom.getElementsByClassName("Barrage-content")[0];
             contentDom.style.textDecoration = "line-through gray 1px";
