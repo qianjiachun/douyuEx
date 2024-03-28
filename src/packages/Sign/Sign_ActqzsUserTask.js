@@ -1,6 +1,12 @@
 async function initPkg_Sign_ActqzsUserTask() {
   const rids = ["5189167", "290935", "6979222", "5132174", "63136"];
-  const activityId = await getActivityId();
+  let activityId = await getActivityId(dateFormat("yyyyMM", new Date()));
+  if (!activityId) {
+    const currentDate = new Date();
+    const nextMonth = currentDate.getMonth() + 1;
+    const nextMonthDate = new Date(currentDate.getFullYear(), nextMonth, 1);
+    activityId = await getActivityId(dateFormat("yyyyMM", nextMonthDate));
+  }
   if (!activityId) return;
   
   for (const rid of rids) {
@@ -14,8 +20,7 @@ async function initPkg_Sign_ActqzsUserTask() {
   }
 }
 
-function getActivityId() {
-  const dateStr = dateFormat("yyyyMM", new Date());
+function getActivityId(dateStr) {
   return new Promise((resolve) => {
     fetch(`https://webconf.douyucdn.cn/resource/common/activity/actqzs${dateStr}_w.json`)
       .then((res) => {
@@ -42,7 +47,7 @@ function getActivityId() {
 
 function signinAct(activityId, rid) {
   return new Promise((resolve, reject) => {
-    fetch("https://www.douyu.com/japi/interactnc/web/actqzsUserTask/signIn", {
+    fetch("https://www.douyu.com/japi/revenuenc/web/cardArena/userTask/signIn", {
         method: 'POST',
         mode: 'no-cors',
         credentials: 'include',
