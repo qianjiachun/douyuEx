@@ -10,6 +10,9 @@ function initPkg_DanmakuCollect() {
       collectButton.style.display = "";
     }
   });
+  document.getElementsByClassName("ChatSend-button")[0].addEventListener("click", () => {
+    collectButton.style.display = "";
+  });
   responseHook((url, text) => {
     if (url.includes(`bulletscreen/query`)) {
       let obj = JSON.parse(text);
