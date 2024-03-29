@@ -2,12 +2,12 @@ function initPkg_RemoveAD() {
     let t = setInterval(() => {
         let a = document.getElementsByClassName("PlayerToolbar-wealthNum")[0];
         if (a != undefined) {
+            clearInterval(t);
             optimizePageStyle();
             removeChatLimit();
             removeShieldConfig();
 
             initPkg_RemoveMsgNotice();
-            clearInterval(t);
         }
     }, 1000);
     
