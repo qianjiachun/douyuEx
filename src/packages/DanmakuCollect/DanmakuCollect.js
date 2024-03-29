@@ -2,11 +2,11 @@ function initPkg_DanmakuCollect() {
   initPkg_DanmakuCollect_Dom();
   const textarea = document.getElementsByClassName("ChatSend-txt")[0];
   const collectButton = document.getElementsByClassName("ChatBarrageCollect")[0];
-  textarea.addEventListener("input", function() {
+  textarea.addEventListener("keyup", () => {
     const length = textarea.value.length;
     if (length > 25) {
       collectButton.style.display = "none";
-    } else if (collectButton.style.display == "none") {
+    } else {
       collectButton.style.display = "";
     }
   });
