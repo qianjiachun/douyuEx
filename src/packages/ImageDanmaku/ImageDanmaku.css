@@ -1,11 +1,11 @@
 .text-879f3e {
   height: auto !important;
-  max-height: 64px !important;
+  max-height: 54px !important;
 }
 
 .ex-image-danmaku {
-  height: 64px;
-  border-radius: 5px;
+  height: 54px;
+  border-radius: 6px;
   margin: 0 4px;
 }
 
