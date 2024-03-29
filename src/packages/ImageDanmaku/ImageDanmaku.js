@@ -78,11 +78,12 @@ function initPkg_ImageDanmaku_Func() {
 }
 
 function getImageDanmakuHtml(str) {
+  if (!isValidImageFile(str)) return "";
   const split = str.split(".");
   const url = decompressImageUrl(split[0]);
-  const realImageUrl = `https://img.douyucdn.cn/data/yuba/weibo/${url.slice(0, 4) + "/" + url.slice(4, 6) + "/" + url.slice(6, 8) + "/" + url}.200x0.${split[1]}`;
+  const realImageUrl = DOMPurify.sanitize(`https://img.douyucdn.cn/data/yuba/weibo/${url.slice(0, 4) + "/" + url.slice(4, 6) + "/" + url.slice(6, 8) + "/" + url}.200x0.${split[1]}`);
   const imgHtml = `<a href="${realImageUrl.replace("200x0.", "")}" target="_blank"><img class="ex-image-danmaku" src="${realImageUrl}" alt=""></a>`;
-  return imgHtml;
+  return DOMPurify.sanitize(imgHtml);
 }
 
 function addImageDanmaku(url) {

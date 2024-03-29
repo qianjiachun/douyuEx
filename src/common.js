@@ -441,3 +441,9 @@ function resizeWindow() {
   const resizeEvent = new Event("resize");
   window.dispatchEvent(resizeEvent);
 }
+
+function isValidImageFile(filename) {
+  const validExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".bmp", ".ico", ".tiff", ".tif"];
+  const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
+  return validExtensions.includes(ext);
+}
