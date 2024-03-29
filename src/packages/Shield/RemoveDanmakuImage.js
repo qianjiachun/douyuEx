@@ -6,7 +6,7 @@ function initPkg_Shield_RemoveDanmakuImage() {
     `
       <div class="ShieldTool-listItem ${isRemoveDanmakuImage ? "is-checked" : "is-noChecked"}" id="ex-RemoveDanmakuImage">
           <span class="ShieldTool-checkIcon"></span>
-          <h5 class="ShieldTool-checkText">屏蔽弹幕图片</h5>
+          <h5 class="ShieldTool-checkText">屏蔽DouyuEx图片</h5>
       </div>`
   );
   if (isRemoveDanmakuImage) removeDanmakuImage();
