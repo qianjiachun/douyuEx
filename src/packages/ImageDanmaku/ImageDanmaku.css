@@ -4,8 +4,11 @@
 }
 
 .ex-image-danmaku {
-  height: 100%;
-  max-height: 64px;
+  height: 64px;
   border-radius: 5px;
   margin: 0 4px;
+}
+
+.danmuContent-25f266 .ex-image-danmaku {
+  max-height: 32px;
 }
