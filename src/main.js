@@ -79,6 +79,7 @@ function initPkg() {
 	initPkg_CopyRealLive();
 	initPkg_AudioLine();
 	initPkg_RemoveAD();
+	initPkg_Shield();
 	initPkg_BagInfo();
 	initPkg_Update();
 	initPkg_SyncJoy();
