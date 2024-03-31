@@ -38,16 +38,19 @@ function removeDanmakuBackground() {
     "Ex_Style_RemoveDanmakuBackground",
     `
       .danmuItem-31f924 {
-        background: none !important;
+        background: none;
       }
       .danmuItem-31f924 div{
-          background: none !important;
+          background: none;
       }
       .danmuItem-31f924 > img {
-          display: none !important;
+          display: none;
       }
       .danmuItem-31f924 div > img {
-        display: none !important;
+        display: none;
+      }
+      .super-text-0281ca {
+        background: none !important;
       }
   `
   );
