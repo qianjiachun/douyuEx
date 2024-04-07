@@ -70,6 +70,10 @@ function removeAD() {
         display: none!important;
         display: var(--enter-display, none) !important;
     }
+    /*直播间右侧广告*/
+    .LadderNav {
+        display: none!important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
