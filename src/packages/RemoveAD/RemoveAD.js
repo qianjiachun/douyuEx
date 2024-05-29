@@ -74,6 +74,9 @@ function removeAD() {
     .LadderNav {
         display: none!important;
     }
+    #js-bottom-right-recommendAd {
+        display: none!important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
