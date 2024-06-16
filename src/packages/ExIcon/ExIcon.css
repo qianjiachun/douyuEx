@@ -15,3 +15,7 @@
     justify-items: center;
     align-items: center;
 }
+
+.ex-icon svg:hover {
+    transform: scale(1.1);
+}
