@@ -77,6 +77,10 @@ function removeAD() {
     #js-bottom-right-recommendAd {
         display: none!important;
     }
+    /*弹幕框顶部广告*/
+    .aside-top-uspension-box {
+        display: none!important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
