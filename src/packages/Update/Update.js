@@ -91,7 +91,7 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 			}
 		} else {
 			if (isShowNotUpdate) {
-				showMessage(`【版本更新】当前版本${curVersion}已为最新，<a href="https://xiaochunchun.gitee.io/douyuex/update/" target="_blank">点击查看更新内容</a>`, "success")
+				showMessage(`【版本更新】当前版本${curVersion}已为最新，<a href="https://html.douyuex.com/update/" target="_blank">点击查看更新内容</a>`, "success")
 			}
 		}
 	})
@@ -104,13 +104,13 @@ async function Update_checkVersion(isShowNotUpdate = false) {
 		}
 	} else {
 		if (isShowNotUpdate) {
-			showMessage(`【版本更新】当前版本${curVersion}已为最新，<a href="https://xiaochunchun.gitee.io/douyuex/update/" target="_blank">点击查看更新内容</a>`, "success")
+			showMessage(`【版本更新】当前版本${curVersion}已为最新，<a href="https://html.douyuex.com/update/" target="_blank">点击查看更新内容</a>`, "success")
 		}
 	}
 }
 
 function Update_openUpdatePage() {
-	openPage("https://xiaochunchun.gitee.io/douyuex/install/web.html", true);
+	openPage("https://html.douyuex.com/install/web.html", true);
 }
 
 function Update_showTip(a) {
@@ -127,7 +127,7 @@ function Update_showTip(a) {
 	
 }
 function Update_showMessage() {
-	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://xiaochunchun.gitee.io/douyuex/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新，<a href="https://xiaochunchun.gitee.io/douyuex/update/" target="_blank">点击查看更新内容</a>`
+	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://html.douyuex.com/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新，<a href="https://html.douyuex.com/update/" target="_blank">点击查看更新内容</a>`
 	showMessage(msg, "error", {
 		timeout: 50,
 	});
