@@ -81,6 +81,9 @@ function removeAD() {
     .aside-top-uspension-box {
         display: none!important;
     }
+    #js-player-asideMain {
+        top: 0!important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
