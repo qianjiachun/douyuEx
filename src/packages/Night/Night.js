@@ -185,6 +185,10 @@ function setNightMode() {
     .MedalOwnerInfo-box{border-bottom: 1px solid rgb(79 81 88)!important;}
     .FansMedalList-item.is-NoWear{border-top: 1px solid rgb(79 81 88)!important;}
 
+    .layout-Player-announce,#js-player-title,.DiamondsFansRankList-anniversary{background: none !important;}
+    .DiamondsFansRankContainer-skinbg,.shark-webp .DiamondsFansRankList-anniversary{background: none !important;background-color: rgba(35, 36, 39, 1) !important;}
+    .DiamondsFansRankList-anntitle,.DiamondsFansRankList-anntitle{color: #cfcfcf;}
+
     /*弹幕时速*/
     .barrageSpeed{color: rgba(255,255,255,0.5) !important;}
 
