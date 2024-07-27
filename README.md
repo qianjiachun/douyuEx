@@ -48,12 +48,12 @@
 - 作者：小淳 / QQ：189964430
 
 ### 💎功能
-[功能介绍](https://xiaochunchun.gitee.io/douyuex/introduction/)
+[功能介绍](https://html.douyuex.com/introduction/)
 
 --------------------------------------------------
 
 ## 📕更新内容
-[更新内容](https://xiaochunchun.gitee.io/douyuex/update/)
+[更新内容](https://html.douyuex.com/update/)
 
 --------------------------------------------------
 
