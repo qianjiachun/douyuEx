@@ -83,6 +83,7 @@ function initPkg() {
 	initPkg_Shield();
 	initPkg_BagInfo();
 	initPkg_Update();
+	initPkg_CSOB();
 	initPkg_SyncJoy();
 	initPkg_Monitor();
 	initPkg_Lottery();
