@@ -38,7 +38,7 @@ function removeDanmakuBackground() {
     "Ex_Style_RemoveDanmakuBackground",
     `
       .danmuItem-f8e204 {
-        background: none;
+        background: none !important;
       }
       .danmuItem-f8e204 div{
         background: none;
