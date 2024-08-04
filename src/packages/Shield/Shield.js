@@ -3,7 +3,6 @@ function initPkg_Shield() {
       if (typeof document.getElementsByClassName("ShieldTool-list")[0] !== "undefined") {
           clearInterval(t);
           initPkg_Shield_RemoveEnter();
-          initPkg_Shield_RemoveDanmakuImage();
           initPkg_Shield_RemoveDanmakuBackground();
       }
   }, 1000);
