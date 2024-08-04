@@ -52,6 +52,9 @@ function removeDanmakuBackground() {
       .super-text-188279 {
         background: none !important;
       }
+      .danmuItem-f8e204 .noble-f439ef {
+        background: none !important;
+      }
   `
   );
 }
