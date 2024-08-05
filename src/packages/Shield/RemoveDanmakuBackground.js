@@ -38,7 +38,7 @@ function removeDanmakuBackground() {
     "Ex_Style_RemoveDanmakuBackground",
     `
       .danmuItem-31f924 {
-        background: none;
+        background: none !important;
       }
       .danmuItem-31f924 div{
         background: none;
@@ -52,7 +52,7 @@ function removeDanmakuBackground() {
       .super-text-0281ca {
         background: none !important;
       }
-      .danmuItem-31f924 .noble-2c3f56 {
+      .danmuItem-31f924 .noble-bf13ad {
         background: none !important;
       }
   `
