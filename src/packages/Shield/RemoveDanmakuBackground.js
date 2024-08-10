@@ -55,6 +55,13 @@ function removeDanmakuBackground() {
       .danmuItem-31f924 .noble-bf13ad {
         background: none !important;
       }
+      .customBarrage {
+        background: none !important;
+        text-shadow: none !important;
+      }
+      .customBarrage > div {
+        background: none !important;
+      }
   `
   );
 }
