@@ -1,5 +1,5 @@
 {
-  "name": "douyuEx",
+  "name": "douyu-ex",
   "scripts": {
     "build": "node build.js"
   },

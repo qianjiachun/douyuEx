@@ -127,12 +127,27 @@ function initPkg_VideoTools_Filter_Func() {
         liveVideoNode.style.filter = `${ currentBrightness } ${ currentContrast } ${ currentSaturate }`;
     });
 
-    document.getElementById("ex-filter").addEventListener("mouseover", function () {
-        document.getElementsByClassName("filter__wrap")[0].style.display = "block";
+    const filterButton = document.getElementById("ex-filter");
+    const filterPanel = document.getElementsByClassName("filter__wrap")[0];
+    let overPanel = false;
+
+    filterButton.addEventListener("mouseover", function () {
+        filterPanel.style.display = "block";
+        setTimeout(() => {
+            if(!overPanel) {
+                filterPanel.style.display = "none";
+            }
+        }, 500);
     });
-    document.getElementsByClassName("filter__wrap")[0].addEventListener("mouseleave", function () {
-        document.getElementsByClassName("filter__wrap")[0].style.display = "none"
+
+    filterPanel.addEventListener("mouseover", function() {
+        overPanel = true;
+    })
+    filterPanel.addEventListener("mouseleave", function () {
+        filterPanel.style.display = "none"
+        overPanel = false;
     });
+    
     document.getElementById("filter__reset").addEventListener("click", () => {
         resetVideoFilter();
     });
