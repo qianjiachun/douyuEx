@@ -137,7 +137,7 @@ function initPkg_VideoTools_Filter_Func() {
             if(!overPanel) {
                 filterPanel.style.display = "none";
             }
-        }, 500);
+        }, 1500);
     });
 
     filterPanel.addEventListener("mouseover", function() {
