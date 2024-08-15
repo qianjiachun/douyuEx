@@ -33,6 +33,12 @@ function Refresh_Video_insertIcon() {
 }
 
 function initPkg_Refresh_Video_Func() {
+    new DomHook('.right-e7ea5d', true, () => {
+        const video_fullPage = document.querySelector('.wfs-2a8e83.removed-9d4c42') ? true : false;
+        const dom_player_toolbar = document.getElementById("js-player-toolbar");
+        dom_player_toolbar.style = video_fullPage ? "z-index:20" : "z-index:30";
+    });
+
 	document.getElementById("refresh-video").addEventListener("click", (e) => {
         let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
         let dom_video = document.getElementsByClassName("layout-Player-video")[0];
@@ -98,8 +104,10 @@ function initPkg_Refresh_Video_Set() {
             let dom_video = document.getElementsByClassName("layout-Player-video")[0];
             let dom_refresh2 = document.getElementById("refresh-video2");
             let dom_refresh = document.getElementById("refresh-video");
+            let dom_player_toolbar = document.getElementById("js-player-toolbar");
             dom_toolbar.style.visibility = "hidden";
             dom_video.style = "bottom:0;z-index:25";
+            dom_player_toolbar.style = "z-index:30";
             dom_refresh2.style.display = "block";
             dom_refresh.innerText = "√ 简洁模式";
             refresh_Video_setStyle();
