@@ -144,8 +144,10 @@ function initPkg_VideoTools_Filter_Func() {
         overPanel = true;
     })
     filterPanel.addEventListener("mouseleave", function () {
-        filterPanel.style.display = "none"
-        overPanel = false;
+        setTimeout(() => {
+            filterPanel.style.display = "none"
+            overPanel = false;
+        }, 500);
     });
     
     document.getElementById("filter__reset").addEventListener("click", () => {
