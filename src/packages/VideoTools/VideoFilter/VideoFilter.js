@@ -130,10 +130,12 @@ function initPkg_VideoTools_Filter_Func() {
     const filterButton = document.getElementById("ex-filter");
     const filterPanel = document.getElementsByClassName("filter__wrap")[0];
     let overPanel = false;
+    let timeout = null;
 
     filterButton.addEventListener("mouseover", function () {
+        if (timeout) clearTimeout(timeout);
         filterPanel.style.display = "block";
-        setTimeout(() => {
+        timeout = setTimeout(() => {
             if(!overPanel) {
                 filterPanel.style.display = "none";
             }
