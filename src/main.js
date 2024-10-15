@@ -60,7 +60,9 @@
 
 function init() {
 	initPkg_Night_Set_Fast();
+	initScriptHook();
 	initResponseHook();
+	initPkg_ShowDanmakuOriginAction();
 	initPkg_ShowDanmaku();
 	initKillP2P();
 	initFullScreen();
