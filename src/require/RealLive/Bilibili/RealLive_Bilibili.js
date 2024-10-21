@@ -37,7 +37,7 @@ function getRealLive_Bilibili(room_id, qn, cdn, reallive_callback) {
             let rurl = "";
             for (let i = 0; i < ret.data.playurl_info.playurl.stream.length; i++) {
                 const item = ret.data.playurl_info.playurl.stream[i];
-                if (String(item.protocol_name).includes("hls") && item.format.length > 0) {
+                if (String(item.protocol_name).includes("stream") && item.format.length > 0) {
                     let url_info = item.format[0].codec[0].url_info[0];
                     let base_url = item.format[0].codec[0].base_url;
                     rurl = `${url_info.host}${base_url}${url_info.extra}`;
