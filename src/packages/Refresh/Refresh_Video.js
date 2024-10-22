@@ -108,6 +108,13 @@ function initPkg_Refresh_Video_Set() {
             dom_toolbar.style.visibility = "hidden";
             dom_video.style = "bottom:0;z-index:25";
             dom_player_toolbar.style = "z-index:30";
+            let ret = localStorage.getItem("ExSave_FullScreen");
+            if (ret != null) {
+                let retJson = JSON.parse(ret);
+                if (retJson.isFullScreen) {
+                    dom_player_toolbar.style = "z-index:20";
+                }
+            }
             dom_refresh2.style.display = "block";
             dom_refresh.innerText = "√ 简洁模式";
             refresh_Video_setStyle();
