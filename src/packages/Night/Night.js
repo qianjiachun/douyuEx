@@ -106,7 +106,7 @@ function setNightMode() {
     .Title-row-text,.Title-anchorName{color:rgba(153,153,153,1) !important;}
     #js-player-toolbar{background:rgb(37,38,42) !important;border:1px solid rgb(37,38,42) !important;}
     .PlayerToolbar-wealthNum,.Header-wrap .Header-menu-link>a,.public-DropMenu-link,.Header-icon{color:rgb(191,191,191) !important;}
-    .layout-Main{background-color:rgba(35,36,39,1) !important;}
+    .layout-Main{background:rgba(35,36,39,1) !important;}
     .ChatRank-rankWraper{background:rgba(47,48,53,1) !important;border:rgba(47,48,53,1) solid 1px !important;}
     .bg-icon{display:none;}
     .ChatRankWeek-headerContent,.NobleRank,.NobleRankTips{background-color:rgba(47,48,53,1) !important;}
@@ -182,8 +182,8 @@ function setNightMode() {
     .VideoRecommendItem a{border-bottom: 3px solid rgb(35,36,39) !important;}
     .AnchorFriendPane-title a:after{display:none !important;}
 
-    .MedalOwnerInfo-box{border-bottom: 1px solid rgb(79 81 88)!important;}
-    .FansMedalList-item.is-NoWear{border-top: 1px solid rgb(79 81 88)!important;}
+    .MedalOwnerInfo-box{border-bottom: 1px solid rgb(79,81,88)!important;}
+    .FansMedalList-item.is-NoWear{border-top: 1px solid rgb(79,81,88)!important;}
 
     .layout-Player-announce,#js-player-title,.DiamondsFansRankList-anniversary{background: none !important;}
     .DiamondsFansRankContainer-skinbg,.shark-webp .DiamondsFansRankList-anniversary{background: none !important;background-color: rgba(35, 36, 39, 1) !important;}
