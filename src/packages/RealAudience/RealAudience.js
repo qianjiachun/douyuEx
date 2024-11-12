@@ -28,7 +28,7 @@ function initPkg_RealAudience() {
 		real_info.isShow = retData.data.show_status;
 		setRealViewer();
 		setInterval(setRealViewer, 150000);
-		setInterval(switchRealAndTodayWatch, 10000);
+		setInterval(switchRealAndTodayWatch, 5000);
 	}).catch(err => {
 		console.log("请求失败!", err);
 	})
