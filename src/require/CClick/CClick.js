@@ -12,7 +12,7 @@
 class CClick {
     constructor(element) {
         const CONST_LONG_TIME = 700; // 长按多少ms执行
-        const CONST_DOUBLE_TIME = 250; // 双击的间隔
+        const CONST_DOUBLE_TIME = 0; // 双击的间隔
         this.func_click = null;
         this.func_dbClick = null;
         this.func_longClick = null;
