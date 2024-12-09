@@ -40,7 +40,6 @@ async function initPkg_Sign_ActqzsUserTask() {
       }
     }
   }
-  await Promise.allSettled(actIds.map(actId => recommendAct(actId, `4042402`)));
 }
 
 function getActivityId(dateStr) {
@@ -121,39 +120,6 @@ function signinAct(activityId, rid) {
         credentials: 'include',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `ctn=${getCCN()}&activity_id=${activityId}&rid=${rid}`
-    }).then(res => {
-        return res.json();
-    }).then(ret => {
-        resolve(ret);
-    }).catch(err => {
-        console.log("请求失败!", err);
-        reject(err);
-    })
-  })
-}
-
-function shareActqzs() {
-  return new Promise((resolve, reject) => {
-    fetch(`https://www.douyu.com/japi/carnival/common/share`, {
-        method: 'POST',
-        mode: 'no-cors',
-        credentials: 'include',
-    }).then(res => {
-        return res.json();
-    }).then(ret => {
-        resolve(ret);
-    }).catch(err => {
-        console.log("请求失败!", err);
-        reject(err);
-    })
-  })
-}
-function recommendAct(activityId, rid) {
-  return new Promise((resolve, reject) => {
-    fetch(`https://www.douyu.com/japi/revenuenc/web/actqzs/userTask/recommend?activity_id=${activityId}&rid=${rid}`, {
-        method: 'GET',
-        mode: 'no-cors',
-        credentials: 'include',
     }).then(res => {
         return res.json();
     }).then(ret => {
