@@ -27,40 +27,44 @@ async function initPkg_Sign_AnchorStar() {
   showMessage("【星推】关注任务完成", "success");
 }
 
-
 function getAnchorStarRoomList() {
   return new Promise((resolve, reject) => {
-    fetch("https://www.douyu.com/japi/livebiznc/web/anchorstardiscover/rank/info?rid=4042402&type=5&track=3", {
-        method: 'GET',
-        mode: 'no-cors',
-        credentials: 'include',
-    }).then(res => {
+    fetch(`https://www.douyu.com/japi/livebiznc/web/anchorstardiscover/rank/info?rid=${rid}&type=5&track=3`, {
+      method: "GET",
+      mode: "no-cors",
+      credentials: "include"
+    })
+      .then((res) => {
         return res.json();
-    }).then(ret => {
+      })
+      .then((ret) => {
         resolve(ret);
-    }).catch(err => {
+      })
+      .catch((err) => {
         console.log("请求失败!", err);
         reject(err);
-    })
-  })
+      });
+  });
 }
-
 
 function signAnchorStar(rid) {
   return new Promise((resolve, reject) => {
     fetch("https://www.douyu.com/japi/livebiznc/web/anchorstardiscover/user/task/report", {
-        method: 'POST',
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: `ctn=${getCCN()}&type=5&rid=${rid}`
-    }).then(res => {
+      method: "POST",
+      mode: "no-cors",
+      credentials: "include",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `ctn=${getCCN()}&type=5&rid=${rid}`
+    })
+      .then((res) => {
         return res.json();
-    }).then(ret => {
+      })
+      .then((ret) => {
         resolve(ret);
-    }).catch(err => {
+      })
+      .catch((err) => {
         console.log("请求失败!", err);
         reject(err);
-    })
-  })
+      });
+  });
 }
