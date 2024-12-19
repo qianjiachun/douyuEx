@@ -103,6 +103,7 @@ function initPkg() {
 	initPkg_AccountList();
 	initPkg_ChatTools();
 	initPkg_MonthCost();
+	initPkg_RoomVip();
 	initPkg_WeeklyPanel();
 	initPkg_DanmakuCollect();
 }
