@@ -36,8 +36,10 @@ function setRoomVipExpireDays() {
         if (String(detail.show_id_list) !== String(rid)) continue;
         const expireTime = detail.expire_time * 1000;
         const days = Math.floor((expireTime - Date.now()) / (1000 * 60 * 60 * 24));
-        initPkg_RoomVip_Dom();
+        if (days <= roomVipExpireDayLimit) {
+          initPkg_RoomVip_Dom();
           document.getElementById("room-vip-expire-days").innerText = days;
+        }
       }
     })
     .catch((err) => {
