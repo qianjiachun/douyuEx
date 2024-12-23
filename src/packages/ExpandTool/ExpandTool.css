@@ -16,7 +16,7 @@
 .extool__bsize,.extool__sendgift {
 	margin-bottom: 5px;
 }
-.extool__redpacket_room,.extool__gold {
+.extool__redpacket_room,.extool__gold,.extool__autofish {
 	display: inline-block;
 }
 .ex_giftAnimation {
