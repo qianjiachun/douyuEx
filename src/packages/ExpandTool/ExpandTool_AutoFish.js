@@ -55,7 +55,6 @@ function ExpandTool_AutoFish_insertFunc() {
         const now = new Date().getTime();
         if (now <= nextFishEndTime) return;
         await endFish();
-        isFishing = false;
       } else {
         const fishRes = await AutoFish_startFish();
         if (fishRes.error !== 0) {
@@ -68,16 +67,14 @@ function ExpandTool_AutoFish_insertFunc() {
 
         nextFishEndTime = fishRes.data.fishing.fishEtMs;
       }
-    }, 1000);
+    }, 1500);
   });
 }
 
 async function endFish() {
   const fishRes = await AutoFish_endFish();
   if (fishRes.error !== 0) {
-    showMessage(fishRes.msg, "error");
     console.log(fishRes);
-    isFishing = false;
     return;
   }
   let str = `【自动钓鱼】`;
@@ -92,6 +89,7 @@ async function endFish() {
     }
   }
   if (str !== "【自动钓鱼】") showMessage(str, "success");
+  isFishing = false;
 }
 
 function saveData_AutoFish() {
