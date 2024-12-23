@@ -33,6 +33,7 @@ function setRoomVipExpireDays() {
       if (showEffectMoreDom.length == 0) return;
       for (let i = 0; i < showEffectMoreDom.length; i++) {
         const detail = JSON.parse(showEffectMoreDom[i].getAttribute("data-detail"));
+        if (String(detail.property_id) !== "1646") continue; // 1646是VIP的ID
         if (String(detail.show_id_list) !== String(rid)) continue;
         const expireTime = detail.expire_time * 1000;
         const days = Math.floor((expireTime - Date.now()) / (1000 * 60 * 60 * 24));
