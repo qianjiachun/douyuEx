@@ -60,7 +60,7 @@ function ExpandTool_AutoFish_insertFunc() {
         if (fishRes.error !== 0) {
           showMessage(fishRes.msg, "error");
           console.log(fishRes);
-          clearInterval(timerAutoFish);
+          await sleep(5000);
           return;
         }
         isFishing = true;
