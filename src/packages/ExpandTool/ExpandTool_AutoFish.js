@@ -41,6 +41,12 @@ function ExpandTool_AutoFish_insertFunc() {
     }
     saveData_AutoFish();
 
+    if (homepageRes.data.fishing.stat == 0) {
+      // 未开始钓鱼
+      isFishing = false;
+      nextFishEndTime = 0;
+    }
+
     if (homepageRes.data.fishing.stat == 1) {
       // 还在钓鱼中
       isFishing = true;
@@ -52,7 +58,6 @@ function ExpandTool_AutoFish_insertFunc() {
       await endFish();
       await sleep(1000);
     }
-
 
     timerAutoFish = setInterval(async () => {
       if (isFishing) {
@@ -87,7 +92,12 @@ async function endFish() {
   const fishRes = await AutoFish_endFish();
   if (fishRes.error !== 0) {
     console.log(fishRes, "收杆失败");
-    showMessage(fishRes.msg, "error");
+    const homepageRes = await AutoFish_getHomepageData();
+    if (homepageRes.data.fishing.stat == 0) {
+      // 钓鱼已完成
+      isFishing = false;
+      nextFishEndTime = 0;
+    }
     return;
   }
   let str = `【自动钓鱼】`;
