@@ -80,58 +80,86 @@ function MonthCost_queryData(url) {
     })
 }
 
-async function getMonthCost() {
-	totalMonthCost = 0;
-	let ret = await MonthCost_queryData("https://www.douyu.com/member/cp/getYcConsumeTypeList");
-	typeNum = ret.data.length - 1;
-	if (ret.code == 0) {
-		// 跳过第一个 也就是全部，全部不支持查询月数据
-		for (let i = 1; i < ret.data.length; i++) {
-			let item = ret.data[i];
-			calcMonthCost(item.type);
+
+async function getMonthCost_gift() {
+	const [start, end] = getMonthTimeRange();
+	const [formattedStart, formattedEnd] = getFormattedMonthTimeRange();
+	let direction = 1;
+	let data = [];
+	let hasMoreData = true;
+	let id = 0;
+
+	while (hasMoreData) {
+		let url = `https://www.douyu.com/wjapi/nc/exchange/consume/giftList?queryType=0&consumeType=0&startDate=${start}&endDate=${end}&tradeStartDate=${formattedStart}&tradeEndDate=${formattedEnd}&direction=${direction}`;
+		if (id !== 0) {
+			url += `&id=${id}`;
+		}
+		
+		let ret = await MonthCost_queryData(url);
+		data = data.concat(ret.data);
+		if (ret.data.length < 20) {
+			hasMoreData = false;
+		} else {
+			id = ret.data[ret.data.length - 1].id;
 		}
 	}
+
+	data.forEach(item => {
+		totalMonthCost += Math.abs(item.amount)
+	});
 }
 
-async function calcMonthCost(type) {
-	// type: 礼物(1) 太空魔盒(3) 福袋礼物(5) 甜蜜告白(6) 音乐学徒(19)
-    let [beginTime, endTime] = getMonthTimeRange();
-    let host = "https://www.douyu.com/member/cp/getYcTransactionList";
+async function getMonthCost_diamondFans() {
+	let type = 0;
+	let page = 1;
+	let data = [];
+	let hasMoreData = true;
 
-    let lastId = "";
-    let currentNum = 0;
-    let currentPage = 1;
-    let total = 0;
-    let ret;
-
-    do {
-        ret = await MonthCost_queryData(host + "?" + `firstId=&lastId=${lastId}&propType=0&beginTime=${beginTime}&endTime=${endTime}&type=${type}&pageNum=${currentPage}&pageSize=50`)
-        if (ret.code == "0") {
-            let len = ret.data.details.length;
-            if (len == 0) {
-                break;
-            }
-            lastId = ret.data.details[len - 1].id;
-            total = Number(ret.data.total);
-            currentNum += Number(ret.data.pageSize);
-            currentPage++;
-            
-            for (let i = 0; i < ret.data.details.length; i++) {
-                let item = ret.data.details[i];
-				totalMonthCost += Number(item.price) * Number(item.number);
-            }
-            
-        } else {
-            console.log(ret.msg);
-            break;
-        }
-    } while (currentNum < total);
-	typeCount++;
-	if (typeCount >= typeNum) {
-		// 结束
-		MonthCost_saveData();
-		document.getElementById("monthcost__money").innerText = String(totalMonthCost/ 100);
+	while (hasMoreData) {
+		let url = `https://www.douyu.com/japi/interactnc/web/dFansbadge/myLogs?type=${type}&page=${page}`;
+		let ret = await MonthCost_queryData(url);
+		ret.data.list.forEach(item => {
+			let consumeDate = new Date(item.consumeTime * 1000);
+			let currentDate = new Date();
+			if (consumeDate.getMonth() === currentDate.getMonth() && consumeDate.getFullYear() === currentDate.getFullYear()) {
+				data.push(item);
+			}
+		});
+		let lastItemDate = new Date(ret.data.list[ret.data.list.length - 1].consumeTime * 1000);
+		if (ret.data.list.length < 20 || lastItemDate.getMonth() !== new Date().getMonth() || lastItemDate.getFullYear() !== new Date().getFullYear()) {
+			hasMoreData = false;
+		} else {
+			page++;
+		}
 	}
+
+	data.forEach(item => {
+		totalMonthCost += Math.abs(item.consumeMoney)
+	});
+}
+
+async function getMonthCost() {
+	totalMonthCost = 0;
+	await getMonthCost_gift();
+	await getMonthCost_diamondFans();
+	MonthCost_saveData();
+	document.getElementById("monthcost__money").innerText = String(totalMonthCost / 100);
+}
+
+function getFormattedMonthTimeRange() {
+	let now = new Date();
+	let nowMonth = now.getMonth();
+	let nowYear = now.getFullYear();
+	let monthStartDate = new Date(nowYear, nowMonth, 1);
+
+	let formatDate = (date) => {
+		let year = date.getFullYear();
+		let month = (date.getMonth() + 1).toString().padStart(2, '0');
+		let day = date.getDate().toString().padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	}
+
+	return [formatDate(monthStartDate), formatDate(now)];
 }
 
 function getMonthTimeRange() {
