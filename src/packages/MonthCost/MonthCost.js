@@ -209,7 +209,8 @@ function getMonthTimeRange() {
 function MonthCost_saveData() {
 	let data = {
 		monthCost: totalMonthCost,
-		updateTime: new Date().getTime()
+		updateTime: new Date().getTime(),
+		typeDetail: typeDetail 
 	}
 	let storage = localStorage.getItem("ExSave_MonthCost");
 	if (storage !== null) {
@@ -234,6 +235,7 @@ function MonthCost_getData() {
 function MonthCost_updateCost() {
 	let timeDiff = 1;
 	let tmpCost = 0;
+	let tmpTypeDetail = [];
 	// 默认为1，也就是要更新
 	let now = new Date().getDate();
 
@@ -242,11 +244,14 @@ function MonthCost_updateCost() {
 		let item = storage[my_uid];
 		timeDiff = Math.abs(now - new Date(item.updateTime).getDate());
 		tmpCost = item.monthCost;
+		tmpTypeDetail = item.typeDetail || [];
 	}
 
 	if (timeDiff >= 1) {
 		getMonthCost();
 	} else {
-		document.getElementById("monthcost__money").innerText = String(tmpCost/ 100);
+		document.getElementById("monthcost__money").innerText = String(tmpCost / 100);
+		typeDetail = tmpTypeDetail;
+		MonthCost_ContentAttrTitle();
 	}
 }
