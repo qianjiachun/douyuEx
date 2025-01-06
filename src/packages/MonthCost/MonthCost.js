@@ -98,11 +98,15 @@ async function getMonthCost_gift() {
 		}
 		
 		let ret = await MonthCost_queryData(url);
-		data = data.concat(ret.data);
-		if (ret.data.length < 20) {
-			hasMoreData = false;
+		if (ret.error == 1000) {
+			await new Promise(resolve => setTimeout(resolve, 2000));
 		} else {
-			id = ret.data[ret.data.length - 1].id;
+			data = data.concat(ret.data);
+			if (ret.data.length < 20) {
+				hasMoreData = false;
+			} else {
+				id = ret.data[ret.data.length - 1].id;
+			}
 		}
 	}
 
@@ -245,13 +249,14 @@ function MonthCost_updateCost() {
 		timeDiff = Math.abs(now - new Date(item.updateTime).getDate());
 		tmpCost = item.monthCost;
 		tmpTypeDetail = item.typeDetail || [];
+		document.getElementById("monthcost__money").innerText = String(tmpCost / 100);
+		typeDetail = tmpTypeDetail;
+		MonthCost_ContentAttrTitle();
+	}else{
+		document.getElementById("monthcost__money").innerHTML = `<span class="PlayerToolbar-dataLoadding"></span>`;
 	}
 
 	if (timeDiff >= 1) {
 		getMonthCost();
-	} else {
-		document.getElementById("monthcost__money").innerText = String(tmpCost / 100);
-		typeDetail = tmpTypeDetail;
-		MonthCost_ContentAttrTitle();
 	}
 }
