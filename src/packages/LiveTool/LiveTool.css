@@ -1,11 +1,5 @@
 .livetool {
-	background-color: rgba(255,255,255,0.9);
-	width: 100%;
-	height: 290px;
-	position: relative;
-	bottom: 290px;
-	display: none;
-	z-index: 1015;
+	width: 500px;
 }
 
 .livetool__cell {
@@ -29,10 +23,14 @@
 .livetool__cell_title {
 	flex: 1;
     -webkit-box-flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .livetool__cell_option {
 	text-align: right;
+    display: flex; 
+    align-items: center;
 }
 
 .livetool__cell_switch {

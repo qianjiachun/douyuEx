@@ -9,14 +9,10 @@
     color: royalblue;
 }
 #mute__idlist {
-    cursor: pointer;
-    color: royalblue;
-    margin-left: 10px;
+    margin: 0 10px 0 auto ;
 }
 #mute__export, #mute__import {
-    cursor: pointer;
-    color: royalblue;
-    margin-left: 5px;
+    margin-right: 10px;
 }
 #mute__select {
     width: 110px;
@@ -24,16 +20,4 @@
 
 .mute__option {
     margin-top: 5px;
-}
-
-#mute__word {
-    width: 70px;
-}
-
-#mute__count {
-    width: 30px;
-}
-
-#mute__time {
-    width: 65px;
 }

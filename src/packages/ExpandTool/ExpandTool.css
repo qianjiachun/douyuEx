@@ -1,11 +1,5 @@
 .extool {
-	background-color: rgba(255,255,255,0.9);
-	width: 100%;
-	height: 200px;
-	position: relative;
-	bottom: 200px;
-	display: none;
-	z-index: 1015;
+	width: 600px;
 }
 
 .extool__switch {
@@ -17,7 +11,7 @@
 	margin-bottom: 5px;
 }
 .extool__redpacket_room,.extool__gold,.extool__autofish {
-	display: inline-block;
+	display: block;
 }
 .ex_giftAnimation {
 	width: 100%;

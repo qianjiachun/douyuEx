@@ -20,18 +20,10 @@
     width: 40px;
 }
 
-#gift__reply {
-    width: 150px;
-}
-
 #gift__export {
-    cursor: pointer;
-    color: royalblue;
-    margin-left: 10px;
+    margin: 0 10px 0 auto ;
 }
 
 #gift__import {
-    cursor: pointer;
-    color: royalblue;
-    margin-left: 5px;
+    margin-right: 10px;
 }

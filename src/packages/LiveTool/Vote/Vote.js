@@ -17,10 +17,11 @@ function LiveTool_Vote_insertDom() {
     a.className = "livetool__cell";
     let cell = `
         <div class='livetool__cell_title'>
-            <span id='vote__title'>弹幕投票</span><span id='vote__show-result'>面板</span>
+            <span id='vote__title'>弹幕投票</span>
         </div>
+        <label style="margin-right:10px;" class="ex-label"><input class="ex-checkbox" id="vote__repeat" class="ex-checkbox" type="checkbox">重复投票</label>
+        <button class="ex-btn" id='vote__show-result'>面板</button>
         <div class='livetool__cell_option'>
-            <label style="margin-right:10px;"><input id="vote__repeat" type="checkbox">重复投票</label>
             <div class="onoffswitch livetool__cell_switch">
                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="vote__switch" tabindex="0" checked>
                 <label class="onoffswitch-label" for="vote__switch"></label>
@@ -29,14 +30,15 @@ function LiveTool_Vote_insertDom() {
     `;
     let panel = `
         <div class='vote__panel'>
-            <select id='vote__select'>
+            <select id='vote__select' class="ex-select">
             </select>
-            <input style="width:40px;margin-left:10px;" type="button" id="vote__add" value="添加"/>
-            <input style="width:40px;margin-left:10px;" type="button" id="vote__del" value="删除"/>
-            <label style="margin-left:5px">限时：<input id="vote__time" type="text" placeholder="秒" /></label>
+            <input class="ex-btn ex-btn-success"style="margin-left:10px;" type="button" id="vote__add" value="添加"/>
+            <input class="ex-btn ex-btn-error"style="margin-left:10px;" type="button" id="vote__del" value="删除"/>
+            <label class="ex-label" style="margin-top:5px">限时：<input class="ex-input" id="vote__time" type="text" placeholder="秒" /></label>
+            <div class="ex-line" style="margin:5px 0"></div>
             <div class="vote__option">
-                <label>主题：<input id="vote__theme" type="text"/></label>
-                <label>选项：<input id="vote__options" type="text" placeholder="用空格隔开每个选项"/></label>
+                <label class="ex-label">主题：<input class="ex-input" id="vote__theme" type="text"/></label>
+                <label class="ex-label">选项：<input class="ex-input" id="vote__options" type="text" placeholder="用空格隔开每个选项"/></label>
             </div>
         </div>
     `;
