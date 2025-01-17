@@ -8,10 +8,11 @@ function initPkg_ExpandTool_Treasure() {
 
 function ExpandTool_Treasure_insertDom() {
     let html = "";
-    html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
-    html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
-    html += '<div><a href="https://www.rrocr.com/" target="_blank" style="color:blue" title="点击进入rrocr官网，将账号用户中心的appkey填入右边然后开启功能即可">rrocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
-    
+    html += '<label class="ex-label"><input class="ex-checkbox" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
+    html += '<label class="ex-label ex-label-inline">延迟(抢得过快请调高)：</label><input class="ex-input" id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
+    html += '<div style="margin-top:10px"><label class="ex-label ex-label-inline">rrocr秘钥：</label><input class="ex-input" id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
+    html += '<div><a href="https://www.rrocr.com/" target="_blank" style="color:blue" title="点击进入rrocr官网，将账号用户中心的appkey填入右边然后开启功能即可">点击进入rrocr官网，将账号用户中心的appkey填入右边然后开启功能即可</a></div>';
+    html += '<div class="ex-line" style="margin:10px 0"></div>';
     let a = document.createElement("div");
     a.className = "extool__treasure";
     a.innerHTML = html;

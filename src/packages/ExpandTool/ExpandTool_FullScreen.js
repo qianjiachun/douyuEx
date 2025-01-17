@@ -9,7 +9,7 @@ function initPkg_ExpandTool_FullScreen() {
 function ExpandTool_FullScreen_insertDom() {
     let a = document.createElement("span");
     // a.className = "extool__bsize";
-    a.innerHTML = '<label title="自动网页全屏"><input style="margin-top:5px;" id="extool__fullscreen" type="checkbox">自动网页全屏</label><label title="自动最高画质"><input id="extool__highestvideoquality" type="checkbox">自动最高画质</label>';
+    a.innerHTML = '<label class="ex-label" title="自动网页全屏"><input class="ex-checkbox" id="extool__fullscreen" type="checkbox">自动网页全屏</label><label class="ex-label" title="自动最高画质"><input class="ex-checkbox" id="extool__highestvideoquality" type="checkbox">自动最高画质</label>';
     
     let b = document.getElementsByClassName("extool")[0];
     b.insertBefore(a, b.childNodes[0]);

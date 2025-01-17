@@ -14,8 +14,8 @@ function initPkg_ExpandTool_Gold() {
 
 function ExpandTool_Gold_insertDom() {
     let html = "";
-    html += '<label><input style="margin-top:5px;" id="extool__gold_start" type="checkbox">幻神模式</label>';
-    html += '<label><input style="margin-top:5px;" id="extool__goldGift_start" type="checkbox">荧光棒变超火</label>';
+    html += '<label class="ex-label"><input class="ex-checkbox" id="extool__gold_start" type="checkbox">幻神模式</label>';
+    html += '<label class="ex-label"><input class="ex-checkbox" id="extool__goldGift_start" type="checkbox">荧光棒变超火</label>';
     
     let a = document.createElement("div");
     a.className = "extool__gold";

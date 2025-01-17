@@ -1,17 +1,5 @@
 .bloop {
-	background-color: rgba(255,255,255,0.9);
-	width: 100%;
-	height: 200px;
-	position: relative;
-	bottom: 200px;
-	display: none;
-	z-index: 1015;
-}
-
-.bloop__switch {
-	position: absolute;
-	right: 0;
-	bottom: 0;
+	width: 400px;
 }
 
 .bloop__mode {

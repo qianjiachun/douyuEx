@@ -12,8 +12,8 @@ function LiveTool_Enter_insertDom() {
     let cell = `
         <div class='livetool__cell_title'>
             <span id='enter__title'>进场欢迎</span>
-            <span id='enter__export'>导出</span>
-            <span id='enter__import'>导入</span>
+            <button class="ex-btn" id='enter__export'>导出</button>
+            <button class="ex-btn" id='enter__import'>导入</button>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -24,13 +24,14 @@ function LiveTool_Enter_insertDom() {
     `;
     let panel = `
         <div class='enter__panel'>
-            <select id='enter__select'>
+            <select id='enter__select' class="ex-select">
             </select>
-            <input style="width:40px;margin-left:10px;" type="button" id="enter__add" value="添加"/>
-            <input style="width:40px;margin-left:10px;" type="button" id="enter__del" value="删除"/>
+            <input class="ex-btn ex-btn-success" style="margin-left:10px;" type="button" id="enter__add" value="添加"/>
+            <input class="ex-btn ex-btn-error" style="margin-left:10px;" type="button" id="enter__del" value="删除"/>
+            <div class="ex-line" style="margin:5px 0"></div>
             <div class="enter__option">
-                <label>等级≥<input id="enter__level" type="text" value="1"/></label>
-                <label>当前欢迎词：<input id="enter__word" type="text" placeholder="欢迎<id>光临直播间"/></label>
+                <label class="ex-label"><div style="width:7em">等级≥：</div><input class="ex-input" id="enter__level" type="text" value="1"/></label>
+                <label class="ex-label"><div style="width:7em">当前欢迎词：</div><input class="ex-input" id="enter__word" type="text" placeholder="欢迎<id>光临直播间"/></label>
             </div>
         </div>
     `;

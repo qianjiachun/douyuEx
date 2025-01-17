@@ -18,9 +18,9 @@ function LiveTool_Mute_insertDom() {
     let cell = `
         <div class='livetool__cell_title'>
             <span id='mute__title'>关键词禁言</span>
-            <span id='mute__idlist'>名单</span>
-            <span id='mute__export'>导出</span>
-            <span id='mute__import'>导入</span>
+            <button class="ex-btn" id='mute__idlist'>名单</button>
+            <button class="ex-btn" id='mute__export'>导出</button>
+            <button class="ex-btn" id='mute__import'>导入</button>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -31,16 +31,17 @@ function LiveTool_Mute_insertDom() {
     `;
     let panel = `
         <div class='mute__panel'>
-            <select id='mute__select'>
+            <select id='mute__select' class="ex-select">
             </select>
-            <input style="width:40px;margin-left:10px;" type="button" id="mute__add" value="添加"/>
-            <input style="width:40px;margin-left:10px;" type="button" id="mute__del" value="删除"/>
-            <input style="width:65px;margin-left:10px;" type="button" id="mute__delmute" value="一键解禁"/>
+            <input class="ex-btn ex-btn-success" style="margin-left:10px;" type="button" id="mute__add" value="添加"/>
+            <input class="ex-btn ex-btn-error" style="margin-left:10px;" type="button" id="mute__del" value="删除"/>
+            <input class="ex-btn" style="margin-left:10px;" type="button" id="mute__delmute" value="一键解禁"/>
+            <div class="ex-line" style="margin-top:5px"></div>
             <div class="mute__option">
-                <label>词：<input id="mute__word" type="text" placeholder="re(式)=结果"/></label>
-                <label>次数：<input id="mute__count" type="number" value="5"/></label>
-                <label>时间：
-                    <select id='mute__time'>
+                <label class="ex-label"><div style="width:4em">词：</div><input class="ex-input" id="mute__word" type="text" placeholder="re(式)=结果"/></label>
+                <label class="ex-label"><div style="width:4em">次数：</div><input class="ex-input" id="mute__count" type="number" value="5"/></label>
+                <label class="ex-label"><div style="width:4em">时间：</div>
+                    <select id='mute__time' class="ex-select">
                         <option value="1">1分钟</option>
                         <option value="10">10分钟</option>
                         <option value="30">30分钟</option>

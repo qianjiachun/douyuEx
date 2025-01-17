@@ -19,23 +19,23 @@ function initPkg_BarrageLoop() {
 function BarrageLoop_insertModal() {
 	let html = "";
 	let a = document.createElement("div");
-	a.className = "bloop";
-	html += '<div style="display:inline-block"><label>弹幕：</label></div>';
+	a.className = "bloop ex-dialog";
+	html += '<div class="ex-label"><label>弹幕：</label></div>';
+	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50" class="ex-textarea"></textarea>';
+	html += '<div><label class="ex-label">速度(ms)：</label><input class="ex-input" id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input class="ex-input" id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
+	html += '<div><label class="ex-label">限时(min)：</label><input class="ex-input" id="bloop__text_stoptime" type="text" style="width:50px;text-align:center;" value="1" /></div>';
+	html += '<div class="ex-checkbox-container"><label class="ex-checkbox-label" style="margin-right: 20px;"><input class="ex-checkbox" id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label><label class="ex-checkbox-label"><input class="ex-checkbox" id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label></div>';
+	html += '<div class="bloop__switch ex-checkbox-container" style="justify-content: flex-end;"><label class="ex-checkbox-label"><input class="ex-checkbox"id="bloop__checkbox_startSend" type="checkbox">开始发送</label></div>';
 	html += `
-	<span style="float:right;margin-right:15px;">
-		<select id="bloop__select"></select>
-		<input style="width:40px;margin-left:10px;" type="button" id="bloop__save" value="保存"/>
-		<input style="width:40px;margin-left:10px;" type="button" id="bloop__delete" value="删除"/>
-	</span>
+	<div class="ex-line"></div>
+	<div style="margin-top:10px;">
+		<select id="bloop__select" class="ex-select"></select>
+		<input class="ex-btn" style="margin-left:10px;" type="button" id="bloop__save" value="保存"/>
+		<input class="ex-btn ex-btn-error" style="margin-left:10px;" type="button" id="bloop__delete" value="删除"/>
+	</div>
 	`;
-	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50"></textarea>';
-	html += '<div><label>速度(ms)：</label><input id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
-	html += '<div><label>限时(min)：</label><input id="bloop__text_stoptime" type="text" style="width:50px;text-align:center;" value="1" /></div>';
-	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label></div>';
-	html += '<div class="bloop__switch"><label><input id="bloop__checkbox_startSend" type="checkbox">开始发送</label></div>';
-	
 	a.innerHTML = html;
-	let b = document.getElementsByClassName("layout-Player-chat")[0];
+	let b = document.getElementsByClassName("ex-mask")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
 function BarrageLoop_insertIcon() {

@@ -1,0 +1,238 @@
+.ex-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #fff;
+}
+
+.ex-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 2px rgba(0, 123, 255, 0.5);
+}
+
+/* 下拉选择框 */
+.ex-select {
+    width: 100%;
+    max-width: 300px;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 8px 6px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23333' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+}
+
+.ex-select:focus {
+    border-color: #007bff;
+}
+
+/* 按钮 */
+.ex-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    background-color: #f0f0f0;
+}
+
+/* 默认按钮 */
+.ex-btn-default {
+    color: #fff;
+    background-color: #007bff;
+}
+
+.ex-btn-default:hover {
+    background-color: #0056b3;
+}
+
+.ex-btn-default:active {
+    transform: scale(0.98);
+}
+
+/* 成功按钮 */
+.ex-btn-success {
+    color: #fff;
+    background-color: #28a745;
+}
+
+.ex-btn-success:hover {
+    background-color: #218838;
+}
+
+.ex-btn-success:active {
+    transform: scale(0.98);
+}
+
+/* 错误按钮 */
+.ex-btn-error {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.ex-btn-error:hover {
+    background-color: #c82333;
+}
+
+.ex-btn-error:active {
+    transform: scale(0.98);
+}
+
+/* 按钮禁用状态 */
+.ex-btn:disabled {
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* 标签和提示 */
+.ex-label {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.ex-label-inline {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.ex-hint {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.ex-textarea {
+    width: 100%;
+    max-width: 300px;
+    height: 100px; /* 默认高度 */
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    resize: vertical; /* 允许垂直调整大小 */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #fff;
+}
+
+.ex-textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 2px rgba(0, 123, 255, 0.5);
+}
+
+.ex-textarea::placeholder {
+    color: #aaa;
+    font-size: 13px;
+}
+
+
+/* 复选框容器 */
+.ex-checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* 自定义复选框 */
+.ex-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.ex-checkbox:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.ex-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* 标签样式 */
+.ex-checkbox-label {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+
+.ex-line{
+    width: 100%;
+    height: 0;
+    border-top: 1px solid #eee;
+}
+
+/* 弹窗 */
+.ex-dialog{
+    background-color: rgba(255,255,255);
+	max-height: 60vh;
+	display: none;
+	z-index: 10001;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 4px;
+    padding: 20px;
+	overflow: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+}
+
+.ex-dialog::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ex-dialog::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2) !important;
+}
+
+#root::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2) !important;
+}
+

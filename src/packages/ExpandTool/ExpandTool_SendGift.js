@@ -5,11 +5,12 @@ function initPkg_ExpandTool_SendGift() {
 
 function ExpandTool_SendGift_insertDom() {
     let html = "";
-    html += '<label>送礼：[用于打榜,例如送出999个飞机]</label><a style="margin-left:10px;color:blue;" href="http://open.douyucdn.cn/api/RoomApi/room/' + rid + '" target="_blank">礼物id示例</a><br />';
-    html += '<label>礼物ID：</label><input id="extool__sendgift_id" type="text" style="width:50px;text-align:center;margin-right:10px;" value="20000" />';
-    html += '<label>数量：</label><input id="extool__sendgift_cnt" type="text" style="width:30px;text-align:center;margin-right:10px;" value="1" />';
-    html += '<label>间隔ms：</label><input id="extool__sendgift_delay" type="text" style="width:30px;text-align:center;" value="0" />';
-    html += '<input style="width:40px;margin-left:10px;" type="button" id="extool__sendgift_btn" value="送出" />';
+    html += '<label class="ex-label">送礼：[用于打榜,例如送出999个飞机]</label><a style="color:blue;" href="http://open.douyucdn.cn/api/RoomApi/room/' + rid + '" target="_blank">礼物id示例</a><br />';
+    html += '<label class="ex-label"><p style="width:5em">礼物ID：</p><input class="ex-input" id="extool__sendgift_id" type="text" value="20000" /></label>';
+    html += '<label class="ex-label"><p style="width:5em">数量：</p><input class="ex-input" id="extool__sendgift_cnt" type="text"  value="1" /></label>';
+    html += '<label class="ex-label"><p style="width:5em">间隔ms：</p><input class="ex-input" id="extool__sendgift_delay" type="text" value="0" /></label>';
+    html += '<input class="ex-btn" type="button" id="extool__sendgift_btn" value="送出" />';
+    html += '<div class="ex-line" style="margin:10px 0"></div>';
     let a = document.createElement("div");
     a.className = "extool__sendgift";
     a.innerHTML = html;

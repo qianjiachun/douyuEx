@@ -16,31 +16,15 @@
     margin-top: 5px;
 }
 
-#enter__enterId {
-    width: 40px;
-}
-
-#enter__reply {
-    width: 150px;
-}
-
-#enter__word {
-    width: 140px;
-}
-
 #enter__level {
     width: 25px;
     text-align: center;
 }
 
 #enter__export {
-    cursor: pointer;
-    color: royalblue;
-    margin-left: 10px;
+    margin: 0 10px 0 auto ;
 }
 
 #enter__import {
-    cursor: pointer;
-    color: royalblue;
-    margin-left: 5px;
+    margin-right: 10px;
 }

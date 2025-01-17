@@ -297,35 +297,68 @@ function getTextareaPosition(element) {
     return cursorPos;
 }
 
+
+let panels = [
+	{
+		name: "弹幕发送小助手",
+		className: "bloop",
+	},
+	{
+		name: "扩展功能",
+		className: "extool",
+	},
+	{
+		name: "直播间工具",
+		className: "livetool",
+	},
+	{
+		name: "全站抽奖信息",
+		className: "exlottery"
+	},
+];
 function showExRightPanel(name) {
-	let panels = [
-		{
-			name: "弹幕发送小助手",
-			className: "bloop",
-		},
-		{
-			name: "扩展功能",
-			className: "extool",
-		},
-		{
-			name: "直播间工具",
-			className: "livetool",
-		},
-		{
-			name: "全站抽奖信息",
-			className: "exlottery"
-		},
-	];
 	for (let i = 0; i < panels.length; i++) {
 		let item = panels[i];
 		let dom = document.getElementsByClassName(item.className)[0];
+		let mask = document.getElementsByClassName("ex-mask")[0];
 		if (dom) {
 			if (name === item.name) {
 				dom.style.display = dom.style.display !== "block" ? "block" : "none";
+				mask.style.display = dom.style.display !== "block" ? "none" : "block";
 			} else {
 				dom.style.display = "none";
 			}
 		}
+	}
+}
+
+maskLayer();
+function maskLayer(){
+	let mask = document.createElement("div");
+	mask.style.position = "fixed";
+	mask.style.top = "0";
+	mask.style.left = "0";
+	mask.style.width = "100%";
+	mask.style.height = "100%";
+	mask.style.backgroundColor = "rgba(0,0,0,0.5)";
+	mask.style.zIndex = "10000";
+	mask.style.display = "none";
+	mask.className = "ex-mask";
+	mask.style.backdropFilter = "blur(3px)";
+	document.body.appendChild(mask);
+
+	mask.onclick = function(event) {
+		if(event.target.className != "ex-mask") {
+			return;
+		}
+		for (let i = 0; i < panels.length; i++) {
+			let item = panels[i];
+			let dom = document.getElementsByClassName(item.className)[0];
+			if (dom) {
+				dom.style.display = "none";
+			}
+		}
+		mask.style.display = "none";
 	}
 }
 

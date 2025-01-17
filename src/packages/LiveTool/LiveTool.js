@@ -26,9 +26,9 @@ function initPkg_LiveTool_Module() {
 }
 function LiveTool_insertModal() {
 	let a = document.createElement("div");
-	a.className = "livetool";
+	a.className = "livetool ex-dialog";
 	
-	let b = document.getElementsByClassName("layout-Player-chat")[0];
+	let b = document.getElementsByClassName("ex-mask")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
 function LiveTool_insertIcon() {
