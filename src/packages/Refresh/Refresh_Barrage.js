@@ -59,6 +59,7 @@ function setRefreshBarrage() {
     .UserCsgoGameDataMedal,.Barrage-honor,.Barrage-listItem .Barrage-icon,.Barrage-listItem .FansMedal.is-made,.Barrage-listItem .RoomLevel,.Barrage-listItem .Motor,.Barrage-listItem .ChatAchievement,.Barrage-listItem .Barrage-hiIcon,.Barrage-listItem .Medal,.Barrage-listItem .MatchSystemTeamMedal{display:none !important;}
     /*.Barrage-listItem .UserLevel{display:none !important;}*/
     .Barrage-listItem .Baby{display:none !important;}
+    .FansMedalWrap{display:none !important;}
     `;
     StyleHook_set("Ex_Style_RefreshBarrage", cssText);
     current_barrage_status = 1;
