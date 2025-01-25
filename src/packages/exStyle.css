@@ -52,6 +52,7 @@
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
     background-color: #f0f0f0;
+    color: #222;
 }
 
 /* 默认按钮 */
