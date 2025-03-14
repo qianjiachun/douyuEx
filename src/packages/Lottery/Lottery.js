@@ -31,7 +31,7 @@ function Lottery_insertIcon() {
 
 function Lottery_insertModal() {
 	let a = document.createElement("div");
-	a.className = "exlottery ex-dialog";
+	a.className = "exlottery";
 	a.innerHTML = `
         <div class="lottery__func">
             <div id="lottery-refresh">
@@ -44,7 +44,7 @@ function Lottery_insertModal() {
         <div class="lottery__nodata">暂无数据</div>
         <div class="lottery__wrap"></div>
     `;
-	let b = document.getElementsByClassName("ex-mask")[0];
+	let b = document.getElementsByClassName("layout-Player-chat")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
 

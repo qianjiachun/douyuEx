@@ -302,18 +302,22 @@ let panels = [
 	{
 		name: "弹幕发送小助手",
 		className: "bloop",
+		isMask: false
 	},
 	{
 		name: "扩展功能",
 		className: "extool",
+		isMask: true
 	},
 	{
 		name: "直播间工具",
 		className: "livetool",
+		isMask: true
 	},
 	{
 		name: "全站抽奖信息",
-		className: "exlottery"
+		className: "exlottery",
+		isMask: false
 	},
 ];
 function showExRightPanel(name) {
@@ -324,7 +328,9 @@ function showExRightPanel(name) {
 		if (dom) {
 			if (name === item.name) {
 				dom.style.display = dom.style.display !== "block" ? "block" : "none";
-				mask.style.display = dom.style.display !== "block" ? "none" : "block";
+				if(item.isMask){
+					mask.style.display = dom.style.display !== "block" ? "none" : "block";
+				}
 			} else {
 				dom.style.display = "none";
 			}

@@ -19,7 +19,7 @@ function initPkg_BarrageLoop() {
 function BarrageLoop_insertModal() {
 	let html = "";
 	let a = document.createElement("div");
-	a.className = "bloop ex-dialog";
+	a.className = "bloop";
 	html += '<div class="ex-label"><label>弹幕：</label></div>';
 	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50" class="ex-textarea"></textarea>';
 	html += '<div><label class="ex-label">速度(ms)：</label><input class="ex-input" id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input class="ex-input" id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
@@ -35,7 +35,7 @@ function BarrageLoop_insertModal() {
 	</div>
 	`;
 	a.innerHTML = html;
-	let b = document.getElementsByClassName("ex-mask")[0];
+	let b = document.getElementsByClassName("layout-Player-chat")[0];
 	b.insertBefore(a, b.childNodes[0]);
 }
 function BarrageLoop_insertIcon() {
