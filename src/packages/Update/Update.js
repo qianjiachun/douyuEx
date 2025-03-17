@@ -32,7 +32,7 @@ function checkUpdate_Src() {
 	return new Promise((resolve, reject) => {
 		GM_xmlhttpRequest({
 				method: "GET",
-				url: "https://src.douyuex.com/src/douyuex_version.txt",
+				url: `https://src.douyuex.com/src/douyuex_version.txt?t=${new Date().getTime()}`,
 				responseType: "text",
 				onload: function(response) {
 					const txt = response.response;
