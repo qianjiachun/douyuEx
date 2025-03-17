@@ -21,7 +21,14 @@ function handleFolder(folderPath, excludingFileName) {
   });
 }
 
+function generateVersion() {
+  let version = fs.readFileSync("./src/packages/Update/Update.js", "utf8");
+  version = version.match(/var curVersion = "(.*?)"/)[1];
+  fs.writeFileSync("./dist/douyuex_version.txt", version);
+}
+
 function build() {
+  generateVersion();
   handleFolder("./src", "main.js");
   css = css.replace(/\r\n/g, "");
   let template = fs.readFileSync("./src/main.js", "utf8");
