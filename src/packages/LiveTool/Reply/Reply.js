@@ -14,8 +14,8 @@ function LiveTool_Reply_insertDom() {
     let cell = `
         <div class='livetool__cell_title'>
             <span id='reply__title'>关键词回复</span>
-            <button class="ex-btn" id='reply__export' sty>导出</button>
-            <button class="ex-btn" id='reply__import'>导入</button>
+            <span id='reply__export'>导出</span>
+            <span id='reply__import'>导入</span>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -26,15 +26,14 @@ function LiveTool_Reply_insertDom() {
     `;
     let panel = `
         <div class='reply__panel'>
-            <select id='reply__select' class="ex-select">
+            <select id='reply__select'>
             </select>
-            <input style="margin-left:10px;" class="ex-btn ex-btn-success" type="button" id="reply__add" value="添加"/>
-            <input style="margin-left:10px;" class="ex-btn ex-btn-error" type="button" id="reply__del" value="删除"/>
-            <label class="ex-label" style="margin-top: 5px;"><div style="width:4em;">CD：</div><input id="reply__time" class="ex-input" type="text" placeholder="秒" /></label>
-            <div class="ex-line"></div>
+            <input style="width:40px;margin-left:10px;" type="button" id="reply__add" value="添加"/>
+            <input style="width:40px;margin-left:10px;" type="button" id="reply__del" value="删除"/>
+            <label style="margin-left:5px">CD：<input id="reply__time" type="text" placeholder="秒" /></label>
             <div class="reply__option">
-                <label class="ex-label"><div style="width:4em;">词：</div><input class="ex-input" id="reply__word" type="text" placeholder="re(式)=结果"/></label>
-                <label class="ex-label"><div style="width:4em;">回复：</div><input class="ex-input" id="reply__reply" type="text" placeholder="<id>用户名 <txt>弹幕"/></label>
+                <label>词：<input id="reply__word" type="text" placeholder="re(式)=结果"/></label>
+                <label>回复：<input id="reply__reply" type="text" placeholder="<id>用户名 <txt>弹幕"/></label>
             </div>
         </div>
     `;

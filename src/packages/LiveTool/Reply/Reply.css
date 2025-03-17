@@ -21,10 +21,22 @@
     margin-top: 5px;
 }
 
+#reply__word {
+    width: 70px;
+}
+
+#reply__reply {
+    width: 147px;
+}
+
 #reply__export {
-   margin: 0 10px 0 auto ;
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 10px;
 }
 
 #reply__import {
-    margin-right: 10px;
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 5px;
 }

@@ -5,14 +5,14 @@
  * License: MIT
  * Date:    2017-09-23
  */
-.postbird-box-container {
+ .postbird-box-container {
     width: 100%;
     height: 100%;
     overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10002;
+    z-index: 9999;
     background-color: rgba(0, 0, 0, 0.2);
     display: block;
     -webkit-user-select: none;

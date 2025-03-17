@@ -16,27 +16,35 @@
     margin-top: 5px;
 }
 
+#vote__theme {
+    width: 70px;
+}
+
+#vote__options {
+    width: 133px;
+}
+
 #vote__time {
     width: 35px;
 }
 
 #vote__show-result {
-    margin: 0 10px 0 auto ;
+    cursor: pointer;
+    color: royalblue;
+    margin-left: 10px;
 }
 
 .vote__result {
-    position: fixed;
-    top: 50%;
-    width: 600px;
-    height: 70vh;
-    background: rgb(255 255 255);
-    left: 50%;
-    z-index: 10003;
+    position: absolute;
+    top: 0px;
+    width: 300px;
+    background: rgba(255,255,255,0.85);
+    left: 0px;
+    z-index: 999;
     padding: 5px;
     border-radius: 10px;
     user-select: none;
     display: none;
-    transform: translate(-50%, -50%);
 }
 
 #vote__result-theme {

@@ -12,7 +12,7 @@ function initPkg_ExpandTool_AutoFish() {
 
 function ExpandTool_AutoFish_insertDom() {
   let html = "";
-  html += '<label class="ex-label"><input class="ex-checkbox" id="extool__autofish_start" type="checkbox">自动钓鱼</label>';
+  html += '<label><input style="margin-top:5px;" id="extool__autofish_start" type="checkbox">自动钓鱼</label>';
 
   let a = document.createElement("div");
   a.className = "extool__autofish";

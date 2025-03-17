@@ -12,8 +12,8 @@ function LiveTool_Gift_insertDom() {
     let cell = `
         <div class='livetool__cell_title'>
             <span id='gift__title'>自动谢礼物</span>
-            <button class="ex-btn" id='gift__export'>导出</button>
-            <button class="ex-btn" id='gift__import'>导入</button>
+            <span id='gift__export'>导出</span>
+            <span id='gift__import'>导入</span>
         </div>
         <div class='livetool__cell_option'>
             <div class="onoffswitch livetool__cell_switch">
@@ -24,16 +24,14 @@ function LiveTool_Gift_insertDom() {
     `;
     let panel = `
         <div class='gift__panel'>
-            <select id='gift__select' class="ex-select">
+            <select id='gift__select'>
             </select>
-            <input class="ex-btn ex-btn-success" style="margin-left:10px;" type="button" id="gift__add" value="添加"/>
-            <input class="ex-btn ex-btn-error" style="margin-left:10px;" type="button" id="gift__del" value="删除"/>
-            <input class="ex-btn" style="margin-left:10px;" type="button" id="gift__template" value="生成模板"/>
-            <div class="ex-line" style="margin:5px 0"></div>
+            <input style="width:40px;margin-left:10px;" type="button" id="gift__add" value="添加"/>
+            <input style="width:40px;margin-left:10px;" type="button" id="gift__del" value="删除"/>
+            <input style="width:64px;margin-left:10px;" type="button" id="gift__template" value="生成模板"/>
             <div class="gift__option">
-                <label class="ex-label"><div style="width:6em">礼物id：</div><input class="ex-input" id="gift__giftId" type="text"/></label>
-                <label class="ex-label"><div style="width:6em">回复：</div><input class="ex-input" id="gift__reply" type="text" placeholder="<id>=用户名 <cnt>个数"/></label>
-                <a id="reply__show_gid" style="color:blue;" href="javascript:void(0);">点击查看礼物ID</a>
+                <label><a id="reply__show_gid" style="color:blue;" href="javascript:void(0);">礼物id：</a><input id="gift__giftId" type="text"/></label>
+                <label>回复：<input id="gift__reply" type="text" placeholder="<id>=用户名 <cnt>个数"/></label>
             </div>
         </div>
     `;
