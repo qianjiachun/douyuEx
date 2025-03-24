@@ -145,6 +145,7 @@ async function getMonthCost_diamondFans() {
 				data.push(item);
 			}
 		});
+		if (!ret.data.list[ret.data.list.length - 1]) break;
 		let lastItemDate = new Date(ret.data.list[ret.data.list.length - 1].consumeTime * 1000);
 		if (ret.data.list.length < 20 || lastItemDate.getMonth() !== new Date().getMonth() || lastItemDate.getFullYear() !== new Date().getFullYear()) {
 			hasMoreData = false;
