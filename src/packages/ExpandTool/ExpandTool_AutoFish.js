@@ -190,7 +190,7 @@ function AutoFish_startFish() {
       mode: "no-cors",
       credentials: "include",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `ctn=${getCCN()}&rid=${rid}&baitId=${baitId}`
+      body: `ctn=${getCCN()}&rid=${rid}&baitId=${baitId}&ver=1.1`
     })
       .then((res) => {
         return res.json();
