@@ -28,7 +28,7 @@ function PopupPlayer_insertPrompt() {
     html += '<div class="postbird-box-dialog">';
     html += '<div style="min-height:170px" class="postbird-box-content">';
     html += '<div class="postbird-box-header">';
-    html += '<span class="postbird-box-title"><span>请输入直播间地址：</span><a style="float:right;color:royalblue;" href="http://live.douyuex.com/" target="_blank">DouyuEx联播</a></span>';
+    html += '<span class="postbird-box-title"><span>请输入直播间/直播流地址：</span><a style="float:right;color:royalblue;" href="http://live.douyuex.com/" target="_blank">DouyuEx联播</a></span>';
     html += '</div>'; // header
     html += '<div class="postbird-box-text">';
     html += '<input id="popup-player__url" value="https://www.douyu.com/5189167" style="height:30px;box-sizing:border-box" type="text" class="postbird-prompt-input" autofocus="true">';
@@ -54,22 +54,34 @@ function initPkg_PopupPlayer_Func() {
         let roomUrl = document.getElementById("popup-player__url").value;
         if (roomUrl != "") {
             let isIframe = document.getElementById("popup-player__noiframe").checked;
-            if (isIframe == true) {
-                if (roomUrl.indexOf("douyu.com") != -1) {
-                    getRealRid_Douyu(roomUrl, (rid) => {
-                        createNewVideo(videoPlayerArr.length, rid, "Douyu");
-                    });
-                } else if (roomUrl.indexOf("bilibili.com") != -1) {
-                    getRealRid_Bilibili(roomUrl, (rid) => {
-                        createNewVideo(videoPlayerArr.length, rid, "Bilibili");
-                    });
-                } else if (roomUrl.indexOf("huya.com") != -1) {
-                    createNewVideo(videoPlayerArr.length, roomUrl, "Huya");
+            let isStream = false;
+            if (roomUrl.length > 150) {
+                let confirm = window.confirm("你输入的是直播流吗？");
+                if (confirm == true) {
+                    isStream = true;
                 }
-            } else {
-                createNewVideo_iframe(videoPlayerArr.length, roomUrl);
             }
-            
+            if (isStream) {
+                createNewVideo_Stream(videoPlayerArr.length, roomUrl);
+            } else {
+                if (isIframe == true) {
+                    if (roomUrl.indexOf("douyu.com") != -1) {
+                        getRealRid_Douyu(roomUrl, (rid) => {
+                            createNewVideo(videoPlayerArr.length, rid, "Douyu");
+                        });
+                    } else if (roomUrl.indexOf("bilibili.com") != -1) {
+                        getRealRid_Bilibili(roomUrl, (rid) => {
+                            createNewVideo(videoPlayerArr.length, rid, "Bilibili");
+                        });
+                    } else if (roomUrl.indexOf("huya.com") != -1) {
+                        createNewVideo(videoPlayerArr.length, roomUrl, "Huya");
+                    } else {
+                        createNewVideo_Stream(videoPlayerArr.length, roomUrl);
+                    }
+                } else {
+                    createNewVideo_iframe(videoPlayerArr.length, roomUrl);
+                }
+            }
         } else {
             showMessage("请输入地址", "error");
         }
@@ -353,7 +365,7 @@ function createNewVideo_Bilibili(id, rid){
             html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><a title='进入直播间' target='_blank' href='https://live.bilibili.com/"+  rid + "'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "Bilibili - " + rid + "</span></a>";
             html += "<select class='exVideoQn' id='exVideoQn" + String(id) + "'><option value='1'>流畅</option><option value='2'>高清</option><option value='3'>超清</option><option value='4'>蓝光</option><option value='5'>原画</option></select>";
             html += "<select class='exVideoCDN' id='exVideoCDN" + String(id) + "'><option value='1'>主线路</option><option value='2'>备用线路1</option><option value='3'>备用线路2</option><option value='4'>备用线路3</option></select>";
-            html += `<input id='exVideoEmbed${String(id)}' type='button' value='嵌入视频' style='height:30px;'>`;
+            html += `<input id='exVideoEmbed${String(id)}' type='button' value='    ' style='height:30px;'>`;
             html += `<input id='exVideoUnEmbed${String(id)}' type='button' value='恢复视频' style='height:30px;display:none;'>`;
             html += `<input id='exVideoCopy${String(id)}' type='button' value='复制直播流' style='height:30px;'>`;
             html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>"
@@ -610,5 +622,83 @@ function setElementFunc_iframe(id) {
                 }
             }
         }
+    }
+}
+
+// 任意直播流
+function createNewVideo_Stream(id, lurl) {
+    if (lurl == "" || lurl == null) return;
+    let a = document.createElement("div");
+    let html = "";
+    a.id = "exVideoDiv" + String(id);
+    a.rid = rid;
+    a.className = "exVideoDiv";
+    html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + `'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>直播流${id}</span>`;
+    html += `<input id='exVideoEmbed${String(id)}' type='button' value='嵌入视频' style='height:30px;'>`;
+    html += `<input id='exVideoUnEmbed${String(id)}' type='button' value='恢复视频' style='height:30px;display:none;'>`;
+    html += `<input id='exVideoCopy${String(id)}' type='button' value='复制直播流' style='height:30px;'>`;
+    html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>";
+    html += "</div>";
+    html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
+    a.innerHTML = html;
+    let b = document.getElementsByClassName("layout-Main")[0];
+    b.insertBefore(a, b.childNodes[0]);
+    setElementDrag(id);
+    setElementResize(id);
+    setElementVideo(id, lurl);
+    setElementFunc_Stream(id);
+}
+
+function setElementFunc_Stream(id) {
+    let box = document.getElementById("exVideoDiv" + String(id));
+    let exVideoPlayer = document.getElementById("exVideoPlayer" + String(id));
+    let info = document.getElementById("exVideoInfo" + String(id));
+    let scale = document.getElementById("exVideoScale" + String(id));
+    let exVideoEmbed = document.getElementById("exVideoEmbed" + String(id));
+    let exVideoUnEmbed = document.getElementById("exVideoUnEmbed" + String(id));
+    exVideoPlayer.onclick = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (scale.style.display != "block") {
+            scale.style.display = "block";
+            info.style.display = "block";
+        } else {
+            scale.style.display = "none";
+            info.style.display = "none";
+        }
+        for (let i = 0; i < videoPlayerArr.length; i++) {
+            let box = document.getElementById("exVideoDiv" + String(i));
+            if (box != null) {
+                if (i == id) {
+                    box.style.zIndex = 1016;
+                } else {
+                    box.style.zIndex = 1015;
+                }
+            }
+        }
+    }
+    let exVideoClose = document.getElementById("exVideoClose" + String(id));
+    let originVideo = document.getElementById("__video2");
+    exVideoClose.onclick = function() {
+        originVideo.style.display = "block";
+        videoPlayerArr[id].destroy();
+        exVideoPlayer.remove();
+        box.remove();
+    }
+
+    exVideoEmbed.onclick = function() {
+        originVideo.style.display = "none";
+        exVideoEmbed.style.display = "none";
+        exVideoUnEmbed.style.display = "inline";
+        box.style.height = "0px";
+        originVideo.parentElement.insertBefore(exVideoPlayer, originVideo);
+    }
+
+    exVideoUnEmbed.onclick = function() {
+        originVideo.style.display = "block";
+        exVideoUnEmbed.style.display = "none";
+        exVideoEmbed.style.display = "inline";
+        box.style.height = "250px";
+        box.insertBefore(exVideoPlayer, box.childNodes[box.childNodes.length - 1]);
     }
 }
