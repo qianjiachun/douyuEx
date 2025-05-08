@@ -123,10 +123,29 @@ async function endFish() {
 
 function saveData_AutoFish() {
   let value = document.getElementById("extool__autofish_start").checked;
+  let rids = AutoFish_getRids() || [];
+  // 判断value是否为true，如果为true，则将当前rid添加到rids中，如果为false，则从rids中移除当前rid 
+  if (value) {
+    if (!rids.includes(rid)) {
+      rids.push(rid);
+    }
+  } else {
+    rids = rids.filter((item) => item !== rid);
+  }
   let data = {
-    isAutoFish: value
+    rids: rids
   };
   localStorage.setItem("ExSave_AutoFish", JSON.stringify(data)); // 存储弹幕列表
+}
+
+function AutoFish_getRids() {
+  const ret = localStorage.getItem("ExSave_AutoFish");
+  if (ret != null) {
+    let retJson = JSON.parse(ret);
+    return retJson ? retJson.rids : [];
+  } else {
+    return [];
+  }
 }
 
 function ExpandTool_AutoFish_Set() {
@@ -134,7 +153,8 @@ function ExpandTool_AutoFish_Set() {
   let ret = localStorage.getItem("ExSave_AutoFish");
   if (ret != null) {
     let retJson = JSON.parse(ret);
-    if (!retJson.isAutoFish) return;
+    if (!retJson.rids) return;
+    if (!retJson.rids.includes(rid)) return;
     document.getElementById("extool__autofish_start").click();
   }
 }
