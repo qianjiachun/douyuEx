@@ -94,9 +94,6 @@ function initRouter_DouyuRoom_Main() {
 }
 
 function initPkgSpecial() {
-    // if (rid == "5189167") {
-    //     initPkg_Point();
-    // }
 }
 
 // function initRouter_Novel() {
