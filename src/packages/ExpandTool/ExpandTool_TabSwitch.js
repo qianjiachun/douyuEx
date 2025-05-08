@@ -1,4 +1,5 @@
 function initPkg_ExpandTool_TabSwitch() {
+  enableIgnoreAutoPause();
   ExpandTool_TabSwitch_insertDom();
   ExpandTool_TabSwitch_insertFunc();
   initPkg_ExpandTool_TabSwitch_Set();
@@ -56,4 +57,9 @@ function enableTabSwitch() {
   document.addEventListener('visibilitychange', function(e) {
       e.stopImmediatePropagation();
   }, true, true);
+}
+
+function enableIgnoreAutoPause() {
+  // 防止直播自动暂停
+  localStorage.setItem("freetimed", "1");
 }
