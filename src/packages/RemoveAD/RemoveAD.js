@@ -84,6 +84,10 @@ function removeAD() {
     #js-player-asideMain {
         top: 0!important;
     }
+    /*右下角联系客服*/
+    .bacpCommonKeFu {
+        display: none!important;
+    }
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
