@@ -453,3 +453,35 @@ function isValidImageFile(filename) {
   const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
   return validExtensions.includes(ext);
 }
+
+function getCsrfToken() {
+  return new Promise((resolve) => {
+    GM_xmlhttpRequest({
+      method: 'POST',
+      url: 'https://www.douyu.com/japi/carnival/nc/common/generateCsrf',
+      headers: {
+        "Content-Type": "application/json",
+        "Cookie": document.cookie,
+      },
+      anonymous: false,
+      withCredentials: true,
+      onload: function(response) {
+        // 获取 Set-Cookie
+        const setCookie = response.responseHeaders.match(/set-cookie:[^\n\r]+/gi);
+				// 从set-cookie中获取csrfToken
+				let csrfToken = "";
+				for (const line of setCookie) {
+					const match = line.match(/cvl_csrf_token=([^;]+)/);
+					if (match) {
+						csrfToken = match[1]; // 返回提取到的 token
+						break;
+					}
+				}
+				resolve(csrfToken);
+      },
+      onerror: function(err) {
+        resolve("");
+      }
+    });
+  });
+}

@@ -49,17 +49,18 @@ function initPkg_Sign_Main(isAll) {
 		// initPkg_Sign_TV(); // 2022年9月1日23:41:59 失效
 		// initPkg_Sign_Yuba_Like(); // 2022年9月1日23:41:59 失效
         
-        // initPkg_Sign_Renlei();
-        initPkg_Sign_Act();
-				initPkg_Sign_ActqzsUserTask();
-        // initPkg_Sign_Bowuyuan();
-        // initPkg_Sign_ZBXSL2();
-        // initPkg_Sign_COD();
+		// initPkg_Sign_Renlei();
+		initPkg_Sign_Act();
+		initPkg_Sign_ActqzsUserTask();
+		// initPkg_Sign_Bowuyuan();
+		// initPkg_Sign_ZBXSL2();
+		// initPkg_Sign_COD();
 		// initPkg_Sign_Wangzhe();
 		initPkg_Sign_ReadPosts();
 		initPkg_Sign_Follow();
 		initPkg_Sign_FansTree();
 		initPkg_Sign_SuperFans();
+		initPkg_Sign_OPFOY();
 }
 
 // function takeActPrize(name) {

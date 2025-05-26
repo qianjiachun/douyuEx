@@ -111,6 +111,7 @@ function initPkg_Timer() {
 	// initPkg_FishPond_Timer();
 	initPkg_DisableCloseJump_Timer();
 	initPkg_LevelTask_Timer();
+	initPkg_Sign_OPFOY_Timer();
 }
 function initTimer() {
 	initPkg_Timer();
