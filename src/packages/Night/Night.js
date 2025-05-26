@@ -203,6 +203,9 @@ function setNightMode() {
 
     /*加入公会*/
     .SociatyLabelPop-content{background:rgb(35,36,39) !important;}
+
+    /*任务文字*/
+    .taskScoreEntryTxt{color:#BFBFBF !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
