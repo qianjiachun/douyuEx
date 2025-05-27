@@ -1,4 +1,9 @@
 async function initPkg_LevelTask_Timer() {
+  checkLevelTask();
+  setInterval(checkLevelTask, 35 * 1000);
+}
+
+async function checkLevelTask() {
   let ids = await getLevelTaskIds(rid);
   let tasks = await getLevelTasks(ids);
   for (let i = 0; i < tasks.length; i++) {

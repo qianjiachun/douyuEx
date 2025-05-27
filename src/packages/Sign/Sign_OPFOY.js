@@ -31,9 +31,8 @@ function signOPFOY(csrfToken) {
 }
 
 function initPkg_Sign_OPFOY_Timer() {
-  // 每15分钟领取一次观时积分
   checkOPFOYViewStatus();
-  setInterval(checkOPFOYViewStatus, 15 * 60 * 1000);
+  setInterval(checkOPFOYViewStatus, 5 * 60 * 1000);
 }
 
 async function checkOPFOYViewStatus() {
