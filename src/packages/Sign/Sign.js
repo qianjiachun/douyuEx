@@ -61,6 +61,7 @@ function initPkg_Sign_Main(isAll) {
 		initPkg_Sign_FansTree();
 		initPkg_Sign_SuperFans();
 		initPkg_Sign_OPFOY();
+		initPkg_Sign_AnchorStar();
 }
 
 // function takeActPrize(name) {
