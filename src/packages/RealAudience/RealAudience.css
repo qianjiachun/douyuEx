@@ -4,3 +4,11 @@
     padding: 0 7px;
     line-height: 33px;
 }
+
+#Ex_EnterYuba {
+    width: 100%;
+}
+
+.Title-anchorPic-bottom i{
+    display: none !important;
+}
