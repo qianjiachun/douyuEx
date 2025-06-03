@@ -123,9 +123,10 @@ function setAvatarVideo() {
 	let videoReplayUrl = homeDom.href + "?type=liveReplay";
 	
 	setAvatarVideo_Dom();
+	setAvatarYuba_Dom();
 	setAvatarVideo_Func(videoUrl, videoReplayUrl);
 	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "none";
-	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.height = hasAvatarBottom ? "44px" : "22px";
+	document.getElementsByClassName("Title-anchorPic-bottom")[0].style.height = hasAvatarBottom ? "66px" : "22px";
 
 	document.getElementsByClassName("Title-anchorPicBack")[0].addEventListener("mouseenter", () => {
 		document.getElementsByClassName("Title-anchorPic-bottom")[0].style.display = "block";
@@ -146,7 +147,19 @@ function setAvatarVideo_Dom() {
 	<div id="Ex_VideoSubmit" class="Title-anchorPic-bottomItem"><span>投稿</span></div>
 	`
 	let b = document.getElementsByClassName("Title-anchorPic-bottom")[0] || document.getElementsByClassName("Title-anchorPicBack")[0];
-	b.append(a);
+	b.insertBefore(a, b.childNodes[0]);
+}
+
+function setAvatarYuba_Dom() {
+	let a = document.createElement("div");
+	hasAvatarBottom = !!document.getElementsByClassName("Title-anchorPic-bottom")[0];
+
+	a.className = hasAvatarBottom ? "" : "Title-anchorPic-bottom";
+	a.innerHTML = `
+	<div id="Ex_EnterYuba" class="Title-anchorPic-bottomItem"><span>打开鱼吧</span></div>
+	`
+	let b = document.getElementsByClassName("Title-anchorPic-bottom")[0] || document.getElementsByClassName("Title-anchorPicBack")[0];
+	b.insertBefore(a, b.childNodes[0]);
 }
 
 function setAvatarVideo_Func(videoUrl, videoReplayUrl) {
@@ -157,6 +170,25 @@ function setAvatarVideo_Func(videoUrl, videoReplayUrl) {
 	document.getElementById("Ex_VideoReview").addEventListener("click", () => {
 		openPage(videoReplayUrl, true);
 	})
+
+	document.getElementById("Ex_EnterYuba").addEventListener("click", async () => {
+		const data = await getBindYuba(rid);
+		const url = data.data.group_url;
+		openPage(url, true);
+	})
+}
+
+function getBindYuba(rid) {
+  return new Promise((resolve, reject) => {
+    fetch("https://www.douyu.com/wgapi/yubanc/api/group/getBindGroup?room_id=" + rid)
+      .then((response) => response.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
 function getTodayWatch(rid) {
