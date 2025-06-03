@@ -44,7 +44,7 @@ function RestoreYuba_getYubaId(url) {
 
 function RestoreYuba_initHook(oldId, newId) {
   // 排除的url的关键字
-  const excludeUrl = ["web/group/head"];
+  const excludeUrl = ["web/group/head", "/follow/topic", "group/unfollowGroup"];
 
   // 检查URL是否应该被排除
   function shouldExcludeUrl(url) {
