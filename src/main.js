@@ -57,7 +57,6 @@
 // @connect      doseeing.com
 // @antifeature  tracking
 // ==/UserScript==
-
 function init() {
 	initPkg_ShowDanmakuOriginAction();
 	initScriptHook();
@@ -106,6 +105,7 @@ function initPkg() {
 	initPkg_RoomVip();
 	initPkg_WeeklyPanel();
 	initPkg_DanmakuCollect();
+	initPkg_RestoreYuba();
 }
 function initPkg_Timer() {
 	// initPkg_FishPond_Timer();

@@ -5,7 +5,16 @@ function initRouter(href) {
     // }
 
     // 路由转发
-    if (String(href).indexOf("passport.douyu.com") !== -1 && String(href).indexOf("exid=chun") !== -1) {
+    if (String(href).indexOf("yuba.douyu.com") !== -1) {
+        // 鱼吧
+        if (String(href).indexOf("?exRestore") !== -1) {
+            initPkg_RestoreYuba_restore();
+        } else if (String(href).indexOf("?exClean") !== -1) {
+            initRouter_CleanYuba();
+        } else {
+            initRouter_Yuba();
+        }
+    } else if (String(href).indexOf("passport.douyu.com") !== -1 && String(href).indexOf("exid=chun") !== -1) {
         // 账号
         initRouter_Passport();
     } else if (String(href).indexOf("msg.douyu.com") !== -1) {
@@ -14,13 +23,6 @@ function initRouter(href) {
             initRouter_CleanMsg();
         } else {
             initRouter_Motorcade();
-        }
-    } else if (String(href).indexOf("yuba.douyu.com") !== -1) {
-        // 鱼吧
-        if (String(href).indexOf("?exClean") !== -1) {
-            initRouter_CleanYuba();
-        } else {
-            initRouter_Yuba();
         }
     } else if (String(href).indexOf("v.douyu.com") !== -1) {
         // 视频
@@ -34,7 +36,6 @@ function initRouter(href) {
         if (String(href).indexOf("?exClean") !== -1) {
             initRouter_CleanCz();
         }
-        
     } else if (String(href).indexOf("getFansBadgeList") !== -1) {
         // 粉丝牌
         initRouter_FansBadgeList();
@@ -102,6 +103,7 @@ function initPkgSpecial() {
 
 function initRouter_Yuba() {
     document.domain = "douyu.com";
+    RestoreYuba_checkRedirect();
 }
 
 function initRouter_Passport() {
