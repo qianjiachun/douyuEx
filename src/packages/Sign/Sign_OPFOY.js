@@ -1,8 +1,8 @@
 async function initPkg_Sign_OPFOY() {
   const csrfToken = await getCsrfToken();
   const ret = await signOPFOY(csrfToken);
-  if (ret.error == 0) {
-    showMessage(`【积分任务】签到成功，${ret.msg}`, "success");
+  if (ret.error == 0 || ret.error == 31200) {
+    showMessage(`【积分任务】${ret.msg}`, "success");
   } else {
     showMessage(`【积分任务】${ret.msg}`, "error");
   }
