@@ -34,6 +34,10 @@ function initPkg_DanmakuCollect() {
       let { content } = JSON.parse(body);
       addLocalDanmakuCollect(content);
       obj.msg = "收藏成功，云收藏已达上限，将收藏至本地（由DouyuEx插件实现无限收藏）";
+
+      // 关闭并重新打开弹幕收藏以更新新添加的弹幕
+      document.querySelector(".ChatBarrageCollect-tip").click();
+      document.querySelector(".ChatBarrageCollect-tip").click();
       return JSON.stringify(obj);
     }
   });
