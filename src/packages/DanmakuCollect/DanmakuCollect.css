@@ -5,4 +5,5 @@
 .ChatBarrageCollect .TagItem-txt {
   overflow: auto !important;
   white-space: normal !important;
+  text-overflow: clip !important;
 }
