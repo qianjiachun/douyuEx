@@ -31,7 +31,7 @@ function BarrageLoop_insertModal() {
 	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50"></textarea>';
 	html += '<div><label>速度(ms)：</label><input id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
 	html += '<div><label>限时(min)：</label><input id="bloop__text_stoptime" type="text" style="width:50px;text-align:center;" value="1" /></div>';
-	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label></div>';
+	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label><label><input id="bloop__checkbox_random" type="checkbox">随机发送</label></div>';
 	html += '<div class="bloop__switch"><label><input id="bloop__checkbox_startSend" type="checkbox">开始发送</label></div>';
 	
 	a.innerHTML = html;
@@ -171,10 +171,18 @@ async function doLoopBarrage() {
 		tiangouBarrage = String(tiangouBarrage).replace(/他/g,"她");
 		sendBarrage(tiangouBarrage);
 	} else {
+		// 判断是否开启随机模式
+		if (document.getElementById("bloop__checkbox_random").checked == true) {
+			barrageOffset = Math.floor(Math.random() * barrageArr.length);
+		}
 		sendBarrage(barrageArr[barrageOffset]);
-		barrageOffset++;
-		if (barrageOffset > barrageLength) {
-			barrageOffset = 0;
+		
+		// 如果不是随机模式，则顺序发送
+		if (document.getElementById("bloop__checkbox_random").checked != true) {
+			barrageOffset++;
+			if (barrageOffset > barrageArr.length - 1) {
+				barrageOffset = 0;
+			}
 		}
 	}
 	
@@ -195,10 +203,15 @@ function initPkg_BarrageLoop_Func() {
 		let ischecked = document.getElementById("bloop__checkbox_startSend").checked;
 		if (ischecked == true) {
 			// 开始发送
-			barrageOffset = 0;
-			barrageColorOffset = 0;
 			getBarrageArr();
 			getBarrageColorArr();
+			if (document.getElementById("bloop__checkbox_random").checked == true) {
+				barrageOffset = Math.floor(Math.random() * barrageArr.length);
+				barrageColorOffset = Math.floor(Math.random() * barrageColorArr.length);
+			} else {
+				barrageOffset = 0;
+				barrageColorOffset = 0;
+			}
 			saveData_BarrageLoop();
 			bloopTimer = setTimeout(doLoopBarrage, getSpeed());
 			bloopStopTimer = setTimeout(() => {
