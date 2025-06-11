@@ -1,4 +1,4 @@
-function initPkg_JumpOldweb() {
+function initPkg_ReturnOldWeb() {
     initPkg_JumpOldweb_insertDom();
 }
 function initPkg_JumpOldweb_insertDom() {
@@ -12,11 +12,11 @@ function initPkg_JumpOldweb_insertDom() {
     let b = document.getElementById("js-room-snapbar");
     if (b) {
         b.insertBefore(a, b.childNodes[0]);
-        document.getElementsByClassName("icon__jumpoldweb")[0].addEventListener("click", JumpOldweb);
+        document.getElementsByClassName("icon__jumpoldweb")[0].addEventListener("click", ReturnOldWeb);
     }
 }
 
-function JumpOldweb() {
+function ReturnOldWeb() {
     localStorage.setItem("newWebLive", "A");
     window.location.href = window.location.href.replace("/beta", "");
 }

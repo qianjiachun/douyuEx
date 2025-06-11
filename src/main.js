@@ -75,7 +75,7 @@ function init() {
 }
 function initPkg() {
 	Update_checkVersion();
-	initPkg_JumpOldweb();
+	initPkg_ReturnOldWeb();
 	initPkg_Night();
 	initPkg_ExIcon();
 	initPkg_ExPanel();
