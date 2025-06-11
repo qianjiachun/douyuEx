@@ -270,6 +270,7 @@ function setNightMode() {
 
     .BatchGiveForm-manual{background: var(--page-background-color) !important;border: none !important;}
     .ToolbarBackpack-giftItem--count, .BatchGiveForm-num{border: 1px solid var(--ex-night-third-bg) !important;}
+    .menu-da2a9e{background: #fff !important;}
     
     /* 新版鱼吧 */
     .Tab-module__yubatabEntry-sTCdV,.HotTopicList-module__tab-oI09g,.styles-module__commentPublish-8ZTWy{background: #fff !important;}
