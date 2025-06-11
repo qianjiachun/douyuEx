@@ -113,7 +113,7 @@ function setNightMode() {
     #js-player-asideMain{border:1px solid rgba(37,38,42,1) !important;background-color:rgb(47,48,53) !important;}
     .Chat,.ChatSend-txt{background:rgba(47,48,53,1) !important;color:rgb(187,187,187) !important;border-radius:0px !important;}
     .ChatTabContainer-titleWraper--tabLi{background:rgb(29,32,35) !important;border:1px solid rgb(47,48,53) !important;}
-    .ChatTabContainer-titleWraper--tabLi.is-active,.ChatBarrageCollect-tip,.FansRankInfo{background:rgb(47,48,53) !important;}
+    .ChatTabContainer-titleWraper--tabLi.is-active,.FansRankInfo{background:rgb(47,48,53) !important;}
     .FansRankInfo-txt{color:rgb(121,127,137) !important;}
     .Barrage{border:1px solid rgba(35,36,39,1) !important;}
     .layout-Player-chat{border-top:1px solid rgba(47,48,53,1) !important;}
@@ -135,7 +135,7 @@ function setNightMode() {
     .AnchorFriend-footer a{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
     .AnchorFriendPane-title{border-bottom:1px solid rgb(47,48,53) !important;background-color:rgb(35,36,39) !important;}
     .AnchorLike-friendList .AnchorFriendPane-title h3,.Title svg{color:rgb(153,153,153) !important;}
-    .GiftExpandPanel{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
+    .GiftExpandPanel{background:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .GiftInfoPanel-cont{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .BatchGiveForm-num{background-color:rgb(35,36,39) !important;}
     .BatchGiveForm-input{background-color:rgb(35,36,39) !important;color:rgb(149,149,149) !important;}
@@ -206,6 +206,74 @@ function setNightMode() {
 
     /*任务文字*/
     .taskScoreEntryTxt{color:#BFBFBF !important;}
+
+    .GiftExpandPanel-giftTabsWrap:after{display: none !important;}
+    .PostCard-module__feedInfoWrapper-be1-y{background:#fff;}
+    .PostCard-module__feedInfoWrapper-be1-y:hover{background:rgb(239,239,239) !important;}
+
+    /* 新版斗鱼 */
+    #root{background-color:rgb(35,36,39) !important;}
+    #bc3, #bc3-bgblur{background-image: none !important;}
+    .Barrage-label>span{color:rgb(187,187,187) !important;}
+    .ToolbarRechargeModule-icon,.ToolbarGiftArea-backpack--content>i{background-color:rgb(35,36,39) !important;}
+    .PlayerToolbar div:before{background-image:linear-gradient(0deg,rgba(255, 255, 255, 0),rgb(0,0,0) ) !important;}
+    .GiftExpandPanel-giftListWrap.is-mask:after{opacity: 0 !important;}
+    .ToolbarGiftArea-backpack p, .ToolbarGiftArea-backpack span{color:rgb(187,187,187) !important;}
+    .ToolbarCardModule p, .ToolbarCardModule span{color:rgb(187,187,187) !important;background:rgb(35,36,39) !important;}
+    .GiftExpandPanel-giftValueWrap{border-top: 1px solid rgb(47,48,53) !important;}
+    .GiftInfoPanel-brief, .GiftInfoPanel-footer, .AudioGiftEdit{background:rgb(47,48,53) !important;}
+    .InteractEntryPanel{background:rgb(35,36,39) !important;border:2px solid rgb(35,36,39) !important;}
+    .GiftSkinPanel{background:rgb(35,36,39) !important;}
+    .BatchGiveForm-btn{background-color:rgb(35,36,39) !important;}
+    .InteractEntryPanel:after{opacity: 0 !important;}
+    .InteractEntryPanel p, .InteractEntryPanel span, .InteractEntryPanelTitle{color:rgb(187,187,187) !important;}
+    .BackpackExpandPanel{background:rgb(35,36,39) !important;border:2px solid rgb(35,36,39) !important;}
+    .BackpackExpandPanel-giftListWrap:after{opacity: 0 !important;}
+    .BackpackExpandPanel-giftValueWrap{border-top: 1px solid rgb(47,48,53) !important;}
+
+    * {
+        --page-background-color: rgba(37,38,42,1) !important;
+        --room-title-color: rgb(187,187,187) !important;
+        --front-background-color: rgba(37,38,42,1) !important;
+        --bg-follow: rgba(37,38,42,1) !important;
+        --room-title-light-button-broder-color: rgb(90, 90, 90) !important;
+        --bg-share-hover: rgb(187,187,187) !important;
+        --ex-night-third-bg: rgb(90, 90, 90) !important;
+        --ex-night-scroll-bg: rgb(60, 60, 60) !important;
+    }
+    
+    .activeItem__d6uUm{background:rgb(35,36,39) !important;color:rgb(187,187,187) !important;border:1px solid var(--room-title-light-button-broder-color) !important;}
+
+    .DiamondsFansRankInfo{background: rgba(37,38,42,1) !important;}
+    .DiamondsFansRankContainer-content{background-image: none !important;}
+    .info__J-VGf{background-image: none !important;}
+    .ChatTabContainer-titleWraper--tabLi:before{background: none !important;}
+    .NobleRankList-nickName, .DiamondsFansRankList-policyText, .Barrage-EntranceIntroduce{color: rgb(187,187,187) !important;}
+    .Chat{border-top: 1px solid rgb(47,48,53) !important;}
+
+    .snapbarMenu__szc-e{color: rgb(187,187,187) !important;}
+    .snapbarMenu__szc-e div:before{background-color: var(--ex-night-third-bg) !important;}
+    .FansMedalPanel-container:after{background: var(--ex-night-third-bg) !important;}
+    .snapbarMenu__szc-e{border: 1px solid var(--ex-night-third-bg);}
+    .snapbar-menu-item:before{background: var(--ex-night-scroll-bg) !important;}
+
+    /* 滚动条 */
+    .Barrage-scroll--bar,.GiftExpandPanelScroll-bar,.InteractEntryScrollThumb{background: var(--ex-night-scroll-bg);transition: all 0.1s;}
+    .Barrage-scroll--bar:hover,.GiftExpandPanelScroll-bar:hover,.InteractEntryScrollThumb:hover{background: var(--ex-night-third-bg);}
+    .Barrage-main>div>div,.GiftExpandPanel-giftTabsList>div>div,
+    .GiftExpandPanel-giftListWrap>div>div,
+    .InteractEntryPanel>div>div,
+    .BackpackExpandPanel-giftListWrap>div>div,
+    .NobleRank-scroll>div
+    {margin-bottom: -16px !important;}
+    /* 滚动条结束 */
+
+    .BatchGiveForm-manual{background: var(--page-background-color) !important;border: none !important;}
+    .ToolbarBackpack-giftItem--count, .BatchGiveForm-num{border: 1px solid var(--ex-night-third-bg) !important;}
+    
+    /* 新版鱼吧 */
+    .Tab-module__yubatabEntry-sTCdV,.HotTopicList-module__tab-oI09g,.styles-module__commentPublish-8ZTWy{background: #fff !important;}
+    .PostCard-module__postCard-7IgN5{background: #fff !important;border-radius: 4px !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
