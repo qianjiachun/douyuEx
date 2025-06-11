@@ -88,6 +88,10 @@ function removeAD() {
     .bacpCommonKeFu {
         display: none!important;
     }
+
+    .activeItem__d6uUm:nth-child(1){display: none !important;}
+    .activeItem__d6uUm:nth-child(2){right: 0 !important;}
+    .werbungContainer__2sv7h{display:none !important;}
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
