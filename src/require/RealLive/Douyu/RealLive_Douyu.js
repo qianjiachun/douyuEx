@@ -6,7 +6,7 @@ function getRealLive_Douyu(room_id, is_video, is_https, qn, reallive_callback) {
     // 第一个参数传入string,表示房间号（注意是真实房间号）
     // 第二个参数传入bool,表示是视频还是音频
     // 第三个参数传入bool,表示是否返回https地址。注意https地址只能使用一次，使用过以后需要再次获取；http地址无限制
-    // 第四个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:0) 填写1015则返回默认清晰度
+    // 第四个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:0) 填写1428则返回默认清晰度
     // 第五个参数传入回调函数，最好是箭头函数，用于处理返回的地址，例: (url) => {console.log(url)}
     let tt0 = Math.round(new Date().getTime()/1000).toString();
     if (is_video) {
@@ -42,7 +42,7 @@ function getRealLive_Douyu(room_id, is_video, is_https, qn, reallive_callback) {
 function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video) {
     let param1 = ub98484234_ex(r, getDyDid(), tt);
     let postData;
-    if (qn == "1015") {
+    if (qn == "1428") {
         postData = param1 + "&ver=219032101&rid=" + r + "&rate=1";
     } else {
         postData = param1 + "&ver=219032101&rid=" + r + "&rate=" + qn;
@@ -98,8 +98,8 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
                     realLive = String(ret.data.url).replace("m3u8", "flv");
                     realLive = realLive.replace("http:", "https:");
                 } else {
-                    if (qn == "1015" || cl == "") {
-                        // qn写1015则不返回清晰度，即默认
+                    if (qn == "1428" || cl == "") {
+                        // qn写1428则不返回清晰度，即默认
                         // realLive = "http://tx2play1.douyucdn.cn/live/" + result + ".xs";
                         // realLive = "http://dyscdnali1.douyucdn.cn/live/" + result + ".flv?uuid=";
                         realLive = "https://openflv-huos.douyucdn2.cn/dyliveflv1/" + result + ".flv?uuid=";
@@ -118,7 +118,7 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
 function RealLive_get_sign_url_pc(r, tt, is_https, qn, reallive_callback) {
     let param1 = ub98484234_ex_pc(r, getDyDid(), tt);
     let postData;
-    if (qn == "1015") {
+    if (qn == "1428") {
         postData = param1 + "&ver=219032101&cdn=hs-h5&rid=" + r + "&rate=0";
     } else {
         postData = param1 + "&ver=219032101&cdn=hs-h5&rid=" + r + "&rate=" + qn;

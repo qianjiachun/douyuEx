@@ -225,7 +225,7 @@ function LiveTool_Vote_insertDom_VotePanel() {
     `;
     a.innerHTML = panel;
     
-    let b = document.getElementsByClassName("layout-Player-main")[0];
+    let b = getValidDom([".layout-Player-main", "main"]);
     b.insertBefore(a, b.childNodes[0]);
 
     let box = document.getElementsByClassName("vote__result")[0];

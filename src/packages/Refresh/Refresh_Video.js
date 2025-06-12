@@ -1,7 +1,8 @@
 let video_num = 0;
 function initPkg_Refresh_Video() {
     let timer = setInterval(() => {
-        if (document.getElementsByClassName("right-e7ea5d").length > 0) {
+        const controlbar = getValidDom([".right-e7ea5d", ".right-17e251"]);
+        if (controlbar) {
             clearInterval(timer);
             initPkg_Refresh_Video_Dom();
             initPkg_Refresh_Video_Func();
@@ -33,15 +34,27 @@ function Refresh_Video_insertIcon() {
 }
 
 function initPkg_Refresh_Video_Func() {
-    new DomHook('.right-e7ea5d', true, () => {
-        const video_fullPage = document.querySelector('.wfs-2a8e83.removed-9d4c42') ? true : false;
+    new DomHook(".right-e7ea5d", true, () => {
+        changeToolBarZIndex();
+    });
+    new DomHook(".right-17e251", true, () => {
+        changeToolBarZIndex();
+    });
+
+    function changeToolBarZIndex() {
+        let video_fullPage = false;
+        if (document.querySelector(".wfs-2a8e83.removed-9d4c42")) {
+            video_fullPage = true;
+        } else if (document.querySelector(".toggle__P8TKM")) {
+            video_fullPage = true;
+        }
         const dom_player_toolbar = document.getElementById("js-player-toolbar");
         dom_player_toolbar.style = video_fullPage ? "z-index:20" : "z-index:30";
-    });
+    }
 
 	document.getElementById("refresh-video").addEventListener("click", (e) => {
         let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-        let dom_video = document.getElementsByClassName("layout-Player-video")[0];
+        let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
         let dom_refresh = document.getElementById("refresh-video");
         let dom_refresh2 = document.getElementById("refresh-video2");
         if (dom_toolbar.style.visibility == "hidden") {
@@ -57,12 +70,13 @@ function initPkg_Refresh_Video_Func() {
             dom_refresh.innerText = "√ 简洁模式";
             refresh_Video_setStyle();
         }
+        changeToolBarZIndex();
         saveData_Refresh();
         resizeWindow();
     });
     document.getElementById("refresh-video2").addEventListener("click", () => {
         let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-        let dom_video = document.getElementsByClassName("layout-Player-video")[0];
+        let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
         let dom_refresh = document.getElementById("refresh-video");
         let dom_refresh2 = document.getElementById("refresh-video2");
         if (dom_toolbar.style.visibility == "hidden") {
@@ -78,6 +92,7 @@ function initPkg_Refresh_Video_Func() {
             dom_refresh.innerText = "√ 简洁模式";
             refresh_Video_setStyle();
         }
+        changeToolBarZIndex();
         saveData_Refresh();
         resizeWindow();
     });
@@ -101,7 +116,7 @@ function initPkg_Refresh_Video_Set() {
         }
         if (retJson.video.status == true) {
             let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-            let dom_video = document.getElementsByClassName("layout-Player-video")[0];
+            let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
             let dom_refresh2 = document.getElementById("refresh-video2");
             let dom_refresh = document.getElementById("refresh-video");
             let dom_player_toolbar = document.getElementById("js-player-toolbar");

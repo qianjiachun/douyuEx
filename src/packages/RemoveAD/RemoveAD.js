@@ -1,15 +1,13 @@
 function initPkg_RemoveAD() {
     let t = setInterval(() => {
-        let a = document.getElementsByClassName("PlayerToolbar-wealthNum")[0];
+        let a = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"]);
         if (a != undefined) {
             clearInterval(t);
             optimizePageStyle();
-            removeChatLimit();
 
             initPkg_RemoveMsgNotice();
         }
     }, 1000);
-    
 }
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
 function removeAD() {
@@ -44,7 +42,6 @@ function removeAD() {
     .SharePanel,.CommonShareToolkit{
         display: none!important;
     }
-
     /*去除还在电脑面前的mask*/
     .mask1-63237a,.mask2-a8df6e,.panel1-1484c9,.panel2-5ece0e{
         display: none!important;
@@ -91,6 +88,10 @@ function removeAD() {
 
     .activeItem__d6uUm:nth-child(1){display: none !important;}
     .activeItem__d6uUm:nth-child(2){right: 0 !important;}
+    .activeItem__d6uUm:nth-child(3){right: 75px !important;}
+    .activeItem__d6uUm:nth-child(4){right: 150px !important;}
+    .activeItem__d6uUm:nth-child(5){right: 225px !important;}
+    .activeItem__d6uUm:nth-child(6){right: 300px !important;}
     .werbungContainer__2sv7h{display:none !important;}
     `);
     // body{transform: translateZ(0)!important;}
@@ -98,18 +99,6 @@ function removeAD() {
     // .MainDialog-main--content{height:450px !important;}
     // .RomanticDatePanelModal-middle--rowItemBottom--rowItemBottomBtn{margin-left:0px !important;margin-top:0px !important;width:170px !important;height:40px !important;background:orange !important;}
     // }
-}
-function removeChatLimit() {
-    let a;
-    
-    a = document.getElementsByClassName("ChatSend-button")[0];
-    if (a != undefined) {
-        a.className = "ChatSend-button";
-    }
-    a = document.getElementsByClassName("ChatSend-txt")[0];
-    if (a != undefined) {
-        a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
-    }
 }
 
 function optimizePageStyle() {

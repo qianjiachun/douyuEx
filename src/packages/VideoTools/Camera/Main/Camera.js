@@ -1,5 +1,5 @@
 function initPkg_VideoTools_Camera() {
-    camera_anchorName = document.getElementsByClassName("Title-anchorName")[0].innerText;
+    camera_anchorName = getValidDom([".Title-anchorName", ".anchorName__6NXv9"]).innerText;
     camera_width = liveVideoNode.videoWidth * 0.25;
     camera_height = liveVideoNode.videoHeight * 0.25;
     camera_canvas = document.createElement("canvas");
@@ -30,7 +30,7 @@ function Camera_insertIcon() {
 }
 
 function initPkg_VideoTools_Camera_Func() {
-    let dom = document.getElementsByClassName("layout-Player-video")[0];
+    let dom = getValidDom([".layout-Player-video", ".layout-Player-videoEntity"]);
     let dom_video = document.getElementsByClassName("room-Player-Box")[0];
     let camera = document.getElementById("ex-camera");
     let gif = null;

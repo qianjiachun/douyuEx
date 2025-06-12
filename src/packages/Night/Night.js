@@ -216,7 +216,7 @@ function setNightMode() {
     #bc3, #bc3-bgblur{background-image: none !important;}
     .Barrage-label>span{color:rgb(187,187,187) !important;}
     .ToolbarRechargeModule-icon,.ToolbarGiftArea-backpack--content>i{background-color:rgb(35,36,39) !important;}
-    .PlayerToolbar div:before{background-image:linear-gradient(0deg,rgba(255, 255, 255, 0),rgb(0,0,0) ) !important;}
+    .PlayerToolbar div:before{background-image:linear-gradient(0deg,rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.55) ) !important;}
     .GiftExpandPanel-giftListWrap.is-mask:after{opacity: 0 !important;}
     .ToolbarGiftArea-backpack p, .ToolbarGiftArea-backpack span{color:rgb(187,187,187) !important;}
     .ToolbarCardModule p, .ToolbarCardModule span{color:rgb(187,187,187) !important;background:rgb(35,36,39) !important;}
@@ -244,6 +244,7 @@ function setNightMode() {
     
     .activeItem__d6uUm{background:rgb(35,36,39) !important;color:rgb(187,187,187) !important;border:1px solid var(--room-title-light-button-broder-color) !important;}
 
+    .DiamondsFansRankContainer{background-image: none !important;}
     .DiamondsFansRankInfo{background: rgba(37,38,42,1) !important;}
     .DiamondsFansRankContainer-content{background-image: none !important;}
     .info__J-VGf{background-image: none !important;}
@@ -265,12 +266,14 @@ function setNightMode() {
     .InteractEntryPanel>div>div,
     .BackpackExpandPanel-giftListWrap>div>div,
     .NobleRank-scroll>div
-    {margin-bottom: -16px !important;}
+    {margin-bottom: -16px !important;margin-right: -16px !important;}
     /* 滚动条结束 */
 
     .BatchGiveForm-manual{background: var(--page-background-color) !important;border: none !important;}
     .ToolbarBackpack-giftItem--count, .BatchGiveForm-num{border: 1px solid var(--ex-night-third-bg) !important;}
     .menu-da2a9e{background: #fff !important;}
+    .real-audience{color: rgb(187,187,187) !important;}
+    .ChatRankDayWeekList-headerContent{background: transparent !important;display: flex !important;justify-content: space-between !important;align-items: center !important;}
     
     /* 新版鱼吧 */
     .Tab-module__yubatabEntry-sTCdV,.HotTopicList-module__tab-oI09g,.styles-module__commentPublish-8ZTWy{background: #fff !important;}

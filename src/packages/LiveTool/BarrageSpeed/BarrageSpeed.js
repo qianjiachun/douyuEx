@@ -4,7 +4,10 @@ function initPkg_LiveTool_BarrageSpeed() {
     setInterval(() => {
         let barrageSpeed = Number((barrageSpeed_count / 5) * 60).toFixed(0);
         barrageSpeed_count = 0;
-        document.getElementsByClassName("ChatSend-txt")[0].placeholder = "弹幕时速：" + barrageSpeed + "条/分 按↑↓查看历史弹幕 视频ctrl+滚轮缩放";
+        const dom = document.getElementsByClassName("ChatSend-txt")[0];
+        const text = `弹幕时速：${barrageSpeed }条/分`;
+        dom.placeholder = text + " 按↑↓查看历史弹幕 视频ctrl+滚轮缩放";
+        dom.setAttribute("data-placeholder", text);
         // document.getElementsByClassName("barrageSpeed__value")[0].innerText = barrageSpeed;
     }, 5000)
 }

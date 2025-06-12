@@ -3,6 +3,7 @@
     display: flex;
     padding: 0 7px;
     line-height: 33px;
+    color: rgb(153, 153, 153);
 }
 
 #Ex_EnterYuba {
@@ -11,4 +12,8 @@
 
 .Title-anchorPic-bottom i{
     display: none !important;
+}
+
+#real-audience__total, #real-audience__barrage, #real-audience__money_yc {
+    margin-left: 2px;
 }

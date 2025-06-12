@@ -4,7 +4,7 @@ function initPkg_VideoTools_VideoRecall() {
 
 
 function initPkg_VideoTools_VideoRecall_Func() {
-    document.getElementsByClassName("layout-Player-video")[0].addEventListener("keydown", (e) => {
+    getValidDom([".layout-Player-video", ".layout-Player-videoEntity video"]).addEventListener("keydown", (e) => {
         if (isInput == true) {
             return;
         }

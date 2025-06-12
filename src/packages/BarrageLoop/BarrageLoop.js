@@ -115,7 +115,12 @@ function selectBarrageColor(index) {
 }
 function sendBarrage(text) {
 	// 发送弹幕
-	document.getElementsByClassName("ChatSend-txt")[0].value = text;
+	let chatDom = document.getElementsByClassName("ChatSend-txt")[0];
+	if (chatDom.tagName == "TEXTAREA") {
+		chatDom.value = text;
+	} else {
+		chatDom.innerText = text;
+	}
 	document.getElementsByClassName("ChatSend-button")[0].click();
 }
 

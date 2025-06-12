@@ -61,9 +61,18 @@ function fullScreen() {
     let intID1 = setInterval(() => {
         count++;
         if (count > 100) clearInterval(intID1);
-        if (document.getElementsByClassName("wfs-2a8e83").length > 0) {
+        if (getValidDom([".wfs-2a8e83", ".icon-c8be96"])) {
             clearInterval(intID1);
-            document.querySelector("div.wfs-2a8e83").click();
+            let dom = document.querySelector("div.wfs-2a8e83");
+            if (dom) {
+                dom.click();
+            } else {
+                dom = document.querySelectorAll(".icon-c8be96");
+                if (dom.length >= 2) {
+                    // 因为网页全屏按钮在倒数第二个
+                    dom[dom.length - 2].click();
+                }
+            }
         }
     }, 1000);
 }
@@ -112,9 +121,14 @@ function highestVideoQuality() {
     let intID1 = setInterval(() => {
         count++;
         if (count > 100) clearInterval(intID1);
-        if (document.getElementsByClassName("tipItem-898596").length > 0) {
+        if (getValidDom([".tipItem-898596", ".tip-cd016b"])) {
             clearInterval(intID1);
-            document.querySelectorAll(".tipItem-898596 > ul > li")[0].click();
+            let dom = document.querySelector(".tipItem-898596");
+            if (dom) {
+                document.querySelectorAll(".tipItem-898596 > ul > li")[0].click();
+            } else {
+                document.querySelectorAll(".tip-cd016b ul li")[0].click();
+            }
         }
     }, 1000);
 }

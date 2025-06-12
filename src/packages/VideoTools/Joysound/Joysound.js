@@ -19,7 +19,7 @@ function Joysound_insertIcon() {
     } else {
         a.innerHTML = icon_joysound_off;
     }
-    let b = document.getElementsByClassName("right-e7ea5d")[0];
+    let b = getValidDom([".right-e7ea5d", ".right-17e251"]);
     b.insertBefore(a, b.childNodes[0]);
 }
 

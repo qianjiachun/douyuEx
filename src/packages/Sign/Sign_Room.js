@@ -3,13 +3,13 @@ function initPkg_Sign_Room(isAll) {
 	signAllRoom(isAll);
 }
 function signAllRoom(isAll) {
-    // 1. get page counts(1015)
+    // 1. get page counts(1428)
     // 2. for in all pages
     // 3. sign each room
     let pageCount = 0;
     let signedCount = 0;
     let count = 0;
-    fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/list?page=1015',{
+    fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/list?page=1428',{
         method: 'GET',
         mode: 'no-cors',
         cache: 'default',

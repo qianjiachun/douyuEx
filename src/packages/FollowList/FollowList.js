@@ -1,12 +1,11 @@
 let followListHook;
 function initPkg_FollowList() {
     let intID = setInterval(() => {
-        if (typeof(document.getElementsByClassName("PlayerToolbar-wealthNum")[0]) != "undefined") {
+        if (getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"])) {
             followListHook = new DomHook(".Header-follow-content", false, handleFollowList);
             clearInterval(intID);
         }
     }, 1000);
-    
 }
 
 function handleFollowList(m) {

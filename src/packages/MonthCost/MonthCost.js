@@ -14,11 +14,13 @@ function initPkg_MonthCost() {
 	initPkg_MonthCost_Dom();
 	initPkg_MonthCost_Func();
 	seeStatus = MonthCost_getSeeStatus();
+	const icon = document.getElementsByClassName("monthcost__icon")[0];
+	if (!icon) return;
 	if (seeStatus == 1) {
-		document.getElementsByClassName("monthcost__icon")[0].innerHTML = svg_see;
+		icon.innerHTML = svg_see;
 		MonthCost_updateCost();
 	} else {
-		document.getElementsByClassName("monthcost__icon")[0].innerHTML = svg_unsee;
+		icon.innerHTML = svg_unsee;
 	}
 }
 
@@ -34,12 +36,14 @@ function MonthCost_insertIcon() {
 	<span class="monthcost__icon"></span>
 	`;
 	a.title = "数据每日更新，根据个人中心消费数据统计"
-	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
-	b.insertBefore(a, b.childNodes[0]);
+	let b = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth"]);
+	b && b.insertBefore(a, b.childNodes[0]);
 }
 
 function initPkg_MonthCost_Func() {
-	document.getElementsByClassName("monthcost__icon")[0].addEventListener("click", () => {
+	const icon = document.getElementsByClassName("monthcost__icon")[0];
+	if (!icon) return;
+	icon.addEventListener("click", () => {
 		if (seeStatus == 1) {
 			seeStatus = 0;
 			document.getElementById("monthcost__money").innerText = "***";
@@ -52,7 +56,6 @@ function initPkg_MonthCost_Func() {
 		MonthCost_ContentAttrTitle();
 		MonthCost_saveSeeStatus();
 	})
-	
 }
 
 

@@ -108,6 +108,7 @@ function initPkg() {
 	initPkg_WeeklyPanel();
 	initPkg_DanmakuCollect();
 	initPkg_RestoreYuba();
+	initPkg_ChangeDanmakuLengthLimit();
 }
 function initPkg_Timer() {
 	// initPkg_FishPond_Timer();
