@@ -154,6 +154,7 @@ async function RestoreYuba_changeDom(oldId, newId) {
       document.querySelector(".groupavatar__9mD1S .image__GNnZC").src = avatar;
       document.getElementsByClassName("groupname__BUzOM")[0].innerText = nickname;
       document.getElementsByClassName("groupdesc__b8-53")[0].innerText = `${nickname}的鱼吧`;
+      document.title = `${nickname}的鱼吧`;
     }
 
     changeTitle();
