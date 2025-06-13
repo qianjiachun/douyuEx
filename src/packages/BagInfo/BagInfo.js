@@ -12,7 +12,7 @@ function initPkg_BagInfo_Func() {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             const isBeta = !!document.getElementsByClassName("BackpackExpandPanel")[0];
-            if (getValidDom([".Backpack JS_Backpack", ".BackpackExpandPanel"])) {
+            if (getValidDom([".Backpack.JS_Backpack", ".BackpackExpandPanel"])) {
                 getBagGifts(rid, (ret) => {
                     let chunkNum = ret.data.list.length;
                     if (chunkNum > 0) {
