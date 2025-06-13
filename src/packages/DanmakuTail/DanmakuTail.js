@@ -94,8 +94,10 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
 
             clickHandler = function (e) {
                 if (textarea.innerText.trim() == "") return;
-                textarea.innerText = textarea.innerText + content;
-                textarea.dispatchEvent(new Event("input", { bubbles: true }));
+                if (!textarea.innerText.endsWith(content)) {
+                    textarea.innerText = textarea.innerText + content;
+                    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+                }
             };
             textarea.addEventListener("keydown", keydownHandler, true);
             button.addEventListener("click", clickHandler, true);
@@ -117,8 +119,10 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
 
             clickHandler = function (e) {
                 if (textarea.value.trim() == "") return;
-                textarea.value = textarea.value + content;
-                textarea.dispatchEvent(new Event("input", { bubbles: true }));
+                if (!textarea.value.endsWith(content)) {
+                    textarea.value = textarea.value + content;
+                    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+                }
             };
 
             textarea.addEventListener("keydown", keydownHandler, true);
