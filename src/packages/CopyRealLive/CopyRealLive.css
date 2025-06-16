@@ -1,6 +1,5 @@
 #copy-real-live {
     cursor: pointer;
-    margin-left: 4px;
 }
 .Title-row-span, .Title-row-icon  {
     display: flex;
@@ -10,4 +9,8 @@
 
 .Title-row-icon {
     margin-right: 4px;
+}
+
+.live-next-body #copy-real-live {
+    margin-left: 4px;
 }

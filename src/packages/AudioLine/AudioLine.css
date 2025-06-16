@@ -1,4 +1,7 @@
 #ex-audio-line {
     cursor: pointer;
+}
+
+.live-next-body #ex-audio-line {
     margin-left: 4px;
 }
