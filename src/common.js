@@ -4,19 +4,12 @@ var url = document.getElementsByTagName('html')[0].innerHTML;
 var urlLen = ("$ROOM.room_id =").length;
 var ridPos = url.indexOf('$ROOM.room_id =');
 var rid = "";
-let canonicalLink = document.querySelector(`link[rel="canonical"]`);
-if (canonicalLink) {
-	let href = canonicalLink.getAttribute(`href`);
-	rid = href.split('/').pop().trim();
+if (ridPos > 0) {
+	rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
+	if (rid) rid = rid.trim();
 } else {
-	// 如果找不到canonical链接，使用原来的方法作为备选
-	if (ridPos > 0) {
-		rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
-		if (rid) rid = rid.trim();
-	} else {
-		rid = getStrMiddle(url, `roomID":`, `,`);
-		if (rid) rid = rid.trim();
-	}
+	rid = getStrMiddle(url, `roomID:`, `,`);
+	if (rid) rid = rid.trim();
 }
 
 url = null;	
