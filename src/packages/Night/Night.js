@@ -278,6 +278,11 @@ function setNightMode() {
     /* 新版鱼吧 */
     .Tab-module__yubatabEntry-sTCdV,.HotTopicList-module__tab-oI09g,.styles-module__commentPublish-8ZTWy{background: #fff !important;}
     .PostCard-module__postCard-7IgN5{background: #fff !important;border-radius: 4px !important;}
+
+
+
+    /* sc */
+    .HighEnergyBarrageContainer{border-top:1px solid transparent !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
