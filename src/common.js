@@ -9,7 +9,15 @@ if (ridPos > 0) {
 	if (rid) rid = rid.trim();
 } else {
 	rid = getStrMiddle(url, `roomID:`, `,`);
-	if (rid) rid = rid.trim();
+	if (rid) {
+		rid = rid.trim();
+	} else {
+		let canonicalLink = document.querySelector(`link[rel="canonical"]`);
+		if (canonicalLink) {
+			let href = canonicalLink.getAttribute(`href`);
+			rid = href.split('/').pop().trim();
+		}
+	}
 }
 
 url = null;	
