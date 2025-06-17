@@ -249,8 +249,9 @@ function setNightMode() {
     .DiamondsFansRankContainer-content{background-image: none !important;}
     .info__J-VGf{background-image: none !important;}
     .ChatTabContainer-titleWraper--tabLi:before{background: none !important;}
-    .NobleRankList-nickName, .DiamondsFansRankList-policyText, .Barrage-EntranceIntroduce{color: rgb(187,187,187) !important;}
+    .NobleRankList-nickName, .Barrage-EntranceIntroduce{color: rgb(187,187,187) !important;}
     .Chat{border-top: 1px solid rgb(47,48,53) !important;}
+    .DiamondsFansRankInfo-txt, .DiamondsFansRankList-policyText{color: #7f7f7f !important;opacity: 1 !important;}
 
     .snapbarMenu__szc-e{color: rgb(187,187,187) !important;}
     .snapbarMenu__szc-e div:before{background-color: var(--ex-night-third-bg) !important;}
@@ -278,6 +279,8 @@ function setNightMode() {
     /* 新版鱼吧 */
     .Tab-module__yubatabEntry-sTCdV,.HotTopicList-module__tab-oI09g,.styles-module__commentPublish-8ZTWy{background: #fff !important;}
     .PostCard-module__postCard-7IgN5{background: #fff !important;border-radius: 4px !important;}
+    .index-module__pluginItem-PCGnX, .index-module__header-dV497,.index-module__header-UVoJc,.Editor-module__editor--2Cm2{color: rgb(187,187,187) !important;}
+    .index-module__header-dV497{border-bottom: 1px solid var(--ex-night-third-bg) !important;}
 
 
 
