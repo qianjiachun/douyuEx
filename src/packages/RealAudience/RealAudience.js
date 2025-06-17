@@ -96,7 +96,7 @@ async function setRealViewer() {
 	real_info.money_total = Number(retData.data["gift.all.price"] / 100 || 0).toFixed(2);
 	
 	document.getElementById("real-audience__total").innerText = real_info.view;
-	document.getElementById("real-audience__t").title = "活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
+	document.getElementById("real-audience__t").title = "今日累计活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
 	document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
 	// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
 	document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
