@@ -1,0 +1,96 @@
+.ChatToolBar-DanmakuTail {
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-right: 8px;
+    color: #bbb;
+    cursor: pointer;
+}
+
+.ChatToolBar-DanmakuTail-tip {
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: 18px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #fff;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAPFBMVEUAAADKy8zKy8zExMzKy83Ky83KzMzKzM7Kys3Ky8zKy83Jy8zJy83Ky8zLzMzJzMzIyM3MzMzKzMzKy8zUpkOsAAAAE3RSTlMA5PgF2qdrQ+rqysOOhzw3HBnqZkz8cgAAAN5JREFUOMuNlEkOAyEMBNs2y+xL/P+/JgoJaGCAqZOFSk0fLOOL7M7ONLBGeDCTdZsgcq6kdzAtBwLiSauMPoR5ow2Mx4dj1CZ0ArJoh1Ww/Quh5Be1w3F0apaD1a5kMSVJLyRphuknEYaGpIEXuC7pD4YWnaITuUiIdKRkVCRNRlUq+te+a0p4Ujy9ZkMpIaeUgJrEld6aYAxZJS2nF+hGwnUwmHOp/HSCzffybn1dubyZww47aQfaIGtPWgQ4O1Hj8fRgQPzYKOQFgWMhvlfWExHZnJ3M9RzSbN0eYt4fdzsuAVjiHAAAAABJRU5ErkJggg==) 50% / 18px 18px no-repeat;
+}
+
+.ChatToolBar-DanmakuTail-tip-active,
+.ChatToolBar-DanmakuTail-tip:hover {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAPFBMVEUAAAD6aDP7ZTD2cUHxeU/pjGvmkHPfjnH4azj4bDruf1fshWHrhmLpjW3njm3kk3/ugFnugVn/XSP+YCg/+VboAAAAEnRSTlMA/P3z4XQyCPr5za2namIOx8bnayGzAAAA3klEQVQ4y43U2w6EIAxF0dNyc7xP+///Ook6EEHA/UTMSukDEUdhna0hVokpD8ZOy4aY/5I8pTT6iwRHUo1dOJD7SKOPO+5iaUYe2EbptAcs/4VQdo1aMWk0NTXDShdZmITkVkIGQ38SgRtIzhhaR3KlkGKnaGI3hFgHJVFBkkQVFfvXrmsivFk8fc0OJUJeiYAa0sreklJwtpKUJwY9INwPA0yOyksNbP4un57vXD7ezOiElaQTLQh7D40b4Duj2L/9YSA4bizkAs78SPpMdo/YtkzWDPffIRk7r+eYH6dAOJwNbfZEAAAAAElFTkSuQmCC) 50% / 18px 18px no-repeat;
+}
+
+
+.ChatToolBar-DanmakuTail-Panel {
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    height: 120px;
+    position: relative;
+    display: none;
+    z-index: 1015;
+}
+
+.ChatToolBar-DanmakuTail-Panel__cell {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 16px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+}
+
+.ChatToolBar-DanmakuTail-Panel__cell_title {
+    flex: 1;
+    -webkit-box-flex: 1;
+}
+
+.ChatToolBar-DanmakuTail-Panel__cell_option {
+    text-align: right;
+}
+
+.ChatToolBar-DanmakuTail-Panel__cell_switch {
+    float: right;
+}
+
+.ChatToolBar-DanmakuTail-title {
+    margin: 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.DanmakuTail-input {
+    margin: 10px;
+    width: calc(100% - 20px);
+    height: 2.2em;
+}
+
+.DanmakuTail-checkbox-label {
+    margin: 10px;
+    width: calc(100% - 20px);
+    display: block;
+    text-align: right;
+}
+
+.EnergyBarrageIcon {
+    margin-right: 8px;
+}

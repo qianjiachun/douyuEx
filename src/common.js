@@ -3,9 +3,24 @@ var exTimer = 0; // 总时钟句柄
 var url = document.getElementsByTagName('html')[0].innerHTML;
 var urlLen = ("$ROOM.room_id =").length;
 var ridPos = url.indexOf('$ROOM.room_id =');
-var rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
-rid = rid.trim();
-url = null;
+var rid = "";
+if (ridPos > 0) {
+	rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
+	if (rid) rid = rid.trim();
+} else {
+	rid = getStrMiddle(url, `roomID:`, `,`);
+	if (rid) {
+		rid = rid.trim();
+	} else {
+		let canonicalLink = document.querySelector(`link[rel="canonical"]`);
+		if (canonicalLink) {
+			let href = canonicalLink.getAttribute(`href`);
+			rid = href.split('/').pop().trim();
+		}
+	}
+}
+
+url = null;	
 urlLen = null;
 ridPos = null;
 var my_uid = getCookieValue("acf_uid"); // 自己的uid
@@ -285,16 +300,38 @@ function getUserName() {
 }
 
 function getTextareaPosition(element) {
-	// 获取textarea光标的位置
-    let cursorPos = 0;
-    if (document.selection) {//IE
-        let selectRange = document.selection.createRange();
-        selectRange.moveStart('character', -element.value.length);
-        cursorPos = selectRange.text.length;
-    } else if (element.selectionStart || element.selectionStart == '0') {
-        cursorPos = element.selectionStart;
-    }
-    return cursorPos;
+	// 如果元素是textarea，直接使用selectionStart获取位置
+	if (element.tagName === 'TEXTAREA') {
+			return element.selectionStart;
+	}
+	// 否则处理为contenteditable元素
+	let cursorPos = 0;
+	
+	// 兼容旧版IE
+	if (document.selection) {
+			const selectRange = document.selection.createRange();
+			const textRange = element.createTextRange();
+			const preCaretRange = textRange.duplicate();
+			
+			preCaretRange.moveToBookmark(selectRange.getBookmark());
+			preCaretRange.setEndPoint('EndToEnd', textRange);
+			cursorPos = preCaretRange.text.length;
+	} 
+	// 现代浏览器
+	else if (window.getSelection) {
+			const selection = window.getSelection();
+			
+			if (selection.rangeCount > 0) {
+					const range = selection.getRangeAt(0).cloneRange();
+					range.selectNodeContents(element);
+					range.setEnd(selection.rangeCount > 0 ? selection.getRangeAt(0).endContainer : element, 
+											selection.rangeCount > 0 ? selection.getRangeAt(0).endOffset : 0);
+					
+					cursorPos = range.toString().length;
+			}
+	}
+	
+	return cursorPos;
 }
 
 function showExRightPanel(name) {
@@ -314,6 +351,10 @@ function showExRightPanel(name) {
 		{
 			name: "全站抽奖信息",
 			className: "exlottery"
+		},
+		{
+			name: "弹幕小尾巴",
+			className: "ChatToolBar-DanmakuTail-Panel"
 		},
 	];
 	for (let i = 0; i < panels.length; i++) {
@@ -484,4 +525,30 @@ function getCsrfToken() {
       }
     });
   });
+}
+
+function getValidDom(queryList) {
+	for (const query of queryList) {
+		let dom = null;
+		if (typeof query === "string") {
+			dom = document.querySelector(query);
+		} else {
+			dom = query;
+		}
+		if (dom) return dom;
+	}
+	return null;
+}
+
+function getValidDomList(queryList) {
+	for (const query of queryList) {
+		let dom = [];
+		if (typeof query === "string") {
+			dom = document.querySelectorAll(query);
+		} else {
+			dom = query;
+		}
+		if (dom.length > 0) return dom;
+	}
+	return [];
 }

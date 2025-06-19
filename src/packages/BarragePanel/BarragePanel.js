@@ -202,8 +202,12 @@ function setMuteTimeButton(dom) {
 function setBarrgePanelFunc(parentDom, id) {
     document.getElementById("barragePanel__reply").onclick = () => {
         let txt = parentDom.getElementsByClassName("danmuContent-25f266")[0].innerText;
-        if (txt != "") {
-            document.getElementsByClassName("ChatSend-txt")[0].value = `@${ id }：${ txt }`;
+        const chatDom = document.getElementsByClassName("ChatSend-txt")[0];
+        const value = `@${ id }：${ txt }`;
+        if (chatDom.tagName == "TEXTAREA") {
+            chatDom.value = value;
+        } else {
+            chatDom.innerText = value;
         }
     };
 

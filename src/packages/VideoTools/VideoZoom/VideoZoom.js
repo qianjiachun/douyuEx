@@ -1,6 +1,6 @@
 let videoScale = 1;
 function initPkg_VideoTools_VideoZoom() {
-    let domWrap = document.getElementsByClassName("layout-Player-video")[0];
+    let domWrap = getValidDom([".layout-Player-video", ".layout-Player-videoEntity"]);
     let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
 
     let x = 0;

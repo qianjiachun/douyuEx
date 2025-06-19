@@ -9,8 +9,8 @@ function initPkg_RoomVip_Dom() {
   a.innerHTML = `
 	距VIP到期 <span id="room-vip-expire-days">**</span> 天
 	`;
-  let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
-  b.insertBefore(a, b.childNodes[0]);
+  let b = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth"]);
+  b && b.insertBefore(a, b.childNodes[0]);
 }
 
 function setRoomVipExpireDays() {

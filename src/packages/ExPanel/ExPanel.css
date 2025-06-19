@@ -7,7 +7,7 @@
     visibility: hidden;
     transition: all 0.3s ease-in-out; /* 给工具栏出现加一下过渡效果 */
 	border: 2px rgb(234,173,26) solid;
-	z-index: 1015;
+	z-index: 1428;
 	user-select: none;
 }
 .ex-panel__wrap {
@@ -36,4 +36,9 @@
 	top:0px;
 	right:0px;
 	position:absolute;
+}
+
+/* 新版斗鱼右侧弹幕Panel的bottom */
+.container__NmNfZ .layout-Player-chat>* {
+	bottom: 0 !important;
 }

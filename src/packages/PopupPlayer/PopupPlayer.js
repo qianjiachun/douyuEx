@@ -39,7 +39,7 @@ function PopupPlayer_insertPrompt() {
 
     a.innerHTML = html;
 
-    let b = document.getElementsByClassName("layout-Main")[0];
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
     b.insertBefore(a, b.childNodes[0]);
 }
 
@@ -226,7 +226,7 @@ function createNewVideo_Douyu(id, rid) {
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -261,7 +261,7 @@ function setElementFunc_Douyu(id, rid) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -342,7 +342,7 @@ function createNewAudio_Douyu(id, rid) {
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -372,7 +372,7 @@ function createNewVideo_Bilibili(id, rid){
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -403,7 +403,7 @@ function setElementFunc_Bilibili(id, rid) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -482,7 +482,7 @@ function createNewVideo_Huya(id, rid, rname){
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -515,7 +515,7 @@ function setElementFunc_Huya(id, rid) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -590,7 +590,7 @@ function createNewVideo_iframe(id, url) {
     html += "<iframe class='exVideoPlayer' id='exVideoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
     html += "<div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
     a.innerHTML = html;
-    let b = document.getElementsByClassName("layout-Main")[0];
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
     b.insertBefore(a, b.childNodes[0]);
     setElementDrag(id);
     setElementResize(id);
@@ -618,7 +618,7 @@ function setElementFunc_iframe(id) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -641,7 +641,7 @@ function createNewVideo_Stream(id, lurl) {
     html += "</div>";
     html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
     a.innerHTML = html;
-    let b = document.getElementsByClassName("layout-Main")[0];
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
     b.insertBefore(a, b.childNodes[0]);
     setElementDrag(id);
     setElementResize(id);
@@ -672,7 +672,7 @@ function setElementFunc_Stream(id) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }

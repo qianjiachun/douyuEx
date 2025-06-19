@@ -3,7 +3,8 @@ var isInput = false;
 let videotools_num = 0;
 function initPkg_VideoTools() {
     let timer = setInterval(() => {
-        if (document.getElementsByClassName("right-e7ea5d").length > 0) {
+        const controlbar = getValidDom([".right-e7ea5d", ".right-17e251"]);
+        if (controlbar) {
             clearInterval(timer);
             liveVideoNode = document.querySelector(".layout-Player-videoEntity video");
             document.getElementsByClassName("disable-23f484")[0].innerHTML = `DouyuEx_${curVersion}`;
@@ -37,10 +38,11 @@ function initPkg_VideoTools_Func() {
     document.getElementById("js-player-asideMain").addEventListener("mouseover", () => {
         document.getElementsByClassName("filter__wrap")[0].style.display = "none";
     });
-    document.getElementsByClassName("inputView-2a65aa")[0].addEventListener("focus", () => {
+    getValidDom([".inputView-2a65aa", ".inputView-620ab7"]).addEventListener("focus", () => {
         isInput = true;
     });
-    document.getElementsByClassName("inputView-2a65aa")[0].addEventListener("blur", () => {
+    
+    getValidDom([".inputView-2a65aa", ".inputView-620ab7"]).addEventListener("blur", () => {
         isInput = false;
     });
     let m = new DomHook(".app-f0f9c7", false, (m) => {

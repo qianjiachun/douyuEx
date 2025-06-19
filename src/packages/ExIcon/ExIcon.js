@@ -19,9 +19,15 @@ function initPkg_ExIcon_insertDom() {
         </g>
     </g>
 </svg><i id="ex-icon__tip" class="ex-panel__tip"></i></a>`;
-	
-	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
-	b.insertBefore(a, b.childNodes[0]);
+	let b = document.querySelector(".PlayerToolbar-ContentCell .PlayerToolbar-Wealth");
+	if (b) {
+		b.insertBefore(a, b.childNodes[0]);
+	} else {
+		a.className += " ToolbarGiftArea-backpack";
+		a.style.width = "52px";
+		b = document.querySelector(".ToolbarGiftArea-container");
+		b.appendChild(a);
+	}
 }
 function initPkg_ExIcon_Func() {
 	document.getElementsByClassName("ex-icon")[0].addEventListener("click", showExPanel);

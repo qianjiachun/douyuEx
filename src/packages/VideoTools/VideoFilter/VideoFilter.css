@@ -50,7 +50,7 @@
 
 
 .filter__scroll {
-    width: 255px;
+    width: 100%;
     height: 5px;
     background: #ccc;
     position: relative;
@@ -85,7 +85,7 @@
 }
 
 #filter__select {
-    width: 260px;
+    width: 100%;
     float: right;
 }
 

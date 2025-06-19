@@ -3,8 +3,8 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTA4cHgiIGhlaWdodD0iMTA4cHgiIHZpZXdCb3g9IjAgMCAxMDggMTA4IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPHRpdGxlPueyvueBteeQgzwvdGl0bGU+CiAgICA8ZyBpZD0i6aG16Z2iLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSLnsr7ngbXnkIMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuODMwNzY5LCAwLjgzMDc2OSkiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01My4xNjkyMzA3LDEwNi4zMzg0NjEgQzIzLjgyNzY5MjIsMTA2LjMzODQ2MSAwLDgyLjUxMDc2OTIgMCw1My4xNjkyMzA3IEMwLDUxLjAwMzA3NjkgMS43NzIzMDc3NSw0OS4yMzA3NjkyIDMuOTM4NDYxNSw0OS4yMzA3NjkyIEwzMy40NzY5MjMsNDkuMjMwNzY5MiBDMzUuNjQzMDc2OSw0OS4yMzA3NjkyIDM3LjQxNTM4NDUsNTEuMDAzMDc3IDM3LjQxNTM4NDYsNTMuMTY5MjMwNyBDMzcuNDE1Mzg0Niw2MS44MzM4NDYxIDQ0LjUwNDYxNTQsNjguOTIzMDc2OSA1My4xNjkyMzA3LDY4LjkyMzA3NjkgQzYxLjgzMzg0NjEsNjguOTIzMDc2OSA2OC45MjMwNzY5LDYxLjgzMzg0NjEgNjguOTIzMDc2OSw1My4xNjkyMzA3IEM2OC45MjMwNzY5LDUxLjAwMzA3NjkgNzAuNjk1Mzg0Niw0OS4yMzA3NjkyIDcyLjg2MTUzODUsNDkuMjMwNzY5MiBMMTAyLjQsNDkuMjMwNzY5MiBDMTA0LjU2NjE1NCw0OS4yMzA3NjkyIDEwNi4zMzg0NjEsNTEuMDAzMDc3IDEwNi4zMzg0NjEsNTMuMTY5MjMwNyBDMTA2LjMzODQ2MSw4Mi41MTA3NjkyIDgyLjUxMDc2OTIsMTA2LjMzODQ2MSA1My4xNjkyMzA3LDEwNi4zMzg0NjEgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iIzMzMzYzQSI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNOC4wNzM4NDYxMiw1Ny4xMDc2OTIyIEMxMC4wNDMwNzY5LDgwLjI0NjE1MzcgMjkuNTM4NDYxNSw5OC40NjE1Mzg1IDUzLjE2OTIzMDcsOTguNDYxNTM4NSBDNzYuOCw5OC40NjE1Mzg1IDk2LjI5NTM4NDYsODAuMjQ2MTUzOSA5OC4yNjQ2MTU0LDU3LjEwNzY5MjIgTDc2LjUwNDYxNTQsNTcuMTA3NjkyMiBDNzQuNjMzODQ2MSw2OC4yMzM4NDYxIDY0Ljg4NjE1MzksNzYuOCA1My4xNjkyMzA3LDc2LjggQzQxLjQ1MjMwNzYsNzYuOCAzMS43MDQ2MTU0LDY4LjIzMzg0NjEgMjkuODMzODQ2MSw1Ny4xMDc2OTIyIEw4LjA3Mzg0NjEyLDU3LjEwNzY5MjIgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNTMuMTY5MjMwOCwzLjkzODQ2MTUgQzI1Ljk5Mzg0NjEsMy45Mzg0NjE1IDMuOTM4NDYxNSwyNS45OTM4NDYxIDMuOTM4NDYxNSw1My4xNjkyMzA3IEwzMy40NzY5MjMsNTMuMTY5MjMwNyBDMzMuNDc2OTIzLDQyLjMzODQ2MTUgNDIuMzM4NDYxNSwzMy40NzY5MjMgNTMuMTY5MjMwOCwzMy40NzY5MjMgQzY0LDMzLjQ3NjkyMyA3Mi44NjE1Mzg1LDQyLjMzODQ2MTUgNzIuODYxNTM4NSw1My4xNjkyMzA3IEwxMDIuNCw1My4xNjkyMzA3IEMxMDIuNCwyNS45OTM4NDYxIDgwLjM0NDYxNTQsMy45Mzg0NjE1IDUzLjE2OTIzMDgsMy45Mzg0NjE1IFoiIGlkPSLot6/lvoQiIGZpbGw9IiNENjA5MDkiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTEwMi40LDU3LjEwNzY5MjIgTDcyLjg2MTUzODUsNTcuMTA3NjkyMiBDNzAuNjk1Mzg0Niw1Ny4xMDc2OTIyIDY4LjkyMzA3Nyw1NS4zMzUzODQ1IDY4LjkyMzA3NjksNTMuMTY5MjMwNyBDNjguOTIzMDc2OSw0NC41MDQ2MTU0IDYxLjgzMzg0NjEsMzcuNDE1Mzg0NiA1My4xNjkyMzA3LDM3LjQxNTM4NDYgQzQ0LjUwNDYxNTQsMzcuNDE1Mzg0NiAzNy40MTUzODQ2LDQ0LjUwNDYxNTQgMzcuNDE1Mzg0Niw1My4xNjkyMzA3IEMzNy40MTUzODQ2LDU1LjMzNTM4NDYgMzUuNjQzMDc2OSw1Ny4xMDc2OTIyIDMzLjQ3NjkyMyw1Ny4xMDc2OTIyIEwzLjkzODQ2MTUsNTcuMTA3NjkyMiBDMS43NzIzMDc2Miw1Ny4xMDc2OTIyIDAsNTUuMzM1Mzg0NSAwLDUzLjE2OTIzMDcgQzAsMjMuODI3NjkyMiAyMy44Mjc2OTIzLDAgNTMuMTY5MjMwNywwIEM4Mi41MTA3NjkyLDAgMTA2LjMzODQ2MSwyMy44Mjc2OTIyIDEwNi4zMzg0NjEsNTMuMTY5MjMwNyBDMTA2LjMzODQ2MSw1NS4zMzUzODQ2IDEwNC41NjYxNTQsNTcuMTA3NjkyMiAxMDIuNCw1Ny4xMDc2OTIyIFoiIGlkPSLot6/lvoQiIGZpbGw9IiMzMzM2M0EiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTc2LjUwNDYxNTQsNDkuMjMwNzY5MyBMOTguMzYzMDc2OSw0OS4yMzA3NjkzIEM5Ni4yOTUzODQ2LDI2LjA5MjMwNzYgNzYuOCw3Ljg3NjkyMyA1My4xNjkyMzA3LDcuODc2OTIzIEMyOS41Mzg0NjE1LDcuODc2OTIzIDEwLjA0MzA3NjksMjYuMDkyMzA3NiA4LjA3Mzg0NjEyLDQ5LjIzMDc2OTMgTDI5LjkzMjMwNzYsNDkuMjMwNzY5MyBDMzEuNzA0NjE1NCwzOC4xMDQ2MTU0IDQxLjQ1MjMwNzYsMjkuNTM4NDYxNSA1My4xNjkyMzA3LDI5LjUzODQ2MTUgQzY0Ljg4NjE1MzksMjkuNTM4NDYxNSA3NC42MzM4NDYxLDM4LjEwNDYxNTQgNzYuNTA0NjE1NCw0OS4yMzA3NjkzIEw3Ni41MDQ2MTU0LDQ5LjIzMDc2OTMgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0Q2MDkwOSI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNTMuMTY5MjMwNyw3Ni44IEM0MC4xNzIzMDc2LDc2LjggMjkuNTM4NDYxNSw2Ni4xNjYxNTM5IDI5LjUzODQ2MTUsNTMuMTY5MjMwNyBDMjkuNTM4NDYxNSw0MC4xNzIzMDc2IDQwLjE3MjMwNzYsMjkuNTM4NDYxNSA1My4xNjkyMzA3LDI5LjUzODQ2MTUgQzY2LjE2NjE1MzksMjkuNTM4NDYxNSA3Ni44LDQwLjE3MjMwNzYgNzYuOCw1My4xNjkyMzA3IEM3Ni44LDY2LjE2NjE1MzkgNjYuMTY2MTUzOSw3Ni44IDUzLjE2OTIzMDcsNzYuOCBaIiBpZD0i6Lev5b6EIiBmaWxsPSIjMzMzNjNBIj48L3BhdGg+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01My4xNjkyMzA3LDM3LjQxNTM4NDYgQzQ0LjUwNDYxNTQsMzcuNDE1Mzg0NiAzNy40MTUzODQ2LDQ0LjUwNDYxNTQgMzcuNDE1Mzg0Niw1My4xNjkyMzA3IEMzNy40MTUzODQ2LDYxLjgzMzg0NjEgNDQuNTA0NjE1NCw2OC45MjMwNzY5IDUzLjE2OTIzMDcsNjguOTIzMDc2OSBDNjEuODMzODQ2MSw2OC45MjMwNzY5IDY4LjkyMzA3NjksNjEuODMzODQ2MSA2OC45MjMwNzY5LDUzLjE2OTIzMDcgQzY4LjkyMzA3NjksNDQuNTA0NjE1NCA2MS44MzM4NDYxLDM3LjQxNTM4NDYgNTMuMTY5MjMwNywzNy40MTUzODQ2IEw1My4xNjkyMzA3LDM3LjQxNTM4NDYgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNDMuMzIzMDc2OSw1My4xNjkyMzA3IEM0My4zMjMwNzY5LDU4LjYwNzExMTQgNDcuNzMxMzUwMSw2My4wMTUzODQ2IDUzLjE2OTIzMDcsNjMuMDE1Mzg0NiBDNTguNjA3MTExNCw2My4wMTUzODQ2IDYzLjAxNTM4NDYsNTguNjA3MTExNCA2My4wMTUzODQ2LDUzLjE2OTIzMDcgQzYzLjAxNTM4NDYsNDcuNzMxMzUwMSA1OC42MDcxMTE0LDQzLjMyMzA3NjkgNTMuMTY5MjMwNyw0My4zMjMwNzY5IEM0Ny43MzEzNTAxLDQzLjMyMzA3NjkgNDMuMzIzMDc2OSw0Ny43MzEzNTAxIDQzLjMyMzA3NjksNTMuMTY5MjMwNyBaIiBpZD0i6Lev5b6EIiBmaWxsPSIjMzMzNjNBIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=
-// @version      2025.06.03.02
-// @description  斗鱼直播间增强插件，功能：弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕ass下载 直播画面局部缩放 全站抽奖信息 直播音效增强 阻止P2P上传 显示贡献榜贡献值 恢复弹幕显示 斗鱼视频弹幕高能进度条 检测弹幕是否发送成功 查看主播配置信息 自动网页全屏 自动最高画质 弹幕无限收藏 收藏弹幕搜索 支持弹幕带图片 屏蔽弹幕背景 弹幕+1 房间VIP到期提醒 自动钓鱼 防止自动暂停直播 恢复已关闭鱼吧
+// @version      2025.06.17.01
+// @description  斗鱼直播间增强插件，功能：弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕ass下载 直播画面局部缩放 全站抽奖信息 直播音效增强 阻止P2P上传 显示贡献榜贡献值 恢复弹幕显示 斗鱼视频弹幕高能进度条 检测弹幕是否发送成功 查看主播配置信息 自动网页全屏 自动最高画质 弹幕无限收藏 收藏弹幕搜索 支持弹幕带图片 屏蔽弹幕背景 弹幕+1 房间VIP到期提醒 自动钓鱼 防止自动暂停直播 恢复已关闭鱼吧 弹幕小尾巴
 // @author       小淳
 // @match			*://*.douyu.com/0*
 // @match			*://*.douyu.com/1*
@@ -16,6 +16,7 @@
 // @match			*://*.douyu.com/7*
 // @match			*://*.douyu.com/8*
 // @match			*://*.douyu.com/9*
+// @match			*://*.douyu.com/beta/*
 // @match			*://*.douyu.com/topic/*
 // @match        *://www.douyu.com/member/cp/getFansBadgeList
 // @match        *://passport.douyu.com/*
@@ -74,6 +75,8 @@ function init() {
 }
 function initPkg() {
 	Update_checkVersion();
+	initPkg_DanmakuTail();
+	initPkg_ReturnOldWeb();
 	initPkg_Night();
 	initPkg_ExIcon();
 	initPkg_ExPanel();
@@ -106,6 +109,7 @@ function initPkg() {
 	initPkg_WeeklyPanel();
 	initPkg_DanmakuCollect();
 	initPkg_RestoreYuba();
+	initPkg_ChangeDanmakuLengthLimit();
 }
 function initPkg_Timer() {
 	// initPkg_FishPond_Timer();
@@ -119,7 +123,7 @@ function initTimer() {
 
 function initStyles() {
 	let style = document.createElement("style");
-	style.appendChild(document.createTextNode(`#ex-accountList-wrap {    left: -152px;    top: -16px;    /* max-height: 330px;    overflow-y: scroll;    scrollbar-width: none;    -ms-overflow-style: none; */    -webkit-transition: all .2s cubic-bezier(.22,.58,.12,.98);    -o-transition: all cubic-bezier(.22,.58,.12,.98) .2s;    -moz-transition: all cubic-bezier(.22,.58,.12,.98) .2s;    transition: all .2s cubic-bezier(.22,.58,.12,.98);    -webkit-transform-origin: 80% 0;    -moz-transform-origin: 80% 0;    -ms-transform-origin: 80% 0;    -o-transform-origin: 80% 0;    transform-origin: 80% 0;    -webkit-animation: scale-in-ease .5s cubic-bezier(.22,.58,.12,.98);    -moz-animation: scale-in-ease cubic-bezier(.22,.58,.12,.98) .5s;    -o-animation: scale-in-ease cubic-bezier(.22,.58,.12,.98) .5s;    animation: scale-in-ease .5s cubic-bezier(.22,.58,.12,.98);}/* #ex-accountList-wrap::-webkit-scrollbar {    display: none;} */.ex-accountList-item {    padding: 10px;    display: flex;    border-radius: 10px;    align-items: center;}.ex-accountList-item:hover {    background-color: rgb(244,244,244);}#ex-accountList-iframe {    display: none;}#ex-accountList-iframe2 {    display: none;}#ex-accountList-item-add {    padding: 10px;    text-align: center;    margin-bottom:0px;    border-radius: 10px;}#ex-accountList-item-add:hover {    background-color: rgb(244,244,244);}.ex-accountList-item__imgWrap {    flex: 0 0 25%;}.ex-accountList-item__img {    width: 50px;    height: 50px;    border-radius: 50%;}.ex-accountList-item__name {    line-height: 50px;    flex: 0 0 55%;}.ex-accountList-item__btn {    height: 30px;    width: 50px;    border-radius: 10px;    align-items: center;    flex: auto;    text-align: center;    line-height: 28px;    color: white;    background-color: rgb(245,108,108);}.ex-accountList-item__btn:hover {    background-color: rgb(247,137,137);}#ex-accountList-icon:hover > #ex-accountList-wrap {    display: block;}#ex-audio-line {    cursor: pointer;}.bag-info {    position: absolute;    background-color: rgba(0, 0, 0, 0.6);    color: white;    width: 20px;    font-weight: 800;    height: 20px;    text-align: center;    z-index: 10;    bottom: 0;}.bag-button {    color: rgb(255, 255, 255);    text-align: center;    height: 15px;    line-height: 15px;    cursor: pointer;    margin-left: 5px;    background: rgb(70, 171, 255);    border-radius: 9px;    padding: 0px 10px;    right: 20px;}.bloop {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;	z-index: 1015;}.bloop__switch {	position: absolute;	right: 0;	bottom: 0;}.bloop__mode {	display: inline-block;}#bloop__select {	width: 150px;}.barragePanel__funcPanel {    position: absolute;    width: 232px;    height: 270px;    display: block;    background: white;    overflow-y: scroll;}.barragePanel__funcPanel::-webkit-scrollbar {display:none}.barragePanel__muteTime {    position: absolute;    left: 25px;    top: 123px;    z-index: 5;}.danmuContent-25f266 {    pointer-events: auto !important;}#copy-real-live {    cursor: pointer;}.ChatBarrageCollect .TagItem {  height: auto !important;}.ChatBarrageCollect .TagItem-txt {  overflow: auto !important;  white-space: normal !important;}.ex-icon {	display: inline-block;	vertical-align: middle;	margin-right: 8px;	-moz-user-select:none; /*火狐*/    -webkit-user-select:none; /*webkit浏览器*/    -ms-user-select:none; /*IE10*/    -khtml-user-select:none; /*早期浏览器*/    user-select:none;}.ex-icon a {    display: flex;    justify-items: center;    align-items: center;}.ex-icon svg:hover {    transform: scale(1.1);}.extool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;	z-index: 1015;}.extool__switch {	position: absolute;	right: 0;	bottom: 0;}.extool__bsize,.extool__sendgift {	margin-bottom: 5px;}.extool__redpacket_room,.extool__gold,.extool__autofish {	display: inline-block;}.ex_giftAnimation {	width: 100%;	height: 100%;	position: absolute;	z-index: 50;	pointer-events: none;}.ex-panel {	position: absolute;	bottom: 32px;	right: 0px;	background-color: rgba(255,255,255,0.9);	opacity: 0;    visibility: hidden;    transition: all 0.3s ease-in-out; /* 给工具栏出现加一下过渡效果 */	border: 2px rgb(234,173,26) solid;	z-index: 1015;	user-select: none;}.ex-panel__wrap {	display: flex;	align-items: center;	justify-content: center;	width: 100%;	height: 100%;}.ex-panel__icon {	margin: 0 10px;	display: block;	position: relative;	padding: 5px;	transition: 0.5s;}.ex-panel__icon:hover {	transform: scale(1.15);}.ex-panel__tip {	display:none;	background:#f00;	border-radius:50%;	width:8px;	height:8px;	top:0px;	right:0px;	position:absolute;}#refreshFollowList {    color: grey;position: absolute;right: 5px;top:0px;cursor: default;}.text-879f3e {  height: auto !important;  max-height: 48px !important;}.ex-image-danmaku {  height: 48px;  border-radius: 6px;  margin: 0 4px;}.danmuContent-25f266 .ex-image-danmaku {  max-height: 32px;}.barrageSpeed {    position: absolute;    right: 10px;    top: -20px;    color: rgba(0,0,0,0.5);    cursor: default;    z-index: 0;}.enter__panel {    width: 100%;    display: none;    margin-top: 4px;}#enter__title {    cursor: pointer;    user-select: none;    color: royalblue;}#enter__select {    width: 190px;}.enter__option {    margin-top: 5px;}#enter__enterId {    width: 40px;}#enter__reply {    width: 150px;}#enter__word {    width: 140px;}#enter__level {    width: 25px;    text-align: center;}#enter__export {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#enter__import {    cursor: pointer;    color: royalblue;    margin-left: 5px;}.gift__panel {    width: 100%;    display: none;    margin-top: 4px;}#gift__title {    cursor: pointer;    user-select: none;    color: royalblue;}#gift__select {    width: 113px;}.gift__option {    margin-top: 5px;}#gift__giftId {    width: 40px;}#gift__reply {    width: 150px;}#gift__export {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#gift__import {    cursor: pointer;    color: royalblue;    margin-left: 5px;}.livetool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 290px;	position: relative;	bottom: 290px;	display: none;	z-index: 1015;}.livetool__cell {	position: relative;    display: -webkit-box;    display: -webkit-flex;    display: flex;    box-sizing: border-box;    width: 100%;    padding: 10px 16px;    overflow: hidden;    color: #323233;    font-size: 14px;    line-height: 24px;	background-color: #fff;	border-bottom: 1px solid rgba(0,0,0,0.2);	flex-wrap: wrap;    -webkit-flex-wrap: wrap;}.livetool__cell_title {	flex: 1;    -webkit-box-flex: 1;}.livetool__cell_option {	text-align: right;}.livetool__cell_switch {	float: right;}.mute__panel {    width: 100%;    display: none;    margin-top: 4px;}#mute__title {    cursor: pointer;    user-select: none;    color: royalblue;}#mute__idlist {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#mute__export, #mute__import {    cursor: pointer;    color: royalblue;    margin-left: 5px;}#mute__select {    width: 110px;}.mute__option {    margin-top: 5px;}#mute__word {    width: 70px;}#mute__count {    width: 30px;}#mute__time {    width: 65px;}.exRankPoint {    position: absolute;    right: 16px;}.exRankPoint--top {    position: absolute;    bottom: -12px;    right: 0;    left: 0;}.reply__panel {    width: 100%;    display: none;    margin-top: 4px;}#reply__title {    cursor: pointer;    user-select: none;    color: royalblue;}#reply__select {    /* width: 190px; */    width: 100px;}#reply__time {    width: 35px;}.reply__option {    margin-top: 5px;}#reply__word {    width: 70px;}#reply__reply {    width: 147px;}#reply__export {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#reply__import {    cursor: pointer;    color: royalblue;    margin-left: 5px;}.livetool__Treasure {    width: 100%;    position: relative;    z-index: 999;}.vote__panel {    width: 100%;    display: none;    margin-top: 4px;}#vote__title {    cursor: pointer;    user-select: none;    color: royalblue;}#vote__select {    width: 100px;}.vote__option {    margin-top: 5px;}#vote__theme {    width: 70px;}#vote__options {    width: 133px;}#vote__time {    width: 35px;}#vote__show-result {    cursor: pointer;    color: royalblue;    margin-left: 10px;}.vote__result {    position: absolute;    top: 0px;    width: 300px;    background: rgba(255,255,255,0.85);    left: 0px;    z-index: 999;    padding: 5px;    border-radius: 10px;    user-select: none;    display: none;}#vote__result-theme {    font-size: 20px;    font-weight: 600;    margin-bottom: 10px;}#vote__result-close {    position: absolute;    top: 5px;    right: 10px;    font-size: 14px;    cursor: pointer;    color: gray;}.vote__option-wrap {    margin-bottom: 10px;}.vote__option-choice {    display: inline-block;    font-size: 14px;}.vote__option-num {    float: right;    font-size: 14px;}.vote__progress {    width: 100%;    background-color: #ddd;    border-radius: 10px;}.vote__progress-bar {    width: 0%;    height: 14px;    background-color: #4CAF50;    text-align: center;    line-height: 30px;    border-radius: 10px;}.exlottery {	background-color: rgba(255,255,255,1);	width: 100%;	height: 250px;	position: relative;	bottom: 250px;	display: none;	z-index: 1015;    overflow: auto;    padding: 0 10px;    box-sizing: border-box;}.lottery__nodata {    z-index: 998;    position: absolute;    left:50%;    top:50%;    transform: translate(-50%, -50%);    color: #606266;}.lottery__wrap {    display: flex;    flex-direction: column;    z-index: 999;}.lottery__a:hover .lottery__item {    background-color: rgb(244,244,244);}.lottery__item {    display: flex;    padding: 5px 0;    border-bottom: 1px solid #d0d0d0;    color: #606266;}.lottery__img img {    width: 150px;    border-radius: 5px;}.lottery__anchor {    position: absolute;    background-color: rgba(255,255,255,0.9);    border-radius: 5px 0px 5px 0px;}.lottery__info {    display: flex;    justify-content: space-evenly;    flex-direction: column;    margin-left: 10px;    overflow: hidden;}.lottery__prize {    white-space: nowrap;    text-overflow: ellipsis;    word-break: break-all;    font-size: 14px;}.lottery__expireTime {    position: absolute;    margin-top: -18px;    background-color: rgba(255,255,255,0.9);    border-radius: 0px 5px 0px 5px;} /*滚动条样式*/.exlottery::-webkit-scrollbar {    width: 4px;    }.exlottery::-webkit-scrollbar-thumb {    border-radius: 10px;    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);    background: rgba(0,0,0,0.2);}.exlottery::-webkit-scrollbar-track {    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);    border-radius: 0;    background: rgba(0,0,0,0.1);}.lottery__func {    display: flex;    justify-content: space-between;    margin-top: 5px;    user-select: none;    border-bottom: 1px solid #d0d0d0;}.lottery__notice,#lottery-refresh {    cursor: pointer;    color: #606266;}.miniprogram__panel {    position: absolute;    right: 43px;    bottom: 100px;    animation: move-in 0.75s;    z-index: 101;    text-align: center;    display: none;}.miniprogram__wrap {    overflow: hidden;    background-color: white;    border-radius: 5%;    width: 200px;    box-shadow: 0px 2px 20px 0px #888888;    font-size: 14px;}.miniprogram__triangle {    width: 0px;    height: 0px;    border-color: white transparent transparent transparent;    border-style: solid;    border-width: 10px;    position: absolute;    left: 100px;}.month-cost {    margin-right: 5px;    cursor: default;    -moz-user-select:none;/*火狐*/    -webkit-user-select:none;/*webkit浏览器*/    -ms-user-select:none;/*IE10*/    -khtml-user-select:none;/*早期浏览器*/    user-select:none;    display: inline-block;    vertical-align: middle;}.monthcost__icon {    position: relative;    top: 3px;    cursor: pointer;    margin-left: 3px;}.exVideoDiv {    width: 500px;    height: 250px;    background-color: rgba(255, 255, 255, 0);    position: absolute;    z-index: 1015;}.exVideoPlayer {    width: 100%;    height: 100%;    cursor: move;}.exVideoScale {    width: 10px;    height: 10px;    overflow: hidden;    cursor: se-resize;    position: absolute;    right: 0;    bottom: 0;    background-color: rgb(231, 57, 57);}.exVideoInfo {    width: 100%;    height: 30px;    background-color: gray;    position: absolute;    top: -30px;    line-height: 30px;}.exVideoClose {    width: 30px;    float: right;    color: white;}.exVideoQn, .exVideoCDN {    margin-left: 5px;}.exVideoRID {    margin: 0px 5px;    font-weight: 800;    font-size: medium;}#popup-player__prompt {    display: none;}.postbird-box-header {    width: auto !important;}.real-audience {    cursor: pointer;    display: flex;    padding: 0 7px;    line-height: 33px;}#Ex_EnterYuba {    width: 100%;}.Title-anchorPic-bottom i{    display: none !important;}/* #refresh-video {    float: left;    width: 24px;    height: 24px;    margin-right: 5px;    cursor: pointer;    background-size: contain;} */#refresh-video2 {    display: none;    position: absolute;    top: 20px;    right: 20px;    cursor: pointer;}#refresh-video2-svg {    fill: rgba(0,0,0,.6)}.refresh-barrage {    display: inline-block;    vertical-align: top;    margin: 0 2px;    padding: 0 8px;    height: 22px;    line-height: 21px;    background-color: #fff;    border: 1px solid #e5e4e4;    -webkit-border-radius: 4px;    -moz-border-radius: 4px;    border-radius: 4px;    cursor: pointer;}#refresh-barrage__svg {    vertical-align: middle;}.top-0-important {    top: 0 !important;}.room-vip {  -moz-user-select:none;/*火狐*/  -webkit-user-select:none;/*webkit浏览器*/  -ms-user-select:none;/*IE10*/  -khtml-user-select:none;/*早期浏览器*/  user-select:none;  vertical-align: middle;  float: left;}#ex-camera {    background: rgba(0,0,0,0.7);    position: absolute;    right: 20px;    bottom: 190px;    z-index: 10;    width: 60px;    height: 60px;    cursor: pointer;    -webkit-border-radius: 50%;    -moz-border-radius: 50%;    border-radius: 50%;    cursor: pointer;    display: none;    justify-content: center;    align-items: center;    border: 2px solid #2d2c2c;    box-sizing: border-box;}#ex-camera:hover > svg > path {    fill: rgb(252, 199, 84);}#ex-camera:active > svg > path {    fill: rgb(253, 60, 60);}#ex-cinema:hover > .cinema__wrap {    display: block;}.cinema__wrap {    display: none;    margin: 0;    padding: 0;    border: 1px solid #e5e5e5;    background: #fff;    position: absolute;    left: 201px;    min-width: 100px;    top: 130px;}.cinema__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 70px;}.cinema__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.cinema__panel li:hover {    background-color: rgb(85, 85, 85);}  #ex-joysound {    float: left;    width: 24px;    height: 24px;    margin-right: 10px;    cursor: pointer;    background-size: contain;    pointer-events: all;}#ex-joysound img {    width: 24px;    height: 24px;}#exVideoDivFake {  display: none;}#ex-metadata:hover > .metadata__wrap {  display: block;}.metadata__wrap {  display: none;  margin: 0;  padding: 0;  border: 1px solid #e5e5e5;  background: #fff;  position: absolute;  left: 201px;  min-width: 100px;  top: 0px;  white-space: nowrap;}.metadata__panel {  position: absolute;  border: 1px solid #000;  border-radius: 4px;  transform: translateY(calc(-4px - 100%)) translateX(-50%);  left: 33%;  background-color: #000;  opacity: .75;  width: 70px;}.metadata__panel li {  padding: 0 2px;  white-space: nowrap;  color: #fff;  text-align: center;  cursor: pointer;}.metadata__panel li:hover {  background-color: rgb(85, 85, 85);}  #ex-filter {    float: left;    width: 24px;    height: 24px;    margin-right: 10px;    cursor: pointer;    background-size: contain;    pointer-events: all;}.filter__wrap {    display: none;    position: relative;    height: 100%;    margin-right: -15px;    border-radius: 4px;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    float: left;    right: -12px;    bottom: 10px;}.filter__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 300px;    padding-top: 10px;    padding-left: 10px;    padding-right: 10px;}.filter__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.filter__panel li:hover {    background-color: rgb(85, 85, 85);}.filter__scroll {    width: 255px;    height: 5px;    background: #ccc;    position: relative;    display: inline-block;}.filter__scroll-bar {    width: 15px;    height: 15px;    background: #369;    position: absolute;    top: -5px;    left: 100px;    cursor: pointer;    border-radius: 100%;}.filter__scroll-mask {    position: absolute;    left: 0;    top: 0;    background: #369;    width: 100px;    height: 5px;}.filter__title {    color: white;    display: inline-block;    cursor: initial;    margin-right: 2px;}#filter__select {    width: 260px;    float: right;}.filter__filter {    margin-top: 5px;}#ex-videospeed:hover > .videospeed__wrap {    display: block;}.videospeed__wrap {    display: none;    margin: 0;    padding: 0;    border: 1px solid #e5e5e5;    background: #fff;    position: absolute;    left: 201px;    min-width: 100px;    top: 120px;}.videospeed__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 70px;}.videospeed__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.videospeed__panel li:hover {    background-color: rgb(85, 85, 85);}  #ex-videosync {    float: left;    width: 24px;    height: 24px;    margin-left: 20px;    cursor: pointer;    background-size: contain;}.menu-da2a9e {  z-index: 999 !important;}.weeklypanel__panel-wrap {    width: 100%;    height: 100%;    z-index: 999;    background-color: rgba(0, 0, 0, 0.9);    position: absolute;    top: 0;    left: 0;    display: flex;    justify-content: center;    align-items: center;}.weeklypanel__panel {    height: 600px;    width: 500px;    background-color: white;    border-radius: 20px;    position: fixed;    top: 0;    left: 0;    right: 0;    bottom: 0;    margin: auto;}.weeklypanel__content {    position: relative;    top: 50%;    transform: translateY(-50%);    text-align: center;}.weeklypanel__text {    font-size: 18px;}.weeklypanel__text a {    font-weight: bold;    font-size: 24px;}.weeklypanel__close {    font-size: 30px;    font-weight: bold;    position: absolute;    right: 15px;    cursor: pointer;}.noticejs-top{top:0;width:100% !important}.noticejs-top .item{border-radius:0 !important;margin:0 !important}.noticejs-topRight{top:10px;right:10px}.noticejs-topLeft{top:10px;left:10px}.noticejs-topCenter{top:10px;left:50%;transform:translate(-50%)}.noticejs-middleLeft,.noticejs-middleRight{right:10px;top:50%;transform:translateY(-50%)}.noticejs-middleLeft{left:10px}.noticejs-middleCenter{top:50%;left:50%;transform:translate(-50%,-50%)}.noticejs-bottom{bottom:0;width:100% !important}.noticejs-bottom .item{border-radius:0 !important;margin:0 !important}.noticejs-bottomRight{bottom:10px;right:10px}.noticejs-bottomLeft{bottom:10px;left:10px}.noticejs-bottomCenter{bottom:10px;left:50%;transform:translate(-50%)}.noticejs{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}.noticejs .item{margin:0 0 10px;border-radius:3px;overflow:hidden}.noticejs .item .close{float:right;font-size:18px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;opacity:1;margin-right:7px}.noticejs .item .close:hover{opacity:.5;color:#000}.noticejs .item a{color:#fff;border-bottom:1px dashed #fff}.noticejs .item a,.noticejs .item a:hover{text-decoration:none}.noticejs .success{background-color:#64ce83}.noticejs .success .noticejs-heading{background-color:#3da95c;color:#fff;padding:10px}.noticejs .success .noticejs-body{color:#fff;padding:10px}.noticejs .success .noticejs-body:hover{visibility:visible !important}.noticejs .success .noticejs-content{visibility:visible}.noticejs .info{background-color:#3ea2ff}.noticejs .info .noticejs-heading{background-color:#067cea;color:#fff;padding:10px}.noticejs .info .noticejs-body{color:#fff;padding:10px}.noticejs .info .noticejs-body:hover{visibility:visible !important}.noticejs .info .noticejs-content{visibility:visible}.noticejs .warning{background-color:#ff7f48}.noticejs .warning .noticejs-heading{background-color:#f44e06;color:#fff;padding:10px}.noticejs .warning .noticejs-body{color:#fff;padding:10px}.noticejs .warning .noticejs-body:hover{visibility:visible !important}.noticejs .warning .noticejs-content{visibility:visible}.noticejs .error{background-color:#e74c3c}.noticejs .error .noticejs-heading{background-color:#ba2c1d;color:#fff;padding:10px}.noticejs .error .noticejs-body{color:#fff;padding:10px}.noticejs .error .noticejs-body:hover{visibility:visible !important}.noticejs .error .noticejs-content{visibility:visible}.noticejs .progressbar{width:100%}.noticejs .progressbar .bar{width:1%;height:30px;background-color:#4caf50}.noticejs .success .noticejs-progressbar{width:100%;background-color:#64ce83;margin-top:-1px}.noticejs .success .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#3da95c}.noticejs .info .noticejs-progressbar{width:100%;background-color:#3ea2ff;margin-top:-1px}.noticejs .info .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#067cea}.noticejs .warning .noticejs-progressbar{width:100%;background-color:#ff7f48;margin-top:-1px}.noticejs .warning .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#f44e06}.noticejs .error .noticejs-progressbar{width:100%;background-color:#e74c3c;margin-top:-1px}.noticejs .error .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#ba2c1d}@keyframes noticejs-fadeOut{0%{opacity:1}to{opacity:0}}.noticejs-fadeOut{animation-name:noticejs-fadeOut}@keyframes noticejs-modal-in{to{opacity:.3}}@keyframes noticejs-modal-out{to{opacity:0}}.noticejs-rtl .noticejs-heading{direction:rtl}.noticejs-rtl .close{float:left !important;margin-left:7px;margin-right:0 !important}.noticejs-rtl .noticejs-content{direction:rtl}.noticejs{position:fixed;z-index:10050;width:320px}.noticejs::-webkit-scrollbar{width:8px}.noticejs::-webkit-scrollbar-button{width:8px;height:5px}.noticejs::-webkit-scrollbar-track{border-radius:10px}.noticejs::-webkit-scrollbar-thumb{background:hsla(0,0%,100%,.5);border-radius:10px}.noticejs::-webkit-scrollbar-thumb:hover{background:#fff}.noticejs-modal{position:fixed;width:100%;height:100%;background-color:#000;z-index:10000;opacity:.3;left:0;top:0}.noticejs-modal-open{opacity:0;animation:noticejs-modal-in .3s ease-out}.noticejs-modal-close{animation:noticejs-modal-out .3s ease-out;animation-fill-mode:forwards}.noticejs .special{background-color:rgb(160,37,160)}.noticejs .special .noticejs-heading{background-color:rgb(110,26,110);color:#fff;padding:10px}.noticejs .special .noticejs-body{color:#fff;padding:10px}.noticejs .special .noticejs-body:hover{visibility:visible !important}.noticejs .special .noticejs-content{visibility:visible}.noticejs .special .noticejs-progressbar{width:100%;background-color:rgb(160,37,160);margin-top:-1px}.noticejs .special .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:rgb(110,26,110)}/** * PostbirdAlertBox.js * -    原生javascript弹框插件 * Author:  Postbird - http://www.ptbird.cn * License: MIT * Date:    2017-09-23 */ .postbird-box-container {    width: 100%;    height: 100%;    overflow: hidden;    position: fixed;    top: 0;    left: 0;    z-index: 9999;    background-color: rgba(0, 0, 0, 0.2);    display: block;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none}.postbird-box-container.active {    display: block}.postbird-box-content {    min-width: 400px;    max-width: 600px;    min-height: 150px;    background-color: #fff;    border: solid 1px #dfdfdf;    position: absolute;    top: 50%;    left: 50%;    transform: translate(-50%, -50%);    margin-top: -100px}.postbird-box-header {    width: 100%;    padding: 10px 15px;    position: relative;    font-size: 1.1em;    letter-spacing: 2px}.postbird-box-close-btn {    cursor: pointer;    font-weight: 700;    color: #000;    float: right;    opacity: .5;    font-size: 1.3em;    margin-top: -3px;    display: none}.postbird-box-close-btn:hover {    opacity: 1}.postbird-box-text {    box-sizing: border-box;    width: 100%;    padding: 0 10%;    text-align: center;    line-height: 40px;    font-size: 20px;    letter-spacing: 1px}.postbird-box-footer {    width: 100%;    position: absolute;    padding: 0;    margin: 0;    bottom: 0;    display: flex;    display: -webkit-flex;    justify-content: space-around;    border-top: solid 1px #dfdfdf;    align-items: flex-end}.postbird-box-footer .btn-footer {    line-height: 44px;    border: 0;    cursor: pointer;    background-color: #fff;    color: #0e90d2;    font-size: 1.1em;    letter-spacing: 2px;    transition: background-color .5s;    -webkit-transition: background-color .5s;    -o-transition: background-color .5s;    -moz-transition: background-color .5s;    outline: 0}.postbird-box-footer .btn-footer:hover {    background-color: #e5e5e5}.postbird-box-footer .btn-block-footer {    width: 100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer {    position: relative;    width: 100%}.postbird-box-footer .btn-left-footer::after {    content: "";    position: absolute;    right: 0;    top: 0;    background-color: #e5e5e5;    height: 100%;    width: 1px}.postbird-box-footer .btn-footer-cancel {    color: #333}.postbird-prompt-input {    width: 100%;    padding: 5px;    font-size: 16px;    border: 1px solid #ccc;    outline: 0}.onoffswitch {    position: relative; width: 45px;    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;}.onoffswitch-checkbox {    position: absolute;    opacity: 0;    pointer-events: none;}.onoffswitch-label {    display: block; overflow: hidden; cursor: pointer;    height: 20px; padding: 0; line-height: 20px;    border: 2px solid #E3E3E3; border-radius: 20px;    background-color: #FFFFFF;    transition: background-color 0.3s ease-in;}.onoffswitch-label:before {    content: "";    display: block; width: 20px; margin: 0px;    background: #FFFFFF;    position: absolute; top: 0; bottom: 0;    right: 23px;    border: 2px solid #E3E3E3; border-radius: 20px;    transition: all 0.3s ease-in 0s; }.onoffswitch-checkbox:checked + .onoffswitch-label {    background-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {   border-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label:before {    right: 0px; }.layui-timeline {    padding-left: 5px;}.layui-timeline-item {    position: relative;    padding-bottom: 20px;}li {    list-style: none;}.layui-timeline-item:first-child::before {    display: block;}.layui-timeline-item:last-child::before {    content: '';    position: absolute;    left: 5px;    top: 0;    z-index: 0;    width: 0;    height: 100%;}.layui-timeline-item::before {    content: '';    position: absolute;    left: 5px;    top: 0;    z-index: 0;    width: 1px;    height: 100%;}.layui-timeline-item::before,hr {    background-color: #e6e6e6;}.layui-timeline-axis {    position: absolute;    left: -5px;    top: 0;    z-index: 10;    width: 20px;    height: 20px;    line-height: 20px;    background-color: #fff;    color: #5FB878;    border-radius: 50%;    text-align: center;    cursor: pointer;}.layui-icon {    font-family: layui-icon !important;    font-size: 16px;    font-style: normal;}.layui-timeline-content {    padding-left: 25px;}.layui-text {    line-height: 22px;    font-size: 14px;    color: rgb(85,85,85);}.layui-timeline-title {    position: relative;}`));
+	style.appendChild(document.createTextNode(`#ex-accountList-wrap {    left: -152px;    top: -16px;    /* max-height: 330px;    overflow-y: scroll;    scrollbar-width: none;    -ms-overflow-style: none; */    -webkit-transition: all .2s cubic-bezier(.22,.58,.12,.98);    -o-transition: all cubic-bezier(.22,.58,.12,.98) .2s;    -moz-transition: all cubic-bezier(.22,.58,.12,.98) .2s;    transition: all .2s cubic-bezier(.22,.58,.12,.98);    -webkit-transform-origin: 80% 0;    -moz-transform-origin: 80% 0;    -ms-transform-origin: 80% 0;    -o-transform-origin: 80% 0;    transform-origin: 80% 0;    -webkit-animation: scale-in-ease .5s cubic-bezier(.22,.58,.12,.98);    -moz-animation: scale-in-ease cubic-bezier(.22,.58,.12,.98) .5s;    -o-animation: scale-in-ease cubic-bezier(.22,.58,.12,.98) .5s;    animation: scale-in-ease .5s cubic-bezier(.22,.58,.12,.98);}/* #ex-accountList-wrap::-webkit-scrollbar {    display: none;} */.ex-accountList-item {    padding: 10px;    display: flex;    border-radius: 10px;    align-items: center;}.ex-accountList-item:hover {    background-color: rgb(244,244,244);}#ex-accountList-iframe {    display: none;}#ex-accountList-iframe2 {    display: none;}#ex-accountList-item-add {    padding: 10px;    text-align: center;    margin-bottom:0px;    border-radius: 10px;}#ex-accountList-item-add:hover {    background-color: rgb(244,244,244);}.ex-accountList-item__imgWrap {    flex: 0 0 25%;}.ex-accountList-item__img {    width: 50px;    height: 50px;    border-radius: 50%;}.ex-accountList-item__name {    line-height: 50px;    flex: 0 0 55%;}.ex-accountList-item__btn {    height: 30px;    width: 50px;    border-radius: 10px;    align-items: center;    flex: auto;    text-align: center;    line-height: 28px;    color: white;    background-color: rgb(245,108,108);}.ex-accountList-item__btn:hover {    background-color: rgb(247,137,137);}#ex-accountList-icon:hover > #ex-accountList-wrap {    display: block;}#ex-audio-line {    cursor: pointer;}.live-next-body #ex-audio-line {    margin-left: 4px;}.bag-info {    position: absolute;    background-color: rgba(0, 0, 0, 0.6);    color: white;    width: 20px;    font-weight: 800;    height: 20px;    text-align: center;    z-index: 10;    bottom: 0;}.bag-button {    color: rgb(255, 255, 255);    text-align: center;    height: 15px;    line-height: 15px;    cursor: pointer;    margin-left: 5px;    background: rgb(70, 171, 255);    border-radius: 9px;    padding: 0px 10px;    right: 20px;}.bloop {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;	z-index: 1428;}.bloop__switch {	position: absolute;	right: 0;	bottom: 0;}.bloop__mode {	display: inline-block;}#bloop__select {	width: 150px;}.barragePanel__funcPanel {    position: absolute;    width: 232px;    height: 270px;    display: block;    background: white;    overflow-y: scroll;}.barragePanel__funcPanel::-webkit-scrollbar {display:none}.barragePanel__muteTime {    position: absolute;    left: 25px;    top: 123px;    z-index: 5;}.danmuContent-25f266 {    pointer-events: auto !important;}#copy-real-live {    cursor: pointer;}.Title-row-span, .Title-row-icon  {    display: flex;    align-items: center;    justify-content: center;}.Title-row-icon {    margin-right: 4px;}.live-next-body #copy-real-live {    margin-left: 4px;}.ChatBarrageCollect .TagItem {  height: auto !important;}.ChatBarrageCollect .TagItem-txt {  overflow: auto !important;  white-space: normal !important;  text-overflow: clip !important;}.ChatToolBar-DanmakuTail {    display: inline-block;    vertical-align: middle;    width: 18px;    height: 18px;    -webkit-border-radius: 4px;    -moz-border-radius: 4px;    border-radius: 4px;    margin-right: 8px;    color: #bbb;    cursor: pointer;}.ChatToolBar-DanmakuTail-tip {    width: 18px;    height: 18px;    text-align: center;    line-height: 18px;    border-radius: 4px;    font-size: 12px;    color: #fff;    cursor: pointer;    -webkit-box-sizing: border-box;    -moz-box-sizing: border-box;    box-sizing: border-box;    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAPFBMVEUAAADKy8zKy8zExMzKy83Ky83KzMzKzM7Kys3Ky8zKy83Jy8zJy83Ky8zLzMzJzMzIyM3MzMzKzMzKy8zUpkOsAAAAE3RSTlMA5PgF2qdrQ+rqysOOhzw3HBnqZkz8cgAAAN5JREFUOMuNlEkOAyEMBNs2y+xL/P+/JgoJaGCAqZOFSk0fLOOL7M7ONLBGeDCTdZsgcq6kdzAtBwLiSauMPoR5ow2Mx4dj1CZ0ArJoh1Ww/Quh5Be1w3F0apaD1a5kMSVJLyRphuknEYaGpIEXuC7pD4YWnaITuUiIdKRkVCRNRlUq+te+a0p4Ujy9ZkMpIaeUgJrEld6aYAxZJS2nF+hGwnUwmHOp/HSCzffybn1dubyZww47aQfaIGtPWgQ4O1Hj8fRgQPzYKOQFgWMhvlfWExHZnJ3M9RzSbN0eYt4fdzsuAVjiHAAAAABJRU5ErkJggg==) 50% / 18px 18px no-repeat;}.ChatToolBar-DanmakuTail-tip-active,.ChatToolBar-DanmakuTail-tip:hover {    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAPFBMVEUAAAD6aDP7ZTD2cUHxeU/pjGvmkHPfjnH4azj4bDruf1fshWHrhmLpjW3njm3kk3/ugFnugVn/XSP+YCg/+VboAAAAEnRSTlMA/P3z4XQyCPr5za2namIOx8bnayGzAAAA3klEQVQ4y43U2w6EIAxF0dNyc7xP+///Ook6EEHA/UTMSukDEUdhna0hVokpD8ZOy4aY/5I8pTT6iwRHUo1dOJD7SKOPO+5iaUYe2EbptAcs/4VQdo1aMWk0NTXDShdZmITkVkIGQ38SgRtIzhhaR3KlkGKnaGI3hFgHJVFBkkQVFfvXrmsivFk8fc0OJUJeiYAa0sreklJwtpKUJwY9INwPA0yOyksNbP4un57vXD7ezOiElaQTLQh7D40b4Duj2L/9YSA4bizkAs78SPpMdo/YtkzWDPffIRk7r+eYH6dAOJwNbfZEAAAAAElFTkSuQmCC) 50% / 18px 18px no-repeat;}.ChatToolBar-DanmakuTail-Panel {    background-color: rgba(255, 255, 255, 0.9);    width: 100%;    height: 120px;    position: relative;    display: none;    z-index: 1015;}.ChatToolBar-DanmakuTail-Panel__cell {    position: relative;    display: -webkit-box;    display: -webkit-flex;    display: flex;    box-sizing: border-box;    width: 100%;    padding: 10px 16px;    overflow: hidden;    color: #323233;    font-size: 14px;    line-height: 24px;    background-color: #fff;    border-bottom: 1px solid rgba(0, 0, 0, 0.2);    flex-wrap: wrap;    -webkit-flex-wrap: wrap;}.ChatToolBar-DanmakuTail-Panel__cell_title {    flex: 1;    -webkit-box-flex: 1;}.ChatToolBar-DanmakuTail-Panel__cell_option {    text-align: right;}.ChatToolBar-DanmakuTail-Panel__cell_switch {    float: right;}.ChatToolBar-DanmakuTail-title {    margin: 0 10px;    font-size: 16px;    font-weight: bold;}.DanmakuTail-input {    margin: 10px;    width: calc(100% - 20px);    height: 2.2em;}.DanmakuTail-checkbox-label {    margin: 10px;    width: calc(100% - 20px);    display: block;    text-align: right;}.EnergyBarrageIcon {    margin-right: 8px;}.ex-icon {	display: inline-block;	vertical-align: middle;	margin-right: 8px;	-moz-user-select:none; /*火狐*/    -webkit-user-select:none; /*webkit浏览器*/    -ms-user-select:none; /*IE10*/    -khtml-user-select:none; /*早期浏览器*/    user-select:none;}.ex-icon a {    display: flex;    justify-items: center;    align-items: center;}.ex-icon svg:hover {    transform: scale(1.1);}.extool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 200px;	position: relative;	bottom: 200px;	display: none;	z-index: 1428;}.extool__switch {	position: absolute;	right: 0;	bottom: 0;}.extool__bsize,.extool__sendgift {	margin-bottom: 5px;}.extool__redpacket_room,.extool__gold,.extool__autofish {	display: inline-block;}.ex_giftAnimation {	width: 100%;	height: 100%;	position: absolute;	z-index: 50;	pointer-events: none;}.ex-panel {	position: absolute;	bottom: 32px;	right: 0px;	background-color: rgba(255,255,255,0.9);	opacity: 0;    visibility: hidden;    transition: all 0.3s ease-in-out; /* 给工具栏出现加一下过渡效果 */	border: 2px rgb(234,173,26) solid;	z-index: 1428;	user-select: none;}.ex-panel__wrap {	display: flex;	align-items: center;	justify-content: center;	width: 100%;	height: 100%;}.ex-panel__icon {	margin: 0 10px;	display: block;	position: relative;	padding: 5px;	transition: 0.5s;}.ex-panel__icon:hover {	transform: scale(1.15);}.ex-panel__tip {	display:none;	background:#f00;	border-radius:50%;	width:8px;	height:8px;	top:0px;	right:0px;	position:absolute;}/* 新版斗鱼右侧弹幕Panel的bottom */.container__NmNfZ .layout-Player-chat>* {	bottom: 0 !important;}#refreshFollowList {    color: grey;position: absolute;right: 5px;top:0px;cursor: default;}.text-879f3e {  height: auto !important;  max-height: 48px !important;}.ex-image-danmaku {  height: 48px;  border-radius: 6px;  margin: 0 4px;}.danmuContent-25f266 .ex-image-danmaku {  max-height: 32px;}.barrageSpeed {    position: absolute;    right: 10px;    top: -20px;    color: rgba(0,0,0,0.5);    cursor: default;    z-index: 0;}.enter__panel {    width: 100%;    display: none;    margin-top: 4px;}#enter__title {    cursor: pointer;    user-select: none;    color: royalblue;}#enter__select {    width: 190px;}.enter__option {    margin-top: 5px;}#enter__enterId {    width: 40px;}#enter__reply {    width: 150px;}#enter__word {    width: 140px;}#enter__level {    width: 25px;    text-align: center;}#enter__export {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#enter__import {    cursor: pointer;    color: royalblue;    margin-left: 5px;}.gift__panel {    width: 100%;    display: none;    margin-top: 4px;}#gift__title {    cursor: pointer;    user-select: none;    color: royalblue;}#gift__select {    width: 113px;}.gift__option {    margin-top: 5px;}#gift__giftId {    width: 40px;}#gift__reply {    width: 150px;}#gift__export {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#gift__import {    cursor: pointer;    color: royalblue;    margin-left: 5px;}.livetool {	background-color: rgba(255,255,255,0.9);	width: 100%;	height: 290px;	position: relative;	bottom: 290px;	display: none;	z-index: 1428;}.livetool__cell {	position: relative;    display: -webkit-box;    display: -webkit-flex;    display: flex;    box-sizing: border-box;    width: 100%;    padding: 10px 16px;    overflow: hidden;    color: #323233;    font-size: 14px;    line-height: 24px;	background-color: #fff;	border-bottom: 1px solid rgba(0,0,0,0.2);	flex-wrap: wrap;    -webkit-flex-wrap: wrap;}.livetool__cell_title {	flex: 1;    -webkit-box-flex: 1;}.livetool__cell_option {	text-align: right;}.livetool__cell_switch {	float: right;}.mute__panel {    width: 100%;    display: none;    margin-top: 4px;}#mute__title {    cursor: pointer;    user-select: none;    color: royalblue;}#mute__idlist {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#mute__export, #mute__import {    cursor: pointer;    color: royalblue;    margin-left: 5px;}#mute__select {    width: 110px;}.mute__option {    margin-top: 5px;}#mute__word {    width: 70px;}#mute__count {    width: 30px;}#mute__time {    width: 65px;}.exRankPoint {    position: absolute;    right: 16px;}.exRankPoint--top {    position: absolute;    bottom: -12px;    right: 0;    left: 0;}.reply__panel {    width: 100%;    display: none;    margin-top: 4px;}#reply__title {    cursor: pointer;    user-select: none;    color: royalblue;}#reply__select {    /* width: 190px; */    width: 100px;}#reply__time {    width: 35px;}.reply__option {    margin-top: 5px;}#reply__word {    width: 70px;}#reply__reply {    width: 147px;}#reply__export {    cursor: pointer;    color: royalblue;    margin-left: 10px;}#reply__import {    cursor: pointer;    color: royalblue;    margin-left: 5px;}.livetool__Treasure {    width: 100%;    position: relative;    z-index: 999;}.vote__panel {    width: 100%;    display: none;    margin-top: 4px;}#vote__title {    cursor: pointer;    user-select: none;    color: royalblue;}#vote__select {    width: 100px;}.vote__option {    margin-top: 5px;}#vote__theme {    width: 70px;}#vote__options {    width: 133px;}#vote__time {    width: 35px;}#vote__show-result {    cursor: pointer;    color: royalblue;    margin-left: 10px;}.vote__result {    position: absolute;    top: 0px;    width: 300px;    background: rgba(255,255,255,0.85);    left: 0px;    z-index: 999;    padding: 5px;    border-radius: 10px;    user-select: none;    display: none;}#vote__result-theme {    font-size: 20px;    font-weight: 600;    margin-bottom: 10px;}#vote__result-close {    position: absolute;    top: 5px;    right: 10px;    font-size: 14px;    cursor: pointer;    color: gray;}.vote__option-wrap {    margin-bottom: 10px;}.vote__option-choice {    display: inline-block;    font-size: 14px;}.vote__option-num {    float: right;    font-size: 14px;}.vote__progress {    width: 100%;    background-color: #ddd;    border-radius: 10px;}.vote__progress-bar {    width: 0%;    height: 14px;    background-color: #4CAF50;    text-align: center;    line-height: 30px;    border-radius: 10px;}.exlottery {	background-color: rgba(255,255,255,1);	width: 100%;	height: 250px;	position: relative;	bottom: 250px;	display: none;	z-index: 1428;    overflow: auto;    padding: 0 10px;    box-sizing: border-box;}.lottery__nodata {    z-index: 998;    position: absolute;    left:50%;    top:50%;    transform: translate(-50%, -50%);    color: #606266;}.lottery__wrap {    display: flex;    flex-direction: column;    z-index: 999;}.lottery__a:hover .lottery__item {    background-color: rgb(244,244,244);}.lottery__item {    display: flex;    padding: 5px 0;    border-bottom: 1px solid #d0d0d0;    color: #606266;}.lottery__img img {    width: 150px;    border-radius: 5px;}.lottery__anchor {    position: absolute;    background-color: rgba(255,255,255,0.9);    border-radius: 5px 0px 5px 0px;}.lottery__info {    display: flex;    justify-content: space-evenly;    flex-direction: column;    margin-left: 10px;    overflow: hidden;}.lottery__prize {    white-space: nowrap;    text-overflow: ellipsis;    word-break: break-all;    font-size: 14px;}.lottery__expireTime {    position: absolute;    margin-top: -18px;    background-color: rgba(255,255,255,0.9);    border-radius: 0px 5px 0px 5px;} /*滚动条样式*/.exlottery::-webkit-scrollbar {    width: 4px;    }.exlottery::-webkit-scrollbar-thumb {    border-radius: 10px;    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);    background: rgba(0,0,0,0.2);}.exlottery::-webkit-scrollbar-track {    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);    border-radius: 0;    background: rgba(0,0,0,0.1);}.lottery__func {    display: flex;    justify-content: space-between;    margin-top: 5px;    user-select: none;    border-bottom: 1px solid #d0d0d0;}.lottery__notice,#lottery-refresh {    cursor: pointer;    color: #606266;}.miniprogram__panel {    position: absolute;    right: 43px;    bottom: 100px;    animation: move-in 0.75s;    z-index: 101;    text-align: center;    display: none;}.miniprogram__wrap {    overflow: hidden;    background-color: white;    border-radius: 5%;    width: 200px;    box-shadow: 0px 2px 20px 0px #888888;    font-size: 14px;}.miniprogram__triangle {    width: 0px;    height: 0px;    border-color: white transparent transparent transparent;    border-style: solid;    border-width: 10px;    position: absolute;    left: 100px;}.month-cost {    margin-right: 5px;    cursor: default;    -moz-user-select:none;/*火狐*/    -webkit-user-select:none;/*webkit浏览器*/    -ms-user-select:none;/*IE10*/    -khtml-user-select:none;/*早期浏览器*/    user-select:none;    display: inline-block;    vertical-align: middle;}.monthcost__icon {    position: relative;    top: 3px;    cursor: pointer;    margin-left: 3px;}.exVideoDiv {    width: 500px;    height: 250px;    background-color: rgba(255, 255, 255, 0);    position: absolute;    z-index: 1428;}.exVideoPlayer {    width: 100%;    height: 100%;    cursor: move;}.exVideoScale {    width: 10px;    height: 10px;    overflow: hidden;    cursor: se-resize;    position: absolute;    right: 0;    bottom: 0;    background-color: rgb(231, 57, 57);}.exVideoInfo {    width: 100%;    height: 30px;    background-color: gray;    position: absolute;    top: -30px;    line-height: 30px;}.exVideoClose {    width: 30px;    float: right;    color: white;}.exVideoQn, .exVideoCDN {    margin-left: 5px;}.exVideoRID {    margin: 0px 5px;    font-weight: 800;    font-size: medium;}#popup-player__prompt {    display: none;}.postbird-box-header {    width: auto !important;}.real-audience {    cursor: pointer;    display: flex;    padding: 0 7px;    line-height: 33px;    color: rgb(153, 153, 153);}#Ex_EnterYuba {    width: 100%;}.Title-anchorPic-bottom i{    display: none !important;}#real-audience__total, #real-audience__barrage, #real-audience__money_yc {    margin-left: 2px;}/* #refresh-video {    float: left;    width: 24px;    height: 24px;    margin-right: 5px;    cursor: pointer;    background-size: contain;} */#refresh-video2 {    display: none;    position: absolute;    top: 20px;    right: 20px;    cursor: pointer;}#refresh-video2-svg {    fill: rgba(0,0,0,.6)}.refresh-barrage {    display: inline-block;    vertical-align: top;    margin: 0 2px;    padding: 0 8px;    height: 22px;    line-height: 21px;    background-color: #fff;    border: 1px solid #e5e4e4;    -webkit-border-radius: 4px;    -moz-border-radius: 4px;    border-radius: 4px;    cursor: pointer;}#refresh-barrage__svg {    vertical-align: middle;}.top-0-important {    top: 0 !important;}.icon__jumpoldweb>img:hover {    opacity: .8 !important;}.room-vip {  -moz-user-select:none;/*火狐*/  -webkit-user-select:none;/*webkit浏览器*/  -ms-user-select:none;/*IE10*/  -khtml-user-select:none;/*早期浏览器*/  user-select:none;  vertical-align: middle;  float: left;}#ex-camera {    background: rgba(0,0,0,0.7);    position: absolute;    right: 20px;    bottom: 190px;    z-index: 10;    width: 60px;    height: 60px;    cursor: pointer;    -webkit-border-radius: 50%;    -moz-border-radius: 50%;    border-radius: 50%;    cursor: pointer;    display: none;    justify-content: center;    align-items: center;    border: 2px solid #2d2c2c;    box-sizing: border-box;}#ex-camera:hover > svg > path {    fill: rgb(252, 199, 84);}#ex-camera:active > svg > path {    fill: rgb(253, 60, 60);}#ex-cinema:hover > .cinema__wrap {    display: block;}.cinema__wrap {    display: none;    margin: 0;    padding: 0;    border: 1px solid #e5e5e5;    background: #fff;    position: absolute;    left: 199px;    min-width: 100px;    top: 130px;}.cinema__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 70px;}.cinema__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.cinema__panel li:hover {    background-color: rgb(85, 85, 85);}  #ex-joysound {    float: left;    width: 24px;    height: 24px;    margin-right: 10px;    cursor: pointer;    background-size: contain;    pointer-events: all;}#ex-joysound img {    width: 24px;    height: 24px;}#exVideoDivFake {  display: none;}#ex-metadata:hover > .metadata__wrap {  display: block;}.metadata__wrap {  display: none;  margin: 0;  padding: 0;  border: 1px solid #e5e5e5;  background: #fff;  position: absolute;  left: 199px;  min-width: 100px;  top: 0px;  white-space: nowrap;}.metadata__panel {  position: absolute;  border: 1px solid #000;  border-radius: 4px;  transform: translateY(calc(-4px - 100%)) translateX(-50%);  left: 33%;  background-color: #000;  opacity: .75;  width: 70px;}.metadata__panel li {  padding: 0 2px;  white-space: nowrap;  color: #fff;  text-align: center;  cursor: pointer;}.metadata__panel li:hover {  background-color: rgb(85, 85, 85);}  #ex-filter {    float: left;    width: 24px;    height: 24px;    margin-right: 10px;    cursor: pointer;    background-size: contain;    pointer-events: all;}.filter__wrap {    display: none;    position: relative;    height: 100%;    margin-right: -15px;    border-radius: 4px;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    float: left;    right: -12px;    bottom: 10px;}.filter__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 300px;    padding-top: 10px;    padding-left: 10px;    padding-right: 10px;}.filter__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.filter__panel li:hover {    background-color: rgb(85, 85, 85);}.filter__scroll {    width: 100%;    height: 5px;    background: #ccc;    position: relative;    display: inline-block;}.filter__scroll-bar {    width: 15px;    height: 15px;    background: #369;    position: absolute;    top: -5px;    left: 100px;    cursor: pointer;    border-radius: 100%;}.filter__scroll-mask {    position: absolute;    left: 0;    top: 0;    background: #369;    width: 100px;    height: 5px;}.filter__title {    color: white;    display: inline-block;    cursor: initial;    margin-right: 2px;}#filter__select {    width: 100%;    float: right;}.filter__filter {    margin-top: 5px;}#ex-videospeed:hover > .videospeed__wrap {    display: block;}.videospeed__wrap {    display: none;    margin: 0;    padding: 0;    border: 1px solid #e5e5e5;    background: #fff;    position: absolute;    left: 199px;    min-width: 100px;    top: 120px;}.videospeed__panel {    position: absolute;    border: 1px solid #000;    border-radius: 4px;    transform: translateY(calc(-4px - 100%)) translateX(-50%);    left: 33%;    background-color: #000;    opacity: .75;    width: 70px;}.videospeed__panel li {    padding: 0 2px;    white-space: nowrap;    color: #fff;    text-align: center;    cursor: pointer;}.videospeed__panel li:hover {    background-color: rgb(85, 85, 85);}  #ex-videosync {    float: left;    width: 24px;    height: 24px;    margin-left: 20px;    cursor: pointer;    background-size: contain;}.menu-da2a9e {  z-index: 999 !important;}.weeklypanel__panel-wrap {    width: 100%;    height: 100%;    z-index: 999;    background-color: rgba(0, 0, 0, 0.9);    position: absolute;    top: 0;    left: 0;    display: flex;    justify-content: center;    align-items: center;}.weeklypanel__panel {    height: 600px;    width: 500px;    background-color: white;    border-radius: 20px;    position: fixed;    top: 0;    left: 0;    right: 0;    bottom: 0;    margin: auto;}.weeklypanel__content {    position: relative;    top: 50%;    transform: translateY(-50%);    text-align: center;}.weeklypanel__text {    font-size: 18px;}.weeklypanel__text a {    font-weight: bold;    font-size: 24px;}.weeklypanel__close {    font-size: 30px;    font-weight: bold;    position: absolute;    right: 15px;    cursor: pointer;}.noticejs-top{top:0;width:100% !important}.noticejs-top .item{border-radius:0 !important;margin:0 !important}.noticejs-topRight{top:10px;right:10px}.noticejs-topLeft{top:10px;left:10px}.noticejs-topCenter{top:10px;left:50%;transform:translate(-50%)}.noticejs-middleLeft,.noticejs-middleRight{right:10px;top:50%;transform:translateY(-50%)}.noticejs-middleLeft{left:10px}.noticejs-middleCenter{top:50%;left:50%;transform:translate(-50%,-50%)}.noticejs-bottom{bottom:0;width:100% !important}.noticejs-bottom .item{border-radius:0 !important;margin:0 !important}.noticejs-bottomRight{bottom:10px;right:10px}.noticejs-bottomLeft{bottom:10px;left:10px}.noticejs-bottomCenter{bottom:10px;left:50%;transform:translate(-50%)}.noticejs{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}.noticejs .item{margin:0 0 10px;border-radius:3px;overflow:hidden}.noticejs .item .close{float:right;font-size:18px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;opacity:1;margin-right:7px}.noticejs .item .close:hover{opacity:.5;color:#000}.noticejs .item a{color:#fff;border-bottom:1px dashed #fff}.noticejs .item a,.noticejs .item a:hover{text-decoration:none}.noticejs .success{background-color:#64ce83}.noticejs .success .noticejs-heading{background-color:#3da95c;color:#fff;padding:10px}.noticejs .success .noticejs-body{color:#fff;padding:10px}.noticejs .success .noticejs-body:hover{visibility:visible !important}.noticejs .success .noticejs-content{visibility:visible}.noticejs .info{background-color:#3ea2ff}.noticejs .info .noticejs-heading{background-color:#067cea;color:#fff;padding:10px}.noticejs .info .noticejs-body{color:#fff;padding:10px}.noticejs .info .noticejs-body:hover{visibility:visible !important}.noticejs .info .noticejs-content{visibility:visible}.noticejs .warning{background-color:#ff7f48}.noticejs .warning .noticejs-heading{background-color:#f44e06;color:#fff;padding:10px}.noticejs .warning .noticejs-body{color:#fff;padding:10px}.noticejs .warning .noticejs-body:hover{visibility:visible !important}.noticejs .warning .noticejs-content{visibility:visible}.noticejs .error{background-color:#e74c3c}.noticejs .error .noticejs-heading{background-color:#ba2c1d;color:#fff;padding:10px}.noticejs .error .noticejs-body{color:#fff;padding:10px}.noticejs .error .noticejs-body:hover{visibility:visible !important}.noticejs .error .noticejs-content{visibility:visible}.noticejs .progressbar{width:100%}.noticejs .progressbar .bar{width:1%;height:30px;background-color:#4caf50}.noticejs .success .noticejs-progressbar{width:100%;background-color:#64ce83;margin-top:-1px}.noticejs .success .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#3da95c}.noticejs .info .noticejs-progressbar{width:100%;background-color:#3ea2ff;margin-top:-1px}.noticejs .info .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#067cea}.noticejs .warning .noticejs-progressbar{width:100%;background-color:#ff7f48;margin-top:-1px}.noticejs .warning .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#f44e06}.noticejs .error .noticejs-progressbar{width:100%;background-color:#e74c3c;margin-top:-1px}.noticejs .error .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:#ba2c1d}@keyframes noticejs-fadeOut{0%{opacity:1}to{opacity:0}}.noticejs-fadeOut{animation-name:noticejs-fadeOut}@keyframes noticejs-modal-in{to{opacity:.3}}@keyframes noticejs-modal-out{to{opacity:0}}.noticejs-rtl .noticejs-heading{direction:rtl}.noticejs-rtl .close{float:left !important;margin-left:7px;margin-right:0 !important}.noticejs-rtl .noticejs-content{direction:rtl}.noticejs{position:fixed;z-index:10050;width:320px}.noticejs::-webkit-scrollbar{width:8px}.noticejs::-webkit-scrollbar-button{width:8px;height:5px}.noticejs::-webkit-scrollbar-track{border-radius:10px}.noticejs::-webkit-scrollbar-thumb{background:hsla(0,0%,100%,.5);border-radius:10px}.noticejs::-webkit-scrollbar-thumb:hover{background:#fff}.noticejs-modal{position:fixed;width:100%;height:100%;background-color:#000;z-index:10000;opacity:.3;left:0;top:0}.noticejs-modal-open{opacity:0;animation:noticejs-modal-in .3s ease-out}.noticejs-modal-close{animation:noticejs-modal-out .3s ease-out;animation-fill-mode:forwards}.noticejs .special{background-color:rgb(160,37,160)}.noticejs .special .noticejs-heading{background-color:rgb(110,26,110);color:#fff;padding:10px}.noticejs .special .noticejs-body{color:#fff;padding:10px}.noticejs .special .noticejs-body:hover{visibility:visible !important}.noticejs .special .noticejs-content{visibility:visible}.noticejs .special .noticejs-progressbar{width:100%;background-color:rgb(160,37,160);margin-top:-1px}.noticejs .special .noticejs-progressbar .noticejs-bar{width:100%;height:5px;background:rgb(110,26,110)}/** * PostbirdAlertBox.js * -    原生javascript弹框插件 * Author:  Postbird - http://www.ptbird.cn * License: MIT * Date:    2017-09-23 */ .postbird-box-container {    width: 100%;    height: 100%;    overflow: hidden;    position: fixed;    top: 0;    left: 0;    z-index: 9999;    background-color: rgba(0, 0, 0, 0.2);    display: block;    -webkit-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none}.postbird-box-container.active {    display: block}.postbird-box-content {    min-width: 400px;    max-width: 600px;    min-height: 150px;    background-color: #fff;    border: solid 1px #dfdfdf;    position: absolute;    top: 50%;    left: 50%;    transform: translate(-50%, -50%);    margin-top: -100px}.postbird-box-header {    width: 100%;    padding: 10px 15px;    position: relative;    font-size: 1.1em;    letter-spacing: 2px}.postbird-box-close-btn {    cursor: pointer;    font-weight: 700;    color: #000;    float: right;    opacity: .5;    font-size: 1.3em;    margin-top: -3px;    display: none}.postbird-box-close-btn:hover {    opacity: 1}.postbird-box-text {    box-sizing: border-box;    width: 100%;    padding: 0 10%;    text-align: center;    line-height: 40px;    font-size: 20px;    letter-spacing: 1px}.postbird-box-footer {    width: 100%;    position: absolute;    padding: 0;    margin: 0;    bottom: 0;    display: flex;    display: -webkit-flex;    justify-content: space-around;    border-top: solid 1px #dfdfdf;    align-items: flex-end}.postbird-box-footer .btn-footer {    line-height: 44px;    border: 0;    cursor: pointer;    background-color: #fff;    color: #0e90d2;    font-size: 1.1em;    letter-spacing: 2px;    transition: background-color .5s;    -webkit-transition: background-color .5s;    -o-transition: background-color .5s;    -moz-transition: background-color .5s;    outline: 0}.postbird-box-footer .btn-footer:hover {    background-color: #e5e5e5}.postbird-box-footer .btn-block-footer {    width: 100%}.postbird-box-footer .btn-left-footer,.postbird-box-footer .btn-right-footer {    position: relative;    width: 100%}.postbird-box-footer .btn-left-footer::after {    content: "";    position: absolute;    right: 0;    top: 0;    background-color: #e5e5e5;    height: 100%;    width: 1px}.postbird-box-footer .btn-footer-cancel {    color: #333}.postbird-prompt-input {    width: 100%;    padding: 5px;    font-size: 16px;    border: 1px solid #ccc;    outline: 0}.onoffswitch {    position: relative; width: 45px;    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;}.onoffswitch-checkbox {    position: absolute;    opacity: 0;    pointer-events: none;}.onoffswitch-label {    display: block; overflow: hidden; cursor: pointer;    height: 20px; padding: 0; line-height: 20px;    border: 2px solid #E3E3E3; border-radius: 20px;    background-color: #FFFFFF;    transition: background-color 0.3s ease-in;}.onoffswitch-label:before {    content: "";    display: block; width: 20px; margin: 0px;    background: #FFFFFF;    position: absolute; top: 0; bottom: 0;    right: 23px;    border: 2px solid #E3E3E3; border-radius: 20px;    transition: all 0.3s ease-in 0s; }.onoffswitch-checkbox:checked + .onoffswitch-label {    background-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {   border-color: #3AAD38;}.onoffswitch-checkbox:checked + .onoffswitch-label:before {    right: 0px; }.layui-timeline {    padding-left: 5px;}.layui-timeline-item {    position: relative;    padding-bottom: 20px;}li {    list-style: none;}.layui-timeline-item:first-child::before {    display: block;}.layui-timeline-item:last-child::before {    content: '';    position: absolute;    left: 5px;    top: 0;    z-index: 0;    width: 0;    height: 100%;}.layui-timeline-item::before {    content: '';    position: absolute;    left: 5px;    top: 0;    z-index: 0;    width: 1px;    height: 100%;}.layui-timeline-item::before,hr {    background-color: #e6e6e6;}.layui-timeline-axis {    position: absolute;    left: -5px;    top: 0;    z-index: 10;    width: 20px;    height: 20px;    line-height: 20px;    background-color: #fff;    color: #5FB878;    border-radius: 50%;    text-align: center;    cursor: pointer;}.layui-icon {    font-family: layui-icon !important;    font-size: 16px;    font-style: normal;}.layui-timeline-content {    padding-left: 25px;}.layui-text {    line-height: 22px;    font-size: 14px;    color: rgb(85,85,85);}.layui-timeline-title {    position: relative;}`));
 	document.head.appendChild(style);
 }
 
@@ -128,9 +132,24 @@ var exTimer = 0; // 总时钟句柄
 var url = document.getElementsByTagName('html')[0].innerHTML;
 var urlLen = ("$ROOM.room_id =").length;
 var ridPos = url.indexOf('$ROOM.room_id =');
-var rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
-rid = rid.trim();
-url = null;
+var rid = "";
+if (ridPos > 0) {
+	rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
+	if (rid) rid = rid.trim();
+} else {
+	rid = getStrMiddle(url, `roomID:`, `,`);
+	if (rid) {
+		rid = rid.trim();
+	} else {
+		let canonicalLink = document.querySelector(`link[rel="canonical"]`);
+		if (canonicalLink) {
+			let href = canonicalLink.getAttribute(`href`);
+			rid = href.split('/').pop().trim();
+		}
+	}
+}
+
+url = null;	
 urlLen = null;
 ridPos = null;
 var my_uid = getCookieValue("acf_uid"); // 自己的uid
@@ -410,16 +429,38 @@ function getUserName() {
 }
 
 function getTextareaPosition(element) {
-	// 获取textarea光标的位置
-    let cursorPos = 0;
-    if (document.selection) {//IE
-        let selectRange = document.selection.createRange();
-        selectRange.moveStart('character', -element.value.length);
-        cursorPos = selectRange.text.length;
-    } else if (element.selectionStart || element.selectionStart == '0') {
-        cursorPos = element.selectionStart;
-    }
-    return cursorPos;
+	// 如果元素是textarea，直接使用selectionStart获取位置
+	if (element.tagName === 'TEXTAREA') {
+			return element.selectionStart;
+	}
+	// 否则处理为contenteditable元素
+	let cursorPos = 0;
+	
+	// 兼容旧版IE
+	if (document.selection) {
+			const selectRange = document.selection.createRange();
+			const textRange = element.createTextRange();
+			const preCaretRange = textRange.duplicate();
+			
+			preCaretRange.moveToBookmark(selectRange.getBookmark());
+			preCaretRange.setEndPoint('EndToEnd', textRange);
+			cursorPos = preCaretRange.text.length;
+	} 
+	// 现代浏览器
+	else if (window.getSelection) {
+			const selection = window.getSelection();
+			
+			if (selection.rangeCount > 0) {
+					const range = selection.getRangeAt(0).cloneRange();
+					range.selectNodeContents(element);
+					range.setEnd(selection.rangeCount > 0 ? selection.getRangeAt(0).endContainer : element, 
+											selection.rangeCount > 0 ? selection.getRangeAt(0).endOffset : 0);
+					
+					cursorPos = range.toString().length;
+			}
+	}
+	
+	return cursorPos;
 }
 
 function showExRightPanel(name) {
@@ -439,6 +480,10 @@ function showExRightPanel(name) {
 		{
 			name: "全站抽奖信息",
 			className: "exlottery"
+		},
+		{
+			name: "弹幕小尾巴",
+			className: "ChatToolBar-DanmakuTail-Panel"
 		},
 	];
 	for (let i = 0; i < panels.length; i++) {
@@ -611,6 +656,31 @@ function getCsrfToken() {
   });
 }
 
+function getValidDom(queryList) {
+	for (const query of queryList) {
+		let dom = null;
+		if (typeof query === "string") {
+			dom = document.querySelector(query);
+		} else {
+			dom = query;
+		}
+		if (dom) return dom;
+	}
+	return null;
+}
+
+function getValidDomList(queryList) {
+	for (const query of queryList) {
+		let dom = [];
+		if (typeof query === "string") {
+			dom = document.querySelectorAll(query);
+		} else {
+			dom = query;
+		}
+		if (dom.length > 0) return dom;
+	}
+	return [];
+}
 let svg_accountList = `<svg t="1613993967937" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2122" width="16" height="16"><path d="M217.472 311.808l384.64 384.64-90.432 90.56-384.64-384.64z" fill="#8A8A8A" p-id="2123"></path><path d="M896.32 401.984l-384.64 384.64-90.56-90.496 384.64-384.64z" fill="#8A8A8A" p-id="2124"></path></svg>`
 let cleanOverTimes = 0; // 用于判断是否全部清空并跳转
 function initPkg_AccountList() {
@@ -1531,15 +1601,19 @@ function AudioLine_insertIcon() {
     a.id = "ex-audio-line";
 	a.innerHTML = '<div class="TitleShare"><div class="TitleShare-shareBox "><div class="Title-row-span  is-right"><span class="Title-row-icon "><svg t="1613808136306" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2829" width="16" height="16"><path d="M496 64A48 48 0 0 1 544 112v800a48 48 0 0 1-96 0v-800A48 48 0 0 1 496 64z m-224 128A48 48 0 0 1 320 240v544a48 48 0 0 1-96 0v-544A48 48 0 0 1 272 192z m448 0A48 48 0 0 1 768 240v544a48 48 0 0 1-96 0v-544A48 48 0 0 1 720 192z m-672 128A48 48 0 0 1 96 368v288a48 48 0 0 1-96 0v-288A48 48 0 0 1 48 320z m896 0a48 48 0 0 1 48 48v288a48 48 0 0 1-96 0v-288a48 48 0 0 1 48-48z" p-id="2830"></path></svg></span><span class="Title-row-text ">切换音频线路</span></div></div></div>';
     let b = document.getElementsByClassName("Title-col")[4];
-    if (b.childNodes.length > 1) {
+    if (b && b.childNodes.length > 1) {
         b.insertBefore(a, b.childNodes[1]);
+    } else {
+        b = getValidDom([".subTitleContainer__-vzhr"]);
+        b.appendChild(a);
     }
 }
 
 function initPkg_AudioLine_Func() {
 	document.getElementById("ex-audio-line").addEventListener("click", function() {
-        document.getElementsByClassName("pause-c594e8")[0].click(); // 暂停视频播放
-        getRealLive_Douyu(rid, true, false, "1015", (lurl) => {
+        let pause = getValidDom([".pause-c594e8", ".icon-c8be96"]);
+        if (pause) pause.click(); // 暂停视频播放
+        getRealLive_Douyu(rid, true, false, "1428", (lurl) => {
             createNewAudio_Douyu(videoPlayerArr.length, rid);
         })
     });
@@ -1550,21 +1624,22 @@ function initPkg_BagInfo() {
 }
 
 function initPkg_BagInfo_Func() {
-    let backpackDom = document.getElementsByClassName("BackpackButton")[0];
+    let backpackDom = getValidDom([".BackpackButton", ".ToolbarGiftArea-backpack--content"])
     if (!backpackDom) {
         return;
     }
-	document.getElementsByClassName("BackpackButton")[0].addEventListener("click", function() {
+	backpackDom.addEventListener("click", function() {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
-            if (document.getElementsByClassName("Backpack JS_Backpack").length > 0) {
+            const isBeta = !!document.getElementsByClassName("BackpackExpandPanel")[0];
+            if (getValidDom([".Backpack.JS_Backpack", ".BackpackExpandPanel"])) {
                 getBagGifts(rid, (ret) => {
                     let chunkNum = ret.data.list.length;
                     if (chunkNum > 0) {
                         let totalPrice = 0;
                         let totalIntimate = 0;
                         for (let i = 0; i < chunkNum; i++) {
-                            let chunk = document.getElementsByClassName("Backpack-prop")[i];
+                            let chunk = getValidDomList([".Backpack-prop", ".ToolbarBackpack-giftItem"])[i];
                             let isValuable = ret.data.list[i].isValuable; // 判断是否是有价值的礼物
                             let expiry = ret.data.list[i].expiry; // 过期时间
                             let price = ret.data.list[i].price; // 注意这个要除100才是真实价格，否则是亲密度
@@ -1576,11 +1651,28 @@ function initPkg_BagInfo_Func() {
                             totalIntimate = totalIntimate + Number(intimate) * Number(count);
                             let expiryDiv = document.createElement("div");
                             expiryDiv.className = "bag-info";
+                            if (isBeta) {
+                                expiryDiv.style.left = "8px";
+                                expiryDiv.style.bottom = "auto";
+                            }
                             expiryDiv.innerHTML = expiry - 1;
                             chunk.insertBefore(expiryDiv, chunk.childNodes[0]);
                         }
-                        let html = document.getElementsByClassName("BackpackHeader-extInfo")[0].innerHTML;
-                        document.getElementsByClassName("BackpackHeader-extInfo")[0].innerHTML = `<span style="float: left">` + "总价值：" + String(Number(totalPrice / 100).toFixed(2)) + " 总亲密度：" + String(totalIntimate) + `<span class="bag-button" id="Backpack__clearbag">清空背包</span></span>` + html;
+                        const headerDom = getValidDom([".BackpackHeader-extInfo", ".BackpackExpandPanel-backpackHeader"]);
+                        if (isBeta) {
+                            headerDom.innerHTML = headerDom.innerHTML + 
+                            `<span style="width: 100%;display: flex;justify-content: space-between;align-items: center;flex: 1;margin-left: 12px;">
+                                <span>
+                                    <span>总价值:</span>
+                                    <span>￥${String(Number(totalPrice / 100).toFixed(2))}</span>
+                                    <span>总亲密度:</span>
+                                    <span>${String(totalIntimate)}</span>
+                                </span>
+                                <span class="bag-button" id="Backpack__clearbag" style="background: rgb(70, 171, 255) !important;color: white !important;">清空背包</span>
+                            </span>`
+                        } else {
+                            headerDom.innerHTML = `<span style="float: left">` + "总价值：" + String(Number(totalPrice / 100).toFixed(2)) + " 总亲密度：" + String(totalIntimate) + `<span class="bag-button" id="Backpack__clearbag">清空背包</span></span>` + headerDom.innerHTML;
+                        }
                         
                         document.getElementById("Backpack__clearbag").addEventListener("click", () => {
                             if (confirm("确认清空？") != true) {
@@ -1656,7 +1748,7 @@ function BarrageLoop_insertModal() {
 	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50"></textarea>';
 	html += '<div><label>速度(ms)：</label><input id="bloop__text_speed1" type="text" style="width:50px;text-align:center;" value="2000" />~<input id="bloop__text_speed2" type="text" style="width:50px;text-align:center;" value="3000" /></div>';
 	html += '<div><label>限时(min)：</label><input id="bloop__text_stoptime" type="text" style="width:50px;text-align:center;" value="1" /></div>';
-	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label></div>';
+	html += '<div><label><input id="bloop__checkbox_changeColor" type="checkbox" name="checkbox_changeColor" checked>自动变色</label><label><input id="bloop__checkbox_tiangou" type="checkbox">舔狗模式</label><label><input id="bloop__checkbox_random" type="checkbox">随机发送</label></div>';
 	html += '<div class="bloop__switch"><label><input id="bloop__checkbox_startSend" type="checkbox">开始发送</label></div>';
 	
 	a.innerHTML = html;
@@ -1740,7 +1832,12 @@ function selectBarrageColor(index) {
 }
 function sendBarrage(text) {
 	// 发送弹幕
-	document.getElementsByClassName("ChatSend-txt")[0].value = text;
+	let chatDom = document.getElementsByClassName("ChatSend-txt")[0];
+	if (chatDom.tagName == "TEXTAREA") {
+		chatDom.value = text;
+	} else {
+		chatDom.innerText = text;
+	}
 	document.getElementsByClassName("ChatSend-button")[0].click();
 }
 
@@ -1796,10 +1893,18 @@ async function doLoopBarrage() {
 		tiangouBarrage = String(tiangouBarrage).replace(/他/g,"她");
 		sendBarrage(tiangouBarrage);
 	} else {
+		// 判断是否开启随机模式
+		if (document.getElementById("bloop__checkbox_random").checked == true) {
+			barrageOffset = Math.floor(Math.random() * barrageArr.length);
+		}
 		sendBarrage(barrageArr[barrageOffset]);
-		barrageOffset++;
-		if (barrageOffset > barrageLength) {
-			barrageOffset = 0;
+		
+		// 如果不是随机模式，则顺序发送
+		if (document.getElementById("bloop__checkbox_random").checked != true) {
+			barrageOffset++;
+			if (barrageOffset > barrageArr.length - 1) {
+				barrageOffset = 0;
+			}
 		}
 	}
 	
@@ -1820,10 +1925,15 @@ function initPkg_BarrageLoop_Func() {
 		let ischecked = document.getElementById("bloop__checkbox_startSend").checked;
 		if (ischecked == true) {
 			// 开始发送
-			barrageOffset = 0;
-			barrageColorOffset = 0;
 			getBarrageArr();
 			getBarrageColorArr();
+			if (document.getElementById("bloop__checkbox_random").checked == true) {
+				barrageOffset = Math.floor(Math.random() * barrageArr.length);
+				barrageColorOffset = Math.floor(Math.random() * barrageColorArr.length);
+			} else {
+				barrageOffset = 0;
+				barrageColorOffset = 0;
+			}
 			saveData_BarrageLoop();
 			bloopTimer = setTimeout(doLoopBarrage, getSpeed());
 			bloopStopTimer = setTimeout(() => {
@@ -2141,8 +2251,12 @@ function setMuteTimeButton(dom) {
 function setBarrgePanelFunc(parentDom, id) {
     document.getElementById("barragePanel__reply").onclick = () => {
         let txt = parentDom.getElementsByClassName("danmuContent-25f266")[0].innerText;
-        if (txt != "") {
-            document.getElementsByClassName("ChatSend-txt")[0].value = `@${ id }：${ txt }`;
+        const chatDom = document.getElementsByClassName("ChatSend-txt")[0];
+        const value = `@${ id }：${ txt }`;
+        if (chatDom.tagName == "TEXTAREA") {
+            chatDom.value = value;
+        } else {
+            chatDom.innerText = value;
         }
     };
 
@@ -2292,6 +2406,7 @@ function initPkg_ChatMemory() {
 function initPkg_ChatMemory_Func() {
     document.getElementsByClassName("ChatSend-txt")[0].addEventListener("keydown", (e) => {
         let dom = e.target;
+        const isTextarea = dom.tagName === "TEXTAREA";
         if (e.keyCode == 38) {
             // ↑
             if (getTextareaPosition(dom) == 0) {
@@ -2300,7 +2415,8 @@ function initPkg_ChatMemory_Func() {
             }
         } else if (e.keyCode == 40) {
             // ↓
-            if (getTextareaPosition(dom) == dom.value.length) {
+            const length = isTextarea ? dom.value.length : dom.innerText.length;
+            if (getTextareaPosition(dom) == length) {
                 barrageMemoryIndex = barrageMemoryIndex < barrageMemoryArr.length - 1 ? barrageMemoryIndex + 1 : barrageMemoryIndex;
                 chatMemory_setBarrage();
             }
@@ -2329,14 +2445,22 @@ function chatMemory_setBarrage() {
 function getBarrageValue() {
     let dom = document.getElementsByClassName("ChatSend-txt")[0];
     if (dom != undefined && dom != null) {
-        return dom.value;
+        if (dom.tagName === "TEXTAREA") {
+            return dom.value;
+        } else {
+            return dom.innerText;
+        }
     }
     return "";
 }
 function setBarrageValue(txt) {
     let dom = document.getElementsByClassName("ChatSend-txt")[0];
     if (dom != undefined && dom != null) {
-        dom.value = txt;
+        if (dom.tagName === "TEXTAREA") {
+            dom.value = txt;
+        } else {
+            dom.innerText = txt;
+        }
     }
 }
 function initPkg_ChatTools() {
@@ -2372,10 +2496,13 @@ function CopyRealLive_insertIcon() {
 	let a = document.createElement("div");
     a.className = "Title-blockInline";
     a.id = "copy-real-live";
-	a.innerHTML = '<div class="TitleShare"><div class="TitleShare-shareBox "><div class="Title-row-span  is-right"><span class="Title-row-icon "><svg t="1585641756842" class="icon" viewBox="0 0 1237 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5646" width="16" height="16"><path d="M648.448 946.347l0.256-1.622-0.256 1.622z m84.31 13.354c-0.769 4.608-0.769 4.608-4.182 13.483-8.533 16.768-8.533 16.768-49.835 22.784-24.149-14.293-24.149-14.293-27.605-22.613-2.475-5.718-2.475-5.718-3.541-9.387L476.416 335.36l-103.083 499.2c-1.109 5.12-1.109 5.12-4.821 13.27-6.827 12.117-6.827 12.117-35.285 22.527-30.294-7.253-30.294-7.253-38.742-19.37-4.522-8.15-4.522-8.15-6.058-13.227l-74.582-262.357H0v-85.334h278.272l45.781 161.11 104.022-503.424c1.024-4.694 1.024-4.694 4.394-12.502 6.102-11.989 6.102-11.989 35.968-23.338 31.83 8.533 31.83 8.533 39.254 20.736 4.053 7.808 4.053 7.808 5.376 12.544l165.888 609.237 113.92-716.885c0.896-5.248 0.896-5.248 4.864-14.592 9.088-15.574 9.088-15.574 44.928-22.4C868.48 12.587 868.48 12.587 873.6 22.443c3.285 6.912 3.285 6.912 4.523 11.52l112 446.549h221.738v85.333H923.563l-78.507-312.917-112.299 706.773z" p-id="5647"></path></svg></span><span class="Title-row-text ">复制直播流</span></div></div></div>';
+	a.innerHTML = '<div class="TitleShare"><div class="TitleShare-shareBox "><div class="Title-row-span is-right"><span class="Title-row-icon "><svg t="1585641756842" class="icon" viewBox="0 0 1237 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5646" width="16" height="16"><path d="M648.448 946.347l0.256-1.622-0.256 1.622z m84.31 13.354c-0.769 4.608-0.769 4.608-4.182 13.483-8.533 16.768-8.533 16.768-49.835 22.784-24.149-14.293-24.149-14.293-27.605-22.613-2.475-5.718-2.475-5.718-3.541-9.387L476.416 335.36l-103.083 499.2c-1.109 5.12-1.109 5.12-4.821 13.27-6.827 12.117-6.827 12.117-35.285 22.527-30.294-7.253-30.294-7.253-38.742-19.37-4.522-8.15-4.522-8.15-6.058-13.227l-74.582-262.357H0v-85.334h278.272l45.781 161.11 104.022-503.424c1.024-4.694 1.024-4.694 4.394-12.502 6.102-11.989 6.102-11.989 35.968-23.338 31.83 8.533 31.83 8.533 39.254 20.736 4.053 7.808 4.053 7.808 5.376 12.544l165.888 609.237 113.92-716.885c0.896-5.248 0.896-5.248 4.864-14.592 9.088-15.574 9.088-15.574 44.928-22.4C868.48 12.587 868.48 12.587 873.6 22.443c3.285 6.912 3.285 6.912 4.523 11.52l112 446.549h221.738v85.333H923.563l-78.507-312.917-112.299 706.773z" p-id="5647"></path></svg></span><span class="Title-row-text">复制直播流</span></div></div></div>';
     let b = document.getElementsByClassName("Title-col")[4];
-    if (b.childNodes.length > 1) {
+    if (b && b.childNodes.length > 1) {
         b.insertBefore(a, b.childNodes[1]);
+    } else {
+        b = getValidDom([".subTitleContainer__-vzhr"]);
+        b.appendChild(a);
     }
 }
 
@@ -2412,33 +2539,19 @@ function initPkg_CopyRealLive_Func() {
             CopyRealLive_copyUrl(0);
         }
     });
-    document.getElementsByClassName("Title-header")[0].addEventListener("click", function() {
-        if (document.querySelectorAll(".tipItem-898596 > ul > li").length > 0) {
-            document.querySelectorAll(".tipItem-898596 > ul > li").forEach(item => {
-                if (item.className.includes("selected")) {
-                    CopyRealLive_copyUrl(CopyRealLive_getQn(item.innerText));
-                }
-            })
-        } else {
-            CopyRealLive_copyUrl(0);
-        }
-    });
 
     let titNode = document.getElementsByClassName("RecommendViewTit-04ebd8");
     let tit = "";
     if (titNode.length > 0) {
         tit = titNode[0].innerText + "\n";
     }
-
-    document.getElementsByClassName("Title-header")[0].style.cursor = "pointer";
-    document.getElementsByClassName("Title-header")[0].title = tit + "点击复制直播流";
 }
 function initPkg_DanmakuCollect() {
   initPkg_DanmakuCollect_Dom();
   const textarea = document.getElementsByClassName("ChatSend-txt")[0];
   const collectButton = document.getElementsByClassName("ChatBarrageCollect")[0];
   textarea.addEventListener("keyup", () => {
-    const length = textarea.value.length;
+    const length = typeof textarea.value === "string" ? textarea.value.length : textarea.innerText.length;
     if (length > 25) {
       collectButton.style.display = "none";
     } else {
@@ -2469,6 +2582,10 @@ function initPkg_DanmakuCollect() {
       let { content } = JSON.parse(body);
       addLocalDanmakuCollect(content);
       obj.msg = "收藏成功，云收藏已达上限，将收藏至本地（由DouyuEx插件实现无限收藏）";
+
+      // 关闭并重新打开弹幕收藏以更新新添加的弹幕
+      document.querySelector(".ChatBarrageCollect-tip").click();
+      document.querySelector(".ChatBarrageCollect-tip").click();
       return JSON.stringify(obj);
     }
   });
@@ -2542,6 +2659,185 @@ function delLocalDanmakuCollect(id) {
   let ret = getLocalDanmakuCollect();
   localStorage.setItem("ExSave_DanmakuCollect", JSON.stringify(ret.filter(item => item.id !== id)));
 }
+function initPkg_DanmakuTail() {
+    initPkg_DanmakuTail_insertDom();
+    initPkg_DanmakuTail_Set();
+    initPkg_DanmakuTail_Func();
+}
+
+function initPkg_DanmakuTail_insertDom() {
+    let div = document.createElement("div");
+    div.className = "ChatToolBar-DanmakuTail";
+    div.innerHTML = `<div class="ChatToolBar-DanmakuTail-tip" title="弹幕小尾巴" ></div>`;
+    let b = document.getElementsByClassName("ChatToolBar__left")[0];
+    b.appendChild(div);
+
+    let panel = document.createElement("div");
+    panel.className = "ChatToolBar-DanmakuTail-Panel";
+    let chat_panel = document.getElementsByClassName("layout-Player-chat")[0];
+    chat_panel.insertBefore(panel, chat_panel.childNodes[0]);
+
+    if (!window.location.href.includes("/beta")) {
+        panel.style.bottom = "120px";
+    }
+
+    panel.innerHTML = `
+        <div class="ChatToolBar-DanmakuTail-title">弹幕小尾巴</div>
+        <input type="text" class="DanmakuTail-input" id="DanmakuTail-input" placeholder="请输入小尾巴内容"/>
+        <label class="DanmakuTail-checkbox-label">
+            <input type="checkbox" class="DanmakuTail-checkbox" id="DanmakuTail-checkbox" />
+            启用小尾巴
+        </label>
+    `;
+}
+
+function initPkg_DanmakuTail_Set() {
+    let ret = localStorage.getItem("ExSave_DanmakuTail");
+    if (ret != null) {
+        let retJson = JSON.parse(ret);
+        document.getElementById("DanmakuTail-checkbox").checked = retJson.isTailEnabled;
+        document.getElementById("DanmakuTail-input").value = retJson.tailContent || "";
+        document.getElementById("DanmakuTail-input").disabled = retJson.isTailEnabled;
+        if (retJson.isTailEnabled) {
+            document.querySelector(".ChatToolBar-DanmakuTail-tip").classList.add("ChatToolBar-DanmakuTail-tip-active");
+        }
+    }
+}
+
+
+function saveData_DanmakuTail() {
+    let data = {
+        isTailEnabled: document.getElementById("DanmakuTail-checkbox").checked,
+        tailContent: document.getElementById("DanmakuTail-input").value
+    }
+    localStorage.setItem("ExSave_DanmakuTail", JSON.stringify(data));
+}
+
+
+function initPkg_DanmakuTail_Func() {
+    document.getElementsByClassName("ChatToolBar-DanmakuTail")[0].addEventListener("click", function () {
+        showExRightPanel("弹幕小尾巴");
+    });
+
+    initPkg_DanmakuTail_HandleFunc("#DanmakuTail-checkbox", "#DanmakuTail-input");
+
+    document.getElementById("DanmakuTail-checkbox").addEventListener("change", function () {
+        saveData_DanmakuTail();
+    });
+    document.getElementById("DanmakuTail-input").addEventListener("input", function () {
+        saveData_DanmakuTail();
+    });
+
+}
+
+
+function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
+    let keydownHandler = null;
+    let clickHandler = null;
+
+    // 开启
+    function enable(content) {
+        if (window.location.href.includes("/beta")) {
+            let textarea = document.querySelector("div.ChatSend-txt");
+            const button = document.querySelector(".ChatSend-button");
+            if (!textarea || !button) return;
+
+            disable(); // 防止重复绑定
+
+            keydownHandler = function (e) {
+                if (!e.isTrusted) return;
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    button.click();
+                }
+            };
+
+            clickHandler = function (e) {
+                if (textarea.innerText.trim() == "") return;
+                if (!textarea.innerText.endsWith(content)) {
+                    textarea.innerText = textarea.innerText + content;
+                    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+                }
+            };
+            textarea.addEventListener("keydown", keydownHandler, true);
+            button.addEventListener("click", clickHandler, true);
+        } else {
+            let textarea = document.querySelector("textarea.ChatSend-txt");
+            const button = document.querySelector(".ChatSend-button");
+            if (!textarea || !button) return;
+
+            disable(); // 防止重复绑定
+
+            keydownHandler = function (e) {
+                if (!e.isTrusted) return;
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    button.click();
+                }
+            };
+
+            clickHandler = function (e) {
+                if (textarea.value.trim() == "") return;
+                if (!textarea.value.endsWith(content)) {
+                    textarea.value = textarea.value + content;
+                    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+                }
+            };
+
+            textarea.addEventListener("keydown", keydownHandler, true);
+            button.addEventListener("click", clickHandler, true);
+        }
+    }
+
+    // 关闭
+    function disable() {
+        const textarea = document.querySelector("textarea.ChatSend-txt");
+        const button = document.querySelector(".ChatSend-button");
+        if (textarea && keydownHandler) {
+            textarea.removeEventListener("keydown", keydownHandler, true);
+        }
+        if (button && clickHandler) {
+            button.removeEventListener("click", clickHandler, true);
+        }
+        keydownHandler = null;
+        clickHandler = null;
+    }
+
+    // 监听 checkbox
+    const checkbox = document.querySelector(checkboxSelector);
+    const input = document.querySelector(inputSelector);
+
+    if (checkbox) {
+        checkbox.addEventListener("change", function () {
+
+            if (input.value.trim() === "") {
+                checkbox.checked = false;
+                showMessage("【弹幕小尾巴】请输入弹幕小尾巴内容", "error");
+                return;
+            }
+
+            input.disabled = checkbox.checked;
+            document.querySelector(".ChatToolBar-DanmakuTail-tip").classList.remove("ChatToolBar-DanmakuTail-tip-active");
+
+            disable();
+            if (checkbox.checked && input) {
+                document.querySelector(".ChatToolBar-DanmakuTail-tip").classList.add("ChatToolBar-DanmakuTail-tip-active");
+                let content = input.value.trim();
+                enable(content);
+            }
+        });
+
+        if (checkbox.checked && input) {
+            enable(input.value.trim());
+        }
+    }
+
+    return { enable, disable };
+}
+
+
 function initPkg_DisableCloseJump_Timer() {
   setInterval(() => {
     let x = document.getElementsByClassName("dy-ModalRadius-close-x");
@@ -2944,9 +3240,15 @@ function initPkg_ExIcon_insertDom() {
         </g>
     </g>
 </svg><i id="ex-icon__tip" class="ex-panel__tip"></i></a>`;
-	
-	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
-	b.insertBefore(a, b.childNodes[0]);
+	let b = document.querySelector(".PlayerToolbar-ContentCell .PlayerToolbar-Wealth");
+	if (b) {
+		b.insertBefore(a, b.childNodes[0]);
+	} else {
+		a.className += " ToolbarGiftArea-backpack";
+		a.style.width = "52px";
+		b = document.querySelector(".ToolbarGiftArea-container");
+		b.appendChild(a);
+	}
 }
 function initPkg_ExIcon_Func() {
 	document.getElementsByClassName("ex-icon")[0].addEventListener("click", showExPanel);
@@ -3459,9 +3761,18 @@ function fullScreen() {
     let intID1 = setInterval(() => {
         count++;
         if (count > 100) clearInterval(intID1);
-        if (document.getElementsByClassName("wfs-2a8e83").length > 0) {
+        if (getValidDom([".wfs-2a8e83", ".icon-c8be96"])) {
             clearInterval(intID1);
-            document.querySelector("div.wfs-2a8e83").click();
+            let dom = document.querySelector("div.wfs-2a8e83");
+            if (dom) {
+                dom.click();
+            } else {
+                dom = document.querySelectorAll(".icon-c8be96");
+                if (dom.length >= 2) {
+                    // 因为网页全屏按钮在倒数第二个
+                    dom[dom.length - 2].click();
+                }
+            }
         }
     }, 1000);
 }
@@ -3510,9 +3821,14 @@ function highestVideoQuality() {
     let intID1 = setInterval(() => {
         count++;
         if (count > 100) clearInterval(intID1);
-        if (document.getElementsByClassName("tipItem-898596").length > 0) {
+        if (getValidDom([".tipItem-898596", ".tip-cd016b"])) {
             clearInterval(intID1);
-            document.querySelectorAll(".tipItem-898596 > ul > li")[0].click();
+            let dom = document.querySelector(".tipItem-898596");
+            if (dom) {
+                document.querySelectorAll(".tipItem-898596 > ul > li")[0].click();
+            } else {
+                document.querySelectorAll(".tip-cd016b ul li")[0].click();
+            }
         }
     }, 1000);
 }
@@ -4306,8 +4622,12 @@ function initPkg_ExPanel_insertDom() {
 	a.className = "ex-panel";
 	a.innerHTML = '<div class="ex-panel__wrap"></div>';
 	
-	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
-	b.insertBefore(a, b.childNodes[0]);
+    let b = document.querySelector(".PlayerToolbar-ContentCell .PlayerToolbar-Wealth");
+    if (!b) {
+        b = document.querySelector(".PlayerToolbar-ContentRow");
+        a.style.bottom = "76px";
+    }
+    b.insertBefore(a, b.childNodes[0]);
 	
 }
 function autoCloseExPanelHandle() {
@@ -4483,12 +4803,11 @@ function initPkg_FirePower_Func() {
 let followListHook;
 function initPkg_FollowList() {
     let intID = setInterval(() => {
-        if (typeof(document.getElementsByClassName("PlayerToolbar-wealthNum")[0]) != "undefined") {
+        if (getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"])) {
             followListHook = new DomHook(".Header-follow-content", false, handleFollowList);
             clearInterval(intID);
         }
     }, 1000);
-    
 }
 
 function handleFollowList(m) {
@@ -4889,7 +5208,10 @@ function initPkg_LiveTool_BarrageSpeed() {
     setInterval(() => {
         let barrageSpeed = Number((barrageSpeed_count / 5) * 60).toFixed(0);
         barrageSpeed_count = 0;
-        document.getElementsByClassName("ChatSend-txt")[0].placeholder = "弹幕时速：" + barrageSpeed + "条/分 按↑↓查看历史弹幕 视频ctrl+滚轮缩放";
+        const dom = document.getElementsByClassName("ChatSend-txt")[0];
+        const text = `弹幕时速：${barrageSpeed }条/分`;
+        dom.placeholder = text + " 按↑↓查看历史弹幕 视频ctrl+滚轮缩放";
+        dom.setAttribute("data-placeholder", text);
         // document.getElementsByClassName("barrageSpeed__value")[0].innerText = barrageSpeed;
     }, 5000)
 }
@@ -6814,7 +7136,7 @@ function LiveTool_Vote_insertDom_VotePanel() {
     `;
     a.innerHTML = panel;
     
-    let b = document.getElementsByClassName("layout-Player-main")[0];
+    let b = getValidDom([".layout-Player-main", "main"]);
     b.insertBefore(a, b.childNodes[0]);
 
     let box = document.getElementsByClassName("vote__result")[0];
@@ -7151,7 +7473,7 @@ function MiniProgram_insertModal() {
 		</div>
 		<div class="miniprogram__triangle"></div>
     `;
-	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
+	let b = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"]);
 	b.insertBefore(a, b.childNodes[0]);
 }
 
@@ -7208,11 +7530,13 @@ function initPkg_MonthCost() {
 	initPkg_MonthCost_Dom();
 	initPkg_MonthCost_Func();
 	seeStatus = MonthCost_getSeeStatus();
+	const icon = document.getElementsByClassName("monthcost__icon")[0];
+	if (!icon) return;
 	if (seeStatus == 1) {
-		document.getElementsByClassName("monthcost__icon")[0].innerHTML = svg_see;
+		icon.innerHTML = svg_see;
 		MonthCost_updateCost();
 	} else {
-		document.getElementsByClassName("monthcost__icon")[0].innerHTML = svg_unsee;
+		icon.innerHTML = svg_unsee;
 	}
 }
 
@@ -7228,12 +7552,14 @@ function MonthCost_insertIcon() {
 	<span class="monthcost__icon"></span>
 	`;
 	a.title = "数据每日更新，根据个人中心消费数据统计"
-	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
-	b.insertBefore(a, b.childNodes[0]);
+	let b = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth"]);
+	b && b.insertBefore(a, b.childNodes[0]);
 }
 
 function initPkg_MonthCost_Func() {
-	document.getElementsByClassName("monthcost__icon")[0].addEventListener("click", () => {
+	const icon = document.getElementsByClassName("monthcost__icon")[0];
+	if (!icon) return;
+	icon.addEventListener("click", () => {
 		if (seeStatus == 1) {
 			seeStatus = 0;
 			document.getElementById("monthcost__money").innerText = "***";
@@ -7246,7 +7572,6 @@ function initPkg_MonthCost_Func() {
 		MonthCost_ContentAttrTitle();
 		MonthCost_saveSeeStatus();
 	})
-	
 }
 
 
@@ -7570,7 +7895,7 @@ function setNightMode() {
     #js-player-asideMain{border:1px solid rgba(37,38,42,1) !important;background-color:rgb(47,48,53) !important;}
     .Chat,.ChatSend-txt{background:rgba(47,48,53,1) !important;color:rgb(187,187,187) !important;border-radius:0px !important;}
     .ChatTabContainer-titleWraper--tabLi{background:rgb(29,32,35) !important;border:1px solid rgb(47,48,53) !important;}
-    .ChatTabContainer-titleWraper--tabLi.is-active,.ChatBarrageCollect-tip,.FansRankInfo{background:rgb(47,48,53) !important;}
+    .ChatTabContainer-titleWraper--tabLi.is-active,.FansRankInfo{background:rgb(47,48,53) !important;}
     .FansRankInfo-txt{color:rgb(121,127,137) !important;}
     .Barrage{border:1px solid rgba(35,36,39,1) !important;}
     .layout-Player-chat{border-top:1px solid rgba(47,48,53,1) !important;}
@@ -7592,7 +7917,7 @@ function setNightMode() {
     .AnchorFriend-footer a{background-color:rgb(47,48,53) !important;color:rgb(204,204,204) !important;}
     .AnchorFriendPane-title{border-bottom:1px solid rgb(47,48,53) !important;background-color:rgb(35,36,39) !important;}
     .AnchorLike-friendList .AnchorFriendPane-title h3,.Title svg{color:rgb(153,153,153) !important;}
-    .GiftExpandPanel{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
+    .GiftExpandPanel{background:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .GiftInfoPanel-cont{background-color:rgb(35,36,39) !important;border:1px solid rgb(35,36,39) !important;}
     .BatchGiveForm-num{background-color:rgb(35,36,39) !important;}
     .BatchGiveForm-input{background-color:rgb(35,36,39) !important;color:rgb(149,149,149) !important;}
@@ -7663,6 +7988,86 @@ function setNightMode() {
 
     /*任务文字*/
     .taskScoreEntryTxt{color:#BFBFBF !important;}
+
+    .GiftExpandPanel-giftTabsWrap:after{display: none !important;}
+    .PostCard-module__feedInfoWrapper-be1-y{background:#fff;}
+    .PostCard-module__feedInfoWrapper-be1-y:hover{background:rgb(239,239,239) !important;}
+
+    /* 新版斗鱼 */
+    #root{background-color:rgb(35,36,39) !important;}
+    #bc3, #bc3-bgblur{background-image: none !important;}
+    .Barrage-label>span{color:rgb(187,187,187) !important;}
+    .ToolbarRechargeModule-icon,.ToolbarGiftArea-backpack--content>i{background-color:rgb(35,36,39) !important;}
+    .PlayerToolbar div:before{background-image:linear-gradient(0deg,rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.55) ) !important;}
+    .GiftExpandPanel-giftListWrap.is-mask:after{opacity: 0 !important;}
+    .ToolbarGiftArea-backpack p, .ToolbarGiftArea-backpack span{color:rgb(187,187,187) !important;}
+    .ToolbarCardModule p, .ToolbarCardModule span{color:rgb(187,187,187) !important;background:rgb(35,36,39) !important;}
+    .GiftExpandPanel-giftValueWrap{border-top: 1px solid rgb(47,48,53) !important;}
+    .GiftInfoPanel-brief, .GiftInfoPanel-footer, .AudioGiftEdit{background:rgb(47,48,53) !important;}
+    .InteractEntryPanel{background:rgb(35,36,39) !important;border:2px solid rgb(35,36,39) !important;}
+    .GiftSkinPanel{background:rgb(35,36,39) !important;}
+    .BatchGiveForm-btn{background-color:rgb(35,36,39) !important;}
+    .InteractEntryPanel:after{opacity: 0 !important;}
+    .InteractEntryPanel p, .InteractEntryPanel span, .InteractEntryPanelTitle{color:rgb(187,187,187) !important;}
+    .BackpackExpandPanel{background:rgb(35,36,39) !important;border:2px solid rgb(35,36,39) !important;}
+    .BackpackExpandPanel-giftListWrap:after{opacity: 0 !important;}
+    .BackpackExpandPanel-giftValueWrap{border-top: 1px solid rgb(47,48,53) !important;}
+
+    * {
+        --page-background-color: rgba(37,38,42,1) !important;
+        --room-title-color: rgb(187,187,187) !important;
+        --front-background-color: rgba(37,38,42,1) !important;
+        --bg-follow: rgba(37,38,42,1) !important;
+        --room-title-light-button-broder-color: rgb(90, 90, 90) !important;
+        --bg-share-hover: rgb(187,187,187) !important;
+        --ex-night-third-bg: rgb(90, 90, 90) !important;
+        --ex-night-scroll-bg: rgb(60, 60, 60) !important;
+    }
+    
+    .activeItem__d6uUm{background:rgb(35,36,39) !important;color:rgb(187,187,187) !important;border:1px solid var(--room-title-light-button-broder-color) !important;}
+
+    .DiamondsFansRankContainer{background-image: none !important;}
+    .DiamondsFansRankInfo{background: rgba(37,38,42,1) !important;}
+    .DiamondsFansRankContainer-content{background-image: none !important;}
+    .info__J-VGf{background-image: none !important;}
+    .ChatTabContainer-titleWraper--tabLi:before{background: none !important;}
+    .NobleRankList-nickName, .Barrage-EntranceIntroduce{color: rgb(187,187,187) !important;}
+    .Chat{border-top: 1px solid rgb(47,48,53) !important;}
+    .DiamondsFansRankInfo-txt, .DiamondsFansRankList-policyText{color: #7f7f7f !important;opacity: 1 !important;}
+
+    .snapbarMenu__szc-e{color: rgb(187,187,187) !important;}
+    .snapbarMenu__szc-e div:before{background-color: var(--ex-night-third-bg) !important;}
+    .FansMedalPanel-container:after{background: var(--ex-night-third-bg) !important;}
+    .snapbarMenu__szc-e{border: 1px solid var(--ex-night-third-bg);}
+    .snapbar-menu-item:before{background: var(--ex-night-scroll-bg) !important;}
+
+    /* 滚动条 */
+    .Barrage-scroll--bar,.GiftExpandPanelScroll-bar,.InteractEntryScrollThumb{background: var(--ex-night-scroll-bg);transition: all 0.1s;}
+    .Barrage-scroll--bar:hover,.GiftExpandPanelScroll-bar:hover,.InteractEntryScrollThumb:hover{background: var(--ex-night-third-bg);}
+    .Barrage-main>div>div,.GiftExpandPanel-giftTabsList>div>div,
+    .GiftExpandPanel-giftListWrap>div>div,
+    .InteractEntryPanel>div>div,
+    .BackpackExpandPanel-giftListWrap>div>div,
+    .NobleRank-scroll>div
+    {margin-bottom: -16px !important;margin-right: -16px !important;}
+    /* 滚动条结束 */
+
+    .BatchGiveForm-manual{background: var(--page-background-color) !important;border: none !important;}
+    .ToolbarBackpack-giftItem--count, .BatchGiveForm-num{border: 1px solid var(--ex-night-third-bg) !important;}
+    .menu-da2a9e{background: #fff !important;}
+    .real-audience{color: rgb(187,187,187) !important;}
+    .ChatRankDayWeekList-headerContent{background: transparent !important;display: flex !important;justify-content: space-between !important;align-items: center !important;}
+    
+    /* 新版鱼吧 */
+    .Tab-module__yubatabEntry-sTCdV,.HotTopicList-module__tab-oI09g,.styles-module__commentPublish-8ZTWy{background: #fff !important;}
+    .PostCard-module__postCard-7IgN5{background: #fff !important;border-radius: 4px !important;}
+    .index-module__pluginItem-PCGnX, .index-module__header-dV497,.index-module__header-UVoJc,.Editor-module__editor--2Cm2{color: rgb(187,187,187) !important;}
+    .index-module__header-dV497{border-bottom: 1px solid var(--ex-night-third-bg) !important;}
+
+
+
+    /* sc */
+    .HighEnergyBarrageContainer{border-top:1px solid transparent !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 
@@ -7827,7 +8232,7 @@ function PopupPlayer_insertPrompt() {
 
     a.innerHTML = html;
 
-    let b = document.getElementsByClassName("layout-Main")[0];
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
     b.insertBefore(a, b.childNodes[0]);
 }
 
@@ -8014,7 +8419,7 @@ function createNewVideo_Douyu(id, rid) {
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -8049,7 +8454,7 @@ function setElementFunc_Douyu(id, rid) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -8130,7 +8535,7 @@ function createNewAudio_Douyu(id, rid) {
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -8160,7 +8565,7 @@ function createNewVideo_Bilibili(id, rid){
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -8191,7 +8596,7 @@ function setElementFunc_Bilibili(id, rid) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -8270,7 +8675,7 @@ function createNewVideo_Huya(id, rid, rname){
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = document.getElementsByClassName("layout-Main")[0];
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -8303,7 +8708,7 @@ function setElementFunc_Huya(id, rid) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -8378,7 +8783,7 @@ function createNewVideo_iframe(id, url) {
     html += "<iframe class='exVideoPlayer' id='exVideoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
     html += "<div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
     a.innerHTML = html;
-    let b = document.getElementsByClassName("layout-Main")[0];
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
     b.insertBefore(a, b.childNodes[0]);
     setElementDrag(id);
     setElementResize(id);
@@ -8406,7 +8811,7 @@ function setElementFunc_iframe(id) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -8429,7 +8834,7 @@ function createNewVideo_Stream(id, lurl) {
     html += "</div>";
     html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
     a.innerHTML = html;
-    let b = document.getElementsByClassName("layout-Main")[0];
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
     b.insertBefore(a, b.childNodes[0]);
     setElementDrag(id);
     setElementResize(id);
@@ -8460,7 +8865,7 @@ function setElementFunc_Stream(id) {
                 if (i == id) {
                     box.style.zIndex = 1016;
                 } else {
-                    box.style.zIndex = 1015;
+                    box.style.zIndex = 1428;
                 }
             }
         }
@@ -8493,7 +8898,7 @@ function setElementFunc_Stream(id) {
 
 let real_info = {
 	view: "",
-	showtime: 1015,
+	showtime: 1428,
 	danmu_person_count: "",
 	gift_person_count: "",
 	paid_person_count: "",
@@ -8539,7 +8944,8 @@ function initPkg_RealAudience_Dom() {
 	let real_danmuIcon = '<svg t="1587796804183" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20780" width="16" height="16"><path d="M811.8272 62.6176H212.1728c-79.9232 0-149.8624 69.9392-149.8624 149.9136v599.6032a150.3232 150.3232 0 0 0 149.8624 149.9136h599.6544a150.3232 150.3232 0 0 0 149.8624-149.9136V212.5312c0-79.9744-69.9392-149.9136-149.8624-149.9136zM263.5264 367.104c30.0032 0 49.9712 19.968 49.9712 49.9712s-19.968 49.92-49.9712 49.92-49.9712-19.968-49.9712-49.92 20.0192-49.9712 49.9712-49.9712z m449.6896 294.8096H263.5264c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h449.6896c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.9712-49.9712 49.9712z m99.9424-199.68H463.4112c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h349.7472c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.7664-49.9712 49.7664z" p-id="20781" fill="#1296db"></path></svg>';
 	// let real_giftIcon = '<svg t="1576950815993" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3618" width="16" height="16"><path d="M554.957 829.848l-85.905 0 0-463.89c0-18.978 15.384-34.363 34.362-34.363l17.182 0c18.978 0 34.362 15.38499999 34.362 34.363l0 463.89z" fill="#d4237a" p-id="3619"></path><path d="M889.985 494.814l-755.97 0c-37.902 0-68.724-30.82999999-68.724-68.725L65.291 323.003c0-56.846 46.241-103.087 103.087-103.087l687.245 0c56.846 0 103.087 46.24 103.087 103.087l0 103.086c-0.001 37.894-30.823 68.725-68.725 68.725z m0-68.725l0 34.363 0.016-34.363-0.016 0zM168.377 288.64c-18.94300001 0-34.363 15.412-34.363 34.364l0 103.086 755.87 0 0.1-103.086c0-18.952-15.42-34.363-34.363-34.363L168.377 288.641z" fill="#d4237a" p-id="3620"></path><path d="M821.26 958.712L202.74 958.712c-37.903 0-68.725-30.838-68.725-68.732L134.015 494.814c0-37.89400001 30.822-68.725 68.724-68.725l618.522 0c37.902 0 68.724 30.82999999 68.724 68.725L889.985 889.98c0 37.89400001-30.822 68.73199999-68.724 68.732z m0-68.732l0 34.362 0.017-34.362-0.016 0zM202.74 494.814L202.74 889.98l618.42 0 0.1-395.166L202.74 494.814z m281.358-240.537c-9.93399999 0-19.78200001-4.278-26.578-12.55L358.728 121.46c-12.03-14.664-9.916-36.317 4.748-48.363 14.648-12.038 36.326-9.924 48.373 4.74l98.79199999 120.268c12.03 14.664 9.916 36.317-4.74799999 48.363a34.213 34.213 0 0 1-21.795 7.81z" fill="#d4237a" p-id="3621"></path><path d="M539.902 254.277a34.212 34.212 0 0 1-21.795-7.81c-14.664-12.047-16.778-33.7-4.748-48.363L612.15 77.836c12.047-14.664 33.708-16.101599999 48.373-4.74 14.664 12.047 16.778 33.7 4.748 48.363l-98.792 120.268c-6.795 8.272-16.644 12.55-26.577 12.55z" fill="#d4237a" p-id="3622"></path></svg>'
 	let real_money_yc = '<svg t="1579155265981" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6949" width="16" height="16"><path d="M136.96 67.413h181.76L512 452.693l193.28-385.28h181.76l-245.76 445.44h163.84v84.48h-211.2l-1.28 1.28v106.24h212.48v84.48H592.64v192H431.36v-192h-211.2v-84.48h211.2v-106.24l-1.28-1.28H220.16v-84.48h162.56z" fill="#F54330" p-id="6950"></path></svg>';
-	document.getElementsByClassName("VideoEntry")[0].style.display = "none";
+	const videoEntry = document.getElementsByClassName("VideoEntry")[0];
+	if (videoEntry) videoEntry.style.display = "none";
 	// document.querySelector(".AnchorAnnounce > h3").style.display = "none";
 	let html = "";
 	let a = document.createElement("div");
@@ -8554,7 +8960,7 @@ function initPkg_RealAudience_Dom() {
 	html += '<span id="real-audience__watchtime" style="white-space: nowrap;display: none;">' + "已观看:" + "****" + "</span>";
 	a.innerHTML = html;
 	
-	let b = document.getElementsByClassName("layout-Player-announce")[0];
+	let b = getValidDom([".layout-Player-announce", ".layout-Player-rankAll"]);
 	b.insertBefore(a, b.childNodes[0]);
 }
 
@@ -8574,7 +8980,7 @@ async function setRealViewer() {
 	if (real_info.isShow == 2) {
 		showedTime = 0;
 	} else {
-		if (real_info.showtime == 1015) {
+		if (real_info.showtime == 1428) {
 			showedTime = 0;
 		} else {
 			showedTime = Math.floor(Date.now()/1000) - Number(real_info.showtime);
@@ -8588,7 +8994,7 @@ async function setRealViewer() {
 	real_info.money_total = Number(retData.data["gift.all.price"] / 100 || 0).toFixed(2);
 	
 	document.getElementById("real-audience__total").innerText = real_info.view;
-	document.getElementById("real-audience__t").title = "活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
+	document.getElementById("real-audience__t").title = "今日累计活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
 	document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
 	// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
 	document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
@@ -8856,23 +9262,19 @@ function Refresh_BarrageFrame_insertIcon() {
 function initPkg_Refresh_BarrageFrame_Func() {
 	document.getElementById("refresh-barrage-frame").addEventListener("click", function() {
         let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
-        let dom_barrage = document.getElementById("js-player-barrage");
         let dom_activity = document.getElementById("js-room-activity");
         let dom_topBarrage = document.getElementsByClassName("Barrage")[0];
         if (dom_rank.style.display == "none") {
             // 被拉高
             dom_rank.style.display = "block";
-            dom_barrage.style = "";
             dom_activity.style.display = "block";
             dom_topBarrage.className = "Barrage";
             document.getElementById("refresh-barrage-frame__text").innerText = "拉高";
 
         } else {
             // 没拉高
-            let topHeight = document.getElementsByClassName("layout-Player-announce")[0].offsetHeight;
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
-            dom_barrage.style = "top:" + topHeight + "px";
             dom_topBarrage.className = "Barrage top-0-important";
             document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
@@ -8901,12 +9303,9 @@ function initPkg_Refresh_BarrageFrame_Set() {
         }
         if (retJson.barrageFrame.status == true) {
             let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
-            let dom_barrage = document.getElementById("js-player-barrage");
             let dom_activity = document.getElementById("js-room-activity");
-            let topHeight = document.getElementsByClassName("layout-Player-announce")[0].offsetHeight;
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
-            dom_barrage.style = "top:" + topHeight + "px";
             document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
     }
@@ -8915,7 +9314,8 @@ function initPkg_Refresh_BarrageFrame_Set() {
 let video_num = 0;
 function initPkg_Refresh_Video() {
     let timer = setInterval(() => {
-        if (document.getElementsByClassName("right-e7ea5d").length > 0) {
+        const controlbar = getValidDom([".right-e7ea5d", ".right-17e251"]);
+        if (controlbar) {
             clearInterval(timer);
             initPkg_Refresh_Video_Dom();
             initPkg_Refresh_Video_Func();
@@ -8947,15 +9347,27 @@ function Refresh_Video_insertIcon() {
 }
 
 function initPkg_Refresh_Video_Func() {
-    new DomHook('.right-e7ea5d', true, () => {
-        const video_fullPage = document.querySelector('.wfs-2a8e83.removed-9d4c42') ? true : false;
+    new DomHook(".right-e7ea5d", true, () => {
+        changeToolBarZIndex();
+    });
+    new DomHook(".right-17e251", true, () => {
+        changeToolBarZIndex();
+    });
+
+    function changeToolBarZIndex() {
+        let video_fullPage = false;
+        if (document.querySelector(".wfs-2a8e83.removed-9d4c42")) {
+            video_fullPage = true;
+        } else if (document.querySelector(".toggle__P8TKM")) {
+            video_fullPage = true;
+        }
         const dom_player_toolbar = document.getElementById("js-player-toolbar");
         dom_player_toolbar.style = video_fullPage ? "z-index:20" : "z-index:30";
-    });
+    }
 
 	document.getElementById("refresh-video").addEventListener("click", (e) => {
         let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-        let dom_video = document.getElementsByClassName("layout-Player-video")[0];
+        let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
         let dom_refresh = document.getElementById("refresh-video");
         let dom_refresh2 = document.getElementById("refresh-video2");
         if (dom_toolbar.style.visibility == "hidden") {
@@ -8971,12 +9383,13 @@ function initPkg_Refresh_Video_Func() {
             dom_refresh.innerText = "√ 简洁模式";
             refresh_Video_setStyle();
         }
+        changeToolBarZIndex();
         saveData_Refresh();
         resizeWindow();
     });
     document.getElementById("refresh-video2").addEventListener("click", () => {
         let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-        let dom_video = document.getElementsByClassName("layout-Player-video")[0];
+        let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
         let dom_refresh = document.getElementById("refresh-video");
         let dom_refresh2 = document.getElementById("refresh-video2");
         if (dom_toolbar.style.visibility == "hidden") {
@@ -8992,6 +9405,7 @@ function initPkg_Refresh_Video_Func() {
             dom_refresh.innerText = "√ 简洁模式";
             refresh_Video_setStyle();
         }
+        changeToolBarZIndex();
         saveData_Refresh();
         resizeWindow();
     });
@@ -9015,7 +9429,7 @@ function initPkg_Refresh_Video_Set() {
         }
         if (retJson.video.status == true) {
             let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-            let dom_video = document.getElementsByClassName("layout-Player-video")[0];
+            let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
             let dom_refresh2 = document.getElementById("refresh-video2");
             let dom_refresh = document.getElementById("refresh-video");
             let dom_player_toolbar = document.getElementById("js-player-toolbar");
@@ -9048,16 +9462,14 @@ function refresh_Video_removeStyle() {
 }
 function initPkg_RemoveAD() {
     let t = setInterval(() => {
-        let a = document.getElementsByClassName("PlayerToolbar-wealthNum")[0];
+        let a = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"]);
         if (a != undefined) {
             clearInterval(t);
             optimizePageStyle();
-            removeChatLimit();
 
             initPkg_RemoveMsgNotice();
         }
     }, 1000);
-    
 }
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
 function removeAD() {
@@ -9092,7 +9504,6 @@ function removeAD() {
     .SharePanel,.CommonShareToolkit{
         display: none!important;
     }
-
     /*去除还在电脑面前的mask*/
     .mask1-63237a,.mask2-a8df6e,.panel1-1484c9,.panel2-5ece0e{
         display: none!important;
@@ -9136,24 +9547,22 @@ function removeAD() {
     .bacpCommonKeFu {
         display: none!important;
     }
+
+    .activeItem__d6uUm:nth-child(1){display: none !important;}
+    .activeItem__d6uUm:nth-child(2){right: 0 !important;}
+    .activeItem__d6uUm:nth-child(3){right: 75px !important;}
+    .activeItem__d6uUm:nth-child(4){right: 150px !important;}
+    .activeItem__d6uUm:nth-child(5){right: 225px !important;}
+    .activeItem__d6uUm:nth-child(6){right: 300px !important;}
+    .werbungContainer__2sv7h{display:none !important;}
+    #js-player-asideTopSuspension{display:none !important;}
+    .Search-Panel-Advert{display:none !important;}
     `);
     // body{transform: translateZ(0)!important;}
     // .RomanticDatePanelModal-middle--small{height:220px !important;}
     // .MainDialog-main--content{height:450px !important;}
     // .RomanticDatePanelModal-middle--rowItemBottom--rowItemBottomBtn{margin-left:0px !important;margin-top:0px !important;width:170px !important;height:40px !important;background:orange !important;}
     // }
-}
-function removeChatLimit() {
-    let a;
-    
-    a = document.getElementsByClassName("ChatSend-button")[0];
-    if (a != undefined) {
-        a.className = "ChatSend-button";
-    }
-    a = document.getElementsByClassName("ChatSend-txt")[0];
-    if (a != undefined) {
-        a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
-    }
 }
 
 function optimizePageStyle() {
@@ -9220,6 +9629,35 @@ function removeMsgNoticeCanel() {
 function saveData_removeMsgNotice() {
     localStorage.setItem("ExSave_isRemoveMsgNotice", isRemoveMsgNotice); 
 }
+function initPkg_ChangeDanmakuLengthLimit() {
+  let count = 0;
+  let timer = setInterval(() => {
+    count++;
+    if (count > 100) {
+      clearInterval(timer);
+      return;
+    }
+    let dom = document.getElementsByClassName("ChatSend-txt")[0];
+    if (dom != undefined) {
+      changeChatTextareaMaxLength();
+      clearInterval(timer);
+    }
+  }, 1000);
+}
+
+function changeChatTextareaMaxLength() {
+  let a;
+
+  a = document.getElementsByClassName("ChatSend-button")[0];
+  if (a != undefined) {
+    a.className = "ChatSend-button";
+  }
+  a = document.getElementsByClassName("ChatSend-txt")[0];
+  if (a != undefined) {
+    a.maxLength = a.maxLength + 20; // 原来为50字符，修改成70字符
+  }
+}
+
 function initPkg_RestoreYuba() {
   responseHook((url, text) => {
     if (url.indexOf("group/getBindGroup") !== -1) {
@@ -9376,6 +9814,7 @@ async function RestoreYuba_changeDom(oldId, newId) {
       document.querySelector(".groupavatar__9mD1S .image__GNnZC").src = avatar;
       document.getElementsByClassName("groupname__BUzOM")[0].innerText = nickname;
       document.getElementsByClassName("groupdesc__b8-53")[0].innerText = `${nickname}的鱼吧`;
+      document.title = `${nickname}的鱼吧`;
     }
 
     changeTitle();
@@ -9411,6 +9850,28 @@ function getYubaStatus(groupId) {
   });
 }
 
+function initPkg_ReturnOldWeb() {
+    initPkg_JumpOldweb_insertDom();
+}
+function initPkg_JumpOldweb_insertDom() {
+    const jump_old_img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAJ3UlEQVR4nO2aUYtcSRXHf1Xju51vcPMJphdZdjUk6VHxQRbmjkFd3YXuiKzCIjN5EEVhM8MKogiZPOjuyzrTmIgrLrmtiASF6V2MGzYIN59g736D9gPMKR+q6t5T1bc7AyFoltRLN3duna5z6v//n1Onxjjn+DQP+79ewJMezxx82sen3sHPrPvjw+cZYrnhADHgLHzuX2zFv9+/xJ6zXBYYOANiYcXn0BkGYuHU27kmhkNnQQyD0w2OnGUQf+NUz92AU2UvzPfP4/c4b0N9NyzeeJOdtQ5uPqCuX2Akpnv24AKj5+8xv3+RwhluCIDBYyF8rnMWv6BKLWwBIDCKz5I5pPPbeZ2t9pnQfcdy/MgdxC++BoZqQUNgjmE3OqWjKFBDu2hc99mIpXGG/2BpJJ03cmqBGGqxLKJjopxUv5M6nNkQw+xMDgpcjfAJo8EbKcUkDuwIVPluJQGgd2GlBPg6A2JYOMuOMxTJrtmeXaN9vxDDqLUBi/19qrUO1i+wJ4Ztp2QoLGrnw0uUYikcCZw2nWGzD5rZLh8ISaS3XQrJSgzXxTJJdk39lkaMsxyKYRB2Pr5TxTWvdFAMu0ARvrfwe/EDFvdGbOe8w7C/RmSijVoMB+1iFBIUd2cOjlbxLoGptzF1lpPW4WBjrYP1i94xDS0ADNMPRwwwTDLYzXXBp2BbiKVYIS44Qyn46AdxibwbKN4tMOyEAG87w56y0ThDkdt4841uB3vz4PA+jbPMW951BisxTJQDiKV2hgOxzJ1hLpZ5WNCWGBr9rrPMkuhbtrUwOEMVnyneVeLXMneWQkh2sKLHhvZlnciU2S7Wn5/T/HOLcQbBm2LZdYZSPf8Ew2VnfYoJNo6BWu8geg4BnoajjHez4PBADKULqSPYmIrhRNtAwXOlg//+gle2Vo79xOm9LYZYhop3C7FUztCIpVROH2XictVZjrNcVTqbFAgtPBWkFw4q6d7v8qRPNUVu42c/TXewF6Ji2Fa80/zZzVJDhc95cwfzJO8FPmjnnIq0s2xnSb0KHNPiUkVxie8rgar6bOS+9DoIlFm+qS+c0AiUWWqYqlSwyBI+Do5RziVqSYBbt8CZs5RZUp8FWwO9g2HeNNpQ6WGWO7Lk4IMLHjpZYp5+8CUmTidkS/PlvzEPkDoRS7lU1XhBGmTPCHAeSBesRQjSQCd1Z9kUw3WX1cPiKVFEG6GcW/z8J8s7uMRBZ9lWvIsQrTAcZfXmzbsvMQx8GypJb5xlKJ0w7Ao+96nob7dOeCer+EwndTHsJ7zrnKy0jVDOLTm3CqKl4p1Pzt7hkeYYsHBwIjAMzxpn2BLLzazOnGQ1YtzBrsoxzOIznV8zxdVOTjNRW1LPOIzuyXx0kVIMd3QxGww0IcqzL95lDnD3pVDc2vbYUkvkYd9RJtraoDw13FHRX5wazrmNxBZi/PGn14ahlA3uqGPU4hc/5lyfgwlExXA9U8H4WTjDnlj2/v7V5PlSbdhGv4NTI4bzKldtZ/MHzuJ6inAy3q07RvXCM4Ho/YvcAIZZfdmc5ZzXIy4aTlWmliWk89t5mQ0yJ5d+NwZyBTzbHfzoIoMg8/tK5h9e+gfVyVcYOrzwtDsdDXc/QMY7zZmpin4hlkNnViCAtYHqDbIY+NUPV++gedy+aHXlTJzx7QS1sFMDvbyz4XmPjbx94Qz88kfr17cq0Z95nJUzefS1kC3t/Nl418L0iTp4Zs5wNt7lgaLHIV1NPXEH13FmSW2hl3dLzaNHiIuusp64g0vRVwvMox8L56VdY7WNvkDpgDxxB9fmqjPyLjtGLfEOVjv5qPHYKvruK0HpNnpUzwZl1coZHQuKmKilUuGgltdbFba8L4a5S9V4eGqWi3lFhWLlif7uS4xODSfZ5KZ8j/N/eplCDB+fJVet6IbVYnlO2T0Ryygrpg/Esq+KiecCAu44wrEqW7POy/GQsBKizrDIye/CgVKys986zmSng2hrupZ3MBXLOKuFa/G7Vea814qb9GJhtrptGH4gc3Ia/lxmnGmc4bgvV4V39jNbleJdIYaR2vlFqC1vqEBVYf4kc+pQBfuh8x0EfY6tVzro6BpCYWHNlT9S4xeVdLLwjadDdTbTOzh0ln0lLrX4M2PMj7uZuByLP18W+sAd/qavCxoxXHv79VUe+NHr4F+3GUr6Ay08333Ftw/a6HacSXetC85Y1bcenqlDLRqCjU+cYVcV8YvAraHQrQmYA6PvvbUMVTEw/Y4/1vXvoGGcTPBGp/gFlhlnavEc6eWdy3spsZHkHSjDUSy2/HAmgWZsY4zEsJk5MXHLkG0veoDzweTykLSfibM03/hDB89MLadrrriG4jkWn9WCh2d4lnTR8nJOBaxaJy4Z7xC75m7iL1+jcMafC5WBCuD3rzIQm/UnfcNopHmnVGycpYep4u5ADJPMoXOOFpIa5hPSfHdNoM6uCI6iXkArhj1NJ5Vj9MLCzpZaXMLCjnLeSQaZJFDdbqVQ93eCw+y6rRFoHIxV3dkEGl3Gwm9f4+DqO+xhAvqguTXxaOt1UBT/AiSbb94OE3Qnix6H1LOe00EdlC++s6t4R1DOkwQBvmk8F9Pd/gYVvhELD+BAYKx++1j7kzj45ysUrmv5xRqxArg19kk24ZphJ+StLsfROrwbeRPq0qlK6oXEVmOEWcY7uny5q4Mlhvddd/lajN/hKHAdDPXtMQcrHZQeIruQ3JPF+s/6tbep3nq9V1xwliNdYYRWe+TublY4zwOn9hKh8NXURMG9Tq4IvO1J4N3C0f2DRByJijoYZ+LSfPuWh6eQ3cQGx1fcn/s8qmDlDI0qDEpJbV1zloeZ1M8ERi5cwgaK3MRSJyWZX8PCGbZuj/3/BvQ6eOfrFGJ8EzevPadXGcSErMsn4rvLvBtnx6ip4m7pCLmvE5eacJWtBcnpIsGXZDGHNrnS3h53wtLroOjrqc5JD08V8Xjp+f3feDVbUUyX2alcVzrbWTk3df7OQ99tRDhPdLDFw3AiKkBBPQff+p3aaTVaDupohUg3r04DPFVCDq32+tc/8J1tnWjD98JZCtU21JXOQEIrnw6Kx/rWKsBvJiY8izsF0yAmRy1E010cQaqgrYPvvRzgGdODn1ABHH83wFOnBJi4kKQTxV0WqLbSCQ6nKuwht4jVUXbveKKazg2GGsvHindXXbxo9WNzJURdjKBerG1FJBeETgj68522gfN37PEYtZulgqmzS3d/lfiqRaerm85yIjAIO3YY8l1FB/XRSoiK/+eBLb3A8VGoPQ1zYKu3Ssl2cEXbsAmfBZ5D80So/FlwrgUpFNdzpaifDUo5F39Fdy1QZ+YMgz7H4njsnsz/+7CPfuXpHs8cfNrHMwef9vFfyVGEB0H3+SAAAAAASUVORK5CYII=";
+
+
+    let a = document.createElement("div");
+    a.className = "snapbarMenuItem__ide1O";
+    a.innerHTML = `<a href="#" class="icon__jumpoldweb"><img src="${jump_old_img}" alt="返回旧版"></a>`;
+
+    let b = document.getElementById("js-room-snapbar");
+    if (b) {
+        b.insertBefore(a, b.childNodes[0]);
+        document.getElementsByClassName("icon__jumpoldweb")[0].addEventListener("click", ReturnOldWeb);
+    }
+}
+
+function ReturnOldWeb() {
+    localStorage.setItem("newWebLive", "A");
+    window.location.href = window.location.href.replace("/beta", "");
+}
 const roomVipExpireDayLimit = 3;
 function initPkg_RoomVip() {
   setRoomVipExpireDays();
@@ -9422,8 +9883,8 @@ function initPkg_RoomVip_Dom() {
   a.innerHTML = `
 	距VIP到期 <span id="room-vip-expire-days">**</span> 天
 	`;
-  let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
-  b.insertBefore(a, b.childNodes[0]);
+  let b = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth"]);
+  b && b.insertBefore(a, b.childNodes[0]);
 }
 
 function setRoomVipExpireDays() {
@@ -10526,13 +10987,13 @@ function initPkg_Sign_Room(isAll) {
 	signAllRoom(isAll);
 }
 function signAllRoom(isAll) {
-    // 1. get page counts(1015)
+    // 1. get page counts(1428)
     // 2. for in all pages
     // 3. sign each room
     let pageCount = 0;
     let signedCount = 0;
     let count = 0;
-    fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/list?page=1015',{
+    fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/list?page=1428',{
         method: 'GET',
         mode: 'no-cors',
         cache: 'default',
@@ -10912,7 +11373,7 @@ function initPkg_SyncJoy_Func() {
 
 // 版本号
 // 格式 yyyy.MM.dd.**
-var curVersion = "2025.06.03.02"
+var curVersion = "2025.06.17.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -11139,7 +11600,7 @@ function cameraAddFrame(node, camera_canvas, gif, fps) {
     });
 }
 function initPkg_VideoTools_Camera() {
-    camera_anchorName = document.getElementsByClassName("Title-anchorName")[0].innerText;
+    camera_anchorName = getValidDom([".Title-anchorName", ".anchorName__6NXv9"]).innerText;
     camera_width = liveVideoNode.videoWidth * 0.25;
     camera_height = liveVideoNode.videoHeight * 0.25;
     camera_canvas = document.createElement("canvas");
@@ -11170,7 +11631,7 @@ function Camera_insertIcon() {
 }
 
 function initPkg_VideoTools_Camera_Func() {
-    let dom = document.getElementsByClassName("layout-Player-video")[0];
+    let dom = getValidDom([".layout-Player-video", ".layout-Player-videoEntity"]);
     let dom_video = document.getElementsByClassName("room-Player-Box")[0];
     let camera = document.getElementById("ex-camera");
     let gif = null;
@@ -11437,7 +11898,7 @@ function Joysound_insertIcon() {
     } else {
         a.innerHTML = icon_joysound_off;
     }
-    let b = document.getElementsByClassName("right-e7ea5d")[0];
+    let b = getValidDom([".right-e7ea5d", ".right-17e251"]);
     b.insertBefore(a, b.childNodes[0]);
 }
 
@@ -11501,7 +11962,7 @@ function MetaData_init() {
       a.className = "exVideoDiv";
       html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
       a.innerHTML = html;
-      let b = document.getElementsByClassName("layout-Main")[0];
+      let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
       b.insertBefore(a, b.childNodes[0]);
       if (flvjs.isSupported()) {
         let videoElement = document.getElementById("exVideoPlayer" + id);
@@ -11611,7 +12072,7 @@ function Filter_insertIcon() {
     </div>
     <svg t="1598941324196" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3146" width="24" height="24"><path d="M921.6 766.634667L257.365333 102.4a68.266667 68.266667 0 0 0-96.597333 0L102.4 160.768a68.266667 68.266667 0 0 0 0 96.597333L766.634667 921.6a68.266667 68.266667 0 0 0 96.597333 0L921.6 863.232a68.266667 68.266667 0 0 0 0-96.597333zM139.605333 199.338667l59.733334-59.733334A13.312 13.312 0 0 1 208.896 136.533333a13.653333 13.653333 0 0 1 9.898667 4.096l83.968 82.944-79.189334 79.189334-83.968-83.968a13.653333 13.653333 0 0 1 0-19.456z m744.789334 625.322666l-59.733334 59.733334a13.312 13.312 0 0 1-9.557333 4.096 13.653333 13.653333 0 0 1-9.898667-4.096L262.144 341.333333 341.333333 262.144l543.061334 543.061333a13.653333 13.653333 0 0 1 0 19.456zM230.058667 589.824l-50.517334 92.501333-92.842666 50.858667 92.842666 50.517333 50.517334 92.842667 50.517333-92.842667 92.842667-50.517333-92.842667-50.858667-50.517333-92.501333zM541.013333 270.336l31.061334-57.344 57.344-31.402667-57.344-31.402666-31.061334-57.002667-31.402666 57.002667-57.344 31.402666 57.344 31.402667 31.402666 57.344zM827.392 377.173333l21.162667-38.912L887.466667 317.098667l-38.912-21.504-21.162667-38.912-21.504 38.912-38.570667 21.504 38.570667 21.162666 21.504 38.912z" p-id="3147" fill="#ffffff"></path></svg>
     `;
-    let b = document.getElementsByClassName("right-e7ea5d")[0];
+    let b = getValidDom([".right-e7ea5d", ".right-17e251"]);
     b.insertBefore(a, b.childNodes[0]);
 
     b = document.getElementsByClassName("menu-da2a9e")[0];
@@ -11889,7 +12350,7 @@ function initPkg_VideoTools_VideoRecall() {
 
 
 function initPkg_VideoTools_VideoRecall_Func() {
-    document.getElementsByClassName("layout-Player-video")[0].addEventListener("keydown", (e) => {
+    getValidDom([".layout-Player-video", ".layout-Player-videoEntity video"]).addEventListener("keydown", (e) => {
         if (isInput == true) {
             return;
         }
@@ -11965,7 +12426,14 @@ function VideoSync_insertIcon() {
     <svg t="1595680402158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7532" width="22" height="22"><path d="M938.1888 534.016h-80.7936c0.4096-7.3728 0.6144-14.6432 0.6144-22.016 0-218.624-176.8448-400.7936-389.12-400.7936C257.024 111.2064 80.6912 293.1712 80.6912 512c0 218.7264 176.4352 400.7936 388.1984 400.7936 74.752 0 149.0944-22.016 208.1792-60.0064l42.7008 68.608c-75.0592 48.9472-161.9968 74.8544-250.7776 74.752C209.8176 996.1472 0 779.264 0 512S209.8176 27.8528 468.8896 27.8528C728.3712 27.8528 938.7008 244.736 938.7008 512c0 7.3728-0.2048 14.6432-0.512 22.016z m-261.12 318.7712z m-26.4192-158.1056L426.7008 556.032V291.9424h64v226.5088L689.5616 635.904l-38.912 58.7776z m245.3504-6.656L768 512h256L896 688.0256z" fill="#ffffff" p-id="7533"></path></svg>
     `;
     let b = document.getElementsByClassName("left-d3671e")[0];
-    b.insertBefore(a, b.childNodes[3]);
+    if (b) {
+        a.style.marginLeft = "20px";
+        b.insertBefore(a, b.childNodes[3]);
+    } else {
+        a.style.marginLeft = "8px";
+        b = getValidDom([".left-bfab3b"]);
+        b.insertBefore(a, b.childNodes[2]);
+    }
 }
 
 function initPkg_VideoTools_VideoSync_Func() {
@@ -11987,7 +12455,8 @@ var isInput = false;
 let videotools_num = 0;
 function initPkg_VideoTools() {
     let timer = setInterval(() => {
-        if (document.getElementsByClassName("right-e7ea5d").length > 0) {
+        const controlbar = getValidDom([".right-e7ea5d", ".right-17e251"]);
+        if (controlbar) {
             clearInterval(timer);
             liveVideoNode = document.querySelector(".layout-Player-videoEntity video");
             document.getElementsByClassName("disable-23f484")[0].innerHTML = `DouyuEx_${curVersion}`;
@@ -12021,10 +12490,11 @@ function initPkg_VideoTools_Func() {
     document.getElementById("js-player-asideMain").addEventListener("mouseover", () => {
         document.getElementsByClassName("filter__wrap")[0].style.display = "none";
     });
-    document.getElementsByClassName("inputView-2a65aa")[0].addEventListener("focus", () => {
+    getValidDom([".inputView-2a65aa", ".inputView-620ab7"]).addEventListener("focus", () => {
         isInput = true;
     });
-    document.getElementsByClassName("inputView-2a65aa")[0].addEventListener("blur", () => {
+    
+    getValidDom([".inputView-2a65aa", ".inputView-620ab7"]).addEventListener("blur", () => {
         isInput = false;
     });
     let m = new DomHook(".app-f0f9c7", false, (m) => {
@@ -12040,7 +12510,7 @@ function initPkg_VideoTools_Func() {
 
 let videoScale = 1;
 function initPkg_VideoTools_VideoZoom() {
-    let domWrap = document.getElementsByClassName("layout-Player-video")[0];
+    let domWrap = getValidDom([".layout-Player-video", ".layout-Player-videoEntity"]);
     let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
 
     let x = 0;
@@ -13314,7 +13784,7 @@ function getRealLive_Douyu(room_id, is_video, is_https, qn, reallive_callback) {
     // 第一个参数传入string,表示房间号（注意是真实房间号）
     // 第二个参数传入bool,表示是视频还是音频
     // 第三个参数传入bool,表示是否返回https地址。注意https地址只能使用一次，使用过以后需要再次获取；http地址无限制
-    // 第四个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:0) 填写1015则返回默认清晰度
+    // 第四个参数传入string(1,2,3,4),表示清晰度 流畅_550p(rate:1) 高清_1200p(rate:2) 超清_2000p(rate:3) 蓝光4M_4000p(rate:0) 填写1428则返回默认清晰度
     // 第五个参数传入回调函数，最好是箭头函数，用于处理返回的地址，例: (url) => {console.log(url)}
     let tt0 = Math.round(new Date().getTime()/1000).toString();
     if (is_video) {
@@ -13350,7 +13820,7 @@ function getRealLive_Douyu(room_id, is_video, is_https, qn, reallive_callback) {
 function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video) {
     let param1 = ub98484234_ex(r, getDyDid(), tt);
     let postData;
-    if (qn == "1015") {
+    if (qn == "1428") {
         postData = param1 + "&ver=219032101&rid=" + r + "&rate=1";
     } else {
         postData = param1 + "&ver=219032101&rid=" + r + "&rate=" + qn;
@@ -13406,8 +13876,8 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
                     realLive = String(ret.data.url).replace("m3u8", "flv");
                     realLive = realLive.replace("http:", "https:");
                 } else {
-                    if (qn == "1015" || cl == "") {
-                        // qn写1015则不返回清晰度，即默认
+                    if (qn == "1428" || cl == "") {
+                        // qn写1428则不返回清晰度，即默认
                         // realLive = "http://tx2play1.douyucdn.cn/live/" + result + ".xs";
                         // realLive = "http://dyscdnali1.douyucdn.cn/live/" + result + ".flv?uuid=";
                         realLive = "https://openflv-huos.douyucdn2.cn/dyliveflv1/" + result + ".flv?uuid=";
@@ -13426,7 +13896,7 @@ function RealLive_get_sign_url(r, tt, is_https, qn, reallive_callback, is_video)
 function RealLive_get_sign_url_pc(r, tt, is_https, qn, reallive_callback) {
     let param1 = ub98484234_ex_pc(r, getDyDid(), tt);
     let postData;
-    if (qn == "1015") {
+    if (qn == "1428") {
         postData = param1 + "&ver=219032101&cdn=hs-h5&rid=" + r + "&rate=0";
     } else {
         postData = param1 + "&ver=219032101&cdn=hs-h5&rid=" + r + "&rate=" + qn;
@@ -13949,7 +14419,8 @@ function initRouter_DouyuRoom_Main() {
     let intID = setInterval(() => {
         let dom1 = document.getElementsByClassName("BackpackButton")[0];
         let dom2 = document.getElementsByClassName("Barrage-main")[0];
-        if (!dom1 || !dom2) {
+        let dom3 = document.getElementsByClassName("ToolbarGiftArea-backpack")[0];
+        if (!dom2 || (!dom1 && !dom3)) {
             return;
         }
         setTimeout(() => {

@@ -4,21 +4,22 @@ function initPkg_BagInfo() {
 }
 
 function initPkg_BagInfo_Func() {
-    let backpackDom = document.getElementsByClassName("BackpackButton")[0];
+    let backpackDom = getValidDom([".BackpackButton", ".ToolbarGiftArea-backpack--content"])
     if (!backpackDom) {
         return;
     }
-	document.getElementsByClassName("BackpackButton")[0].addEventListener("click", function() {
+	backpackDom.addEventListener("click", function() {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
-            if (document.getElementsByClassName("Backpack JS_Backpack").length > 0) {
+            const isBeta = !!document.getElementsByClassName("BackpackExpandPanel")[0];
+            if (getValidDom([".Backpack.JS_Backpack", ".BackpackExpandPanel"])) {
                 getBagGifts(rid, (ret) => {
                     let chunkNum = ret.data.list.length;
                     if (chunkNum > 0) {
                         let totalPrice = 0;
                         let totalIntimate = 0;
                         for (let i = 0; i < chunkNum; i++) {
-                            let chunk = document.getElementsByClassName("Backpack-prop")[i];
+                            let chunk = getValidDomList([".Backpack-prop", ".ToolbarBackpack-giftItem"])[i];
                             let isValuable = ret.data.list[i].isValuable; // 判断是否是有价值的礼物
                             let expiry = ret.data.list[i].expiry; // 过期时间
                             let price = ret.data.list[i].price; // 注意这个要除100才是真实价格，否则是亲密度
@@ -30,11 +31,28 @@ function initPkg_BagInfo_Func() {
                             totalIntimate = totalIntimate + Number(intimate) * Number(count);
                             let expiryDiv = document.createElement("div");
                             expiryDiv.className = "bag-info";
+                            if (isBeta) {
+                                expiryDiv.style.left = "8px";
+                                expiryDiv.style.bottom = "auto";
+                            }
                             expiryDiv.innerHTML = expiry - 1;
                             chunk.insertBefore(expiryDiv, chunk.childNodes[0]);
                         }
-                        let html = document.getElementsByClassName("BackpackHeader-extInfo")[0].innerHTML;
-                        document.getElementsByClassName("BackpackHeader-extInfo")[0].innerHTML = `<span style="float: left">` + "总价值：" + String(Number(totalPrice / 100).toFixed(2)) + " 总亲密度：" + String(totalIntimate) + `<span class="bag-button" id="Backpack__clearbag">清空背包</span></span>` + html;
+                        const headerDom = getValidDom([".BackpackHeader-extInfo", ".BackpackExpandPanel-backpackHeader"]);
+                        if (isBeta) {
+                            headerDom.innerHTML = headerDom.innerHTML + 
+                            `<span style="width: 100%;display: flex;justify-content: space-between;align-items: center;flex: 1;margin-left: 12px;">
+                                <span>
+                                    <span>总价值:</span>
+                                    <span>￥${String(Number(totalPrice / 100).toFixed(2))}</span>
+                                    <span>总亲密度:</span>
+                                    <span>${String(totalIntimate)}</span>
+                                </span>
+                                <span class="bag-button" id="Backpack__clearbag" style="background: rgb(70, 171, 255) !important;color: white !important;">清空背包</span>
+                            </span>`
+                        } else {
+                            headerDom.innerHTML = `<span style="float: left">` + "总价值：" + String(Number(totalPrice / 100).toFixed(2)) + " 总亲密度：" + String(totalIntimate) + `<span class="bag-button" id="Backpack__clearbag">清空背包</span></span>` + headerDom.innerHTML;
+                        }
                         
                         document.getElementById("Backpack__clearbag").addEventListener("click", () => {
                             if (confirm("确认清空？") != true) {

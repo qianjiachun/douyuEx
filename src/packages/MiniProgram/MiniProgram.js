@@ -27,7 +27,7 @@ function MiniProgram_insertModal() {
 		</div>
 		<div class="miniprogram__triangle"></div>
     `;
-	let b = document.getElementsByClassName("PlayerToolbar-Wealth")[0];
+	let b = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"]);
 	b.insertBefore(a, b.childNodes[0]);
 }
 

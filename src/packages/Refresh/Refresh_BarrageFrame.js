@@ -19,23 +19,19 @@ function Refresh_BarrageFrame_insertIcon() {
 function initPkg_Refresh_BarrageFrame_Func() {
 	document.getElementById("refresh-barrage-frame").addEventListener("click", function() {
         let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
-        let dom_barrage = document.getElementById("js-player-barrage");
         let dom_activity = document.getElementById("js-room-activity");
         let dom_topBarrage = document.getElementsByClassName("Barrage")[0];
         if (dom_rank.style.display == "none") {
             // 被拉高
             dom_rank.style.display = "block";
-            dom_barrage.style = "";
             dom_activity.style.display = "block";
             dom_topBarrage.className = "Barrage";
             document.getElementById("refresh-barrage-frame__text").innerText = "拉高";
 
         } else {
             // 没拉高
-            let topHeight = document.getElementsByClassName("layout-Player-announce")[0].offsetHeight;
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
-            dom_barrage.style = "top:" + topHeight + "px";
             dom_topBarrage.className = "Barrage top-0-important";
             document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
@@ -64,12 +60,9 @@ function initPkg_Refresh_BarrageFrame_Set() {
         }
         if (retJson.barrageFrame.status == true) {
             let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
-            let dom_barrage = document.getElementById("js-player-barrage");
             let dom_activity = document.getElementById("js-room-activity");
-            let topHeight = document.getElementsByClassName("layout-Player-announce")[0].offsetHeight;
             dom_rank.style.display = "none";
             dom_activity.style.display = "none";
-            dom_barrage.style = "top:" + topHeight + "px";
             document.getElementById("refresh-barrage-frame__text").innerText = "恢复";
         }
     }

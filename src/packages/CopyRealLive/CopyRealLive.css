@@ -1,3 +1,16 @@
 #copy-real-live {
     cursor: pointer;
 }
+.Title-row-span, .Title-row-icon  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Title-row-icon {
+    margin-right: 4px;
+}
+
+.live-next-body #copy-real-live {
+    margin-left: 4px;
+}

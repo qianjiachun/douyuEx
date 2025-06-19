@@ -3,7 +3,7 @@ function initPkg_DanmakuCollect() {
   const textarea = document.getElementsByClassName("ChatSend-txt")[0];
   const collectButton = document.getElementsByClassName("ChatBarrageCollect")[0];
   textarea.addEventListener("keyup", () => {
-    const length = textarea.value.length;
+    const length = typeof textarea.value === "string" ? textarea.value.length : textarea.innerText.length;
     if (length > 25) {
       collectButton.style.display = "none";
     } else {
