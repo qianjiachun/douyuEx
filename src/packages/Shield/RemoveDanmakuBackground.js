@@ -62,6 +62,9 @@ function removeDanmakuBackground() {
       .customBarrage > div {
         background: none !important;
       }
+      .PlayerCustomBarrage-prefixPlugin--text {
+        display: none !important;
+      }
   `
   );
 }
