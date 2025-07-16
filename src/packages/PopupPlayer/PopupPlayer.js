@@ -39,7 +39,7 @@ function PopupPlayer_insertPrompt() {
 
     a.innerHTML = html;
 
-    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);
     b.insertBefore(a, b.childNodes[0]);
 }
 
@@ -226,7 +226,7 @@ function createNewVideo_Douyu(id, rid) {
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -342,7 +342,7 @@ function createNewAudio_Douyu(id, rid) {
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -372,7 +372,7 @@ function createNewVideo_Bilibili(id, rid){
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -482,7 +482,7 @@ function createNewVideo_Huya(id, rid, rname){
             html += "</div>";
             html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
             a.innerHTML = html;
-            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
+            let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);
             b.insertBefore(a, b.childNodes[0]);
             setElementDrag(id);
             setElementResize(id);
@@ -590,7 +590,7 @@ function createNewVideo_iframe(id, url) {
     html += "<iframe class='exVideoPlayer' id='exVideoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
     html += "<div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
     a.innerHTML = html;
-    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);
     b.insertBefore(a, b.childNodes[0]);
     setElementDrag(id);
     setElementResize(id);
@@ -641,7 +641,7 @@ function createNewVideo_Stream(id, lurl) {
     html += "</div>";
     html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
     a.innerHTML = html;
-    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
+    let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);
     b.insertBefore(a, b.childNodes[0]);
     setElementDrag(id);
     setElementResize(id);

@@ -39,6 +39,6 @@
 }
 
 /* 新版斗鱼右侧弹幕Panel的bottom */
-.container__NmNfZ .layout-Player-chat>* {
+.live-next-body .layout-Player-chat>* {
 	bottom: 0 !important;
 }
