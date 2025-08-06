@@ -206,7 +206,7 @@ function setReplyBarrageButton(dom) {
 
 function setBarrgePanelFunc(parentDom, id) {
     document.getElementById("barragePanel__reply").onclick = () => {
-        let txt = parentDom.getElementsByClassName("danmuContent-25f266")[0].innerText;
+        let txt = document.getElementsByClassName("danmuContent-25f266")[0].innerText;
         const chatDom = document.getElementsByClassName("ChatSend-txt")[0];
         const value = `@${ id }：${ txt }`;
         if (chatDom.tagName == "TEXTAREA") {
@@ -214,6 +214,7 @@ function setBarrgePanelFunc(parentDom, id) {
         } else {
             chatDom.innerText = value;
         }
+        chatDom.focus();
     };
 
     document.getElementById("barragePanel__mute").onclick = async () => {
