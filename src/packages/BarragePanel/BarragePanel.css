@@ -9,9 +9,9 @@
 
 .barragePanel__funcPanel::-webkit-scrollbar {display:none}
 .barragePanel__muteTime {
-    position: absolute;
+    /* position: absolute;
     left: 25px;
-    top: 123px;
+    top: 123px; */
     z-index: 5;
 }
 
