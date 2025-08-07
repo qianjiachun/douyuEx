@@ -4,6 +4,8 @@ function initPkg_AccountList() {
     // GM_deleteValue("Ex_accountList");
     // GM_deleteValue("Ex_accountListPassport");
     // return;
+    const isBeta = !!document.getElementsByClassName("live-next-body")[0];
+    if (isBeta) return;
     initPkg_AccountList_Dom();
     initPkg_AccountList_Func();
 }
