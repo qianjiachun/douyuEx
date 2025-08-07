@@ -1,7 +1,7 @@
 let followListHook;
 function initPkg_FollowList() {
     let intID = setInterval(() => {
-        if (getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"])) {
+        if (getValidDom([".Header-follow-content", "#js-backpack-enter"])) {
             followListHook = new DomHook(".Header-follow-content", false, handleFollowList);
             clearInterval(intID);
         }
