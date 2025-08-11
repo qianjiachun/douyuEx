@@ -298,6 +298,8 @@ function setNightMode() {
     .contentTitle, .DropMenuList-name, .videoTitle, .DropPaneList-title{color: rgb(187,187,187) !important;}
     .UserInfo span, .UserInfo a, .UserInfo p, .UserInfo div{color: rgb(187,187,187) !important;}
     .button-7e1395{background: rgb(239,239,239);}
+    .Search-Panel-Explore-item, .Search-Panel-Popular-item>span,.Search-Panel-Popular-item>em{color: rgb(187,187,187) !important}
+    .Search-Panel-Popular-item:hover{background: rgb(47,48,53) !important;}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
 }

@@ -70,6 +70,6 @@ function setRefreshBarrage() {
 function cancelRefreshBarrage() {
     StyleHook_remove("Ex_Style_RefreshBarrage");
     current_barrage_status = 0;
-    document.getElementById("refresh-barrage").style.backgroundColor = "#fff";
+    document.getElementById("refresh-barrage").style.backgroundColor = "";
     document.getElementById("refresh-barrage__text").style.color = "";
 }

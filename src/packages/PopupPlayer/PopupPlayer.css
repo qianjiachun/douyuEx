@@ -55,3 +55,7 @@
 .postbird-box-header {
     width: auto !important;
 }
+
+.postbird-box-dialog {
+    color: #333;
+}

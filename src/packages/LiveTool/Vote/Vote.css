@@ -45,6 +45,7 @@
     border-radius: 10px;
     user-select: none;
     display: none;
+    color: #333;
 }
 
 #vote__result-theme {

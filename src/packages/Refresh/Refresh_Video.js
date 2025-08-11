@@ -51,7 +51,7 @@ function initPkg_Refresh_Video_Func() {
         const dom_player_toolbar = document.getElementById("js-player-toolbar");
         dom_player_toolbar.style = video_fullPage? "z-index:20" : "z-index:30";
         const isBeta = !!document.getElementsByClassName("live-next-body")[0];
-        if (isBeta) dom_player_toolbar.style = "z-index:20";
+        if (isBeta) dom_player_toolbar.parentElement.style = "z-index:20";
     }
 
 	document.getElementById("refresh-video").addEventListener("click", (e) => {
@@ -133,7 +133,7 @@ function initPkg_Refresh_Video_Set() {
                 }
             }
             const isBeta = !!document.getElementsByClassName("live-next-body")[0];
-            if (isBeta) dom_player_toolbar.style = "z-index:20";
+            if (isBeta) dom_player_toolbar.parentElement.style = "z-index:20";
             dom_refresh2.style.display = "block";
             dom_refresh.innerText = "√ 简洁模式";
             refresh_Video_setStyle();
