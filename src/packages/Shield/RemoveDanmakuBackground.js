@@ -52,7 +52,7 @@ function removeDanmakuBackground() {
       .super-text-0281ca {
         background: none !important;
       }
-      .danmuItem-31f924 .noble-bf13ad {
+      .danmuItem-31f924 .noble-f439ef {
         background: none !important;
       }
       .customBarrage {
@@ -61,6 +61,9 @@ function removeDanmakuBackground() {
       }
       .customBarrage > div {
         background: none !important;
+      }
+      .PlayerCustomBarrage-prefixPlugin--text {
+        display: none !important;
       }
   `
   );

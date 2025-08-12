@@ -86,3 +86,7 @@
 #ex-accountList-icon:hover > #ex-accountList-wrap {
     display: block;
 }
+
+#ex-accountList-content {
+    background-color: white;
+}

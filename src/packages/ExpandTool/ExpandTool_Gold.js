@@ -163,11 +163,11 @@ function goldBarrageList(m) {
             }else{//point to a fans medal when room have none of fans medal
                 let fansTag2 = document.createElement("div");
                 fansTag2.className="FansMedal level-50 js-fans-dysclick Barrage-icon";
-                fansTag2.setAttribute("data-rid","5189167");
+                fansTag2.setAttribute("data-rid","4042402");
                 let fansSpan2 = document.createElement("span");
                 fansSpan2.className = "FansMedal-name js-fans-dysclick";
-                fansSpan2.setAttribute("data-rid","5189167");
-                fansSpan2.innerHTML = "歆崽";
+                fansSpan2.setAttribute("data-rid","4042402");
+                fansSpan2.innerHTML = "二九汪";
                 fansTag2.appendChild(fansSpan2);
                 chatArea.insertBefore(fansTag2,chatArea.querySelector(".UserLevel"));
             }

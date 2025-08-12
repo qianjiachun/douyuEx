@@ -27,16 +27,17 @@ function setBarragePanelCallBack() {
                     if ("getElementsByClassName" in barragePanel == false) {
                         return;
                     }
+                    const barragePanelButton = barragePanel.getElementsByClassName("buttonGroup-de6b66")[0];
                     let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
                     let id = "";
                     if (userNameDom.length > 0) {
                         id = userNameDom[0].innerText;
                         setUserFansMedal(userNameDom[0], id);
-                        setMuteButton(barragePanel);
-                        setSearchBarrageButton(barragePanel);
-                        setMuteTimeButton(barragePanel);
-                        setReplyBarrageButton(barragePanel);
-                        setBarrgePanelFunc(barragePanel, id);
+                        setReplyBarrageButton(barragePanelButton);
+                        setSearchBarrageButton(barragePanelButton);
+                        setBarragePanelButtonSplit(barragePanelButton);
+                        setMuteButton(barragePanelButton);
+                        setBarrgePanelFunc(barragePanelButton, id);
                     }
                 }
             } else {
@@ -48,17 +49,18 @@ function setBarragePanelCallBack() {
                 if (barragePanel == undefined) {
                     return;
                 }
+                const barragePanelButton = barragePanel.getElementsByClassName("buttonGroup-de6b66")[0];
                 let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
                 
                 let id = "";
                 if (userNameDom.length > 0) {
                     id = userNameDom[0].innerText;
                     setUserFansMedal(userNameDom[0], id);
-                    setMuteButton(barragePanel);
-                    setSearchBarrageButton(barragePanel);
-                    setMuteTimeButton(barragePanel);
-                    setReplyBarrageButton(barragePanel);
-                    setBarrgePanelFunc(barragePanel, id);
+                    setReplyBarrageButton(barragePanelButton);
+                    setSearchBarrageButton(barragePanelButton);
+                    setBarragePanelButtonSplit(barragePanelButton);
+                    setMuteButton(barragePanelButton);
+                    setBarrgePanelFunc(barragePanelButton, id);
                 }
                 const contentDom = document.getElementsByClassName("danmuContent-25f266")[0];
                 if (!contentDom) return;
@@ -85,7 +87,7 @@ function getUserFansMedal(userName) {
     for (let i = barrageList.length - 1; i >= 0; i--) {
         let barragePanel = barrageList[i].lastElementChild;
         if (barragePanel != null && barragePanel != undefined && barragePanel.innerHTML.indexOf(userName) != -1) {
-            let fansElement = barragePanel.getElementsByClassName("FansMedal");
+            let fansElement = barragePanel.getElementsByClassName("FansMedalWrap");
             if (fansElement.length > 0) {
                 ret = fansElement[0].cloneNode(true);
                 break;
@@ -139,16 +141,43 @@ function setUserFansMedal(dom, userName) {
     }
 }
 
+function setBarragePanelButtonSplit(dom) {
+    if (document.getElementById("barragePanel__split") != null) {
+        return;
+    }
+    let a = document.createElement("br");
+    a.id = "barragePanel__split";
+    dom.appendChild(a);
+}
+
 function setMuteButton(dom) {
     if (document.getElementById("barragePanel__mute") != null) {
         return;
     }
+    if (document.getElementsByClassName("barragePanel__muteTime").length > 0) {
+        return;
+    }
     let a = document.createElement("div");
-    a.className = "ReportButton-41fa9e";
-    a.id = "barragePanel__mute";
-    a.innerText = "禁言";
-    a.style = "margin-top:120px;z-index:5";
-    dom.insertBefore(a, dom.childNodes[0]);
+    a.style = "display:flex;align-items:center;width:100%;gap:8px;";
+    a.innerHTML = `
+        <div class="button-7e1395" id="barragePanel__mute" style="z-index:5">禁言</div>
+        <div class="barragePanel__muteTime" style="z-index:5">
+            <select id="barragePanel__muteSelect" style='width:55px'>
+                <option value="1">1分钟</option>
+                <option value="10">10分钟</option>
+                <option value="30">30分钟</option>
+                <option value="60">1小时</option>
+                <option value="480">8小时</option>
+                <option value="1440">1天</option>
+                <option value="4320">3天</option>
+                <option value="10080">7天</option>
+                <option value="43200">30天</option>
+                <option value="259200">180天</option>
+                <option value="518400">360天</option>
+            </select>
+        </div>
+    `
+    dom.appendChild(a);
 }
 
 function setSearchBarrageButton(dom) {
@@ -156,11 +185,11 @@ function setSearchBarrageButton(dom) {
         return;
     }
     let a = document.createElement("div");
-    a.className = "HideButton-d22988";
+    a.className = "button-7e1395";
     a.innerText = "查弹幕";
     a.id = "barragePanel__search";
-    a.style = "margin-top:120px;z-index:5";
-    dom.insertBefore(a, dom.childNodes[0]);
+    a.style = "z-index:5";
+    dom.appendChild(a);
 }
 
 function setReplyBarrageButton(dom) {
@@ -168,40 +197,16 @@ function setReplyBarrageButton(dom) {
         return;
     }
     let a = document.createElement("div");
-    a.className = "HideButton-d22988";
+    a.className = "button-7e1395";
     a.innerText = "回复";
     a.id = "barragePanel__reply";
-    a.style = "margin-top:90px;z-index:5";
-    dom.insertBefore(a, dom.childNodes[0]);
-}
-
-function setMuteTimeButton(dom) {
-    if (document.getElementsByClassName("barragePanel__muteTime").length > 0) {
-        return;
-    }
-    let a = document.createElement("div");
-    a.className = "barragePanel__muteTime";
-    a.innerHTML = `
-    <select id="barragePanel__muteSelect" style='width:55px'>
-        <option value="1">1分钟</option>
-        <option value="10">10分钟</option>
-        <option value="30">30分钟</option>
-        <option value="60">1小时</option>
-        <option value="480">8小时</option>
-        <option value="1440">1天</option>
-        <option value="4320">3天</option>
-        <option value="10080">7天</option>
-        <option value="43200">30天</option>
-        <option value="259200">180天</option>
-        <option value="518400">360天</option>
-    </select>
-    `;
-    dom.insertBefore(a, dom.childNodes[0]);
+    a.style = "z-index:5";
+    dom.appendChild(a);
 }
 
 function setBarrgePanelFunc(parentDom, id) {
     document.getElementById("barragePanel__reply").onclick = () => {
-        let txt = parentDom.getElementsByClassName("danmuContent-25f266")[0].innerText;
+        let txt = document.getElementsByClassName("danmuContent-25f266")[0].innerText;
         const chatDom = document.getElementsByClassName("ChatSend-txt")[0];
         const value = `@${ id }：${ txt }`;
         if (chatDom.tagName == "TEXTAREA") {
@@ -209,6 +214,7 @@ function setBarrgePanelFunc(parentDom, id) {
         } else {
             chatDom.innerText = value;
         }
+        chatDom.focus();
     };
 
     document.getElementById("barragePanel__mute").onclick = async () => {

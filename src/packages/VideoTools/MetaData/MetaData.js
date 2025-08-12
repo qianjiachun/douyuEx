@@ -42,7 +42,7 @@ function MetaData_init() {
       a.className = "exVideoDiv";
       html += "<video controls='controls' class='exVideoPlayer' id='exVideoPlayer" + String(id) + "'></video><div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
       a.innerHTML = html;
-      let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".container__NmNfZ"]);
+      let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);
       b.insertBefore(a, b.childNodes[0]);
       if (flvjs.isSupported()) {
         let videoElement = document.getElementById("exVideoPlayer" + id);

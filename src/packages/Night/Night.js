@@ -3,6 +3,8 @@ let svg_day = '<svg t="1587640423416" class="icon" viewBox="0 0 1024 1024" versi
 
 let currentMode = 0; // 0日间模式 1夜间模式
 function initPkg_Night() {
+    const isBeta = !!document.getElementsByClassName("live-next-body")[0];
+    if (isBeta) return;
 	initPkg_Night_Dom();
     initPkg_Night_Func();
     initPkg_Night_Set();
@@ -94,6 +96,8 @@ function initPkg_Night_Func() {
 }
 
 function setNightMode() {
+    const isBeta = !!document.getElementsByClassName("live-next-body")[0];
+    if (isBeta) return;
     let cssText = `
     .layout-Player-barrage,.Barrage--paddedBarrage,.Barrage-firstCharge,.Barrage-notice--replyBarrage{background-color:rgba(37,38,42,1) !important;}
     .Barrage-userEnter{background-color:rgba(37,38,42,1) !important;color:rgba(187,187,187,1) !important;}
@@ -105,7 +109,7 @@ function setNightMode() {
     .Title-anchorText{color:rgba(107,176,125,1) !important;}
     .Title-row-text,.Title-anchorName{color:rgba(153,153,153,1) !important;}
     #js-player-toolbar{background:rgb(37,38,42) !important;border:1px solid rgb(37,38,42) !important;}
-    .PlayerToolbar-wealthNum,.Header-wrap .Header-menu-link>a,.public-DropMenu-link,.Header-icon{color:rgb(191,191,191) !important;}
+    .PlayerToolbar-wealthNum,.Header-wrap .Header-menu-link>a,.public-DropMenu-link,.Header-icon{color:rgb(191,191,191) !important;--mantine-color-dark-5:rgb(191,191,191) !important;--mantine-color-dark-3:rgb(191,191,191) !important;}
     .layout-Main{background:rgba(35,36,39,1) !important;}
     .ChatRank-rankWraper{background:rgba(47,48,53,1) !important;border:rgba(47,48,53,1) solid 1px !important;}
     .bg-icon{display:none;}
@@ -121,6 +125,11 @@ function setNightMode() {
     .FansRankBottom,.AnchorFriend-footer{border-top:1px solid rgb(47,48,53) !important;}
     .Title-official{background:rgb(35,36,39) !important;}
     .Header-wrap{background:rgb(45,46,54) !important;border-bottom:1px solid rgb(45,46,54) !important;}
+    [data-mantine-color-scheme=light] .Header-wrap:not(.is-darkMode):not(.NewActNavIng){background:rgb(45,46,54) !important;border-bottom:1px solid rgb(45,46,54) !important;}
+    .Header-follow{--mantine-color-gray-2: rgba(47,48,53,1) !important;--mantine-color-dark-5:rgb(191,191,191) !important;--mantine-color-dark-3:rgb(191,191,191) !important;}
+    .Header-follow-listBoxLine{display: none !important;}
+    .DropPaneList>a:hover{background: rgb(47,48,53) !important;}
+    .DropPaneList>a:hover, .DropPaneList>a:hover .DropPaneList-title, .DropPaneList>a:hover h4{color: var(--Header-hover-color) !important;}
     .layout-Menu{background:rgb(47,48,53) !important;border-color:rgb(35,36,39) !important;}
     .GuessMainPanel{background:rgba(47,48,53,0.9) !important;border:1px solid rgb(47,48,53) !important;}
     .danmuAuthor-3d7b4a{color:rgb(234,234,234) !important;}
@@ -282,13 +291,15 @@ function setNightMode() {
     .index-module__pluginItem-PCGnX, .index-module__header-dV497,.index-module__header-UVoJc,.Editor-module__editor--2Cm2{color: rgb(187,187,187) !important;}
     .index-module__header-dV497{border-bottom: 1px solid var(--ex-night-third-bg) !important;}
 
-
-
     /* sc */
     .HighEnergyBarrageContainer{border-top:1px solid transparent !important;}
+
+
+    .contentTitle, .DropMenuList-name, .videoTitle, .DropPaneList-title{color: rgb(187,187,187) !important;}
+    .UserInfo span, .UserInfo a, .UserInfo p, .UserInfo div{color: rgb(187,187,187) !important;}
+    .button-7e1395{background: rgb(239,239,239);}
     `;
     StyleHook_set("Ex_Style_NightMode", cssText);
-
 }
 function cancelNightMode() {
     StyleHook_remove("Ex_Style_NightMode");

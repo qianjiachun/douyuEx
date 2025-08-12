@@ -9,12 +9,19 @@
 
 .barragePanel__funcPanel::-webkit-scrollbar {display:none}
 .barragePanel__muteTime {
-    position: absolute;
+    /* position: absolute;
     left: 25px;
-    top: 123px;
+    top: 123px; */
     z-index: 5;
 }
 
 .danmuContent-25f266 {
     pointer-events: auto !important;
+}
+
+.thirdBtn-06cde5, .fourBtn-0845d4 {
+    /* 加宽按钮方便点击 */
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding: 0 17px !important;
 }

@@ -46,7 +46,7 @@ function LiveTool_Gift_insertFunc() {
     document.getElementById("reply__show_gid").addEventListener("click", () => {
         console.log(`
 背包礼物：http://webconf.douyucdn.cn/resource/common/prop_gift_list/prop_gift_config.json
-鱼翅礼物：http://open.douyucdn.cn/api/RoomApi/room/5189167
+鱼翅礼物：http://open.douyucdn.cn/api/RoomApi/room/4042402
 `);
         showMessage("请按F12到控制台(console)查看礼物id", "success");
     });
