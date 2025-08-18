@@ -1,8 +1,7 @@
 function initPkg_DisableCloseJump_Timer() {
   setInterval(() => {
-    let x = document.getElementsByClassName("dy-ModalRadius-close-x");
-    if (x.length > 0) {
-      x[0].click();
-    }
+    const x = document.querySelector(".ClosingRecommend .dy-ModalRadius-close-x");
+    if (!x) return;
+    x.click();
   }, 1000);
 }
