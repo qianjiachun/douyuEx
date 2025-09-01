@@ -24,12 +24,12 @@
 // @match        *://yuba.douyu.com/*
 // @match        *://v.douyu.com/*
 // @match        *://cz.douyu.com/*
-// @require      https://lib.baomitu.com/flv.js/1.6.2/flv.min.js
+// @require      https://registry.npmmirror.com/flv.js/1.6.2/files/dist/flv.min.js
 // @require      https://fastly.jsdelivr.net/npm/svgaplayerweb@2.3.1/build/svga.min.js
-// @require      https://lib.baomitu.com/gif.js/0.2.0/gif.js
-// @require      https://lib.baomitu.com/three.js/80/three.min.js
-// @require      https://lib.baomitu.com/xlsx/0.16.4/xlsx.full.min.js
-// @require      https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/dompurify/2.3.6/purify.min.js
+// @require      https://registry.npmmirror.com/gif.js/0.2.0/files/dist/gif.js
+// @require      https://registry.npmmirror.com/three/0.80.0/files/build/three.min.js
+// @require      https://registry.npmmirror.com/xlsx/0.16.4/files/dist/xlsx.full.min.js
+// @require      https://registry.npmmirror.com/dompurify/2.3.6/files/dist/purify.min.js
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
