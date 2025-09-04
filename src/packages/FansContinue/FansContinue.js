@@ -10,14 +10,36 @@ function FansContinue_insertIcon() {
 	let a = document.createElement("div");
 	a.className = "fans-continue";
 	a.innerHTML = '<a class="ex-panel__icon" title="一键续牌"><img style="width: 32px;height: 32px;" src="https://gfs-op.douyucdn.cn/dygift/1705/7db9beee246848252f1c7fe916259f4e.png"/><i id="fans-continue__tip" class="ex-panel__tip"></i></a>';
-	
+	a.addEventListener("contextmenu", function (e) {
+		e.preventDefault();
+		let savedIds = [];
+		const savedIdsJson = localStorage.getItem('ExSave_FilterIdList');
+		if (savedIdsJson) {
+			try {
+				const parsedIds = JSON.parse(savedIdsJson);
+				savedIds = parsedIds.map(id => Number(id));
+			} catch (error) {
+				console.error('解析 ExSave_FilterIdList 时出错:', error);
+			}
+		}
+		const inputIds = prompt('请输入要过滤的房间号ID，用英文逗号分隔', savedIds.join(','));
+		if (inputIds) {
+			const idList = inputIds.split(',').map(id => id.trim());
+			window.filterIdList = idList;
+			localStorage.setItem('ExSave_FilterIdList', JSON.stringify(idList));
+		}
+	});
 	let b = document.getElementsByClassName("ex-panel__wrap")[0];
 	b.insertBefore(a, b.childNodes[0]);
-	
 }
 
+// 在初始化函数中从 localStorage 加载 ID
 function initPkg_FansContinue_Func() {
-	document.getElementsByClassName("fans-continue")[0].addEventListener("click", function() {
+	const savedIds = localStorage.getItem('ExSave_FilterIdList');
+	if (savedIds) {
+		window.filterIdList = JSON.parse(savedIds);
+	}
+	document.getElementsByClassName("fans-continue")[0].addEventListener("click", function () {
 		let sendNum = prompt("每个直播间赠送几根荧光棒？", "1");
 		if (sendNum == null) {
 			return;
@@ -42,7 +64,7 @@ function initPkg_FansContinue_Func() {
 					showMessage("没有足够的道具", "error");
 					return;
 				};
-				fetch('https://www.douyu.com/member/cp/getFansBadgeList',{
+				fetch('https://www.douyu.com/member/cp/getFansBadgeList', {
 					method: 'GET',
 					mode: 'no-cors',
 					cache: 'default',
@@ -55,6 +77,9 @@ function initPkg_FansContinue_Func() {
 					let n = a.children.length;
 					for (let i = 0; i < n; i++) {
 						let rid = a.children[i].getAttribute("data-fans-room"); // 获取房间号
+						if (window.filterIdList && window.filterIdList.includes(rid)) {
+							continue;
+						}
 						await sleep(250).then(() => {
 							sendGift_bag(giftId, Number(sendNum), rid).then(data => {
 								if (data.msg == "success") {
@@ -78,7 +103,7 @@ function initPkg_FansContinue_Func() {
 				showMessage("背包礼物为空", "error");
 			}
 		});
-		
+
 	});
 }
 
@@ -91,7 +116,7 @@ function sendGift_bag(gid, count, rid) {
 		method: 'POST',
 		mode: 'no-cors',
 		credentials: 'include',
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 		body: 'propId=' + gid + '&propCount=' + count + '&roomId=' + rid + '&bizExt=%7B%22yzxq%22%3A%7B%7D%7D'
 	}).then(res => {
 		return res.json();
