@@ -41,7 +41,7 @@ function removeDanmakuBackground() {
         background: none !important;
       }
       .danmuItem-31f924 div{
-        background: none !important;
+        background: none;
       }
       .danmuItem-31f924 > img {
         display: none;
