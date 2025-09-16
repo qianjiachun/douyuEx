@@ -17,15 +17,23 @@ function initPkg_DanmakuTail_insertDom() {
     chat_panel.insertBefore(panel, chat_panel.childNodes[0]);
 
     if (!window.location.href.includes("/beta")) {
-        panel.style.bottom = "120px";
+        panel.style.bottom = "140px";
     }
 
     panel.innerHTML = `
         <div class="ChatToolBar-DanmakuTail-title">弹幕小尾巴</div>
         <input type="text" class="DanmakuTail-input" id="DanmakuTail-input" placeholder="请输入小尾巴内容"/>
+        <div class="DanmakuTail-option-label">
+            <label for="DanmakuTail-option-label1">
+                <input type="radio" name="DanmakuTailType" value="1" id="DanmakuTail-option-label1"> 前缀
+            </label>
+            <label for="DanmakuTail-option-label2">
+                <input type="radio" name="DanmakuTailType" value="2" id="DanmakuTail-option-label2" checked> 后缀
+            </label>
+        </div>
         <label class="DanmakuTail-checkbox-label">
             <input type="checkbox" class="DanmakuTail-checkbox" id="DanmakuTail-checkbox" />
-            启用小尾巴
+            启用功能
         </label>
     `;
 }
@@ -37,6 +45,14 @@ function initPkg_DanmakuTail_Set() {
         document.getElementById("DanmakuTail-checkbox").checked = retJson.isTailEnabled;
         document.getElementById("DanmakuTail-input").value = retJson.tailContent || "";
         document.getElementById("DanmakuTail-input").disabled = retJson.isTailEnabled;
+        document.querySelectorAll('input[name="DanmakuTailType"]')[0].disabled = retJson.isTailEnabled;
+        document.querySelectorAll('input[name="DanmakuTailType"]')[1].disabled = retJson.isTailEnabled;
+        if (!retJson.type) {
+            document.querySelector(`input[name="DanmakuTailType"][value="2"]`).checked = true;
+        } else {
+            document.querySelector(`input[name="DanmakuTailType"][value="${retJson.type}"]`).checked = true;
+            saveData_DanmakuTail();
+        }
         if (retJson.isTailEnabled) {
             document.querySelector(".ChatToolBar-DanmakuTail-tip").classList.add("ChatToolBar-DanmakuTail-tip-active");
         }
@@ -47,7 +63,8 @@ function initPkg_DanmakuTail_Set() {
 function saveData_DanmakuTail() {
     let data = {
         isTailEnabled: document.getElementById("DanmakuTail-checkbox").checked,
-        tailContent: document.getElementById("DanmakuTail-input").value
+        tailContent: document.getElementById("DanmakuTail-input").value,
+        type: document.querySelector('input[name="DanmakuTailType"]:checked').value
     }
     localStorage.setItem("ExSave_DanmakuTail", JSON.stringify(data));
 }
@@ -63,6 +80,11 @@ function initPkg_DanmakuTail_Func() {
     document.getElementById("DanmakuTail-checkbox").addEventListener("change", function () {
         saveData_DanmakuTail();
     });
+    document.querySelectorAll('input[name="DanmakuTailType"]').forEach((elem) => {
+        elem.addEventListener("change", function () {
+            saveData_DanmakuTail();
+        });
+    });
     document.getElementById("DanmakuTail-input").addEventListener("input", function () {
         saveData_DanmakuTail();
     });
@@ -75,7 +97,7 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
     let clickHandler = null;
 
     // 开启
-    function enable(content) {
+    function enable(content, type_value) {
         if (window.location.href.includes("/beta")) {
             let textarea = document.querySelector("div.ChatSend-txt");
             const button = document.querySelector(".ChatSend-button");
@@ -95,7 +117,11 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
             clickHandler = function (e) {
                 if (textarea.innerText.trim() == "") return;
                 if (!textarea.innerText.endsWith(content)) {
-                    textarea.innerText = textarea.innerText + content;
+                    if (type_value === "1") {
+                        textarea.innerText = content + textarea.innerText;
+                    } else {
+                        textarea.innerText = textarea.innerText + content;
+                    }
                     textarea.dispatchEvent(new Event("input", { bubbles: true }));
                 }
             };
@@ -120,7 +146,11 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
             clickHandler = function (e) {
                 if (textarea.value.trim() == "") return;
                 if (!textarea.value.endsWith(content)) {
-                    textarea.value = textarea.value + content;
+                    if (type_value === "1") {
+                        textarea.value = content + textarea.value;
+                    } else {
+                        textarea.value = textarea.value + content;
+                    }
                     textarea.dispatchEvent(new Event("input", { bubbles: true }));
                 }
             };
@@ -147,6 +177,8 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
     // 监听 checkbox
     const checkbox = document.querySelector(checkboxSelector);
     const input = document.querySelector(inputSelector);
+    const type = document.querySelectorAll('input[name="DanmakuTailType"]');
+    let type_value = document.querySelector('input[name="DanmakuTailType"]:checked').value;
 
     if (checkbox) {
         checkbox.addEventListener("change", function () {
@@ -158,18 +190,21 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
             }
 
             input.disabled = checkbox.checked;
+            type[0].disabled = checkbox.checked;
+            type[1].disabled = checkbox.checked;
             document.querySelector(".ChatToolBar-DanmakuTail-tip").classList.remove("ChatToolBar-DanmakuTail-tip-active");
 
             disable();
             if (checkbox.checked && input) {
                 document.querySelector(".ChatToolBar-DanmakuTail-tip").classList.add("ChatToolBar-DanmakuTail-tip-active");
                 let content = input.value.trim();
-                enable(content);
+                type_value = document.querySelector('input[name="DanmakuTailType"]:checked').value;
+                enable(content, type_value);
             }
         });
 
         if (checkbox.checked && input) {
-            enable(input.value.trim());
+            enable(input.value.trim(), type_value);
         }
     }
 
