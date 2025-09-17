@@ -116,7 +116,16 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
 
             clickHandler = function (e) {
                 if (textarea.innerText.trim() == "") return;
-                if (!textarea.innerText.endsWith(content)) {
+                let shouldAdd = false;
+                if (type_value === "1") {
+                    // 前缀模式：检查是否以内容开头
+                    shouldAdd = !textarea.innerText.startsWith(content);
+                } else {
+                    // 后缀模式：检查是否以内容结尾
+                    shouldAdd = !textarea.innerText.endsWith(content);
+                }
+                
+                if (shouldAdd) {
                     if (type_value === "1") {
                         textarea.innerText = content + textarea.innerText;
                     } else {
@@ -145,7 +154,16 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
 
             clickHandler = function (e) {
                 if (textarea.value.trim() == "") return;
-                if (!textarea.value.endsWith(content)) {
+                let shouldAdd = false;
+                if (type_value === "1") {
+                    // 前缀模式：检查是否以内容开头
+                    shouldAdd = !textarea.value.startsWith(content);
+                } else {
+                    // 后缀模式：检查是否以内容结尾
+                    shouldAdd = !textarea.value.endsWith(content);
+                }
+                
+                if (shouldAdd) {
                     if (type_value === "1") {
                         textarea.value = content + textarea.value;
                     } else {
