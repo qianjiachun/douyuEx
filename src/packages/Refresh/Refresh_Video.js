@@ -40,16 +40,33 @@ function initPkg_Refresh_Video_Func() {
     new DomHook(".right-17e251", true, () => {
         changeToolBarZIndex();
     });
+    new DomHook(".video__VfhVg", true, (m) => {
+        for (const record of m) {
+            if(record.target.className.includes("toggle__P8TKM")){
+                changeToolBarZIndex();
+            }
+        }
+    });
+
 
     function changeToolBarZIndex() {
         let video_fullPage = false;
+        let video_fullScreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+        let chatPanel_isHidden = false;
         if (document.querySelector(".wfs-2a8e83.removed-9d4c42")) {
             video_fullPage = true;
         } else if (document.querySelector(".toggle__P8TKM")) {
             video_fullPage = true;
         }
+        if(document.querySelector(".shrink__Sd0uK")){
+            chatPanel_isHidden = true;
+        }
         const dom_player_toolbar = document.getElementById("js-player-toolbar");
         dom_player_toolbar.style = video_fullPage? "z-index:20" : "z-index:30";
+        const dom_casebar = document.getElementsByClassName("case__f4yex")[0];
+        if(dom_casebar){
+            dom_casebar.style = (video_fullScreen || (video_fullPage && chatPanel_isHidden)) && refresh_Video_getStatus() ? "bottom: -84px;" : "bottom: 0;";
+        }
         const isBeta = !!document.getElementsByClassName("live-next-body")[0];
         if (isBeta) dom_player_toolbar.parentElement.style = "z-index:20";
     }
