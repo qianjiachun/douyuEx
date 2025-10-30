@@ -86,7 +86,7 @@ function initPkg_Refresh_Video_Func() {
             dom_toolbar.style.visibility = "hidden";
             dom_video.style = "bottom:0;z-index:25";
             dom_refresh2.style.display = "block";
-            dom_refresh.innerText = "√ 简洁模式";
+            dom_refresh.innerText = "✓ 简洁模式";
             refresh_Video_setStyle();
         }
         changeToolBarZIndex();
@@ -108,7 +108,7 @@ function initPkg_Refresh_Video_Func() {
             dom_toolbar.style.visibility = "hidden";
             dom_video.style = "bottom:0;z-index:25";
             dom_refresh2.style.display = "block";
-            dom_refresh.innerText = "√ 简洁模式";
+            dom_refresh.innerText = "✓ 简洁模式";
             refresh_Video_setStyle();
         }
         changeToolBarZIndex();
@@ -152,7 +152,7 @@ function initPkg_Refresh_Video_Set() {
             const isBeta = !!document.getElementsByClassName("live-next-body")[0];
             if (isBeta) dom_player_toolbar.parentElement.style = "z-index:20";
             dom_refresh2.style.display = "block";
-            dom_refresh.innerText = "√ 简洁模式";
+            dom_refresh.innerText = "✓ 简洁模式";
             refresh_Video_setStyle();
             resizeWindow();
         }
