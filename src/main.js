@@ -87,7 +87,8 @@ function initPkg() {
 	initPkg_Shield();
 	initPkg_BagInfo();
 	initPkg_Update();
-	initPkg_SyncJoy();
+	// initPkg_SyncJoy();
+	initPkg_Fkbuff();
 	initPkg_Monitor();
 	initPkg_Lottery();
 	// initPkg_MiniProgram();
