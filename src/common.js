@@ -29,20 +29,6 @@ var dyToken = getToken();
 // 功能条的显示定时器
 var exPanelTimer = null;
 
-function showExPanel() {
-	// 显示功能条
-	let a = document.getElementsByClassName("ex-panel")[0];
-	if (a.style.visibility !== 'visible') {
-        a.style.visibility = 'visible';
-        a.style.opacity = '1';
-        clearTimeout(exPanelTimer);
-    } else {
-        a.style.visibility = 'hidden';
-        a.style.opacity = '0';
-        clearTimeout(exPanelTimer);
-    }
-}
-
 function sleep(time) {
 	return new Promise((resolve) => setTimeout(resolve, time));
 }

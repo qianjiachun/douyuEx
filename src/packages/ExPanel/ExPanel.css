@@ -3,12 +3,10 @@
 	bottom: 32px;
 	right: 0px;
 	background-color: rgba(255,255,255,0.9);
-	opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease-in-out; /* 给工具栏出现加一下过渡效果 */
 	border: 2px rgb(234,173,26) solid;
 	z-index: 1428;
 	user-select: none;
+	display: none;
 }
 .ex-panel__wrap {
 	display: flex;
