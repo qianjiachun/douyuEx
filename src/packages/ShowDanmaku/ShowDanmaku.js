@@ -15,7 +15,7 @@ function initPkg_ShowDanmakuOriginAction() {
             // 加一按钮
             newContent = newContent.replace(`if(c&&c.isOpenFireFBComment)`, `if(true)`);
             // 回复按钮
-            newContent = newContent.replace(`if(W&&!this.isFireOpenRank(s))if(parseInt(W,10)&&U&&B>=z&&(!G||G&&M))`, `if(true)if(true) `);
+            newContent = newContent.replace(`if(W&&!this.isFireOpenRank(s))if(parseInt(W,10)&&z&&B>=U&&(!G||G&&M))`, `if(true)if(true) `);
             // 点赞按钮
             newContent = newContent.replace(`else if(1==+Object(r.A)("barrage_praise"))`, `if(true) `);
             return newContent;
