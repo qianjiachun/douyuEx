@@ -25,3 +25,26 @@
 #ex-camera:active > svg > path {
     fill: rgb(253, 60, 60);
 }
+
+#ex-camera-close {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    border: 1px solid rgba(255,255,255,0.3);
+    z-index: 11;
+}
+
+#ex-camera-close:hover {
+    background: rgba(253, 60, 60, 0.9);
+}
