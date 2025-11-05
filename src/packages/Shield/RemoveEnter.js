@@ -1,28 +1,53 @@
+let isRemoveEnterBarrage = getLocalIsRemoveEnterBarrage();
 function initPkg_Shield_RemoveEnter() {
-  let shieldTool = document.getElementsByClassName("ShieldTool-list")[0];
-  let isRemoveEnterBarrage = localStorage.getItem("ExSave_isRemoveEnterBarrage"); // '1'移除check
-  let isChecked = (isRemoveEnterBarrage == null || isRemoveEnterBarrage == '1') ? true : false;
+  const shieldTool = document.getElementsByClassName("FilterKeywords")[0];
   let isSupported = window.CSS && window.CSS.supports && window.CSS.supports('--enter-display', 'none'); //CSS变量兼容性检测
   let barrageExtendContainer = document.getElementById("js-barrage-extend-container");
-  barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", isChecked ? "none" : "block", "important");
-
+  
   if (shieldTool == undefined || !isSupported)
       return;
-  if (isRemoveEnterBarrage == null)
-      isRemoveEnterBarrage = '1';
-
-  shieldTool.insertAdjacentHTML("beforeend", `
-      <div class="ShieldTool-listItem ${ isChecked ? 'is-checked' : 'is-noChecked'}" id="ex-enter-shield">
-          <span class="ShieldTool-checkIcon"></span>
-          <h5 class="ShieldTool-checkText">屏蔽进场弹幕</h5>
-      </div>`);
-  document.getElementById("ex-enter-shield").addEventListener("click", (e) => {
-      let classList = e.currentTarget.classList;
-      let noChecked = classList.toggle("is-noChecked");
-      let chceked = classList.toggle("is-checked");
-      let enterDisplay = (noChecked && !chceked) ? "block": "none";
-      barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", enterDisplay, "important");
-      localStorage.setItem("ExSave_isRemoveEnterBarrage", (noChecked && !chceked) ? "0" : "1"); // '1'移除check
-      
+  
+  shieldTool.insertAdjacentHTML(
+    "afterbegin",
+    `<div class="FilterSwitchStatus" id="ex-removeEnterBarrage">
+    <h3>屏蔽进场弹幕</h3>
+    <div>
+      <span class="FilterSwitchStatus-status ${isRemoveEnterBarrage ? "is-checked" : "is-noChecked"}">${isRemoveEnterBarrage ? "已开启" : "未开启"}</span>
+      <span class="FilterSwitchStatus-switch ${isRemoveEnterBarrage ? "is-checked" : "is-noChecked"}">
+        <span class="FilterSwitchStatus-switch-inner"></span>
+      </span>
+    </div>
+  </div>`
+  );
+  
+  if (isRemoveEnterBarrage) {
+    barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", "none", "important");
+  }
+  const dom = document.getElementById("ex-removeEnterBarrage");
+  const statusSpan = dom.querySelector(".FilterSwitchStatus-status");
+  const switchSpan = dom.querySelector(".FilterSwitchStatus-switch");
+  dom.addEventListener("click", () => {
+    isRemoveEnterBarrage = !isRemoveEnterBarrage;
+    if (isRemoveEnterBarrage) {
+      barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", "none", "important");
+      statusSpan.className = statusSpan.className.replace("is-noChecked", "is-checked");
+      statusSpan.textContent = "已开启";
+      switchSpan.className = switchSpan.className.replace("is-noChecked", "is-checked");
+    } else {
+      barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", "block", "important");
+      statusSpan.className = statusSpan.className.replace("is-checked", "is-noChecked");
+      statusSpan.textContent = "未开启";
+      switchSpan.className = switchSpan.className.replace("is-checked", "is-noChecked");
+    }
+    saveRemoveEnterBarrage();
   });
+}
+
+function getLocalIsRemoveEnterBarrage() {
+  const ret = localStorage.getItem("ExSave_isRemoveEnterBarrage");
+  return ret ? Number(ret) === 1 : true; // 默认为true（移除进场弹幕）
+}
+
+function saveRemoveEnterBarrage() {
+  localStorage.setItem("ExSave_isRemoveEnterBarrage", isRemoveEnterBarrage ? 1 : 0);
 }
