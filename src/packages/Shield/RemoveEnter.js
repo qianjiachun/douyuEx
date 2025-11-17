@@ -22,6 +22,8 @@ function initPkg_Shield_RemoveEnter() {
   
   if (isRemoveEnterBarrage) {
     barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", "none", "important");
+  } else {
+    barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", "block", "important");
   }
   const dom = document.getElementById("ex-removeEnterBarrage");
   const statusSpan = dom.querySelector(".FilterSwitchStatus-status");
