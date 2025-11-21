@@ -99,6 +99,7 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
       }
       stopRepeatedDanmakuCleanupTimer();
       StyleHook_remove("Ex_Style_RemoveRepeatedDanmaku");
+      StyleHook_remove("Ex_Style_RemoveRepeatedDanmaku_Count");
       statusSpan.className = statusSpan.className.replace("is-checked", "is-noChecked");
       statusSpan.textContent = "未开启";
       switchSpan.className = switchSpan.className.replace("is-checked", "is-noChecked");
@@ -108,6 +109,43 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
 }
 
 function removeRepeatedDanmaku() {
+  // 添加计数显示和动画的样式
+  StyleHook_set(
+    "Ex_Style_RemoveRepeatedDanmaku_Count",
+    `
+    /* 弹幕计数显示样式 */
+    [data-repeat-count]::before {
+      content: "x" attr(data-repeat-count);
+      font-weight: bold;
+      display: inline-block;
+      position: absolute;
+      right: -18px;
+      bottom: 0;
+      font-size: 16px;
+      font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+      color: inherit;
+    }
+    
+    /* 计数跳动动画 */
+    @keyframes danmaku-combo-bounce {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.5);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    /* 应用动画的类 */
+    .danmaku-combo-animation::before {
+      animation: danmaku-combo-bounce 0.2s ease-out;
+    }
+    `
+  );
+
   let timer = setInterval(() => {
     const dom = document.querySelector(".danmu-6e95c1");
     if (dom) {
@@ -182,6 +220,15 @@ function removeRepeatedDanmaku() {
               const repeatCount = repeatedDanmakuCountMap[danmakuText];
               const newFontSize = Math.min(baseFontSize + (repeatCount - 1) * 2, 40);
               firstDom.style.fontSize = newFontSize + "px";
+              
+              // 更新计数显示
+              firstDom.setAttribute("data-repeat-count", repeatCount);
+              
+              // 触发跳动动画
+              firstDom.classList.remove("danmaku-combo-animation");
+              // 强制重排以重新触发动画
+              void firstDom.offsetWidth;
+              firstDom.classList.add("danmaku-combo-animation");
             } else if (!firstDom || !firstDom.parentNode) {
               // 如果首条弹幕的DOM已经不存在了，清理相关数据，防止内存泄露
               delete repeatedDanmakuDomMap[danmakuText];
