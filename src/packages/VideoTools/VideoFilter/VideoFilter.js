@@ -133,9 +133,9 @@ function Filter_insertEnhanceModal() {
         <div class="enhance-modal__panel">
             <div class="enhance-modal__close">×</div>
             <div class="enhance-modal__content">
-                <img class="enhance-modal__img" src="https://c-yuba.douyucdn.cn/yubavod/b/zEqAvQaXrd5L/c16fdac3db1903db3a39a6557c2b5ab5.gif?i=3720b1159005085341bebf6f43c32a4053" alt=""/>
+                <img class="enhance-modal__img" src="https://c-yuba.douyucdn.cn/yubavod/b/zEqAvQaXrd5L/c16fdac3db1903db3a39a6557c2b5ab5.gif" alt=""/>
                 <div class="enhance-modal__text">
-                    开启后，弹幕飘屏会被遮挡，请将鼠标移入到直播画面中并点击<img style="width:32px;" src="https://c-yuba.douyucdn.cn/yubavod/b/zEqAvQaXrd5L/2dd9e0d70e39a532a2675717eb054129.png/rsh1440?i=234a9ddccf097622e3c9e894da625e9322" alt="">
+                    开启后，弹幕飘屏会被遮挡，请将鼠标移入到直播画面中并点击<img style="width:32px;" src="https://c-yuba.douyucdn.cn/yubavod/b/zEqAvQaXrd5L/2dd9e0d70e39a532a2675717eb054129.png" alt="">
                     <br />
                     完成后，再<b>将画质增强关闭</b>或<b>刷新</b>以恢复弹幕飘屏，该功能会<b>自动保存</b>
                     <br />
