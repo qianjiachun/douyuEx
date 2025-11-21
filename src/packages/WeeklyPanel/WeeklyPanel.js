@@ -21,7 +21,7 @@ function initPkg_WeeklyPanel_Dom() {
 		</div>
 	`;
 	
-	let b = document.getElementById("root");
+	let b = document.querySelector("body");
 	b.insertBefore(a, b.childNodes[0]);
 }
 
