@@ -4,12 +4,18 @@ let currentSaturate = "";
 let liveVideoParentClassName = "";
 let isMirror = false;
 let rotateAngle = 0;
+let isEnhanceQuality = false;
 let transformCss = {
     rotateY: "",
     rotate: "",
     scale: "",
 }
 let panorama = null;
+
+// 检测是否是 Edge 浏览器
+function isEdgeBrowser() {
+    return /Edg/i.test(navigator.userAgent);
+}
 
 function initPkg_VideoTools_Filter() {
     liveVideoParentClassName = liveVideoNode.parentNode.className;
@@ -19,6 +25,10 @@ function initPkg_VideoTools_Filter() {
 
 function initPkg_VideoTools_Filter_Dom() {
     Filter_insertIcon();
+    // 只在 Edge 浏览器中插入画质增强 modal
+    if (isEdgeBrowser()) {
+        Filter_insertEnhanceModal();
+    }
 }
 
 function Filter_insertIcon() {
@@ -27,6 +37,12 @@ function Filter_insertIcon() {
     a.innerHTML = `
     <div class="filter__wrap">
         <div class="filter__panel">
+            ${isEdgeBrowser() ? `<div class="filter__enhance">
+                <span class="filter__title">画质增强（不掉帧）</span>
+                <div class="filter__switch" id="switch__enhance">
+                    <div class="filter__switch-slider" id="slider__enhance"></div>
+                </div>
+            </div>` : ''}
             <div class="filter__bright">
                 <span class="filter__title">明亮度</span>
                 <div class="filter__scroll" id="scroll__bright">
@@ -110,9 +126,68 @@ function Filter_insertIcon() {
     b.insertBefore(domDivider, b.childNodes[1]);
 }
 
+function Filter_insertEnhanceModal() {
+    let modal = document.createElement("div");
+    modal.className = "enhance-modal__panel-wrap";
+    modal.innerHTML = `
+        <div class="enhance-modal__panel">
+            <div class="enhance-modal__close">×</div>
+            <div class="enhance-modal__content">
+                <img class="enhance-modal__img" src="https://c-yuba.douyucdn.cn/yubavod/b/zEqAvQaXrd5L/c16fdac3db1903db3a39a6557c2b5ab5.gif?i=3720b1159005085341bebf6f43c32a4053" alt=""/>
+                <div class="enhance-modal__text">
+                    开启后，弹幕飘屏会被遮挡，请将鼠标移入到直播画面中并点击<img style="width:32px;" src="https://c-yuba.douyucdn.cn/yubavod/b/zEqAvQaXrd5L/2dd9e0d70e39a532a2675717eb054129.png/rsh1440?i=234a9ddccf097622e3c9e894da625e9322" alt="">
+                    <br />
+                    完成后，<b>再将画质增强关闭或刷新</b>以恢复弹幕飘屏，该功能会<b>自动保存</b>
+                    <br />
+                    <a style="color: #ff7700;" href="https://www.microsoft.com/zh-cn/edge/features/enhance-video?form=MT0160" target="_blank">没有增强图标？</a>
+                </div>
+            </div>
+        </div>
+    `;
+
+    let root = document.getElementById("root");
+    root.insertBefore(modal, root.childNodes[0]);
+
+    // 添加关闭事件
+    modal.getElementsByClassName("enhance-modal__close")[0].addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+}
+
 function initPkg_VideoTools_Filter_Func() {
     document.onmouseup = function () {
         document.onmousemove = null; //弹起鼠标不做任何操作
+    }
+    // 只在 Edge 浏览器中添加画质增强功能的事件监听
+    if (isEdgeBrowser()) {
+        const switchEnhance = document.getElementById("switch__enhance");
+        if (switchEnhance) {
+            switchEnhance.addEventListener("click", () => {
+        isEnhanceQuality = !isEnhanceQuality;
+        const switchElement = document.getElementById("switch__enhance");
+        const slider = document.getElementById("slider__enhance");
+        const enhanceModal = document.getElementsByClassName("enhance-modal__panel-wrap")[0];
+        const videoDom = document.querySelector("video");
+        if (isEnhanceQuality) {
+            slider.style.left = "20px";
+            switchElement.style.background = "#369";
+            liveVideoNode.style.imageRendering = "crisp-edges";
+            liveVideoNode.style.imageRendering = "-webkit-optimize-contrast";
+            liveVideoNode.style.imageRendering = "optimize-contrast";
+            // 显示增强画质提示弹窗
+            enhanceModal.style.display = "flex";
+            videoDom.style.zIndex = "10";
+            videoDom.style.cursor = "auto";
+        } else {
+            slider.style.left = "0px";
+            switchElement.style.background = "#ccc";
+            liveVideoNode.style.imageRendering = "";
+            // 隐藏增强画质提示弹窗
+            enhanceModal.style.display = "none";
+            videoDom.style.zIndex = "0";
+        }
+            });
+        }
     }
     setScrollFunc(document.getElementById("scroll__bright"), document.getElementById("bar__bright"), document.getElementById("mask__bright"), (data) => {
         currentBrightness = `brightness(${ data }%)`;
@@ -290,6 +365,25 @@ function resetVideoFilter() {
     document.getElementById("mask__bright").style.width = "100px";
     document.getElementById("mask__contrast").style.width = "100px";
     document.getElementById("mask__saturate").style.width = "100px";
+
+    // 重置增强画质（只在 Edge 浏览器中执行）
+    if (isEdgeBrowser()) {
+        isEnhanceQuality = false;
+        const sliderEnhance = document.getElementById("slider__enhance");
+        const switchEnhance = document.getElementById("switch__enhance");
+        if (sliderEnhance) {
+            sliderEnhance.style.left = "0px";
+        }
+        if (switchEnhance) {
+            switchEnhance.style.background = "#ccc";
+        }
+        liveVideoNode.style.imageRendering = "";
+        // 隐藏增强画质提示弹窗
+        const enhanceModal = document.getElementsByClassName("enhance-modal__panel-wrap")[0];
+        if (enhanceModal) {
+            enhanceModal.style.display = "none";
+        }
+    }
 
     // 重置全景
     let domPanorama = document.getElementById("ex-panorama");
