@@ -50,9 +50,9 @@ function initPkg_ImageDanmaku_Func() {
   }, 1000);
 
   let timer2 = setInterval(() => {
-    if (typeof document.getElementsByClassName("danmu-6e95c1")[0] != "undefined") {
+    if (typeof document.getElementsByClassName("danmu-fbb2a3")[0] != "undefined") {
       clearInterval(timer2);
-      new DomHook(".danmu-6e95c1", false, (m) => {
+      new DomHook(".danmu-fbb2a3", false, (m) => {
         if (m.length <= 0) return;
         if (m[0].addedNodes.length <= 0) return;
         let dom = m[0].addedNodes[0];

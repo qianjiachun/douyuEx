@@ -18,7 +18,7 @@ function ExpandTool_BarrageSize_insertDom() {
 
 function setBarrageSize(s) {
     cancelBarrageSize();
-    StyleHook_set("Ex_Style_DanmuSize", ".danmuItem-31f924{font-size:" + s + "px !important;}");
+    StyleHook_set("Ex_Style_DanmuSize", ".danmuItem-a8616a{font-size:" + s + "px !important;}");
 }
 
 function cancelBarrageSize() {

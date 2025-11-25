@@ -35,7 +35,7 @@ function ExpandTool_Gold_insertFunc() {
     document.getElementById("extool__gold_start").addEventListener("click", async function() {
         let ischecked = document.getElementById("extool__gold_start").checked;
         if (ischecked == true) {
-            // 开启幻神模式  danmu-6e95c1
+            // 开启幻神模式  danmu-fbb2a3
             goldBarrageHook = new DomHook(".danmu-e7f029", true, goldBarrage);
             goldBarrageListHook = new DomHook(".Barrage-list", true, goldBarrageList);
             goldFansMedal();
@@ -204,9 +204,9 @@ function goldBarrage(m) {
         return;
     }
     let itemNode = m[0].addedNodes[0];
-    if(itemNode.className.indexOf("noble-f439ef")==-1 && itemNode.innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
+    if(itemNode.className.indexOf("noble-d35c82")==-1 && itemNode.innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
         itemNode.style.zIndex = "30";
-        itemNode.className = "danmuItem-f8e204 noble-f439ef";
+        itemNode.className = "danmuItem-f8e204 noble-d35c82";
         // itemNode.setAttribute("style",characterStyle);
         //noble icon without redupliction remove
         let nobleImgTag = document.createElement("img");

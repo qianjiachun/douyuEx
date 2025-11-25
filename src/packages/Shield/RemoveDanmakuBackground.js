@@ -48,22 +48,22 @@ function removeDanmakuBackground() {
   StyleHook_set(
     "Ex_Style_RemoveDanmakuBackground",
     `
-      .danmuItem-31f924 {
+      .danmuItem-a8616a {
         background: none !important;
       }
-      .danmuItem-31f924 div{
+      .danmuItem-a8616a div{
         background: none;
       }
-      .danmuItem-31f924 > img {
+      .danmuItem-a8616a > img {
         display: none;
       }
-      .danmuItem-31f924 div > img {
+      .danmuItem-a8616a div > img {
         display: none;
       }
-      .super-text-0281ca {
+      .super-text-f60bfa {
         background: none !important;
       }
-      .danmuItem-31f924 .noble-f439ef {
+      .danmuItem-a8616a .noble-d35c82 {
         background: none !important;
       }
       .customBarrage {

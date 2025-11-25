@@ -37,7 +37,7 @@ function removeDanmakuImage() {
   StyleHook_set(
     "Ex_Style_RemoveDanmakuImage",
     `
-    .danmuItem-31f924 a {
+    .danmuItem-a8616a a {
       display: none !important;
     }
   `
