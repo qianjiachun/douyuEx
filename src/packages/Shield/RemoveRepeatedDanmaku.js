@@ -67,7 +67,7 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
     }
     repeatedDanmakuSeconds = value;
     setLocalRepeatedDanmakuSeconds(value);
-    
+
     // 如果功能已开启，需要重启以应用新设置
     if (isRemoveRepeatedDanmaku) {
       if (repeatedDanmakuDomHook) {
@@ -105,6 +105,18 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
       switchSpan.className = switchSpan.className.replace("is-checked", "is-noChecked");
     }
     saveRemoveRepeatedDanmaku();
+  });
+}
+
+function initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook() {
+  scriptHook({
+    url: "/firstqueue",
+    callback: (content) => {
+      let newContent = content;
+      // 给弹幕飘屏添加属性
+      newContent = newContent.replace(`e.display=new e.renderer(e);`, `e.display=new e.renderer(e);e.display.raw.__comment=e;`);
+      return newContent;
+    }
   });
 }
 
@@ -147,19 +159,19 @@ function removeRepeatedDanmaku() {
   );
 
   let timer = setInterval(() => {
-    const dom = document.querySelector(".danmu-6e95c1");
+    const dom = document.querySelector(".danmu-fbb2a3");
     if (dom) {
       clearInterval(timer);
       // 开启定期清理定时器
       startRepeatedDanmakuCleanupTimer();
 
-      repeatedDanmakuDomHook = new DomHook(".danmu-6e95c1", false, (m) => {
+      repeatedDanmakuDomHook = new DomHook(".danmu-fbb2a3", false, (m) => {
         if (m.length <= 0) return;
         if (!isRemoveRepeatedDanmaku) return;
         if (m[0].addedNodes.length <= 0 && m[0].removedNodes.length > 0) {
           const removedDom = m[0].removedNodes[0];
-          const uuid = removedDom.comment.uuid;
-          const endTime = removedDom.comment.startTime + removedDom.comment.duration;
+          const uuid = removedDom.__comment.uuid;
+          const endTime = removedDom.__comment.startTime + removedDom.__comment.duration;
           const now = Date.now();
           if (now > endTime) return;
           // 存储过期时间戳
@@ -181,7 +193,7 @@ function removeRepeatedDanmaku() {
         const dom = m[0].addedNodes[0];
         if (!dom) return;
         const now = Date.now();
-        const uuid = dom.comment.uuid;
+        const uuid = dom.__comment.uuid;
         // 检查 UUID 是否存在且未过期
         const uuidExpireTime = repeatedDanmakuUuidMap[uuid];
         if (uuidExpireTime && now <= uuidExpireTime) return;
@@ -220,10 +232,10 @@ function removeRepeatedDanmaku() {
               const repeatCount = repeatedDanmakuCountMap[danmakuText];
               const newFontSize = Math.min(baseFontSize + (repeatCount - 1) * 2, 40);
               firstDom.style.fontSize = newFontSize + "px";
-              
+
               // 更新计数显示
               firstDom.setAttribute("data-repeat-count", repeatCount);
-              
+
               // 触发跳动动画
               firstDom.classList.remove("danmaku-combo-animation");
               // 强制重排以重新触发动画

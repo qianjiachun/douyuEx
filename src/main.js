@@ -60,6 +60,7 @@
 // ==/UserScript==
 function init() {
 	initPkg_ShowDanmakuOriginAction();
+	initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook();
 	initScriptHook();
 	initPkg_Night_Set_Fast();
 	initResponseHook();
