@@ -21,7 +21,7 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
   shieldTool.insertAdjacentHTML(
     "afterbegin",
     `<div class="FilterSwitchStatus" id="ex-removeRepeatedDanmaku">
-    <h3>屏蔽重复弹幕</h3>
+    <h3 style="text-decoration: line-through">屏蔽重复弹幕（暂不可用）</h3>
     <div>
       <span class="FilterSwitchStatus-status ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">${isRemoveRepeatedDanmaku ? "已开启" : "未开启"}</span>
       <span class="FilterSwitchStatus-switch ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">
@@ -114,7 +114,7 @@ function initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook() {
     callback: (content) => {
       let newContent = content;
       // 给弹幕飘屏添加属性
-      newContent = newContent.replace(`e.display=new e.renderer(e);`, `e.display=new e.renderer(e);e.display.raw.__comment=e;`);
+      newContent = newContent.replace(`e.display=new e.renderer(e);`, `e.display=new e.renderer(e);e.display.raw.comment=e;`);
       return newContent;
     }
   });
@@ -170,8 +170,8 @@ function removeRepeatedDanmaku() {
         if (!isRemoveRepeatedDanmaku) return;
         if (m[0].addedNodes.length <= 0 && m[0].removedNodes.length > 0) {
           const removedDom = m[0].removedNodes[0];
-          const uuid = removedDom.__comment.uuid;
-          const endTime = removedDom.__comment.startTime + removedDom.__comment.duration;
+          const uuid = removedDom.comment.uuid;
+          const endTime = removedDom.comment.startTime + removedDom.comment.duration;
           const now = Date.now();
           if (now > endTime) return;
           // 存储过期时间戳
@@ -193,7 +193,7 @@ function removeRepeatedDanmaku() {
         const dom = m[0].addedNodes[0];
         if (!dom) return;
         const now = Date.now();
-        const uuid = dom.__comment.uuid;
+        const uuid = dom.comment.uuid;
         // 检查 UUID 是否存在且未过期
         const uuidExpireTime = repeatedDanmakuUuidMap[uuid];
         if (uuidExpireTime && now <= uuidExpireTime) return;
