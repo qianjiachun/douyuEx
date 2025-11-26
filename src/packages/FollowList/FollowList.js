@@ -22,13 +22,22 @@ function handleFollowList(m) {
     setNewFollowList(panel[0]);
 }
 async function setNewFollowList(panel) {
+    let loadInCurrentPage = await GM_getValue("Ex_LoadInCurrentPage", false);
     let followList = await getFollowList();
     if (followList.error != "0") {
         return;
     }
     const FOLLOWLIST_LIMIT = 10; // 关注列表最多显示个数
     let limit = 0;
-    let html = `<div id="refreshFollowList"><span style="margin-left:3px">长按弹出同屏播放</span></div>`;
+    let html = `
+        <div id="refreshFollowList" style="color: grey; position: absolute; right: 5px; top: 0px; cursor: default; display: flex; align-items: center; justify-content: space-between; width: calc(100% - 10px); padding: 0 5px;">
+            <label style="display: flex; align-items: center; cursor: pointer; color: inherit;">
+                <input type="checkbox" id="loadInCurrentPageCheckbox" ${loadInCurrentPage ? 'checked' : ''} style="margin-right: 5px;">
+                在当前页面加载
+            </label>
+            <span>长按弹出同屏播放</span>
+        </div>
+    `;
     let nowTime = Math.floor(Date.now()/1000);
     for (let i = 0; i < followList.data.list.length; i++) {
         let item = followList.data.list[i];
@@ -44,6 +53,14 @@ async function setNewFollowList(panel) {
     }
     panel.innerHTML += html;
 
+    const loadInCurrentPageCheckbox = panel.querySelector('#loadInCurrentPageCheckbox');
+    if (loadInCurrentPageCheckbox) {
+        loadInCurrentPageCheckbox.addEventListener("change", async (e) => {
+            const isChecked = e.target.checked;
+            await GM_setValue("Ex_LoadInCurrentPage", isChecked);
+            showMessage(`【关注列表】已${isChecked ? "开启" : "关闭"}当前页加载功能（${isChecked ? "当前页面直接加载关注的直播间" : "使用新网页打开关注的直播间"}）`, "info");
+        });
+    }
 
     let followListItems = document.getElementsByClassName("ExFollowListItem");
     for (let i = 0; i < followListItems.length; i++) {
@@ -52,8 +69,15 @@ async function setNewFollowList(panel) {
             createNewVideo(videoPlayerArr.length, followListItems[i].getAttribute("rid"), "Douyu");
             document.querySelector(".Follow .public-DropMenu").className = "public-DropMenu";
         });
-        cclick.click(() => {
-            openPage("https://www.douyu.com/" + followListItems[i].getAttribute("rid"), true);
+        cclick.click(async (event) => {
+            event.preventDefault();
+            const shouldLoadInCurrentPage = await GM_getValue("Ex_LoadInCurrentPage", false);
+            const targetUrl = "https://www.douyu.com/" + followListItems[i].getAttribute("rid");
+            if (shouldLoadInCurrentPage) {
+                window.location.href = targetUrl; // 在当前页加载
+            } else {
+                openPage(targetUrl, true); // 在新页面打开
+            }
         });
         followListItems[i].addEventListener("mousedown", (event) => {
             if (event.button == 1) {
