@@ -121,13 +121,13 @@ function highestVideoQuality() {
     let intID1 = setInterval(() => {
         count++;
         if (count > 100) clearInterval(intID1);
-        if (getValidDom([".tipItem-898596", ".tip-cd016b"])) {
+        const qualityContainer = document.querySelector('[class^="tipItem-"]:has([value^="画质"])') || document.querySelector('[class^="tip-"]:has([value^="画质"])');
+        if (qualityContainer) {
             clearInterval(intID1);
-            let dom = document.querySelector(".tipItem-898596");
-            if (dom) {
-                document.querySelectorAll(".tipItem-898596 > ul > li")[0].click();
-            } else {
-                document.querySelectorAll(".tip-cd016b ul li")[0].click();
+            const highestQualityOption = qualityContainer.querySelector('ul > li:first-child');
+            if (highestQualityOption) {
+                const isAlreadySelected = highestQualityOption.matches('[class^="selected-"]');
+                if (!isAlreadySelected) highestQualityOption.click(); 
             }
         }
     }, 1000);
