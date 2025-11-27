@@ -21,7 +21,7 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
   shieldTool.insertAdjacentHTML(
     "afterbegin",
     `<div class="FilterSwitchStatus" id="ex-removeRepeatedDanmaku">
-    <h3 style="text-decoration: line-through">屏蔽重复弹幕（暂不可用）</h3>
+    <h3>屏蔽重复弹幕</h3>
     <div>
       <span class="FilterSwitchStatus-status ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">${isRemoveRepeatedDanmaku ? "已开启" : "未开启"}</span>
       <span class="FilterSwitchStatus-switch ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">
@@ -178,7 +178,7 @@ function removeRepeatedDanmaku() {
           repeatedDanmakuUuidMap[uuid] = now + repeatedDanmakuSeconds * 1000;
 
           // 清理与该弹幕相关的DOM映射，防止内存泄露
-          const danmakuText = removedDom.innerText ? removedDom.innerText.trim() : "";
+          const danmakuText = removedDom.textContent ? removedDom.textContent.trim() : "";
           if (danmakuText && repeatedDanmakuDomMap[danmakuText] === removedDom) {
             // 移除DOM引用，避免内存泄露
             delete repeatedDanmakuDomMap[danmakuText];
@@ -198,7 +198,7 @@ function removeRepeatedDanmaku() {
         const uuidExpireTime = repeatedDanmakuUuidMap[uuid];
         if (uuidExpireTime && now <= uuidExpireTime) return;
 
-        const danmakuText = dom.innerText ? dom.innerText.trim() : "";
+        const danmakuText = dom.textContent ? dom.textContent.trim() : "";
         if (!danmakuText || danmakuText.length === 0) return;
 
         // 检查弹幕是否在指定秒数内出现过
