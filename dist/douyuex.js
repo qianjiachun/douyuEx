@@ -3,7 +3,7 @@
 // @name         DouyuEx-斗鱼直播间增强插件
 // @namespace    https://github.com/qianjiachun
 // @icon         data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTA4cHgiIGhlaWdodD0iMTA4cHgiIHZpZXdCb3g9IjAgMCAxMDggMTA4IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPHRpdGxlPueyvueBteeQgzwvdGl0bGU+CiAgICA8ZyBpZD0i6aG16Z2iLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSLnsr7ngbXnkIMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuODMwNzY5LCAwLjgzMDc2OSkiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01My4xNjkyMzA3LDEwNi4zMzg0NjEgQzIzLjgyNzY5MjIsMTA2LjMzODQ2MSAwLDgyLjUxMDc2OTIgMCw1My4xNjkyMzA3IEMwLDUxLjAwMzA3NjkgMS43NzIzMDc3NSw0OS4yMzA3NjkyIDMuOTM4NDYxNSw0OS4yMzA3NjkyIEwzMy40NzY5MjMsNDkuMjMwNzY5MiBDMzUuNjQzMDc2OSw0OS4yMzA3NjkyIDM3LjQxNTM4NDUsNTEuMDAzMDc3IDM3LjQxNTM4NDYsNTMuMTY5MjMwNyBDMzcuNDE1Mzg0Niw2MS44MzM4NDYxIDQ0LjUwNDYxNTQsNjguOTIzMDc2OSA1My4xNjkyMzA3LDY4LjkyMzA3NjkgQzYxLjgzMzg0NjEsNjguOTIzMDc2OSA2OC45MjMwNzY5LDYxLjgzMzg0NjEgNjguOTIzMDc2OSw1My4xNjkyMzA3IEM2OC45MjMwNzY5LDUxLjAwMzA3NjkgNzAuNjk1Mzg0Niw0OS4yMzA3NjkyIDcyLjg2MTUzODUsNDkuMjMwNzY5MiBMMTAyLjQsNDkuMjMwNzY5MiBDMTA0LjU2NjE1NCw0OS4yMzA3NjkyIDEwNi4zMzg0NjEsNTEuMDAzMDc3IDEwNi4zMzg0NjEsNTMuMTY5MjMwNyBDMTA2LjMzODQ2MSw4Mi41MTA3NjkyIDgyLjUxMDc2OTIsMTA2LjMzODQ2MSA1My4xNjkyMzA3LDEwNi4zMzg0NjEgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iIzMzMzYzQSI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNOC4wNzM4NDYxMiw1Ny4xMDc2OTIyIEMxMC4wNDMwNzY5LDgwLjI0NjE1MzcgMjkuNTM4NDYxNSw5OC40NjE1Mzg1IDUzLjE2OTIzMDcsOTguNDYxNTM4NSBDNzYuOCw5OC40NjE1Mzg1IDk2LjI5NTM4NDYsODAuMjQ2MTUzOSA5OC4yNjQ2MTU0LDU3LjEwNzY5MjIgTDc2LjUwNDYxNTQsNTcuMTA3NjkyMiBDNzQuNjMzODQ2MSw2OC4yMzM4NDYxIDY0Ljg4NjE1MzksNzYuOCA1My4xNjkyMzA3LDc2LjggQzQxLjQ1MjMwNzYsNzYuOCAzMS43MDQ2MTU0LDY4LjIzMzg0NjEgMjkuODMzODQ2MSw1Ny4xMDc2OTIyIEw4LjA3Mzg0NjEyLDU3LjEwNzY5MjIgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNTMuMTY5MjMwOCwzLjkzODQ2MTUgQzI1Ljk5Mzg0NjEsMy45Mzg0NjE1IDMuOTM4NDYxNSwyNS45OTM4NDYxIDMuOTM4NDYxNSw1My4xNjkyMzA3IEwzMy40NzY5MjMsNTMuMTY5MjMwNyBDMzMuNDc2OTIzLDQyLjMzODQ2MTUgNDIuMzM4NDYxNSwzMy40NzY5MjMgNTMuMTY5MjMwOCwzMy40NzY5MjMgQzY0LDMzLjQ3NjkyMyA3Mi44NjE1Mzg1LDQyLjMzODQ2MTUgNzIuODYxNTM4NSw1My4xNjkyMzA3IEwxMDIuNCw1My4xNjkyMzA3IEMxMDIuNCwyNS45OTM4NDYxIDgwLjM0NDYxNTQsMy45Mzg0NjE1IDUzLjE2OTIzMDgsMy45Mzg0NjE1IFoiIGlkPSLot6/lvoQiIGZpbGw9IiNENjA5MDkiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTEwMi40LDU3LjEwNzY5MjIgTDcyLjg2MTUzODUsNTcuMTA3NjkyMiBDNzAuNjk1Mzg0Niw1Ny4xMDc2OTIyIDY4LjkyMzA3Nyw1NS4zMzUzODQ1IDY4LjkyMzA3NjksNTMuMTY5MjMwNyBDNjguOTIzMDc2OSw0NC41MDQ2MTU0IDYxLjgzMzg0NjEsMzcuNDE1Mzg0NiA1My4xNjkyMzA3LDM3LjQxNTM4NDYgQzQ0LjUwNDYxNTQsMzcuNDE1Mzg0NiAzNy40MTUzODQ2LDQ0LjUwNDYxNTQgMzcuNDE1Mzg0Niw1My4xNjkyMzA3IEMzNy40MTUzODQ2LDU1LjMzNTM4NDYgMzUuNjQzMDc2OSw1Ny4xMDc2OTIyIDMzLjQ3NjkyMyw1Ny4xMDc2OTIyIEwzLjkzODQ2MTUsNTcuMTA3NjkyMiBDMS43NzIzMDc2Miw1Ny4xMDc2OTIyIDAsNTUuMzM1Mzg0NSAwLDUzLjE2OTIzMDcgQzAsMjMuODI3NjkyMiAyMy44Mjc2OTIzLDAgNTMuMTY5MjMwNywwIEM4Mi41MTA3NjkyLDAgMTA2LjMzODQ2MSwyMy44Mjc2OTIyIDEwNi4zMzg0NjEsNTMuMTY5MjMwNyBDMTA2LjMzODQ2MSw1NS4zMzUzODQ2IDEwNC41NjYxNTQsNTcuMTA3NjkyMiAxMDIuNCw1Ny4xMDc2OTIyIFoiIGlkPSLot6/lvoQiIGZpbGw9IiMzMzM2M0EiPjwvcGF0aD4KICAgICAgICAgICAgPHBhdGggZD0iTTc2LjUwNDYxNTQsNDkuMjMwNzY5MyBMOTguMzYzMDc2OSw0OS4yMzA3NjkzIEM5Ni4yOTUzODQ2LDI2LjA5MjMwNzYgNzYuOCw3Ljg3NjkyMyA1My4xNjkyMzA3LDcuODc2OTIzIEMyOS41Mzg0NjE1LDcuODc2OTIzIDEwLjA0MzA3NjksMjYuMDkyMzA3NiA4LjA3Mzg0NjEyLDQ5LjIzMDc2OTMgTDI5LjkzMjMwNzYsNDkuMjMwNzY5MyBDMzEuNzA0NjE1NCwzOC4xMDQ2MTU0IDQxLjQ1MjMwNzYsMjkuNTM4NDYxNSA1My4xNjkyMzA3LDI5LjUzODQ2MTUgQzY0Ljg4NjE1MzksMjkuNTM4NDYxNSA3NC42MzM4NDYxLDM4LjEwNDYxNTQgNzYuNTA0NjE1NCw0OS4yMzA3NjkzIEw3Ni41MDQ2MTU0LDQ5LjIzMDc2OTMgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0Q2MDkwOSI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNTMuMTY5MjMwNyw3Ni44IEM0MC4xNzIzMDc2LDc2LjggMjkuNTM4NDYxNSw2Ni4xNjYxNTM5IDI5LjUzODQ2MTUsNTMuMTY5MjMwNyBDMjkuNTM4NDYxNSw0MC4xNzIzMDc2IDQwLjE3MjMwNzYsMjkuNTM4NDYxNSA1My4xNjkyMzA3LDI5LjUzODQ2MTUgQzY2LjE2NjE1MzksMjkuNTM4NDYxNSA3Ni44LDQwLjE3MjMwNzYgNzYuOCw1My4xNjkyMzA3IEM3Ni44LDY2LjE2NjE1MzkgNjYuMTY2MTUzOSw3Ni44IDUzLjE2OTIzMDcsNzYuOCBaIiBpZD0i6Lev5b6EIiBmaWxsPSIjMzMzNjNBIj48L3BhdGg+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik01My4xNjkyMzA3LDM3LjQxNTM4NDYgQzQ0LjUwNDYxNTQsMzcuNDE1Mzg0NiAzNy40MTUzODQ2LDQ0LjUwNDYxNTQgMzcuNDE1Mzg0Niw1My4xNjkyMzA3IEMzNy40MTUzODQ2LDYxLjgzMzg0NjEgNDQuNTA0NjE1NCw2OC45MjMwNzY5IDUzLjE2OTIzMDcsNjguOTIzMDc2OSBDNjEuODMzODQ2MSw2OC45MjMwNzY5IDY4LjkyMzA3NjksNjEuODMzODQ2MSA2OC45MjMwNzY5LDUzLjE2OTIzMDcgQzY4LjkyMzA3NjksNDQuNTA0NjE1NCA2MS44MzM4NDYxLDM3LjQxNTM4NDYgNTMuMTY5MjMwNywzNy40MTUzODQ2IEw1My4xNjkyMzA3LDM3LjQxNTM4NDYgWiIgaWQ9Iui3r+W+hCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNNDMuMzIzMDc2OSw1My4xNjkyMzA3IEM0My4zMjMwNzY5LDU4LjYwNzExMTQgNDcuNzMxMzUwMSw2My4wMTUzODQ2IDUzLjE2OTIzMDcsNjMuMDE1Mzg0NiBDNTguNjA3MTExNCw2My4wMTUzODQ2IDYzLjAxNTM4NDYsNTguNjA3MTExNCA2My4wMTUzODQ2LDUzLjE2OTIzMDcgQzYzLjAxNTM4NDYsNDcuNzMxMzUwMSA1OC42MDcxMTE0LDQzLjMyMzA3NjkgNTMuMTY5MjMwNyw0My4zMjMwNzY5IEM0Ny43MzEzNTAxLDQzLjMyMzA3NjkgNDMuMzIzMDc2OSw0Ny43MzEzNTAxIDQzLjMyMzA3NjksNTMuMTY5MjMwNyBaIiBpZD0i6Lev5b6EIiBmaWxsPSIjMzMzNjNBIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=
-// @version      2025.11.21.01
+// @version      2025.11.26.01
 // @description  斗鱼直播间增强插件，功能：弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕ass下载 直播画面局部缩放 全站抽奖信息 直播音效增强 阻止P2P上传 显示贡献榜贡献值 恢复弹幕显示 斗鱼视频弹幕高能进度条 检测弹幕是否发送成功 查看主播配置信息 自动网页全屏 自动最高画质 弹幕无限收藏 收藏弹幕搜索 支持弹幕带图片 屏蔽弹幕背景 弹幕+1 房间VIP到期提醒 自动钓鱼 防止自动暂停直播 恢复已关闭鱼吧 弹幕小尾巴 屏蔽重复弹幕 画质增强
 // @author       小淳
 // @match			*://*.douyu.com/0*
@@ -60,6 +60,7 @@
 // ==/UserScript==
 function init() {
 	initPkg_ShowDanmakuOriginAction();
+	initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook();
 	initScriptHook();
 	initPkg_Night_Set_Fast();
 	initResponseHook();
@@ -3705,7 +3706,7 @@ function ExpandTool_BarrageSize_insertDom() {
 
 function setBarrageSize(s) {
     cancelBarrageSize();
-    StyleHook_set("Ex_Style_DanmuSize", ".danmuItem-31f924{font-size:" + s + "px !important;}");
+    StyleHook_set("Ex_Style_DanmuSize", ".danmuItem-a8616a{font-size:" + s + "px !important;}");
 }
 
 function cancelBarrageSize() {
@@ -3991,7 +3992,7 @@ function ExpandTool_Gold_insertFunc() {
     document.getElementById("extool__gold_start").addEventListener("click", async function() {
         let ischecked = document.getElementById("extool__gold_start").checked;
         if (ischecked == true) {
-            // 开启幻神模式  danmu-6e95c1
+            // 开启幻神模式  danmu-fbb2a3
             goldBarrageHook = new DomHook(".danmu-e7f029", true, goldBarrage);
             goldBarrageListHook = new DomHook(".Barrage-list", true, goldBarrageList);
             goldFansMedal();
@@ -4160,9 +4161,9 @@ function goldBarrage(m) {
         return;
     }
     let itemNode = m[0].addedNodes[0];
-    if(itemNode.className.indexOf("noble-f439ef")==-1 && itemNode.innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
+    if(itemNode.className.indexOf("noble-d35c82")==-1 && itemNode.innerHTML.indexOf("border: 2px solid rgb(2, 255, 255)")!=-1){//find self and remove redupliction
         itemNode.style.zIndex = "30";
-        itemNode.className = "danmuItem-f8e204 noble-f439ef";
+        itemNode.className = "danmuItem-f8e204 noble-d35c82";
         // itemNode.setAttribute("style",characterStyle);
         //noble icon without redupliction remove
         let nobleImgTag = document.createElement("img");
@@ -5089,9 +5090,9 @@ function initPkg_ImageDanmaku_Func() {
   }, 1000);
 
   let timer2 = setInterval(() => {
-    if (typeof document.getElementsByClassName("danmu-6e95c1")[0] != "undefined") {
+    if (typeof document.getElementsByClassName("danmu-fbb2a3")[0] != "undefined") {
       clearInterval(timer2);
-      new DomHook(".danmu-6e95c1", false, (m) => {
+      new DomHook(".danmu-fbb2a3", false, (m) => {
         if (m.length <= 0) return;
         if (m[0].addedNodes.length <= 0) return;
         let dom = m[0].addedNodes[0];
@@ -10163,22 +10164,22 @@ function removeDanmakuBackground() {
   StyleHook_set(
     "Ex_Style_RemoveDanmakuBackground",
     `
-      .danmuItem-31f924 {
+      .danmuItem-a8616a {
         background: none !important;
       }
-      .danmuItem-31f924 div{
+      .danmuItem-a8616a div{
         background: none;
       }
-      .danmuItem-31f924 > img {
+      .danmuItem-a8616a > img {
         display: none;
       }
-      .danmuItem-31f924 div > img {
+      .danmuItem-a8616a div > img {
         display: none;
       }
-      .super-text-0281ca {
+      .super-text-f60bfa {
         background: none !important;
       }
-      .danmuItem-31f924 .noble-f439ef {
+      .danmuItem-a8616a .noble-d35c82 {
         background: none !important;
       }
       .customBarrage {
@@ -10233,7 +10234,7 @@ function removeDanmakuImage() {
   StyleHook_set(
     "Ex_Style_RemoveDanmakuImage",
     `
-    .danmuItem-31f924 a {
+    .danmuItem-a8616a a {
       display: none !important;
     }
   `
@@ -10318,7 +10319,7 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
   shieldTool.insertAdjacentHTML(
     "afterbegin",
     `<div class="FilterSwitchStatus" id="ex-removeRepeatedDanmaku">
-    <h3>屏蔽重复弹幕</h3>
+    <h3 style="text-decoration: line-through">屏蔽重复弹幕（暂不可用）</h3>
     <div>
       <span class="FilterSwitchStatus-status ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">${isRemoveRepeatedDanmaku ? "已开启" : "未开启"}</span>
       <span class="FilterSwitchStatus-switch ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">
@@ -10364,7 +10365,7 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
     }
     repeatedDanmakuSeconds = value;
     setLocalRepeatedDanmakuSeconds(value);
-    
+
     // 如果功能已开启，需要重启以应用新设置
     if (isRemoveRepeatedDanmaku) {
       if (repeatedDanmakuDomHook) {
@@ -10402,6 +10403,18 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
       switchSpan.className = switchSpan.className.replace("is-checked", "is-noChecked");
     }
     saveRemoveRepeatedDanmaku();
+  });
+}
+
+function initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook() {
+  scriptHook({
+    url: "/firstqueue",
+    callback: (content) => {
+      let newContent = content;
+      // 给弹幕飘屏添加属性
+      newContent = newContent.replace(`e.display=new e.renderer(e);`, `e.display=new e.renderer(e);e.display.raw.comment=e;`);
+      return newContent;
+    }
   });
 }
 
@@ -10444,13 +10457,13 @@ function removeRepeatedDanmaku() {
   );
 
   let timer = setInterval(() => {
-    const dom = document.querySelector(".danmu-6e95c1");
+    const dom = document.querySelector(".danmu-fbb2a3");
     if (dom) {
       clearInterval(timer);
       // 开启定期清理定时器
       startRepeatedDanmakuCleanupTimer();
 
-      repeatedDanmakuDomHook = new DomHook(".danmu-6e95c1", false, (m) => {
+      repeatedDanmakuDomHook = new DomHook(".danmu-fbb2a3", false, (m) => {
         if (m.length <= 0) return;
         if (!isRemoveRepeatedDanmaku) return;
         if (m[0].addedNodes.length <= 0 && m[0].removedNodes.length > 0) {
@@ -10517,10 +10530,10 @@ function removeRepeatedDanmaku() {
               const repeatCount = repeatedDanmakuCountMap[danmakuText];
               const newFontSize = Math.min(baseFontSize + (repeatCount - 1) * 2, 40);
               firstDom.style.fontSize = newFontSize + "px";
-              
+
               // 更新计数显示
               firstDom.setAttribute("data-repeat-count", repeatCount);
-              
+
               // 触发跳动动画
               firstDom.classList.remove("danmaku-combo-animation");
               // 强制重排以重新触发动画
@@ -11959,7 +11972,7 @@ function initPkg_SyncJoy_Func() {
 
 // 版本号
 // 格式 yyyy.MM.dd.**
-var curVersion = "2025.11.21.01"
+var curVersion = "2025.11.26.01"
 var isNeedUpdate = false
 var lastestVersion = ""
 function initPkg_Update() {
@@ -14800,29 +14813,69 @@ function responseHook(callback) {
  * [
  *  { url: "", callback: (content: string) => string }
  * ]
+ * 支持多个 callback，会按注册顺序依次执行，前一个 callback 的输出作为下一个 callback 的输入
  */
 let scriptHookCallbackList = [];
 
 function initScriptHook() {
-  new DomHook("head", true, function (mutations) {
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if (node.tagName !== "SCRIPT") return;
-        const src = node.getAttribute("src");
-        if (!src) return;
-        const callback = scriptHookCallbackList.find((item) => src.includes(item.url));
-        if (!callback) return;
-        fetch(node.src)
-          .then((response) => response.text())
-          .then((content) => {
-            const modifiedContent = callback.callback(content);
-            const newScript = document.createElement("script");
-            newScript.textContent = modifiedContent;
-            node.parentNode.replaceChild(newScript, node);
-          })
-          .catch((err) => console.error("Error loading script:", err));
-      });
-    });
+  const originalAppendChild = Node.prototype.appendChild;
+
+  // 覆盖原生的 appendChild 方法
+  Node.prototype.appendChild = function (node) {
+    // 1. 检查节点是否是 SCRIPT 标签
+    if (node.tagName === "SCRIPT" && node.src) {
+      const src = node.src;
+
+      // 找到所有匹配的 callback
+      const callbacks = [];
+      for (let k = 0; k < scriptHookCallbackList.length; k++) {
+        const item = scriptHookCallbackList[k];
+        // 检查是否包含目标 URL
+        if (src.includes(item.url)) callbacks.push(item);
+      }
+
+      if (callbacks.length > 0) {
+        fetchAndReplace(src, callbacks, this);
+        // 返回一个空节点，防止网站报错，且不插入原脚本
+        return document.createDocumentFragment();
+      }
+    }
+
+    // 如果不是目标脚本，或者没有 src (例如内联脚本或样式)，则执行原始方法
+    return originalAppendChild.call(this, node);
+  };
+}
+
+/**
+ * 获取源码、修改并注入的函数
+ * @param {string} url - 脚本URL
+ * @param {Array} callbacks - 匹配到的回调函数列表
+ * @param {Node} targetNode - 原始脚本应该插入的父节点
+ */
+function fetchAndReplace(url, callbacks, targetNode) {
+  GM_xmlhttpRequest({
+    method: "GET",
+    url: url,
+    onload: function (response) {
+      let modifiedContent = response.responseText;
+
+      // 依次执行所有匹配的 callback
+      for (let m = 0; m < callbacks.length; m++) {
+        const callback = callbacks[m];
+        modifiedContent = callback.callback(modifiedContent);
+      }
+
+      // 创建新的可执行脚本
+      const newScript = document.createElement("script");
+      newScript.type = "text/javascript";
+      newScript.textContent = modifiedContent;
+
+      // 注入回原始目标节点
+      targetNode.appendChild(newScript);
+    },
+    onerror: function (err) {
+      console.error("Error loading script via GM_xmlhttpRequest:", err);
+    }
   });
 }
 
