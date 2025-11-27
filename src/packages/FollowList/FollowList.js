@@ -30,7 +30,7 @@ async function setNewFollowList(panel) {
     const FOLLOWLIST_LIMIT = 10; // 关注列表最多显示个数
     let limit = 0;
     let html = `
-        <div id="refreshFollowList" style="color: grey; position: absolute; right: 5px; top: 0px; cursor: default; display: flex; align-items: center; justify-content: space-between; width: calc(100% - 10px); padding: 0 5px;">
+        <div id="refreshFollowList" style="color: grey; position: absolute; top: 0px; cursor: default; display: flex; align-items: center; justify-content: space-between; width: calc(100% - 10px); padding: 0 5px;">
             <label style="display: flex; align-items: center; cursor: pointer; color: inherit;">
                 <input type="checkbox" id="loadInCurrentPageCheckbox" ${loadInCurrentPage ? 'checked' : ''} style="margin-right: 5px;">
                 在当前页面加载
