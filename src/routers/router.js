@@ -78,6 +78,7 @@ function initRouter_DouyuRoom_Main() {
     // 主要
     document.domain = "douyu.com";
     init();
+    initStyles();
     let intID = setInterval(() => {
         let dom1 = document.getElementsByClassName("BackpackButton")[0];
         let dom2 = document.getElementsByClassName("Barrage-main")[0];
@@ -86,7 +87,6 @@ function initRouter_DouyuRoom_Main() {
             return;
         }
         setTimeout(() => {
-            initStyles();
             initPkg();
             initPkgSpecial();
             initTimer();
