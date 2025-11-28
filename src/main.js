@@ -6,18 +6,19 @@
 // @version      2026.02.04.02
 // @description  斗鱼直播间增强插件，功能：弹幕自动变色防检测循环发送 一键续牌 查看真实人数/查看主播数据 已播时长 一键签到(直播间/车队/鱼吧/客户端) 一键领取鱼粮(宝箱/气泡/任务) 一键寻宝 送出指定数量的礼物 一键清空背包 屏蔽广告 调节弹幕大小 自动更新 同屏画中画/多直播间小窗观看/可在斗鱼看多个平台直播(虎牙/b站) 获取真实直播流地址 自动抢礼物红包 背包信息扩展 简洁模式 夜间模式 开播提醒 幻神模式 关键词回复 关键词禁言 自动谢礼物 自动抢宝箱 弹幕右键信息扩展 防止下播自动跳转 影院模式 直播时间流控制 弹幕投票 直播滤镜 直播音频流 账号多开/切换 显示粉丝牌获取日期 月消费数据显示 弹幕时速 相机截图录制gif 全景播放器 斗鱼视频下载/弹幕ass下载 直播画面局部缩放 全站抽奖信息 直播音效增强 阻止P2P上传 显示贡献榜贡献值 恢复弹幕显示 斗鱼视频弹幕高能进度条 检测弹幕是否发送成功 查看主播配置信息 自动网页全屏 自动最高画质 弹幕无限收藏 收藏弹幕搜索 支持弹幕带图片 屏蔽弹幕背景 弹幕+1 房间VIP到期提醒 自动钓鱼 防止自动暂停直播 恢复已关闭鱼吧 弹幕小尾巴 屏蔽重复弹幕 画质增强
 // @author       小淳
-// @match			*://*.douyu.com/0*
-// @match			*://*.douyu.com/1*
-// @match			*://*.douyu.com/2*
-// @match			*://*.douyu.com/3*
-// @match			*://*.douyu.com/4*
-// @match			*://*.douyu.com/5*
-// @match			*://*.douyu.com/6*
-// @match			*://*.douyu.com/7*
-// @match			*://*.douyu.com/8*
-// @match			*://*.douyu.com/9*
-// @match			*://*.douyu.com/beta/*
-// @match			*://*.douyu.com/topic/*
+// @match        *://*.douyu.com/0*
+// @match        *://*.douyu.com/1*
+// @match        *://*.douyu.com/2*
+// @match        *://*.douyu.com/3*
+// @match        *://*.douyu.com/4*
+// @match        *://*.douyu.com/5*
+// @match        *://*.douyu.com/6*
+// @match        *://*.douyu.com/7*
+// @match        *://*.douyu.com/8*
+// @match        *://*.douyu.com/9*
+// @match        *://*.douyu.com/beta/*
+// @match        *://*.douyu.com/directory*
+// @match        *://*.douyu.com/topic/*
 // @match        *://www.douyu.com/member/cp/getFansBadgeList
 // @match        *://passport.douyu.com/*
 // @match        *://msg.douyu.com/*
@@ -125,12 +126,10 @@ function initTimer() {
 
 function initStyles() {
   let style = document.createElement("style");
-  style.appendChild(
-    document.createTextNode(`
-		body{position:relative;}
-		/*编译器标记 勿删*/
-		`)
-  );
+  style.textContent = `
+    body{position:relative;}
+    /*编译器标记 勿删*/
+  `;
   document.head.appendChild(style);
 }
 
