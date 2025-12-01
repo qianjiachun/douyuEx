@@ -81,7 +81,7 @@ function initRouter_DouyuRoom_Main() {
     let intID = setInterval(() => {
         let dom1 = document.getElementsByClassName("BackpackButton")[0];
         let dom2 = document.getElementsByClassName("Barrage-main")[0];
-        let dom3 = document.getElementsByClassName("ToolbarGiftArea-backpack")[0];
+        let dom3 = document.querySelector("#js-backpack-enter")
         if (!dom2 || (!dom1 && !dom3)) {
             return;
         }

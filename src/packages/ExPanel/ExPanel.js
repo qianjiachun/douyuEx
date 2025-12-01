@@ -18,7 +18,13 @@ function initPkg_ExPanel_insertDom() {
     let b = document.querySelector(".PlayerToolbar-ContentCell .PlayerToolbar-Wealth");
     if (!b) {
         b = document.querySelector(".PlayerToolbar-ContentRow");
-        a.style.bottom = "76px";
+        const domPlayerToolbar = document.querySelector(".PlayerToolbar");
+        // 获取PlayerToolbar的高度作为bottom
+        if (domPlayerToolbar) {
+            a.style.bottom = domPlayerToolbar.offsetHeight + "px";
+        } else {
+            a.style.bottom = "76px";
+        }
     }
     b.insertBefore(a, b.childNodes[0]);
 	

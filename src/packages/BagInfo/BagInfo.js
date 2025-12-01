@@ -4,7 +4,7 @@ function initPkg_BagInfo() {
 }
 
 function initPkg_BagInfo_Func() {
-    let backpackDom = getValidDom([".BackpackButton", ".ToolbarGiftArea-backpack--content"])
+    let backpackDom = getValidDom([".BackpackButton", "#js-backpack-enter"])
     if (!backpackDom) {
         return;
     }
