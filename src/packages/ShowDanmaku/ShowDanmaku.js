@@ -13,9 +13,9 @@ function initPkg_ShowDanmakuOriginAction() {
         callback: (content) => {
             let newContent = content;
             // 加一按钮
-            newContent = newContent.replace(`if(u&&u.isOpenFireFBComment)`, `if(true)`);
+            newContent = newContent.replace(`if(c&&c.isOpenFireFBComment)`, `if(true)`);
             // 回复按钮
-            newContent = newContent.replace(`if(W&&!this.isFireOpenRank(s))if(parseInt(W,10)&&U&&B>=z&&(!V||V&&M))`, `if(true)if(true) `);
+            newContent = newContent.replace(`if(z&&!this.isFireOpenRank(s))if(parseInt(z,10)&&W&&M>=U&&(!G||G&&B))`, `if(true)if(true) `);
             // 点赞按钮
             newContent = newContent.replace(`else if(1==+Object(r.A)("barrage_praise"))`, `if(true) `);
             return newContent;
