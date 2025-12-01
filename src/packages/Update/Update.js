@@ -113,17 +113,22 @@ function Update_openUpdatePage() {
 }
 
 function Update_showTip(a) {
-	let d = document.getElementById("ex-update__tip");
-	if (d) {
-		if (a) {
-			if (d.style.display != "block") {
-				d.style.display = "block";
+	let count = 0;
+	let timer = setInterval(() => {
+		let d = document.getElementById("ex-update__tip");
+		count++;
+		if (count > 60) return clearInterval(timer);
+		if (d) {
+			clearInterval(timer);
+			if (a) {
+				if (d.style.display != "block") {
+					d.style.display = "block";
+				}
+			} else {
+				d.style.display = "none";
 			}
-		} else {
-			d.style.display = "none";
 		}
-	}
-	
+	}, 1000);
 }
 function Update_showMessage() {
 	let msg = `【版本更新】最新版本：${lastestVersion}，点击<a href="https://html.douyuex.com/install/web.html" target="_blank">官方源</a>或者<a href="https://greasyfork.org/zh-CN/scripts/394497" target="_blank">GreasyFork源</a>更新，<a href="https://html.douyuex.com/update/" target="_blank">点击查看更新内容</a>`

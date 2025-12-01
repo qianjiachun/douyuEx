@@ -65,6 +65,7 @@ function init() {
 	initPkg_Night_Set_Fast();
 	initResponseHook();
 	initPkg_ShowDanmaku();
+	Update_checkVersion();
 	initKillP2P();
 	initFullScreen();
 	initHighestVideoQuality();
@@ -75,7 +76,6 @@ function init() {
 	initPkg_FollowList();
 }
 function initPkg() {
-	Update_checkVersion();
 	initPkg_DanmakuTail();
 	initPkg_ReturnOldWeb();
 	initPkg_Night();
