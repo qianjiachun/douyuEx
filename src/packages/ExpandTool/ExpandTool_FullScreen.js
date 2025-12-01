@@ -103,13 +103,25 @@ function initHighestVideoQuality() {
 }
 
 function highestVideoQuality() {
-    gDomObserver.waitForElement('.tipItem-898596 ul, .tipItem-e17801 ul', 90000).then(qualityContainer => {
-        const highestQualityOption = qualityContainer.querySelector(':first-child');
-        if (!highestQualityOption.className.includes("selected")) {
-            console.log("DouyuEx 自动最高画质: 点击 highestQualityOption", highestQualityOption);
-            highestQualityOption.click();
-        } else {
-            console.log("DouyuEx 自动最高画质: 保持 highestQualityOption", highestQualityOption);
-        }
+    gDomObserver.waitForElement('.reload-0876b5', 90000).then(reloadDiv => {
+        console.log("DouyuEx 自动最高画质: 检测到reloadDiv，直播已开启", reloadDiv);
+        let reloadDivDomHook = new DomHook(reloadDiv, true, () => {
+            if (reloadDiv.offsetParent !== null) {
+                console.log("DouyuEx 自动最高画质: 直播流异常，点击reloadDiv", reloadDiv);
+                reloadDiv.click();
+                return;
+            }
+        }, true);
+        gDomObserver.waitForElement('.selected-ab049e').then(selectedItem => {
+            const highestQualityOption = selectedItem.parentElement.querySelector(':first-child');
+            if (highestQualityOption !== selectedItem) {
+                console.log("DouyuEx 自动最高画质: 点击 highestQualityOption", highestQualityOption);
+                highestQualityOption.click();
+            } else {
+                console.log("DouyuEx 自动最高画质: 保持 highestQualityOption", highestQualityOption);
+            }
+            reloadDivDomHook.closeHook();
+            reloadDivDomHook = null;
+        });
     });
 }
