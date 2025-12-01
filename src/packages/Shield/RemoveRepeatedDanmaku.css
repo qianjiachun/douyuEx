@@ -3,3 +3,7 @@
   pointer-events: none !important;
   visibility: hidden !important;
 }
+
+.danmu-fbb2a3 > div {
+  transition: font-size 0.5s ease !important;
+}

@@ -220,8 +220,6 @@ function removeRepeatedDanmaku() {
                 const computedStyle = window.getComputedStyle(firstDom);
                 const originalFontSize = computedStyle.fontSize;
                 repeatedDanmakuOriginalFontSizeMap.set(firstDom, originalFontSize);
-                // 添加字体大小变化的过渡动画效果
-                firstDom.style.transition = "font-size 0.5s ease";
               }
 
               // 获取原始fontSize的数值
