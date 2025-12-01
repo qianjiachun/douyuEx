@@ -47,7 +47,7 @@ function initPkg_Shield_RemoveEnter() {
 
 function getLocalIsRemoveEnterBarrage() {
   const ret = localStorage.getItem("ExSave_isRemoveEnterBarrage");
-  return ret ? Number(ret) === 1 : true; // 默认为true（移除进场弹幕）
+  return ret ? Number(ret) === 1 : false; // 默认为false（不屏蔽进场弹幕）
 }
 
 function saveRemoveEnterBarrage() {
