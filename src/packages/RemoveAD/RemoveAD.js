@@ -20,7 +20,6 @@ function removeAD() {
     .TurntableLottery-actTips{display:none !important;}
     .feedback-e27241{display:none !important;}
     .FansMedalEnter-maxFlag{display:none !important;}
-    .Header-follow-listBox{max-height:640px !important;}
 
     .GuessGameMiniPanelB-wrapper{display:none !important;}
 
