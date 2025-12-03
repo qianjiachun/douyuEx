@@ -1,57 +1,55 @@
-let followListHook;
 function initPkg_FollowList() {
     let intID = setInterval(() => {
-        if (getValidDom([".Header-follow-content", "#js-backpack-enter"])) {
-            followListHook = new DomHook(".Header-follow-content", false, handleFollowList);
-            clearInterval(intID);
-        }
+        const followContent = document.getElementsByClassName("Header-follow-content")[0];
+        if (!followContent) return;
+        clearInterval(intID);
+        new ResizeObserver(() => {
+            const followListBox = followContent.querySelector('.Header-follow-listBox');
+            if (!followListBox || followListBox.childElementCount === 0) return;
+            handleFollowList(followListBox, followContent);
+            updateFollowList(followListBox);
+        }).observe(followContent);
     }, 1000);
 }
 
-function handleFollowList(m) {
-    const followListBox = m[0].target.querySelector(".Header-follow-listBox");
-    if (!followListBox || followListBox.childElementCount === 0) return;
+function handleFollowList(followListBox, followContent) {
     const listBoxRect = followListBox.getBoundingClientRect();
     const dropMenuRect = followListBox.closest('.public-DropMenu-drop').getBoundingClientRect();
     const spaceAbove = listBoxRect.top;
     const spaceBelow = dropMenuRect.bottom - listBoxRect.bottom;
-    const extraOffset = 12;
-    followListBox.style.setProperty(
-        'max-height',
-        `calc(100dvh - ${spaceAbove}px - ${spaceBelow}px - ${extraOffset}px)`,
-        'important'
-    );
-    updateFollowList(followListBox);
+    const extraOffset = (document.documentElement.scrollWidth > document.documentElement.clientWidth) ? 22 : 16;
+    const maxHeightValue = `calc(100dvh - ${Math.round(spaceAbove + spaceBelow + extraOffset)}px)`;
+    if (maxHeightValue !== followContent.style.getPropertyValue('--followlist-max-height')) {
+        followContent.style.setProperty('--followlist-max-height', maxHeightValue);
+    }
 }
 
 async function updateFollowList(followListBox) {
-    const loadInCurrentPage = await GM_getValue("Ex_LoadInCurrentPage", false);
-    const isVideoDynamic = followListBox.classList.contains('is-videoDynamic');
+    let loadInCurrentPage = await GM_getValue("Ex_LoadInCurrentPage", false);
     const followListItems = followListBox.getElementsByClassName("DropPaneList");
 
     if (!followListBox.querySelector('#followlist-toolbar')) {
         followListBox.insertAdjacentHTML(
             'afterbegin',
-            `<div id="followlist-toolbar" style="color: grey; position: absolute; top: 0px; cursor: default; display: flex; justify-content: space-between; width: 100%; padding: 0 5px; box-sizing: border-box;">
-                <label style="display: flex; cursor: pointer;">
-                    <input type="checkbox" id="loadInCurrentPageCheckbox" style="margin-right: 5px;">
-                    <span>在当前页面加载</span>
+            `<div id="followlist-toolbar">
+                <label id="followlist-checkbox">
+                    <input id="followlist-checkbox-input" type="checkbox">
+                    <span id="followlist-checkbox-tip">在当前页面加载</span>
                 </label>
-                <span id="followlist-tip">长按弹出同屏播放</span>
+                <span id="followlist-longclick-tip">长按弹出同屏播放</span>
             </div>`
         );
-        const checkbox = followListBox.querySelector('#loadInCurrentPageCheckbox');
+        const checkbox = followListBox.querySelector('#followlist-checkbox-input');
         checkbox.checked = loadInCurrentPage;
         checkbox.addEventListener("change", () => {
-            const isChecked = checkbox.checked;
+            loadInCurrentPage = checkbox.checked;
             for (let i = 0; i < followListItems.length; i++) {
                 const anchor = followListItems[i].querySelector('a[href^="/"]');
-                if (anchor) anchor.target = isChecked ? '_self' : '_blank';
+                if (anchor) anchor.target = loadInCurrentPage ? '_self' : '_blank';
             }
-            GM_setValue("Ex_LoadInCurrentPage", isChecked);
-            showMessage(`【关注列表】已${isChecked ? "开启" : "关闭"}当前页加载功能（${isChecked ? "当前页面直接加载关注的直播间" : "使用新网页打开关注的直播间"}）`, "info");
+            GM_setValue("Ex_LoadInCurrentPage", loadInCurrentPage);
+            showMessage(`【关注列表】已${loadInCurrentPage ? "开启" : "关闭"}当前页加载功能（${loadInCurrentPage ? "当前页面直接加载关注的直播间" : "使用新网页打开关注的直播间"}）`, "info");
         });
-        followListBox.querySelector('#followlist-tip').style.display = isVideoDynamic ? 'none' : '';
     }
 
     for (let i = 0; i < followListItems.length; i++) {
@@ -62,7 +60,7 @@ async function updateFollowList(followListBox) {
         const href = anchor.getAttribute('href');
         if (!href || !href.startsWith('/')) continue;
         anchor.target = loadInCurrentPage ? '_self' : '_blank';
-        if (!isVideoDynamic) {
+        if (list.classList.contains("FollowList")) {
             const roomId = href.split('/').pop();
             if (!roomId) continue;
             new CClick(anchor).longClick(() => {
