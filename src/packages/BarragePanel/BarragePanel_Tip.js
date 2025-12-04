@@ -16,25 +16,21 @@ function setBarragePanelTipCallBack() {
 }
 
 function renderBarragePanelTip() {
-    let a = document.createElement("div");
-    a.style.display = "inline-block";
-
     const labelDoms = document.getElementsByClassName("labelfisrt-407af4");
     if (labelDoms.length === 0) return;
     const dom = labelDoms[0].parentElement;
-    dom.appendChild(a);
 
-
-    a = document.createElement("p");
+    const a = document.createElement("p");
     a.className = "sugun-e3fbf6";
     a.innerText = "|";
-    dom.appendChild(a);
 
-    a = document.createElement("div");
-    a.className = "labelfisrt-407af4 thirdBtn-06cde5 fourBtn-0845d4";
-    a.id = "barrage-panel-tip__+1"
-    a.innerText = "+1";
-    dom.appendChild(a);
+    const b = document.createElement("div");
+    b.className = "labelfisrt-407af4 thirdBtn-06cde5 fourBtn-0845d4";
+    b.id = "barrage-panel-tip__+1"
+    b.innerText = "+1";
+
+    dom.insertBefore(a, labelDoms[0].nextSibling);
+    dom.insertBefore(b, a.nextSibling);
 }
 
 function setBarragePanelTipFunc() {
