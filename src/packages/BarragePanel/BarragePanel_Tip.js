@@ -31,6 +31,24 @@ function renderBarragePanelTip() {
 
     dom.insertBefore(a, labelDoms[0].nextSibling);
     dom.insertBefore(b, a.nextSibling);
+
+    const btnsContainer = dom.parentElement;
+    const btnsRect = btnsContainer.getBoundingClientRect();
+    const menuCenterViewportX = btnsRect.left + btnsRect.width / 2;
+    const menuHalfWidth = dom.offsetWidth / 2;
+    const initialMenuLeft = menuCenterViewportX - menuHalfWidth;
+    const initialMenuRight = menuCenterViewportX + menuHalfWidth;
+
+    const SCROLLBAR_OFFSET = 18;
+    const playerContainer = document.getElementById("js-player-main");
+    const boundaryRect = (playerContainer || document.documentElement).getBoundingClientRect();
+    const hasScrollbar = !playerContainer && document.documentElement.scrollWidth > document.documentElement.clientWidth;
+    const boundaryLeft = boundaryRect.left;
+    const boundaryRight = boundaryRect.right - (hasScrollbar && SCROLLBAR_OFFSET);
+
+    const offsetX = (initialMenuLeft < boundaryLeft && boundaryLeft - initialMenuLeft) ||
+                    (initialMenuRight > boundaryRight && boundaryRight - initialMenuRight);
+    if(offsetX) dom.style.transform = `translateX(calc(-50% + ${offsetX}px))`;
 }
 
 function setBarragePanelTipFunc() {
