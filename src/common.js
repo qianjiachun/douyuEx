@@ -559,3 +559,67 @@ function getValidDomList(queryList) {
 	}
 	return [];
 }
+
+/*
+ * gDomObserver - 全局 DOM 观察服务单例：
+ *   - 复用单个 MutationObserver 实例观察 DOM 结构变化，避免重复创建观察器；
+ *   - 提供 waitForElement(selector) 方法，返回 Promise：
+ *       - 若目标元素已存在，直接以 resolved 状态返回；
+ *       - 否则挂起等待任务，待目标元素出现后 resolve；
+ *   - 使用任务队列统一管理所有等待项，DOM 变化时批量检查；
+ *   - 按需启动观察服务以节省资源，队列清空时自动停止。
+ */
+const gDomObserver = (function() {
+    let _observer = null;
+    const _listeners = [];
+    function _queryElement(selector) {
+        if (typeof selector !== 'string' || !selector.trim()) return null;
+        try {
+            return document.querySelector(selector);
+        } catch (err) {
+            return null;
+        }
+    }
+    function _checkElements() {
+        let write = 0;
+        for (let read = 0, length = _listeners.length; read < length; read++) {
+            const item = _listeners[read];
+            const element = _queryElement(item.selector);
+            if (element) {
+                item.resolve(element);
+            } else {
+                _listeners[write++] = item;
+            }
+        }
+        _listeners.length = write;
+        if (write === 0 && _observer) {
+            _observer.disconnect();
+            _observer = null;
+        }
+    }
+    return {
+        /*
+         * 异步等待指定选择器对应的元素出现在 DOM 中：
+         *   @param {string} selector - CSS 选择器字符串
+         *   @returns {Promise<Element>} - 目标元素出现时 resolve
+         *   @example
+         *     gDomObserver.waitForElement('#id').then(e => {
+         *         console.log('元素已出现:', e);
+         *     });
+         */
+        waitForElement(selector) {
+            const element = _queryElement(selector);
+            if (element) {
+                return Promise.resolve(element);
+            }
+            return new Promise((resolve) => {
+                _listeners.push({ selector, resolve });
+                if (!_observer) {
+                    const root = document.body || document.documentElement || document;
+                    _observer = new MutationObserver(_checkElements);
+                    _observer.observe(root, { childList: true, subtree: true });
+                }
+            });
+        }
+    };
+})();
