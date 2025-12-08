@@ -538,3 +538,66 @@ function getValidDomList(queryList) {
 	}
 	return [];
 }
+
+/*
+ * gDomObserver - 全局 DOM 观察服务单例。
+ *   - 复用单个 MutationObserver 实例观察 DOM 结构变化，避免重复创建观察器，
+ *   - 提供 waitForElement(selector) 方法，返回一个Promise并在目标元素出现时立刻完成，
+ *   - 支持多个观察任务，不同选择器的观察任务会加入队列并逐一检查，
+ *   - 元素出现后立即 resolve 并从队列中移除，
+ *   - 队列为空时自动停止观察服务以节省资源。
+ */
+const gDomObserver = (function() {
+    let _observer = null;
+    const listeners = [];
+    const root = document.body || document.documentElement || document;
+    function _queryElements(selector) {
+        if (typeof selector !== 'string' || !selector.trim()) return null;
+        try {
+            return document.querySelector(selector);
+        } catch (err) {
+            return null;
+        }
+    }
+    function _checkElements() {
+        let write = 0;
+        for (let read = 0, length = listeners.length; read < length; read++) {
+            const item = listeners[read];
+            const element = _queryElements(item.selector);
+            if (element) {
+                item.resolve(element);
+            } else {
+                listeners[write++] = item;
+            }
+        }
+        listeners.length = write;
+        if (write === 0 && _observer) {
+            _observer.disconnect();
+            _observer = null;
+        }
+    }
+    return {
+        /*
+         * 异步等待指定选择器对应的元素出现在 DOM 中。
+         * @param {string} selector - CSS 选择器字符串。
+         * @return {Promise<Element>} - 返回一个 Promise，并在目标元素出现时立刻完成。
+         * 使用示例：
+         *   gDomObserver.waitForElement('#id').then(e => {
+         *       console.log('元素已出现:', e);
+         *   });
+         */
+        waitForElement(selector) {
+            const element = _queryElements(selector);
+            if (element) {
+                return Promise.resolve(element);
+            }
+            return new Promise((resolve) => {
+                listeners.push({ selector, resolve });
+                if (!_observer) {
+                    _observer = new MutationObserver(_checkElements);
+                    _observer.observe(root, { childList: true, subtree: true });
+                }
+            });
+        }
+    };
+})();
