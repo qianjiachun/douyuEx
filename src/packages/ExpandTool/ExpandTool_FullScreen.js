@@ -57,19 +57,10 @@ function initFullScreen() {
 }
 
 function fullScreen() {
-    const controlbarContainer = document.getElementById("js-player-controlbar");
-    if (controlbarContainer) {
-        let fullScreenDomHook = new DomHook(controlbarContainer, true, () => {
-            const fullScreenButton = controlbarContainer.querySelector('.wfs-2a8e83, .icon-c8be96:has([d="M20 25h6v-6M14 7H8v6"])');
-            if (fullScreenButton) {
-                console.log("DouyuEx: 触发自动网页全屏并停止监听", fullScreenButton);
-                fullScreenButton.click();
-                fullScreenDomHook.closeHook();
-                fullScreenDomHook = null;
-            }
-        });
-        console.log("DouyuEx: 启动自动网页全屏监听:", controlbarContainer);
-    }
+    gDomObserver.waitForElement('.wfs-2a8e83, .icon-c8be96:has([d="M20 25h6v-6M14 7H8v6"])', 90000).then(fullScreenPageButton => {
+        console.log("DouyuEx 自动网页全屏: 点击 fullScreenPageButton", fullScreenPageButton);
+        fullScreenPageButton.click();
+    });
 }
 
 function getHighestVideoQuality() {
@@ -112,18 +103,13 @@ function initHighestVideoQuality() {
 }
 
 function highestVideoQuality() {
-    const controlbarContainer = document.getElementById("js-player-controlbar");
-    if (controlbarContainer) {
-        let highestVideoQualityDomHook = new DomHook(controlbarContainer, true, () => {
-            const qualityContainer = controlbarContainer.querySelector('.tipItem-898596 ul, .tipItem-e17801 ul');
-            if (qualityContainer) {
-                const highestQualityOption = qualityContainer.querySelector(':first-child');
-                if (highestQualityOption && !highestQualityOption.className.includes("selected")) {
-                    highestQualityOption.click();
-                }
-                highestVideoQualityDomHook.closeHook();
-                highestVideoQualityDomHook = null;
-            }
-        });
-    }
+    gDomObserver.waitForElement('.tipItem-898596 ul, .tipItem-e17801 ul', 90000).then(qualityContainer => {
+        const highestQualityOption = qualityContainer.querySelector(':first-child');
+        if (!highestQualityOption.className.includes("selected")) {
+            console.log("DouyuEx 自动最高画质: 点击 highestQualityOption", highestQualityOption);
+            highestQualityOption.click();
+        } else {
+            console.log("DouyuEx 自动最高画质: 保持 highestQualityOption", highestQualityOption);
+        }
+    });
 }
