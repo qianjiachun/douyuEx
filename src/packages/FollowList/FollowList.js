@@ -23,17 +23,14 @@ function initPkg_FollowList() {
         };
     })();
 
-    let intID = setInterval(() => {
-        const followContent = document.getElementsByClassName("Header-follow-content")[0];
-        if (!followContent) return;
-        clearInterval(intID);
+    gDomObserver.waitForElement('.Header-follow-content').then(followContent => {
         new ResizeObserver(() => {
             const followListBox = followContent.querySelector('.Header-follow-listBox');
             if (!followListBox || followListBox.childElementCount === 0) return;
             handleFollowList(followListBox, followContent);
             updateFollowList(followListBox);
         }).observe(followContent);
-    }, 1000);
+    }, 60000);
 }
 
 function handleFollowList(followListBox, followContent) {
