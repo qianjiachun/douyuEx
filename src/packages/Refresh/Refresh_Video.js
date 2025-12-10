@@ -1,28 +1,22 @@
-let video_num = 0;
 function initPkg_Refresh_Video() {
-    let timer = setInterval(() => {
-        const controlbar = getValidDom([".right-e7ea5d", ".right-17e251"]);
-        if (controlbar) {
-            clearInterval(timer);
-            initPkg_Refresh_Video_Dom();
-            initPkg_Refresh_Video_Func();
-            initPkg_Refresh_Video_Set();
-        }
-        video_num++;
-        if (video_num >= 100) {
-            clearInterval(timer);
-        }
-    }, 1500);
+    Promise.all([
+        gDomObserver.waitForElement('#js-player-dialog'),
+        gDomObserver.waitForElement('.menu-da2a9e'),
+        gDomObserver.waitForElement('.PlayerToolbar'),
+    ]).then(([playerDialog, playerMenu, playerToolbar]) => {
+        initPkg_Refresh_Video_Dom(playerDialog, playerMenu);
+        initPkg_Refresh_Video_Func(playerDialog, playerToolbar);
+        initPkg_Refresh_Video_Set(playerDialog, playerToolbar);
+    }).catch(err => {
+        console.error('DouyuEx 隐藏礼物栏: 初始化失败：', err);
+    });
 }
 
-function initPkg_Refresh_Video_Dom() {
-	Refresh_Video_insertIcon();
-}
-function Refresh_Video_insertIcon() {
+function initPkg_Refresh_Video_Dom(playerDialog, playerMenu) {
 	let a = document.createElement("li");
     a.id = "refresh-video";
     a.innerText = "隐藏礼物栏";
-    let b = document.getElementsByClassName("menu-da2a9e")[0];
+    let b = playerMenu;
     b.insertBefore(a, b.childNodes[b.childNodes.length -1]);
 
     if (!document.getElementById("refresh-video3")) {
@@ -36,17 +30,16 @@ function Refresh_Video_insertIcon() {
             </div>
         </div>`;
         a.style = "position:absolute;left:18px;bottom:58px;padding:0 10px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);color:#fff;z-index:9999;cursor:pointer;user-select:none;opacity:0;transform:scale(.9);transition:opacity .15s ease,transform .15s ease,background-color .15s ease,box-shadow .3s ease;pointer-events:none;";
-        b = document.getElementById("js-player-dialog");
+        b = playerDialog;
         if (b) b.insertBefore(a, b.childNodes[0]);
     }
 }
 
-function initPkg_Refresh_Video_Func() {
-    new DomHook(".right-e7ea5d", true, () => {
-        changeToolBarZIndex();
-    });
-    new DomHook(".right-17e251", true, () => {
-        changeToolBarZIndex();
+function initPkg_Refresh_Video_Func(playerDialog, playerToolbar) {
+    gDomObserver.waitForElement('.right-17e251, .right-e7ea5d').then(rightControlBar => {
+        new DomHook(rightControlBar, true, () => {
+            changeToolBarZIndex();
+        });
     });
     new DomHook(".video__VfhVg", true, (m) => {
         for (const record of m) {
@@ -79,8 +72,8 @@ function initPkg_Refresh_Video_Func() {
         if (isBeta) dom_player_toolbar.parentElement.style = "z-index:20";
     }
 
-    let dom = getValidDom([".layout-Player-video", ".stream__T55I3"]);
-    let dom_video = document.getElementsByClassName("room-Player-Box")[0];
+    let dom = playerDialog.closest('.stream__T55I3') || playerDialog.closest('.layout-Player-video');
+    let refresh_video = document.getElementById("refresh-video");
     let refresh_video3 = document.getElementById("refresh-video3");
     let timer_timeout = 0;
     let isHoveringRefresh3 = false;
@@ -107,13 +100,11 @@ function initPkg_Refresh_Video_Func() {
         }, 2000);
     }
 
-    if (dom && refresh_video3) {
-        dom.addEventListener("mouseenter", () => { setRefreshVideo3Show(); });
-        dom.addEventListener("mouseleave", () => { hideRefreshVideo3(); });
-    }
-    if (dom_video && refresh_video3) {
+    dom.addEventListener("mouseenter", () => { setRefreshVideo3Show(); });
+    dom.addEventListener("mouseleave", () => { hideRefreshVideo3(); });
+    gDomObserver.waitForElement('.room-Player-Box').then(dom_video => {
         dom_video.addEventListener("mousemove", () => { setRefreshVideo3Show(); });
-    }
+    });
     if (refresh_video3) {
         refresh_video3.addEventListener("mouseenter", () => {
             isHoveringRefresh3 = true;
@@ -133,8 +124,8 @@ function initPkg_Refresh_Video_Func() {
     }
 
     function toggleRefreshVideo() {
-        let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-        let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
+        let dom_toolbar = playerToolbar.querySelector('.PlayerToolbar-ContentRow');
+        let dom_video = playerDialog.closest('.stream__T55I3') || playerDialog.closest('.layout-Player-video');
         let dom_refresh = document.getElementById("refresh-video");
         let dom_refresh3 = document.getElementById("refresh-video3");
         if (!dom_toolbar || !dom_video || !dom_refresh) return;
@@ -190,9 +181,12 @@ function initPkg_Refresh_Video_Func() {
         resizeWindow();
     }
 
-	document.getElementById("refresh-video").addEventListener("click", (e) => {
-        toggleRefreshVideo();
-    });
+    if (refresh_video) {
+        refresh_video.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleRefreshVideo();
+        });
+    }
 
     if (refresh_video3) {
         refresh_video3.addEventListener("click", (e) => {
@@ -225,7 +219,7 @@ function refresh_Video_getStatus() {
     }
 }
 // FullPageFollowGuide
-function initPkg_Refresh_Video_Set() {
+function initPkg_Refresh_Video_Set(playerDialog, playerToolbar) {
     let ret = localStorage.getItem("ExSave_Refresh");
     if (ret != null) {
         let retJson = JSON.parse(ret);
@@ -233,8 +227,8 @@ function initPkg_Refresh_Video_Set() {
             retJson.video = {status: false};
         }
         if (retJson.video.status == true) {
-            let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-            let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
+            let dom_toolbar = playerToolbar.querySelector('.PlayerToolbar-ContentRow');
+            let dom_video = playerDialog.closest('.stream__T55I3') || playerDialog.closest('.layout-Player-video');
             let dom_refresh = document.getElementById("refresh-video");
             let dom_refresh3 = document.getElementById("refresh-video3");
             let dom_player_toolbar = document.getElementById("js-player-toolbar");
