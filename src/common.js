@@ -543,13 +543,16 @@ function getValidDomList(queryList) {
  * gDomObserver - 全局 DOM 观察服务单例。
  *   - 复用单个 MutationObserver 实例观察 DOM 结构变化，避免重复创建观察器，
  *   - 提供 waitForElement(selector) 方法，返回一个Promise并在目标元素出现时立刻完成，
- *   - 支持多个观察任务，不同选择器的观察任务会加入队列并逐一检查，
+ *   - 使用 listeners(任务队列) 与 pendingMap(去重) 统一管理所有"等待元素出现"的任务，
+ *   - 相同 selector 会自动合并，共享同一个 Promise，
+ *   - 不同 selector 的观察任务会加入队列并逐一检查，
  *   - 元素出现后立即 resolve 并从队列中移除，
  *   - 队列为空时自动停止观察服务以节省资源。
  */
 const gDomObserver = (function() {
     let _observer = null;
     const listeners = [];
+    const pendingMap = new Map();
     const root = document.body || document.documentElement || document;
     function _queryElements(selector) {
         if (typeof selector !== 'string' || !selector.trim()) return null;
@@ -566,6 +569,8 @@ const gDomObserver = (function() {
             const element = _queryElements(item.selector);
             if (element) {
                 item.resolve(element);
+                pendingMap.delete(item.selector);
+                //console.log("DouyuEX gDomObserver: 目标元素出现，返回查询结果", element);
             } else {
                 listeners[write++] = item;
             }
@@ -574,6 +579,7 @@ const gDomObserver = (function() {
         if (write === 0 && _observer) {
             _observer.disconnect();
             _observer = null;
+            console.log("DouyuEX gDomObserver: 完成所有任务，停止观察实例");
         }
     }
     return {
@@ -587,17 +593,31 @@ const gDomObserver = (function() {
          *   });
          */
         waitForElement(selector) {
+            selector = typeof selector === "string" ? selector.trim() : "";
+            if (!selector) return Promise.resolve(null);
+            const existing = pendingMap.get(selector);
+            if (existing) {
+                console.log("DouyuEX gDomObserver: 目标元素重复，合并等待任务", selector);
+                return existing.promise;
+            }
             const element = _queryElements(selector);
             if (element) {
+                //console.log("DouyuEX gDomObserver: 目标元素存在，立刻返回结果", existingElement);
                 return Promise.resolve(element);
             }
-            return new Promise((resolve) => {
-                listeners.push({ selector, resolve });
-                if (!_observer) {
-                    _observer = new MutationObserver(_checkElements);
-                    _observer.observe(root, { childList: true, subtree: true });
-                }
-            });
+            let resolveFn;
+            const promise = new Promise(resolve => { resolveFn = resolve; });
+            const listener = { selector, resolve: resolveFn, promise };
+            pendingMap.set(selector, listener);
+            listeners.push(listener);
+            if (!_observer) {
+                _observer = new MutationObserver(_checkElements);
+                _observer.observe(root, { childList: true, subtree: true });
+                console.log("DouyuEX gDomObserver: 启动观察实例，创建等待任务", selector);
+            } else {
+                console.log("DouyuEX gDomObserver: 复用观察实例，加入等待队列", selector);
+            }
+            return promise;
         }
     };
 })();
