@@ -11,17 +11,27 @@ function initPkg_ExpandTool_Player_insertDom() {
         "afterbegin",
         `<span>
             <label title="自动网页全屏"><input id="extool__fullscreenpage" type="checkbox">自动网页全屏</label>
+            <label title="自动折叠侧栏"><input id="extool__hideplayersidebar" type="checkbox">自动折叠侧栏</label>
             <label title="自动最高画质"><input id="extool__highestvideoquality" type="checkbox">自动最高画质</label>
         </span>`
     );
 }
 
 function initPkg_ExpandTool_FullScreenPage_insertFunc() {
-    const checkbox = document.getElementById("extool__fullscreenpage");
-    checkbox.addEventListener("click", function() {
-        const isFullScreenPage = checkbox.checked;
+    const fullscreenpage = document.getElementById("extool__fullscreenpage");
+    const hideplayersidebar = document.getElementById("extool__hideplayersidebar");
+    fullscreenpage.addEventListener("click", function() {
+        const isFullScreenPage = fullscreenpage.checked;
         saveData_ExpandTool("isFullScreenPage", isFullScreenPage);
+        hideplayersidebar.disabled = !isFullScreenPage;
         if (isFullScreenPage) {
+            showMessage("刷新页面生效", "success");
+        }
+    });
+    hideplayersidebar.addEventListener("click", function() {
+        const isHidePlayerSidebar = hideplayersidebar.checked;
+        saveData_ExpandTool("isHidePlayerSidebar", isHidePlayerSidebar);
+        if (isHidePlayerSidebar) {
             showMessage("刷新页面生效", "success");
         }
     });
@@ -41,23 +51,35 @@ function initPkg_ExpandTool_FullScreenPage_Set() {
         localStorage.removeItem("ExSave_FullScreen");
     }
     // 设置初始化
+    const hideplayersidebar = document.getElementById("extool__hideplayersidebar");
     if (isFullScreenPage) {
         document.getElementById("extool__fullscreenpage").checked = true;
-        fullScreenPage();
+        fullScreenpage();
+    } else {
+        hideplayersidebar.disabled = true;
+    }
+    if (loadData_ExpandTool("isHidePlayerSidebar")) {
+        hideplayersidebar.checked = true;
     }
 }
 
-function fullScreenPage() {
+function fullScreenpage() {
     gDomObserver.waitForElement('.wfs-2a8e83, .icon-c8be96:has([d="M20 25h6v-6M14 7H8v6"])', 90000).then(fullScreenPageButton => {
         console.log("DouyuEx 自动网页全屏: 点击 fullScreenPageButton", fullScreenPageButton);
         fullScreenPageButton.click();
+        if (document.getElementById("extool__hideplayersidebar").checked) {
+            gDomObserver.waitForElement('.toggle__P8TKM button').then(toggleButton => {
+                console.log("DouyuEx 自动折叠侧栏: 点击弹幕侧边栏显示切换按钮", toggleButton);
+                toggleButton.click();
+            });
+        }
     });
 }
 
 function initPkg_ExpandTool_HighestVideoQuality_insertFunc() {
-    const checkbox = document.getElementById("extool__highestvideoquality");
-    checkbox.addEventListener("click", function() {
-        const isHighestVideoQuality = checkbox.checked;
+    const highestvideoquality = document.getElementById("extool__highestvideoquality");
+    highestvideoquality.addEventListener("click", function() {
+        const isHighestVideoQuality = highestvideoquality.checked;
         saveData_ExpandTool("isHighestVideoQuality", isHighestVideoQuality);
         if (isHighestVideoQuality) {
             showMessage("刷新页面生效", "success");
