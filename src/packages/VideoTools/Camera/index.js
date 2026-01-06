@@ -8,7 +8,6 @@ var camera_canvas;
 var camera_canvas_img;
 var camera_width;
 var camera_height;
-var camera_anchorName;
 const camera_fps = 83; // 12fps
 
 function cameraAddFrame(node, camera_canvas, gif, fps) {
