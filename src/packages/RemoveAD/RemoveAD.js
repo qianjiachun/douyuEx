@@ -86,12 +86,6 @@ function removeAD() {
         display: none!important;
     }
 
-    .activeItem__d6uUm:nth-child(1){display: none !important;}
-    .activeItem__d6uUm:nth-child(2){right: 0 !important;}
-    .activeItem__d6uUm:nth-child(3){right: 75px !important;}
-    .activeItem__d6uUm:nth-child(4){right: 150px !important;}
-    .activeItem__d6uUm:nth-child(5){right: 225px !important;}
-    .activeItem__d6uUm:nth-child(6){right: 300px !important;}
     .werbungContainer__2sv7h{display:none !important;}
     #js-player-asideTopSuspension{display:none !important;}
     .Search-Panel-Advert{display:none !important;}
