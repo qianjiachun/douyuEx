@@ -59,82 +59,83 @@
 // @antifeature  tracking
 // ==/UserScript==
 function init() {
-	initPkg_ShowDanmakuOriginAction();
-	initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook();
-	initScriptHook();
-	initPkg_Night_Set_Fast();
-	initResponseHook();
-	initPkg_ShowDanmaku();
-	Update_checkVersion();
-	initKillP2P();
-	initFullScreen();
-	initHighestVideoQuality();
-	removeAD();
-	initPkg_Statistics();
-	initPkg_Console();
-	initPkg_Menu();
-	initPkg_FollowList();
+  initPkg_ShowDanmakuOriginAction();
+  initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook();
+  initScriptHook();
+  initPkg_Night_Set_Fast();
+  initResponseHook();
+  initPkg_ShowDanmaku();
+  Update_checkVersion();
+  initKillP2P();
+  initFullScreen();
+  initHighestVideoQuality();
+  removeAD();
+  initPkg_Statistics();
+  initPkg_Console();
+  initPkg_Menu();
+  initPkg_FollowList();
 }
 function initPkg() {
-	initPkg_DanmakuTail();
-	initPkg_ReturnOldWeb();
-	initPkg_Night();
-	initPkg_ExIcon();
-	initPkg_ExPanel();
-	initPkg_RealAudience();
-	initPkg_CopyRealLive();
-	initPkg_AudioLine();
-	initPkg_RemoveAD();
-	initPkg_Shield();
-	initPkg_BagInfo();
-	initPkg_Update();
-	// initPkg_SyncJoy();
-	initPkg_Fkbuff();
-	initPkg_Monitor();
-	initPkg_Lottery();
-	// initPkg_MiniProgram();
-	initPkg_PopupPlayer();
-	initPkg_LiveTool();
-	initPkg_VideoTools();
-	initPkg_ExpandTool();
-	initPkg_Refresh();
-	initPkg_BarrageLoop();
-	initPkg_FansContinue();
-	// initPkg_FishFood();
-	initPkg_Sign();
-	initPkg_BarragePanel();
-	// initPkg_AdVideo();
-	initPkg_AccountList();
-	initPkg_ChatTools();
-	initPkg_MonthCost();
-	initPkg_RoomVip();
-	initPkg_WeeklyPanel();
-	initPkg_DanmakuCollect();
-	initPkg_RestoreYuba();
-	initPkg_ChangeDanmakuLengthLimit();
-	initPkg_CheckAnchorPocket();
+  initPkg_DanmakuTail();
+  initPkg_Night();
+  initPkg_ExIcon();
+  initPkg_ExPanel();
+  initPkg_RealAudience();
+  initPkg_CopyRealLive();
+  initPkg_AudioLine();
+  initPkg_RemoveAD();
+  initPkg_Shield();
+  initPkg_BagInfo();
+  initPkg_Update();
+  // initPkg_SyncJoy();
+  initPkg_Fkbuff();
+  initPkg_Monitor();
+  initPkg_Lottery();
+  // initPkg_MiniProgram();
+  initPkg_PopupPlayer();
+  initPkg_LiveTool();
+  initPkg_VideoTools();
+  initPkg_ExpandTool();
+  initPkg_Refresh();
+  initPkg_BarrageLoop();
+  initPkg_FansContinue();
+  // initPkg_FishFood();
+  initPkg_Sign();
+  initPkg_BarragePanel();
+  // initPkg_AdVideo();
+  initPkg_AccountList();
+  initPkg_ChatTools();
+  initPkg_MonthCost();
+  initPkg_RoomVip();
+  initPkg_WeeklyPanel();
+  initPkg_DanmakuCollect();
+  initPkg_RestoreYuba();
+  initPkg_ChangeDanmakuLengthLimit();
+  initPkg_CheckAnchorPocket();
 }
 function initPkg_Timer() {
-	// initPkg_FishPond_Timer();
-	initPkg_LevelTask_Timer();
-	initPkg_Sign_OPFOY_Timer();
-	initPkg_DisableCloseJump_Timer();
+  // initPkg_FishPond_Timer();
+  initPkg_LevelTask_Timer();
+  initPkg_Sign_OPFOY_Timer();
+  initPkg_DisableCloseJump_Timer();
 }
 function initTimer() {
-	initPkg_Timer();
+  initPkg_Timer();
 }
 
 function initStyles() {
-	let style = document.createElement("style");
-	style.appendChild(document.createTextNode(`
+  let style = document.createElement("style");
+  style.appendChild(
+    document.createTextNode(`
 		body{position:relative;}
 		/*编译器标记 勿删*/
-		`));
-	document.head.appendChild(style);
+		`)
+  );
+  document.head.appendChild(style);
 }
 
 // 编译器标记 勿删
 
-(async function() {
-	initRouter(window.location.href);
+(async function () {
+  initRouter(window.location.href);
 })();
