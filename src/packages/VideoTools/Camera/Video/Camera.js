@@ -92,6 +92,9 @@ function initPkg_VideoTools_Camera_Video_Func() {
     camera.addEventListener("mousedown", (e) => {
         if (e.target.id === "ex-camera-close") return;
         downTime = new Date().getTime();
+        // 动态获取当前视频的真实分辨率
+        camera_canvas_img.width = liveVideoNode.videoWidth;
+        camera_canvas_img.height = liveVideoNode.videoHeight;
         camera_canvas_img.getContext('2d').drawImage(liveVideoNode, 0, 0, camera_canvas_img.width, camera_canvas_img.height);
         imgBase64 = camera_canvas_img.toDataURL("image/png");
 
