@@ -53,15 +53,6 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                 let challenge = v.challenge;
                 let gt = v.gt;
 
-
-                let skey = getTreasureSkey();
-                if (skey != "") {
-                    let url = window.location.href;
-                    getTreasure_Auto(skey, gt, challenge, url, deviceid, rpid, roomid);
-                    return;
-                }
-                
-
                 let handler = (e) => {
                     // 2021-3-18 09:51:47 免打扰
                     // showMessageWindow(rid, "【宝箱】请手动验证领取宝箱", () => {
@@ -110,7 +101,7 @@ function getTreasure(roomid, rpid, deviceid, idName) {
                         product: "float",
                     }, handler);
                 } else {
-                    showMessage("自动抢宝箱初始化失败", "error");
+                    showMessage("宝箱验证初始化失败", "error");
                 }
             } else if(ret.data.msg != "领取失败" && ret.data.msg != "验证码不正确") {
                 let msg = "";
@@ -146,58 +137,6 @@ function getTreasure_Verify(challenge, validate, seccode, divId) {
             if (document.getElementById(divId) != null) {
                 document.getElementById(divId).remove();
             }
-        }
-    });
-}
-
-function getTreasure_Auto(skey, gt, challenge, referer, deviceid, rpid, roomid) {
-    // let wtype = "geetest";
-    // let data = "wtype=" + wtype + "&secretkey=" + skey + "&gt=" + gt + "&referer=" + referer + "&challenge=" + challenge + "&supporttype=3";
-    let data = `appkey=${String(skey).trim()}&gt=${gt}&challenge=${challenge}&referer=${referer}&ip=&host=&sharecode=6fb45916efd144e592f3dbd905b618a5`
-    GM_xmlhttpRequest({
-        method: "POST",
-        // url: "http://api.ddocr.com/api/gateway.jsonp",
-        url: "http://api.rrocr.com/api/recognize.html",
-        data: data,
-        timeout: 60000,
-        responseType: "json",
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        onload: function(response) {
-            let ret = response.response;
-            if (ret.status == "-1") {
-                showMessage("【宝箱】自动识别失败", "error");
-                return;
-            }
-            
-            let data = "room_id=" + roomid + "&package_room_id=" + roomid + "&device_id=" + deviceid + "&packerid=" + rpid + "&version=1";
-            data = data + "&geetest_challenge=" + ret.data.challenge + "&geetest_validate=" + ret.data.validate + "&geetest_seccode=" + ret.data.validate + "%7Cjordan";
-            GM_xmlhttpRequest({
-                method: "POST",
-                url: "https://pcapi.douyucdn.cn/h5nc/member/getRedPacket?token=" + dyToken,
-                data: data,
-                responseType: "json",
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                onload: function(response) {
-                    let ret = response.response;
-                    if (ret.data.code == "-1") {
-                        showMessage("【宝箱】验证码不正确", "error")
-                        return;
-                    }
-                    let msg = "";
-                    if (ret.data.prop_id == "") {
-                        msg = "鱼丸x" + ret.data.silver;
-                    } else {
-                        msg = ret.data.prop_name + "x" + ret.data.prop_count;
-                    }
-                    if (msg != "") {
-                        showMessage("【宝箱】获得" + msg, "success");
-                    }
-                }
-            });
         }
     });
 }

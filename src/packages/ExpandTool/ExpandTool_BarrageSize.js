@@ -10,7 +10,7 @@ function initPkg_ExpandTool_BarrageSize() {
 function ExpandTool_BarrageSize_insertDom() {
     let a = document.createElement("div");
     a.className = "extool__bsize";
-    a.innerHTML = '<label>弹幕大小(默认24px)：</label><input id="extool__bsize_value" type="text" style="width:50px;text-align:center;" value="24" /><input style="width:40px;margin-left:10px;" type="button" id="extool__bsize_btn" value="确认" />';
+    a.innerHTML = '<label>弹幕大小(默认24px)：</label><input id="extool__bsize_value" type="text" style="width:50px;text-align:center;" value="24" /><input style="margin-left:10px;" type="button" id="extool__bsize_btn" value="确认" />';
     
     let b = document.getElementsByClassName("extool")[0];
     b.insertBefore(a, b.childNodes[0]);

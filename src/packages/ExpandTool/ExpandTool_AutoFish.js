@@ -12,7 +12,9 @@ function initPkg_ExpandTool_AutoFish() {
 
 function ExpandTool_AutoFish_insertDom() {
   let html = "";
-  html += '<label><input style="margin-top:5px;" id="extool__autofish_start" type="checkbox">自动钓鱼</label>';
+  html += '<label><input id="extool__autofish_start" type="checkbox">自动钓鱼</label><br>';
+  html += '<label><input name="autofish_mode" type="radio" value="all" checked>全天</label>';
+  html += '<label style="margin-left:5px;"><input name="autofish_mode" type="radio" value="contest">钓鱼大赛</label>';
 
   let a = document.createElement("div");
   a.className = "extool__autofish";
@@ -21,10 +23,18 @@ function ExpandTool_AutoFish_insertDom() {
   b.insertBefore(a, b.childNodes[0]);
 }
 function ExpandTool_AutoFish_insertFunc() {
+  document.querySelectorAll('input[name="autofish_mode"]').forEach(radio => {
+    radio.addEventListener("change", saveData_AutoFish);
+  });
+  
   document.getElementById("extool__autofish_start").addEventListener("click", async () => {
     saveData_AutoFish();
     const isStart = document.getElementById("extool__autofish_start").checked;
-    if (!isStart) return clearInterval(timerAutoFish);
+    AutoFish_lockMode(isStart);
+    if (!isStart) {
+      clearInterval(timerAutoFish);
+      return;
+    }
     showMessage("【自动钓鱼】开始自动钓鱼", "info");
     autoFishInfo = await AutoFish_getFishInfo();
     const homepageRes = await AutoFish_getHomepageData();
@@ -32,6 +42,7 @@ function ExpandTool_AutoFish_insertFunc() {
       baitData = homepageRes.data.baits.find((item) => item.inUse);
       if (!baitData) {
         document.getElementById("extool__autofish_start").checked = false;
+        AutoFish_lockMode(false);
         return showMessage("【自动钓鱼】请设置鱼饵", "error");
       }
       baitId = baitData.id;
@@ -39,10 +50,12 @@ function ExpandTool_AutoFish_insertFunc() {
       const myCh = homepageRes.data.myCh;
       if (!myCh) {
         document.getElementById("extool__autofish_start").checked = false;
+        AutoFish_lockMode(false);
         return showMessage("【自动钓鱼】请设置形象", "error");
       }
     } else {
       document.getElementById("extool__autofish_start").checked = false;
+      AutoFish_lockMode(false);
       return showMessage("【自动钓鱼】未能获取活动信息", "error");
     }
     saveData_AutoFish();
@@ -66,6 +79,9 @@ function ExpandTool_AutoFish_insertFunc() {
     }
 
     timerAutoFish = setInterval(async () => {
+      // 检查是否在钓鱼大赛时间内
+      if (!isInFishingTime()) return;
+      
       if (isFishing) {
         // 正在钓鱼中，检测是否到时间收杆
         const now = new Date().getTime();
@@ -121,42 +137,56 @@ async function endFish() {
   isFishing = false;
 }
 
-function saveData_AutoFish() {
-  let value = document.getElementById("extool__autofish_start").checked;
-  let rids = AutoFish_getRids() || [];
-  // 判断value是否为true，如果为true，则将当前rid添加到rids中，如果为false，则从rids中移除当前rid 
-  if (value) {
-    if (!rids.includes(rid)) {
-      rids.push(rid);
-    }
-  } else {
-    rids = rids.filter((item) => item !== rid);
+function AutoFish_getSave() {
+  let data;
+  try {
+    data = JSON.parse(localStorage.getItem("ExSave_AutoFish"));
+  } catch (e) {
+    data = null;
   }
-  let data = {
-    rids: rids
-  };
-  localStorage.setItem("ExSave_AutoFish", JSON.stringify(data)); // 存储弹幕列表
+  if (!data || typeof data !== "object") data = {};
+  if (!Array.isArray(data.rids)) data.rids = [];
+  if (!data.modes || typeof data.modes !== "object") data.modes = {};
+  return data;
+}
+
+function AutoFish_lockMode(lock) {
+  document.querySelectorAll('input[name="autofish_mode"]').forEach((r) => (r.disabled = lock));
+}
+
+function saveData_AutoFish() {
+  let checkbox = document.getElementById("extool__autofish_start");
+  let modeRadio = document.querySelector('input[name="autofish_mode"]:checked');
+  if (!checkbox || !modeRadio) return;
+
+  let value = checkbox.checked;
+  let mode = modeRadio.value;
+  let data = AutoFish_getSave();
+  
+  if (value) {
+    if (!data.rids.includes(rid)) data.rids.push(rid);
+    data.modes[rid] = mode;
+  } else {
+    data.rids = data.rids.filter((item) => item !== rid);
+    delete data.modes[rid];
+  }
+  
+  localStorage.setItem("ExSave_AutoFish", JSON.stringify(data));
 }
 
 function AutoFish_getRids() {
-  const ret = localStorage.getItem("ExSave_AutoFish");
-  if (ret != null) {
-    let retJson = JSON.parse(ret);
-    return retJson ? retJson.rids : [];
-  } else {
-    return [];
-  }
+  return AutoFish_getSave().rids;
 }
 
 function ExpandTool_AutoFish_Set() {
-  // 设置初始化
-  let ret = localStorage.getItem("ExSave_AutoFish");
-  if (ret != null) {
-    let retJson = JSON.parse(ret);
-    if (!retJson.rids) return;
-    if (!retJson.rids.includes(rid)) return;
-    document.getElementById("extool__autofish_start").click();
-  }
+  let data = AutoFish_getSave();
+  if (!data.rids.includes(rid)) return;
+  
+  // 设置模式（兼容旧版本，默认全天）
+  let mode = data.modes && data.modes[rid] ? data.modes[rid] : "all";
+  document.querySelector(`input[name="autofish_mode"][value="${mode}"]`).checked = true;
+  
+  document.getElementById("extool__autofish_start").click();
 }
 
 function AutoFish_getFishInfo() {
@@ -243,4 +273,17 @@ function AutoFish_endFish() {
         console.log("请求失败!", err);
       });
   });
+}
+
+function isInFishingTime() {
+  let modeRadio = document.querySelector('input[name="autofish_mode"]:checked');
+  let mode = modeRadio ? modeRadio.value : "all";
+  if (mode === "all") return true;
+  
+  let now = new Date();
+  let hour = now.getHours();
+  let minute = now.getMinutes();
+  
+  // 钓鱼大赛：12:00-24:00，每个整点的前半小时
+  return hour >= 12 && minute < 30;
 }

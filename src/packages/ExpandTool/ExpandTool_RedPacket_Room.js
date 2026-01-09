@@ -9,7 +9,7 @@ function initPkg_ExpandTool_RedPacket_Room() {
 
 function ExpandTool_RedPacket_Room_insertDom() {
     let html = "";
-    html += '<label><input style="margin-top:5px;" id="extool__redpacekt_room_start" type="checkbox">自动抢礼物红包</label>';
+    html += '<label><input id="extool__redpacekt_room_start" type="checkbox">自动抢礼物红包</label>';
     
     let a = document.createElement("div");
     a.className = "extool__redpacket_room";

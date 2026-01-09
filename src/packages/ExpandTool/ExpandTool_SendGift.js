@@ -8,8 +8,8 @@ function ExpandTool_SendGift_insertDom() {
     html += '<label>送礼：[用于打榜,例如送出999个飞机]</label><a style="margin-left:10px;color:blue;" href="http://open.douyucdn.cn/api/RoomApi/room/' + rid + '" target="_blank">礼物id示例</a><br />';
     html += '<label>礼物ID：</label><input id="extool__sendgift_id" type="text" style="width:50px;text-align:center;margin-right:10px;" value="20000" />';
     html += '<label>数量：</label><input id="extool__sendgift_cnt" type="text" style="width:30px;text-align:center;margin-right:10px;" value="1" />';
-    html += '<label>间隔ms：</label><input id="extool__sendgift_delay" type="text" style="width:30px;text-align:center;" value="0" />';
-    html += '<input style="width:40px;margin-left:10px;" type="button" id="extool__sendgift_btn" value="送出" />';
+    html += '<br/><label>间隔ms：</label><input id="extool__sendgift_delay" type="text" style="width:30px;text-align:center;" value="0" />';
+    html += '<input style="margin-left:10px;" type="button" id="extool__sendgift_btn" value="送出" />';
     let a = document.createElement("div");
     a.className = "extool__sendgift";
     a.innerHTML = html;

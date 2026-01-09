@@ -1,12 +1,131 @@
 .extool {
 	background-color: rgba(255,255,255,0.9);
 	width: 100%;
-	height: 200px;
+	max-height: 320px;
 	position: relative;
 	bottom: 200px;
 	display: none;
 	z-index: 1428;
 	color: #333;
+	box-sizing: border-box;
+	padding: 8px 10px;
+	overflow: auto;
+	font-size: 13px;
+	line-height: 22px;
+}
+
+.extool[style*="display: block"] {
+	display: flex !important;
+	flex-wrap: wrap;
+	gap: 8px 10px;
+	align-items: flex-start;
+}
+
+.extool > div:not(.ex_giftAnimation) {
+	background: rgba(255,255,255,0.82);
+	border: 1px solid rgba(0,0,0,0.10);
+	border-radius: 10px;
+	padding: 10px 12px 12px;
+	box-sizing: border-box;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 10px;
+	align-items: center;
+	min-width: 220px;
+}
+
+.extool__treasure,
+.extool__sendgift {
+	flex: 1 1 720px;
+}
+.extool__autofish {
+	flex: 1 1 520px;
+}
+.extool__redpacket_room,
+.extool__gold,
+.extool__clearbag,
+.extool__tabswitch,
+.extool__p2p,
+.extool__fullscreen {
+	flex: 1 1 260px;
+}
+
+.extool__treasure::before,
+.extool__sendgift::before,
+.extool__autofish::before,
+.extool__redpacket_room::before,
+.extool__gold::before,
+.extool__clearbag::before,
+.extool__tabswitch::before,
+.extool__p2p::before,
+.extool__fullscreen::before {
+	display: block;
+	width: 100%;
+	content: "";
+	font-weight: 700;
+	font-size: 12px;
+	letter-spacing: .4px;
+	color: rgba(0,0,0,0.72);
+	padding-bottom: 6px;
+	margin-bottom: 2px;
+	border-bottom: 1px dashed rgba(0,0,0,0.12);
+}
+.extool__treasure::before { content: "宝箱"; }
+.extool__sendgift::before { content: "送礼"; }
+.extool__autofish::before { content: "钓鱼"; }
+.extool__redpacket_room::before { content: "礼物红包"; }
+.extool__gold::before { content: "幻神/礼物"; }
+.extool__clearbag::before { content: "背包"; }
+.extool__tabswitch::before { content: "标签/切换"; }
+.extool__p2p::before { content: "网络"; }
+.extool__fullscreen::before { content: "播放器"; }
+
+.extool label {
+	white-space: nowrap;
+	margin-right: 8px;
+	line-height: 22px;
+}
+.extool input[type="text"] {
+	padding: 2px 6px;
+	border: 1px solid rgba(0,0,0,0.18);
+	border-radius: 6px;
+	outline: none;
+	background: rgba(255,255,255,0.95);
+	color: black;
+}
+.extool input[type="checkbox"], .extool input[type="radio"] {
+	vertical-align: middle;
+	margin-right: 4px;
+}
+.extool input[type="button"] {
+	border: 1px solid rgba(0,0,0,0.18);
+	border-radius: 8px;
+	padding: 2px 10px;
+	background: linear-gradient(#ffffff, #f4f6f8);
+	cursor: pointer;
+	color: black;
+}
+.extool input[type="button"]:hover {
+	background: linear-gradient(#ffffff, #e9eef3);
+}
+.extool input[type="button"]:active {
+	transform: translateY(1px);
+}
+.extool a {
+	text-decoration: none;
+}
+.extool .extool__hint {
+	margin-top: 6px;
+	color: #666;
+	font-size: 12px;
+}
+
+/* 兼容某些模块里使用 br 分行的写法，让它在 flex 下表现更一致 */
+.extool br {
+	flex-basis: 100%;
+	width: 0;
+	height: 0;
 }
 
 .extool__switch {
@@ -17,9 +136,7 @@
 .extool__bsize,.extool__sendgift {
 	margin-bottom: 5px;
 }
-.extool__redpacket_room,.extool__gold,.extool__autofish {
-	display: inline-block;
-}
+/* 卡片内部已改为 flex，这里不再强制 inline-block */
 .ex_giftAnimation {
 	width: 100%;
 	height: 100%;

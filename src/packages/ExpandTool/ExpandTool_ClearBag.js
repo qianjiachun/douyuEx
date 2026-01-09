@@ -8,7 +8,7 @@ function ExpandTool_ClearBag_insertDom() {
     html += '<label>背包送礼：[速度并不快,间隔>0.1s]</label><a id="extool__clearbag_showid" style="margin-left:10px;color:blue;" href="javascript:void(0);">礼物id示例</a><br />';
     html += '<label>礼物ID：</label><input id="extool__clearbag_id" type="text" style="width:50px;text-align:center;margin-right:10px;" value="268" />';
     html += '<label>数量：</label><input id="extool__clearbag_cnt" type="text" style="width:30px;text-align:center;" value="1" />';
-    html += '<input style="width:40px;margin-left:10px;" type="button" id="extool__clearbag_sendbtn" value="送出" />';
+    html += '<input style="margin-left:10px;" type="button" id="extool__clearbag_sendbtn" value="送出" />';
     // html += '<input style="width:60px;margin-left:10px;" type="button" id="extool__clearbag_clearbtn" value="清空背包" />';
     let a = document.createElement("div");
     a.className = "extool__clearbag";

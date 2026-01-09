@@ -8,9 +8,9 @@ function initPkg_ExpandTool_Treasure() {
 
 function ExpandTool_Treasure_insertDom() {
     let html = "";
-    html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">自动抢宝箱</label>';
+    html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">半自动抢宝箱</label>';
     html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
-    html += '<div><a href="https://www.rrocr.com/" target="_blank" style="color:blue" title="点击进入rrocr官网，将账号用户中心的appkey填入右边然后开启功能即可">rrocr秘钥：</a><input id="extool__treasure_skey" type="text" style="width:200px;text-align:center;" placeholder="填写则会自动完成宝箱领取验证"></div>';
+    html += '<div class="extool__hint">说明：遇到验证码会自动弹出验证框，需要手动完成后才能领取。</div>';
     
     let a = document.createElement("div");
     a.className = "extool__treasure";
@@ -39,20 +39,15 @@ function ExpandTool_Treasure_insertFunc() {
             }
         })
 	});
-    document.getElementById("extool__treasure_skey").addEventListener("change", () => {
-        saveData_Treasure();
-    })
 }
 
 
 function saveData_Treasure() {
     isGetTreasure = document.getElementById("extool__treasure_start").checked;
     let delay = document.getElementById("extool__treasure_delay").value;
-    let skey = document.getElementById("extool__treasure_skey").value;
 	let data = {
         isGetTreasure: isGetTreasure,
         treasureDelay: delay,
-        skey: skey,
 	}
 	localStorage.setItem("ExSave_Treasure", JSON.stringify(data)); // 存储弹幕列表
 }
@@ -66,9 +61,6 @@ function ExpandTool_Treasure_Set() {
             document.getElementById("extool__treasure_delay").value = retJson.treasureDelay;
         } else {
             document.getElementById("extool__treasure_delay").value = "3200";
-        }
-        if ("skey" in retJson == true) {
-            document.getElementById("extool__treasure_skey").value = retJson.skey;
         }
         if (retJson.isGetTreasure == true) {
             verifyFans("5189167", 9).then(r => {
@@ -90,11 +82,6 @@ function ExpandTool_Treasure_Set() {
 function getTreasureDelay() {
     let ret = document.getElementById("extool__treasure_delay").value;
     return Number(ret);
-}
-
-function getTreasureSkey() {
-    let ret = document.getElementById("extool__treasure_skey").value;
-    return ret;
 }
 
 function getTreasure_Existing() {

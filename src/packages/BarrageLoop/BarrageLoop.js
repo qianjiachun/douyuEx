@@ -24,8 +24,8 @@ function BarrageLoop_insertModal() {
 	html += `
 	<span style="float:right;margin-right:15px;">
 		<select id="bloop__select"></select>
-		<input style="width:40px;margin-left:10px;" type="button" id="bloop__save" value="保存"/>
-		<input style="width:40px;margin-left:10px;" type="button" id="bloop__delete" value="删除"/>
+		<input style="margin-left:10px;" type="button" id="bloop__save" value="保存"/>
+		<input style="margin-left:10px;" type="button" id="bloop__delete" value="删除"/>
 	</span>
 	`;
 	html += '<textarea placeholder="一行一个，开启舔狗模式后此处不需要输入" id="bloop__textarea" rows="5" cols="50"></textarea>';

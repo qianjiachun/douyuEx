@@ -44,7 +44,6 @@
 // @connect      douyu.com
 // @connect      122.51.5.63
 // @connect      qq.com
-// @connect      rrocr.com
 // @connect      douyuex.com
 // @connect      bojianger.com
 // @connect      greasyfork.org
