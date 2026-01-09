@@ -137,7 +137,7 @@ function Filter_insertEnhanceModal() {
                 <div class="enhance-modal__text">
                     开启后，弹幕飘屏会被遮挡，请将鼠标移入到直播画面中并点击<img style="width:32px;" src="https://c-yuba.douyucdn.cn/yubavod/b/zEqAvQaXrd5L/2dd9e0d70e39a532a2675717eb054129.png" alt="">
                     <br />
-                    完成后，再<b>将画质增强关闭</b>或<b>刷新</b>以恢复弹幕飘屏，该功能会<b>自动保存</b>
+                    完成后，再<b>刷新</b>以恢复弹幕飘屏，该功能会<b>自动保存</b>
                     <br />
                     <a style="color: #ff7700;" href="https://www.microsoft.com/zh-cn/edge/features/enhance-video?form=MT0160" target="_blank">没有增强图标？</a>
                 </div>
