@@ -39,7 +39,7 @@ function ExpandTool_AutoFish_insertFunc() {
     autoFishInfo = await AutoFish_getFishInfo();
     const homepageRes = await AutoFish_getHomepageData();
     if (homepageRes.data) {
-      baitData = homepageRes.data.baits.find((item) => item.inUse);
+      let baitData = homepageRes.data.baits.find((item) => item.inUse);
       if (!baitData) {
         document.getElementById("extool__autofish_start").checked = false;
         AutoFish_lockMode(false);
