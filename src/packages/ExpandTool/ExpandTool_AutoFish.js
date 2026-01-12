@@ -284,6 +284,6 @@ function isInFishingTime() {
   let hour = now.getHours();
   let minute = now.getMinutes();
   
-  // 钓鱼大赛：12:00-24:00，每个整点的前半小时
-  return hour >= 12 && minute < 30;
+  // 钓鱼大赛：12:00-24:00，每个整点的前半小时（包括00:00-00:30）
+  return (hour >= 12 && minute < 30) || (hour === 0 && minute < 30);
 }
