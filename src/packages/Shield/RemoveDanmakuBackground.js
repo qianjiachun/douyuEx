@@ -1,7 +1,6 @@
 let isRemoveDanmakuBackground = getLocalIsRemoveDanmakuBackground();
 if (isRemoveDanmakuBackground) removeDanmakuBackground();
-function initPkg_Shield_RemoveDanmakuBackground() {
-  const shieldTool = document.getElementsByClassName("FilterKeywords")[0];
+function initPkg_Shield_RemoveDanmakuBackground(shieldTool) {
   shieldTool.insertAdjacentHTML(
     "afterbegin",
     `<div class="FilterSwitchStatus" id="ex-removeDanmakuBackground">

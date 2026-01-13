@@ -16,8 +16,7 @@ let repeatedDanmakuDomHook = null;
 
 if (isRemoveRepeatedDanmaku) removeRepeatedDanmaku();
 
-function initPkg_Shield_RemoveRepeatedDanmaku() {
-  const shieldTool = document.getElementsByClassName("FilterKeywords")[0];
+function initPkg_Shield_RemoveRepeatedDanmaku(shieldTool) {
   shieldTool.insertAdjacentHTML(
     "afterbegin",
     `<div class="FilterSwitchStatus" id="ex-removeRepeatedDanmaku">
