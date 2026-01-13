@@ -15,13 +15,13 @@ function initPkg_Shield() {
         if (m[0].addedNodes.length > 0 && m[0].removedNodes.length === 0) {
           const domFilterKeywords = document.getElementsByClassName("FilterKeywords")[0];
           if (domFilterKeywords) {
-            initPkg_Shield_Enable();
+            initPkg_Shield_Enable(domFilterKeywords);
           } else {
             let t2 = setInterval(() => {
               const domFilterKeywords = document.getElementsByClassName("FilterKeywords")[0];
               if (domFilterKeywords) {
                 clearInterval(t2);
-                initPkg_Shield_Enable();
+                initPkg_Shield_Enable(domFilterKeywords);
               }
             }, 50);
           }
@@ -31,8 +31,8 @@ function initPkg_Shield() {
   }, 1000);
 }
 
-function initPkg_Shield_Enable() {
-  initPkg_Shield_RemoveRepeatedDanmaku();
-  initPkg_Shield_RemoveEnter();
-  initPkg_Shield_RemoveDanmakuBackground();
+function initPkg_Shield_Enable(domFilterKeywords) {
+  initPkg_Shield_RemoveRepeatedDanmaku(domFilterKeywords);
+  initPkg_Shield_RemoveEnter(domFilterKeywords);
+  initPkg_Shield_RemoveDanmakuBackground(domFilterKeywords);
 }
