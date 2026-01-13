@@ -1,6 +1,5 @@
 let isRemoveEnterBarrage = getLocalIsRemoveEnterBarrage();
-function initPkg_Shield_RemoveEnter() {
-  const shieldTool = document.getElementsByClassName("FilterKeywords")[0];
+function initPkg_Shield_RemoveEnter(shieldTool) {
   let isSupported = window.CSS && window.CSS.supports && window.CSS.supports('--enter-display', 'none'); //CSS变量兼容性检测
   let barrageExtendContainer = document.getElementById("js-barrage-extend-container");
   
