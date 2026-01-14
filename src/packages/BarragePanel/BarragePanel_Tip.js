@@ -3,7 +3,7 @@ function initPkg_BarragePanel_Tip() {
 }
 
 function setBarragePanelTipCallBack() {
-    let a = new DomHook("#comment-dzjy-container", false, (m) => {
+    new DomHook("#comment-dzjy-container", false, (m) => {
         if (m.length <= 0) {
             return;
         }
@@ -18,24 +18,17 @@ function setBarragePanelTipCallBack() {
 function renderBarragePanelTip() {
     const labelDoms = document.getElementsByClassName("labelfisrt-407af4");
     if (labelDoms.length === 0) return;
-    const dom = labelDoms[0].parentElement;
 
-    const a = document.createElement("p");
-    a.className = "sugun-e3fbf6";
-    a.innerText = "|";
+    labelDoms[0].insertAdjacentHTML(
+        "afterend",
+        `<p class="sugun-e3fbf6">|</p>
+         <div class="labelfisrt-407af4 thirdBtn-06cde5 fourBtn-0845d4" id="barrage-panel-tip__+1">+1</div>`
+    );
 
-    const b = document.createElement("div");
-    b.className = "labelfisrt-407af4 thirdBtn-06cde5 fourBtn-0845d4";
-    b.id = "barrage-panel-tip__+1"
-    b.innerText = "+1";
-
-    dom.insertBefore(a, labelDoms[0].nextSibling);
-    dom.insertBefore(b, a.nextSibling);
-
-    const btnsContainer = dom.parentElement;
+    const btnsContainer = labelDoms[0].closest(".btnscontainer-4e2ed0");
     const btnsRect = btnsContainer.getBoundingClientRect();
     const menuCenterViewportX = btnsRect.left + btnsRect.width / 2;
-    const menuHalfWidth = dom.offsetWidth / 2;
+    const menuHalfWidth = btnsContainer.offsetWidth / 2;
     const initialMenuLeft = menuCenterViewportX - menuHalfWidth;
     const initialMenuRight = menuCenterViewportX + menuHalfWidth;
 
@@ -48,7 +41,10 @@ function renderBarragePanelTip() {
 
     const offsetX = (initialMenuLeft < boundaryLeft && boundaryLeft - initialMenuLeft) ||
                     (initialMenuRight > boundaryRight && boundaryRight - initialMenuRight);
-    if(offsetX) dom.style.transform = `translateX(calc(-50% + ${offsetX}px))`;
+    if(offsetX) {
+        btnsContainer.style.transform = `translateX(calc(-50% + ${offsetX}px))`;
+        btnsContainer.querySelector('.btnscontainerrect-6e7730').style.transform = `translateX(calc(-50% - ${offsetX}px))`;
+    }
 }
 
 function setBarragePanelTipFunc() {
