@@ -62,15 +62,11 @@ function initRouter_Motorcade() {
 function initRouter_DouyuRoom_Popup() {
     // 画中画
     removeAD();
-    let intID = setInterval(() => {
-        if (typeof (document.querySelector('div.wfs-2a8e83')) !== "undefined") {
-            document.querySelector('div.wfs-2a8e83').click();
-            document.querySelector('label.layout-Player-asidetoggleButton').click();
-            let l = document.querySelectorAll(".tip-e3420a > ul > li").length;
-            document.querySelectorAll(".tip-e3420a > ul > li")[l - 1].click();
-            clearInterval(intID);
-        }
-    }, 1000);
+    gDomObserver.waitForElement('div.wfs-2a8e83').then(btn => {
+        btn.click()
+        document.querySelector('label.layout-Player-asidetoggleButton').click();
+        document.querySelector('.tip-e3420a > ul > li:last-child').click();
+    });
 }
 
 
@@ -79,20 +75,15 @@ function initRouter_DouyuRoom_Main() {
     document.domain = "douyu.com";
     init();
     initStyles();
-    let intID = setInterval(() => {
-        let dom1 = document.getElementsByClassName("BackpackButton")[0];
-        let dom2 = document.getElementsByClassName("Barrage-main")[0];
-        let dom3 = document.querySelector("#js-backpack-enter")
-        if (!dom2 || (!dom1 && !dom3)) {
-            return;
-        }
-        setTimeout(() => {
-            initPkg();
-            initPkgSpecial();
-            initTimer();
-        }, 1500)
-        clearInterval(intID);
-    }, 1000);
+    gDomObserver.waitForElement(".Barrage-main").then(() => {
+        gDomObserver.waitForElement("#js-backpack-enter, .BackpackButton").then(() => {
+            new Promise(r => setTimeout(r, 1500)).then(() => {
+                initPkg();
+                initPkgSpecial();
+                initTimer();
+            });
+        });
+    });
 }
 
 function initPkgSpecial() {
