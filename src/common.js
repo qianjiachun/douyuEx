@@ -534,30 +534,87 @@ function getCsrfToken() {
   });
 }
 
+function _rawQuery(selector, isList, rethrow) {
+    if (typeof selector !== 'string') {
+        if (rethrow) throw new Error(`Invalid selector: "${selector}"`);
+        return isList ? [] : null;
+    }
+    let length = selector.length;
+    if (length === 0) {
+        if (rethrow) throw new Error(`Invalid selector: "${selector}"`);
+        return isList ? [] : null;
+    }
+    let firstCode = selector.charCodeAt(0);
+    if (firstCode <= 32 || selector.charCodeAt(length - 1) <= 32) {
+        selector = selector.trim();
+        length = selector.length;
+        if (length === 0) {
+            if (rethrow) throw new Error(`Invalid selector: "${selector}"`);
+            return isList ? [] : null;
+        }
+        firstCode = selector.charCodeAt(0);
+    }
+    if (length > 1 && firstCode === 35) {
+        const value = selector.slice(1);
+        if (!/[\s>+~,.#:()[\]\\]/.test(value)) {
+            const element = document.getElementById(value);
+            return isList ? (element ? [element] : []) : element;
+        }
+    } else if (length > 1 && firstCode === 46) {
+        const value = selector.slice(1);
+        if (!/[\s>+~,.#:()[\]\\]/.test(value)) {
+            const list = document.getElementsByClassName(value);
+            return isList ? list : (list[0] || null);
+        }
+    } else if (/^[a-zA-Z][\w-]*$/.test(selector)) {
+        const list = document.getElementsByTagName(selector);
+        return isList ? list : (list[0] || null);
+    }
+    try {
+        return isList ? document.querySelectorAll(selector)
+                      : document.querySelector(selector);
+    } catch (err) {
+        if (rethrow) throw err;
+        return isList ? [] : null;
+    }
+}
+
 function getValidDom(queryList) {
-	for (const query of queryList) {
-		let dom = null;
-		if (typeof query === "string") {
-			dom = document.querySelector(query);
-		} else {
-			dom = query;
-		}
-		if (dom) return dom;
-	}
-	return null;
+    if (queryList == null) return null;
+    if (typeof queryList === 'string') return _rawQuery(queryList);
+    const length = queryList.length >>> 0;
+    for (let i = 0; i < length; i++) {
+        const query = queryList[i];
+        if (!query) continue;
+        if (typeof query === "string") {
+            const dom = _rawQuery(query);
+            if (dom) return dom;
+        } else if (query.nodeType) {
+            return query;
+        } else if (typeof query.length === "number" && query[0] && query[0].nodeType) {
+            return query[0];
+        }
+    }
+    return null;
 }
 
 function getValidDomList(queryList) {
-	for (const query of queryList) {
-		let dom = [];
-		if (typeof query === "string") {
-			dom = document.querySelectorAll(query);
-		} else {
-			dom = query;
-		}
-		if (dom.length > 0) return dom;
-	}
-	return [];
+    if (queryList == null) return [];
+    if (typeof queryList === 'string') return _rawQuery(queryList, true);
+    const length = queryList.length >>> 0;
+    for (let i = 0; i < length; i++) {
+        const query = queryList[i];
+        if (!query) continue;
+        if (typeof query === "string") {
+            const list = _rawQuery(query, true);
+            if (list.length > 0) return list;
+        } else if (query.nodeType) {
+            return [query];
+        } else if (typeof query.length === "number" && query[0] && query[0].nodeType) {
+            return query;
+        }
+    }
+    return [];
 }
 
 /*
@@ -606,7 +663,7 @@ const gDomObserver = (() => {
         _rafId = requestAnimationFrame(() => {
             const current = performance.now();
             for (const [selector, group] of _pendingMap) {
-                const element = document.querySelector(selector);
+                const element = _rawQuery(selector);
                 for (const task of group.tasks) {
                     if (current >= task.deadline) {
                         console.warn("DouyuEX gDomObserver: 计时到达上限，终止等待任务", selector);
@@ -654,13 +711,9 @@ const gDomObserver = (() => {
                 return Promise.reject(signal.reason || new DOMException("Aborted", "AbortError"));
             }
             const selectorTrimmed = typeof selector === "string" ? selector.trim() : "";
-            if (!selectorTrimmed) {
-                console.error("DouyuEX gDomObserver: 空白的选择器，拒绝创建任务", selector);
-                return Promise.reject(new Error(`DouyuEX waitForElement: Empty selector - "${selector}"`));
-            }
             let element;
             try {
-                element = document.querySelector(selectorTrimmed);
+                element = _rawQuery(selectorTrimmed, false, true);
             } catch (err) {
                 console.error("DouyuEX gDomObserver: 非法的选择器，拒绝创建任务", selector, err);
                 return Promise.reject(new Error(`DouyuEX waitForElement: Invalid selector - "${selector}", ${err.message}`));
