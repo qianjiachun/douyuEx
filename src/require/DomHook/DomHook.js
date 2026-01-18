@@ -9,7 +9,7 @@ class DomHook {
         if (elementOrSelector instanceof Element) {
             targetNode = elementOrSelector;
         } else if (typeof elementOrSelector === "string") {
-            targetNode = document.querySelector(elementOrSelector);
+            targetNode = _rawQuery(elementOrSelector);
         }
         if (targetNode == null) {
             console.warn("DouyuEx DomHook: 目标节点不存在或已销毁", elementOrSelector);
