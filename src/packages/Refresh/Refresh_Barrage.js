@@ -70,23 +70,11 @@ function initPkg_Refresh_Barrage_Func(toolbar) {
     });
 }
 
-function refresh_Barrage_getStatus() {
-    return document.body.classList.contains("is-prefixHidden");
-}
-
-function refresh_BarrageFrame_getStatus() {
-    return document.body.classList.contains("is-rankHidden");
-}
-
 function initPkg_Refresh_Barrage_Set() {
-    let ret = localStorage.getItem("ExSave_Refresh");
-    if (ret != null) {
-        let retJson = JSON.parse(ret);
-        if (retJson.barrage && retJson.barrage.status === true) {
-            document.body.classList.add("is-prefixHidden");
-        }
-        if (retJson.barrageFrame && retJson.barrageFrame.status === true) {
-            document.body.classList.add("is-rankHidden");
-        }
+    if (loadData_Refresh("prefixHidden")) {
+        document.body.classList.add("is-prefixHidden");
+    }
+    if (loadData_Refresh("rankHidden")) {
+        document.body.classList.add("is-rankHidden");
     }
 }

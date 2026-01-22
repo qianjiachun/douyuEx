@@ -164,25 +164,18 @@ function initPkg_Refresh_Video_Func(playerDialog, settingPanel) {
     }
 }
 
-function refresh_Video_getStatus() {
-    return document.body.classList.contains("is-simpleMode");
-}
 // FullPageFollowGuide
 function initPkg_Refresh_Video_Set() {
-    let ret = localStorage.getItem("ExSave_Refresh");
-    if (ret != null) {
-        let retJson = JSON.parse(ret);
-        if (retJson.video && retJson.video.status === true) {
-            document.body.classList.add("is-simpleMode");
-            let dom_refresh2_svg = document.getElementById("item-simpleMode__svg");
-            if (dom_refresh2_svg) {
-                dom_refresh2_svg.setAttribute("class", "checked-13adb7");
-            }
-            let dom_refresh3 = document.getElementById("dialog-simpleMode");
-            if (dom_refresh3) {
-                dom_refresh3.title = "点击显示礼物栏";
-            }
-            resizeWindow(); 
+    if (loadData_Refresh("simpleMode")) {
+        document.body.classList.add("is-simpleMode");
+        let dom_refresh2_svg = document.getElementById("item-simpleMode__svg");
+        if (dom_refresh2_svg) {
+            dom_refresh2_svg.setAttribute("class", "checked-13adb7");
         }
+        let dom_refresh3 = document.getElementById("dialog-simpleMode");
+        if (dom_refresh3) {
+            dom_refresh3.title = "点击显示礼物栏";
+        }
+        resizeWindow();
     }
 }
