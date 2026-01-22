@@ -1,18 +1,18 @@
-function initPkg_Refresh_Video() {
+function initPkg_Refresh_Player() {
     Promise.all([
         gDomObserver.waitForElement('#js-player-dialog'),
         gDomObserver.waitForElement('.menu-da2a9e'),
         gDomObserver.waitForElement('.shieldSettingPanel-074097'),
     ]).then(([playerDialog, playerMenu, settingPanel]) => {
-        initPkg_Refresh_Video_Dom(playerDialog, playerMenu, settingPanel);
-        initPkg_Refresh_Video_Func(playerDialog, playerMenu, settingPanel);
-        initPkg_Refresh_Video_Set();
+        initPkg_Refresh_Player_Dom(playerDialog, playerMenu, settingPanel);
+        initPkg_Refresh_Player_Func(playerDialog, playerMenu, settingPanel);
+        initPkg_Refresh_Player_Set();
     }).catch(err => {
         console.error('DouyuEx 简洁模式: 初始化简洁模式失败：', err);
     });
 }
 
-function initPkg_Refresh_Video_Dom(playerDialog, playerMenu, settingPanel) {
+function initPkg_Refresh_Player_Dom(playerDialog, playerMenu, settingPanel) {
     if (!playerDialog.querySelector("#dialog-playerSimple")) {
         playerDialog.insertAdjacentHTML(
             "afterbegin",
@@ -43,7 +43,7 @@ function initPkg_Refresh_Video_Dom(playerDialog, playerMenu, settingPanel) {
     }
 }
 
-function initPkg_Refresh_Video_Func(playerDialog, playerMenu, settingPanel) {
+function initPkg_Refresh_Player_Func(playerDialog, playerMenu, settingPanel) {
 /*  旧版UI
     gDomObserver.waitForElement('.right-17e251, .right-e7ea5d').then(rightControlBar => {
         new DomHook(rightControlBar, true, () => {
@@ -132,19 +132,12 @@ function initPkg_Refresh_Video_Func(playerDialog, playerMenu, settingPanel) {
     });
 }
 
-function refresh_Video_getStatus() {
-    return document.body.classList.contains("is-playerSimple");
-}
 // FullPageFollowGuide
-function initPkg_Refresh_Video_Set() {
-    let ret = localStorage.getItem("ExSave_Refresh");
-    if (ret != null) {
-        let retJson = JSON.parse(ret);
-        if (retJson.video && retJson.video.status === true) {
-            document.body.classList.add("is-playerSimple");
-            gDomObserver.waitForElement('#item-playerSimple__svg').then(svg => {
-                svg.setAttribute("class", "checked-13adb7");
-            });
-        }
+function initPkg_Refresh_Player_Set() {
+    if (loadData_Refresh("playerSimple")) {
+        document.body.classList.add("is-playerSimple");
+        gDomObserver.waitForElement('#item-playerSimple__svg').then(svg => {
+            svg.setAttribute("class", "checked-13adb7");
+        });
     }
 }
