@@ -1,4 +1,4 @@
-/* #refresh-video {
+/* #menu-simpleMode {
     float: left;
     width: 24px;
     height: 24px;
@@ -7,7 +7,7 @@
     background-size: contain;
 } */
 
-#refresh-video3 {
+#dialog-simpleMode {
     position: absolute;
     left: 18px;
     bottom: 58px;
@@ -49,6 +49,10 @@
     transition: left 0.3s, background 0.3s;
 }
 
+#item-simpleMode__path {
+    display: none;
+}
+
 /* Simple Mode Styles */
 .is-simpleMode .stream__T55I3,
 .is-simpleMode .layout-Player-video {
@@ -56,7 +60,7 @@
     z-index: 75 !important;
 }
 
-.is-simpleMode #refresh-video::before {
+.is-simpleMode #menu-simpleMode::before {
     content: "✓ ";
 }
 
@@ -65,6 +69,14 @@
 }
 .is-simpleMode #ex-refresh-switch-circle {
     left: 14px;
+}
+
+.is-simpleMode #item-simpleMode__rect {
+    opacity: 1;
+}
+
+.is-simpleMode #item-simpleMode__path {
+    display: block;
 }
 
 .is-simpleMode .PlayerToolbar-ContentRow {
@@ -89,18 +101,18 @@
     100% { transform: scale(1); box-shadow: none; background-color: rgba(0,0,0,.55); }
 }
 
-.simple-activate-anim #refresh-video3 {
+.simple-activate-anim #dialog-simpleMode {
     opacity: 1 !important;
     transform: scale(1) !important;
     pointer-events: auto !important;
     animation: simple-mode-activate 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-.simple-hover #refresh-video3 {
+.simple-hover #dialog-simpleMode{
     transform: scale(1.08);
     background-color: rgba(0,0,0,.7);
 }
-.simple-show #refresh-video3 {
+.simple-show #dialog-simpleMode {
     opacity: 1;
     transform: scale(1);
     pointer-events: auto;

@@ -2,27 +2,28 @@ function initPkg_Refresh_Video() {
     Promise.all([
         gDomObserver.waitForElement('#js-player-dialog'),
         gDomObserver.waitForElement('.menu-da2a9e'),
-    ]).then(([playerDialog, playerMenu]) => {
-        initPkg_Refresh_Video_Dom(playerDialog, playerMenu);
-        initPkg_Refresh_Video_Func(playerDialog);
+        gDomObserver.waitForElement('.shieldSettingPanel-074097'),
+    ]).then(([playerDialog, playerMenu, settingPanel]) => {
+        initPkg_Refresh_Video_Dom(playerDialog, playerMenu, settingPanel);
+        initPkg_Refresh_Video_Func(playerDialog, settingPanel);
         initPkg_Refresh_Video_Set();
     }).catch(err => {
         console.error('DouyuEx 隐藏礼物栏: 初始化失败：', err);
     });
 }
 
-function initPkg_Refresh_Video_Dom(playerDialog, playerMenu) {
-    if (!document.getElementById("refresh-video")) {
+function initPkg_Refresh_Video_Dom(playerDialog, playerMenu, settingPanel) {
+    if (!document.getElementById("menu-simpleMode")) {
         playerMenu.insertAdjacentHTML(
             "beforeend",
-            `<li id="refresh-video">隐藏礼物栏</li>`
+            `<li id="menu-simpleMode">隐藏礼物栏</li>`
         );
     }
 
-    if (!document.getElementById("refresh-video3")) {
+    if (!document.getElementById("dialog-simpleMode")) {
         playerDialog.insertAdjacentHTML(
             "afterbegin",
-            `<div id="refresh-video3" title="点击隐藏礼物栏">
+            `<div id="dialog-simpleMode" title="点击隐藏礼物栏">
                 <div>隐藏礼物栏</div>
                 <div id="ex-refresh-switch">
                     <div id="ex-refresh-switch-circle"></div>
@@ -30,9 +31,24 @@ function initPkg_Refresh_Video_Dom(playerDialog, playerMenu) {
             </div>`
         );
     }
+
+    if (!document.getElementById("item-simpleMode")) {
+        settingPanel.insertAdjacentHTML(
+            "afterbegin",
+            `<div class="shieldSettingItem-4b3b84" id="item-simpleMode">
+                <i class="checkButton-98c84e">
+                    <svg fill="none" viewBox="0 0 16 16" class="unchecked-b96102" id="item-simpleMode__svg">
+                        <rect opacity="0.6" x="0.5" y="0.5" width="15" height="15" rx="3.5" stroke="currentColor" id="item-simpleMode__rect"></rect>
+                        <path d="M4 8.308L6.8 11 12 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" id="item-simpleMode__path"></path>
+                    </svg>
+                </i>
+                <label class="shieldSettingLabel-be2859">隐藏礼物栏</label>
+            </div>`
+        );
+    }
 }
 
-function initPkg_Refresh_Video_Func(playerDialog) {
+function initPkg_Refresh_Video_Func(playerDialog, settingPanel) {
 /*  旧版UI
     gDomObserver.waitForElement('.right-17e251, .right-e7ea5d').then(rightControlBar => {
         new DomHook(rightControlBar, true, () => {
@@ -72,8 +88,9 @@ function initPkg_Refresh_Video_Func(playerDialog) {
  */
 
     let dom = playerDialog.closest('.stream__T55I3') || playerDialog.closest('.layout-Player-video');
-    let refresh_video = document.getElementById("refresh-video");
-    let refresh_video3 = document.getElementById("refresh-video3");
+    let refresh_video = document.getElementById("menu-simpleMode");
+    let refresh_video2 = document.getElementById("item-simpleMode");
+    let refresh_video3 = document.getElementById("dialog-simpleMode");
     let timer_timeout = 0;
     let isHoveringRefresh3 = false;
 
@@ -119,6 +136,10 @@ function initPkg_Refresh_Video_Func(playerDialog) {
                 document.body.classList.remove("simple-activate-anim");
             }, 1500);
         }
+        const svg = document.getElementById("item-simpleMode__svg");
+        if (svg) {
+            svg.setAttribute("class", isSimpleMode ? "checked-13adb7" : "unchecked-b96102");
+        }
         saveData_Refresh();
         resizeWindow();
     }
@@ -129,7 +150,12 @@ function initPkg_Refresh_Video_Func(playerDialog) {
             toggleRefreshVideo();
         });
     }
-
+    if (refresh_video2) {
+        refresh_video2.addEventListener("click", e => {
+            e.stopPropagation();
+            toggleRefreshVideo();
+        });
+    }
     if (refresh_video3) {
         refresh_video3.addEventListener("click", e => {
             e.stopPropagation();
@@ -148,7 +174,11 @@ function initPkg_Refresh_Video_Set() {
         let retJson = JSON.parse(ret);
         if (retJson.video && retJson.video.status === true) {
             document.body.classList.add("is-simpleMode");
-            let dom_refresh3 = document.getElementById("refresh-video3");
+            let dom_refresh2_svg = document.getElementById("item-simpleMode__svg");
+            if (dom_refresh2_svg) {
+                dom_refresh2_svg.setAttribute("class", "checked-13adb7");
+            }
+            let dom_refresh3 = document.getElementById("dialog-simpleMode");
             if (dom_refresh3) {
                 dom_refresh3.title = "点击显示礼物栏";
             }
