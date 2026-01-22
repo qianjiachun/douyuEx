@@ -2,32 +2,48 @@ function initPkg_Refresh_Video() {
     Promise.all([
         gDomObserver.waitForElement('#js-player-dialog'),
         gDomObserver.waitForElement('.menu-da2a9e'),
-    ]).then(([playerDialog, playerMenu]) => {
-        initPkg_Refresh_Video_Dom(playerDialog, playerMenu);
-        initPkg_Refresh_Video_Func(playerDialog, playerMenu);
+        gDomObserver.waitForElement('.shieldSettingPanel-074097'),
+    ]).then(([playerDialog, playerMenu, settingPanel]) => {
+        initPkg_Refresh_Video_Dom(playerDialog, playerMenu, settingPanel);
+        initPkg_Refresh_Video_Func(playerDialog, playerMenu, settingPanel);
         initPkg_Refresh_Video_Set();
     }).catch(err => {
         console.error('DouyuEx 简洁模式: 初始化简洁模式失败：', err);
     });
 }
 
-function initPkg_Refresh_Video_Dom(playerDialog, playerMenu) {
-    if (!playerDialog.querySelector("#refresh-video3")) {
+function initPkg_Refresh_Video_Dom(playerDialog, playerMenu, settingPanel) {
+    if (!playerDialog.querySelector("#dialog-playerSimple")) {
         playerDialog.insertAdjacentHTML(
             "afterbegin",
-            `<div id="refresh-video3" title="关闭简洁模式">简</div>`
+            `<div id="dialog-playerSimple" title="关闭简洁模式">简</div>`
         );
     }
 
-    if (!playerMenu.querySelector("#refresh-video")) {
+    if (!playerMenu.querySelector("#menu-playerSimple")) {
         playerMenu.insertAdjacentHTML(
             "beforeend",
-            `<li id="refresh-video">简洁模式</li>`
+            `<li id="menu-playerSimple">简洁模式</li>`
+        );
+    }
+
+    if (!settingPanel.querySelector("#item-playerSimple")) {
+        settingPanel.insertAdjacentHTML(
+            "afterbegin",
+            `<div class="shieldSettingItem-4b3b84" id="item-playerSimple">
+                <i class="checkButton-98c84e">
+                    <svg fill="none" viewBox="0 0 16 16" class="unchecked-b96102" id="item-playerSimple__svg">
+                        <rect opacity="0.6" x="0.5" y="0.5" width="15" height="15" rx="3.5" stroke="currentColor" id="item-playerSimple__rect"></rect>
+                        <path d="M4 8.308L6.8 11 12 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" id="item-playerSimple__path"></path>
+                    </svg>
+                </i>
+                <label class="shieldSettingLabel-be2859">视频简洁模式</label>
+            </div>`
         );
     }
 }
 
-function initPkg_Refresh_Video_Func(playerDialog, playerMenu) {
+function initPkg_Refresh_Video_Func(playerDialog, playerMenu, settingPanel) {
 /*  旧版UI
     gDomObserver.waitForElement('.right-17e251, .right-e7ea5d').then(rightControlBar => {
         new DomHook(rightControlBar, true, () => {
@@ -76,37 +92,48 @@ function initPkg_Refresh_Video_Func(playerDialog, playerMenu) {
         });
     });
     playerDialog.addEventListener("mouseover", e => {
-        const refresh_video3 = e.target.closest("#refresh-video3");
-        if (!refresh_video3 || e.relatedTarget && refresh_video3.contains(e.relatedTarget)) return;
+        const dom_dialog = e.target.closest("#dialog-playerSimple");
+        if (!dom_dialog || e.relatedTarget && dom_dialog.contains(e.relatedTarget)) return;
         document.body.classList.add("simple-hover");
         clearTimeout(timer_timeout);
     });
     playerDialog.addEventListener("mouseout", e => {
-        const refresh_video3 = e.target.closest("#refresh-video3");
-        if (!refresh_video3 || e.relatedTarget && refresh_video3.contains(e.relatedTarget)) return;
+        const dom_dialog = e.target.closest("#dialog-playerSimple");
+        if (!dom_dialog || e.relatedTarget && dom_dialog.contains(e.relatedTarget)) return;
         document.body.classList.remove("simple-hover");
     });
 
     function toggleSimpleMode() {
-        document.body.classList.toggle("is-simpleMode");
+        document.body.classList.toggle("is-playerSimple");
+        const svg = settingPanel.querySelector("#item-playerSimple__svg");
+        if (document.body.classList.contains("is-playerSimple")) {
+            svg.setAttribute("class", "checked-13adb7");
+        } else {
+            svg.setAttribute("class", "unchecked-b96102");
+        }
         saveData_Refresh();
         resizeWindow();
     }
 
     playerDialog.addEventListener("click", e => {
-        if (!e.target.closest("#refresh-video3")) return;
+        if (!e.target.closest("#dialog-playerSimple")) return;
         e.stopPropagation();
         toggleSimpleMode();
     });
     playerMenu.addEventListener("click", e => {
-        if (!e.target.closest("#refresh-video")) return;
+        if (!e.target.closest("#menu-playerSimple")) return;
+        e.stopPropagation();
+        toggleSimpleMode();
+    });
+    settingPanel.addEventListener("click", e => {
+        if (!e.target.closest("#item-playerSimple")) return;
         e.stopPropagation();
         toggleSimpleMode();
     });
 }
 
 function refresh_Video_getStatus() {
-    return document.body.classList.contains("is-simpleMode");
+    return document.body.classList.contains("is-playerSimple");
 }
 // FullPageFollowGuide
 function initPkg_Refresh_Video_Set() {
@@ -114,7 +141,10 @@ function initPkg_Refresh_Video_Set() {
     if (ret != null) {
         let retJson = JSON.parse(ret);
         if (retJson.video && retJson.video.status === true) {
-            document.body.classList.add("is-simpleMode");
+            document.body.classList.add("is-playerSimple");
+            gDomObserver.waitForElement('#item-playerSimple__svg').then(svg => {
+                svg.setAttribute("class", "checked-13adb7");
+            });
         }
     }
 }
