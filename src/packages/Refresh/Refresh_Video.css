@@ -1,4 +1,4 @@
-#refresh-video3 {
+#dialog-playerSimple {
     position:absolute;
     right:18px;
     bottom:58px;
@@ -21,7 +21,7 @@
     pointer-events:none;
 }
 
-/* #refresh-video {
+/* #menu-playerSimple {
     float: left;
     width: 24px;
     height: 24px;
@@ -30,40 +30,52 @@
     background-size: contain;
 } */
 
-/* Simple Mode Styles */
-.is-simpleMode .stream__T55I3,
-.is-simpleMode .layout-Player-video {
+#item-playerSimple__path {
+    display: none;
+}
+
+/* Player Simple Mode Styles */
+.is-playerSimple .stream__T55I3,
+.is-playerSimple .layout-Player-video {
     bottom: 0 !important;
     z-index: 75 !important;
 }
 
-.simple-show #refresh-video3 {
+.simple-show #dialog-playerSimple {
     opacity: 1;
     transform: scale(1);
     pointer-events: auto;
 }
 
-.simple-hover #refresh-video3 {
+.simple-hover #dialog-playerSimple{
     transform: scale(1.08);
     background-color: rgba(0,0,0,.7);
 }
 
-.is-simpleMode #refresh-video::before {
+.is-playerSimple #menu-playerSimple::before {
     content: "✓ ";
 }
 
-.is-simpleMode .PlayerToolbar-ContentRow {
+.is-playerSimple #item-playerSimple__rect {
+    opacity: 1;
+}
+
+.is-playerSimple #item-playerSimple__path {
+    display: block;
+}
+
+.is-playerSimple .PlayerToolbar-ContentRow {
     visibility: hidden !important;
 }
 
-.is-simpleMode .PELact,
-.is-simpleMode .pushTower-wrapper-gf1HG,
-.is-simpleMode .PkView-9f6a2c,
-.is-simpleMode .MorePk,
-.is-simpleMode .RandomPKBar,
-.is-simpleMode .LiveRoomLoopVideo,
-.is-simpleMode .LiveRoomDianzan,
-.is-simpleMode .maiMaitView-68e80c,
-.is-simpleMode .PkView {
+.is-playerSimple .PELact,
+.is-playerSimple .pushTower-wrapper-gf1HG,
+.is-playerSimple .PkView-9f6a2c,
+.is-playerSimple .MorePk,
+.is-playerSimple .RandomPKBar,
+.is-playerSimple .LiveRoomLoopVideo,
+.is-playerSimple .LiveRoomDianzan,
+.is-playerSimple .maiMaitView-68e80c,
+.is-playerSimple .PkView {
     display: none !important;
 }
