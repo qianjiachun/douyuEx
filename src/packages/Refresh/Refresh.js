@@ -1,5 +1,4 @@
 function initPkg_Refresh() {
-	initPkg_Refresh_BarrageFrame();
 	initPkg_Refresh_Video();
 	initPkg_Refresh_Barrage();
 }
