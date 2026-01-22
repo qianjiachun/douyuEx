@@ -1,3 +1,26 @@
+#refresh-video3 {
+    position:absolute;
+    right:18px;
+    bottom:58px;
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    z-index:9999;
+    cursor:pointer;
+    user-select:none;
+    font-size:18px;
+    line-height:32px;
+    opacity:0;
+    transform:scale(.9);
+    transition:opacity .15s ease,transform .15s ease,background-color .15s ease;
+    pointer-events:none;
+}
+
 /* #refresh-video {
     float: left;
     width: 24px;
@@ -6,3 +29,41 @@
     cursor: pointer;
     background-size: contain;
 } */
+
+/* Simple Mode Styles */
+.is-simpleMode .stream__T55I3,
+.is-simpleMode .layout-Player-video {
+    bottom: 0 !important;
+    z-index: 75 !important;
+}
+
+.simple-show #refresh-video3 {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.simple-hover #refresh-video3 {
+    transform: scale(1.08);
+    background-color: rgba(0,0,0,.7);
+}
+
+.is-simpleMode #refresh-video::before {
+    content: "✓ ";
+}
+
+.is-simpleMode .PlayerToolbar-ContentRow {
+    visibility: hidden !important;
+}
+
+.is-simpleMode .PELact,
+.is-simpleMode .pushTower-wrapper-gf1HG,
+.is-simpleMode .PkView-9f6a2c,
+.is-simpleMode .MorePk,
+.is-simpleMode .RandomPKBar,
+.is-simpleMode .LiveRoomLoopVideo,
+.is-simpleMode .LiveRoomDianzan,
+.is-simpleMode .maiMaitView-68e80c,
+.is-simpleMode .PkView {
+    display: none !important;
+}
