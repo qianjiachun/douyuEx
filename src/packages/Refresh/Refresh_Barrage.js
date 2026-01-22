@@ -14,8 +14,14 @@ function Refresh_Barrage_insertIcon() {
     a.className = "refresh-barrage";
     a.id = "refresh-barrage";
 	a.innerHTML = '<svg t="1588051109604" id="refresh-barrage__svg" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3095" width="16" height="16"><path d="M588.416 516.096L787.2 317.312a54.016 54.016 0 1 0-76.416-76.416L512 439.68 313.216 241.024A54.016 54.016 0 1 0 236.8 317.376l198.784 198.848-198.016 197.888a54.016 54.016 0 1 0 76.416 76.416L512 592.576l197.888 197.952a54.016 54.016 0 1 0 76.416-76.416L588.416 516.096z" fill="#AFAFAF" p-id="3096"></path></svg><i class="Barrage-toolbarIcon"></i><span id="refresh-barrage__text" class="Barrage-toolbarText">前缀</span>';
-	let b = document.getElementsByClassName("Barrage-toolbar")[0];
-	b.insertBefore(a, b.childNodes[0]);
+
+	let b = document.createElement("a");
+    b.className = "refresh-barrage";
+    b.id = "refresh-barrage-frame";
+	b.innerHTML = '<svg t="1588051109604" id="refresh-barrage-frame__svg" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3095" width="16" height="16"><path d="M512 128 192 448h192v448h256V448h192L512 128z" fill="#AFAFAF" p-id="3096"></path></svg><i class="Barrage-toolbarIcon"></i><span id="refresh-barrage-frame__text" class="Barrage-toolbarText">拉高</span>';
+
+    let c = document.getElementsByClassName("Barrage-toolbar")[0];
+    c.prepend(a, b);
 }
 
 function initPkg_Refresh_Barrage_Func() {
@@ -38,8 +44,49 @@ function initPkg_Refresh_Barrage_Func() {
             saveData_Refresh();
         }
     });
-}
 
+    document.getElementById("refresh-barrage-frame").addEventListener("click", function() {
+        let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
+        let dom_activity = document.getElementById("js-room-activity");
+        let dom_topBarrage = document.getElementsByClassName("Barrage")[0];
+        if (dom_rank.style.display == "none") {
+            // 被拉高
+            dom_rank.style.display = "block";
+            dom_activity.style.display = "block";
+            dom_topBarrage.className = "Barrage";
+            document.getElementById("refresh-barrage-frame").classList.remove("ex-active");
+            document.getElementById("refresh-barrage-frame__text").style.color = "";
+            let svg = document.getElementById("refresh-barrage-frame__svg");
+            if (svg) {
+                let p = svg.getElementsByTagName("path")[0];
+                if (p) p.setAttribute("fill", "#AFAFAF");
+            }
+            saveData_Refresh();
+        } else {
+            PostbirdAlertBox.confirm({
+                'title': '提示',
+                'content': '是否拉高弹幕框，隐藏日榜周榜',
+                'okBtn': '确定',
+                'cancelBtn': '取消',
+                'onConfirm': function () {
+                    dom_rank.style.display = "none";
+                    dom_activity.style.display = "none";
+                    dom_topBarrage.className = "Barrage top-0-important";
+                    document.getElementById("refresh-barrage-frame").classList.add("ex-active");
+                    document.getElementById("refresh-barrage-frame__text").style.color = "#fff";
+                    let svg = document.getElementById("refresh-barrage-frame__svg");
+                    if (svg) {
+                        let p = svg.getElementsByTagName("path")[0];
+                        if (p) p.setAttribute("fill", "#ffffff");
+                    }
+                    saveData_Refresh();
+                },
+                'onCancel': function () {
+                }
+            });
+        }
+    });
+}
 
 function refresh_Barrage_getStatus() {
     if (current_barrage_status == 1) {
@@ -47,6 +94,17 @@ function refresh_Barrage_getStatus() {
         return true;
     } else {
         // 没被简化
+        return false;
+    }
+}
+
+function refresh_BarrageFrame_getStatus() {
+    let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
+    if (dom_rank.style.display == "none") {
+        // 被拉高
+        return true;
+    } else {
+        // 没拉高
         return false;
     }
 }
@@ -60,6 +118,22 @@ function initPkg_Refresh_Barrage_Set() {
         }
         if (retJson.barrage.status == true) {
             setRefreshBarrage();
+        }
+        if ("barrageFrame" in retJson == false) {
+            retJson.barrageFrame = {status: false};
+        }
+        if (retJson.barrageFrame.status == true) {
+            let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
+            let dom_activity = document.getElementById("js-room-activity");
+            dom_rank.style.display = "none";
+            dom_activity.style.display = "none";
+            document.getElementById("refresh-barrage-frame").classList.add("ex-active");
+            document.getElementById("refresh-barrage-frame__text").style.color = "#fff";
+            let svg = document.getElementById("refresh-barrage-frame__svg");
+            if (svg) {
+                let p = svg.getElementsByTagName("path")[0];
+                if (p) p.setAttribute("fill", "#ffffff");
+            }
         }
     }
 }
