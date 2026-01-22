@@ -6,3 +6,102 @@
     cursor: pointer;
     background-size: contain;
 } */
+
+#refresh-video3 {
+    position: absolute;
+    left: 18px;
+    bottom: 58px;
+    padding: 0 10px;
+    height: 28px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.55);
+    color: #fff;
+    z-index: 9999;
+    cursor: pointer;
+    user-select: none;
+    opacity: 0;
+    transform: scale(.9);
+    transition: opacity .15s ease, transform .15s ease, background-color .15s ease, box-shadow .3s ease;
+    pointer-events: none;
+    gap: 6px;
+    font-size: 12px;
+}
+
+#ex-refresh-switch {
+    width: 26px;
+    height: 14px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 7px;
+    position: relative;
+    transition: background 0.3s;
+}
+#ex-refresh-switch-circle {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.3s, background 0.3s;
+}
+
+/* Simple Mode Styles */
+.is-simpleMode .stream__T55I3,
+.is-simpleMode .layout-Player-video {
+    bottom: 0 !important;
+    z-index: 75 !important;
+}
+
+.is-simpleMode #refresh-video::before {
+    content: "✓ ";
+}
+
+.is-simpleMode #ex-refresh-switch {
+    background: #f60;
+}
+.is-simpleMode #ex-refresh-switch-circle {
+    left: 14px;
+}
+
+.is-simpleMode .PlayerToolbar-ContentRow {
+    visibility: hidden !important;
+}
+
+.is-simpleMode .PELact,
+.is-simpleMode .pushTower-wrapper-gf1HG,
+.is-simpleMode .PkView-9f6a2c,
+.is-simpleMode .MorePk,
+.is-simpleMode .RandomPKBar,
+.is-simpleMode .LiveRoomLoopVideo,
+.is-simpleMode .LiveRoomDianzan,
+.is-simpleMode .maiMaitView-68e80c,
+.is-simpleMode .PkView {
+    display: none !important;
+}
+
+@keyframes simple-mode-activate {
+    0% { transform: scale(1); box-shadow: none; background-color: rgba(0,0,0,.55); }
+    20% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 102, 0, 0.6); background-color: rgba(0,0,0,.8); }
+    100% { transform: scale(1); box-shadow: none; background-color: rgba(0,0,0,.55); }
+}
+
+.simple-activate-anim #refresh-video3 {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    pointer-events: auto !important;
+    animation: simple-mode-activate 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.simple-hover #refresh-video3 {
+    transform: scale(1.08);
+    background-color: rgba(0,0,0,.7);
+}
+.simple-show #refresh-video3 {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
