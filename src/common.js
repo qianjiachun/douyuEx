@@ -660,3 +660,60 @@ const gDomObserver = (function() {
         }
     };
 })();
+
+/*
+ * gHotkey - 全局快捷键服务单例。
+ *   - 复用单个 keydown 监听器实例，避免重复绑定。
+ *   - 支持普通按键、F1-F12 以及 Alt / Ctrl / Meta / Shift 的组合。
+ *   - 相同快捷键可注册多个回调，自动合并，不会覆盖并按顺序触发。
+ *   - 自动忽略输入框、文本域和可编辑区域的普通输入，避免误触。
+ *   - 使用示例：
+ *       gHotkey.add("h", () => console.log("按下 H"));
+ *       gHotkey.add("ctrl+f5", () => console.log("按下 Ctrl+F5"));
+ */
+const gHotkey = (function () {
+    let _listener = null;
+    const hotkeyMap = new Map();
+    // 判断是否应忽略该事件
+    function _ignoreEvent(e) {
+        const t = e.target;
+        const isInput = t.isContentEditable || t.tagName === "INPUT" || t.tagName === "TEXTAREA";
+        return isInput && !e.altKey && !e.ctrlKey && !e.metaKey;
+    }
+    // 判断用户按键是否匹配
+    function _matchHotkey(e, keys) {
+        if (keys.includes("alt") && !e.altKey) return false;
+        if (keys.includes("ctrl") && !e.ctrlKey) return false;
+        if (keys.includes("meta") && !e.metaKey) return false;
+        if (keys.includes("shift") && !e.shiftKey) return false;
+        return keys.includes(e.key.toLowerCase()) || keys.includes(e.code.toLowerCase());
+    }
+    return {
+        /*
+         * 注册快捷键
+         * @param {string} keyOrCombo - 快捷键或组合快捷键，如 "h"、"ctrl+h"、"shift+f5"
+         * @param {Function} callback - 快捷键触发时执行的回调函数
+         */
+        add(keyOrCombo, callback) {
+            keyOrCombo = keyOrCombo.toLowerCase().split(" ").join("");
+            const keys = keyOrCombo.split("+");
+            // 快捷键相同时追加 callback
+            if (hotkeyMap.has(keyOrCombo)) {
+                hotkeyMap.get(keyOrCombo).callbacks.push(callback);
+            } else {
+                hotkeyMap.set(keyOrCombo, { keys, callbacks: [callback] });
+            }
+            // 复用单例监听器
+            if (_listener) return;
+            _listener = e => {
+                if (_ignoreEvent(e)) return;
+                for (const { keys, callbacks } of hotkeyMap.values()) {
+                    if (_matchHotkey(e, keys)) {
+                        for (const callback of callbacks) callback(e);
+                    }
+                }
+            };
+            document.addEventListener("keydown", _listener);
+        }
+    };
+})();
