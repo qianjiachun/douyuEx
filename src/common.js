@@ -688,3 +688,78 @@ const gDomObserver = (() => {
         }
     };
 })();
+
+/*
+ * gHotkey - 全局快捷键服务单例：
+ *   - 复用单个 keydown 监听器实例，避免重复绑定；
+ *   - 支持普通按键、F1-F12 以及 Alt / Ctrl / Meta / Shift 的组合；
+ *   - 相同快捷键可注册多个回调，自动合并，不会覆盖并按顺序触发；
+ *   - 自动忽略输入框、文本域和可编辑区域的普通输入，避免误触。
+ *   @sample
+ *       gHotkey.add("h", () => console.log("按下 H"));
+ *       gHotkey.add("ctrl+f5", () => console.log("按下 Ctrl+F5"));
+ */
+const gHotkey = (function () {
+    let _listener = null;
+    const _hotkeyMap = new Map();
+    // 判断是否应忽略该事件
+    function _ignoreEvent(e) {
+        const t = e.target, tag = t.tagName;
+        const isInput = t.isContentEditable || tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA";
+        return isInput && !e.altKey && !e.ctrlKey && !e.metaKey;
+    }
+    // 判断用户按键是否匹配
+    function _matchHotkey(e, item) {
+        return item.alt === e.altKey &&
+               item.ctrl === e.ctrlKey &&
+               item.meta === e.metaKey &&
+               item.shift === e.shiftKey &&
+               item.key === e.key.toLowerCase();
+    }
+    return {
+        /*
+         * 注册快捷键
+         * @param {string} keyOrCombo - 快捷键或组合快捷键，如 "h"、"ctrl+h"、"shift+f5"
+         * @param {Function} callback - 快捷键触发时执行的回调函数
+         */
+        add(keyOrCombo, callback) {
+            if (typeof callback !== "function") {
+                throw new TypeError(`gHotkey.add: callback must be a function, got ${typeof callback}`);
+            }
+            keyOrCombo = keyOrCombo.toLowerCase().replace(/\s/g, "");
+            const keys = keyOrCombo.split("+");
+            // 快捷键相同时追加 callback
+            if (_hotkeyMap.has(keyOrCombo)) {
+                const existing = _hotkeyMap.get(keyOrCombo).callbacks;
+                if (!existing.includes(callback)) existing.push(callback);
+            } else {
+                const modSet = new Set(keys);
+                const key = keys.find(k => !["alt", "ctrl", "meta", "shift"].includes(k));
+                if (!key) throw new Error(`gHotkey.add: Invalid hotkey "${keyOrCombo}", missing main key`);
+                _hotkeyMap.set(keyOrCombo, {
+                    alt:      modSet.has("alt"),
+                    ctrl:     modSet.has("ctrl"),
+                    meta:     modSet.has("meta"),
+                    shift:    modSet.has("shift"),
+                    key:      key,
+                    callbacks: [callback],
+                    enabled:  true
+                });
+            }
+            // 复用单例监听器
+            if (_listener) return;
+            _listener = e => {
+                if (_ignoreEvent(e)) return;
+                for (const item of _hotkeyMap.values()) {
+                    if (!item.enabled) continue;
+                    if (_matchHotkey(e, item)) {
+                        for (let i = 0, len = item.callbacks.length; i < len; i++) {
+                            item.callbacks[i](e);
+                        }
+                    }
+                }
+            };
+            document.addEventListener("keydown", _listener);
+        }
+    };
+})();
