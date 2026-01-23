@@ -693,6 +693,7 @@ const gDomObserver = (() => {
  * gHotkey - 全局快捷键服务单例：
  *   - 复用单个 keydown 监听器实例，避免重复绑定；
  *   - 支持普通按键、F1-F12 以及 Alt / Ctrl / Meta / Shift 的组合；
+ *   - 提供 add / remove / enable / disable / list 等多种管理方法；
  *   - 相同快捷键可注册多个回调，自动合并，不会覆盖并按顺序触发；
  *   - 自动忽略输入框、文本域和可编辑区域的普通输入，避免误触。
  *   @sample
@@ -702,6 +703,23 @@ const gDomObserver = (() => {
  *           h: () => console.log("按下 H"),
  *           "ctrl+shift+x": () => console.log("按下 Ctrl+Shift+X")
  *       });
+ *
+ *       // 移除某个快捷键的某个回调
+ *       const fn = () => console.log("只移除这个回调");
+ *       gHotkey.add("ctrl+k", fn);
+ *       gHotkey.remove("ctrl+k", fn);
+ *
+ *       // 移除整个快捷键（所有回调一起删除）
+ *       gHotkey.remove("ctrl+f5");
+ *
+ *       // 禁用某个快捷键（不会触发，但仍保留回调）
+ *       gHotkey.disable("ctrl+s");
+ *
+ *       // 重新启用快捷键
+ *       gHotkey.enable("ctrl+s");
+ *
+ *       // 查看当前所有快捷键
+ *       console.table(gHotkey.list());
  */
 const gHotkey = (function () {
     let _listener = null;
@@ -781,6 +799,78 @@ const gHotkey = (function () {
                 }
             };
             document.addEventListener("keydown", _listener);
+        },
+        /*
+         * 移除某个快捷键或某个回调
+         *   - 若某个快捷键所有回调被删空，则自动移除该快捷键
+         *   - 若所有快捷键都被移除，则自动解绑 keydown 监听器
+         * @param {string} keyOrCombo - 快捷键，如 "ctrl+s"
+         * @param {Function} [callback] - 若提供，则仅移除该回调；若省略，则移除整个快捷键
+         */
+        remove(keyOrCombo, callback) {
+            keyOrCombo = keyOrCombo.toLowerCase().replace(/\s/g, "");
+            const item = _hotkeyMap.get(keyOrCombo);
+            if (!item) return;
+            if (!callback) {
+                _hotkeyMap.delete(keyOrCombo);
+            } else {
+                let write = 0, callbacks = item.callbacks;
+                for (let read = 0, length = callbacks.length; read < length; read++) {
+                    if (callbacks[read] !== callback) {
+                        callbacks[write++] = callbacks[read];
+                    }
+                }
+                callbacks.length = write;
+                if (write === 0) {
+                    _hotkeyMap.delete(keyOrCombo);
+                }
+            }
+            // 若无任何快捷键，自动解绑监听器
+            if (_hotkeyMap.size === 0 && _listener) {
+                document.removeEventListener("keydown", _listener);
+                _listener = null;
+            }
+        },
+        /*
+         * 禁用某个快捷键（不会触发，但仍保留回调）
+         *   - 回调仍保留，可随时 enable 恢复
+         *   - 不会影响其他快捷键
+         * @param {string} keyOrCombo - 快捷键，如 "ctrl+s"
+         */
+        disable(keyOrCombo) {
+            keyOrCombo = keyOrCombo.toLowerCase().replace(/\s/g, "");
+            const item = _hotkeyMap.get(keyOrCombo);
+            if (item) item.enabled = false;
+        },
+        /*
+         * 启用某个快捷键（恢复触发）
+         *   - 恢复之前被 disable 的快捷键，使其重新生效
+         * @param {string} keyOrCombo - 快捷键，如 "ctrl+s"
+         */
+        enable(keyOrCombo) {
+            keyOrCombo = keyOrCombo.toLowerCase().replace(/\s/g, "");
+            const item = _hotkeyMap.get(keyOrCombo);
+            if (item) item.enabled = true;
+        },
+        /*
+         * 列出所有快捷键
+         *   - 可用于调试或展示快捷键列表
+         * 返回格式：
+         *   [
+         *     { hotkey: "ctrl+s", callbacks: 2, enabled: true },
+         *     { hotkey: "h", callbacks: 1, enabled: false }
+         *   ]
+         */
+        list() {
+            const result = [];
+            for (const [keyOrCombo, { callbacks, enabled }] of _hotkeyMap.entries()) {
+                result.push({
+                    hotkey: keyOrCombo,
+                    callbacks: callbacks.length,
+                    enabled
+                });
+            }
+            return result;
         }
     };
 })();
