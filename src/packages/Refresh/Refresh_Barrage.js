@@ -68,6 +68,16 @@ function initPkg_Refresh_Barrage_Func(toolbar) {
             }
         }
     });
+    gHotkey.add({
+        "q": () => {
+            document.body.classList.toggle("is-prefixHidden");
+            saveData_Refresh();
+        },
+        "b": () => {
+            document.body.classList.toggle("is-rankHidden");
+            saveData_Refresh();
+        },
+    });
 }
 
 function initPkg_Refresh_Barrage_Set() {
