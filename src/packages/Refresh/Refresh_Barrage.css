@@ -1,3 +1,7 @@
+.Barrage-toolbar {
+    opacity: 0.8;
+}
+
 .Barrage-toolbarBtn {
     display: inline-flex;
     align-items: center;
@@ -51,7 +55,7 @@
     background: linear-gradient(180deg, rgb(38, 169, 235), rgb(18, 150, 219));
     border-color: rgb(18, 150, 219);
     box-shadow: 0 0 0 2px rgba(18, 150, 219, .22), 0 8px 16px rgba(18, 150, 219, .28);
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .is-prefixHidden #btn-prefixHidden:hover,
@@ -68,6 +72,11 @@
     border-radius: 999px;
     background: rgba(255, 255, 255, .95);
     box-shadow: 0 0 0 2px rgba(255, 255, 255, .22);
+}
+
+.is-prefixHidden #btn-prefixHidden__text,
+.is-rankHidden #btn-rankHidden__text {
+    color: #ccc;
 }
 
 .is-rankHidden .layout-Player-rank,
