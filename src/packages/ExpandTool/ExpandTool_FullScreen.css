@@ -1,0 +1,12 @@
+:fullscreen .stream__T55I3 {
+    top: var(--stage-info-height) !important;
+}
+
+:fullscreen .large__pcRJn .stream__T55I3 {
+    --stage-info-height: 0;
+}
+
+:fullscreen .InteractLayout,
+:fullscreen .ToolbarGiftArea {
+        --text-color: var(--mantine-color-dark-5);
+}
