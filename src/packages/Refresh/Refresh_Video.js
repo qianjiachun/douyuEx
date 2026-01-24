@@ -130,6 +130,7 @@ function initPkg_Refresh_Player_Func(playerDialog, playerMenu, settingPanel) {
         e.stopPropagation();
         toggleSimpleMode();
     });
+    gHotkey.add("s", () => toggleSimpleMode());
 }
 
 // FullPageFollowGuide
