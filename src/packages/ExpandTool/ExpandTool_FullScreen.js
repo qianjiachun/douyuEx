@@ -35,6 +35,22 @@ function initPkg_ExpandTool_FullScreenPage_insertFunc() {
             showMessage("刷新页面生效", "success");
         }
     });
+    gHotkey.add("t", () => {
+        const toggleContainer = document.getElementsByClassName("toggle__P8TKM")[0];
+        if (toggleContainer) {
+            toggleContainer.querySelector('button').click();
+        } else if (document.body.classList.contains("is-fullScreen")) {
+            const stageContainer = document.getElementsByClassName("stage__D8VhO")[0];
+            //const playerContainer = stageContainer.getElementsByClassName("player__jsy1T")[0];
+            const fullScreenSendor = document.getElementsByClassName("fullScreenSendor-32a8a8")[0];
+            const playerToolbar = document.getElementsByClassName("PlayerToolbar")[0];
+            stageContainer.classList.toggle("large__pcRJn");
+            //playerContainer.classList.toggle("hidden__Kqqgu");
+            fullScreenSendor.classList.toggle("fullScreenSendorShow-fb7c32");
+            playerToolbar.classList.toggle("is-playerstate1");
+            playerToolbar.classList.toggle("is-playerstate2");
+        }
+    });
 }
 
 function initPkg_ExpandTool_FullScreenPage_Set() {
