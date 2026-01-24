@@ -668,8 +668,12 @@ const gDomObserver = (function() {
  *   - 相同快捷键可注册多个回调，自动合并，不会覆盖并按顺序触发。
  *   - 自动忽略输入框、文本域和可编辑区域的普通输入，避免误触。
  *   - 使用示例：
- *       gHotkey.add("h", () => console.log("按下 H"));
+ *       // 注册一个或多个快捷键
  *       gHotkey.add("ctrl+f5", () => console.log("按下 Ctrl+F5"));
+ *       gHotkey.add({
+ *           h: () => console.log("按下 H"),
+ *           "ctrl+shift+x": () => console.log("按下 Ctrl+Shift+X")
+ *       });
  */
 const gHotkey = (function () {
     let _listener = null;
@@ -691,10 +695,21 @@ const gHotkey = (function () {
     return {
         /*
          * 注册快捷键
-         * @param {string} keyOrCombo - 快捷键或组合快捷键，如 "h"、"ctrl+h"、"shift+f5"
-         * @param {Function} callback - 快捷键触发时执行的回调函数
+         * @param {string|Object} keyOrCombo
+         *   - 字符串：单个快捷键，如 "h"、"ctrl+h"、"shift+f5"
+         *   - 对象：批量注册，如 { h: callback1, x: callback2 }
+         * @param {Function} [callback]
+         *   - 当 keyOrCombo 为字符串时，提供回调函数
+         *   - 当 keyOrCombo 为对象时忽略此参数
          */
         add(keyOrCombo, callback) {
+            // 支持对象批量注册
+            if (typeof keyOrCombo === "object") {
+                for (const hotkey in keyOrCombo) {
+                    this.add(hotkey, keyOrCombo[hotkey]);
+                }
+                return;
+            }
             keyOrCombo = keyOrCombo.toLowerCase().split(" ").join("");
             const keys = keyOrCombo.split("+");
             // 快捷键相同时追加 callback
