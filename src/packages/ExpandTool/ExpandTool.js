@@ -1,7 +1,6 @@
-
 function initPkg_ExpandTool() {
 	initPkg_ExpandTool_Dom();
-    initPkg_ExpandTool_Func();
+	initPkg_ExpandTool_Func();
 	initPkg_ExpandTool_Module();
 }
 
@@ -12,8 +11,8 @@ function initPkg_ExpandTool_Module() {
 	initPkg_ExpandTool_RedPacket_Room();
 	initPkg_ExpandTool_AutoFish();
 	initPkg_ExpandTool_ClearBag();
-    initPkg_ExpandTool_SendGift();
-    // initPkg_ExpandTool_BarrageSize();
+	initPkg_ExpandTool_SendGift();
+	// initPkg_ExpandTool_BarrageSize();
 	initPkg_ExpandTool_TabSwitch();
 	initPkg_ExpandTool_P2P();
 	initPkg_ExpandTool_FullScreen();
@@ -22,8 +21,7 @@ function initPkg_ExpandTool_Module() {
 function initPkg_ExpandTool_Dom() {
 	// Dom初始化
 	ExpandTool_insertModal();
-    ExpandTool_insertIcon();
-    
+	ExpandTool_insertIcon();
 }
 function ExpandTool_insertModal() {
 	document.getElementsByClassName("layout-Player-chat")[0].insertAdjacentHTML(
@@ -56,12 +54,32 @@ function initPkg_ExpandTool_Func() {
 		showExRightPanel("扩展功能");
 	});
 
-    const closeBtn = document.getElementsByClassName("extool__close")[0];
-    if (closeBtn) {
-        closeBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const panel = document.getElementsByClassName("extool")[0];
-            if (panel) panel.style.display = "none";
-        });
-    }
+	const closeBtn = document.getElementsByClassName("extool__close")[0];
+	if (closeBtn) {
+		closeBtn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			const panel = document.getElementsByClassName("extool")[0];
+			if (panel) panel.style.display = "none";
+		});
+	}
+}
+
+let expandToolCache = null;
+const EXPANDTOOL_KEY = "ExSave_ExpandTool";
+function initExpandToolCache() {
+	try {
+		expandToolCache = JSON.parse(localStorage.getItem(EXPANDTOOL_KEY)) || {};
+	} catch (err) {
+		console.warn("DouyuEx: ExSave_ExpandTool JSON 解析失败", err);
+		expandToolCache = {};
+	}
+}
+function saveData_ExpandTool(key, value) {
+	if (expandToolCache === null) initExpandToolCache();
+	expandToolCache[key] = value;
+	localStorage.setItem(EXPANDTOOL_KEY, JSON.stringify(expandToolCache));
+}
+function loadData_ExpandTool(key) {
+	if (expandToolCache === null) initExpandToolCache();
+	return expandToolCache[key];
 }
