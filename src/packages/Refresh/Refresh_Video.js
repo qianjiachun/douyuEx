@@ -161,6 +161,7 @@ function initPkg_Refresh_Video_Func(playerDialog, settingPanel) {
             e.stopPropagation();
             toggleRefreshVideo();
         });
+    gHotkey.add("s", () => toggleRefreshVideo());
     }
 }
 
