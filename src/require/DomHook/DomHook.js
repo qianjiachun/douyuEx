@@ -1,6 +1,10 @@
 class DomHook {
     static _observers = new WeakMap();
     constructor(elementOrSelector, isSubtree, callback, observeAttributes = false) {
+        if (typeof callback !== 'function') {
+            console.error("DouyuEx DomHook: callback 不是一个函数", callback);
+            return;
+        }
         let targetNode = null;
         if (elementOrSelector instanceof Element) {
             targetNode = elementOrSelector;
@@ -24,6 +28,10 @@ class DomHook {
             const callbacks = new Map();
             const observer = new MutationObserver(mutations => {
                 for (const [hook, callback] of callbacks) {
+                    if (!hook._targetNode.isConnected) {
+                        hook.closeHook();
+                        continue;
+                    }
                     try {
                         callback.call(hook, mutations);
                     } catch (err) {
