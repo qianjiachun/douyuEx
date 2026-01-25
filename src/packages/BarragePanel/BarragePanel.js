@@ -34,7 +34,7 @@ function barragePanel__replaceImageDanmakuInPanel() {
 }
 
 function setBarragePanelCallBack() {
-    let a = new DomHook("#Ex_BarragePanel", true, (m) => {
+    new DomHook("#Ex_BarragePanel", true, function(m) {
         barragePanel__withGuard(() => {
             let isAttributes = false;
             if (m.length > 0) {
@@ -90,14 +90,13 @@ function setBarragePanelCallBack() {
                 }
             }
         });
-    });
+    }, true);
 
-    new DomHook("#Ex_BarragePanel", false, (m) => {
+    new DomHook("#Ex_BarragePanel", false, () => {
         barragePanel__withGuard(() => {
             barragePanel__replaceImageDanmakuInPanel();
         });
     })
-    
 }
 
 function getUserFansMedal(userName) {
