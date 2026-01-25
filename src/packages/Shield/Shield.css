@@ -1,0 +1,4 @@
+.FilterKeywords {
+    max-height: var(--filterkeywords-max-height);
+    overflow-y: auto!important;
+}
