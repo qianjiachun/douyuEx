@@ -3,22 +3,23 @@ function initPkg_Shield_RemoveEnter(shieldTool) {
   let isSupported = window.CSS && window.CSS.supports && window.CSS.supports('--enter-display', 'none'); //CSS变量兼容性检测
   let barrageExtendContainer = document.getElementById("js-barrage-extend-container");
   
-  if (shieldTool == undefined || !isSupported)
-      return;
-  
-  shieldTool.insertAdjacentHTML(
-    "afterbegin",
-    `<div class="FilterSwitchStatus" id="ex-removeEnterBarrage">
-    <h3>屏蔽进场弹幕</h3>
-    <div>
-      <span class="FilterSwitchStatus-status ${isRemoveEnterBarrage ? "is-checked" : "is-noChecked"}">${isRemoveEnterBarrage ? "已开启" : "未开启"}</span>
-      <span class="FilterSwitchStatus-switch ${isRemoveEnterBarrage ? "is-checked" : "is-noChecked"}">
-        <span class="FilterSwitchStatus-switch-inner"></span>
-      </span>
-    </div>
-  </div>`
-  );
-  
+  if (shieldTool == undefined || !isSupported) return;
+
+  if (!shieldTool.querySelector('#ex-removeEnterBarrage')) {
+    shieldTool.insertAdjacentHTML(
+      "afterbegin",
+      `<div class="FilterSwitchStatus" id="ex-removeEnterBarrage">
+      <h3>屏蔽进场弹幕</h3>
+      <div>
+        <span class="FilterSwitchStatus-status ${isRemoveEnterBarrage ? "is-checked" : "is-noChecked"}">${isRemoveEnterBarrage ? "已开启" : "未开启"}</span>
+        <span class="FilterSwitchStatus-switch ${isRemoveEnterBarrage ? "is-checked" : "is-noChecked"}">
+          <span class="FilterSwitchStatus-switch-inner"></span>
+        </span>
+      </div>
+    </div>`
+    );
+  }
+
   if (isRemoveEnterBarrage) {
     barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", "none", "important");
   } else {

@@ -17,28 +17,30 @@ let repeatedDanmakuDomHook = null;
 if (isRemoveRepeatedDanmaku) removeRepeatedDanmaku();
 
 function initPkg_Shield_RemoveRepeatedDanmaku(shieldTool) {
-  shieldTool.insertAdjacentHTML(
-    "afterbegin",
-    `<div class="FilterSwitchStatus" id="ex-removeRepeatedDanmaku">
-    <h3>屏蔽重复弹幕</h3>
-    <div>
-      <span class="FilterSwitchStatus-status ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">${isRemoveRepeatedDanmaku ? "已开启" : "未开启"}</span>
-      <span class="FilterSwitchStatus-switch ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">
-        <span class="FilterSwitchStatus-switch-inner"></span>
-      </span>
+  if (!shieldTool.querySelector('#ex-removeRepeatedDanmaku')) {
+    shieldTool.insertAdjacentHTML(
+      "afterbegin",
+      `<div class="FilterSwitchStatus" id="ex-removeRepeatedDanmaku">
+      <h3>屏蔽重复弹幕</h3>
+      <div>
+        <span class="FilterSwitchStatus-status ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">${isRemoveRepeatedDanmaku ? "已开启" : "未开启"}</span>
+        <span class="FilterSwitchStatus-switch ${isRemoveRepeatedDanmaku ? "is-checked" : "is-noChecked"}">
+          <span class="FilterSwitchStatus-switch-inner"></span>
+        </span>
+      </div>
     </div>
-  </div>
-  <p class="FilterKeywords-intelligentText" style="display: flex; align-items: center;justify-content: space-between;">
-    <span>
-      <input type="number" id="ex-repeatedDanmakuSeconds" min="1" max="300" value="${repeatedDanmakuSeconds}" style="width: 38px; height: 14px; text-align: center;" />
-      <span>秒内重复的弹幕只显示一次</span>
-    </span>
-    <label style="margin-left: 10px;display: inline-flex; align-items: center;">
-      <input type="checkbox" id="ex-enlargeDanmaku" ${isEnlargeDanmaku ? "checked" : ""} style="margin-right: 4px;" />
-      放大重复弹幕
-    </label>
-  </p>`
-  );
+    <p class="FilterKeywords-intelligentText" style="display: flex; align-items: center;justify-content: space-between;">
+      <span>
+        <input type="number" id="ex-repeatedDanmakuSeconds" min="1" max="300" value="${repeatedDanmakuSeconds}" style="width: 38px; height: 14px; text-align: center;" />
+        <span>秒内重复的弹幕只显示一次</span>
+      </span>
+      <label style="margin-left: 10px;display: inline-flex; align-items: center;">
+        <input type="checkbox" id="ex-enlargeDanmaku" ${isEnlargeDanmaku ? "checked" : ""} style="margin-right: 4px;" />
+        放大重复弹幕
+      </label>
+    </p>`
+    );
+  }
 
   const dom = document.getElementById("ex-removeRepeatedDanmaku");
   const statusSpan = dom.querySelector(".FilterSwitchStatus-status");
