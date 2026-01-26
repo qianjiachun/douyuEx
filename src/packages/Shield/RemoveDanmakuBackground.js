@@ -1,19 +1,21 @@
 let isRemoveDanmakuBackground = getLocalIsRemoveDanmakuBackground();
 if (isRemoveDanmakuBackground) removeDanmakuBackground();
 function initPkg_Shield_RemoveDanmakuBackground(shieldTool) {
-  shieldTool.insertAdjacentHTML(
-    "afterbegin",
-    `<div class="FilterSwitchStatus" id="ex-removeDanmakuBackground">
-    <h3>屏蔽弹幕背景</h3>
-    <div>
-      <span class="FilterSwitchStatus-status ${isRemoveDanmakuBackground ? "is-checked" : "is-noChecked"}">${isRemoveDanmakuBackground ? "已开启" : "未开启"}</span>
-      <span class="FilterSwitchStatus-switch ${isRemoveDanmakuBackground ? "is-checked" : "is-noChecked"}">
-        <span class="FilterSwitchStatus-switch-inner"></span>
-      </span>
-    </div>
-  </div>`
-  );
-  
+  if (!shieldTool.querySelector('#ex-removeDanmakuBackground')) {
+    shieldTool.insertAdjacentHTML(
+      "afterbegin",
+      `<div class="FilterSwitchStatus" id="ex-removeDanmakuBackground">
+      <h3>屏蔽弹幕背景</h3>
+      <div>
+        <span class="FilterSwitchStatus-status ${isRemoveDanmakuBackground ? "is-checked" : "is-noChecked"}">${isRemoveDanmakuBackground ? "已开启" : "未开启"}</span>
+        <span class="FilterSwitchStatus-switch ${isRemoveDanmakuBackground ? "is-checked" : "is-noChecked"}">
+          <span class="FilterSwitchStatus-switch-inner"></span>
+        </span>
+      </div>
+    </div>`
+    );
+  }
+
   const dom = document.getElementById("ex-removeDanmakuBackground");
   const statusSpan = dom.querySelector(".FilterSwitchStatus-status");
   const switchSpan = dom.querySelector(".FilterSwitchStatus-switch");
