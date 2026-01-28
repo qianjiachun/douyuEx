@@ -2,11 +2,11 @@ function initPkg_Refresh_Video() {
     Promise.all([
         gDomObserver.waitForElement('#js-player-dialog'),
         gDomObserver.waitForElement('.menu-da2a9e'),
-        gDomObserver.waitForElement('.PlayerToolbar'),
-    ]).then(([playerDialog, playerMenu, playerToolbar]) => {
+        gDomObserver.waitForElement('.PlayerToolbar-ContentRow'),
+    ]).then(([playerDialog, playerMenu, dom_toolbar]) => {
         initPkg_Refresh_Video_Dom(playerDialog, playerMenu);
-        initPkg_Refresh_Video_Func(playerDialog, playerMenu, playerToolbar);
-        initPkg_Refresh_Video_Set(playerDialog, playerMenu, playerToolbar);
+        const toggleRefreshVideo = initPkg_Refresh_Video_Func(playerDialog, playerMenu, dom_toolbar);
+        initPkg_Refresh_Video_Set(toggleRefreshVideo);
     }).catch(err => {
         console.error('DouyuEx 简洁模式: 初始化简洁模式失败：', err);
     });
@@ -30,7 +30,7 @@ function initPkg_Refresh_Video_Dom(playerDialog, playerMenu) {
     }
 }
 
-function initPkg_Refresh_Video_Func(playerDialog, playerMenu) {
+function initPkg_Refresh_Video_Func(playerDialog, playerMenu, dom_toolbar) {
     gDomObserver.waitForElement('.right-17e251, .right-e7ea5d').then(rightControlBar => {
         new DomHook(rightControlBar, true, () => {
         changeToolBarZIndex();
@@ -46,25 +46,15 @@ function initPkg_Refresh_Video_Func(playerDialog, playerMenu) {
 
 
     function changeToolBarZIndex() {
-        let video_fullPage = false;
+        let video_fullPage = !!(document.querySelector(".wfs-2a8e83.removed-9d4c42") || document.querySelector(".toggle__P8TKM"));
         let video_fullScreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
-        let chatPanel_isHidden = false;
-        if (document.querySelector(".wfs-2a8e83.removed-9d4c42")) {
-            video_fullPage = true;
-        } else if (document.querySelector(".toggle__P8TKM")) {
-            video_fullPage = true;
-        }
-        if(document.querySelector(".shrink__Sd0uK")){
-            chatPanel_isHidden = true;
-        }
+        let chatPanel_isHidden = !!document.querySelector(".shrink__Sd0uK");
         const dom_player_toolbar = document.getElementById("js-player-toolbar");
-        dom_player_toolbar.style = video_fullPage? "z-index:20" : "z-index:30";
+        dom_player_toolbar.style.zIndex = video_fullPage ? "20" : "30";
         const dom_casebar = document.getElementsByClassName("case__f4yex")[0];
-        if(dom_casebar){
-            dom_casebar.style = (video_fullScreen || (video_fullPage && chatPanel_isHidden)) && refresh_Video_getStatus() ? "bottom: -84px;" : "bottom: 0;";
-        }
+        if (dom_casebar) dom_casebar.style = (video_fullScreen || (video_fullPage && chatPanel_isHidden)) && refresh_Video_getStatus() ? "bottom: -84px;" : "bottom: 0;";
         const isBeta = !!document.getElementsByClassName("live-next-body")[0];
-        if (isBeta) dom_player_toolbar.parentElement.style = "z-index:20";
+        if (isBeta) dom_player_toolbar.parentElement.style.zIndex = "20";
     }
 
     let dom = playerDialog.closest('.layout-Player-video') || playerDialog.closest('.stream__T55I3');
@@ -96,43 +86,41 @@ function initPkg_Refresh_Video_Func(playerDialog, playerMenu) {
     gDomObserver.waitForElement('.room-Player-Box').then(dom_video => {
         dom_video.addEventListener("mousemove", () => { setRefreshVideo3Show(); });
     });
-    if (refresh_video3) {
-        refresh_video3.addEventListener("mouseenter", () => {
-            refresh_video3.style.opacity = "1";
-            refresh_video3.style.transform = "scale(1.08)";
-            refresh_video3.style.pointerEvents = "auto";
-            refresh_video3.style.backgroundColor = "rgba(0,0,0,.7)";
-            clearTimeout(timer_timeout);
-        });
-        refresh_video3.addEventListener("mouseleave", () => {
-            refresh_video3.style.transform = "scale(1)";
-            refresh_video3.style.backgroundColor = "rgba(0,0,0,.55)";
-        });
-    }
+    playerDialog.addEventListener("mouseover", e => {
+        const refresh_video3 = e.target.closest("#refresh-video3");
+        if (!refresh_video3 || e.relatedTarget && refresh_video3.contains(e.relatedTarget)) return;
+        refresh_video3.style.opacity = "1";
+        refresh_video3.style.transform = "scale(1.08)";
+        refresh_video3.style.pointerEvents = "auto";
+        refresh_video3.style.backgroundColor = "rgba(0,0,0,.7)";
+        clearTimeout(timer_timeout);
+    });
+    playerDialog.addEventListener("mouseout", e => {
+        const refresh_video3 = e.target.closest("#refresh-video3");
+        if (!refresh_video3 || e.relatedTarget && refresh_video3.contains(e.relatedTarget)) return;
+        refresh_video3.style.transform = "scale(1)";
+        refresh_video3.style.backgroundColor = "rgba(0,0,0,.55)";
+    });
 
-    function toggleRefreshVideo() {
-        let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-        let dom_video = getValidDom([".layout-Player-video", ".stream__T55I3"]);
-        let dom_refresh = document.getElementById("refresh-video");
-        let dom_refresh3 = document.getElementById("refresh-video3");
-        if (!dom_toolbar || !dom_video || !dom_refresh) return;
-
-        if (dom_toolbar.style.visibility == "hidden") {
+    function toggleRefreshVideo(isSimple) {
+        if (!isSimple) {
             dom_toolbar.style.visibility = "visible";
-            dom_video.style = "";
-            if (dom_refresh3) {
-                dom_refresh3.style.opacity = "0";
-                dom_refresh3.style.transform = "scale(.9)";
-                dom_refresh3.style.pointerEvents = "none";
-                dom_refresh3.title = "开启简洁模式";
+            dom.style.bottom = "";
+            dom.style.zIndex = "";
+            if (refresh_video3) {
+                refresh_video3.style.opacity = "0";
+                refresh_video3.style.transform = "scale(.9)";
+                refresh_video3.style.pointerEvents = "none";
+                refresh_video3.title = "开启简洁模式";
             }
-            dom_refresh.innerText = "简洁模式";
+            refresh_video.innerText = "简洁模式";
             refresh_Video_removeStyle();
         } else {
             dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0;z-index:25";
-            dom_refresh.innerText = "✓ 简洁模式";
-            if (dom_refresh3) dom_refresh3.title = "关闭简洁模式";
+            dom.style.bottom = "0";
+            dom.style.zIndex = "25";
+            refresh_video.innerText = "✓ 简洁模式";
+            if (refresh_video3) refresh_video3.title = "关闭简洁模式";
             refresh_Video_setStyle();
         }
         changeToolBarZIndex();
@@ -140,31 +128,27 @@ function initPkg_Refresh_Video_Func(playerDialog, playerMenu) {
         resizeWindow();
     }
 
-    if (refresh_video) {
-        refresh_video.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleRefreshVideo();
-        });
-    }
+    playerDialog.addEventListener("click", e => {
+        if (!e.target.closest("#refresh-video3")) return;
+        e.stopPropagation();
+        toggleRefreshVideo(!refresh_Video_getStatus());
+    });
+    playerMenu.addEventListener("click", e => {
+        if (!e.target.closest("#refresh-video")) return;
+        e.stopPropagation();
+        toggleRefreshVideo(!refresh_Video_getStatus());
+    });
 
-    if (refresh_video3) {
-        refresh_video3.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleRefreshVideo();
-        });
-    }
+    return toggleRefreshVideo;
 }
 
 function refresh_Video_getStatus() {
     let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
-    if (dom_toolbar.style.visibility == "hidden") {
-        return true;
-    } else {
-        return false;
-    }
+    return dom_toolbar ? dom_toolbar.style.visibility === "hidden" : false;
 }
 // FullPageFollowGuide
-function initPkg_Refresh_Video_Set(playerDialog, playerMenu, playerToolbar) {
+function initPkg_Refresh_Video_Set(toggleRefreshVideo) {
+    if (typeof toggleRefreshVideo !== "function") return;
     let ret = localStorage.getItem("ExSave_Refresh");
     if (ret != null) {
         let retJson = JSON.parse(ret);
@@ -172,32 +156,7 @@ function initPkg_Refresh_Video_Set(playerDialog, playerMenu, playerToolbar) {
             retJson.video = {status: false};
         }
         if (retJson.video.status == true) {
-            let dom_toolbar = playerToolbar.querySelector('.PlayerToolbar-ContentRow');
-            let dom_video = playerDialog.closest('.layout-Player-video') || playerDialog.closest('.stream__T55I3');
-            let dom_refresh = playerMenu.querySelector('#refresh-video');
-            let dom_refresh3 = playerDialog.querySelector("#refresh-video3");
-            let dom_player_toolbar = playerToolbar.closest('#js-player-toolbar');
-            dom_toolbar.style.visibility = "hidden";
-            dom_video.style = "bottom:0;z-index:25";
-            dom_player_toolbar.style = "z-index:30";
-            let ret = localStorage.getItem("ExSave_FullScreen");
-            if (ret != null) {
-                let retJson = JSON.parse(ret);
-                if (retJson.isFullScreen) {
-                    dom_player_toolbar.style = "z-index:20";
-                }
-            }
-            const isBeta = !!document.getElementsByClassName("live-next-body")[0];
-            if (isBeta) dom_player_toolbar.parentElement.style = "z-index:20";
-            if (dom_refresh3) {
-                dom_refresh3.style.opacity = "0";
-                dom_refresh3.style.transform = "scale(.9)";
-                dom_refresh3.style.pointerEvents = "none";
-                dom_refresh3.title = "关闭简洁模式";
-            }
-            dom_refresh.innerText = "✓ 简洁模式";
-            refresh_Video_setStyle();
-            resizeWindow();
+            toggleRefreshVideo(true);
         }
     }
 }
