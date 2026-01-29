@@ -242,13 +242,13 @@ function initPkg_LiveTool_Gift_Handle(text) {
             reply = String(reply).replace(/<cnt>/g, gfcnt);
             sendBarrage(reply);
         }
-    } else if (typeName === "odfbc" || typeName === "rndfbc") {
+    } else if (typeName === "dfobc" || typeName === "dfrbc") {
         let uid = getStrMiddle(text, "uid@=", "/");
         if (uid == my_uid) { // 不算自己
             return;
         }
         let nn = getStrMiddle(text, "nick@=", "/");
-        let gfid = typeName === "odfbc" ? "开通钻粉" : "续费钻粉";
+        let gfid = typeName === "dfobc" ? "开通钻粉" : "续费钻粉";
         let gfcnt = "1";
         if (gfid in giftWordList) {
             let reply = giftWordList[gfid].reply;
