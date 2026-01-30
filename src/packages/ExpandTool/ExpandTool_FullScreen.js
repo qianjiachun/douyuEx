@@ -7,12 +7,13 @@ function initPkg_ExpandTool_FullScreen() {
 }
 
 function ExpandTool_FullScreen_insertDom() {
-    let a = document.createElement("span");
-    // a.className = "extool__bsize";
-    a.innerHTML = '<label title="自动网页全屏"><input id="extool__fullscreen" type="checkbox">自动网页全屏</label><label title="自动最高画质"><input id="extool__highestvideoquality" type="checkbox">自动最高画质</label>';
-    
-    let b = document.getElementsByClassName("extool")[0];
-    b.insertBefore(a, b.childNodes[0]);
+    document.getElementsByClassName("extool")[0].insertAdjacentHTML(
+        "afterbegin",
+        `<span>
+            <label title="自动网页全屏"><input id="extool__fullscreen" type="checkbox">自动网页全屏</label>
+            <label title="自动最高画质"><input id="extool__highestvideoquality" type="checkbox">自动最高画质</label>    
+        </span>`
+    );
 }
 
 
