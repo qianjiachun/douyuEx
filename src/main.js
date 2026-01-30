@@ -67,7 +67,7 @@ function init() {
   initPkg_ShowDanmaku();
   Update_checkVersion();
   initKillP2P();
-  initFullScreen();
+  initFullScreenPage();
   initHighestVideoQuality();
   initPkg_NoLogin();
   removeAD();
