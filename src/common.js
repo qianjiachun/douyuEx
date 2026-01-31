@@ -133,12 +133,12 @@ function setCookie(cookiename, value){
 }
 
 function getCookieValue(name){
-   let arr,reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-    if (arr = document.cookie.match(reg)) {
-        return unescape(arr[2]);
-    } else {
-        return null;
-    }
+	let arr,reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+	if (arr = document.cookie.match(reg)) {
+		return unescape(arr[2]);
+	} else {
+		return null;
+	}
 }
 function getCCN() {
 	// let cookie = document.cookie;
@@ -224,11 +224,15 @@ function dateFormat(fmt, date) {
 		"q+": Math.floor((date.getMonth() + 3) / 3),
 		"S": date.getMilliseconds()
 	};
-	if (/(y+)/.test(fmt))
-		fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-	for (let k in o)
-		if (new RegExp("(" + k + ")").test(fmt))
-			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	fmt = fmt.replace(/(y+)/, (match, group) => {
+		return (date.getFullYear() + "").slice(4 - group.length);
+	});
+	for (let k in o) {
+		fmt = fmt.replace(new RegExp("(" + k + ")"), (match, group) => {
+			const val = o[k];
+			return group.length === 1 ? val : val.padStart(group.length, "0");
+		});
+	}
 	return fmt;
 }
 
@@ -282,7 +286,7 @@ function showMessageWindow(title, content, callback){
         Notification.requestPermission(function(status) {
             var notice_ = new Notification(title, { body: content });
             notice_.onclick = function() {
-				callback();
+                callback();
             }
         });
     }   
@@ -313,13 +317,11 @@ function getTextareaPosition(element) {
 	}
 	// 否则处理为contenteditable元素
 	let cursorPos = 0;
-	
 	// 兼容旧版IE
 	if (document.selection) {
 			const selectRange = document.selection.createRange();
 			const textRange = element.createTextRange();
 			const preCaretRange = textRange.duplicate();
-			
 			preCaretRange.moveToBookmark(selectRange.getBookmark());
 			preCaretRange.setEndPoint('EndToEnd', textRange);
 			cursorPos = preCaretRange.text.length;
@@ -327,17 +329,14 @@ function getTextareaPosition(element) {
 	// 现代浏览器
 	else if (window.getSelection) {
 			const selection = window.getSelection();
-			
 			if (selection.rangeCount > 0) {
 					const range = selection.getRangeAt(0).cloneRange();
 					range.selectNodeContents(element);
 					range.setEnd(selection.rangeCount > 0 ? selection.getRangeAt(0).endContainer : element, 
 											selection.rangeCount > 0 ? selection.getRangeAt(0).endOffset : 0);
-					
 					cursorPos = range.toString().length;
 			}
 	}
-	
 	return cursorPos;
 }
 
@@ -403,15 +402,11 @@ function debounce(func, wait) {
     return function() {
       let context = this;
       let args = arguments;
- 
       if (timer) clearTimeout(timer);
- 
       let callNow = !timer;
- 
       timer = setTimeout(() => {
         timer = null;
       }, wait)
- 
       if (callNow) func.apply(context, args);
     }
 }
@@ -458,9 +453,11 @@ function sheet2blob(sheet, sheetName) {
 	var blob = new Blob([s2ab(wbout)], {type:"application/octet-stream"});
 	// 字符串转ArrayBuffer
 	function s2ab(s) {
-		var buf = new ArrayBuffer(s.length);
+		if (typeof s !== 'string') return new ArrayBuffer(0);
+		var length = s.length;
+		var buf = new ArrayBuffer(length);
 		var view = new Uint8Array(buf);
-		for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+		for (var i = 0; i < length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
 		return buf;
 	}
 	return blob;
@@ -473,19 +470,19 @@ function downloadFile(name, data) {
     save_link.href = urlObject.createObjectURL(export_blob);
     save_link.download = name;
 
-	var ev = document.createEvent("MouseEvents");
+    var ev = document.createEvent("MouseEvents");
     ev.initMouseEvent("click", true, false, unsafeWindow, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
     save_link.dispatchEvent(ev);
 } 
 
 function timeText2Ms(text) {
 	let ret = 0;
-	let arr = text.split(":");
-	if (arr.length === 1) {
+	let arr = text.split(":"), length = arr.length;
+	if (length === 1) {
 		ret = Number(arr[0]);
-	} else if (arr.length === 2) {
+	} else if (length === 2) {
 		ret = Number(arr[0]) * 60 + Number(arr[1]);
-	} else if (arr.length === 3) {
+	} else if (length === 3) {
 		ret = Number(arr[0]) * 3600 + Number(arr[1]) * 60 + Number(arr[2]);
 	}
 	return ret * 1000;
@@ -516,16 +513,19 @@ function getCsrfToken() {
       onload: function(response) {
         // 获取 Set-Cookie
         const setCookie = response.responseHeaders.match(/set-cookie:[^\n\r]+/gi);
-				// 从set-cookie中获取csrfToken
-				let csrfToken = "";
-				for (const line of setCookie) {
-					const match = line.match(/cvl_csrf_token=([^;]+)/);
-					if (match) {
-						csrfToken = match[1]; // 返回提取到的 token
-						break;
-					}
-				}
-				resolve(csrfToken);
+        // 从set-cookie中获取csrfToken
+        let csrfToken = "";
+        if (setCookie) {
+          for (let i = 0, len = setCookie.length; i < len; i++) {
+            const line = setCookie[i];
+            const match = line.match(/cvl_csrf_token=([^;]+)/);
+            if (match) {
+              csrfToken = match[1]; // 返回提取到的 token
+              break;
+            }
+          }
+        }
+        resolve(csrfToken);
       },
       onerror: function(err) {
         resolve("");
@@ -769,7 +769,9 @@ const gHotkey = (function () {
                 for (const { keys, callbacks, enabled } of hotkeyMap.values()) {
                     if (!enabled) continue;
                     if (_matchHotkey(e, keys)) {
-                        for (const callback of callbacks) callback(e);
+                        for (let i = 0, len = callbacks.length; i < len; i++) {
+                            callbacks[i](e);
+                        }
                     }
                 }
             };
