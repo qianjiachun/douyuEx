@@ -20,8 +20,8 @@ function initPkg_ImageDanmaku_Func() {
   document.addEventListener("paste", async (event) => {
     if (document.activeElement !== chatDom) return;
     const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-    for (let index in items) {
-      let item = items[index];
+    for (let i = 0, len = items.length; i < len; i++) {
+      let item = items[i];
       if (item.kind === "file" && item.type.startsWith("image/")) {
         chatDom.value += `[DouyuEx图片上传中]`;
         let blob = item.getAsFile();

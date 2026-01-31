@@ -34,7 +34,7 @@ function getRealLive_Huya(rid, qn, reallive_callback) {
             let msg = "";
             let liveUrl = "";
             let multiLine = ret.response.data.stream.flv.multiLine;
-            if (multiLine.length && multiLine.length > 0) {
+            if (multiLine && multiLine.length > 0) {
                 liveUrl = multiLine[0].url.replace("http", "https");
             }
             if (liveUrl == null || liveUrl == "") {
