@@ -554,6 +554,17 @@ const gDomObserver = (function() {
     const listeners = [];
     const pendingMap = new Map();
     const root = document.body || document.documentElement || document;
+    function parseTimeout(timeout) {
+        if (timeout == null) return null;
+        if (typeof timeout === "number") return timeout;
+        if (typeof timeout === "string") {
+            const t = timeout.trim().toLowerCase();
+            if (t.endsWith("ms")) return parseFloat(t);
+            if (t.endsWith("s")) return parseFloat(t) * 1000;
+            return parseFloat(t); // 默认 ms
+        }
+        return null;
+    }
     function _queryElements(selector) {
         if (typeof selector !== 'string' || !selector.trim()) return null;
         try {
@@ -566,6 +577,11 @@ const gDomObserver = (function() {
         let write = 0;
         for (let read = 0, length = listeners.length; read < length; read++) {
             const item = listeners[read];
+            if (item.deadline !== Infinity && performance.now() >= item.deadline) {
+                item.reject(new Error(`waitForElement timeout: ${item.selector}`));
+                pendingMap.delete(item.selector);
+                continue;
+            }
             const element = _queryElements(item.selector);
             if (element) {
                 item.resolve(element);
@@ -586,18 +602,37 @@ const gDomObserver = (function() {
         /*
          * 异步等待指定选择器对应的元素出现在 DOM 中。
          * @param {string} selector - CSS 选择器字符串。
-         * @return {Promise<Element>} - 返回一个 Promise，并在目标元素出现时立刻完成。
+         * @param {number|string|null} [timeout=null] - 超时时间：数字（毫秒）/ 字符串（"500ms"、"2s"）/ null（无限等待）
+         * @return {Promise<Element>} - 当元素出现在 DOM 中时 resolve(Element)，若超时则 reject(Error)
+         * 1. 若元素已存在，立即 resolve，不创建监听任务。
+         * 2. 若元素不存在，则使用 MutationObserver 监听 DOM 变化，直到元素出现或超时。
+         * 3. 相同 selector 的多次调用会自动合并为同一个等待任务（共享 Promise）。
+         * 4. 支持超时（毫秒数、"500ms"、"2s"、"100" 等），未设置则无限等待。
          * 使用示例：
-         *   gDomObserver.waitForElement('#id').then(e => {
-         *       console.log('元素已出现:', e);
+         *   // 基本用法：等待元素出现
+         *   gDomObserver.waitForElement('#id').then(el => {
+         *       console.log('元素已出现:', el);
+         *   });
+         *   // 带超时（5 秒）
+         *   gDomObserver.waitForElement('.item', 5000).catch(err => {
+         *       console.warn('等待超时:', err);
          *   });
          */
-        waitForElement(selector) {
+        waitForElement(selector, timeout = null) {
             selector = typeof selector === "string" ? selector.trim() : "";
             if (!selector) return Promise.resolve(null);
+            const parsedTimeout = parseTimeout(timeout);
             const existing = pendingMap.get(selector);
             if (existing) {
                 console.log("DouyuEX gDomObserver: 目标元素重复，合并等待任务", selector);
+                if (parsedTimeout == null) {
+                    console.log("DouyuEX gDomObserver: 合并等待任务并取消超时", selector);
+                    existing.deadline = Infinity;
+                } else {
+                    existing.deadline = Math.max(existing.deadline, performance.now() + parsedTimeout);
+                    const remaining = existing.deadline === Infinity ? Infinity : Math.max(0, existing.deadline - performance.now());
+                    console.log("DouyuEX gDomObserver: 合并等待任务，剩余超时时长", remaining);
+                }
                 return existing.promise;
             }
             const element = _queryElements(selector);
@@ -605,9 +640,13 @@ const gDomObserver = (function() {
                 //console.log("DouyuEX gDomObserver: 目标元素存在，立刻返回结果", existingElement);
                 return Promise.resolve(element);
             }
-            let resolveFn;
-            const promise = new Promise(resolve => { resolveFn = resolve; });
-            const listener = { selector, resolve: resolveFn, promise };
+            let resolveFn, rejectFn;
+            const promise = new Promise((resolve, reject) => {
+                resolveFn = resolve;
+                rejectFn = reject;
+            });
+            const deadline = parsedTimeout == null ? Infinity : performance.now() + parsedTimeout;
+            const listener = { selector, deadline, resolve: resolveFn, reject: rejectFn, promise };
             pendingMap.set(selector, listener);
             listeners.push(listener);
             if (!_observer) {
