@@ -563,10 +563,7 @@ function getValidDomList(queryList) {
 /*
  * gDomObserver - 全局 DOM 观察服务单例：
  *   - 复用单个 MutationObserver 实例观察 DOM 结构变化，避免重复创建观察器；
- *   - 提供 waitForElement(selector) 方法，返回 Promise：
- *       - 选择器无效时，直接以 rejected 状态返回；
- *       - 若目标元素已存在，直接以 resolved 状态返回；
- *       - 否则挂起等待任务，待目标元素出现时 resolve；
+ *   - 提供 waitForElement(selector, timeout) 方法，返回 Promise，目标元素出现时 resolve，选择器无效或超时则 reject；
  *   - 使用 Map 统一管理所有等待任务，相同 selector 自动合并，DOM 变化时批量检查；
  *   - 按需启动观察服务以节省资源，任务全部完成时自动停止。
  */
@@ -580,8 +577,27 @@ const gDomObserver = (function() {
             console.log("DouyuEX gDomObserver: 所有任务完成，停止观察实例");
         }
     }
+    function _parseTimeout(timeout) {
+        if (timeout == null) return null;
+        if (typeof timeout === "number") return timeout >= 0 ? timeout : null;
+        if (typeof timeout === "string") {
+            const num = parseFloat(timeout);
+            if (isNaN(num) || num < 0) return null;
+            if (/^\s*\d+(\.\d+)?\s*(s|sec|second|seconds)$/i.test(timeout)) return num * 1000;
+            if (/^\s*\d+(\.\d+)?\s*(m|min|minute|minutes)$/i.test(timeout)) return num * 60000;
+            return num; // 默认 ms
+        }
+        return null;
+    }
     function _checkElements() {
+        const current = performance.now();
         for (const [selector, task] of _pendingMap) {
+            if (current >= task.deadline) {
+                console.warn("DouyuEX gDomObserver: 计时到达上限，终止等待任务", selector);
+                task.reject(new Error(`DouyuEX waitForElement: Timeout - "${selector}"`));
+                _pendingMap.delete(selector);
+                continue;
+            }
             const element = document.querySelector(selector);
             if (element) {
                 console.log("DouyuEX gDomObserver: 目标元素出现，完成等待任务", element);
@@ -594,14 +610,24 @@ const gDomObserver = (function() {
     return {
         /*
          * 异步等待指定选择器对应的元素出现在 DOM 中：
+         *   @description
+         *     - 选择器无效时，不创建监听任务，直接以 rejected 状态返回 Promise；
+         *     - 若元素已存在，不创建监听任务，直接以 resolved 状态返回 Promise；
+         *     - 若元素不存在，则使用 MutationObserver 监听 DOM 变化，元素出现时 resolve，超时则 reject；
+         *     - 相同 selector 的调用合并为同一等待任务，共享 Promise 并取最晚截止时间避免提前超时；
+         *     - 未设置超时或传入 null 的任务将无限等待直到元素出现。
          *   @param {string} selector - CSS 选择器字符串
-         *   @returns {Promise<Element>} - 目标元素出现时 resolve，选择器无效则 reject
+         *   @param {null|number|string} timeout - 超时时长：
+         *     - `null`：永不超时（默认）；
+         *     - `number`：毫秒数，0 表示立即超时，负数则永不超时；
+         *     - `string`：支持 `ms`、`s`、`m`，例如 `"500ms"`、`"2s"`、`"1m"`，解析为 0 则立即超时，负数或无法解析则永不超时。
+         *   @returns {Promise<Element>} - 目标元素出现时 resolve，选择器无效或超时则 reject
          *   @example
-         *     gDomObserver.waitForElement('#id')
+         *     gDomObserver.waitForElement('#id', 5000) // 等待 5 秒
          *         .then(element => { console.log('元素已出现:', element); })
-         *         .catch(error => { console.error('选择器无效:', error); });
+         *         .catch(error => { console.error('选择器无效或等待超时:', error); });
          */
-        waitForElement(selector) {
+        waitForElement(selector, timeout = null) {
             const selectorTrimmed = typeof selector === "string" ? selector.trim() : "";
             if (!selectorTrimmed) {
                 console.error("DouyuEX gDomObserver: 空白的选择器，拒绝创建任务", selector);
@@ -626,20 +652,29 @@ const gDomObserver = (function() {
                 }
                 return Promise.resolve(element);
             }
+            const parsedTimeout = _parseTimeout(timeout), current = performance.now();
             if (existing) {
-                console.log("DouyuEX gDomObserver: 选择器已存在，合并等待任务", selectorTrimmed);
+                if (parsedTimeout == null) {
+                    existing.deadline = Infinity;
+                    console.log("DouyuEX gDomObserver: 选择器已存在，合并任务，永不过期", selectorTrimmed);
+                } else {
+                    existing.deadline = Math.max(existing.deadline, current + parsedTimeout);
+                    console.log(`DouyuEX gDomObserver: 选择器已存在，合并任务，${existing.deadline === Infinity ? "永不过期" : `剩余 ${Math.max(0, existing.deadline - current).toFixed(0)} ms`}`, selectorTrimmed);
+                }
                 return existing.promise;
             }
-            let resolveFn;
-            const promise = new Promise(resolve => { resolveFn = resolve; });
-            _pendingMap.set(selectorTrimmed, { promise, resolve: resolveFn });
+            const deadline = parsedTimeout == null ? Infinity : current + parsedTimeout;
+            const deadlineLabel = parsedTimeout == null ? "等待不限时长" : `等待时长: ${parsedTimeout}ms`;
+            let resolveFn, rejectFn;
+            const promise = new Promise((resolve, reject) => { resolveFn = resolve; rejectFn = reject; });
+            _pendingMap.set(selectorTrimmed, { deadline, promise, resolve: resolveFn, reject: rejectFn });
             if (!_observer) {
                 const root = document.body || document.documentElement || document;
                 _observer = new MutationObserver(_checkElements);
                 _observer.observe(root, { childList: true, subtree: true });
-                console.log("DouyuEX gDomObserver: 启动观察实例，创建首个任务", selectorTrimmed);
+                console.log("DouyuEX gDomObserver: 启动观察实例，创建首个任务", selectorTrimmed, deadlineLabel);
             } else {
-                console.log("DouyuEX gDomObserver: 复用观察实例，加入任务队列", selectorTrimmed);
+                console.log("DouyuEX gDomObserver: 复用观察实例，加入任务队列", selectorTrimmed, deadlineLabel);
             }
             return promise;
         }
