@@ -1,62 +1,52 @@
 let videoScale = 1;
+var VideoZoom_down = null;
+var VideoZoom_wheelHandler = null;
 function initPkg_VideoTools_VideoZoom() {
-    let domWrap = getValidDom([".layout-Player-video", ".layout-Player-videoEntity"]);
+    let domWrap = getValidDom([".layout-Player-videoEntity", ".layout-Player-video"]);
     let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
 
     let x = 0;
     let y = 0;
 
-    let mousedownX = 0;
-    let mousedownY = 0;
-    let mouseupX = 0;
-    let mouseupY = 0;
-
+    if (!domWrap || !domVideoWrap) return;
     domVideoWrap.style.transition = "all 0.1s";
-    domWrap.addEventListener("mousewheel", e => {
-        if (!e.ctrlKey) {
-            return;
-        }
+
+    if (VideoZoom_wheelHandler) window.removeEventListener("wheel", VideoZoom_wheelHandler, true);
+    VideoZoom_wheelHandler = (e) => {
+        if (!e.ctrlKey) return;
+        domWrap = domWrap || getValidDom([".layout-Player-videoEntity", ".layout-Player-video"]);
+        domVideoWrap = domVideoWrap || document.getElementsByClassName("layout-Player-videoEntity")[0];
+        if (!domWrap || !domVideoWrap) return;
+        const r = domWrap.getBoundingClientRect();
+        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return;
         e.preventDefault();
-        e.stopPropagation();
-        let delta = e.wheelDelta || -e.detail;
-        x = e.screenX - domWrap.getBoundingClientRect().left;
-        y = e.screenY - domWrap.getBoundingClientRect().top;
-        if (delta >= 0) {
-            videoScale += 0.1;
-        } else {
-            videoScale -= 0.1;
-        }
+        e.stopImmediatePropagation();
+        x = e.clientX - r.left;
+        y = e.clientY - r.top;
+        videoScale += e.deltaY < 0 ? 0.1 : -0.1;
+        if (videoScale < 0.1) videoScale = 0.1;
         domVideoWrap.style.transform = `scale(${videoScale})`;
         domVideoWrap.style.transformOrigin = `${x}px ${y}px`;
-    });
+    };
+    window.addEventListener("wheel", VideoZoom_wheelHandler, { capture: true, passive: false });
 
-    domWrap.addEventListener("mousedown", e => {
-        if (!e.ctrlKey) {
-            return;
-        }
-        if (e.button === 0) {
-            mousedownX = e.clientX - domWrap.getBoundingClientRect().left;
-            mousedownY = e.clientY - domWrap.getBoundingClientRect().top;
-        }
-    });
+    document.addEventListener("mousedown", (e) => {
+        if (!e.ctrlKey || e.button !== 0) return;
+        const p = e.composedPath ? e.composedPath() : null;
+        if (p ? (!p.includes(domWrap) && !p.includes(domVideoWrap)) : (!domWrap.contains(e.target) && !domVideoWrap.contains(e.target))) return;
+        const r = domWrap.getBoundingClientRect();
+        VideoZoom_down = { x: e.clientX - r.left, y: e.clientY - r.top };
+    }, true);
 
-    domWrap.addEventListener("mouseup", e => {
-        if (!e.ctrlKey) {
-            return;
-        }
-        if (e.button === 0) {
-            mouseupX = e.clientX - domWrap.getBoundingClientRect().left;
-            mouseupY = e.clientY - domWrap.getBoundingClientRect().top;
-
-            let delX = mouseupX - mousedownX;
-            let delY = mouseupY - mousedownY;
-
-            x -= delX;
-            y -= delY;
-            if (domVideoWrap.style.transform !== "") {
-                domVideoWrap.style.transformOrigin = `${x}px ${y}px`;
-            }
-        }
-    });
+    document.addEventListener("mouseup", (e) => {
+        if (!VideoZoom_down || !e.ctrlKey || e.button !== 0) return;
+        const p = e.composedPath ? e.composedPath() : null;
+        if (p ? (!p.includes(domWrap) && !p.includes(domVideoWrap)) : (!domWrap.contains(e.target) && !domVideoWrap.contains(e.target))) return;
+        const r = domWrap.getBoundingClientRect();
+        x -= (e.clientX - r.left) - VideoZoom_down.x;
+        y -= (e.clientY - r.top) - VideoZoom_down.y;
+        if (domVideoWrap.style.transform) domVideoWrap.style.transformOrigin = `${x}px ${y}px`;
+        VideoZoom_down = null;
+    }, true);
 }
 
