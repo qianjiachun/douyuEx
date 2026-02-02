@@ -98,89 +98,64 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
 
     // 开启
     function enable(content, type_value) {
-        if (window.location.href.includes("/beta")) {
-            let textarea = document.querySelector("div.ChatSend-txt");
-            const button = document.querySelector(".ChatSend-button");
-            if (!textarea || !button) return;
+        // 优先查找 textarea，如果没有则查找 div
+        let textarea = document.querySelector("textarea.ChatSend-txt") || document.querySelector("div.ChatSend-txt");
+        const button = document.querySelector(".ChatSend-button");
+        if (!textarea || !button) return;
 
-            disable(); // 防止重复绑定
+        disable(); // 防止重复绑定
 
-            keydownHandler = function (e) {
-                if (!e.isTrusted) return;
-                if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    button.click();
-                }
-            };
+        // 判断元素类型，div 使用 innerText，textarea 使用 value
+        const isDiv = textarea.tagName.toLowerCase() === "div";
+        const getText = () => isDiv ? textarea.innerText : textarea.value;
+        const setText = (text) => {
+            if (isDiv) {
+                textarea.innerText = text;
+            } else {
+                textarea.value = text;
+            }
+        };
 
-            clickHandler = function (e) {
-                if (textarea.innerText.trim() == "") return;
-                let shouldAdd = false;
+        keydownHandler = function (e) {
+            if (!e.isTrusted) return;
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                button.click();
+            }
+        };
+
+        clickHandler = function (e) {
+            const currentText = getText();
+            if (currentText.trim() == "") return;
+            
+            let shouldAdd = false;
+            if (type_value === "1") {
+                // 前缀模式：检查是否以内容开头
+                shouldAdd = !currentText.startsWith(content);
+            } else {
+                // 后缀模式：检查是否以内容结尾
+                shouldAdd = !currentText.endsWith(content);
+            }
+            
+            if (shouldAdd) {
                 if (type_value === "1") {
-                    // 前缀模式：检查是否以内容开头
-                    shouldAdd = !textarea.innerText.startsWith(content);
+                    setText(content + currentText);
                 } else {
-                    // 后缀模式：检查是否以内容结尾
-                    shouldAdd = !textarea.innerText.endsWith(content);
+                    setText(currentText + content);
                 }
-                
-                if (shouldAdd) {
-                    if (type_value === "1") {
-                        textarea.innerText = content + textarea.innerText;
-                    } else {
-                        textarea.innerText = textarea.innerText + content;
-                    }
-                    textarea.dispatchEvent(new Event("input", { bubbles: true }));
-                }
-            };
-            textarea.addEventListener("keydown", keydownHandler, true);
-            button.addEventListener("click", clickHandler, true);
-        } else {
-            let textarea = document.querySelector("textarea.ChatSend-txt");
-            const button = document.querySelector(".ChatSend-button");
-            if (!textarea || !button) return;
+                textarea.dispatchEvent(new Event("input", { bubbles: true }));
+            }
+        };
 
-            disable(); // 防止重复绑定
-
-            keydownHandler = function (e) {
-                if (!e.isTrusted) return;
-                if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    button.click();
-                }
-            };
-
-            clickHandler = function (e) {
-                if (textarea.value.trim() == "") return;
-                let shouldAdd = false;
-                if (type_value === "1") {
-                    // 前缀模式：检查是否以内容开头
-                    shouldAdd = !textarea.value.startsWith(content);
-                } else {
-                    // 后缀模式：检查是否以内容结尾
-                    shouldAdd = !textarea.value.endsWith(content);
-                }
-                
-                if (shouldAdd) {
-                    if (type_value === "1") {
-                        textarea.value = content + textarea.value;
-                    } else {
-                        textarea.value = textarea.value + content;
-                    }
-                    textarea.dispatchEvent(new Event("input", { bubbles: true }));
-                }
-            };
-
-            textarea.addEventListener("keydown", keydownHandler, true);
-            button.addEventListener("click", clickHandler, true);
-        }
+        textarea.addEventListener("keydown", keydownHandler, true);
+        button.addEventListener("click", clickHandler, true);
     }
 
     // 关闭
     function disable() {
-        const textarea = document.querySelector("textarea.ChatSend-txt");
+        // 优先查找 textarea，如果没有则查找 div
+        const textarea = document.querySelector("textarea.ChatSend-txt") || document.querySelector("div.ChatSend-txt");
         const button = document.querySelector(".ChatSend-button");
         if (textarea && keydownHandler) {
             textarea.removeEventListener("keydown", keydownHandler, true);
