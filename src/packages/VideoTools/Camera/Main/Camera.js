@@ -83,6 +83,11 @@ function initPkg_VideoTools_Camera_Func() {
     })
     dom.addEventListener("mouseleave", () => {
         camera.style.display = "none";
+        clearTimeout(timer_timeout);
+    })
+    dom_video.addEventListener("mouseleave", () => {
+        camera.style.display = "none";
+        clearTimeout(timer_timeout);
     })
     camera.addEventListener("mousedown", (e) => {
         if (e.target.id === "ex-camera-close") return;

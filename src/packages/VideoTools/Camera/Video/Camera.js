@@ -45,6 +45,7 @@ function Camera_Video_isHidden() {
 
 function initPkg_VideoTools_Camera_Video_Func() {
     let dom = document.getElementsByTagName("demand-video")[0];
+    let dom_video = document.getElementsByClassName("Video")[0];
     let camera = document.getElementById("ex-camera");
     let closeBtn = document.getElementById("ex-camera-close");
     let gif = null;
@@ -88,7 +89,14 @@ function initPkg_VideoTools_Camera_Video_Func() {
     })
     dom.addEventListener("mouseleave", () => {
         camera.style.display = "none";
+        clearTimeout(timer_timeout);
     })
+    if (dom_video) {
+        dom_video.addEventListener("mouseleave", () => {
+            camera.style.display = "none";
+            clearTimeout(timer_timeout);
+        })
+    }
     camera.addEventListener("mousedown", (e) => {
         if (e.target.id === "ex-camera-close") return;
         downTime = new Date().getTime();
