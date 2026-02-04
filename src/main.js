@@ -86,6 +86,7 @@ function initPkg() {
   initPkg_BagInfo();
   initPkg_Update();
   // initPkg_SyncJoy();
+  initPkg_AutoAnchorStar();
   initPkg_Fkbuff();
   initPkg_Monitor();
   initPkg_Lottery();
