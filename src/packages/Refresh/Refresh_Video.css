@@ -7,18 +7,6 @@
     background-size: contain;
 } */
 
-#refresh-video2 {
-    display: none;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-}
-
-#refresh-video2-svg {
-    fill: rgba(0,0,0,.6)
-}
-
 .refresh-barrage {
     display: inline-flex;
     align-items: center;
