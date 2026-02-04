@@ -28,6 +28,7 @@ function initPkg_ExpandTool_Dom() {
 function ExpandTool_insertModal() {
 	let a = document.createElement("div");
 	a.className = "extool";
+    a.innerHTML = `<div class="extool__close" title="关闭">×</div>`;
 	
 	let b = document.getElementsByClassName("layout-Player-chat")[0];
 	b.insertBefore(a, b.childNodes[0]);
@@ -50,4 +51,13 @@ function initPkg_ExpandTool_Func() {
 	document.getElementsByClassName("extool-icon")[0].addEventListener("click", function() {
 		showExRightPanel("扩展功能");
 	});
+
+    const closeBtn = document.getElementsByClassName("extool__close")[0];
+    if (closeBtn) {
+        closeBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const panel = document.getElementsByClassName("extool")[0];
+            if (panel) panel.style.display = "none";
+        });
+    }
 }

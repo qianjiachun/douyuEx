@@ -21,7 +21,7 @@
 	align-items: flex-start;
 }
 
-.extool > div:not(.ex_giftAnimation) {
+.extool > div:not(.ex_giftAnimation):not(.extool__close) {
 	background: rgba(255,255,255,0.82);
 	border: 1px solid rgba(0,0,0,0.10);
 	border-radius: 10px;
@@ -33,6 +33,29 @@
 	gap: 6px 10px;
 	align-items: center;
 	min-width: 220px;
+}
+
+.extool__close {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 26px;
+	height: 26px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	user-select: none;
+	background: rgba(0,0,0,0.06);
+	color: rgba(0,0,0,0.72);
+	font-size: 18px;
+	line-height: 26px;
+	z-index: 60;
+}
+
+.extool__close:hover {
+	background: rgba(0,0,0,0.10);
 }
 
 .extool__treasure,
