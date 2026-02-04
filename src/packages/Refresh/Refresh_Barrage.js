@@ -21,12 +21,22 @@ function Refresh_Barrage_insertIcon() {
 function initPkg_Refresh_Barrage_Func() {
 	document.getElementById("refresh-barrage").addEventListener("click", function() {
         if (current_barrage_status == 0) {
-            // 简化
-            setRefreshBarrage();
+            PostbirdAlertBox.confirm({
+                'title': '提示',
+                'content': '是否屏蔽弹幕前缀（如粉丝牌、钻粉、贵族等标志）',
+                'okBtn': '确定',
+                'cancelBtn': '取消',
+                'onConfirm': function () {
+                    setRefreshBarrage();
+                    saveData_Refresh();
+                },
+                'onCancel': function () {
+                }
+            });
         } else {
             cancelRefreshBarrage();
+            saveData_Refresh();
         }
-        saveData_Refresh();
     });
 }
 
@@ -63,13 +73,25 @@ function setRefreshBarrage() {
     `;
     StyleHook_set("Ex_Style_RefreshBarrage", cssText);
     current_barrage_status = 1;
-    document.getElementById("refresh-barrage").style.backgroundColor = "rgb(18,150,219)";
+    document.getElementById("refresh-barrage").classList.add("ex-active");
     document.getElementById("refresh-barrage__text").style.color = "#fff";
+    document.getElementById("refresh-barrage__text").innerText = "前缀";
+    let svg = document.getElementById("refresh-barrage__svg");
+    if (svg) {
+        let p = svg.getElementsByTagName("path")[0];
+        if (p) p.setAttribute("fill", "#ffffff");
+    }
 }
 
 function cancelRefreshBarrage() {
     StyleHook_remove("Ex_Style_RefreshBarrage");
     current_barrage_status = 0;
-    document.getElementById("refresh-barrage").style.backgroundColor = "";
+    document.getElementById("refresh-barrage").classList.remove("ex-active");
     document.getElementById("refresh-barrage__text").style.color = "";
+    document.getElementById("refresh-barrage__text").innerText = "前缀";
+    let svg = document.getElementById("refresh-barrage__svg");
+    if (svg) {
+        let p = svg.getElementsByTagName("path")[0];
+        if (p) p.setAttribute("fill", "#AFAFAF");
+    }
 }

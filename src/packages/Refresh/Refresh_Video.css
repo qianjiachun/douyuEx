@@ -20,7 +20,8 @@
 }
 
 .refresh-barrage {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     vertical-align: top;
     margin: 0 2px;
     padding: 0 8px;
@@ -33,6 +34,27 @@
     border-radius: 4px;
     cursor: pointer;
     user-select: none;
+}
+
+.refresh-barrage.ex-active {
+    background: linear-gradient(180deg, rgb(38, 169, 235), rgb(18, 150, 219));
+    border-color: rgb(18, 150, 219);
+    box-shadow: 0 0 0 2px rgba(18, 150, 219, .22), 0 8px 16px rgba(18, 150, 219, .28);
+    font-weight: 700;
+}
+
+.refresh-barrage.ex-active:hover {
+    box-shadow: 0 0 0 2px rgba(18, 150, 219, .28), 0 10px 18px rgba(18, 150, 219, .36);
+}
+
+.refresh-barrage.ex-active::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    margin-left: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .22);
 }
 
 .live-next-body .refresh-barrage {
