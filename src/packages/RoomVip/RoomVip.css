@@ -5,5 +5,6 @@
   -khtml-user-select:none;/*早期浏览器*/
   user-select:none;
   vertical-align: middle;
-  float: left;
+  position: absolute;
+  left: 12px;
 }

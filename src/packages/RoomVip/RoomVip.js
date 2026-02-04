@@ -1,4 +1,4 @@
-const roomVipExpireDayLimit = 3;
+const roomVipExpireDayLimit = 5;
 function initPkg_RoomVip() {
   setRoomVipExpireDays();
 }
@@ -9,8 +9,11 @@ function initPkg_RoomVip_Dom() {
   a.innerHTML = `
 	距VIP到期 <span id="room-vip-expire-days">**</span> 天
 	`;
-  let b = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth"]);
-  b && b.insertBefore(a, b.childNodes[0]);
+  let b = getValidDom(["#js-backpack-enter"]);
+  if (b) {
+    b = b.parentElement;
+    b && b.insertBefore(a, b.childNodes[0]);
+  }
 }
 
 function setRoomVipExpireDays() {
