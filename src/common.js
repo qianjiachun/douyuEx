@@ -538,3 +538,290 @@ function getValidDomList(queryList) {
 	}
 	return [];
 }
+
+/*
+ * gDomObserver - 全局 DOM 观察服务单例。
+ *   - 复用单个 MutationObserver 实例观察 DOM 结构变化，避免重复创建观察器，
+ *   - 提供 waitForElement(selector) 方法，返回一个Promise并在目标元素出现时立刻完成，
+ *   - 使用 listeners(任务队列) 与 pendingMap(去重) 统一管理所有"等待元素出现"的任务，
+ *   - 相同 selector 会自动合并，共享同一个 Promise，
+ *   - 不同 selector 的观察任务会加入队列并逐一检查，
+ *   - 元素出现后立即 resolve 并从队列中移除，
+ *   - 队列为空时自动停止观察服务以节省资源。
+ */
+const gDomObserver = (function() {
+    let _observer = null;
+    const listeners = [];
+    const pendingMap = new Map();
+    const root = document.body || document.documentElement || document;
+    function parseTimeout(timeout) {
+        if (timeout == null) return null;
+        if (typeof timeout === "number") return timeout;
+        if (typeof timeout === "string") {
+            const t = timeout.trim().toLowerCase();
+            if (t.endsWith("ms")) return parseFloat(t);
+            if (t.endsWith("s")) return parseFloat(t) * 1000;
+            return parseFloat(t); // 默认 ms
+        }
+        return null;
+    }
+    function _queryElements(selector) {
+        if (typeof selector !== 'string' || !selector.trim()) return null;
+        try {
+            return document.querySelector(selector);
+        } catch (err) {
+            return null;
+        }
+    }
+    function _checkElements() {
+        let write = 0;
+        for (let read = 0, length = listeners.length; read < length; read++) {
+            const item = listeners[read];
+            if (item.deadline !== Infinity && performance.now() >= item.deadline) {
+                item.reject(new Error(`waitForElement timeout: ${item.selector}`));
+                pendingMap.delete(item.selector);
+                continue;
+            }
+            const element = _queryElements(item.selector);
+            if (element) {
+                item.resolve(element);
+                pendingMap.delete(item.selector);
+                //console.log("DouyuEX gDomObserver: 目标元素出现，返回查询结果", element);
+            } else {
+                listeners[write++] = item;
+            }
+        }
+        listeners.length = write;
+        if (write === 0 && _observer) {
+            _observer.disconnect();
+            _observer = null;
+            console.log("DouyuEX gDomObserver: 完成所有任务，停止观察实例");
+        }
+    }
+    return {
+        /*
+         * 异步等待指定选择器对应的元素出现在 DOM 中。
+         * @param {string} selector - CSS 选择器字符串。
+         * @param {number|string|null} [timeout=null] - 超时时间：数字（毫秒）/ 字符串（"500ms"、"2s"）/ null（无限等待）
+         * @return {Promise<Element>} - 当元素出现在 DOM 中时 resolve(Element)，若超时则 reject(Error)
+         * 1. 若元素已存在，立即 resolve，不创建监听任务。
+         * 2. 若元素不存在，则使用 MutationObserver 监听 DOM 变化，直到元素出现或超时。
+         * 3. 相同 selector 的多次调用会自动合并为同一个等待任务（共享 Promise）。
+         * 4. 支持超时（毫秒数、"500ms"、"2s"、"100" 等），未设置则无限等待。
+         * 使用示例：
+         *   // 基本用法：等待元素出现
+         *   gDomObserver.waitForElement('#id').then(el => {
+         *       console.log('元素已出现:', el);
+         *   });
+         *   // 带超时（5 秒）
+         *   gDomObserver.waitForElement('.item', 5000).catch(err => {
+         *       console.warn('等待超时:', err);
+         *   });
+         */
+        waitForElement(selector, timeout = null) {
+            selector = typeof selector === "string" ? selector.trim() : "";
+            if (!selector) return Promise.resolve(null);
+            const parsedTimeout = parseTimeout(timeout);
+            const existing = pendingMap.get(selector);
+            if (existing) {
+                console.log("DouyuEX gDomObserver: 目标元素重复，合并等待任务", selector);
+                if (parsedTimeout == null) {
+                    console.log("DouyuEX gDomObserver: 合并等待任务并取消超时", selector);
+                    existing.deadline = Infinity;
+                } else {
+                    existing.deadline = Math.max(existing.deadline, performance.now() + parsedTimeout);
+                    const remaining = existing.deadline === Infinity ? Infinity : Math.max(0, existing.deadline - performance.now());
+                    console.log("DouyuEX gDomObserver: 合并等待任务，剩余超时时长", remaining);
+                }
+                return existing.promise;
+            }
+            const element = _queryElements(selector);
+            if (element) {
+                //console.log("DouyuEX gDomObserver: 目标元素存在，立刻返回结果", existingElement);
+                return Promise.resolve(element);
+            }
+            let resolveFn, rejectFn;
+            const promise = new Promise((resolve, reject) => {
+                resolveFn = resolve;
+                rejectFn = reject;
+            });
+            const deadline = parsedTimeout == null ? Infinity : performance.now() + parsedTimeout;
+            const listener = { selector, deadline, resolve: resolveFn, reject: rejectFn, promise };
+            pendingMap.set(selector, listener);
+            listeners.push(listener);
+            if (!_observer) {
+                _observer = new MutationObserver(_checkElements);
+                _observer.observe(root, { childList: true, subtree: true });
+                console.log("DouyuEX gDomObserver: 启动观察实例，创建等待任务", selector);
+            } else {
+                console.log("DouyuEX gDomObserver: 复用观察实例，加入等待队列", selector);
+            }
+            return promise;
+        }
+    };
+})();
+
+/*
+ * gHotkey - 全局快捷键服务单例。
+ *   - 复用单个 keydown 监听器实例，避免重复绑定。
+ *   - 支持普通按键、F1-F12 以及 Alt / Ctrl / Meta / Shift 的组合。
+ *   - 提供 add / remove / enable / disable / list 等多种管理方法。
+ *   - 相同快捷键可注册多个回调，自动合并，不会覆盖并按顺序触发。
+ *   - 自动忽略输入框、文本域和可编辑区域的普通输入，避免误触。
+ *   - 使用示例：
+ *       // 注册一个或多个快捷键
+ *       gHotkey.add("ctrl+f5", () => console.log("按下 Ctrl+F5"));
+ *       gHotkey.add({
+ *           h: () => console.log("按下 H"),
+ *           "ctrl+shift+x": () => console.log("按下 Ctrl+Shift+X")
+ *       });
+ *
+ *       // 移除某个快捷键的某个回调
+ *       const fn = () => console.log("只移除这个回调");
+ *       gHotkey.add("ctrl+k", fn);
+ *       gHotkey.remove("ctrl+k", fn);
+ *
+ *       // 移除整个快捷键（所有回调一起删除）
+ *       gHotkey.remove("ctrl+f5");
+ *
+ *       // 禁用某个快捷键（不会触发，但仍保留回调）
+ *       gHotkey.disable("ctrl+s");
+ *
+ *       // 重新启用快捷键
+ *       gHotkey.enable("ctrl+s");
+ *
+ *       // 查看当前所有快捷键
+ *       console.table(gHotkey.list());
+ */
+const gHotkey = (function () {
+    let _listener = null;
+    const hotkeyMap = new Map();
+    // 判断是否应忽略该事件
+    function _ignoreEvent(e) {
+        const t = e.target;
+        const isInput = t.isContentEditable || t.tagName === "INPUT" || t.tagName === "TEXTAREA";
+        return isInput && !e.altKey && !e.ctrlKey && !e.metaKey;
+    }
+    // 判断用户按键是否匹配
+    function _matchHotkey(e, keys) {
+        if (keys.includes("alt") && !e.altKey) return false;
+        if (keys.includes("ctrl") && !e.ctrlKey) return false;
+        if (keys.includes("meta") && !e.metaKey) return false;
+        if (keys.includes("shift") && !e.shiftKey) return false;
+        return keys.includes(e.key.toLowerCase()) || keys.includes(e.code.toLowerCase());
+    }
+    return {
+        /*
+         * 注册快捷键
+         *   - 自动复用全局 keydown 监听器
+         *   - 同一个快捷键可绑定多个回调，按注册顺序依次执行
+         * @param {string|Object} keyOrCombo
+         *   - 字符串：单个快捷键，如 "h"、"ctrl+h"、"shift+f5"
+         *   - 对象：批量注册，如 { h: callback1, x: callback2 }
+         * @param {Function} [callback]
+         *   - 当 keyOrCombo 为字符串时，提供回调函数
+         *   - 当 keyOrCombo 为对象时忽略此参数
+         */
+        add(keyOrCombo, callback) {
+            // 支持对象批量注册
+            if (typeof keyOrCombo === "object") {
+                for (const hotkey in keyOrCombo) {
+                    this.add(hotkey, keyOrCombo[hotkey]);
+                }
+                return;
+            }
+            keyOrCombo = keyOrCombo.toLowerCase().split(" ").join("");
+            const keys = keyOrCombo.split("+");
+            // 快捷键相同时追加 callback
+            if (hotkeyMap.has(keyOrCombo)) {
+                hotkeyMap.get(keyOrCombo).callbacks.push(callback);
+            } else {
+                hotkeyMap.set(keyOrCombo, { keys, callbacks: [callback], enabled: true });
+            }
+            // 复用单例监听器
+            if (_listener) return;
+            _listener = e => {
+                if (_ignoreEvent(e)) return;
+                for (const { keys, callbacks, enabled } of hotkeyMap.values()) {
+                    if (!enabled) continue;
+                    if (_matchHotkey(e, keys)) {
+                        for (const callback of callbacks) callback(e);
+                    }
+                }
+            };
+            document.addEventListener("keydown", _listener);
+        },
+        /*
+         * 移除某个快捷键或某个回调
+         *   - 若某个快捷键所有回调被删空，则自动移除该快捷键
+         *   - 若所有快捷键都被移除，则自动解绑 keydown 监听器
+         * @param {string} keyOrCombo - 快捷键，如 "ctrl+s"
+         * @param {Function} [callback] - 若提供，则仅移除该回调；若省略，则移除整个快捷键
+         */
+        remove(keyOrCombo, callback) {
+            keyOrCombo = keyOrCombo.toLowerCase().split(" ").join("");
+            const item = hotkeyMap.get(keyOrCombo);
+            if (!item) return;
+            if (!callback) {
+                hotkeyMap.delete(keyOrCombo);
+            } else {
+                let write = 0, callbacks = item.callbacks;
+                for (let read = 0, length = callbacks.length; read < length; read++) {
+                    if (callbacks[read] !== callback) {
+                        callbacks[write++] = callbacks[read];
+                    }
+                }
+                callbacks.length = write;
+                if (write === 0) {
+                    hotkeyMap.delete(keyOrCombo);
+                }
+            }
+            // 若无任何快捷键，自动解绑监听器
+            if (hotkeyMap.size === 0 && _listener) {
+                document.removeEventListener("keydown", _listener);
+                _listener = null;
+            }
+        },
+        /*
+         * 禁用某个快捷键（不会触发，但仍保留回调）
+         *   - 回调仍保留，可随时 enable 恢复
+         *   - 不会影响其他快捷键
+         * @param {string} keyOrCombo - 快捷键，如 "ctrl+s"
+         */
+        disable(keyOrCombo) {
+            keyOrCombo = keyOrCombo.toLowerCase().split(" ").join("");
+            const item = hotkeyMap.get(keyOrCombo);
+            if (item) item.enabled = false;
+        },
+        /*
+         * 启用某个快捷键（恢复触发）
+         *   - 恢复之前被 disable 的快捷键，使其重新生效
+         * @param {string} keyOrCombo - 快捷键，如 "ctrl+s"
+         */
+        enable(keyOrCombo) {
+            keyOrCombo = keyOrCombo.toLowerCase().split(" ").join("");
+            const item = hotkeyMap.get(keyOrCombo);
+            if (item) item.enabled = true;
+        },
+        /*
+         * 列出所有快捷键
+         *   - 可用于调试或展示快捷键列表
+         * 返回格式：
+         *   [
+         *     { keyOrCombo: "ctrl+s", callbacks: 2, enabled: true },
+         *     { keyOrCombo: "h", callbacks: 1, enabled: false }
+         *   ]
+         */
+        list() {
+            const result = [];
+            for (const [keyOrCombo, { callbacks, enabled }] of hotkeyMap.entries()) {
+                result.push({
+                    keyOrCombo: keyOrCombo,
+                    callbacks: callbacks.length,
+                    enabled
+                });
+            }
+            return result;
+        }
+    };
+})();

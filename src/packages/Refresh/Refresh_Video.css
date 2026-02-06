@@ -1,4 +1,27 @@
-/* #refresh-video {
+#dialog-playerSimple {
+    position:absolute;
+    right:18px;
+    bottom:58px;
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    z-index:9999;
+    cursor:pointer;
+    user-select:none;
+    font-size:18px;
+    line-height:32px;
+    opacity:0;
+    transform:scale(.9);
+    transition:opacity .15s ease,transform .15s ease,background-color .15s ease;
+    pointer-events:none;
+}
+
+/* #menu-playerSimple {
     float: left;
     width: 24px;
     height: 24px;
@@ -7,53 +30,52 @@
     background-size: contain;
 } */
 
-.refresh-barrage {
-    display: inline-flex;
-    align-items: center;
-    vertical-align: top;
-    margin: 0 2px;
-    padding: 0 8px;
-    height: 22px;
-    line-height: 21px;
-    background-color: #fff;
-    border: 1px solid #e5e4e4;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    cursor: pointer;
-    user-select: none;
+#item-playerSimple__path {
+    display: none;
 }
 
-.refresh-barrage.ex-active {
-    background: linear-gradient(180deg, rgb(38, 169, 235), rgb(18, 150, 219));
-    border-color: rgb(18, 150, 219);
-    box-shadow: 0 0 0 2px rgba(18, 150, 219, .22), 0 8px 16px rgba(18, 150, 219, .28);
-    font-weight: 700;
+/* Player Simple Mode Styles */
+.is-playerSimple .stream__T55I3,
+.is-playerSimple .layout-Player-video {
+    bottom: 0 !important;
+    z-index: 75 !important;
 }
 
-.refresh-barrage.ex-active:hover {
-    box-shadow: 0 0 0 2px rgba(18, 150, 219, .28), 0 10px 18px rgba(18, 150, 219, .36);
+.simple-show #dialog-playerSimple {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
 }
 
-.refresh-barrage.ex-active::after {
-    content: "";
-    width: 6px;
-    height: 6px;
-    margin-left: 6px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, .95);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, .22);
+.simple-hover #dialog-playerSimple{
+    transform: scale(1.08);
+    background-color: rgba(0,0,0,.7);
 }
 
-.live-next-body .refresh-barrage {
-    background-color: var(--front-background-color);
-    border: 1px solid var(--front-border-color);
+.is-playerSimple #menu-playerSimple::before {
+    content: "✓ ";
 }
 
-#refresh-barrage__svg {
-    vertical-align: middle;
+.is-playerSimple #item-playerSimple__rect {
+    opacity: 1;
 }
 
-.top-0-important {
-    top: 0 !important;
+.is-playerSimple #item-playerSimple__path {
+    display: block;
+}
+
+.is-playerSimple .PlayerToolbar-ContentRow {
+    visibility: hidden !important;
+}
+
+.is-playerSimple .PELact,
+.is-playerSimple .pushTower-wrapper-gf1HG,
+.is-playerSimple .PkView-9f6a2c,
+.is-playerSimple .MorePk,
+.is-playerSimple .RandomPKBar,
+.is-playerSimple .LiveRoomLoopVideo,
+.is-playerSimple .LiveRoomDianzan,
+.is-playerSimple .maiMaitView-68e80c,
+.is-playerSimple .PkView {
+    display: none !important;
 }
