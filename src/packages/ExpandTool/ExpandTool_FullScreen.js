@@ -1,134 +1,148 @@
-function initPkg_ExpandTool_FullScreen() {
-    ExpandTool_FullScreen_insertDom();
-    ExpandTool_FullScreen_insertFunc();
-    ExpandTool_HighestVideoQuality_insertFunc();
-    initPkg_ExpandTool_FullScreen_Set();
+function initPkg_ExpandTool_Player() {
+    initPkg_ExpandTool_Player_insertDom();
+    initPkg_ExpandTool_FullScreenPage_Set();
+    initPkg_ExpandTool_FullScreenPage_insertFunc();
     initPkg_ExpandTool_HighestVideoQuality_Set();
+    initPkg_ExpandTool_HighestVideoQuality_insertFunc();
 }
 
-function ExpandTool_FullScreen_insertDom() {
-    let a = document.createElement("span");
-    // a.className = "extool__bsize";
-    a.innerHTML = '<label title="自动网页全屏"><input id="extool__fullscreen" type="checkbox">自动网页全屏</label><label title="自动最高画质"><input id="extool__highestvideoquality" type="checkbox">自动最高画质</label>';
-    
-    let b = document.getElementsByClassName("extool")[0];
-    b.insertBefore(a, b.childNodes[0]);
+function initPkg_ExpandTool_Player_insertDom() {
+    document.getElementsByClassName("extool")[0].insertAdjacentHTML(
+        "afterbegin",
+        `<span>
+            <label title="自动网页全屏"><input id="extool__fullscreenpage" type="checkbox">自动网页全屏</label>
+            <label title="自动折叠侧栏"><input id="extool__hideplayersidebar" type="checkbox">自动折叠侧栏</label>
+            <label title="自动最高画质"><input id="extool__highestvideoquality" type="checkbox">自动最高画质</label>
+        </span>`
+    );
 }
 
-
-function getFullScreen() {
-    return document.getElementById("extool__fullscreen").checked;
+function initPkg_ExpandTool_FullScreenPage_insertFunc() {
+    const fullscreenpage = document.getElementById("extool__fullscreenpage");
+    const hideplayersidebar = document.getElementById("extool__hideplayersidebar");
+    fullscreenpage.addEventListener("click", function() {
+        const isFullScreenPage = fullscreenpage.checked;
+        saveData_ExpandTool("isFullScreenPage", isFullScreenPage);
+        hideplayersidebar.disabled = !isFullScreenPage;
+        if (isFullScreenPage) {
+            showMessage("刷新页面生效", "success");
+        }
+    });
+    hideplayersidebar.addEventListener("click", function() {
+        const isHidePlayerSidebar = hideplayersidebar.checked;
+        saveData_ExpandTool("isHidePlayerSidebar", isHidePlayerSidebar);
+        if (isHidePlayerSidebar) {
+            showMessage("刷新页面生效", "success");
+        }
+    });
+    gHotkey.add("t", () => {
+        const toggleContainer = document.getElementsByClassName("toggle__P8TKM")[0];
+        if (toggleContainer) {
+            toggleContainer.querySelector('button').click();
+        } else if (document.body.classList.contains("is-fullScreen")) {
+            const stageContainer = document.getElementsByClassName("stage__D8VhO")[0];
+            //const playerContainer = stageContainer.getElementsByClassName("player__jsy1T")[0];
+            const fullScreenSendor = document.getElementsByClassName("fullScreenSendor-32a8a8")[0];
+            const playerToolbar = document.getElementsByClassName("PlayerToolbar")[0];
+            stageContainer.classList.toggle("large__pcRJn");
+            //playerContainer.classList.toggle("hidden__Kqqgu");
+            fullScreenSendor.classList.toggle("fullScreenSendorShow-fb7c32");
+            playerToolbar.classList.toggle("is-playerstate1");
+            playerToolbar.classList.toggle("is-playerstate2");
+        }
+    });
 }
-function ExpandTool_FullScreen_insertFunc() {
-    document.getElementById("extool__fullscreen").addEventListener("click", function() {
-        saveData_FullScreen();
-        if (getFullScreen()) {
+
+function initPkg_ExpandTool_FullScreenPage_Set() {
+    let isFullScreenPage = loadData_ExpandTool("isFullScreenPage");
+    // 旧设置迁移
+    if (isFullScreenPage === undefined) {
+        try {
+            const old = JSON.parse(localStorage.getItem("ExSave_FullScreen") || {}).isFullScreen;
+            isFullScreenPage = typeof old === "boolean" ? old : false;
+        } catch (err) {
+            isFullScreenPage = false;
+        }
+        saveData_ExpandTool("isFullScreenPage", isFullScreenPage);
+        localStorage.removeItem("ExSave_FullScreen");
+    }
+    // 设置初始化
+    const hideplayersidebar = document.getElementById("extool__hideplayersidebar");
+    if (isFullScreenPage) {
+        document.getElementById("extool__fullscreenpage").checked = true;
+        fullScreenpage();
+    } else {
+        hideplayersidebar.disabled = true;
+    }
+    if (loadData_ExpandTool("isHidePlayerSidebar")) {
+        hideplayersidebar.checked = true;
+    }
+}
+
+function fullScreenpage() {
+    gDomObserver.waitForElement('.wfs-2a8e83, .icon-c8be96:has([d="M20 25h6v-6M14 7H8v6"])', 90000).then(fullScreenPageButton => {
+        console.log("DouyuEx 自动网页全屏: 点击 fullScreenPageButton", fullScreenPageButton);
+        fullScreenPageButton.click();
+        if (document.getElementById("extool__hideplayersidebar").checked) {
+            gDomObserver.waitForElement('.toggle__P8TKM button').then(toggleButton => {
+                console.log("DouyuEx 自动折叠侧栏: 点击弹幕侧边栏显示切换按钮", toggleButton);
+                toggleButton.click();
+            });
+        }
+    });
+}
+
+function initPkg_ExpandTool_HighestVideoQuality_insertFunc() {
+    const highestvideoquality = document.getElementById("extool__highestvideoquality");
+    highestvideoquality.addEventListener("click", function() {
+        const isHighestVideoQuality = highestvideoquality.checked;
+        saveData_ExpandTool("isHighestVideoQuality", isHighestVideoQuality);
+        if (isHighestVideoQuality) {
             showMessage("刷新页面生效", "success");
         }
     });
 }
 
-function saveData_FullScreen() {
-	let data = {
-		isFullScreen: getFullScreen()
-	}
-	localStorage.setItem("ExSave_FullScreen", JSON.stringify(data));
-}
-function initPkg_ExpandTool_FullScreen_Set() {
-	// 设置初始化
-	let ret = localStorage.getItem("ExSave_FullScreen");
-	if (ret != null) {
-		let retJson = JSON.parse(ret);
-        if (retJson.isFullScreen) {
-            document.getElementById("extool__fullscreen").checked = retJson.isFullScreen;
-        }
-	}
-}
-
-
-function initFullScreen() {
-	let ret = localStorage.getItem("ExSave_FullScreen");
-	if (ret != null) {
-		let retJson = JSON.parse(ret);
-        if (retJson.isFullScreen) {
-            fullScreen();
-        }
-	}
-}
-
-function fullScreen() {
-    let count = 0;
-    let intID1 = setInterval(() => {
-        count++;
-        if (count > 100) clearInterval(intID1);
-        if (getValidDom([".wfs-2a8e83", ".icon-c8be96"])) {
-            clearInterval(intID1);
-            let dom = document.querySelector("div.wfs-2a8e83");
-            if (dom) {
-                dom.click();
-            } else {
-                dom = document.querySelectorAll(".icon-c8be96");
-                if (dom.length >= 2) {
-                    // 因为网页全屏按钮在倒数第二个
-                    dom[dom.length - 2].click();
-                }
-            }
-        }
-    }, 1000);
-}
-
-function getHighestVideoQuality() {
-    return document.getElementById("extool__highestvideoquality").checked;
-}
-function ExpandTool_HighestVideoQuality_insertFunc() {
-    document.getElementById("extool__highestvideoquality").addEventListener("click", function() {
-        saveData_HighestVideoQuality();
-        if (getHighestVideoQuality()) {
-            showMessage("刷新页面生效", "success");
-        }
-    });
-}
-
-function saveData_HighestVideoQuality() {
-	let data = {
-		isHighestVideoQuality: getHighestVideoQuality()
-	}
-	localStorage.setItem("ExSave_HighestVideoQuality", JSON.stringify(data));
-}
 function initPkg_ExpandTool_HighestVideoQuality_Set() {
-	// 设置初始化
-	let ret = localStorage.getItem("ExSave_HighestVideoQuality");
-	if (ret != null) {
-		let retJson = JSON.parse(ret);
-        if (retJson.isHighestVideoQuality) {
-            document.getElementById("extool__highestvideoquality").checked = retJson.isHighestVideoQuality;
+    let isHighestVideoQuality = loadData_ExpandTool("isHighestVideoQuality");
+    // 旧设置迁移
+    if (isHighestVideoQuality === undefined) {
+        try {
+            const old = JSON.parse(localStorage.getItem("ExSave_HighestVideoQuality") || {}).isHighestVideoQuality;
+            isHighestVideoQuality = typeof old === "boolean" ? old : false;
+        } catch (err) {
+            isHighestVideoQuality = false;
         }
-	}
-}
-
-function initHighestVideoQuality() {
-	let ret = localStorage.getItem("ExSave_HighestVideoQuality");
-	if (ret != null) {
-		let retJson = JSON.parse(ret);
-        if (retJson.isHighestVideoQuality) {
-            highestVideoQuality();
-        }
-	}
+        saveData_ExpandTool("isHighestVideoQuality", isHighestVideoQuality);
+        localStorage.removeItem("ExSave_HighestVideoQuality");
+    }
+    // 设置初始化
+    if (isHighestVideoQuality) {
+        document.getElementById("extool__highestvideoquality").checked = true;
+        highestVideoQuality();
+    }
 }
 
 function highestVideoQuality() {
-    let count = 0;
-    let intID1 = setInterval(() => {
-        count++;
-        if (count > 100) clearInterval(intID1);
-        const qualityContainer = document.querySelector('[class^="tipItem-"]:has([value^="画质"])') || document.querySelector('[class^="tip-"]:has([value^="画质"])');
-        if (qualityContainer) {
-            clearInterval(intID1);
-            const highestQualityOption = qualityContainer.querySelector('ul > li:first-child');
-            if (highestQualityOption) {
-                const isAlreadySelected = highestQualityOption.matches('[class^="selected-"]');
-                if (!isAlreadySelected) highestQualityOption.click(); 
+    gDomObserver.waitForElement('.reload-0876b5', 90000).then(reloadDiv => {
+        console.log("DouyuEx 自动最高画质: 检测到reloadDiv，直播已开启", reloadDiv);
+        let reloadDivDomHook = new DomHook(reloadDiv, true, () => {
+            if (reloadDiv.offsetParent !== null) {
+                console.log("DouyuEx 自动最高画质: 直播流异常，点击reloadDiv", reloadDiv);
+                reloadDiv.click();
+                return;
             }
-        }
-    }, 1000);
+        }, true);
+        gDomObserver.waitForElement('.selected-ab049e').then(selectedItem => {
+            const highestQualityOption = selectedItem.parentElement.querySelector(':first-child');
+            if (highestQualityOption !== selectedItem) {
+                console.log("DouyuEx 自动最高画质: 点击 highestQualityOption", highestQualityOption);
+                highestQualityOption.click();
+            } else {
+                console.log("DouyuEx 自动最高画质: 保持 highestQualityOption", highestQualityOption);
+            }
+            reloadDivDomHook.closeHook();
+            reloadDivDomHook = null;
+        });
+    });
 }

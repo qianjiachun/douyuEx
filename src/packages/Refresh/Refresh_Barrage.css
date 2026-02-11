@@ -1,0 +1,89 @@
+.Barrage-toolbar {
+    opacity: 0.8;
+}
+
+.Barrage-toolbarBtn {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
+    margin: 0 2px;
+    padding: 0 8px;
+    height: 22px;
+    line-height: 21px;
+    background-color: #fff;
+    border: 1px solid #e5e4e4;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.live-next-body .Barrage-toolbarBtn {
+    background-color: var(--front-background-color);
+    border: 1px solid var(--front-border-color);
+}
+
+#btn-prefixHidden__svg,
+#btn-rankHidden__svg {
+    vertical-align: middle;
+}
+
+#btn-prefixHidden__text,
+#btn-rankHidden__text {
+    vertical-align: top;
+}
+
+.is-prefixHidden .UserCsgoGameDataMedal,
+.is-prefixHidden .Barrage-honor,
+.is-prefixHidden .Barrage-listItem .Barrage-icon,
+.is-prefixHidden .Barrage-listItem .FansMedal.is-made,
+.is-prefixHidden .Barrage-listItem .RoomLevel,
+.is-prefixHidden .Barrage-listItem .Motor,
+.is-prefixHidden .Barrage-listItem .ChatAchievement,
+.is-prefixHidden .Barrage-listItem .Barrage-hiIcon,
+.is-prefixHidden .Barrage-listItem .Medal,
+.is-prefixHidden .Barrage-listItem .MatchSystemTeamMedal,
+/* .is-prefixHidden .Barrage-listItem .UserLevel */
+.is-prefixHidden .Barrage-listItem .Baby,
+.is-prefixHidden .FansMedalWrap {
+    display: none !important;
+}
+
+.is-prefixHidden #btn-prefixHidden,
+.is-rankHidden #btn-rankHidden {
+    background: linear-gradient(180deg, rgb(38, 169, 235), rgb(18, 150, 219));
+    border-color: rgb(18, 150, 219);
+    box-shadow: 0 0 0 2px rgba(18, 150, 219, .22), 0 8px 16px rgba(18, 150, 219, .28);
+    font-weight: 500;
+}
+
+.is-prefixHidden #btn-prefixHidden:hover,
+.is-rankHidden #btn-rankHidden:hover {
+    box-shadow: 0 0 0 2px rgba(18, 150, 219, .28), 0 10px 18px rgba(18, 150, 219, .36);
+}
+
+.is-prefixHidden #btn-prefixHidden::after,
+.is-rankHidden #btn-rankHidden::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    margin-left: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .22);
+}
+
+.is-prefixHidden #btn-prefixHidden__text,
+.is-rankHidden #btn-rankHidden__text {
+    color: #ccc;
+}
+
+.is-rankHidden .layout-Player-rank,
+.is-rankHidden #js-room-activity {
+    display: none !important;
+}
+
+.is-rankHidden .Barrage {
+    top: 0 !important;
+}

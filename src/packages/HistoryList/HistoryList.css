@@ -1,0 +1,5 @@
+.Header-history-content .DropPane-drop {
+    max-height: var(--historylist-max-height);
+    overflow: auto;
+    scrollbar-width: none;
+}
