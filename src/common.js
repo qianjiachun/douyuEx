@@ -564,6 +564,7 @@ function getValidDomList(queryList) {
  * gDomObserver - 全局 DOM 观察服务单例：
  *   - 复用单个 MutationObserver 实例观察 DOM 结构变化，避免重复创建观察器；
  *   - 提供 waitForElement(selector, timeout) 方法，返回 Promise，目标元素出现时 resolve，选择器无效或超时则 reject；
+ *   - 提供 raceForElement(selectors, timeout) 方法，返回 Promise，最先出现的元素 resolve，选择器数组为空或超时则 reject；
  *   - 使用 Map 统一管理所有等待任务，相同 selector 的调用合并至同一等待组，DOM 变化时批量检查；
  *   - 按需启动观察服务以节省资源，任务全部完成时自动停止。
  */
@@ -627,7 +628,7 @@ const gDomObserver = (() => {
          *   @description
          *     - 选择器无效时，不创建监听任务，直接以 rejected 状态返回 Promise；
          *     - 若元素已存在，不创建监听任务，直接以 resolved 状态返回 Promise；
-         *     - 若元素不存在，则使用 MutationObserver 监听 DOM 变化，元素出现时 resolve，超时则 reject；
+         *     - 若元素不存在，则使用 MutationObserver 监听 DOM 变化，元素出现时 resolve，超时或外部中止则 reject；
          *     - 相同 selector 的调用合并至同一等待组，各自持有独立的 Promise 和超时设定；
          *     - 未设置超时或传入 null 的任务将无限等待直到元素出现。
          *   @param {string} selector - CSS 选择器字符串
@@ -635,13 +636,21 @@ const gDomObserver = (() => {
          *     - `null`：永不超时（默认）；
          *     - `number`：毫秒数，0 表示立即超时，负数则永不超时；
          *     - `string`：支持 `ms`、`s`、`m`，例如 `"500ms"`、`"2s"`、`"1m"`，解析为 0 则立即超时，负数或无法解析则永不超时。
-         *   @returns {Promise<Element>} - 目标元素出现时 resolve，选择器无效或超时则 reject
+         *   @param {null|AbortSignal} signal - 可选的中止信号，触发后以 AbortError 拒绝 Promise
+         *   @returns {Promise<Element>} - 目标元素出现时 resolve，选择器无效、超时或外部中止则 reject
          *   @example
-         *     gDomObserver.waitForElement('#id', 5000) // 等待 5 秒
+         *     const controller = new AbortController();
+         *     gDomObserver.waitForElement('#id', 5000, controller.signal) // 等待 5 秒
          *         .then(element => { console.log('元素已出现:', element); })
-         *         .catch(error => { console.error('选择器无效或等待超时:', error); });
+         *         .catch(error => { console.error('选择器无效、等待超时或已取消:', error); });
+         *     // 主动取消：
+         *     controller.abort();
          */
-        waitForElement(selector, timeout = null) {
+        waitForElement(selector, timeout = null, signal = null) {
+            if (signal && signal.aborted) {
+                console.warn("DouyuEX gDomObserver: 信号已中止，拒绝创建任务", selector);
+                return Promise.reject(signal.reason || new DOMException("Aborted", "AbortError"));
+            }
             const selectorTrimmed = typeof selector === "string" ? selector.trim() : "";
             if (!selectorTrimmed) {
                 console.error("DouyuEX gDomObserver: 空白的选择器，拒绝创建任务", selector);
@@ -672,6 +681,17 @@ const gDomObserver = (() => {
             let resolveFn, rejectFn;
             const promise = new Promise((resolve, reject) => { resolveFn = resolve; rejectFn = reject; });
             const task = new Task(deadline, resolveFn, rejectFn);
+            if (signal) {
+                signal.addEventListener("abort", () => {
+                    console.warn("DouyuEX gDomObserver: 收到外部信号，终止等待任务", selectorTrimmed);
+                    task.reject(signal.reason || new DOMException("Aborted", "AbortError"));
+                    const group = _pendingMap.get(selectorTrimmed);
+                    if (!group) return;
+                    group.tasks.delete(task);
+                    if (group.tasks.size === 0) _pendingMap.delete(selectorTrimmed);
+                    _disconnect();
+                }, { once: true });
+            }
             if (existing) {
                 console.log("DouyuEX gDomObserver: 等待元素相同，添加新的任务", selectorTrimmed, deadlineLabel);
                 existing.tasks.add(task);
@@ -687,7 +707,64 @@ const gDomObserver = (() => {
                 }
             }
             return promise;
-        }
+        },
+        /*
+         * 异步等待多个选择器中“最先出现”的那个元素：
+         *   @description
+         *     - 为各 selector 创建独立的等待任务，共享同一个 AbortController；
+         *     - 超时统一由竞速层管理，与各等待任务的生命周期完全独立；
+         *     - 任意元素率先出现后，立即取消其余所有等待任务；
+         *     - 竞速超时后立即取消所有等待任务并 reject。
+         *   @param {string[]} selectors - CSS 选择器数组，例如 `["#id", ".item", "[data-x]"]`
+         *     - 每个选择器独立等待，竞速结果返回最先出现的元素。
+         *   @param {null|number|string} timeout - 超时时长，格式与 waitForElement 的 timeout 相同
+         *   @returns {Promise<{selector: string, element: Element}>} - 返回的 Promise 中包含：
+         *     - `selector`：最先出现元素对应的选择器；
+         *     - `element`：最先出现的元素对象。
+         *   @example
+         *     gDomObserver.raceForElement([".a", ".b"], 90000)
+         *         .then(({ selector, element }) => { console.log("最先出现的是:", selector, element); })
+         *         .catch(error => { console.error("竞速失败:", error); });
+         */
+        raceForElement(selectors, timeout = null) {
+            if (!Array.isArray(selectors) || selectors.length === 0) {
+                console.error("DouyuEX gDomObserver: 无效的选择器，竞速任务中止");
+                return Promise.reject(new Error(`DouyuEX raceForElement: Empty array of selectors - ${selectors}`));
+            }
+            const controller = new AbortController(), parsedTimeout = _parseTimeout(timeout);
+            let finished = false, rejectedCount = 0, timeoutId = null;
+            console.log("DouyuEX gDomObserver: 启动竞速任务，等待元素列表", selectors);
+            return new Promise((resolve, reject) => {
+                if (parsedTimeout != null) {
+                    timeoutId = setTimeout(() => {
+                        if (finished) return;
+                        finished = true;
+                        console.warn("DouyuEX gDomObserver: 超过最大时长，竞速任务失败");
+                        const timeoutError = new Error(`DouyuEX raceForElement: No elements appeared within the timeout - ${selectors}`);
+                        controller.abort(timeoutError);
+                        reject(timeoutError);
+                    }, parsedTimeout);
+                }
+                for (const selector of selectors) {
+                    this.waitForElement(selector, null, controller.signal).then(element => {
+                        if (finished) return;
+                        finished = true;
+                        clearTimeout(timeoutId);
+                        console.log("DouyuEX gDomObserver: 竞速任务完成，首先出现元素", selector, element);
+                        controller.abort();
+                        resolve({ selector, element });
+                    }).catch(err => {
+                        if (finished) return;
+                        if (++rejectedCount === selectors.length) {
+                            finished = true;
+                            clearTimeout(timeoutId);
+                            console.warn("DouyuEX gDomObserver: 无效的选择器，竞速任务失败", err);
+                            reject(new Error(`DouyuEX raceForElement: All selectors are invalid - ${selectors}`));
+                        }
+                    });
+                }
+            });
+        },
     };
 })();
 
