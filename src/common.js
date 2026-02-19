@@ -567,13 +567,17 @@ function getValidDomList(queryList) {
  *   - 使用 Map 统一管理所有等待任务，相同 selector 自动合并，DOM 变化时批量检查；
  *   - 按需启动观察服务以节省资源，任务全部完成时自动停止。
  */
-const gDomObserver = (function() {
-    let _observer = null;
+const gDomObserver = (() => {
+    let _observer = null, _rafId = null;
     const _pendingMap = new Map();
     function _disconnect() {
         if (_pendingMap.size === 0 && _observer) {
             _observer.disconnect();
             _observer = null;
+            if (_rafId) {
+                cancelAnimationFrame(_rafId);
+                _rafId = null;
+            }
             console.log("DouyuEX gDomObserver: 所有任务完成，停止观察实例");
         }
     }
@@ -590,22 +594,26 @@ const gDomObserver = (function() {
         return null;
     }
     function _checkElements() {
-        const current = performance.now();
-        for (const [selector, task] of _pendingMap) {
-            if (current >= task.deadline) {
-                console.warn("DouyuEX gDomObserver: 计时到达上限，终止等待任务", selector);
-                task.reject(new Error(`DouyuEX waitForElement: Timeout - "${selector}"`));
-                _pendingMap.delete(selector);
-                continue;
+        if (_rafId) cancelAnimationFrame(_rafId);
+        _rafId = requestAnimationFrame(() => {
+            const current = performance.now();
+            for (const [selector, task] of _pendingMap) {
+                if (current >= task.deadline) {
+                    console.warn("DouyuEX gDomObserver: 计时到达上限，终止等待任务", selector);
+                    task.reject(new Error(`DouyuEX waitForElement: Timeout - "${selector}"`));
+                    _pendingMap.delete(selector);
+                    continue;
+                }
+                const element = document.querySelector(selector);
+                if (element) {
+                    console.log("DouyuEX gDomObserver: 目标元素出现，完成等待任务", element);
+                    task.resolve(element);
+                    _pendingMap.delete(selector);
+                }
             }
-            const element = document.querySelector(selector);
-            if (element) {
-                console.log("DouyuEX gDomObserver: 目标元素出现，完成等待任务", element);
-                task.resolve(element);
-                _pendingMap.delete(selector);
-            }
-        }
-        _disconnect();
+            _disconnect();
+            _rafId = null;
+        });
     }
     return {
         /*
