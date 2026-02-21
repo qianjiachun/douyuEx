@@ -85,9 +85,13 @@ function initFullScreenPage() {
 }
 
 function fullScreenPage() {
-    gDomObserver.waitForElement('.wfs-2a8e83, .icon-c8be96:has([d="M20 25h6v-6M14 7H8v6"])').then(fullScreenPageButton => {
-        //console.log("DouyuEx 自动网页全屏: 点击 fullScreenPageButton", fullScreenPageButton);
-        fullScreenPageButton.click();
+    gDomObserver.raceForElement(['.is-fullScreen', '.wfs-2a8e83', '.icon-c8be96:has([d="M20 25h6v-6M14 7H8v6"])']).then(({ selector, element }) => {
+        if (selector !== '.is-fullScreen') {
+            //console.log("DouyuEx 自动网页全屏: 点击 fullScreenPageButton", element);
+            element.click();
+        } else {
+            //console.log("DouyuEx 自动网页全屏: 已是全屏状态，跳过点击脚本", element);
+        }
         if (loadData_ExpandTool("isHidePlayerSidebar")) {
             gDomObserver.waitForElement('.toggle__P8TKM').then(toggleContainer => {
                 if (!toggleContainer.classList.contains("shrink__Sd0uK")) {
