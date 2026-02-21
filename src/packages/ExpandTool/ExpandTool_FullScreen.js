@@ -80,9 +80,13 @@ function initPkg_ExpandTool_FullScreenPage_Set() {
 }
 
 function fullScreenpage() {
-    gDomObserver.waitForElement('.wfs-2a8e83, .icon-c8be96:has([d="M20 25h6v-6M14 7H8v6"])').then(fullScreenPageButton => {
-        console.log("DouyuEx 自动网页全屏: 点击 fullScreenPageButton", fullScreenPageButton);
-        fullScreenPageButton.click();
+    gDomObserver.raceForElement(['.is-fullScreen', '.wfs-2a8e83', '.icon-c8be96:has([d="M20 25h6v-6M14 7H8v6"])']).then(({ selector, element }) => {
+        if (selector === '.is-fullScreen') {
+            console.log("DouyuEx 自动网页全屏: 已是全屏状态，跳过点击脚本", element);
+        } else {
+            console.log("DouyuEx 自动网页全屏: 点击 fullScreenPageButton", element);
+            element.click();
+        }
         if (document.getElementById("extool__hideplayersidebar").checked) {
             gDomObserver.waitForElement('.toggle__P8TKM button').then(toggleButton => {
                 console.log("DouyuEx 自动折叠侧栏: 点击弹幕侧边栏折叠切换按钮", toggleButton);
