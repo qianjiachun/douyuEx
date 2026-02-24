@@ -7,28 +7,14 @@ function initPkg_Shield() {
   //     }
   // }, 1000);
 
-  let t = setInterval(() => {
-    if (typeof document.getElementsByClassName("BarrageFilter")[0] !== "undefined") {
-      clearInterval(t);
-      new DomHook(".BarrageFilter", false, (m) => {
-        if (m.length === 0) return;
-        if (m[0].addedNodes.length > 0 && m[0].removedNodes.length === 0) {
-          const domFilterKeywords = document.getElementsByClassName("FilterKeywords")[0];
-          if (domFilterKeywords) {
-            initPkg_Shield_Enable(domFilterKeywords);
-          } else {
-            let t2 = setInterval(() => {
-              const domFilterKeywords = document.getElementsByClassName("FilterKeywords")[0];
-              if (domFilterKeywords) {
-                clearInterval(t2);
-                initPkg_Shield_Enable(domFilterKeywords);
-              }
-            }, 50);
-          }
-        }
-      });
-    }
-  }, 1000);
+  gDomObserver.waitForElement('.BarrageFilter').then(barrageFilter => {
+    new DomHook(barrageFilter, false, () => {
+      const domFilterKeywords = document.getElementsByClassName("FilterKeywords")[0];
+      if (domFilterKeywords) {
+        initPkg_Shield_Enable(domFilterKeywords);
+      }
+    });
+  });
 }
 
 function initPkg_Shield_Enable(domFilterKeywords) {
