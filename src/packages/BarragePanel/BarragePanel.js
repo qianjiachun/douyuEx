@@ -10,25 +10,72 @@ function initPkg_BarragePanel() {
     initPkg_BarragePanel_Tip();
 }
 
+let barragePanel__isUpdating = false;
+
+function barragePanel__withGuard(fn) {
+    if (barragePanel__isUpdating) return;
+    barragePanel__isUpdating = true;
+    try {
+        fn();
+    } finally {
+        setTimeout(() => {
+            barragePanel__isUpdating = false;
+        }, 0);
+    }
+}
+
+function barragePanel__replaceImageDanmakuInPanel() {
+    const contentDom = document.getElementsByClassName("danmuContent-25f266")[0];
+    if (!contentDom) return;
+    const oldText = contentDom.innerHTML;
+    if (!oldText.includes(`[DouyuEx图片`)) return;
+    const newText = oldText.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
+    if (newText !== oldText) contentDom.innerHTML = newText;
+}
+
 function setBarragePanelCallBack() {
     let a = new DomHook("#Ex_BarragePanel", true, (m) => {
-        let isAttributes = false;
-        if (m.length > 0) {
-            for (let i = 0; i < m.length; i++) {
-                if (m[i].type == "attributes") {
-                    isAttributes = true;
-                    break;
-                } 
-            }
-            if (isAttributes == false) {
-                let addedNodes = m[0].addedNodes;
-                if (addedNodes.length > 0) {
-                    let barragePanel = addedNodes[0];
-                    if ("getElementsByClassName" in barragePanel == false) {
+        barragePanel__withGuard(() => {
+            let isAttributes = false;
+            if (m.length > 0) {
+                for (let i = 0; i < m.length; i++) {
+                    if (m[i].type == "attributes") {
+                        isAttributes = true;
+                        break;
+                    }
+                }
+                if (isAttributes == false) {
+                    let addedNodes = m[0].addedNodes;
+                    if (addedNodes.length > 0) {
+                        let barragePanel = addedNodes[0];
+                        if ("getElementsByClassName" in barragePanel == false) {
+                            return;
+                        }
+                        const barragePanelButton = barragePanel.getElementsByClassName("buttonGroup-de6b66")[0];
+                        let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
+                        let id = "";
+                        if (userNameDom.length > 0) {
+                            id = userNameDom[0].innerText;
+                            setUserFansMedal(userNameDom[0], id);
+                            setReplyBarrageButton(barragePanelButton);
+                            setSearchBarrageButton(barragePanelButton);
+                            setBarragePanelButtonSplit(barragePanelButton);
+                            setMuteButton(barragePanelButton);
+                            setBarrgePanelFunc(barragePanelButton, id);
+                        }
+                    }
+                } else {
+                    let tmp = document.getElementsByClassName("barragePanel__funcPanel");
+                    if (tmp.length > 0) {
+                        tmp[0].remove();
+                    }
+                    let barragePanel = document.getElementsByClassName("danmudiv-32f498")[0];
+                    if (barragePanel == undefined) {
                         return;
                     }
                     const barragePanelButton = barragePanel.getElementsByClassName("buttonGroup-de6b66")[0];
                     let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
+
                     let id = "";
                     if (userNameDom.length > 0) {
                         id = userNameDom[0].innerText;
@@ -39,44 +86,16 @@ function setBarragePanelCallBack() {
                         setMuteButton(barragePanelButton);
                         setBarrgePanelFunc(barragePanelButton, id);
                     }
+                    barragePanel__replaceImageDanmakuInPanel();
                 }
-            } else {
-                let tmp = document.getElementsByClassName("barragePanel__funcPanel");
-                if (tmp.length > 0) {
-                    tmp[0].remove();
-                }
-                let barragePanel = document.getElementsByClassName("danmudiv-32f498")[0];
-                if (barragePanel == undefined) {
-                    return;
-                }
-                const barragePanelButton = barragePanel.getElementsByClassName("buttonGroup-de6b66")[0];
-                let userNameDom = barragePanel.getElementsByClassName("danmuAuthor-3d7b4a");
-                
-                let id = "";
-                if (userNameDom.length > 0) {
-                    id = userNameDom[0].innerText;
-                    setUserFansMedal(userNameDom[0], id);
-                    setReplyBarrageButton(barragePanelButton);
-                    setSearchBarrageButton(barragePanelButton);
-                    setBarragePanelButtonSplit(barragePanelButton);
-                    setMuteButton(barragePanelButton);
-                    setBarrgePanelFunc(barragePanelButton, id);
-                }
-                const contentDom = document.getElementsByClassName("danmuContent-25f266")[0];
-                if (!contentDom) return;
-                if (!contentDom.innerHTML.includes(`[DouyuEx图片`)) return;
-                let newText = contentDom.innerHTML.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
-                contentDom.innerHTML = newText;
             }
-        }
+        });
     });
 
     new DomHook("#Ex_BarragePanel", false, (m) => {
-        const contentDom = document.getElementsByClassName("danmuContent-25f266")[0];
-        if (!contentDom) return;
-        if (!contentDom.innerHTML.includes(`[DouyuEx图片`)) return;
-        let newText = contentDom.innerHTML.replace(/\[DouyuEx图片(.*?)\]/g, (match, str) => getImageDanmakuHtml(str));
-        contentDom.innerHTML = newText;
+        barragePanel__withGuard(() => {
+            barragePanel__replaceImageDanmakuInPanel();
+        });
     })
     
 }
@@ -121,23 +140,29 @@ function getUserLevelText(userName) {
 }
 
 function setUserFansMedal(dom, userName) {
-    if (document.getElementById("barragePanel__id") == undefined) {
-        dom.removeChild(dom.childNodes[0]);
+    if (dom.querySelector("#barragePanel__id") == undefined) {
+        if (dom.childNodes && dom.childNodes.length > 0) dom.removeChild(dom.childNodes[0]);
         let userLevel = getUserLevelText(userName);
         let a = document.createElement("span");
         a.innerHTML = userName;
         a.title = userLevel;
         a.id = "barragePanel__id";
-        dom.insertBefore(a, dom.childNodes[0]);
+        dom.insertBefore(a, dom.childNodes[0] || null);
     }
     
 
     let fansMedal = getUserFansMedal(userName);
     if (fansMedal != false) {
-        a = document.createElement("div");
-        a.style = "display:inline-block";
-        a.appendChild(fansMedal);
-        dom.insertBefore(a, dom.childNodes[0]);
+        let medalWrap = dom.querySelector("#barragePanel__fansMedal");
+        if (!medalWrap) {
+            medalWrap = document.createElement("div");
+            medalWrap.id = "barragePanel__fansMedal";
+            medalWrap.style = "display:inline-block";
+            dom.insertBefore(medalWrap, dom.childNodes[0] || null);
+        } else {
+            medalWrap.innerHTML = "";
+        }
+        medalWrap.appendChild(fansMedal);
     }
 }
 
