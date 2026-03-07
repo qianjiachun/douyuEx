@@ -9,6 +9,16 @@ function initPkg_BagInfo_Func() {
         return;
     }
 	backpackDom.addEventListener("click", function() {
+        setTimeout(() => {
+            let giftItemNum = document.querySelectorAll(".ToolbarBackpack-giftItem").length;
+            new DomHook(".BackpackExpandPanel-giftListWrap", true, (e) => {
+                if (giftItemNum != document.querySelectorAll(".ToolbarBackpack-giftItem").length) {
+                    backpackDom.click();
+                    backpackDom.click();
+                }
+            });
+        }, 500);
+
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             const isBeta = !!document.getElementsByClassName("BackpackExpandPanel")[0];
