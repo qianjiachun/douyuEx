@@ -564,12 +564,19 @@ function getValidDomList(queryList) {
  * gDomObserver - 全局 DOM 观察服务单例：
  *   - 复用单个 MutationObserver 实例观察 DOM 结构变化，避免重复创建观察器；
  *   - 提供 waitForElement(selector, timeout) 方法，返回 Promise，目标元素出现时 resolve，选择器无效或超时则 reject；
- *   - 使用 Map 统一管理所有等待任务，相同 selector 自动合并，DOM 变化时批量检查；
+ *   - 使用 Map 统一管理所有等待任务，相同 selector 的调用合并至同一等待组，DOM 变化时批量检查；
  *   - 按需启动观察服务以节省资源，任务全部完成时自动停止。
  */
 const gDomObserver = (() => {
     let _observer = null, _rafId = null;
     const _pendingMap = new Map();
+    class Task {
+        constructor(deadline, resolve, reject) {
+            this.deadline = deadline;
+            this.resolve = resolve;
+            this.reject = reject;
+        }
+    }
     function _disconnect() {
         if (_pendingMap.size === 0 && _observer) {
             _observer.disconnect();
@@ -597,19 +604,20 @@ const gDomObserver = (() => {
         if (_rafId) cancelAnimationFrame(_rafId);
         _rafId = requestAnimationFrame(() => {
             const current = performance.now();
-            for (const [selector, task] of _pendingMap) {
-                if (current >= task.deadline) {
-                    console.warn("DouyuEX gDomObserver: 计时到达上限，终止等待任务", selector);
-                    task.reject(new Error(`DouyuEX waitForElement: Timeout - "${selector}"`));
-                    _pendingMap.delete(selector);
-                    continue;
-                }
+            for (const [selector, group] of _pendingMap) {
                 const element = document.querySelector(selector);
-                if (element) {
-                    console.log("DouyuEX gDomObserver: 目标元素出现，完成等待任务", element);
-                    task.resolve(element);
-                    _pendingMap.delete(selector);
+                for (const task of group.tasks) {
+                    if (current >= task.deadline) {
+                        console.warn("DouyuEX gDomObserver: 计时到达上限，终止等待任务", selector);
+                        task.reject(new Error(`DouyuEX waitForElement: Timeout - "${selector}"`));
+                        group.tasks.delete(task);
+                    } else if (element) {
+                        console.log("DouyuEX gDomObserver: 目标元素出现，完成等待任务", element);
+                        task.resolve(element);
+                        group.tasks.delete(task);
+                    }
                 }
+                if (group.tasks.size === 0) _pendingMap.delete(selector);
             }
             _disconnect();
             _rafId = null;
@@ -622,7 +630,7 @@ const gDomObserver = (() => {
          *     - 选择器无效时，不创建监听任务，直接以 rejected 状态返回 Promise；
          *     - 若元素已存在，不创建监听任务，直接以 resolved 状态返回 Promise；
          *     - 若元素不存在，则使用 MutationObserver 监听 DOM 变化，元素出现时 resolve，超时则 reject；
-         *     - 相同 selector 的调用合并为同一等待任务，共享 Promise 并取最晚截止时间避免提前超时；
+         *     - 相同 selector 的调用合并至同一等待组，各自持有独立的 Promise 和超时设定；
          *     - 未设置超时或传入 null 的任务将无限等待直到元素出现。
          *   @param {string} selector - CSS 选择器字符串
          *   @param {null|number|string} timeout - 超时时长：
@@ -646,13 +654,13 @@ const gDomObserver = (() => {
                 element = document.querySelector(selectorTrimmed);
             } catch (err) {
                 console.error("DouyuEX gDomObserver: 非法的选择器，拒绝创建任务", selector, err);
-                return Promise.reject(new Error(`DouyuEX waitForElement: Invalid selector - "${selector}"`, { cause: err }));
+                return Promise.reject(new Error(`DouyuEX waitForElement: Invalid selector - "${selector}", ${err.message}`));
             }
             const existing = _pendingMap.get(selectorTrimmed);
             if (element) {
                 if (existing) {
                     console.log("DouyuEX gDomObserver: 目标元素存在，完成已有任务", element);
-                    existing.resolve(element);
+                    for (const task of existing.tasks) task.resolve(element);
                     _pendingMap.delete(selectorTrimmed);
                     _disconnect();
                 } else {
@@ -661,28 +669,27 @@ const gDomObserver = (() => {
                 return Promise.resolve(element);
             }
             const parsedTimeout = _parseTimeout(timeout), current = performance.now();
-            if (existing) {
-                if (parsedTimeout == null) {
-                    existing.deadline = Infinity;
-                    console.log("DouyuEX gDomObserver: 选择器已存在，合并任务，永不过期", selectorTrimmed);
-                } else {
-                    existing.deadline = Math.max(existing.deadline, current + parsedTimeout);
-                    console.log(`DouyuEX gDomObserver: 选择器已存在，合并任务，${existing.deadline === Infinity ? "永不过期" : `剩余 ${Math.max(0, existing.deadline - current).toFixed(0)} ms`}`, selectorTrimmed);
-                }
-                return existing.promise;
+            if (parsedTimeout === 0) {
+                return Promise.reject(new Error(`DouyuEX waitForElement: Timeout (immediate) - "${selectorTrimmed}"`));
             }
             const deadline = parsedTimeout == null ? Infinity : current + parsedTimeout;
             const deadlineLabel = parsedTimeout == null ? "等待不限时长" : `等待时长: ${parsedTimeout}ms`;
             let resolveFn, rejectFn;
             const promise = new Promise((resolve, reject) => { resolveFn = resolve; rejectFn = reject; });
-            _pendingMap.set(selectorTrimmed, { deadline, promise, resolve: resolveFn, reject: rejectFn });
-            if (!_observer) {
-                const root = document.body || document.documentElement || document;
-                _observer = new MutationObserver(_checkElements);
-                _observer.observe(root, { childList: true, subtree: true });
-                console.log("DouyuEX gDomObserver: 启动观察实例，创建首个任务", selectorTrimmed, deadlineLabel);
+            const task = new Task(deadline, resolveFn, rejectFn);
+            if (existing) {
+                console.log("DouyuEX gDomObserver: 等待元素相同，添加新的任务", selectorTrimmed, deadlineLabel);
+                existing.tasks.add(task);
             } else {
-                console.log("DouyuEX gDomObserver: 复用观察实例，加入任务队列", selectorTrimmed, deadlineLabel);
+                _pendingMap.set(selectorTrimmed, { tasks: new Set([task]) });
+                if (!_observer) {
+                    const root = document.body || document.documentElement || document;
+                    _observer = new MutationObserver(_checkElements);
+                    _observer.observe(root, { childList: true, subtree: true });
+                    console.log("DouyuEX gDomObserver: 启动观察实例，创建首个任务", selectorTrimmed, deadlineLabel);
+                } else {
+                    console.log("DouyuEX gDomObserver: 复用观察实例，加入任务队列", selectorTrimmed, deadlineLabel);
+                }
             }
             return promise;
         }
