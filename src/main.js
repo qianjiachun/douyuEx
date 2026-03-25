@@ -111,6 +111,7 @@ function initPkg() {
   initPkg_RestoreYuba();
   initPkg_ChangeDanmakuLengthLimit();
   initPkg_CheckAnchorPocket();
+  initPkg_LastLiveTime();
 }
 function initPkg_Timer() {
   // initPkg_FishPond_Timer();

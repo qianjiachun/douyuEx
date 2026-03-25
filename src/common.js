@@ -232,6 +232,27 @@ function dateFormat(fmt, date) {
 	return fmt;
 }
 
+function timeago(old) {
+	let returnText = "";
+	const nowDate = new Date().getTime(); //当前时间
+	const setDate = new Date(old).getTime();
+	const times = Math.floor((nowDate - setDate) / 1000);
+	if (times > 60 * 60 * 24 * 365) {
+		returnText = Math.floor(times / (60 * 60 * 24 * 365)) + "年前";
+	} else if (times > 60 * 60 * 24 * 30) {
+		returnText = Math.floor(times / (60 * 60 * 24 * 30)) + "个月前";
+	} else if (times > 60 * 60 * 24) {
+		returnText = Math.floor(times / (60 * 60 * 24)) + "天前";
+	} else if (times > 60 * 60) {
+		returnText = Math.floor(times / (60 * 60)) + "小时前";
+	} else if (times >= 60) {
+		returnText = Math.floor(times / 60) + "分钟前";
+	} else {
+		returnText = "刚刚";
+	}
+	return returnText;
+}
+
 function getRandom(min, max) {
 	return Math.floor(Math.random() * (max - min) + min);
 }
