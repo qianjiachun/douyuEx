@@ -31,7 +31,7 @@ function initPkg_LastLiveTime_Dom() {
         overlay.style.display = "flex";
         overlay.style.justifyContent = "center";
         overlay.style.alignItems = "center";
-        overlay.style.zIndex = "9999";
+        overlay.style.zIndex = "1";
         overlay.style.pointerEvents = "none";
 
         const timeCard = document.createElement("div");
