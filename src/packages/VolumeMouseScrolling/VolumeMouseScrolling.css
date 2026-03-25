@@ -1,0 +1,33 @@
+ .volume-07c230.custom-muted .icon-c8be96 svg,
+ .volume-07c230.custom-normal .icon-c8be96 svg {
+     display: none !important;
+ }
+
+ .volume-07c230.custom-muted .icon-c8be96::after,
+ .volume-07c230.custom-normal .icon-c8be96::after {
+     content: '';
+     display: block;
+     width: 32px;
+     height: 32px;
+     background-size: contain;
+     background-repeat: no-repeat;
+     background-position: center;
+ }
+
+ /* 静音图标颜色控制 */
+ .volume-07c230.custom-muted .icon-c8be96::after {
+     background-image: url('data:image/svg+xml;utf8,<svg fill="none" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M5 10h5.5L16 6v20l-5.5-4H5V10z" stroke="%23fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 19l6-6M20 13l6 6" stroke="%23fff" stroke-width="2" stroke-linecap="round"></path></svg>');
+ }
+
+ .volume-07c230.custom-muted:hover .icon-c8be96::after {
+     background-image: url('data:image/svg+xml;utf8,<svg fill="none" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M5 10h5.5L16 6v20l-5.5-4H5V10z" stroke="%23ff5d23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 19l6-6M20 13l6 6" stroke="%23ff5d23" stroke-width="2" stroke-linecap="round"></path></svg>');
+ }
+
+ /* 正常图标颜色控制 */
+ .volume-07c230.custom-normal .icon-c8be96::after {
+     background-image: url('data:image/svg+xml;utf8,<svg fill="none" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M5 10h5.5L16 6v20l-5.5-4H5V10z" stroke="%23fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21.736 23.517a8 8 0 00-.527-15.206M19.687 19.867a3.925 3.925 0 00-.258-7.46" stroke="%23fff" stroke-width="2" stroke-linecap="round"></path></svg>');
+ }
+
+ .volume-07c230.custom-normal:hover .icon-c8be96::after {
+     background-image: url('data:image/svg+xml;utf8,<svg fill="none" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M5 10h5.5L16 6v20l-5.5-4H5V10z" stroke="%23ff5d23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21.736 23.517a8 8 0 00-.527-15.206M19.687 19.867a3.925 3.925 0 00-.258-7.46" stroke="%23ff5d23" stroke-width="2" stroke-linecap="round"></path></svg>');
+ }

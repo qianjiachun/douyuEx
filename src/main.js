@@ -112,6 +112,7 @@ function initPkg() {
   initPkg_ChangeDanmakuLengthLimit();
   initPkg_CheckAnchorPocket();
   initPkg_LastLiveTime();
+  initPkg_VolumeMouseScrolling();
 }
 function initPkg_Timer() {
   // initPkg_FishPond_Timer();
