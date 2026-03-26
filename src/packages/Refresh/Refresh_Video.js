@@ -103,6 +103,17 @@ function initPkg_Refresh_Video_Func(playerDialog, settingPanel) {
         clearTimeout(timer_timeout);
     });
     gDomObserver.waitForElement('.room-Player-Box').then(dom_video => {
+        gDomObserver.waitForElement('.right-17e251').then(rightControlBar => {
+            const showButton = rightControlBar.querySelector('.showdanmuWrap-9c22cd .icon-c8be96');
+            const hideButton = rightControlBar.querySelector('.icon-c8be96:has([d="M7 7l18 18"])');
+            gHotkey.add("d", () => {
+                if (showButton.parentElement.classList.contains("removed-304d55")) {
+                    hideButton.click();
+                } else {
+                    showButton.click();
+                }
+            });
+        });
         dom_video.addEventListener("mousemove", () => {
             document.body.classList.add("simple-show");
             clearTimeout(timer_timeout);
