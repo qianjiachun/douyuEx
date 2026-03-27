@@ -19,7 +19,9 @@ function initPkg_LastLiveTime_Dom() {
 
     const timer = setInterval(() => {
       const player = document.querySelector(".room-Player");
-      if (player) {
+      const hasLastLiveTime = document.getElementsByClassName("LastLiveTime").length > 0;
+      
+      if (player && hasLastLiveTime) {
         clearInterval(timer);
 
         const overlay = document.createElement("div");
