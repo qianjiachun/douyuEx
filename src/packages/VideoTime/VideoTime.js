@@ -7,7 +7,6 @@ function initPkg_VideoTime() {
         VideoTime_setData();
         let videoDom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("__video");
         let showtimeDom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview");
-
         if (videoDom !== undefined && videoDom !== null) {
             clearInterval(timer);
             videoTime_domhook_videoChange = new MutationObserver(function(mutations) {
@@ -64,7 +63,7 @@ function VideoTime_getShowTime() {
 }
 
 function VideoTime_setShowTime(timeStr) {
-    let dom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview").shadowRoot.querySelector(".Preview-Time");
+    let dom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview").shadowRoot.querySelector(".Preview label");
     if (dom) {
         dom.style.position = "relative";
         dom.style.bottom = "60px"
