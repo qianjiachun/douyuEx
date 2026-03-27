@@ -56,6 +56,10 @@
     content: "✓ ";
 }
 
+.is-playerSimple .case__f4yex {
+    padding-bottom: 0 !important;
+}
+
 .is-playerSimple #item-playerSimple__rect {
     opacity: 1;
 }
