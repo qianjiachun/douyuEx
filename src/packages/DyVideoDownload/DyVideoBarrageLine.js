@@ -4,7 +4,7 @@ const dyVideoBarrage_domName = "ex-barrageLine";
 const dyVideoBarrage_switchDomName = "ex-barrageLine-switch";
 function initPkg_DyVideoBarrageLine() {
     let timer = setInterval(() => {
-        let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector(".ProgressBar-Safearea");
+        let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector(".ProgressBar-Sign");
         let hashidShadow = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
         let hashIdDom = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
         if (progress && hashidShadow && hashIdDom) {
