@@ -64,6 +64,10 @@
     content: "✓ ";
 }
 
+.is-simpleMode .case__f4yex {
+    padding-bottom: 0 !important;
+}
+
 .is-simpleMode #ex-refresh-switch {
     background: #f60;
 }
