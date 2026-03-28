@@ -3,7 +3,6 @@ function initPkg_VideoTools_Camera_Video() {
         liveVideoNode = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("__video");
         if (liveVideoNode !== undefined && liveVideoNode !== null && liveVideoNode.videoWidth) {
             clearInterval(timer);
-            camera_anchorName = document.getElementsByTagName("demand-video-anchor")[0].shadowRoot.querySelector(".anchor-name").innerText;
             camera_width = liveVideoNode.videoWidth * 0.25;
             camera_height = liveVideoNode.videoHeight * 0.25;
             camera_canvas = document.createElement("canvas");
@@ -120,6 +119,7 @@ function initPkg_VideoTools_Camera_Video_Func() {
     })
     camera.addEventListener("mouseup", (e) => {
         if (e.target.id === "ex-camera-close") return;
+        const camera_anchorName = document.getElementsByTagName("demand-video-anchor")[0].shadowRoot.getElementsByClassName("anchor-name")[0].textContent.trim();
         let upTime = new Date().getTime();
         clearInterval(timer);
         if (upTime - downTime >= 800) {
