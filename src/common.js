@@ -626,7 +626,10 @@ function getValidDomList(queryList) {
  *   - 按需启动观察服务以节省资源，任务全部完成时自动停止。
  */
 const gDomObserver = (() => {
-    let _observer = null, _rafId = null;
+    let _observer = null, _rafId = null, _debug = false;
+    const _log = (...a) => _debug && console.log ("[gDomObserver]", ...a);
+    const _warn = (...a) => _debug && console.warn ("[gDomObserver]", ...a);
+    const _error = (...a) => _debug && console.error("[gDomObserver]", ...a);
     const _pendingMap = new Map();
     class Task {
         constructor(deadline, resolve, reject) {
@@ -643,7 +646,7 @@ const gDomObserver = (() => {
                 cancelAnimationFrame(_rafId);
                 _rafId = null;
             }
-            console.log("DouyuEX gDomObserver: 所有任务完成，停止观察实例");
+            _log("DouyuEX gDomObserver: 所有任务完成，停止观察实例");
         }
     }
     function _parseTimeout(timeout) {
@@ -666,11 +669,11 @@ const gDomObserver = (() => {
                 const element = _rawQuery(selector);
                 for (const task of group.tasks) {
                     if (current >= task.deadline) {
-                        console.warn("DouyuEX gDomObserver: 计时到达上限，终止等待任务", selector);
+                        _warn("DouyuEX gDomObserver: 计时到达上限，终止等待任务", selector);
                         task.reject(new Error(`DouyuEX waitForElement: Timeout - "${selector}"`));
                         group.tasks.delete(task);
                     } else if (element) {
-                        console.log("DouyuEX gDomObserver: 目标元素出现，完成等待任务", element);
+                        _log("DouyuEX gDomObserver: 目标元素出现，完成等待任务", element);
                         task.resolve(element);
                         group.tasks.delete(task);
                     }
@@ -707,7 +710,7 @@ const gDomObserver = (() => {
          */
         waitForElement(selector, timeout = null, signal = null) {
             if (signal && signal.aborted) {
-                console.warn("DouyuEX gDomObserver: 信号已中止，拒绝创建任务", selector);
+                _warn("DouyuEX gDomObserver: 信号已中止，拒绝创建任务", selector);
                 return Promise.reject(signal.reason || new DOMException("Aborted", "AbortError"));
             }
             const selectorTrimmed = typeof selector === "string" ? selector.trim() : "";
@@ -715,18 +718,18 @@ const gDomObserver = (() => {
             try {
                 element = _rawQuery(selectorTrimmed, false, true);
             } catch (err) {
-                console.error("DouyuEX gDomObserver: 非法的选择器，拒绝创建任务", selector, err);
+                _error("DouyuEX gDomObserver: 非法的选择器，拒绝创建任务", selector, err);
                 return Promise.reject(new Error(`DouyuEX waitForElement: Invalid selector - "${selector}", ${err.message}`));
             }
             const existing = _pendingMap.get(selectorTrimmed);
             if (element) {
                 if (existing) {
-                    console.log("DouyuEX gDomObserver: 目标元素存在，完成已有任务", element);
+                    _log("DouyuEX gDomObserver: 目标元素存在，完成已有任务", element);
                     for (const task of existing.tasks) task.resolve(element);
                     _pendingMap.delete(selectorTrimmed);
                     _disconnect();
                 } else {
-                    console.log("DouyuEX gDomObserver: 目标元素存在，直接返回结果", element);
+                    _log("DouyuEX gDomObserver: 目标元素存在，直接返回结果", element);
                 }
                 return Promise.resolve(element);
             }
@@ -741,7 +744,7 @@ const gDomObserver = (() => {
             const task = new Task(deadline, resolveFn, rejectFn);
             if (signal) {
                 signal.addEventListener("abort", () => {
-                    console.warn("DouyuEX gDomObserver: 收到外部信号，终止等待任务", selectorTrimmed);
+                    _warn("DouyuEX gDomObserver: 收到外部信号，终止等待任务", selectorTrimmed);
                     task.reject(signal.reason || new DOMException("Aborted", "AbortError"));
                     const group = _pendingMap.get(selectorTrimmed);
                     if (!group) return;
@@ -751,7 +754,7 @@ const gDomObserver = (() => {
                 }, { once: true });
             }
             if (existing) {
-                console.log("DouyuEX gDomObserver: 等待元素相同，添加新的任务", selectorTrimmed, deadlineLabel);
+                _log("DouyuEX gDomObserver: 等待元素相同，添加新的任务", selectorTrimmed, deadlineLabel);
                 existing.tasks.add(task);
             } else {
                 _pendingMap.set(selectorTrimmed, { tasks: new Set([task]) });
@@ -759,9 +762,9 @@ const gDomObserver = (() => {
                     const root = document.body || document.documentElement || document;
                     _observer = new MutationObserver(_checkElements);
                     _observer.observe(root, { childList: true, subtree: true });
-                    console.log("DouyuEX gDomObserver: 启动观察实例，创建首个任务", selectorTrimmed, deadlineLabel);
+                    _log("DouyuEX gDomObserver: 启动观察实例，创建首个任务", selectorTrimmed, deadlineLabel);
                 } else {
-                    console.log("DouyuEX gDomObserver: 复用观察实例，加入任务队列", selectorTrimmed, deadlineLabel);
+                    _log("DouyuEX gDomObserver: 复用观察实例，加入任务队列", selectorTrimmed, deadlineLabel);
                 }
             }
             return promise;
@@ -786,18 +789,18 @@ const gDomObserver = (() => {
          */
         raceForElement(selectors, timeout = null) {
             if (!Array.isArray(selectors) || selectors.length === 0) {
-                console.error("DouyuEX gDomObserver: 无效的选择器，竞速任务中止");
+                _error("DouyuEX gDomObserver: 无效的选择器，竞速任务中止");
                 return Promise.reject(new Error(`DouyuEX raceForElement: Empty array of selectors - ${selectors}`));
             }
             const controller = new AbortController(), parsedTimeout = _parseTimeout(timeout);
             let finished = false, rejectedCount = 0, timeoutId = null;
-            console.log("DouyuEX gDomObserver: 启动竞速任务，等待元素列表", selectors);
+            _log("DouyuEX gDomObserver: 启动竞速任务，等待元素列表", selectors);
             return new Promise((resolve, reject) => {
                 if (parsedTimeout != null) {
                     timeoutId = setTimeout(() => {
                         if (finished) return;
                         finished = true;
-                        console.warn("DouyuEX gDomObserver: 超过最大时长，竞速任务失败");
+                        _warn("DouyuEX gDomObserver: 超过最大时长，竞速任务失败");
                         const timeoutError = new Error(`DouyuEX raceForElement: No elements appeared within the timeout - ${selectors}`);
                         controller.abort(timeoutError);
                         reject(timeoutError);
@@ -808,7 +811,7 @@ const gDomObserver = (() => {
                         if (finished) return;
                         finished = true;
                         clearTimeout(timeoutId);
-                        console.log("DouyuEX gDomObserver: 竞速任务完成，首先出现元素", selector, element);
+                        _log("DouyuEX gDomObserver: 竞速任务完成，首先出现元素", selector, element);
                         controller.abort();
                         resolve({ selector, element });
                     }).catch(err => {
@@ -816,13 +819,26 @@ const gDomObserver = (() => {
                         if (++rejectedCount === selectors.length) {
                             finished = true;
                             clearTimeout(timeoutId);
-                            console.warn("DouyuEX gDomObserver: 无效的选择器，竞速任务失败", err);
+                            _warn("DouyuEX gDomObserver: 无效的选择器，竞速任务失败", err);
                             reject(new Error(`DouyuEX raceForElement: All selectors are invalid - ${selectors}`));
                         }
                     });
                 }
             });
         },
+        /*
+         * 设置调试日志的开关状态：
+         *   @description
+         *     - 默认关闭，所有内部日志（log / warn / error）均不输出；
+         *     - 开启后，内部运行状态、任务创建、元素匹配、超时及中止等事件均会输出至控制台；
+         *     - 可在任意时刻调用，实时生效，不影响已有的等待任务。
+         *   @param {any} enabled - 是否开启调试日志，传入任意真值开启，假值关闭
+         *   @returns {void}
+         *   @example
+         *     gDomObserver.setDebug(true);  // 开启，输出所有内部日志
+         *     gDomObserver.setDebug(false); // 关闭，静默运行（默认）
+         */
+        setDebug(enabled) { _debug = !!enabled; },
     };
 })();
 
