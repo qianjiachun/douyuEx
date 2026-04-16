@@ -1,25 +1,27 @@
 function initPkg_Refresh() {
-	initPkg_Refresh_BarrageFrame();
-	initPkg_Refresh_Video();
 	initPkg_Refresh_Barrage();
+	initPkg_Refresh_Player();
 }
 
-function saveData_Refresh() {
-	// 此处为保存简洁模式的数据，请在每次操作后都调用这个函数以保存状态
-	// 数据结构
-	// {功能1:{子功能1:{}}}
-	// 每个子模块需要提供相应的返回数据函数
-	let data = {
-		barrageFrame: {
-			status: refresh_BarrageFrame_getStatus(),
-		},
-		video: {
-			status: refresh_Video_getStatus(),
-		},
-		barrage: {
-			status: refresh_Barrage_getStatus(),
-		}
+let refreshCache = null;
+const REFRESH_KEY = "ExSave_Refresh";
+function initRefreshCache() {
+	try {
+		refreshCache = JSON.parse(localStorage.getItem(REFRESH_KEY)) || {};
+	} catch (err) {
+		console.warn("DouyuEx: ExSave_Refresh JSON 解析失败", err);
+		refreshCache = {};
 	}
-	
-	localStorage.setItem("ExSave_Refresh", JSON.stringify(data)); // 存储弹幕列表
+}
+function saveData_Refresh() {
+	if (refreshCache == null) initRefreshCache();
+	refreshCache.playerSimple = { status: document.body.classList.contains("is-playerSimple") };
+	refreshCache.prefixHidden = { status: document.body.classList.contains("is-prefixHidden") };
+	refreshCache.rankHidden = { status: document.body.classList.contains("is-rankHidden") };
+	localStorage.setItem(REFRESH_KEY, JSON.stringify(refreshCache));
+}
+function loadData_Refresh(key) {
+	if (refreshCache == null) initRefreshCache();
+	const { status = false } = refreshCache[key] || {};
+	return status;
 }
