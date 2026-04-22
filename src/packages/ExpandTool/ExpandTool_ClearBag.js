@@ -37,7 +37,7 @@ function ExpandTool_ClearBag_insertFunc() {
                     console.log(rid, err);
                 })
             })
-            
+
         }
         showMessage("【背包送礼】执行完毕！", "success");
     });
@@ -69,7 +69,7 @@ function ExpandTool_ClearBag_insertFunc() {
 
 function getBagGifts(room_id, callback) {
     // 获取背包内所有礼物信息(json)，传给回调函数
-    fetch('https://www.douyu.com/japi/prop/backpack/web/v1?rid=' + room_id, {
+    fetch('https://www.douyu.com/japi/prop/backpack/web/v5?rid=' + room_id, {
         method: 'GET',
         mode: 'no-cors',
         credentials: 'include',
