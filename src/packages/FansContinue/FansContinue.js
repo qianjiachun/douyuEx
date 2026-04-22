@@ -17,8 +17,11 @@ function FansContinue_insertIcon() {
 
 function initPkg_FansContinue_Func() {
 	document.getElementsByClassName("fans-continue")[0].addEventListener("click", function () {
-		const res = confirm("每个直播间将平均赠送荧光棒");
-		if (!res) return;
+		const res = prompt("每个直播间赠送几根荧光棒？(输入0则平均赠送)", "1");
+		if (res == null) return;
+		let sendNum = Number(res);
+		if (Number.isNaN(sendNum) || sendNum < 0) return;
+
 
 		let giftId = 0;
 		let conut = 0;
@@ -57,12 +60,12 @@ function initPkg_FansContinue_Func() {
 					doc = new DOMParser().parseFromString(doc, 'text/html');
 					let a = doc.getElementsByClassName("fans-badge-list")[0].lastElementChild;
 					let n = a.children.length;
-					const sendNum = Math.floor(count / n);
+					if (sendNum == 0) sendNum = Math.floor(count / n);
 
 					for (let i = 0; i < n; i++) {
 						let rid = a.children[i].getAttribute("data-fans-room"); // 获取房间号
 						await sleep(250).then(() => {
-							sendGift_bag(giftId, Number(sendNum), rid)
+							sendGift_bag(giftId, sendNum, rid)
 								.then((data) => {
 									if (data.msg == "success") {
 										showMessage("【续牌】" + rid + "赠送荧光棒成功", "success");
