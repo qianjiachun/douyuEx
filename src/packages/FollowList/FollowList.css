@@ -1,0 +1,29 @@
+.Header-follow-listBox {
+    max-height: var(--followlist-max-height)!important;
+}
+
+#followlist-toolbar {
+    color: grey;
+    cursor: default;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+#followlist-checkbox {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#followlist-checkbox-input {
+    margin-right: 5px;
+}
+
+.is-videoDynamic .followlist-longclick-tip {
+    display:none!important;
+}
