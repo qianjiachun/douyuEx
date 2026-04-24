@@ -1,4 +1,5 @@
 let timeout;
+let bagInfoDomHook = null;
 function initPkg_BagInfo() {
 	initPkg_BagInfo_Func();
 }
@@ -10,8 +11,12 @@ function initPkg_BagInfo_Func() {
     }
 	backpackDom.addEventListener("click", function() {
         setTimeout(() => {
+            if (bagInfoDomHook) {
+                bagInfoDomHook.closeHook();
+                bagInfoDomHook = null;
+            }
             let giftItemNum = document.querySelectorAll(".ToolbarBackpack-giftItem").length;
-            new DomHook(".BackpackExpandPanel-giftListWrap", true, (e) => {
+            bagInfoDomHook = new DomHook(".BackpackExpandPanel-giftListWrap", true, (e) => {
                 if (giftItemNum != document.querySelectorAll(".ToolbarBackpack-giftItem").length) {
                     backpackDom.click();
                     backpackDom.click();

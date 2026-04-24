@@ -440,6 +440,13 @@ function openDownloadDialog(url, saveName)
 		event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 	}
 	aLink.dispatchEvent(event);
+	if (typeof url === "string" && url.indexOf("blob:") === 0) {
+		setTimeout(function () {
+			try {
+				URL.revokeObjectURL(url);
+			} catch (e) {}
+		}, 1500);
+	}
 }
 function sheet2blob(sheet, sheetName) {
 	sheetName = sheetName || 'sheet1';
@@ -476,6 +483,14 @@ function downloadFile(name, data) {
 	var ev = document.createEvent("MouseEvents");
     ev.initMouseEvent("click", true, false, unsafeWindow, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
     save_link.dispatchEvent(ev);
+	var blobHref = save_link.href;
+	if (blobHref && blobHref.indexOf("blob:") === 0) {
+		setTimeout(function () {
+			try {
+				URL.revokeObjectURL(blobHref);
+			} catch (e) {}
+		}, 1500);
+	}
 } 
 
 function timeText2Ms(text) {

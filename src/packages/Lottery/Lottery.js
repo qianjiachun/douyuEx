@@ -77,6 +77,9 @@ function initPkg_Lottery_Func() {
 
 
 async function initPkg_Lottery_Timer() {
+    if (Object.keys(lotteryHasNoticed).length > 100) {
+        lotteryHasNoticed = {};
+    }
     let html = "";
     let lotteryList = await getExLotteryList();
     if (!lotteryList.data.list) return;

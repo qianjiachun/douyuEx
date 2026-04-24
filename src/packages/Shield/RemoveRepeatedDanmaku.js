@@ -215,30 +215,24 @@ function removeRepeatedDanmaku() {
           if (isEnlargeDanmaku) {
             const firstDom = repeatedDanmakuDomMap[danmakuText];
             if (firstDom && firstDom.parentNode) {
-              // 如果还没有保存原始fontSize，先保存
-              if (!repeatedDanmakuOriginalFontSizeMap.has(firstDom)) {
-                const computedStyle = window.getComputedStyle(firstDom);
-                const originalFontSize = computedStyle.fontSize;
-                repeatedDanmakuOriginalFontSizeMap.set(firstDom, originalFontSize);
-              }
-
-              // 获取原始fontSize的数值
-              const originalFontSize = repeatedDanmakuOriginalFontSizeMap.get(firstDom);
-              const baseFontSize = parseFloat(originalFontSize);
-
-              // 计算新的fontSize：每多一条重复就+2，最大40
-              const repeatCount = repeatedDanmakuCountMap[danmakuText];
-              const newFontSize = Math.min(baseFontSize + (repeatCount - 1) * 2, 40);
-              firstDom.style.fontSize = newFontSize + "px";
-
-              // 更新计数显示
-              firstDom.setAttribute("data-repeat-count", repeatCount);
-
-              // 触发跳动动画
-              firstDom.classList.remove("danmaku-combo-animation");
-              // 强制重排以重新触发动画
-              void firstDom.offsetWidth;
-              firstDom.classList.add("danmaku-combo-animation");
+              requestAnimationFrame(() => {
+                if (!firstDom.parentNode) return;
+                if (!repeatedDanmakuOriginalFontSizeMap.has(firstDom)) {
+                  const computedStyle = window.getComputedStyle(firstDom);
+                  repeatedDanmakuOriginalFontSizeMap.set(firstDom, computedStyle.fontSize);
+                }
+                const originalFontSize = repeatedDanmakuOriginalFontSizeMap.get(firstDom);
+                const baseFontSize = parseFloat(originalFontSize) || 20;
+                const repeatCount = repeatedDanmakuCountMap[danmakuText];
+                const newFontSize = Math.min(baseFontSize + (repeatCount - 1) * 2, 40);
+                firstDom.style.fontSize = newFontSize + "px";
+                firstDom.setAttribute("data-repeat-count", repeatCount);
+                firstDom.classList.remove("danmaku-combo-animation");
+                requestAnimationFrame(() => {
+                  if (!firstDom.parentNode) return;
+                  firstDom.classList.add("danmaku-combo-animation");
+                });
+              });
             } else if (!firstDom || !firstDom.parentNode) {
               // 如果首条弹幕的DOM已经不存在了，清理相关数据，防止内存泄露
               delete repeatedDanmakuDomMap[danmakuText];

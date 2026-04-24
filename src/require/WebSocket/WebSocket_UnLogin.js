@@ -8,6 +8,8 @@ class Ex_WebSocket_UnLogin {
             this.timer = 0;
             this.rid = rid;
             this.msgHandler = msgHandler;
+            this.reconnectCount = 0;
+            this.maxReconnect = 10;
             this.connect();
         }
     }
@@ -15,6 +17,7 @@ class Ex_WebSocket_UnLogin {
     connect() {
         this.ws = new WebSocket("wss://danmuproxy.douyu.com:850" + String(getRandom(2, 5)));
         this.ws.onopen = () => {
+            this.reconnectCount = 0;
             this.ws.send(WebSocket_Packet("type@=loginreq/roomid@=" + this.rid));
             this.ws.send(WebSocket_Packet("type@=joingroup/rid@=" + this.rid + "/gid@=-9999/"));
             // this.ws.send(WebSocket_Packet("type@=sub/mt@=asr_caption/"));
@@ -49,9 +52,14 @@ class Ex_WebSocket_UnLogin {
     }
 
     reconnect() {
+        if (this.reconnectCount >= this.maxReconnect) {
+            return;
+        }
+        this.reconnectCount++;
+        const delay = Math.min(3000 * Math.pow(1.5, this.reconnectCount - 1), 60000);
         setTimeout(() => {
             this.connect();
-        }, 3000); // 3秒后尝试重新连接
+        }, delay);
     }
 
     close() {

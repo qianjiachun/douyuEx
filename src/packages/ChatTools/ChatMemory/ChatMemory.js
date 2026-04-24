@@ -1,6 +1,7 @@
 let barrageMemoryArr = [];
 let barrageMemoryIndex = 0; // 当前 指向索引
 let prevTextareaPosition = 0;
+const BARRAGE_MEMORY_LIMIT = 200;
 function initPkg_ChatMemory() {
     initPkg_ChatMemory_Func();
 }
@@ -34,6 +35,10 @@ function initPkg_ChatMemory_Func() {
 }
 
 function chatMemory_pushBarrage(txt) {
+    if (barrageMemoryArr.length >= BARRAGE_MEMORY_LIMIT) {
+        barrageMemoryArr.shift();
+        barrageMemoryIndex = Math.min(barrageMemoryIndex, barrageMemoryArr.length);
+    }
     barrageMemoryIndex = barrageMemoryArr.push(txt);
 }
 

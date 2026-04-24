@@ -91,6 +91,11 @@ function initPkg_VideoTools_Camera_Func() {
     })
     camera.addEventListener("mousedown", (e) => {
         if (e.target.id === "ex-camera-close") return;
+        clearInterval(timer);
+        if (gif && typeof gif.abort === "function") {
+            try { gif.abort(); } catch (err) {}
+        }
+        gif = null;
         downTime = new Date().getTime();
         // 动态获取当前视频的真实分辨率
         camera_canvas_img.width = liveVideoNode.videoWidth;
@@ -116,16 +121,24 @@ function initPkg_VideoTools_Camera_Func() {
             showMessage("【录制】正在生成gif...", "info");
             gif.on('finished', blob => {
                 let el = document.createElement('a');
-                el.href = URL.createObjectURL(blob);
+                const objectUrl = URL.createObjectURL(blob);
+                el.href = objectUrl;
                 el.download = `【${camera_anchorName}】${dateFormat("yyyy-MM-dd hh-mm-ss",new Date())}`;
                 document.body.appendChild(el);
                 let evt = document.createEvent("MouseEvents");
                 evt.initEvent("click", false, false);
                 el.dispatchEvent(evt);
                 document.body.removeChild(el);
+                setTimeout(function () {
+                    try { URL.revokeObjectURL(objectUrl); } catch (e) {}
+                }, 1500);
             });
             gif.render();
         } else {
+            if (gif && typeof gif.abort === "function") {
+                try { gif.abort(); } catch (err) {}
+            }
+            gif = null;
             let el = document.createElement("a");
             el.download = `【${camera_anchorName}】${dateFormat("yyyy-MM-dd hh-mm-ss",new Date())}`;
             el.href = imgBase64;
