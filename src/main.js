@@ -71,6 +71,7 @@ function init() {
   initPkg_Statistics();
   initPkg_Console();
   initPkg_Menu();
+  initPkg_Reset();
   initPkg_FollowList();
 }
 function initPkg() {
