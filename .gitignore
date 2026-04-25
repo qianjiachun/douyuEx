@@ -3,3 +3,4 @@ node_modules
 rules.txt
 更新步骤.txt
 CICD.bat.lnk
+dist
