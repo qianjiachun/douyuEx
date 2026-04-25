@@ -1,7 +1,8 @@
 {
   "name": "douyuEx",
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "build:legacy": "node build.js"
   },
   "repository": {
     "type": "git",
