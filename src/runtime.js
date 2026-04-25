@@ -51,78 +51,64 @@ import { initPkg_VolumeMouseScrolling } from './packages/VolumeMouseScrolling/Vo
 import { initPkg_LevelTask_Timer } from './packages/LevelTask/LevelTask.js';
 import { initPkg_Sign_OPFOY_Timer } from './packages/Sign/Sign_OPFOY.js';
 import { initPkg_DisableCloseJump_Timer } from './packages/DisableCloseJump/DisableCloseJump.js';
+import { createInitLifecycle } from './bootstrap/initLifecycle.js';
 
-function init() {
-  initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook();
-  initScriptHook();
-  initPkg_Night_Set_Fast();
-  initResponseHook();
-  initPkg_ShowDanmaku();
-  Update_checkVersion();
-  initKillP2P();
-  initFullScreen();
-  initHighestVideoQuality();
-  removeAD();
-  initPkg_Statistics();
-  initPkg_Console();
-  initPkg_Menu();
-  initPkg_Reset();
-  initPkg_FollowList();
-}
-
-function initPkg() {
-  initPkg_DanmakuTail();
-  initPkg_Night();
-  initPkg_ExIcon();
-  initPkg_ExPanel();
-  initPkg_RealAudience();
-  initPkg_CopyRealLive();
-  initPkg_AudioLine();
-  initPkg_RemoveAD();
-  initPkg_Shield();
-  initPkg_BagInfo();
-  initPkg_Update();
-  initPkg_AutoAnchorStar();
-  initPkg_Fkbuff();
-  initPkg_Monitor();
-  initPkg_Lottery();
-  initPkg_PopupPlayer();
-  initPkg_LiveTool();
-  initPkg_VideoTools();
-  initPkg_ExpandTool();
-  initPkg_Refresh();
-  initPkg_BarrageLoop();
-  initPkg_FansContinue();
-  initPkg_Sign();
-  initPkg_BarragePanel();
-  initPkg_AccountList();
-  initPkg_ChatTools();
-  initPkg_MonthCost();
-  initPkg_RoomVip();
-  initPkg_WeeklyPanel();
-  initPkg_DanmakuCollect();
-  initPkg_RestoreYuba();
-  initPkg_ChangeDanmakuLengthLimit();
-  initPkg_CheckAnchorPocket();
-  initPkg_LastLiveTime();
-  initPkg_VolumeMouseScrolling();
-}
-
-function initPkg_Timer() {
-  initPkg_LevelTask_Timer();
-  initPkg_Sign_OPFOY_Timer();
-  initPkg_DisableCloseJump_Timer();
-}
-
-function initTimer() {
-  initPkg_Timer();
-}
-
-function initStyles() {
-  let style = document.createElement('style');
-  style.appendChild(document.createTextNode(`body{position:relative;}`));
-  document.head.appendChild(style);
-}
+const { init, initPkg, initPkg_Timer, initTimer, initStyles } = createInitLifecycle({
+  initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook,
+  initScriptHook,
+  initPkg_Night_Set_Fast,
+  initResponseHook,
+  initPkg_ShowDanmaku,
+  Update_checkVersion,
+  initKillP2P,
+  initFullScreen,
+  initHighestVideoQuality,
+  removeAD,
+  initPkg_Statistics,
+  initPkg_Console,
+  initPkg_Menu,
+  initPkg_Reset,
+  initPkg_FollowList,
+  initPkg_DanmakuTail,
+  initPkg_Night,
+  initPkg_ExIcon,
+  initPkg_ExPanel,
+  initPkg_RealAudience,
+  initPkg_CopyRealLive,
+  initPkg_AudioLine,
+  initPkg_RemoveAD,
+  initPkg_Shield,
+  initPkg_BagInfo,
+  initPkg_Update,
+  initPkg_AutoAnchorStar,
+  initPkg_Fkbuff,
+  initPkg_Monitor,
+  initPkg_Lottery,
+  initPkg_PopupPlayer,
+  initPkg_LiveTool,
+  initPkg_VideoTools,
+  initPkg_ExpandTool,
+  initPkg_Refresh,
+  initPkg_BarrageLoop,
+  initPkg_FansContinue,
+  initPkg_Sign,
+  initPkg_BarragePanel,
+  initPkg_AccountList,
+  initPkg_ChatTools,
+  initPkg_MonthCost,
+  initPkg_RoomVip,
+  initPkg_WeeklyPanel,
+  initPkg_DanmakuCollect,
+  initPkg_RestoreYuba,
+  initPkg_ChangeDanmakuLengthLimit,
+  initPkg_CheckAnchorPocket,
+  initPkg_LastLiveTime,
+  initPkg_VolumeMouseScrolling,
+  initPkg_LevelTask_Timer,
+  initPkg_Sign_OPFOY_Timer,
+  initPkg_DisableCloseJump_Timer,
+  document,
+});
 
 Object.assign(globalThis, {
   init,
