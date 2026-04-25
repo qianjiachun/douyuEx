@@ -1,30 +1,35 @@
-const fs = require("fs");
-const path = require("path");
-const uglifyjs = require("uglify-js");
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import uglifyjs from 'uglify-js';
 
-let css = "";
-let js = "";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+let css = '';
+let js = '';
 
 function handleFolder(folderPath, excludingFileName) {
-  // 读取文件夹中的所有文件和子文件夹
   fs.readdirSync(folderPath).forEach((item) => {
     const itemPath = path.join(folderPath, item);
     if (fs.statSync(itemPath).isDirectory()) {
       handleFolder(itemPath, excludingFileName);
-    } else {
-      if (item !== excludingFileName) {
-        const fileContent = fs.readFileSync(itemPath, "utf8");
-        if (item.includes(".css")) css += fileContent + "\r\n";
-        if (item.includes(".js")) js += fileContent + "\r\n";
-      }
+      return;
     }
+
+    if (item === excludingFileName) return;
+
+    const fileContent = fs.readFileSync(itemPath, 'utf8');
+    if (item.endsWith('.css')) css += `${fileContent}\r\n`;
+    if (item.endsWith('.js')) js += `${fileContent}\r\n`;
   });
 }
 
 function generateVersion() {
-  let version = fs.readFileSync("./src/packages/Update/Update.js", "utf8");
+  const updateFile = path.resolve(__dirname, './src/packages/Update/Update.js');
+  let version = fs.readFileSync(updateFile, 'utf8');
   version = version.match(/var curVersion = "(.*?)"/)[1];
-  fs.writeFileSync("./dist/douyuex_version.txt", version);
+  fs.writeFileSync(path.resolve(__dirname, './dist/douyuex_version.txt'), version);
 }
 
 function treeShakeOnce(code) {
@@ -67,12 +72,13 @@ function treeShake(code) {
   let current = code;
   let round = 0;
   while (true) {
-    round++;
+    round += 1;
     const result = treeShakeOnce(current);
     if (result.error) {
       console.error(`[Tree Shake] 第 ${round} 轮错误:`, result.error);
       return current;
     }
+
     const prevSize = Buffer.byteLength(current);
     const newSize = Buffer.byteLength(result.code);
     const diff = prevSize - newSize;
@@ -89,32 +95,35 @@ function treeShake(code) {
 }
 
 function extractHeader(code) {
-  const endTag = "// ==/UserScript==";
+  const endTag = '// ==/UserScript==';
   const idx = code.indexOf(endTag);
-  if (idx === -1) return { header: "", body: code };
+  if (idx === -1) return { header: '', body: code };
   const splitPos = idx + endTag.length;
   return {
-    header: code.substring(0, splitPos) + "\r\n",
+    header: `${code.substring(0, splitPos)}\r\n`,
     body: code.substring(splitPos),
   };
 }
 
 function build() {
   generateVersion();
-  handleFolder("./src", "main.js");
-  css = css.replace(/\r\n/g, "");
-  let template = fs.readFileSync("./src/main.js", "utf8");
-  template = template.replace("/*编译器标记 勿删*/", css).replace("// 编译器标记 勿删", js);
+  handleFolder(path.resolve(__dirname, './src'), 'main.js');
+  css = css.replace(/\r\n/g, '');
 
-  if (!fs.existsSync("./dist")) fs.mkdirSync("./dist");
+  const mainFile = path.resolve(__dirname, './src/main.js');
+  let template = fs.readFileSync(mainFile, 'utf8');
+  template = template.replace('/*编译器标记 勿删*/', css).replace('// 编译器标记 勿删', js);
+
+  const distDir = path.resolve(__dirname, './dist');
+  if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
 
   const { header, body } = extractHeader(template);
   const shakenBody = treeShake(body);
 
-  fs.writeFileSync("./dist/douyuex.js", header + shakenBody);
+  fs.writeFileSync(path.resolve(distDir, './douyuex.js'), header + shakenBody);
 
   const result = uglifyjs.minify(shakenBody, { toplevel: true });
-  fs.writeFileSync("./dist/douyuex.user.js", header + result.code);
+  fs.writeFileSync(path.resolve(distDir, './douyuex.user.js'), header + result.code);
 }
 
 build();
