@@ -106,6 +106,8 @@ function extractHeader(code) {
 }
 
 function build() {
+  const distDir = path.resolve(__dirname, './dist');
+  if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
   generateVersion();
   handleFolder(path.resolve(__dirname, './src'), 'main.js');
   css = css.replace(/\r\n/g, '');
@@ -113,9 +115,6 @@ function build() {
   const mainFile = path.resolve(__dirname, './src/main.js');
   let template = fs.readFileSync(mainFile, 'utf8');
   template = template.replace('/*编译器标记 勿删*/', css).replace('// 编译器标记 勿删', js);
-
-  const distDir = path.resolve(__dirname, './dist');
-  if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
 
   const { header, body } = extractHeader(template);
   const shakenBody = treeShake(body);

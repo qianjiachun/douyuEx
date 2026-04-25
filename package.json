@@ -2,7 +2,8 @@
   "name": "douyuEx",
   "scripts": {
     "build": "vite build",
-    "build:legacy": "node build.js"
+    "build:legacy": "node build.js",
+    "test:smoke": "node scripts/smoke-bootstrap.mjs"
   },
   "repository": {
     "type": "git",

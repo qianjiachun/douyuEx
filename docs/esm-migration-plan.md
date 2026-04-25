@@ -43,10 +43,10 @@
 - [x] 保留 legacy 产物流程，避免影响既有发布习惯。
 - [x] 输出本迁移计划文档。
 
-## Phase 1（建议下一步）—— 入口模块拆分
-- [ ] 将 `src/main.js` 的“初始化注册”拆分为可测试模块（如 `bootstrap/*`）。
-- [ ] 统一 side-effect import 与显式函数调用边界。
-- [ ] 为关键初始化阶段添加最小 smoke test（可在 jsdom 或 e2e 中验证）。
+## Phase 1（本次已执行）—— 入口模块拆分
+- [x] 将 `src/main.js` 的“初始化注册”拆分为可测试模块（`src/bootstrap/initLifecycle.js`）。
+- [x] 统一 side-effect import 与显式函数调用边界（`runtime.js` 改为依赖注入 + 生命周期装配）。
+- [x] 为关键初始化阶段添加最小 smoke test（`scripts/smoke-bootstrap.mjs`）。
 
 ## Phase 2（建议下一步）—— 构建链路收敛
 - [ ] 对比 legacy 拼接产物与 Vite 产物能力差异，明确保留策略。
@@ -76,4 +76,9 @@
 
 - 已将 `build.js` 完成 ESM 化改造并验证可执行。
 - 已补充本迁移文档，形成后续分阶段推进依据。
-
+- 已完成 Phase 1 的初始化生命周期拆分，形成 `bootstrap` 目录下的可测试装配模块。
+- 已新增 `npm run test:smoke`，用于验证初始化链路与样式注入不会回归。
+- 已执行验收命令：
+  - `npm run build:legacy` ✅
+  - `npm run test:smoke` ✅
+  - `npm run build` ⚠️（当前环境缺少 `vite` 可执行文件，需先安装依赖）
