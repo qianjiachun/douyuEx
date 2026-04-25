@@ -1,4 +1,4 @@
-function initPkg_ChangeDanmakuLengthLimit() {
+export function initPkg_ChangeDanmakuLengthLimit() {
   let count = 0;
   let timer = setInterval(() => {
     count++;

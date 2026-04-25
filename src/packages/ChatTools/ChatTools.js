@@ -1,3 +1,3 @@
-function initPkg_ChatTools() {
+export function initPkg_ChatTools() {
     initPkg_ChatMemory();
 }

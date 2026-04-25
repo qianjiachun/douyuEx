@@ -1,4 +1,4 @@
-function initPkg_BarragePanel() {
+export function initPkg_BarragePanel() {
 	let timer = setInterval(() => {
         if (document.getElementsByClassName("danmuTips-1ee820").length > 0) {
             clearInterval(timer);

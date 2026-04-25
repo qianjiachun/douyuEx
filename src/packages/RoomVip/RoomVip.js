@@ -1,5 +1,5 @@
 const roomVipExpireDayLimit = 5;
-function initPkg_RoomVip() {
+export function initPkg_RoomVip() {
   setRoomVipExpireDays();
 }
 

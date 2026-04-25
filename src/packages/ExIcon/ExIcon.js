@@ -1,4 +1,4 @@
-function initPkg_ExIcon() {
+export function initPkg_ExIcon() {
 	initPkg_ExIcon_insertDom();
 	initPkg_ExIcon_Func();
 }

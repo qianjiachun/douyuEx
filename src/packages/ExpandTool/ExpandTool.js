@@ -1,5 +1,5 @@
 
-function initPkg_ExpandTool() {
+export function initPkg_ExpandTool() {
 	initPkg_ExpandTool_Dom();
     initPkg_ExpandTool_Func();
 	initPkg_ExpandTool_Module();

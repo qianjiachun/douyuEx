@@ -1,4 +1,4 @@
-function initPkg_ExPanel() {
+export function initPkg_ExPanel() {
     initPkg_ExPanel_insertDom();
 
     let exPanelDOM = document.querySelector(`.ex-panel`);

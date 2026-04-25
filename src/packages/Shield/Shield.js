@@ -1,4 +1,4 @@
-function initPkg_Shield() {
+export function initPkg_Shield() {
   // let t = setInterval(() => {
   //     if (typeof document.getElementsByClassName("ShieldTool-list")[0] !== "undefined") {
   //         clearInterval(t);

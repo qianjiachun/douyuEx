@@ -3,7 +3,7 @@
 var curVersion = "2026.04.24.01"
 var isNeedUpdate = false
 var lastestVersion = ""
-function initPkg_Update() {
+export function initPkg_Update() {
 	initPkg_Update_Dom();
 	initPkg_Update_Func();
 
@@ -76,7 +76,7 @@ function checkUpdate_GreasyFork() {
 	})
 }
 
-async function Update_checkVersion(isShowNotUpdate = false) {
+export async function Update_checkVersion(isShowNotUpdate = false) {
 	// 用解构赋值会导致函数undefined，暂不知原因
 	let tmp = [];
 	tmp = await checkUpdate_Src().catch(err => {

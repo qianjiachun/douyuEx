@@ -1,4 +1,4 @@
-function initPkg_Monitor() {
+export function initPkg_Monitor() {
 	initPkg_Monitor_Dom();
 	initPkg_Monitor_Func();
 }

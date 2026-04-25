@@ -1,4 +1,4 @@
-function initPkg_DanmakuTail() {
+export function initPkg_DanmakuTail() {
     initPkg_DanmakuTail_insertDom();
     initPkg_DanmakuTail_Set();
     initPkg_DanmakuTail_Func();

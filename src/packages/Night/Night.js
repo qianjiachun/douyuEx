@@ -2,7 +2,7 @@ let svg_night  = '<svg t="1587640254282" class="icon" viewBox="0 0 1055 1024" ve
 let svg_day = '<svg t="1587640423416" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2270" width="26" height="26"><path d="M270.016 197.248l-83.84-84.544-69.76 70.464 83.776 84.544 69.76-70.4zM139.648 465.024H0v93.888h139.648V465.024zM558.528 0H465.472v136.192h93.056V0z m349.056 183.168l-69.76-70.464-83.84 84.544L819.2 263.04l88.384-79.872z m-153.6 643.584l83.84 84.48 65.28-65.728L819.2 760.96l-65.216 65.792z m130.368-267.84H1024V465.024h-139.648v93.888zM512.064 230.08C358.4 230.08 232.768 356.992 232.768 512c0 155.008 125.632 281.856 279.296 281.856 153.6 0 279.232-126.848 279.232-281.856 0-154.944-125.632-281.856-279.232-281.856zM465.472 1024h93.056v-136.256H465.472V1024z m-349.056-183.232l69.76 70.4 83.84-84.48L204.8 760.96 116.48 840.768z" p-id="2271" fill="#8a8a8a"></path></svg>';
 
 let currentMode = 0; // 0日间模式 1夜间模式
-function initPkg_Night() {
+export function initPkg_Night() {
     const isBeta = !!document.getElementsByClassName("live-next-body")[0];
     if (isBeta) return;
 	initPkg_Night_Dom();
@@ -31,7 +31,7 @@ function saveData_Mode() {
 	localStorage.setItem("ExSave_Mode", JSON.stringify(data));
     // GM_setValue("ExSave_NightMode", currentMode);
 }
-function initPkg_Night_Set_Fast() {
+export function initPkg_Night_Set_Fast() {
     let ret = localStorage.getItem("ExSave_Mode");
     if (ret != null) {
         let retJson = JSON.parse(ret);

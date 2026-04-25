@@ -108,7 +108,7 @@ function initPkg_Shield_RemoveRepeatedDanmaku() {
   });
 }
 
-function initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook() {
+export function initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook() {
   scriptHook({
     url: "/firstqueue",
     callback: (content) => {

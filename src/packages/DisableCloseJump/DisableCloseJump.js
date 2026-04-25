@@ -1,4 +1,4 @@
-function initPkg_DisableCloseJump_Timer() {
+export function initPkg_DisableCloseJump_Timer() {
   setInterval(() => {
     const x = document.querySelector(".ClosingRecommend .dy-ModalRadius-close-x");
     if (!x) return;

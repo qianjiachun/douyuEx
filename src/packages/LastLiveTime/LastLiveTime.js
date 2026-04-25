@@ -1,4 +1,4 @@
-function initPkg_LastLiveTime() {
+export function initPkg_LastLiveTime() {
   initPkg_LastLiveTime_Dom();
 }
 

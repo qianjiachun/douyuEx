@@ -1,4 +1,4 @@
-async function initPkg_LevelTask_Timer() {
+export async function initPkg_LevelTask_Timer() {
   checkLevelTask();
   setInterval(checkLevelTask, 35 * 1000);
 }

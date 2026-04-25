@@ -1,4 +1,4 @@
-function initPkg_CopyRealLive() {
+export function initPkg_CopyRealLive() {
 	initPkg_CopyRealLive_Dom();
 	initPkg_CopyRealLive_Func();
 }

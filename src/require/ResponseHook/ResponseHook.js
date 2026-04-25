@@ -1,7 +1,7 @@
 let responseHookCallbackList = [];  
 let requestBodyMap = new Map(); // 使用Map来存储请求体和XMLHttpRequest实例的关联  
   
-function initResponseHook() {  
+export function initResponseHook() {  
   // 保存原始的send方法  
   const originalSend = unsafeWindow.XMLHttpRequest.prototype.send;  
   

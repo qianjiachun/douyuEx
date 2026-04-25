@@ -1,4 +1,4 @@
-function initPkg_VolumeMouseScrolling() {
+export function initPkg_VolumeMouseScrolling() {
     const volumeCheckInterval = setInterval(() => {
         const volumeElement = document.querySelector(".volume-07c230");
         const video = document.getElementById("__video2");

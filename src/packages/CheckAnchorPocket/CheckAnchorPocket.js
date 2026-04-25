@@ -3,7 +3,7 @@ let anchorPocketData = {
   list: []
 };
 
-async function initPkg_CheckAnchorPocket() {
+export async function initPkg_CheckAnchorPocket() {
   await updateAnchorPocketData();
   new DomHook(".FansMedalPanel-enter", false, async (m) => {
     const targetDom = document.querySelector(".FansMedalInfo-head");

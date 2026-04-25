@@ -34,7 +34,7 @@ function MonthCost_renderSeeStatus() {
 	MonthCost_ContentAttrTitle();
 }
 
-function initPkg_MonthCost() {
+export function initPkg_MonthCost() {
 	initPkg_MonthCost_Dom();
 	initPkg_MonthCost_Func();
 	seeStatus = MonthCost_getSeeStatus();
