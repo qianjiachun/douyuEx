@@ -1,6 +1,6 @@
 var videoPlayerArr = [];
 
-function initPkg_PopupPlayer() {
+export function initPkg_PopupPlayer() {
     initPkg_PopupPlayer_Dom();
     initPkg_PopupPlayer_Func();
 }

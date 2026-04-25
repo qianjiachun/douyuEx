@@ -1,4 +1,4 @@
-function initPkg_FansContinue() {
+export function initPkg_FansContinue() {
   initPkg_FansContinue_Dom();
   initPkg_FansContinue_Func();
 }

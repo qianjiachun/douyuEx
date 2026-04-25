@@ -10,7 +10,7 @@ let isMatch = false; //是否为赛事直播间
 let bloopStopTimer;
 let barrageOptions = [];
 
-function initPkg_BarrageLoop() {
+export function initPkg_BarrageLoop() {
 	initPkg_BarrageLoop_Dom();
 	initPkg_BarrageLoop_Func();
 	initPkg_BarrageLoop_Set();

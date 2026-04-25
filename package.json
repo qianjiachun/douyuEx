@@ -1,7 +1,7 @@
 {
   "name": "douyuEx",
   "scripts": {
-    "build": "node build.js"
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,10 @@
   "homepage": "https://github.com/qianjiachun/douyuEx#readme",
   "dependencies": {
     "uglify-js": "^3.17.4"
+  },
+  "type": "module",
+  "devDependencies": {
+    "vite": "^5.4.19",
+    "vite-plugin-monkey": "^5.0.8"
   }
 }

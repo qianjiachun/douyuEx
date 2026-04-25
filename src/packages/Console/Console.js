@@ -1,4 +1,4 @@
-function initPkg_Console() {
+export function initPkg_Console() {
     console_watermark_douyEx();
 }
 

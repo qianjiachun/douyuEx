@@ -30,7 +30,7 @@ function signOPFOY(csrfToken) {
   });
 }
 
-function initPkg_Sign_OPFOY_Timer() {
+export function initPkg_Sign_OPFOY_Timer() {
   checkOPFOYViewStatus();
   setInterval(checkOPFOYViewStatus, 5 * 60 * 1000);
 }

@@ -46,7 +46,7 @@ function initPkg_ExpandTool_FullScreen_Set() {
 }
 
 
-function initFullScreen() {
+export function initFullScreen() {
 	let ret = localStorage.getItem("ExSave_FullScreen");
 	if (ret != null) {
 		let retJson = JSON.parse(ret);
@@ -106,7 +106,7 @@ function initPkg_ExpandTool_HighestVideoQuality_Set() {
 	}
 }
 
-function initHighestVideoQuality() {
+export function initHighestVideoQuality() {
 	let ret = localStorage.getItem("ExSave_HighestVideoQuality");
 	if (ret != null) {
 		let retJson = JSON.parse(ret);

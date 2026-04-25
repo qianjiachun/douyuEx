@@ -1,7 +1,7 @@
 var liveVideoNode; // 直播video标签节点
 var isInput = false;
 let videotools_num = 0;
-function initPkg_VideoTools() {
+export function initPkg_VideoTools() {
     let timer = setInterval(() => {
         const controlbar = getValidDom([".right-e7ea5d", ".right-17e251"]);
         if (controlbar) {

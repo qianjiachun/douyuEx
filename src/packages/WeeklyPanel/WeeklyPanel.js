@@ -1,4 +1,4 @@
-function initPkg_WeeklyPanel() {
+export function initPkg_WeeklyPanel() {
     if (isShowWeeklyPanel()) {
         initPkg_WeeklyPanel_Dom();
         initPkg_WeeklyPanel_Func();

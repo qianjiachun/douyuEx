@@ -11,7 +11,7 @@ let real_info = {
 }
 let hasAvatarBottom = false;
 
-function initPkg_RealAudience() {
+export function initPkg_RealAudience() {
 	initPkg_RealAudience_StyleHook();
 	initPkg_RealAudience_Dom();
 	initPkg_RealAudience_Func();

@@ -1,4 +1,4 @@
-function initPkg_RestoreYuba() {
+export function initPkg_RestoreYuba() {
   responseHook((url, text) => {
     if (url.indexOf("group/getBindGroup") !== -1) {
       return text.replace('"group_status":4', '"group_status":0');

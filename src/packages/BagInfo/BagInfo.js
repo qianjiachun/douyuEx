@@ -1,6 +1,6 @@
 let timeout;
 let bagInfoDomHook = null;
-function initPkg_BagInfo() {
+export function initPkg_BagInfo() {
 	initPkg_BagInfo_Func();
 }
 

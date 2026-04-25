@@ -1,4 +1,4 @@
-function initPkg_AutoAnchorStar() {
+export function initPkg_AutoAnchorStar() {
 	initPkg_AutoAnchorStar_Dom();
 	initPkg_AutoAnchorStar_Func();
 }

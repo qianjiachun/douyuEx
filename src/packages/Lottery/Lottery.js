@@ -5,7 +5,7 @@ let lotteryHTML = "";
 let isLotteryNotice = false;
 let timer_lottery = 0;
 
-function initPkg_Lottery() {
+export function initPkg_Lottery() {
     setFansBadgeList();
 	initPkg_Lottery_Dom();
 	initPkg_Lottery_Func();

@@ -1,4 +1,4 @@
-function initPkg_Sign() {
+export function initPkg_Sign() {
 	initPkg_Sign_Dom();
 	initPkg_Sign_Func();
 }

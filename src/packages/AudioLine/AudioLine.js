@@ -1,4 +1,4 @@
-function initPkg_AudioLine() {
+export function initPkg_AudioLine() {
 	initPkg_AudioLine_Dom();
 	initPkg_AudioLine_Func();
 }

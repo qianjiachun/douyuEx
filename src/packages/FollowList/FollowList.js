@@ -1,5 +1,5 @@
 let followListHook;
-function initPkg_FollowList() {
+export function initPkg_FollowList() {
     let intID = setInterval(() => {
         if (getValidDom([".Header-follow-content", "#js-backpack-enter"])) {
             followListHook = new DomHook(".Header-follow-content", false, handleFollowList);

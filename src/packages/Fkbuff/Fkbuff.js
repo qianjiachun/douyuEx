@@ -1,4 +1,4 @@
-function initPkg_Fkbuff() {
+export function initPkg_Fkbuff() {
 	initPkg_Fkbuff_Dom();
 	initPkg_Fkbuff_Func();
 }

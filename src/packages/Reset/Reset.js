@@ -1,4 +1,4 @@
-function initPkg_Reset() {
+export function initPkg_Reset() {
   GM_registerMenuCommand("重置所有设置", () => {
     void Reset_run();
   });

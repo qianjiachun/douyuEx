@@ -1,4 +1,4 @@
-function initPkg_LiveTool() {
+export function initPkg_LiveTool() {
 	initPkg_LiveTool_Dom();
 	initPkg_LiveTool_Module();
 	initPkg_LiveTool_Func();

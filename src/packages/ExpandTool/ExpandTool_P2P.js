@@ -44,7 +44,7 @@ function initPkg_ExpandTool_P2P_Set() {
 }
 
 
-function initKillP2P() {
+export function initKillP2P() {
 	let ret = localStorage.getItem("ExSave_P2P");
 	if (ret != null) {
 		let retJson = JSON.parse(ret);

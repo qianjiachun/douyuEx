@@ -8,7 +8,7 @@
  */
 let scriptHookCallbackList = [];
 
-function initScriptHook() {
+export function initScriptHook() {
   const originalAppendChild = Node.prototype.appendChild;
 
   // 覆盖原生的 appendChild 方法
