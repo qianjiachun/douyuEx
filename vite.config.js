@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from 'vite';
-import { monkey } from 'vite-plugin-monkey';
+import monkey from 'vite-plugin-monkey';
 
 const UPDATE_FILE = path.resolve('src/packages/Update/Update.js');
 
@@ -75,7 +75,7 @@ export default defineConfig({
         ],
         grant: ['GM_openInTab', 'GM_xmlhttpRequest', 'GM_setClipboard', 'GM_setValue', 'GM_getValue', 'GM_listValues', 'GM_deleteValue', 'GM_cookie', 'GM_registerMenuCommand', 'unsafeWindow'],
         connect: ['douyucdn.cn', 'douyu.com', '122.51.5.63', 'qq.com', 'douyuex.com', 'bojianger.com', 'greasyfork.org', 'bilibili.com', 'huya.com', 'jsdelivr.net', 'shadiao.app', 'shadiao.pro', 'fz996.com', 'toubang.tv', 'doseeing.com'],
-        antifeature: ['tracking'],
+        antifeature: [{ type: 'tracking', description: 'tracking' }],
       },
       build: { fileName: 'douyuex' },
     }),
@@ -83,5 +83,11 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: false,
+    cssCodeSplit: false,
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: true,
+      },
+    },
   },
 });

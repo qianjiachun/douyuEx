@@ -49,8 +49,8 @@
 - [x] 为关键初始化阶段添加最小 smoke test（`scripts/smoke-bootstrap.mjs`）。
 
 ## Phase 2（建议下一步）—— 构建链路收敛
-- [ ] 对比 legacy 拼接产物与 Vite 产物能力差异，明确保留策略。
-- [ ] 若功能等价，逐步淘汰 legacy 拼接脚本，统一由 Vite 输出。
+- [x] 对比 legacy 拼接产物与 Vite 产物能力差异，明确保留策略（保留 legacy 文件名作为兼容别名）。
+- [x] 若功能等价，逐步淘汰 legacy 拼接脚本，统一由 Vite 输出（`build:legacy` 已改为调用 Vite）。
 - [ ] 补充构建产物校验（header、metadata、体积阈值）。
 
 ## Phase 3（建议下一步）—— 发布与回滚策略
@@ -81,4 +81,17 @@
 - 已执行验收命令：
   - `npm run build:legacy` ✅
   - `npm run test:smoke` ✅
-  - `npm run build` ⚠️（当前环境缺少 `vite` 可执行文件，需先安装依赖）
+  - `npm run build` ✅
+
+## 6. 收尾项（本次补充）
+
+- 已执行 `npm install`，确认 `vite` / `vite-plugin-monkey` 依赖存在。
+- 修复 `vite.config.js` 中 `vite-plugin-monkey` 导入方式，兼容当前已安装版本导出（`default`）。
+- 调整 Vite userscript 打包参数（`inlineDynamicImports`、`cssCodeSplit: false`）并修复 `antifeature` 元信息格式，确保 `vite build` 可稳定产出单文件脚本。
+- 复验三条验收命令均通过，ESM 迁移基线目标闭环。
+
+## 7. Phase 2 进展（本次新增）
+
+- `build.js` 已由 legacy 拼接实现切换为 Vite 构建代理：内部直接调用 `vite build`。
+- `build:legacy` 仍保留命令入口，但仅用于生成兼容别名产物（`douyuex.js` / `douyuex.user.js`），底层不再走旧拼接逻辑。
+- 构建链路已收敛为单一路径（Vite），后续可在不破坏历史发布流程的前提下继续下线 legacy 命令别名。

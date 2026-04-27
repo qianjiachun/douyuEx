@@ -16,9 +16,7 @@
     "url": "https://github.com/qianjiachun/douyuEx/issues"
   },
   "homepage": "https://github.com/qianjiachun/douyuEx#readme",
-  "dependencies": {
-    "uglify-js": "^3.17.4"
-  },
+  "dependencies": {},
   "type": "module",
   "devDependencies": {
     "vite": "^5.4.19",
