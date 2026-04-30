@@ -52,7 +52,7 @@ function removeDanmakuBackground() {
         background: none !important;
       }
       .danmuItem-a8616a div{
-        background: none;
+        background: none !important;
       }
       .danmuItem-a8616a > img {
         display: none;
