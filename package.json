@@ -19,8 +19,8 @@
   "type": "module",
   "devDependencies": {
     "flv.js": "^1.6.2",
-    "vite": "^5.4.19",
-    "vite-plugin-monkey": "^5.0.8"
+    "vite": "^7.3.2",
+    "vite-plugin-monkey": "^7.1.9"
   },
   "dependencies": {
     "notice.js": "^0.5.0"
