@@ -1,4 +1,6 @@
-function doSign(alias) {
+import { dyToken, getCCN } from '../../common.js';
+
+export function doSign(alias) {
     return new Promise(resolve => {
         fetch('https://www.douyu.com/japi/carnival/nc/hostSnowSign/doSign',{
             method: 'POST',
@@ -16,7 +18,7 @@ function doSign(alias) {
     })
 }
 
-function signAct(alias) {
+export function signAct(alias) {
     return new Promise(resolve => {
         fetch("https://www.douyu.com/japi/carnival/nc/signAct/signIn", {
             method: 'POST',
@@ -32,7 +34,7 @@ function signAct(alias) {
     })
 }
 
-function userStatus(tasks) {
+export function userStatus(tasks) {
     return new Promise(resolve => {
         fetch("https://www.douyu.com/japi/carnival/nc/actTask/userStatus", {
             method: 'POST',
@@ -51,7 +53,7 @@ function userStatus(tasks) {
 }
 
 
-function takeActPrize(name) {
+export function takeActPrize(name) {
     // 该接口会在userStatus后自动执行
     // 关注20200911LMJX_T2
     // 分享20200911LMJX_T5
@@ -72,7 +74,7 @@ function takeActPrize(name) {
     })
 }
 
-function addFollowRoom(rid) {
+export function addFollowRoom(rid) {
 	return new Promise(resolve => {
         fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/add',{
             method: 'POST',
@@ -91,7 +93,7 @@ function addFollowRoom(rid) {
 }
 
 
-function removeFollowRoom(rid) {
+export function removeFollowRoom(rid) {
 	return new Promise(resolve => {
         fetch('https://www.douyu.com/wgapi/livenc/liveweb/follow/rm',{
             method: 'POST',
@@ -109,7 +111,7 @@ function removeFollowRoom(rid) {
     })
 }
 
-function shareAct(name) {
+export function shareAct(name) {
     // 20200911LMJX
     return new Promise(resolve => {
         fetch('https://www.douyu.com/japi/carnival/common/share',{
@@ -128,7 +130,7 @@ function shareAct(name) {
     })
 }
 
-function getJackpot(id) {
+export function getJackpot(id) {
 	return new Promise(resolve => {
         fetch("https://www.douyu.com/japi/carnival/nc/lottery/jackpot", {
             method: 'POST',
@@ -142,7 +144,7 @@ function getJackpot(id) {
     })
 }
 
-function getActRemaining(id) {
+export function getActRemaining(id) {
 	return new Promise(resolve => {
         fetch("https://www.douyu.com/japi/carnival/nc/lottery/remaining?activityId=" + id, {
             method: 'GET',
@@ -157,7 +159,7 @@ function getActRemaining(id) {
     })
 }
 
-function getActList() {
+export function getActList() {
     // return new Promise(resolve => {
     //     fetch('http://src.douyuex.com/src/actList.txt',{
     //         method: 'GET',

@@ -1,9 +1,11 @@
-/* 
+/*
     Get Douyu Real Room ID
     By: 小淳
 */
 
-function getRealRid_Douyu(url, realrid_callback) {
+import { isRid, showMessage } from '../../../common.js';
+
+export function getRealRid_Douyu(url, realrid_callback) {
     fetch(url,{
         method: 'GET',
         mode: 'no-cors',
@@ -23,7 +25,7 @@ function getRealRid_Douyu(url, realrid_callback) {
         } else {
             showMessage("获取直播间失败，请检查直播间地址是否正确！", "error")
         }
-        
+
     }).catch(err => {
         console.log("请求失败!", err);
     })

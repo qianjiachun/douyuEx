@@ -70,6 +70,6 @@ function fetchAndReplace(url, callbacks, targetNode) {
   });
 }
 
-function scriptHook(callback) {
+export function scriptHook(callback) {
   scriptHookCallbackList.push(callback);
 }

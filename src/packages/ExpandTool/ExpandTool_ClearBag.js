@@ -1,4 +1,7 @@
-function initPkg_ExpandTool_ClearBag() {
+import { rid, showMessage, sleep } from '../../common.js';
+import { sendGift_bag } from '../FansContinue/FansContinue.js';
+
+export function initPkg_ExpandTool_ClearBag() {
     ExpandTool_ClearBag_insertDom();
     ExpandTool_ClearBag_insertFunc();
 }
@@ -67,7 +70,7 @@ function ExpandTool_ClearBag_insertFunc() {
     });
 }
 
-function getBagGifts(room_id, callback) {
+export function getBagGifts(room_id, callback) {
     // 获取背包内所有礼物信息(json)，传给回调函数
     fetch('https://www.douyu.com/japi/prop/backpack/web/v5?rid=' + room_id, {
         method: 'GET',

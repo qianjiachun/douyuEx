@@ -1,3 +1,5 @@
+import { StyleHook_remove, StyleHook_set } from '../../require/StyleHook/StyleHook.js';
+
 let isRemoveDanmakuImage = getLocalIsRemoveDanmakuImage();
 function initPkg_Shield_RemoveDanmakuImage() {
   const shieldTool = document.getElementsByClassName("ShieldTool-list")[0];

@@ -1,3 +1,5 @@
+import { showExRightPanel, showMessage } from '../../common.js';
+
 export function initPkg_DanmakuTail() {
     initPkg_DanmakuTail_insertDom();
     initPkg_DanmakuTail_Set();
@@ -128,7 +130,7 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
         clickHandler = function (e) {
             const currentText = getText();
             if (currentText.trim() == "") return;
-            
+
             let shouldAdd = false;
             if (type_value === "1") {
                 // 前缀模式：检查是否以内容开头
@@ -137,7 +139,7 @@ function initPkg_DanmakuTail_HandleFunc(checkboxSelector, inputSelector) {
                 // 后缀模式：检查是否以内容结尾
                 shouldAdd = !currentText.endsWith(content);
             }
-            
+
             if (shouldAdd) {
                 if (type_value === "1") {
                     setText(content + currentText);

@@ -1,4 +1,6 @@
-function initPkg_Sign_TV() {
+import { dyToken, getDyDid, showMessage } from '../../common.js';
+
+export function initPkg_Sign_TV() {
 	signTV();
 }
 

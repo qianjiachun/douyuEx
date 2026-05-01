@@ -1,9 +1,13 @@
+import { DomHook } from '../../../require/DomHook/DomHook.js';
+import { stt_deserialize } from '../../../require/STT/STT.js';
+import { getType } from '../LiveTool.js';
+
 let rankListData = {
     day: {},
     week: {},
     all: {}
 };
-function initPkg_LiveTool_RankList() {
+export function initPkg_LiveTool_RankList() {
     let a = new DomHook(".layout-Player-rankAll", false, (m) => {
         let dom = document.getElementsByClassName("RankAllMain-container");
         if (dom.length > 0) {
@@ -14,7 +18,7 @@ function initPkg_LiveTool_RankList() {
     })
 }
 
-function initPkg_LiveTool_RankList_Handle(text) {
+export function initPkg_LiveTool_RankList_Handle(text) {
     if (getType(text) == "ranklist") {
         let data = stt_deserialize(text);
         if (data.list_day) {

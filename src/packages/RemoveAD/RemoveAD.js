@@ -1,3 +1,7 @@
+import { getValidDom } from '../../common.js';
+import { StyleHook_set } from '../../require/StyleHook/StyleHook.js';
+import { initPkg_RemoveMsgNotice } from './RemoveMsgNotice.js';
+
 export function initPkg_RemoveAD() {
     let t = setInterval(() => {
         let a = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"]);

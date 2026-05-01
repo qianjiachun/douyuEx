@@ -8,7 +8,7 @@
  *  - alpha: 字体透明度 0~256
  *  - stayTime: 弹幕停留时间
  */
-class ASS {
+export class ASS {
     constructor(options) {
         let defaultOptions = {
             width: 1920,
@@ -32,7 +32,7 @@ class ASS {
 
     generate(list) {
         /**
-         * list<Array>: 
+         * list<Array>:
          *  - time: 时间，单位毫秒
          *  - txt: 文本
          *  - color: 颜色

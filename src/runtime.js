@@ -51,9 +51,7 @@ import { initPkg_VolumeMouseScrolling } from './packages/VolumeMouseScrolling/Vo
 import { initPkg_LevelTask_Timer } from './packages/LevelTask/LevelTask.js';
 import { initPkg_Sign_OPFOY_Timer } from './packages/Sign/Sign_OPFOY.js';
 import { initPkg_DisableCloseJump_Timer } from './packages/DisableCloseJump/DisableCloseJump.js';
-import { createInitLifecycle } from './bootstrap/initLifecycle.js';
-
-const { init, initPkg, initPkg_Timer, initTimer, initStyles } = createInitLifecycle({
+const initializers = [
   initPkg_Shield_RemoveRepeatedDanmaku_ScriptHook,
   initScriptHook,
   initPkg_Night_Set_Fast,
@@ -69,6 +67,9 @@ const { init, initPkg, initPkg_Timer, initTimer, initStyles } = createInitLifecy
   initPkg_Menu,
   initPkg_Reset,
   initPkg_FollowList,
+];
+
+const packageInitializers = [
   initPkg_DanmakuTail,
   initPkg_Night,
   initPkg_ExIcon,
@@ -104,20 +105,40 @@ const { init, initPkg, initPkg_Timer, initTimer, initStyles } = createInitLifecy
   initPkg_CheckAnchorPocket,
   initPkg_LastLiveTime,
   initPkg_VolumeMouseScrolling,
+];
+
+const timerInitializers = [
   initPkg_LevelTask_Timer,
   initPkg_Sign_OPFOY_Timer,
   initPkg_DisableCloseJump_Timer,
-  document,
-});
+];
 
-Object.assign(globalThis, {
-  init,
-  initPkg,
-  initPkg_Timer,
-  initTimer,
-  initStyles,
-});
+function runInitializers(items) {
+  items.forEach((initializer) => initializer());
+}
+
+function init() {
+  runInitializers(initializers);
+}
+
+function initPkg() {
+  runInitializers(packageInitializers);
+}
+
+function initPkg_Timer() {
+  runInitializers(timerInitializers);
+}
+
+function initTimer() {
+  initPkg_Timer();
+}
+
+function initStyles() {
+  const style = document.createElement('style');
+  style.appendChild(document.createTextNode('body{position:relative;}'));
+  document.head.appendChild(style);
+}
 
 (async function () {
-  initRouter(window.location.href);
+  initRouter(window.location.href, { init, initPkg, initTimer, initStyles });
 })();

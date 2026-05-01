@@ -1,3 +1,6 @@
+import { getStrMiddle, getValidDom } from "../../../common.js";
+import { getType } from '../LiveTool.js';
+
 let isVoteOn = false;
 let voteList = {};
 let voteNameList = {};
@@ -5,7 +8,7 @@ let voteWordList = {};
 let voteTotalNum = 0;
 let timer_Vote;
 let isRepeat = false;
-function initPkg_LiveTool_Vote() {
+export function initPkg_LiveTool_Vote() {
     LiveTool_Vote_insertDom();
     LiveTool_Vote_insertDom_VotePanel();
     LiveTool_Vote_insertFunc();
@@ -41,7 +44,7 @@ function LiveTool_Vote_insertDom() {
         </div>
     `;
     a.innerHTML = cell + panel;
-    
+
     let b = document.getElementsByClassName("livetool")[0];
     b.insertBefore(a, b.childNodes[0]);
 }
@@ -108,7 +111,7 @@ function LiveTool_Vote_insertFunc() {
 			a.style.display = "none";
 		}
     });
-    
+
     document.getElementById("vote__select").onclick = function() {
         if (this.options.length == 0) {
             return;
@@ -166,10 +169,10 @@ function LiveTool_Vote_insertFunc() {
 }
 
 function initPkg_Vote_Set() {
-    document.getElementById("vote__switch").checked = isReplyOn;
+    document.getElementById("vote__switch").checked = isVoteOn;
 	// 设置初始化
 	let ret = localStorage.getItem("ExSave_Vote");
-	
+
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         voteList = retJson;
@@ -182,7 +185,7 @@ function initPkg_Vote_Set() {
     }
 }
 
-function initPkg_LiveTool_Vote_Handle(text) {
+export function initPkg_LiveTool_Vote_Handle(text) {
     if (isVoteOn == false) {
         return;
     }
@@ -206,7 +209,7 @@ function initPkg_LiveTool_Vote_Handle(text) {
             }
         }
     }
-    
+
 }
 
 function saveDate_Vote() {
@@ -224,7 +227,7 @@ function LiveTool_Vote_insertDom_VotePanel() {
         <div id="vote__result-options"></div>
     `;
     a.innerHTML = panel;
-    
+
     let b = getValidDom([".layout-Player-main", "main"]);
     b.insertBefore(a, b.childNodes[0]);
 
@@ -284,7 +287,7 @@ function setVoteOptionsDom(options) {
 function changeOptionsData() {
     for (const key in voteWordList) {
         let item = voteWordList[key];
-        
+
         let domNum = document.getElementsByClassName("vote__option-num")[item.index];
         let domBar = document.getElementsByClassName("vote__progress-bar")[item.index];
 

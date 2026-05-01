@@ -1,3 +1,6 @@
+import { getUserName } from '../../common.js';
+import { DomHook } from '../../require/DomHook/DomHook.js';
+
 let user_name;
 let animationNum = 0;
 
@@ -5,7 +8,7 @@ let goldBarrageHook;
 let goldBarrageListHook;
 
 let goldGiftHook;
-function initPkg_ExpandTool_Gold() {
+export function initPkg_ExpandTool_Gold() {
     ExpandTool_Gold_insertDom();
     ExpandTool_Gold_insertGiftDom();
     ExpandTool_Gold_insertFunc();
@@ -16,7 +19,7 @@ function ExpandTool_Gold_insertDom() {
     let html = "";
     html += '<label><input id="extool__gold_start" type="checkbox">幻神模式</label>';
     html += '<label><input id="extool__goldGift_start" type="checkbox">荧光棒变超火</label>';
-    
+
     let a = document.createElement("div");
     a.className = "extool__gold";
     a.innerHTML = html;
@@ -43,7 +46,7 @@ function ExpandTool_Gold_insertFunc() {
             // 停止幻神模式
             goldBarrageHook.closeHook();
             goldBarrageListHook.closeHook();
-            
+
         }
         saveData_Gold();
 	});
@@ -100,7 +103,7 @@ function goldBarrageList(m) {
     if (m[0].addedNodes.length == 0) {
         return;
     }
-    
+
     let itemNode = m[0].addedNodes[0];
     let chatArea = itemNode.lastElementChild;
     if (chatArea != null && chatArea.innerHTML.indexOf("is-self") != -1) {
@@ -189,7 +192,7 @@ function goldBarrageList(m) {
         clearTimeout(barrageListTimeout);
         }, 100);
     }
-    
+
 }
 
 function goldFansMedal() {
@@ -286,7 +289,7 @@ function fansToSuperRocket(m) {
                     document.getElementById(idName).remove();
                 }, 4000);
             });
-            
+
         }
     }
 }

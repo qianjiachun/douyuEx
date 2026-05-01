@@ -1,4 +1,7 @@
-async function initPkg_Sign_SuperFans() {
+import { showMessage, getCCN } from '../../common.js';
+import { myFansBadgeList } from '../Lottery/Lottery.js';
+
+export async function initPkg_Sign_SuperFans() {
   for (let i = 0; i < myFansBadgeList.length; i++) {
     const roomId = myFansBadgeList[i];
     let ret = await signSuperFans(roomId);

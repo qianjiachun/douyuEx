@@ -1,6 +1,11 @@
+import { getStrMiddle, my_uid, rid, showMessage } from '../../../common.js';
+import { PostbirdAlertBox } from '../../../require/PostBirdAlertBox/postbirdAlertBox.js';
+import { sendBarrage } from '../../BarrageLoop/BarrageLoop.js';
+import { getType } from '../LiveTool.js';
+
 let isEnterOn = false;
 let enterWordList = [];
-function initPkg_LiveTool_Enter() {
+export function initPkg_LiveTool_Enter() {
     LiveTool_Enter_insertDom();
     LiveTool_Enter_insertFunc();
     initPkg_Enter_Set();
@@ -35,7 +40,7 @@ function LiveTool_Enter_insertDom() {
         </div>
     `;
     a.innerHTML = cell + panel;
-    
+
     let b = document.getElementsByClassName("livetool")[0];
     b.insertBefore(a, b.childNodes[0]);
 }
@@ -103,7 +108,7 @@ function LiveTool_Enter_insertFunc() {
 			a.style.display = "none";
 		}
     });
-    
+
     document.getElementById("enter__select").onclick = function() {
         if (this.options.length == 0) {
             return;
@@ -135,12 +140,12 @@ function LiveTool_Enter_insertFunc() {
             showMessage("【进场欢迎】等级已存在", "error");
             return;
         }
-        
+
         enterWordList.push({
             level,
             word
         });
-        
+
         enterWordList.sort((a, b) => b.level - a.level);
         refreshEnterSelectOptions();
         saveData_Enter();
@@ -210,7 +215,7 @@ function initPkg_Enter_Set() {
         enterWordList = retJson;
 		refreshEnterSelectOptions();
     }
-    
+
     // ret = localStorage.getItem("ExSave_LastEnterWord");
     // if (ret != null) {
     //     let i = 0;
@@ -224,10 +229,10 @@ function initPkg_Enter_Set() {
     //         }
     //         i++;
     //     }
-    // } 
+    // }
 
     ret = localStorage.getItem("ExSave_isEnter");
-	
+
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         let ridArr = [];
@@ -246,7 +251,7 @@ function initPkg_Enter_Set() {
     }
 }
 
-function initPkg_LiveTool_Enter_Handle(text) {
+export function initPkg_LiveTool_Enter_Handle(text) {
     if (isEnterOn == false) {
         return;
     }
@@ -259,7 +264,7 @@ function initPkg_LiveTool_Enter_Handle(text) {
         let level = getStrMiddle(text, "level@=", "/");
         for (const item of enterWordList) {
             if (Number(level) >= Number(item.level)) {
-                reply = String(item.word).replace(/<id>/g, nn);
+                let reply = String(item.word).replace(/<id>/g, nn);
                 sendBarrage(reply);
                 break;
             }

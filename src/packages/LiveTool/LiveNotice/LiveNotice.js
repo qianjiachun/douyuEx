@@ -1,9 +1,11 @@
-let timer_closing;
-let closingNum = 0;
-function initPkg_LiveTool_LiveNotice() {
+import { getStrMiddle, showMessageWindow } from '../../../common.js';
+import { signRoom } from '../../Sign/Sign_Room.js';
+import { getType } from '../LiveTool.js';
+
+export function initPkg_LiveTool_LiveNotice() {
 }
 
-function initPkg_LiveTool_LiveNotice_Handle(text) {
+export function initPkg_LiveTool_LiveNotice_Handle(text) {
     if (getType(text) == "rss") {
         let rid = getStrMiddle(text, "rid@=", "/");
         let ss = getStrMiddle(text, "ss@=", "/");
@@ -14,18 +16,4 @@ function initPkg_LiveTool_LiveNotice_Handle(text) {
             });
         }
     }
-}
-
-function getRoomAvatar() {
-    fetch('https://www.douyu.com/betard/' + rid,{
-        method: 'GET',
-        mode: 'no-cors',
-        credentials: 'include'
-    }).then(res => {
-        return res.json();
-    }).then(ret => {
-        roomAvatar = ret.room.avatar.middle;
-    }).catch(err => {
-        console.log("请求失败!", err);
-    })
 }

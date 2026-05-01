@@ -1,3 +1,5 @@
+import { getValidDom, rid } from "../../common.js";
+
 const roomVipExpireDayLimit = 5;
 export function initPkg_RoomVip() {
   setRoomVipExpireDays();

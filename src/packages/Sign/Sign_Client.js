@@ -1,4 +1,6 @@
-function initPkg_Sign_Client() {
+import { dyToken, showMessage } from '../../common.js';
+
+export function initPkg_Sign_Client() {
 	signClient();
 }
 

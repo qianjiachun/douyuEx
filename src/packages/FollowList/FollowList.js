@@ -1,3 +1,8 @@
+import { formatSeconds, getValidDom, openPage, showMessage } from "../../common.js";
+import { CClick } from "../../require/CClick/CClick.js";
+import { DomHook } from "../../require/DomHook/DomHook.js";
+import { createNewVideo, videoPlayerArr } from "../PopupPlayer/PopupPlayer.js";
+
 let followListHook;
 export function initPkg_FollowList() {
     let intID = setInterval(() => {

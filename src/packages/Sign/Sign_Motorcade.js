@@ -1,4 +1,6 @@
-function initPkg_Sign_Motorcade() {
+import { closePage, openPage } from "../../common.js";
+
+export function initPkg_Sign_Motorcade() {
 	signMotorcade();
 }
 
@@ -22,7 +24,7 @@ function getCookie(cookieName) {
 	}
 	return csrfToken;
 }
-async function signMotorcade_Sign() {
+export async function signMotorcade_Sign() {
 	let retConnect = await motorcadeConnect();
 	let retConnect2 = await motorcadeConnect2(retConnect.data.uid, retConnect.data.sig);
 	let mid = await getMotorcadeID(retConnect2.TinyId, retConnect2.A2Key, retConnect.data.uid);
@@ -61,7 +63,7 @@ async function signMotorcade_Sign() {
 						'Content-Type': 'application/x-www-form-urlencoded'
 					},
 					onload: function(response) {
-						
+
 						if (Math.floor(response.response.status_code / 100) == 2){
 							console.log("【车队】签到成功")
 						} else {

@@ -3,12 +3,12 @@
 // 用法: let dyVideoSign = new DyVideoSign("视频point_id"); let sign = dyVideoSign.getSign();
 // 注意: 使用完记得将实例null，point_id为window.$DATA.ROOM.point_id
 
-class DyVideoSign {
+export class DyVideoSign {
     constructor(pointId) {
         this.pointId = pointId;
         this.decoder = new TextDecoder();
     }
-    
+
     getSign() {
         let did = "10000000000000000000000000001501"; // DEFAULT_DID$1
         let tt = parseInt((new Date).getTime() / 1e3, 10);

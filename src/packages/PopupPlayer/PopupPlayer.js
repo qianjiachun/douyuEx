@@ -1,4 +1,12 @@
-var videoPlayerArr = [];
+import { getValidDom, rid, showMessage } from "../../common.js";
+import { getRealLive_Bilibili } from "../../require/RealLive/Bilibili/RealLive_Bilibili.js";
+import { getRealRid_Bilibili } from "../../require/RealLive/Bilibili/RealRid_Bilibili.js";
+import { getRealLive_Douyu } from "../../require/RealLive/Douyu/RealLive_Douyu.js";
+import { getRealRid_Douyu } from "../../require/RealLive/Douyu/RealRid_Douyu.js";
+import { getRealLive_Huya } from "../../require/RealLive/Huya/RealLive_Huya.js";
+import flvjs from 'flv.js'
+
+export var videoPlayerArr = [];
 
 export function initPkg_PopupPlayer() {
     initPkg_PopupPlayer_Dom();
@@ -96,7 +104,7 @@ function initPkg_PopupPlayer_Func() {
     })
 }
 
-function createNewVideo(id, rid, platform) {
+export function createNewVideo(id, rid, platform) {
     switch (platform) {
         case "Douyu":
             createNewVideo_Douyu(id, rid);
@@ -112,7 +120,7 @@ function createNewVideo(id, rid, platform) {
             createNewVideo_Douyu(id, rid);
             break;
     }
-    
+
 }
 
 function setElementVideo(id, l) {
@@ -127,7 +135,7 @@ function setElementVideo(id, l) {
 		} else {
 			videoPlayerArr[id] = flvPlayer;
 		}
-        
+
         flvPlayer.attachMediaElement(videoElement);
         flvPlayer.load();
         flvPlayer.play();
@@ -136,7 +144,7 @@ function setElementVideo(id, l) {
 
 function setElementResize(id) {
     let box = document.getElementById("exVideoDiv" + String(id));
-    
+
     let scale = document.getElementById("exVideoScale" + String(id));
     scale.onmousedown = function (e) {
         // 阻止冒泡,避免缩放时触发移动事件
@@ -163,8 +171,8 @@ function setElementResize(id) {
         document.onmouseup = function (e) {
             e.stopPropagation();
             e.preventDefault();
-            
-            
+
+
             document.onmousemove = null;
             document.onmouseup = null;
         }
@@ -317,7 +325,7 @@ function setElementFunc_Douyu(id, rid) {
     }
 }
 
-function createNewAudio_Douyu(id, rid) {
+export function createNewAudio_Douyu(id, rid) {
     getRealLive_Douyu(rid, false, true, "1", (lurl) => {
         if (lurl != "" || lurl != null) {
             if (lurl == "None") {
@@ -587,7 +595,7 @@ function createNewVideo_iframe(id, url) {
     html += "<div class='exVideoInfo' id='exVideoInfo" + String(id) + "'><span class='exVideoRID' id='exVideoRID" + String(id) + "' style='color:white'>" + "斗鱼 - " + rid + "</span>";
     html += "<a><div class='exVideoClose' id='exVideoClose" + String(id) + "'>X</div></a>"
     html += "</div>";
-    html += "<iframe class='exVideoPlayer' id='exVideoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>" 
+    html += "<iframe class='exVideoPlayer' id='exVideoPlayer" + String(id) + "' src=" + url + "?exid=chun></iframe>"
     html += "<div class='exVideoScale' id='exVideoScale" + String(id) + "'></div>";
     a.innerHTML = html;
     let b = getValidDom([".layout-Main", ".playerWrap__8wGvw", ".live-next-body"]);

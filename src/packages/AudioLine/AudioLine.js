@@ -1,3 +1,7 @@
+import { getValidDom, rid } from "../../common.js";
+import { getRealLive_Douyu } from "../../require/RealLive/Douyu/RealLive_Douyu.js";
+import { createNewAudio_Douyu, videoPlayerArr } from "../PopupPlayer/PopupPlayer.js";
+
 export function initPkg_AudioLine() {
 	initPkg_AudioLine_Dom();
 	initPkg_AudioLine_Func();

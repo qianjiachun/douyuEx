@@ -1,4 +1,7 @@
-function initPkg_AdVideo_Xiaoxiaole() {
+import { dyToken, rid, showMessage, sleep } from '../../common.js';
+import { DyWacthAd } from '../../require/DyWatchAd/DyWatchAd.js';
+
+export function initPkg_AdVideo_Xiaoxiaole() {
     // startGetXiaoxiaoleFishBall()
 }
 async function startGetXiaoxiaoleFishBall() {

@@ -1,3 +1,8 @@
+import { DomHook } from '../../require/DomHook/DomHook.js';
+import { initPkg_Shield_RemoveDanmakuBackground } from './RemoveDanmakuBackground.js';
+import { initPkg_Shield_RemoveEnter } from './RemoveEnter.js';
+import { initPkg_Shield_RemoveRepeatedDanmaku } from './RemoveRepeatedDanmaku.js';
+
 export function initPkg_Shield() {
   // let t = setInterval(() => {
   //     if (typeof document.getElementsByClassName("ShieldTool-list")[0] !== "undefined") {

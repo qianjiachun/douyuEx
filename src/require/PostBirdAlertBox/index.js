@@ -3,7 +3,9 @@
     By: 小淳
 */
 
-function showAlert(text) {
+import { PostbirdAlertBox } from './postbirdAlertBox.js';
+
+export function showAlert(text) {
     PostbirdAlertBox.alert({
         'title': '提示',
         'content': text,
@@ -12,7 +14,7 @@ function showAlert(text) {
     });
 }
 
-function showConfirm(text, callback_confirm, callback_cancel) {
+export function showConfirm(text, callback_confirm, callback_cancel) {
     PostbirdAlertBox.confirm({
         'title': '提示',
         'content': text,
@@ -27,7 +29,7 @@ function showConfirm(text, callback_confirm, callback_cancel) {
     });
 }
 
-function showPrompt(text, callback_confirm, callback_cancel) {
+export function showPrompt(text, callback_confirm, callback_cancel) {
     PostbirdAlertBox.prompt({
         'title': text,
         'okBtn': '确定',

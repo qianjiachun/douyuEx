@@ -1,5 +1,10 @@
+import { getValidDom, resizeWindow } from "../../common.js";
+import { DomHook } from '../../require/DomHook/DomHook.js';
+import { StyleHook_remove, StyleHook_set } from '../../require/StyleHook/StyleHook.js';
+import { saveData_Refresh } from "./Refresh.js";
+
 let video_num = 0;
-function initPkg_Refresh_Video() {
+export function initPkg_Refresh_Video() {
     let timer = setInterval(() => {
         const controlbar = getValidDom([".right-e7ea5d", ".right-17e251"]);
         if (controlbar) {
@@ -157,7 +162,7 @@ function initPkg_Refresh_Video_Func() {
             dom_refresh.innerText = "✓ 隐藏礼物栏";
             if (dom_refresh3) dom_refresh3.title = "点击显示礼物栏";
             updateRefreshSwitchUI(true);
-            
+
             if (dom_refresh3) {
                 dom_refresh3.style.transition = "opacity .3s ease,transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275),background-color .3s ease,box-shadow .3s ease";
                 dom_refresh3.style.opacity = "1";
@@ -165,7 +170,7 @@ function initPkg_Refresh_Video_Func() {
                 dom_refresh3.style.pointerEvents = "auto";
                 dom_refresh3.style.backgroundColor = "rgba(0,0,0,.8)";
                 dom_refresh3.style.boxShadow = "0 0 15px rgba(255, 102, 0, 0.6)";
-                
+
                 clearTimeout(timer_timeout);
                 timer_timeout = setTimeout(() => {
                     dom_refresh3.style.transition = "opacity .15s ease,transform .15s ease,background-color .15s ease,box-shadow .15s ease";
@@ -210,7 +215,7 @@ function updateRefreshSwitchUI(isSimpleMode) {
     }
 }
 
-function refresh_Video_getStatus() {
+export function refresh_Video_getStatus() {
     let dom_toolbar = document.getElementsByClassName("PlayerToolbar-ContentRow")[0];
     if (dom_toolbar.style.visibility == "hidden") {
         return true;

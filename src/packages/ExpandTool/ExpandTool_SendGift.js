@@ -1,4 +1,6 @@
-function initPkg_ExpandTool_SendGift() {
+import { rid, showMessage, sleep } from '../../common.js';
+
+export function initPkg_ExpandTool_SendGift() {
     ExpandTool_SendGift_insertDom();
     ExpandTool_SendGift_insertFunc();
 }
@@ -54,7 +56,7 @@ function ExpandTool_SendGift_insertFunc() {
     });
 }
 
-function sendGift_any(gid, count, rid) {
+export function sendGift_any(gid, count, rid) {
 	// 送任意东西
 	// gid: 268是荧光棒
 	// count: 数量

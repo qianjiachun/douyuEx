@@ -1,5 +1,20 @@
+import { dyToken, getCookieValue, getStrMiddle, showMessage } from "../../../common.js";
+import { getType } from '../LiveTool.js';
+import { getTreasureDelay, getTreasureEnabled } from './TreasureConfig.js';
+
 var treasureNum = 0;
-function initPkg_LiveTool_Treasure() {
+
+export function createTreasureVerifyContainer() {
+    treasureNum++;
+    let a = document.createElement("div");
+    let idName = "Ex_Geetest_no" + String(treasureNum);
+    a.id = idName;
+    let b = document.getElementById("Ex_Geetest");
+    b.appendChild(a);
+    return idName;
+}
+
+export function initPkg_LiveTool_Treasure() {
     LiveTool_Treasure_insertModal();
 }
 
@@ -11,8 +26,8 @@ function LiveTool_Treasure_insertModal() {
 	b.insertBefore(a, b.childNodes[0]);
 }
 
-function initPkg_LiveTool_Treasure_Handle(text) {
-    if (isGetTreasure == false) {
+export function initPkg_LiveTool_Treasure_Handle(text) {
+    if (getTreasureEnabled() == false) {
         return;
     }
     if (getType(text) == "tsboxb") {
@@ -22,13 +37,7 @@ function initPkg_LiveTool_Treasure_Handle(text) {
         let did = getCookieValue("dy_did");
         let timeout = Number(ot) - Math.floor(Date.now()/1000);
         timeout = timeout * 1000 + getTreasureDelay();
-        treasureNum++;
-
-        let a = document.createElement("div");
-        let idName = "Ex_Geetest_no" + String(treasureNum);
-        a.id = idName;
-        let b = document.getElementById("Ex_Geetest");
-        b.appendChild(a);
+        let idName = createTreasureVerifyContainer();
 
         setTimeout(() => {
             getTreasure(rid, rpid, did, idName);
@@ -36,7 +45,7 @@ function initPkg_LiveTool_Treasure_Handle(text) {
     }
 }
 
-function getTreasure(roomid, rpid, deviceid, idName) {
+export function getTreasure(roomid, rpid, deviceid, idName) {
     GM_xmlhttpRequest({
         method: "POST",
         url: "https://pcapi.douyucdn.cn/h5nc/member/getRedPacket?token=" + dyToken,
@@ -121,22 +130,3 @@ function getTreasure(roomid, rpid, deviceid, idName) {
 }
 
 
-function getTreasure_Verify(challenge, validate, seccode, divId) {
-    let data = "room_id=" + roomid + "&package_room_id=" + roomid + "&device_id=" + deviceid + "&packerid=" + rpid + "&version=1";
-    data += "&geetest_challenge=" + challenge + "&geetest_validate=" + validate + "&geetest_seccode=" + encodeURIComponent(seccode);
-    GM_xmlhttpRequest({
-        method: "POST",
-        url: "https://pcapi.douyucdn.cn/h5nc/member/getRedPacket?token=" + dyToken,
-        data: data,
-        responseType: "json",
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        onload: function(response) {
-            let ret = response.response;
-            if (document.getElementById(divId) != null) {
-                document.getElementById(divId).remove();
-            }
-        }
-    });
-}

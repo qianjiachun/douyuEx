@@ -1,12 +1,12 @@
 let isRemoveEnterBarrage = getLocalIsRemoveEnterBarrage();
-function initPkg_Shield_RemoveEnter() {
+export function initPkg_Shield_RemoveEnter() {
   const shieldTool = document.getElementsByClassName("FilterKeywords")[0];
   let isSupported = window.CSS && window.CSS.supports && window.CSS.supports('--enter-display', 'none'); //CSS变量兼容性检测
   let barrageExtendContainer = document.getElementById("js-barrage-extend-container");
-  
+
   if (shieldTool == undefined || !isSupported)
       return;
-  
+
   shieldTool.insertAdjacentHTML(
     "afterbegin",
     `<div class="FilterSwitchStatus" id="ex-removeEnterBarrage">
@@ -19,7 +19,7 @@ function initPkg_Shield_RemoveEnter() {
     </div>
   </div>`
   );
-  
+
   if (isRemoveEnterBarrage) {
     barrageExtendContainer && barrageExtendContainer.style.setProperty("--enter-display", "none", "important");
   } else {

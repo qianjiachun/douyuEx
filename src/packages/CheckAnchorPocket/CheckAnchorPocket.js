@@ -1,3 +1,6 @@
+import { rid } from "../../common.js";
+import { DomHook } from "../../require/DomHook/DomHook.js";
+
 let anchorPocketData = {
   t: 0,
   list: []

@@ -1,3 +1,7 @@
+import { StyleHook_remove, StyleHook_set } from '../../require/StyleHook/StyleHook.js';
+import { DomHook } from '../../require/DomHook/DomHook.js';
+import { scriptHook } from '../../require/ScriptHook/ScriptHook.js';
+
 let isRemoveRepeatedDanmaku = getLocalIsRemoveRepeatedDanmaku();
 let repeatedDanmakuSeconds = getLocalRepeatedDanmakuSeconds();
 let isEnlargeDanmaku = getLocalIsEnlargeDanmaku();
@@ -16,7 +20,7 @@ let repeatedDanmakuDomHook = null;
 
 if (isRemoveRepeatedDanmaku) removeRepeatedDanmaku();
 
-function initPkg_Shield_RemoveRepeatedDanmaku() {
+export function initPkg_Shield_RemoveRepeatedDanmaku() {
   const shieldTool = document.getElementsByClassName("FilterKeywords")[0];
   shieldTool.insertAdjacentHTML(
     "afterbegin",
@@ -137,7 +141,7 @@ function removeRepeatedDanmaku() {
       font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
       color: inherit;
     }
-    
+
     /* 计数跳动动画 */
     @keyframes danmaku-combo-bounce {
       0% {
@@ -150,7 +154,7 @@ function removeRepeatedDanmaku() {
         transform: scale(1);
       }
     }
-    
+
     /* 应用动画的类 */
     .danmaku-combo-animation::before {
       animation: danmaku-combo-bounce 0.2s ease-out;

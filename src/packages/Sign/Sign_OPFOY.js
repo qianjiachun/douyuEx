@@ -1,4 +1,6 @@
-async function initPkg_Sign_OPFOY() {
+import { getCCN, getCsrfToken, showMessage } from '../../common.js';
+
+export async function initPkg_Sign_OPFOY() {
   const csrfToken = await getCsrfToken();
   const ret = await signOPFOY(csrfToken);
   if (ret.error == 0 || ret.error == 31200) {

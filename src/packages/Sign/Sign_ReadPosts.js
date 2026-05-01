@@ -1,4 +1,6 @@
-async function initPkg_Sign_ReadPosts() {
+import { dyToken, sleep } from '../../common.js';
+
+export async function initPkg_Sign_ReadPosts() {
 	const counts = 5;
   for (let i = 0; i < counts; i++) {
     await readPosts();

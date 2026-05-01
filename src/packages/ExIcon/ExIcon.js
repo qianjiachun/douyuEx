@@ -1,3 +1,6 @@
+import { showExPanel } from '../ExPanel/ExPanel.js';
+import { curVersion } from '../Update/Update.js';
+
 export function initPkg_ExIcon() {
 	initPkg_ExIcon_insertDom();
 	initPkg_ExIcon_Func();

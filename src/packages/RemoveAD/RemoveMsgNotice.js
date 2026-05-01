@@ -1,5 +1,7 @@
+import { StyleHook_remove, StyleHook_set } from '../../require/StyleHook/StyleHook.js';
+
 let isRemoveMsgNotice = 0;
-function initPkg_RemoveMsgNotice() {
+export function initPkg_RemoveMsgNotice() {
 	initPkg_RemoveMsgNotice_Dom();
     initPkg_RemoveMsgNotice_Func();
     initPkg_RemoveMsgNotice_Set();
@@ -55,5 +57,5 @@ function removeMsgNoticeCanel() {
 }
 
 function saveData_removeMsgNotice() {
-    localStorage.setItem("ExSave_isRemoveMsgNotice", isRemoveMsgNotice); 
+    localStorage.setItem("ExSave_isRemoveMsgNotice", isRemoveMsgNotice);
 }

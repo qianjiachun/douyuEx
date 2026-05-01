@@ -1,3 +1,16 @@
+import { getStrMiddle, rid, showExRightPanel } from '../../common.js';
+import { Ex_WebSocket_UnLogin } from '../../require/WebSocket/WebSocket_UnLogin.js';
+import { initPkg_LiveTool_BarrageSendCheck, initPkg_LiveTool_BarrageSendCheck_Handle } from './BarrageSendCheck/BarrageSendCheck.js';
+import { initPkg_LiveTool_BarrageSpeed, initPkg_LiveTool_BarrageSpeed_Handle } from './BarrageSpeed/BarrageSpeed.js';
+import { initPkg_LiveTool_Enter, initPkg_LiveTool_Enter_Handle } from './Enter/Enter.js';
+import { initPkg_LiveTool_Gift, initPkg_LiveTool_Gift_Handle } from './Gift/Gift.js';
+import { initPkg_LiveTool_LiveNotice_Handle } from './LiveNotice/LiveNotice.js';
+import { initPkg_LiveTool_Mute, initPkg_LiveTool_Mute_Handle } from './Mute/Mute.js';
+import { initPkg_LiveTool_RankList, initPkg_LiveTool_RankList_Handle } from './RankList/RankList.js';
+import { initPkg_LiveTool_Reply, initPkg_LiveTool_Reply_Handle } from './Reply/Reply.js';
+import { initPkg_LiveTool_Treasure, initPkg_LiveTool_Treasure_Handle } from './Treasure/Treasure.js';
+import { initPkg_LiveTool_Vote, initPkg_LiveTool_Vote_Handle } from './Vote/Vote.js';
+
 export function initPkg_LiveTool() {
 	initPkg_LiveTool_Dom();
 	initPkg_LiveTool_Module();
@@ -65,17 +78,17 @@ function initPkg_LiveTool_HandleFunc() {
 	});
 }
 
-function getType(str) {
+export function getType(str) {
 	return getStrMiddle(str, "type@=", "/");
 }
 
-function selectOptionByValue(selectId, checkValue) {
-// 根据value值选择option 
-	let select = document.getElementById(selectId);  
-	for(let i=0; i<select.options.length; i++){  
-			if(select.options[i].value == checkValue){  
-					select.options[i].selected = true;  
+export function selectOptionByValue(selectId, checkValue) {
+// 根据value值选择option
+	let select = document.getElementById(selectId);
+	for(let i=0; i<select.options.length; i++){
+			if(select.options[i].value == checkValue){
+					select.options[i].selected = true;
 					break;
-			}  
-	}  
+			}
+	}
 }

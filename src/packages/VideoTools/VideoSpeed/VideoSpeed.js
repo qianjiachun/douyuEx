@@ -1,4 +1,6 @@
-function initPkg_VideoTools_VideoSpeed() {
+import { getVideoToolsLiveVideoNode } from '../VideoTools.js';
+
+export function initPkg_VideoTools_VideoSpeed() {
     initPkg_VideoTools_VideoSpeed_Dom();
     initPkg_VideoTools_VideoSpeed_Func();
 }
@@ -27,21 +29,21 @@ function VideoSpeed_insertIcon() {
 
 function initPkg_VideoTools_VideoSpeed_Func() {
     document.getElementById("videospeed__2.0").addEventListener("click", () => {
-        liveVideoNode.playbackRate = 2;
+        getVideoToolsLiveVideoNode().playbackRate = 2;
     });
     document.getElementById("videospeed__1.5").addEventListener("click", () => {
-        liveVideoNode.playbackRate = 1.5;
+        getVideoToolsLiveVideoNode().playbackRate = 1.5;
     });
     document.getElementById("videospeed__1.25").addEventListener("click", () => {
-        liveVideoNode.playbackRate = 1.25;
+        getVideoToolsLiveVideoNode().playbackRate = 1.25;
     });
     document.getElementById("videospeed__1.0").addEventListener("click", () => {
-        liveVideoNode.playbackRate = 1;
+        getVideoToolsLiveVideoNode().playbackRate = 1;
     });
     document.getElementById("videospeed__0.75").addEventListener("click", () => {
-        liveVideoNode.playbackRate = 0.75;
+        getVideoToolsLiveVideoNode().playbackRate = 0.75;
     });
     document.getElementById("videospeed__0.5").addEventListener("click", () => {
-        liveVideoNode.playbackRate = 0.5;
+        getVideoToolsLiveVideoNode().playbackRate = 0.5;
     });
 }

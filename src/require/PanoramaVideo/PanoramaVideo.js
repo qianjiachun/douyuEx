@@ -1,4 +1,4 @@
-class PanoramaVideo {
+export class PanoramaVideo {
 	constructor(domContainer, domVideo) {
 		this.domContainer = domContainer;
 		this.domVideo = domVideo;
@@ -92,15 +92,15 @@ class PanoramaVideo {
 
 		this.onPointerDownPointerX = event.clientX
 		this.onPointerDownPointerY = event.clientY
-		
+
 		this.onPointerDownLon = this.lon
 		this.onPointerDownLat = this.lat
-		
+
 	}
 
 	onDocumentMouseMove(event) {
 		if (this.isUserInteracting === true) {
-			
+
 			this.lon =
 				(this.onPointerDownPointerX - event.clientX) * 0.1 +
 				this.onPointerDownLon

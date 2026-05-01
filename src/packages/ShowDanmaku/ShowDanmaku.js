@@ -1,3 +1,5 @@
+import { responseHook } from '../../require/ResponseHook/ResponseHook.js';
+
 export function initPkg_ShowDanmaku() {
     responseHook((url, text) => {
         if (url.indexOf("/betard") !== -1) {

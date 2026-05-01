@@ -1,4 +1,15 @@
-export function initRouter(href) {
+import { getQueryString, getStrMiddle } from '../common.js';
+import { initPkg_RestoreYuba_restore, RestoreYuba_checkRedirect } from '../packages/RestoreYuba/RestoreYuba.js';
+import { signMotorcade_Sign } from '../packages/Sign/Sign_Motorcade.js';
+import { removeAD } from '../packages/RemoveAD/RemoveAD.js';
+import { switchAccountPassport, addAccountPassport, cleanCookie, deleteAccountPassport } from '../packages/AccountList/AccountList.js';
+import { initPkg_VideoTime } from '../packages/VideoTime/VideoTime.js';
+import { initPkg_VideoTools_Camera_Video } from '../packages/VideoTools/Camera/Video/Camera.js';
+import { initPkg_DyVideoDownload } from '../packages/DyVideoDownload/DyVideoDownload.js';
+import { initPkg_DyVideoBarrageLine } from '../packages/DyVideoDownload/DyVideoBarrageLine.js';
+import { initPkg_FansBadgeList } from '../packages/FansBadgeList/FansBadgeList.js';
+
+export function initRouter(href, lifecycle = {}) {
     // 用于优先载入夜间模式
     // if (String(href).indexOf("www.douyu.com") && String(href).indexOf("getFansBadgeList") == -1) {
     //     initPkg_Night_Set_Fast();
@@ -29,7 +40,7 @@ export function initRouter(href) {
         if (String(href).indexOf("?exClean") !== -1) {
             initRouter_CleanVideo();
         } else if (String(href).indexOf("show/") !== -1) {
-            initRouter_Video();
+            initRouter_Video(lifecycle);
         }
     } else if (String(href).indexOf("cz.douyu.com") !== -1) {
         // 充值
@@ -47,7 +58,7 @@ export function initRouter(href) {
             if (String(href).indexOf("template/") !== -1 || String(href).indexOf("h5/") !== -1) {
                 return;
             }
-            initRouter_DouyuRoom_Main();
+            initRouter_DouyuRoom_Main(lifecycle);
         }
     }
 }
@@ -74,10 +85,11 @@ function initRouter_DouyuRoom_Popup() {
 }
 
 
-function initRouter_DouyuRoom_Main() {
+function initRouter_DouyuRoom_Main(lifecycle) {
+    const { init, initPkg, initTimer, initStyles } = lifecycle;
     // 主要
     document.domain = "douyu.com";
-    init();
+    init?.();
     let intID = setInterval(() => {
         let dom1 = document.getElementsByClassName("BackpackButton")[0];
         let dom2 = document.getElementsByClassName("Barrage-main")[0];
@@ -86,10 +98,10 @@ function initRouter_DouyuRoom_Main() {
             return;
         }
         setTimeout(() => {
-            initStyles();
-            initPkg();
+            initStyles?.();
+            initPkg?.();
             initPkgSpecial();
-            initTimer();
+            initTimer?.();
         }, 1500)
         clearInterval(intID);
     }, 1000);
@@ -167,10 +179,11 @@ function initRouter_CleanCz() {
     });
 }
 
-function initRouter_Video() {
+function initRouter_Video(lifecycle) {
+    const { initStyles } = lifecycle;
     if (unsafeWindow.$DATA && "ROOM" in unsafeWindow.$DATA) {
         // 在视频观看页面
-        initStyles();
+        initStyles?.();
         initPkg_VideoTime();
         initPkg_VideoTools_Camera_Video();
         initPkg_DyVideoDownload();

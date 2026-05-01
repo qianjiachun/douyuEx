@@ -1,8 +1,10 @@
+import { dateFormat, formatSeconds2, getStrMiddle } from "../../common.js";
+
 let videoStartTime = 0;
 let videoTime_domhook_videoChange = null;
 let videoTime_domhook_showtime = null;
 let videoTime_timeout = 0;
-function initPkg_VideoTime() {
+export function initPkg_VideoTime() {
     let timer = setInterval(() => {
         VideoTime_setData();
         let videoDom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("__video");

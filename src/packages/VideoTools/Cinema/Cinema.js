@@ -1,4 +1,7 @@
-function initPkg_VideoTools_Cinema() {
+import { StyleHook_remove, StyleHook_set } from '../../../require/StyleHook/StyleHook.js';
+import { getVideoToolsLiveVideoNode } from '../VideoTools.js';
+
+export function initPkg_VideoTools_Cinema() {
     initPkg_VideoTools_Cinema_Dom();
     initPkg_VideoTools_Cinema_Func();
 }
@@ -53,7 +56,9 @@ function initPkg_VideoTools_Cinema_Func() {
 }
 
 function setVideoCinemaMode(fit) {
-    let newHeigth = String(parseInt(liveVideoNode.style.width) / 2.39) + "px";
+    const videoNode = getVideoToolsLiveVideoNode();
+    if (!videoNode) return;
+    let newHeigth = String(parseInt(videoNode.style.width) / 2.39) + "px";
     StyleHook_remove("Ex_Style_Cinema");
     let style = `
     .layout-Player-videoEntity video{object-fit:${ fit } !important;height:${ newHeigth } !important;}

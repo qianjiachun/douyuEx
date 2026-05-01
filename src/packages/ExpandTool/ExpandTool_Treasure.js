@@ -1,5 +1,8 @@
-var isGetTreasure = false;
-function initPkg_ExpandTool_Treasure() {
+import { getCookieValue, rid, showMessage, verifyFans } from '../../common.js';
+import { createTreasureVerifyContainer, getTreasure } from '../LiveTool/Treasure/Treasure.js';
+import { getTreasureDelay, setTreasureEnabled } from '../LiveTool/Treasure/TreasureConfig.js';
+
+export function initPkg_ExpandTool_Treasure() {
     ExpandTool_Treasure_insertDom();
     ExpandTool_Treasure_insertFunc();
     ExpandTool_Treasure_Set();
@@ -11,7 +14,7 @@ function ExpandTool_Treasure_insertDom() {
     html += '<label><input style="margin-top:5px" id="extool__treasure_start" type="checkbox">半自动抢宝箱</label>';
     html += '<label style="margin-left:10px;">延迟(抢得过快请调高)：</label><input id="extool__treasure_delay" type="text" style="width:50px;text-align:center;" value="3200" />ms'
     html += '<div class="extool__hint">说明：遇到验证码会自动弹出验证框，需要手动完成后才能领取。</div>';
-    
+
     let a = document.createElement("div");
     a.className = "extool__treasure";
     a.innerHTML = html;
@@ -26,11 +29,11 @@ function ExpandTool_Treasure_insertFunc() {
                 let ischecked = document.getElementById("extool__treasure_start").checked;
                 if (ischecked == true) {
                     // 开始
-                    isGetTreasure = true;
+                    setTreasureEnabled(true);
                     getTreasure_Existing();
                 } else{
                     // 停止
-                    isGetTreasure = false;
+                    setTreasureEnabled(false);
                 }
                 saveData_Treasure();
             } else {
@@ -43,7 +46,8 @@ function ExpandTool_Treasure_insertFunc() {
 
 
 function saveData_Treasure() {
-    isGetTreasure = document.getElementById("extool__treasure_start").checked;
+    const isGetTreasure = document.getElementById("extool__treasure_start").checked;
+    setTreasureEnabled(isGetTreasure);
     let delay = document.getElementById("extool__treasure_delay").value;
 	let data = {
         isGetTreasure: isGetTreasure,
@@ -79,11 +83,6 @@ function ExpandTool_Treasure_Set() {
 }
 
 
-function getTreasureDelay() {
-    let ret = document.getElementById("extool__treasure_delay").value;
-    return Number(ret);
-}
-
 function getTreasure_Existing() {
     getTslist(data => {
         if (data == null) {
@@ -99,15 +98,10 @@ function getTreasure_Existing() {
             let did = getCookieValue("dy_did");
             let timeout = Number(ot) - Math.floor(Date.now()/1000);
 
-            let a = document.createElement("div");
-            let idName = "Ex_Geetest_no" + String(treasureNum);
-            a.id = idName;
-            let b = document.getElementById("Ex_Geetest");
-            b.appendChild(a);
+            let idName = createTreasureVerifyContainer();
 
             if (timeout >= 0) {
                 timeout = timeout * 1000 + getTreasureDelay();
-                treasureNum++;
                 setTimeout(() => {
                     getTreasure(rid, rpid, did, idName);
                 }, timeout);

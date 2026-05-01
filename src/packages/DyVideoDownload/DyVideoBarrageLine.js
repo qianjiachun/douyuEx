@@ -1,8 +1,11 @@
+import { showMessage, timeText2Ms } from "../../common.js";
+import { getVideoBarrageByTime } from "./apis.js";
+
 let dyVideoBarrage_domhook_videoChange = null;
 let dyVideoBarrage_hasRendered = false;
 const dyVideoBarrage_domName = "ex-barrageLine";
 const dyVideoBarrage_switchDomName = "ex-barrageLine-switch";
-function initPkg_DyVideoBarrageLine() {
+export function initPkg_DyVideoBarrageLine() {
     let timer = setInterval(() => {
         let progress = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector(".ProgressBar-Sign");
         let hashidShadow = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
@@ -25,7 +28,7 @@ function initPkg_DyVideoBarrageLine_Dom() {
     a.innerHTML = `.no-hasLR #ex-barrageLine {
         display: none !important;
     }`;
-    
+
     let b = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot;
     b.append(a);
 }
@@ -49,7 +52,7 @@ async function renderVideoBarrageLine() {
     if (arr.length <= 0) return;
     let totalMs = timeText2Ms(arr[1]);
     let msStep = totalMs / (xAxisStepNum - 1);
-    
+
     let list = new Array(xAxisStepNum).fill(0, 0, xAxisStepNum);
     let pre = 0;
     do {
@@ -116,6 +119,6 @@ async function renderVideoBarrageLine() {
 	a.id = dyVideoBarrage_domName;
     a.style = "position:absolute;width:100%;height:30px;bottom:0px;pointer-events:none;cursor: default;";
 	a.innerHTML = html;
-	
+
     progressBar.insertBefore(a, progressBar.childNodes[0]);
 }

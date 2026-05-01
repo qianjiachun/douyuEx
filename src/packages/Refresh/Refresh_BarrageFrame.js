@@ -1,4 +1,7 @@
-function initPkg_Refresh_BarrageFrame() {
+import { PostbirdAlertBox } from '../../require/PostBirdAlertBox/postbirdAlertBox.js';
+import { saveData_Refresh } from "./Refresh.js";
+
+export function initPkg_Refresh_BarrageFrame() {
 	initPkg_Refresh_BarrageFrame_Dom();
     initPkg_Refresh_BarrageFrame_Func();
     initPkg_Refresh_BarrageFrame_Set();
@@ -64,7 +67,7 @@ function initPkg_Refresh_BarrageFrame_Func() {
 }
 
 
-function refresh_BarrageFrame_getStatus() {
+export function refresh_BarrageFrame_getStatus() {
     let dom_rank = document.getElementsByClassName("layout-Player-rank")[0];
     if (dom_rank.style.display == "none") {
         // 被拉高

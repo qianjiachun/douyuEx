@@ -1,4 +1,7 @@
-function initPkg_VideoTools_VideoSync() {
+import { getValidDom } from '../../../common.js';
+import { getVideoToolsLiveVideoNode } from '../VideoTools.js';
+
+export function initPkg_VideoTools_VideoSync() {
     initPkg_VideoTools_VideoSync_Dom();
     initPkg_VideoTools_VideoSync_Func();
 }
@@ -31,10 +34,12 @@ function initPkg_VideoTools_VideoSync_Func() {
 }
 
 function setVideoSync() {
-    let buffered = liveVideoNode.buffered;
+    const videoNode = getVideoToolsLiveVideoNode();
+    if (!videoNode) return;
+    let buffered = videoNode.buffered;
         if (buffered.length == 0) {
             // 暂停中
             return;
         }
-    liveVideoNode.currentTime = buffered.end(0);
+    videoNode.currentTime = buffered.end(0);
 }

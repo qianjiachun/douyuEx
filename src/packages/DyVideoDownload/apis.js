@@ -1,4 +1,4 @@
-function getVideoStreamUrl(vid, sign) {
+export function getVideoStreamUrl(vid, sign) {
   return new Promise(resolve => {
       fetch("https://v.douyu.com/api/stream/getStreamUrl", {
           method: 'POST',
@@ -16,7 +16,7 @@ function getVideoStreamUrl(vid, sign) {
   })
 }
 
-function getVideoBarrageByTime(vid, pre = 0) {
+export function getVideoBarrageByTime(vid, pre = 0) {
   // pre来自接口返回值data.pre中
   // 若为-1则不再获取
   if (pre < 0) {

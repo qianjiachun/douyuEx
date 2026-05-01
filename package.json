@@ -1,9 +1,9 @@
 {
   "name": "douyuEx",
   "scripts": {
+    "dev": "vite",
     "build": "vite build",
-    "build:legacy": "node build.js",
-    "test:smoke": "node scripts/smoke-bootstrap.mjs"
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -16,10 +16,13 @@
     "url": "https://github.com/qianjiachun/douyuEx/issues"
   },
   "homepage": "https://github.com/qianjiachun/douyuEx#readme",
-  "dependencies": {},
   "type": "module",
   "devDependencies": {
+    "flv.js": "^1.6.2",
     "vite": "^5.4.19",
     "vite-plugin-monkey": "^5.0.8"
+  },
+  "dependencies": {
+    "notice.js": "^0.5.0"
   }
 }

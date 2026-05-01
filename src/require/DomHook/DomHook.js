@@ -1,4 +1,4 @@
-class DomHook {
+export class DomHook {
     constructor(selector, isSubtree, callback) {
         this.selector = selector;
         this.isSubtree = isSubtree;
