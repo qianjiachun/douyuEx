@@ -1,4 +1,6 @@
-function initPkg_ExpandTool_TabSwitch() {
+import { showMessage } from '../../common.js';
+
+export function initPkg_ExpandTool_TabSwitch() {
   enableIgnoreAutoPause();
   ExpandTool_TabSwitch_insertDom();
   ExpandTool_TabSwitch_insertFunc();
@@ -9,7 +11,7 @@ function ExpandTool_TabSwitch_insertDom() {
   let a = document.createElement("span");
   // a.className = "extool__bsize";
   a.innerHTML = '<label title="阻止浏览器页签冻结"><input id="extool__tabSwitch" type="checkbox">防页签冻结</label>';
-  
+
   let b = document.getElementsByClassName("extool")[0];
   b.insertBefore(a, b.childNodes[0]);
 }
@@ -53,7 +55,7 @@ function enableTabSwitch() {
   Object.defineProperty(document, 'webkitVisibilityState', {value: 'visible', writable: false});
   document.dispatchEvent(new Event('visibilitychange'));
   document.hasFocus = function () { return true; };
-  
+
   document.addEventListener('visibilitychange', function(e) {
       e.stopImmediatePropagation();
   }, true, true);

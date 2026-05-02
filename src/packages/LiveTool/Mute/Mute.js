@@ -1,9 +1,13 @@
+import { dateFormat, getStrMiddle, my_uid, rid, showMessage, showMessageWindow } from '../../../common.js';
+import { PostbirdAlertBox } from '../../../require/PostBirdAlertBox/postbirdAlertBox.js';
+import { getType, selectOptionByValue } from '../LiveTool.js';
+
 let isMuteOn = false;
 // let canMute;
 let muteWordList = {};
 let muteIdList = {};
 let muteIdListShow = [];
-function initPkg_LiveTool_Mute() {
+export function initPkg_LiveTool_Mute() {
     // if (rid == "4042402") {
     //     return;
     // }
@@ -58,7 +62,7 @@ function LiveTool_Mute_insertDom() {
         </div>
     `;
     a.innerHTML = cell + panel;
-    
+
     let b = document.getElementsByClassName("livetool")[0];
     b.insertBefore(a, b.childNodes[0]);
 }
@@ -153,7 +157,7 @@ function LiveTool_Mute_insertFunc() {
 			a.style.display = "none";
 		}
     });
-    
+
     document.getElementById("mute__select").onclick = function() {
         if (this.options.length == 0) {
             return;
@@ -235,7 +239,7 @@ async function initPkg_Mute_Set() {
     // canMute = await getRoomAdminStatus();
 	// 设置初始化
 	let ret = localStorage.getItem("ExSave_Mute");
-	
+
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         muteWordList = retJson;
@@ -246,9 +250,9 @@ async function initPkg_Mute_Set() {
             }
         }
     }
-    
+
     ret = localStorage.getItem("ExSave_isMute");
-	
+
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         let ridArr = [];
@@ -267,7 +271,7 @@ async function initPkg_Mute_Set() {
     }
 }
 
-async function initPkg_LiveTool_Mute_Handle(text) {
+export async function initPkg_LiveTool_Mute_Handle(text) {
     // if (canMute != true) {
     //     return;
     // }
@@ -359,10 +363,10 @@ async function initPkg_LiveTool_Mute_Handle(text) {
             }
         }
     }
-    
+
 }
 
-function addMuteUser(roomid, name, ban_time) {
+export function addMuteUser(roomid, name, ban_time) {
     return new Promise(resolve => {
         fetch("https://www.douyu.com/room/roomSetting/addMuteUser", {
             method: 'POST',

@@ -1,15 +1,15 @@
-class DyWacthAd {
+export class DyWacthAd {
     constructor(posid, token, rid) {
         this.posid = posid;
         this.token = token;
         this.rid = rid;
-        
+
         this._uid = String(token).split("_")[0];
         this._mid = 0;
         this._infoBack = "";
 
     }
-    
+
     async start() {
         let info = await this.getInfo(this.posid, this.token, this.rid);
         if (info == false) {
@@ -57,7 +57,7 @@ class DyWacthAd {
             GM_xmlhttpRequest({
                 method: "POST",
                 url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/start?client_sys=android",
-                data: "&uid=" + uid + "&roomId=" + rid + "&posCode=" + posid + "&token=" + token + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
+                data: "&uid=" + uid + "&roomId=" + this.rid + "&posCode=" + posid + "&token=" + token + "&clientType=1&creativeId=" + mid + "&infoBack=" + infoBack,
                 responseType: "json",
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -69,16 +69,16 @@ class DyWacthAd {
                     }
                 }
             });
-    
+
         })
     }
-    
+
     getFinish(posid, token, uid, mid, infoBack) {
         return new Promise(resolve => {
             GM_xmlhttpRequest({
                 method: "POST",
                 url: "https://apiv2.douyucdn.cn/japi/inspire/api/ad/fishpond/mobile/finish?client_sys=android",
-                data: "uid=" + uid + "&clientType=1&posCode=" + posid + "&creativeId=" + mid + "&roomId=" + rid + "&token=" + token + "&infoBack=" + infoBack,
+                data: "uid=" + uid + "&clientType=1&posCode=" + posid + "&creativeId=" + mid + "&roomId=" + this.rid + "&token=" + token + "&infoBack=" + infoBack,
                 responseType: "json",
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -96,7 +96,7 @@ class DyWacthAd {
                     }
                 }
             });
-    
+
         })
     }
 }

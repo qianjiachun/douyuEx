@@ -1,9 +1,9 @@
 /*
     Get Bilibili Real Room ID
-    By: 小淳 
+    By: 小淳
 */
 
-function getRealRid_Bilibili(url, realrid_callback) {
+export function getRealRid_Bilibili(url, realrid_callback) {
     let arr = url.split("/");
     let rid = arr[arr.length - 1];
     GM_xmlhttpRequest({

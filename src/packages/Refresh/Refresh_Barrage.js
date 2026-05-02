@@ -1,6 +1,10 @@
+import { PostbirdAlertBox } from '../../require/PostBirdAlertBox/postbirdAlertBox.js';
+import { StyleHook_remove, StyleHook_set } from '../../require/StyleHook/StyleHook.js';
+import { saveData_Refresh } from "./Refresh.js";
+
 let current_barrage_status = 0; // 0没被简化 1被简化
 
-function initPkg_Refresh_Barrage() {
+export function initPkg_Refresh_Barrage() {
 	initPkg_Refresh_Barrage_Dom();
     initPkg_Refresh_Barrage_Func();
     initPkg_Refresh_Barrage_Set();
@@ -41,7 +45,7 @@ function initPkg_Refresh_Barrage_Func() {
 }
 
 
-function refresh_Barrage_getStatus() {
+export function refresh_Barrage_getStatus() {
     if (current_barrage_status == 1) {
         // 被简化
         return true;
@@ -63,7 +67,7 @@ function initPkg_Refresh_Barrage_Set() {
         }
     }
 }
- 
+
 function setRefreshBarrage() {
     let cssText = `
     .UserCsgoGameDataMedal,.Barrage-honor,.Barrage-listItem .Barrage-icon,.Barrage-listItem .FansMedal.is-made,.Barrage-listItem .RoomLevel,.Barrage-listItem .Motor,.Barrage-listItem .ChatAchievement,.Barrage-listItem .Barrage-hiIcon,.Barrage-listItem .Medal,.Barrage-listItem .MatchSystemTeamMedal{display:none !important;}

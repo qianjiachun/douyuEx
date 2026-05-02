@@ -1,10 +1,14 @@
-function initPkg_Refresh() {
+import { initPkg_Refresh_Barrage, refresh_Barrage_getStatus } from './Refresh_Barrage.js';
+import { initPkg_Refresh_BarrageFrame, refresh_BarrageFrame_getStatus } from './Refresh_BarrageFrame.js';
+import { initPkg_Refresh_Video, refresh_Video_getStatus } from './Refresh_Video.js';
+
+export function initPkg_Refresh() {
 	initPkg_Refresh_BarrageFrame();
 	initPkg_Refresh_Video();
 	initPkg_Refresh_Barrage();
 }
 
-function saveData_Refresh() {
+export function saveData_Refresh() {
 	// 此处为保存简洁模式的数据，请在每次操作后都调用这个函数以保存状态
 	// 数据结构
 	// {功能1:{子功能1:{}}}
@@ -20,6 +24,6 @@ function saveData_Refresh() {
 			status: refresh_Barrage_getStatus(),
 		}
 	}
-	
+
 	localStorage.setItem("ExSave_Refresh", JSON.stringify(data)); // 存储弹幕列表
 }

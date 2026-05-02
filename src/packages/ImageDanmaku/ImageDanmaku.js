@@ -1,4 +1,7 @@
-function initPkg_ImageDanmaku() {
+import { dyToken, isValidImageFile } from "../../common.js";
+import { DomHook } from "../../require/DomHook/DomHook.js";
+
+export function initPkg_ImageDanmaku() {
   initPkg_ImageDanmaku_Dom();
   initPkg_ImageDanmaku_Func();
 }
@@ -77,7 +80,7 @@ function initPkg_ImageDanmaku_Func() {
   });
 }
 
-function getImageDanmakuHtml(str) {
+export function getImageDanmakuHtml(str) {
   if (!isValidImageFile(str)) return "";
   const split = str.split(".");
   const url = decompressImageUrl(split[0]);
@@ -177,7 +180,7 @@ function getUploadImageUrl(file) {
   });
 }
 
-function getImageDanmakuFromImgSrc(src) {
+export function getImageDanmakuFromImgSrc(src) {
   const split = src.split("/");
   const url = split.pop();
   const split2 = url.split(".");

@@ -1,18 +1,14 @@
-function initPkg_VideoTools_Camera_Video() {
-  let timer = setInterval(() => {
-    liveVideoNode = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("__video");
-    if (liveVideoNode !== undefined && liveVideoNode !== null && liveVideoNode.videoWidth) {
-      clearInterval(timer);
-      camera_anchorName = document.getElementsByTagName("demand-video-anchor")[0].shadowRoot.querySelector(".anchor-name").innerText;
-      camera_width = liveVideoNode.videoWidth * 0.25;
-      camera_height = liveVideoNode.videoHeight * 0.25;
-      camera_canvas = document.createElement("canvas");
-      camera_canvas.width = camera_width;
-      camera_canvas.height = camera_height;
+import { dateFormat, showMessage } from '../../../../common.js';
+import { getVideoToolsLiveVideoNode, setVideoToolsLiveVideoNode } from '../../VideoTools.js';
+import { cameraAddFrame, cameraState, gifworkerBlob, initCameraState } from '../index.js';
 
-      camera_canvas_img = document.createElement("canvas");
-      camera_canvas_img.width = liveVideoNode.videoWidth;
-      camera_canvas_img.height = liveVideoNode.videoHeight;
+export function initPkg_VideoTools_Camera_Video() {
+  let timer = setInterval(() => {
+    const videoNode = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("__video");
+    if (videoNode !== undefined && videoNode !== null && videoNode.videoWidth) {
+      clearInterval(timer);
+      setVideoToolsLiveVideoNode(videoNode);
+      initCameraState(videoNode, document.getElementsByTagName("demand-video-anchor")[0].shadowRoot.querySelector(".anchor-name").innerText);
 
       initPkg_VideoTools_Camera_Video_Dom();
       initPkg_VideoTools_Camera_Video_Func();
@@ -108,22 +104,22 @@ function initPkg_VideoTools_Camera_Video_Func() {
     gif = null;
     downTime = new Date().getTime();
     // 动态获取当前视频的真实分辨率
-    camera_canvas_img.width = liveVideoNode.videoWidth;
-    camera_canvas_img.height = liveVideoNode.videoHeight;
-    camera_canvas_img.getContext("2d").drawImage(liveVideoNode, 0, 0, camera_canvas_img.width, camera_canvas_img.height);
-    imgBase64 = camera_canvas_img.toDataURL("image/png");
+    cameraState.canvasImg.width = getVideoToolsLiveVideoNode().videoWidth;
+    cameraState.canvasImg.height = getVideoToolsLiveVideoNode().videoHeight;
+    cameraState.canvasImg.getContext("2d").drawImage(getVideoToolsLiveVideoNode(), 0, 0, cameraState.canvasImg.width, cameraState.canvasImg.height);
+    imgBase64 = cameraState.canvasImg.toDataURL("image/png");
 
     gif = new GIF({
       workers: 5,
       quality: 3,
-      width: camera_width,
-      height: camera_height,
+      width: cameraState.width,
+      height: cameraState.height,
       workerScript: gifworkerBlob
     });
-    cameraAddFrame(liveVideoNode, camera_canvas, gif, camera_fps);
+    cameraAddFrame(getVideoToolsLiveVideoNode(), cameraState.canvas, gif, cameraState.fps);
     timer = setInterval(() => {
-      cameraAddFrame(liveVideoNode, camera_canvas, gif, camera_fps);
-    }, camera_fps);
+      cameraAddFrame(getVideoToolsLiveVideoNode(), cameraState.canvas, gif, cameraState.fps);
+    }, cameraState.fps);
   });
   camera.addEventListener("mouseup", (e) => {
     if (e.target.id === "ex-camera-close") return;
@@ -135,7 +131,7 @@ function initPkg_VideoTools_Camera_Video_Func() {
         let el = document.createElement("a");
         const objectUrl = URL.createObjectURL(blob);
         el.href = objectUrl;
-        el.download = `【${camera_anchorName}】${dateFormat("yyyy-MM-dd hh-mm-ss", new Date())}`;
+        el.download = `【${cameraState.anchorName}】${dateFormat("yyyy-MM-dd hh-mm-ss", new Date())}`;
         document.body.appendChild(el);
         let evt = document.createEvent("MouseEvents");
         evt.initEvent("click", false, false);
@@ -156,7 +152,7 @@ function initPkg_VideoTools_Camera_Video_Func() {
       }
       gif = null;
       let el = document.createElement("a");
-      el.download = `【${camera_anchorName}】${dateFormat("yyyy-MM-dd hh-mm-ss", new Date())}`;
+      el.download = `【${cameraState.anchorName}】${dateFormat("yyyy-MM-dd hh-mm-ss", new Date())}`;
       el.href = imgBase64;
       document.body.appendChild(el);
       let evt = document.createEvent("MouseEvents");

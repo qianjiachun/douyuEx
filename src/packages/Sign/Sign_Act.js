@@ -1,3 +1,6 @@
+import { showMessage } from '../../common.js';
+import { addFollowRoom, doSign, getActRemaining, getJackpot, removeFollowRoom, shareAct, signAct, takeActPrize, userStatus } from '../../require/Activity/Activity.js';
+
 // 本地化的活动地址
 // {
 //     "version": "2021.01.29.01",
@@ -22,7 +25,7 @@
 // }
 let actList = {};
 
-function initPkg_Sign_Act() {
+export function initPkg_Sign_Act() {
     getAct();
 }
 
@@ -37,7 +40,7 @@ async function getAct() {
         for (let j = 0; j < eachAct.script.length; j++) {
             let script = eachAct.script[j];
             let value = script.value;
-            
+
             let ret;
             let ret2;
             switch (script.name) {
@@ -49,7 +52,7 @@ async function getAct() {
                         showMessage(`【${name}】${ret.msg}`, "error");
                     }
                     break;
-                    
+
                 case "userStatus":
                     ret = await userStatus(value);
                     if (ret.error == 0) {
@@ -68,7 +71,7 @@ async function getAct() {
                         }
                     }
                     break;
-                    
+
                 case "addFollowRoom":
                     await addFollowRoom(value);
                     break;

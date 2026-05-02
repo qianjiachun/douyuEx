@@ -1,7 +1,13 @@
+import { getUserName } from '../../../common.js';
+import { DomHook } from '../../../require/DomHook/DomHook.js';
+import { stt_deserialize } from '../../../require/STT/STT.js';
+import { getType } from '../LiveTool.js';
+
 let myLastBarrage = ""; // 浏览器弹幕框中的最后一条自己的弹幕内容
 let barrageSendCheckTimer = 0;
-let barrageSendCheckTimer2 = 0;
-async function initPkg_LiveTool_BarrageSendCheck() {
+let myName = "";
+
+export async function initPkg_LiveTool_BarrageSendCheck() {
   myName = await getUserName();
   let timer = setInterval(() => {
     if (typeof document.getElementById("js-barrage-list") != "undefined") {
@@ -48,7 +54,7 @@ function createBarrageFailDom() {
   return span;
 }
 
-function initPkg_LiveTool_BarrageSendCheck_Handle(text) {
+export function initPkg_LiveTool_BarrageSendCheck_Handle(text) {
   if (getType(text) == "chatmsg") {
     if (!text.includes(myName)) return;
     myLastBarrage = text;

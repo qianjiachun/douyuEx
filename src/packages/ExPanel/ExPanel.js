@@ -1,4 +1,6 @@
-function initPkg_ExPanel() {
+let exPanelTimer = null;
+
+export function initPkg_ExPanel() {
     initPkg_ExPanel_insertDom();
 
     let exPanelDOM = document.querySelector(`.ex-panel`);
@@ -14,7 +16,7 @@ function initPkg_ExPanel_insertDom() {
 	let a = document.createElement("div");
 	a.className = "ex-panel";
 	a.innerHTML = `<div class="ex-panel__wrap"></div>`;
-	
+
     let b = document.querySelector(".PlayerToolbar-ContentCell .PlayerToolbar-Wealth");
     if (!b) {
         b = document.querySelector(".PlayerToolbar-ContentRow");
@@ -27,7 +29,7 @@ function initPkg_ExPanel_insertDom() {
         }
     }
     b.insertBefore(a, b.childNodes[0]);
-	
+
 }
 function autoCloseExPanelHandle() {
     let exPanelDOM = document.querySelector(`.ex-panel`);
@@ -35,7 +37,7 @@ function autoCloseExPanelHandle() {
     exPanelDOM.style.display = `none`;
 }
 
-function showExPanel() {
+export function showExPanel() {
 	// 显示功能条
 	let a = document.getElementsByClassName("ex-panel")[0];
 	if (a.style.display !== 'block') {

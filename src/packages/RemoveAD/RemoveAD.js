@@ -1,4 +1,8 @@
-function initPkg_RemoveAD() {
+import { getValidDom } from '../../common.js';
+import { StyleHook_set } from '../../require/StyleHook/StyleHook.js';
+import { initPkg_RemoveMsgNotice } from './RemoveMsgNotice.js';
+
+export function initPkg_RemoveAD() {
     let t = setInterval(() => {
         let a = getValidDom([".PlayerToolbar-ContentCell .PlayerToolbar-Wealth", "#js-backpack-enter"]);
         if (a != undefined) {
@@ -10,7 +14,7 @@ function initPkg_RemoveAD() {
     }, 1000);
 }
 // .dy-ModalRadius-mask,dy-ModalRadius-wrap{display:none !important;}
-function removeAD() {
+export function removeAD() {
     StyleHook_set("Ex_Style_RemoveAD", `
     .ScreenBannerAd,.XinghaiAd,.CustomGroupGuide,.FudaiGiftToolBarTips,.UserInfo-tryEnterHiddenLead,.BargainingKit,.AnchorPocketTips,.FishShopTip,.FollowGuide,#js-bottom-right-cloudGame,.CloudGameLink,.RoomText-icon-horn,.RoomText-list,.Search-ad,.RedEnvelopAd,.noHandlerAd-0566b9,.PcDiversion,.DropMenuList-ad,.DropPane-ad,.WXTipsBox,.igl_bg-b0724a,.closure-ab91fb,.VideoAboveVivoAd,.css-widgetWrapper-EdVVC,.watermark-442a18,.FollowGuide-FadeOut,.MatchSystemChatRoomEntry-roomTabs,.FansMedalDialog-normal,.GameLauncher,.recommendAD-54569e,.recommendApp-0e23eb,.Title-ad,.Bottom-ad,.SignBarrage,.corner-ad-495ade,.SignBaseComponent-sign-ad,.SuperFansBubble,.is-noLogin,.PlayerToolbar-signCont,#js-widget,.Frawdroom,.HeaderGif-right,.HeaderGif-left,.liveos-workspace{display:none !important;}
     .Barrage-topFloater{z-index:999}

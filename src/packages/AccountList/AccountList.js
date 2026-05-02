@@ -1,6 +1,8 @@
+import { my_uid, showMessage } from "../../common.js";
+
 let svg_accountList = `<svg t="1613993967937" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2122" width="16" height="16"><path d="M217.472 311.808l384.64 384.64-90.432 90.56-384.64-384.64z" fill="#8A8A8A" p-id="2123"></path><path d="M896.32 401.984l-384.64 384.64-90.56-90.496 384.64-384.64z" fill="#8A8A8A" p-id="2124"></path></svg>`
 let cleanOverTimes = 0; // 用于判断是否全部清空并跳转
-function initPkg_AccountList() {
+export function initPkg_AccountList() {
     // GM_deleteValue("Ex_accountList");
     // GM_deleteValue("Ex_accountListPassport");
     // return;
@@ -170,14 +172,14 @@ function switchAccount(uid, callback) {
                     let addlock = 0;
                     for(let i = 0; i < l.length; i++){
                         GM_cookie("set", {
-                            name: l[i]['name'], 
-                            value: l[i]['value'], 
-                            domain: l[i]['domain'], 
-                            path: l[i]['path'], 
-                            secure: l[i]['secure'], 
-                            httpOnly: l[i]['httpOnly'], 
-                            sameSite: l[i]['sameSite'], 
-                            expirationDate: l[i]['expirationDate'], 
+                            name: l[i]['name'],
+                            value: l[i]['value'],
+                            domain: l[i]['domain'],
+                            path: l[i]['path'],
+                            secure: l[i]['secure'],
+                            httpOnly: l[i]['httpOnly'],
+                            sameSite: l[i]['sameSite'],
+                            expirationDate: l[i]['expirationDate'],
                             hostOnly: l[i]['hostOnly']
                         }, function(error) {
                             addlock++;
@@ -192,7 +194,7 @@ function switchAccount(uid, callback) {
     });
 };
 
-function switchAccountPassport(uid, callback) {
+export function switchAccountPassport(uid, callback) {
     let list = JSON.parse(GM_getValue("Ex_accountListPassport"));
     // let l = Array(list.global).concat(list[uid]);
     let l = list[uid];
@@ -205,14 +207,14 @@ function switchAccountPassport(uid, callback) {
                     let addlock = 0;
                     for(let i = 0; i < l.length; i++){
                         GM_cookie("set", {
-                            name: l[i]['name'], 
-                            value: l[i]['value'], 
-                            domain: l[i]['domain'], 
-                            path: l[i]['path'], 
-                            secure: l[i]['secure'], 
-                            httpOnly: l[i]['httpOnly'], 
-                            sameSite: l[i]['sameSite'], 
-                            expirationDate: l[i]['expirationDate'], 
+                            name: l[i]['name'],
+                            value: l[i]['value'],
+                            domain: l[i]['domain'],
+                            path: l[i]['path'],
+                            secure: l[i]['secure'],
+                            httpOnly: l[i]['httpOnly'],
+                            sameSite: l[i]['sameSite'],
+                            expirationDate: l[i]['expirationDate'],
                             hostOnly: l[i]['hostOnly']
                         }, function(error) {
                             addlock++;
@@ -237,14 +239,14 @@ function switchAccountPassport(uid, callback) {
 //                     let addlock = 0;
 //                     for(let i = 0; i < l.length; i++){
 //                         GM_cookie("set", {
-//                             name: l[i]['name'], 
-//                             value: l[i]['value'], 
-//                             domain: l[i]['domain'], 
-//                             path: l[i]['path'], 
-//                             secure: l[i]['secure'], 
-//                             httpOnly: l[i]['httpOnly'], 
-//                             sameSite: l[i]['sameSite'], 
-//                             expirationDate: l[i]['expirationDate'], 
+//                             name: l[i]['name'],
+//                             value: l[i]['value'],
+//                             domain: l[i]['domain'],
+//                             path: l[i]['path'],
+//                             secure: l[i]['secure'],
+//                             httpOnly: l[i]['httpOnly'],
+//                             sameSite: l[i]['sameSite'],
+//                             expirationDate: l[i]['expirationDate'],
 //                             hostOnly: l[i]['hostOnly']
 //                         }, function(error) {
 //                             addlock++;
@@ -297,7 +299,7 @@ function addAccount() {
 };
 
 
-function addAccountPassport(uid) {
+export function addAccountPassport(uid) {
     let accountListData = JSON.parse(GM_getValue("Ex_accountListPassport") || "{}");
     let private_arr = [];
     let global_arr = [];
@@ -335,7 +337,7 @@ function addAccountPassport(uid) {
 
 
 
-function cleanCookie(callback) {
+export function cleanCookie(callback) {
     let lock = 0;
     GM_cookie("list", {
         path: "/"
@@ -378,7 +380,7 @@ function deleteAccount(uid, callback) {
     callback();
 }
 
-function deleteAccountPassport(uid, callback) {
+export function deleteAccountPassport(uid, callback) {
     let obj = JSON.parse(GM_getValue("Ex_accountListPassport") || "{}");
     delete obj[uid];
     GM_setValue("Ex_accountListPassport", JSON.stringify(obj));

@@ -1,4 +1,8 @@
-function initPkg_FansContinue() {
+import { rid, showMessage, sleep } from '../../common.js';
+import { PostbirdAlertBox } from '../../require/PostBirdAlertBox/postbirdAlertBox.js';
+import { getBagGifts } from '../ExpandTool/ExpandTool_ClearBag.js';
+
+export function initPkg_FansContinue() {
   initPkg_FansContinue_Dom();
   initPkg_FansContinue_Func();
 }
@@ -102,7 +106,7 @@ function FansContinue_startSend(sendNum) {
   });
 }
 
-async function sendGift_bag(gid, count, rid) {
+export async function sendGift_bag(gid, count, rid) {
   // 送背包里的东西
   // gid: 268是荧光棒
   // count: 数量

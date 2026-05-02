@@ -1,3 +1,8 @@
+import { getValidDom } from '../../../common.js';
+import { StyleHook_remove, StyleHook_set } from '../../../require/StyleHook/StyleHook.js';
+import { getVideoToolsLiveVideoNode } from '../VideoTools.js';
+import { resetVideoToolsVideoZoomState } from '../VideoZoom/VideoZoom.js';
+
 let currentBrightness = "";
 let currentContrast = "";
 let currentSaturate = "";
@@ -12,13 +17,17 @@ let transformCss = {
 }
 let panorama = null;
 
+function getFilterLiveVideoNode() {
+    return getVideoToolsLiveVideoNode();
+}
+
 // 检测是否是 Edge 浏览器
 function isEdgeBrowser() {
     return /Edg/i.test(navigator.userAgent);
 }
 
-function initPkg_VideoTools_Filter() {
-    liveVideoParentClassName = liveVideoNode.parentNode.className;
+export function initPkg_VideoTools_Filter() {
+    liveVideoParentClassName = getFilterLiveVideoNode().parentNode.className;
     initPkg_VideoTools_Filter_Dom();
     initPkg_VideoTools_Filter_Func();
 }
@@ -171,9 +180,9 @@ function initPkg_VideoTools_Filter_Func() {
         if (isEnhanceQuality) {
             slider.style.left = "20px";
             switchElement.style.background = "#369";
-            liveVideoNode.style.imageRendering = "crisp-edges";
-            liveVideoNode.style.imageRendering = "-webkit-optimize-contrast";
-            liveVideoNode.style.imageRendering = "optimize-contrast";
+            getFilterLiveVideoNode().style.imageRendering = "crisp-edges";
+            getFilterLiveVideoNode().style.imageRendering = "-webkit-optimize-contrast";
+            getFilterLiveVideoNode().style.imageRendering = "optimize-contrast";
             // 显示增强画质提示弹窗
             enhanceModal.style.display = "flex";
             videoDom.style.zIndex = "10";
@@ -181,7 +190,7 @@ function initPkg_VideoTools_Filter_Func() {
         } else {
             slider.style.left = "0px";
             switchElement.style.background = "#ccc";
-            liveVideoNode.style.imageRendering = "";
+            getFilterLiveVideoNode().style.imageRendering = "";
             // 隐藏增强画质提示弹窗
             enhanceModal.style.display = "none";
             videoDom.style.zIndex = "0";
@@ -191,15 +200,15 @@ function initPkg_VideoTools_Filter_Func() {
     }
     setScrollFunc(document.getElementById("scroll__bright"), document.getElementById("bar__bright"), document.getElementById("mask__bright"), (data) => {
         currentBrightness = `brightness(${ data }%)`;
-        liveVideoNode.style.filter = `${ currentBrightness } ${ currentContrast } ${ currentSaturate }`;
+        getFilterLiveVideoNode().style.filter = `${ currentBrightness } ${ currentContrast } ${ currentSaturate }`;
     });
     setScrollFunc(document.getElementById("scroll__contrast"), document.getElementById("bar__contrast"), document.getElementById("mask__contrast"), (data) => {
         currentContrast = `contrast(${ data }%)`;
-        liveVideoNode.style.filter = `${ currentBrightness } ${ currentContrast } ${ currentSaturate }`;
+        getFilterLiveVideoNode().style.filter = `${ currentBrightness } ${ currentContrast } ${ currentSaturate }`;
     });
     setScrollFunc(document.getElementById("scroll__saturate"), document.getElementById("bar__saturate"), document.getElementById("mask__saturate"), (data) => {
         currentSaturate = `saturate(${ data }%)`;
-        liveVideoNode.style.filter = `${ currentBrightness } ${ currentContrast } ${ currentSaturate }`;
+        getFilterLiveVideoNode().style.filter = `${ currentBrightness } ${ currentContrast } ${ currentSaturate }`;
     });
 
     const filterButton = document.getElementById("ex-filter");
@@ -226,7 +235,7 @@ function initPkg_VideoTools_Filter_Func() {
             overPanel = false;
         }, 500);
     });
-    
+
     document.getElementById("filter__reset").addEventListener("click", () => {
         resetVideoFilter();
     });
@@ -241,24 +250,24 @@ function initPkg_VideoTools_Filter_Func() {
             isMirror = false;
             transformCss.rotateY = "rotateY(0deg)";
         }
-        liveVideoNode.parentNode.style.transition = "all .5s";
-        liveVideoNode.parentNode.style.transform = transformCss.rotateY + " " + transformCss.rotate + " " + transformCss.scale;
+        getFilterLiveVideoNode().parentNode.style.transition = "all .5s";
+        getFilterLiveVideoNode().parentNode.style.transform = transformCss.rotateY + " " + transformCss.rotate + " " + transformCss.scale;
     });
 
     document.getElementById("filter__rotate").addEventListener("click", () => {
         rotateAngle += 90;
         transformCss.rotate = `rotate(${String(rotateAngle)}deg)`;
-        liveVideoNode.parentNode.style.transition = "all .5s";
+        getFilterLiveVideoNode().parentNode.style.transition = "all .5s";
         if ((rotateAngle/90) % 2 !== 0) {
             if (window.innerWidth > window.innerHeight) {
-                transformCss.scale = "scale(" + String(liveVideoNode.videoHeight / liveVideoNode.videoWidth) + ")";
+                transformCss.scale = "scale(" + String(getFilterLiveVideoNode().videoHeight / getFilterLiveVideoNode().videoWidth) + ")";
             } else {
-                transformCss.scale = "scale(" + String(liveVideoNode.videoWidth / liveVideoNode.videoHeight) + ")";
+                transformCss.scale = "scale(" + String(getFilterLiveVideoNode().videoWidth / getFilterLiveVideoNode().videoHeight) + ")";
             }
         } else {
             transformCss.scale = "";
         }
-        liveVideoNode.parentNode.style.transform = transformCss.rotateY + " " + transformCss.rotate + " " + transformCss.scale;
+        getFilterLiveVideoNode().parentNode.style.transform = transformCss.rotateY + " " + transformCss.rotate + " " + transformCss.scale;
     });
 
     document.getElementById("filter__select").onchange = function() {
@@ -272,7 +281,7 @@ function initPkg_VideoTools_Filter_Func() {
                 break;
             case "Aden":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(90%)brightness(120%)saturate(85%)hue-rotate(20deg);filter:contrast(90%)brightness(120%)saturate(85%)hue-rotate(20deg)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:darken;background:-webkit-linear-gradient(to right,rgba(66,10,14,0.2)1,rgba(66,10,14,0));background:linear-gradient(to right,rgba(66,10,14,0.2)1,rgba(66,10,14,0));z-index:10}`)
-                break;  
+                break;
             case "Amaro":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(90%)brightness(110%)saturate(150%)hue-rotate(-10deg);filter:contrast(90%)brightness(110%)saturate(150%)hue-rotate(-10deg)}`)
                 break;
@@ -281,7 +290,7 @@ function initPkg_VideoTools_Filter_Func() {
                 break;
             case "Brooklyn":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(90%)brightness(110%);filter:contrast(90%)brightness(110%)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:overlay;background:-webkit-radial-gradient(50%50%,circle closest-corner,rgba(168,223,193,0.4)1,rgba(183,196,200,0.2));background:radial-gradient(50%50%,circle closest-corner,rgba(168,223,193,0.4)1,rgba(183,196,200,0.2));z-index:10}`)
-                break;   
+                break;
             case "Claredon":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(120%)saturate(125%);filter:contrast(120%)saturate(125%)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:overlay;background:rgba(127,187,227,0.2);z-index:10}`)
                 break;
@@ -290,7 +299,7 @@ function initPkg_VideoTools_Filter_Func() {
                 break;
             case "Gingham":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:brightness(105%)hue-rotate(350deg);filter:brightness(105%)hue-rotate(350deg)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:darken;background:-webkit-linear-gradient(to right,rgba(66,10,14,0.2)1,rgba(0,0,0,0));background:linear-gradient(to right,rgba(66,10,14,0.2)1,rgba(0,0,0,0));z-index:10}`)
-                break;  
+                break;
             case "Hudson":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(90%)brightness(120%)saturate(110%);filter:contrast(90%)brightness(120%)saturate(110%)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:multiply;opacity:0.5;background:-webkit-radial-gradient(50%50%,circle closest-corner,rgba(255,177,166,1)50,rgba(52,33,52,1));background:radial-gradient(50%50%,circle closest-corner,rgba(255,177,166,1)50,rgba(52,33,52,1));z-index:10}`)
                 break;
@@ -299,7 +308,7 @@ function initPkg_VideoTools_Filter_Func() {
                 break;
             case "Lofi":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(150%)saturate(110%);filter:contrast(150%)saturate(110%)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:multiply;background:-webkit-radial-gradient(50%50%,circle closest-corner,rgba(0,0,0,0)70,rgba(34,34,34,1));background:radial-gradient(50%50%,circle closest-corner,rgba(0,0,0,0)70,rgba(34,34,34,1));z-index:10}`);
-                break;   
+                break;
             case "Maven":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(95%)brightness(95%)saturate(150%)sepia(25%);filter:contrast(95%)brightness(95%)saturate(150%)sepia(25%)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:hue;background:rgba(3,230,26,0.2);z-index:10}`)
                 break;
@@ -308,7 +317,7 @@ function initPkg_VideoTools_Filter_Func() {
                 break;
             case "Reyes":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(85%)brightness(110%)saturate(75%)sepia(22%);filter:contrast(85%)brightness(110%)saturate(75%)sepia(22%)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:soft-light;opacity:0.5;background:rgba(173,205,239,1);z-index:10}`)
-                break;  
+                break;
             case "Stinson":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(75%)brightness(115%)saturate(85%);filter:contrast(75%)brightness(115%)saturate(85%)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:soft-light;background:rgba(240,149,128,0.2);z-index:10}`)
                 break;
@@ -317,7 +326,7 @@ function initPkg_VideoTools_Filter_Func() {
                 break;
             case "Walden":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:brightness(110%)saturate(160%)sepia(30%)hue-rotate(350deg);filter:brightness(110%)saturate(160%)sepia(30%)hue-rotate(350deg)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:screen;opacity:0.3;background:rgba(204,68,0,1);z-index:10}`)
-                break;   
+                break;
             case "Valencia":
                 setVideoFilter(`.${ liveVideoParentClassName }{position:relative;-webkit-filter:contrast(108%)brightness(108%)sepia(8%);filter:contrast(108%)brightness(108%)sepia(8%)}.${ liveVideoParentClassName }::before{content:"";display:block;height:100%;width:100%;top:0;left:0;position:absolute;pointer-events:none;mix-blend-mode:exclusion;opacity:0.5;background:rgba(58,3,57,1);z-index:10}`)
                 break;
@@ -341,7 +350,7 @@ function initPkg_VideoTools_Filter_Func() {
             dom.id = "ex-panorama";
             dom.style = "width:100%;height:100%;z-index:1;background:black;"
             node.insertBefore(dom, node.childNodes[0]);
-            panorama = new PanoramaVideo(dom, liveVideoNode);
+            panorama = new PanoramaVideo(dom, getFilterLiveVideoNode());
             panoramaAnimation(panorama);
         }
     })
@@ -350,14 +359,14 @@ function initPkg_VideoTools_Filter_Func() {
 function resetVideoFilter() {
     StyleHook_remove("Ex_Style_Filter");
     document.getElementById("filter__select").selectedIndex = 0;
-    liveVideoNode.style.filter = "";
+    getFilterLiveVideoNode().style.filter = "";
     rotateAngle = 0;
     transformCss = {
         rotateY: "",
         rotate: "",
         scale: "",
     }
-    liveVideoNode.parentNode.style.transform = "";
+    getFilterLiveVideoNode().parentNode.style.transform = "";
     document.getElementById("bar__bright").style.left = "100px";
     document.getElementById("bar__contrast").style.left = "100px";
     document.getElementById("bar__saturate").style.left = "100px";
@@ -377,7 +386,7 @@ function resetVideoFilter() {
         if (switchEnhance) {
             switchEnhance.style.background = "#ccc";
         }
-        liveVideoNode.style.imageRendering = "";
+        getFilterLiveVideoNode().style.imageRendering = "";
         // 隐藏增强画质提示弹窗
         const enhanceModal = document.getElementsByClassName("enhance-modal__panel-wrap")[0];
         if (enhanceModal) {
@@ -393,16 +402,13 @@ function resetVideoFilter() {
     }
 
     // 重置缩放
-    let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
-    domVideoWrap.style.transform = "";
-    domVideoWrap.style.transformOrigin = "";
-    videoScale = 1;
+    resetVideoToolsVideoZoomState();
 
     // 重置影院模式
     StyleHook_remove("Ex_Style_Cinema");
 
     // 重置视频倍速
-    liveVideoNode.playbackRate = 1;
+    getFilterLiveVideoNode().playbackRate = 1;
 }
 
 function panoramaAnimation(panorama) {
@@ -413,8 +419,8 @@ function panoramaAnimation(panorama) {
 }
 
 function setVideoFilter(style) {
-    // liveVideoNode.style.filter = text;
-    // liveVideoNode.style.webkitFilter = text;
+    // getFilterLiveVideoNode().style.filter = text;
+    // getFilterLiveVideoNode().style.webkitFilter = text;
     StyleHook_remove("Ex_Style_Filter");
     StyleHook_set("Ex_Style_Filter", style);
     document.getElementsByClassName("filter__wrap")[0].style.display = "none";

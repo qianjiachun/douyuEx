@@ -1,3 +1,5 @@
+import { getValidDom, my_uid } from "../../common.js";
+
 const MONTH_COST_CACHE_KEY = "ExSave_MonthCost";
 const MONTH_COST_SEE_STATUS_KEY = "ExSave_MonthCost_SeeStatus";
 
@@ -34,7 +36,7 @@ function MonthCost_renderSeeStatus() {
 	MonthCost_ContentAttrTitle();
 }
 
-function initPkg_MonthCost() {
+export function initPkg_MonthCost() {
 	initPkg_MonthCost_Dom();
 	initPkg_MonthCost_Func();
 	seeStatus = MonthCost_getSeeStatus();
@@ -115,7 +117,7 @@ async function getMonthCost_gift() {
 		if (id !== 0) {
 			url += `&id=${id}`;
 		}
-		
+
 		let ret = await MonthCost_queryData(url);
 		if (ret.error == 1000) {
 			await new Promise(resolve => setTimeout(resolve, 2000));
@@ -225,8 +227,8 @@ function getFormattedMonthTimeRange() {
 function getMonthTimeRange() {
 	let now = new Date();
     let nowMonth = now.getMonth();
-    let nowYear = now.getFullYear(); 
-    let monthStartDate = new Date(nowYear, nowMonth, 1); 
+    let nowYear = now.getFullYear();
+    let monthStartDate = new Date(nowYear, nowMonth, 1);
 	return [Math.round(new Date(monthStartDate).getTime() / 1000).toString(), Math.round(now.getTime() / 1000).toString()];
 }
 
@@ -234,7 +236,7 @@ function MonthCost_saveData() {
 	let data = {
 		monthCost: totalMonthCost,
 		updateTime: new Date().getTime(),
-		typeDetail: typeDetail 
+		typeDetail: typeDetail
 	}
 	let storage = localStorage.getItem(MONTH_COST_CACHE_KEY);
 	if (storage !== null) {

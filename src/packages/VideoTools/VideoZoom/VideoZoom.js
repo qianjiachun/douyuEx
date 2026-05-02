@@ -1,14 +1,34 @@
+import { getValidDom } from "../../../common.js";
+
 let videoScale = 1;
+let videoZoomTx = 0;
+let videoZoomTy = 0;
 var VideoZoom_wheelHandler = null;
 var VideoZoom_moveHandler = null;
 var VideoZoom_upHandler = null;
 var VideoZoom_drag = null;
-function initPkg_VideoTools_VideoZoom() {
+
+export function getVideoToolsVideoScale() {
+    return videoScale;
+}
+
+export function setVideoToolsVideoScale(value) {
+    videoScale = Number.isFinite(value) ? Math.max(0.1, value) : 1;
+}
+
+export function resetVideoToolsVideoZoomState() {
+    videoScale = 1;
+    videoZoomTx = 0;
+    videoZoomTy = 0;
+    const domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
+    if (!domVideoWrap) return;
+    domVideoWrap.style.transform = "";
+    domVideoWrap.style.transformOrigin = "";
+}
+
+export function initPkg_VideoTools_VideoZoom() {
     let domWrap = getValidDom([".layout-Player-videoEntity", ".layout-Player-video"]);
     let domVideoWrap = document.getElementsByClassName("layout-Player-videoEntity")[0];
-
-    let tx = 0;
-    let ty = 0;
 
     if (!domWrap || !domVideoWrap) return;
     domVideoWrap.style.transformOrigin = "0 0";
@@ -28,13 +48,12 @@ function initPkg_VideoTools_VideoZoom() {
         let py = e.clientY - r.top;
         let nextScale = videoScale + (e.deltaY < 0 ? 0.1 : -0.1);
         if (nextScale < 0.1) nextScale = 0.1;
-        let wx = (px - tx) / videoScale;
-        let wy = (py - ty) / videoScale;
-        tx = px - wx * nextScale;
-        ty = py - wy * nextScale;
-        videoScale = nextScale;
-        if (videoScale < 0.1) videoScale = 0.1;
-        domVideoWrap.style.transform = `translate(${tx}px, ${ty}px) scale(${videoScale})`;
+        let wx = (px - videoZoomTx) / videoScale;
+        let wy = (py - videoZoomTy) / videoScale;
+        videoZoomTx = px - wx * nextScale;
+        videoZoomTy = py - wy * nextScale;
+        setVideoToolsVideoScale(nextScale);
+        domVideoWrap.style.transform = `translate(${videoZoomTx}px, ${videoZoomTy}px) scale(${videoScale})`;
     };
     window.addEventListener("wheel", VideoZoom_wheelHandler, { capture: true, passive: false });
 
@@ -46,14 +65,14 @@ function initPkg_VideoTools_VideoZoom() {
         if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return;
         e.preventDefault();
         domVideoWrap.style.transition = "none";
-        VideoZoom_drag = { x: e.clientX, y: e.clientY, tx, ty };
+        VideoZoom_drag = { x: e.clientX, y: e.clientY, tx: videoZoomTx, ty: videoZoomTy };
     }, true);
 
     VideoZoom_moveHandler = (e) => {
         if (!VideoZoom_drag) return;
-        tx = VideoZoom_drag.tx + (e.clientX - VideoZoom_drag.x);
-        ty = VideoZoom_drag.ty + (e.clientY - VideoZoom_drag.y);
-        domVideoWrap.style.transform = `translate(${tx}px, ${ty}px) scale(${videoScale})`;
+        videoZoomTx = VideoZoom_drag.tx + (e.clientX - VideoZoom_drag.x);
+        videoZoomTy = VideoZoom_drag.ty + (e.clientY - VideoZoom_drag.y);
+        domVideoWrap.style.transform = `translate(${videoZoomTx}px, ${videoZoomTy}px) scale(${videoScale})`;
     };
     VideoZoom_upHandler = () => {
         if (!VideoZoom_drag) return;

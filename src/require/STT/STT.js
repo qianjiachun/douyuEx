@@ -1,9 +1,9 @@
-function stt_unescape(v) {
+export function stt_unescape(v) {
     if (!v) return
     return v.toString().replace(/@S/g, '/').replace(/@A/g, '@')
 }
 
-function stt_deserialize(raw) {
+export function stt_deserialize(raw) {
     if(!raw) return
     if (raw.includes('//')) {
         return raw.split('//').filter(e => e !== '').map(item => stt_deserialize(item))

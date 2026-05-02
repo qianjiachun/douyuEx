@@ -1,8 +1,11 @@
+import { getRandom } from '../../common.js';
+import { WebSocket_Packet } from './WebSocket.js';
+
 /*
    DouyuEx WebSocket UnLogin
     By: 小淳
 */
-class Ex_WebSocket_UnLogin {
+export class Ex_WebSocket_UnLogin {
     constructor(rid, msgHandler) {
         if ("WebSocket" in window) {
             this.timer = 0;

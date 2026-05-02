@@ -1,7 +1,9 @@
 {
   "name": "douyuEx",
   "scripts": {
-    "build": "node build.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -14,7 +16,13 @@
     "url": "https://github.com/qianjiachun/douyuEx/issues"
   },
   "homepage": "https://github.com/qianjiachun/douyuEx#readme",
+  "type": "module",
+  "devDependencies": {
+    "flv.js": "^1.6.2",
+    "vite": "^7.3.2",
+    "vite-plugin-monkey": "^7.1.9"
+  },
   "dependencies": {
-    "uglify-js": "^3.17.4"
+    "notice.js": "^0.5.0"
   }
 }

@@ -1,4 +1,6 @@
-function initPkg_LastLiveTime() {
+import { dateFormat, timeago } from '../../common.js';
+
+export function initPkg_LastLiveTime() {
   initPkg_LastLiveTime_Dom();
 }
 

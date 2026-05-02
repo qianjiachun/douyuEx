@@ -1,4 +1,7 @@
-function initPkg_Sign_Ad_FishPond() {
+import { dyToken, getUID, rid, showMessage, sleep } from '../../common.js';
+import { initPkg_Sign_Ad_Yuba } from './Sign_Ad_Yuba.js';
+
+export function initPkg_Sign_Ad_FishPond() {
 	getFishBall_Ad_FishPond();
 }
 
@@ -65,7 +68,7 @@ function getFishBall_Ad_FishPond() {
                                         // let isGet = await getFishBall_Ad_FishPond_Bubble(token);
                                         showMessage("【鱼塘鱼丸】任务完成", "success");
                                     }
-                                    
+
                                 })
                             }
                         }
@@ -74,7 +77,7 @@ function getFishBall_Ad_FishPond() {
                     }
                 }
             }
-            
+
         }
     });
 }

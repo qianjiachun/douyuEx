@@ -1,4 +1,6 @@
-async function initPkg_Sign_OPFOY() {
+import { getCCN, getCsrfToken, showMessage } from '../../common.js';
+
+export async function initPkg_Sign_OPFOY() {
   const csrfToken = await getCsrfToken();
   const ret = await signOPFOY(csrfToken);
   if (ret.error == 0 || ret.error == 31200) {
@@ -30,7 +32,7 @@ function signOPFOY(csrfToken) {
   });
 }
 
-function initPkg_Sign_OPFOY_Timer() {
+export function initPkg_Sign_OPFOY_Timer() {
   checkOPFOYViewStatus();
   setInterval(checkOPFOYViewStatus, 5 * 60 * 1000);
 }

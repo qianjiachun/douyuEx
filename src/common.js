@@ -1,9 +1,12 @@
+import 'notice.js/dist/noticejs.css'
+import NoticeJs from 'notice.js'
+
 // 全局变量及公共函数
-var exTimer = 0; // 总时钟句柄
+export var exTimer = 0; // 总时钟句柄
 var url = document.getElementsByTagName('html')[0].innerHTML;
 var urlLen = ("$ROOM.room_id =").length;
 var ridPos = url.indexOf('$ROOM.room_id =');
-var rid = "";
+export var rid = "";
 if (ridPos > 0) {
 	rid = url.substring(ridPos + urlLen, url.indexOf(';', ridPos + urlLen));
 	if (rid) rid = rid.trim();
@@ -20,20 +23,20 @@ if (ridPos > 0) {
 	}
 }
 
-url = null;	
+url = null;
 urlLen = null;
 ridPos = null;
-var my_uid = getCookieValue("acf_uid"); // 自己的uid
-var myName = "";
-var dyToken = getToken();
+export var my_uid = getCookieValue("acf_uid"); // 自己的uid
+export var myName = "";
+export var dyToken = getToken();
 // 功能条的显示定时器
-var exPanelTimer = null;
+export var exPanelTimer = null;
 
-function sleep(time) {
+export function sleep(time) {
 	return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-function formatSeconds(value) {
+export function formatSeconds(value) {
 	let secondTime = parseInt(value);
 	let minuteTime = 0;
 	let hourTime = 0;
@@ -55,7 +58,7 @@ function formatSeconds(value) {
 	return result;
 }
 
-function formatSeconds2(value) {
+export function formatSeconds2(value) {
 	var secondTime = parseInt(value); // 秒
 	var minuteTime = 0; // 分
 	var hourTime = 0; // 小时
@@ -78,7 +81,7 @@ function formatSeconds2(value) {
 	return result;
 }
 
-async function verifyFans(room_id, level) {
+export async function verifyFans(room_id, level) {
 	return true; // 2020年12月22日18:28:18
 	let ret = false;
 	let doc = await fetch('https://www.douyu.com/member/cp/getFansBadgeList',{
@@ -107,32 +110,32 @@ async function verifyFans(room_id, level) {
 	return ret;
 }
 
-function getStrMiddle(str, before, after) {
+export function getStrMiddle(str, before, after) {
 	let m = str.match(new RegExp(before + '(.*?)' + after));
 	return m ? m[1] : false;
 }
 
-function getToken() {
+export function getToken() {
 	// let cookie = document.cookie;
 	// let ret = getStrMiddle(cookie, "acf_uid=", ";") + "_" + getStrMiddle(cookie, "acf_biz=", ";") + "_" + getStrMiddle(cookie, "acf_stk=", ";") + "_" + getStrMiddle(cookie, "acf_ct=", ";") + "_" + getStrMiddle(cookie, "acf_ltkid=", ";");
 	let ret = getCookieValue("acf_uid") + "_" + getCookieValue("acf_biz") + "_" + getCookieValue("acf_stk") + "_" + getCookieValue("acf_ct") + "_" + getCookieValue("acf_ltkid");
 	return ret;
 }
 
-function getDyDid() {
+export function getDyDid() {
 	// let cookie = document.cookie;
 	// let ret = getStrMiddle(cookie, "dy_did=", ";");
 	let ret = getCookieValue("dy_did");
 	return ret;
 }
 
-function setCookie(cookiename, value){
+export function setCookie(cookiename, value){
 	let exp = new Date();
 	exp.setTime(exp.getTime() + 3*60*60*1000);
 	document.cookie = cookiename + "="+ escape (value) + "; path=/; expires=" + exp.toGMTString();
 }
 
-function getCookieValue(name){
+export function getCookieValue(name){
    let arr,reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
     if (arr = document.cookie.match(reg)) {
         return unescape(arr[2]);
@@ -140,7 +143,7 @@ function getCookieValue(name){
         return null;
     }
 }
-function getCCN() {
+export function getCCN() {
 	// let cookie = document.cookie;
 	// let ret = getStrMiddle(cookie, "acf_ccn=", ";");
 	let ret = getCookieValue("acf_ccn");
@@ -151,7 +154,7 @@ function getCCN() {
 	return ret;
 }
 
-function getCTN() {
+export function getCTN() {
 	// let cookie = document.cookie;
 	// let ret = getStrMiddle(cookie, "acf_ccn=", ";");
 	let ret = getCookieValue("acf_ctn");
@@ -162,7 +165,7 @@ function getCTN() {
 	return ret;
 }
 
-function getCSRF() {
+export function getCSRF() {
 	let ret = getCookieValue("cvl_csrf_token");
 	if (ret == null) {
 		setCookie("cvl_csrf_token", "1");
@@ -171,12 +174,12 @@ function getCSRF() {
 	return ret;
 }
 
-function getUID() {
+export function getUID() {
 	let ret = getCookieValue("acf_uid");
 	return ret;
 }
 
-function showMessage(msg, type="success", options) {
+export function showMessage(msg, type="success", options) {
 	// type: success[green] error[red] warning[orange] info[blue]
 	let option = {
 		text: msg,
@@ -187,13 +190,13 @@ function showMessage(msg, type="success", options) {
 	new NoticeJs(option).show();
 }
 
-function openPage(url, b=true) {
+export function openPage(url, b=true) {
 	GM_openInTab(url, {
 		active: b
 	});
 }
 
-function closePage() {
+export function closePage() {
 	if (navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") != -1) {
 		window.location.href = "about:blank";
 		window.close();
@@ -204,7 +207,7 @@ function closePage() {
 	}
 }
 
-function getQueryString(name) {
+export function getQueryString(name) {
 	let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 	if (window.location.hash.indexOf("?") < 0) {
 		return null;
@@ -214,7 +217,7 @@ function getQueryString(name) {
 	return null;
 }
 
-function dateFormat(fmt, date) {
+export function dateFormat(fmt, date) {
 	let o = {
 		"M+": date.getMonth() + 1,
 		"d+": date.getDate(),
@@ -232,7 +235,7 @@ function dateFormat(fmt, date) {
 	return fmt;
 }
 
-function timeago(old) {
+export function timeago(old) {
 	let returnText = "";
 	const nowDate = new Date().getTime(); //当前时间
 	const setDate = new Date(old).getTime();
@@ -253,18 +256,18 @@ function timeago(old) {
 	return returnText;
 }
 
-function getRandom(min, max) {
+export function getRandom(min, max) {
 	return Math.floor(Math.random() * (max - min) + min);
 }
 
-function isRid(str) {
+export function isRid(str) {
 	if (/^[0-9]+$/.test(str)) {
 		return true;
 	} else {
 		return false;
 	}
 }
-function getAvailableSheet(index) {
+export function getAvailableSheet(index) {
     let ret = -1;
     for (let i = index; i < document.styleSheets.length - index; i++) {
         if (document.styleSheets[i].href == null) {
@@ -277,7 +280,7 @@ function getAvailableSheet(index) {
     return ret;
 }
 
-function showMessageWindow(title, content, callback){
+export function showMessageWindow(title, content, callback){
     if(window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission(function(status) {
             var notice_ = new Notification(title, { body: content });
@@ -285,10 +288,10 @@ function showMessageWindow(title, content, callback){
 				callback();
             }
         });
-    }   
+    }
 }
 
-function getUserName() {
+export function getUserName() {
 	return new Promise(resovle => {
 		fetch('https://www.douyu.com/member/cp',{
 			method: 'GET',
@@ -306,42 +309,42 @@ function getUserName() {
 	})
 }
 
-function getTextareaPosition(element) {
+export function getTextareaPosition(element) {
 	// 如果元素是textarea，直接使用selectionStart获取位置
 	if (element.tagName === 'TEXTAREA') {
 			return element.selectionStart;
 	}
 	// 否则处理为contenteditable元素
 	let cursorPos = 0;
-	
+
 	// 兼容旧版IE
 	if (document.selection) {
 			const selectRange = document.selection.createRange();
 			const textRange = element.createTextRange();
 			const preCaretRange = textRange.duplicate();
-			
+
 			preCaretRange.moveToBookmark(selectRange.getBookmark());
 			preCaretRange.setEndPoint('EndToEnd', textRange);
 			cursorPos = preCaretRange.text.length;
-	} 
+	}
 	// 现代浏览器
 	else if (window.getSelection) {
 			const selection = window.getSelection();
-			
+
 			if (selection.rangeCount > 0) {
 					const range = selection.getRangeAt(0).cloneRange();
 					range.selectNodeContents(element);
-					range.setEnd(selection.rangeCount > 0 ? selection.getRangeAt(0).endContainer : element, 
+					range.setEnd(selection.rangeCount > 0 ? selection.getRangeAt(0).endContainer : element,
 											selection.rangeCount > 0 ? selection.getRangeAt(0).endOffset : 0);
-					
+
 					cursorPos = range.toString().length;
 			}
 	}
-	
+
 	return cursorPos;
 }
 
-function showExRightPanel(name) {
+export function showExRightPanel(name) {
 	let panels = [
 		{
 			name: "弹幕发送小助手",
@@ -377,7 +380,7 @@ function showExRightPanel(name) {
 	}
 }
 
-function getTimeDiff(t1, t2) {
+export function getTimeDiff(t1, t2) {
 	if (t1 < t2) {
 		return -1;
 	} else{
@@ -398,32 +401,32 @@ function getTimeDiff(t1, t2) {
 	}
 }
 
-function debounce(func, wait) {
+export function debounce(func, wait) {
     let timer;
     return function() {
       let context = this;
       let args = arguments;
- 
+
       if (timer) clearTimeout(timer);
- 
+
       let callNow = !timer;
- 
+
       timer = setTimeout(() => {
         timer = null;
       }, wait)
- 
+
       if (callNow) func.apply(context, args);
     }
 }
 
-function exportJsonToExcel(header, body, fileName = 'download.xlsx') {
+export function exportJsonToExcel(header, body, fileName = 'download.xlsx') {
     let aoa = [];
     aoa.push(header, ...body);
     let sheet = XLSX.utils.aoa_to_sheet(aoa);
     openDownloadDialog(sheet2blob(sheet), fileName);
 }
- 
-function openDownloadDialog(url, saveName)
+
+export function openDownloadDialog(url, saveName)
 {
 	if(typeof url == 'object' && url instanceof Blob)
 	{
@@ -448,7 +451,7 @@ function openDownloadDialog(url, saveName)
 		}, 1500);
 	}
 }
-function sheet2blob(sheet, sheetName) {
+export function sheet2blob(sheet, sheetName) {
 	sheetName = sheetName || 'sheet1';
 	var workbook = {
 		SheetNames: [sheetName],
@@ -473,7 +476,7 @@ function sheet2blob(sheet, sheetName) {
 	return blob;
 }
 
-function downloadFile(name, data) {
+export function downloadFile(name, data) {
     var urlObject = unsafeWindow.URL || unsafeWindow.webkitURL || unsafeWindow;
     var export_blob = new Blob([data]);
     var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
@@ -491,9 +494,9 @@ function downloadFile(name, data) {
 			} catch (e) {}
 		}, 1500);
 	}
-} 
+}
 
-function timeText2Ms(text) {
+export function timeText2Ms(text) {
 	let ret = 0;
 	let arr = text.split(":");
 	if (arr.length === 1) {
@@ -506,18 +509,18 @@ function timeText2Ms(text) {
 	return ret * 1000;
 }
 
-function resizeWindow() {
+export function resizeWindow() {
   const resizeEvent = new Event("resize");
   window.dispatchEvent(resizeEvent);
 }
 
-function isValidImageFile(filename) {
+export function isValidImageFile(filename) {
   const validExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".bmp", ".ico", ".tiff", ".tif"];
   const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
   return validExtensions.includes(ext);
 }
 
-function getCsrfToken() {
+export function getCsrfToken() {
   return new Promise((resolve) => {
     GM_xmlhttpRequest({
       method: 'POST',
@@ -549,7 +552,7 @@ function getCsrfToken() {
   });
 }
 
-function getValidDom(queryList) {
+export function getValidDom(queryList) {
 	for (const query of queryList) {
 		let dom = null;
 		if (typeof query === "string") {
@@ -562,7 +565,7 @@ function getValidDom(queryList) {
 	return null;
 }
 
-function getValidDomList(queryList) {
+export function getValidDomList(queryList) {
 	for (const query of queryList) {
 		let dom = [];
 		if (typeof query === "string") {

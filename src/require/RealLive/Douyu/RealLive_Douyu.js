@@ -1,8 +1,11 @@
+import { getCookieValue } from '../../../common.js';
+import { hex_md5 } from '../../MD5/md5.js';
+
 /*
     Get Douyu Real Live URL (http/https)
     By: 小淳
 */
-function getRealLive_Douyu(room_id, is_video, is_https, qn, reallive_callback) {
+export function getRealLive_Douyu(room_id, is_video, is_https, qn, reallive_callback) {
   // 第一个参数传入string,表示房间号（注意是真实房间号）
   // 第二个参数传入bool,表示是视频还是音频
   // 第三个参数传入bool,表示是否返回https地址。注意https地址只能使用一次，使用过以后需要再次获取；http地址无限制

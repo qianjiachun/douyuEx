@@ -1,4 +1,6 @@
-function initPkg_ExpandTool_P2P() {
+import { showMessage } from '../../common.js';
+
+export function initPkg_ExpandTool_P2P() {
     ExpandTool_P2P_insertDom();
     ExpandTool_P2P_insertFunc();
     initPkg_ExpandTool_P2P_Set();
@@ -8,7 +10,7 @@ function ExpandTool_P2P_insertDom() {
     let a = document.createElement("span");
     // a.className = "extool__bsize";
     a.innerHTML = '<label title="阻止p2p在后台占用网速，开启后直播画面会在刚进入页面时卡一下"><input id="extool__p2p" type="checkbox">阻止p2p上传</label>';
-    
+
     let b = document.getElementsByClassName("extool")[0];
     b.insertBefore(a, b.childNodes[0]);
 }
@@ -44,7 +46,7 @@ function initPkg_ExpandTool_P2P_Set() {
 }
 
 
-function initKillP2P() {
+export function initKillP2P() {
 	let ret = localStorage.getItem("ExSave_P2P");
 	if (ret != null) {
 		let retJson = JSON.parse(ret);

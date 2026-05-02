@@ -1,4 +1,6 @@
-async function initPkg_Sign_Follow() {
+import { getCCN } from '../../common.js';
+
+export async function initPkg_Sign_Follow() {
   // 此处为了完成斗鱼等级任务
   const room_id = "3186571";
   await followRoom(room_id);

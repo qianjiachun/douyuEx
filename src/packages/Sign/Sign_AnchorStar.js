@@ -1,4 +1,7 @@
-async function initPkg_Sign_AnchorStar() {
+import { getCCN, rid, showMessage, sleep } from '../../common.js';
+import { addFollowRoom, removeFollowRoom } from '../../require/Activity/Activity.js';
+
+export async function initPkg_Sign_AnchorStar() {
   const roomListRes = await getAnchorStarRoomList().catch(() => {});
   const roomList = roomListRes.data.rankItemList;
   if (!roomList || (roomList && roomList.length == 0)) return;

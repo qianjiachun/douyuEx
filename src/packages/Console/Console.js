@@ -1,4 +1,6 @@
-function initPkg_Console() {
+import { curVersion } from '../Update/Update.js';
+
+export function initPkg_Console() {
     console_watermark_douyEx();
 }
 

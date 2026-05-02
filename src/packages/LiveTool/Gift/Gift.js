@@ -1,6 +1,11 @@
+import { getStrMiddle, my_uid, rid, showMessage } from '../../../common.js';
+import { PostbirdAlertBox } from '../../../require/PostBirdAlertBox/postbirdAlertBox.js';
+import { sendBarrage } from '../../BarrageLoop/BarrageLoop.js';
+import { getType } from '../LiveTool.js';
+
 let isGiftOn = false;
 let giftWordList = {};
-function initPkg_LiveTool_Gift() {
+export function initPkg_LiveTool_Gift() {
     LiveTool_Gift_insertDom();
     LiveTool_Gift_insertFunc();
     initPkg_Gift_Set();
@@ -36,7 +41,7 @@ function LiveTool_Gift_insertDom() {
         </div>
     `;
     a.innerHTML = cell + panel;
-    
+
     let b = document.getElementsByClassName("livetool")[0];
     b.insertBefore(a, b.childNodes[0]);
 }
@@ -82,7 +87,7 @@ function LiveTool_Gift_insertFunc() {
 			a.style.display = "none";
 		}
     });
-    
+
     document.getElementById("gift__select").onclick = function() {
         if (this.options.length == 0) {
             return;
@@ -181,7 +186,7 @@ function saveData_isGift() {
     } else {
         ridArr.splice(index, 1);
     }
-    
+
 	let data = {
         rooms: ridArr,
     };
@@ -191,7 +196,7 @@ function saveData_isGift() {
 function initPkg_Gift_Set() {
 	// 设置初始化
 	let ret = localStorage.getItem("ExSave_Gift");
-	
+
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         giftWordList = retJson;
@@ -202,9 +207,9 @@ function initPkg_Gift_Set() {
             }
         }
     }
-    
+
     ret = localStorage.getItem("ExSave_isGift");
-	
+
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         let ridArr = [];
@@ -223,7 +228,7 @@ function initPkg_Gift_Set() {
     }
 }
 
-function initPkg_LiveTool_Gift_Handle(text) {
+export function initPkg_LiveTool_Gift_Handle(text) {
     if (isGiftOn == false) {
         return;
     }
@@ -288,7 +293,7 @@ async function setAllGiftTemplate() {
             reply: `感谢<id>续费钻粉`,
         },
     }
-    
+
     ret = {...roomGiftObj, ...bagGiftObj, ...diamondObj};
     GM_setClipboard(JSON.stringify(ret));
     showMessage("【自动谢礼物】礼物模板生成完毕，已复制到剪贴板，可直接导入", "success");

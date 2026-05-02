@@ -1,9 +1,12 @@
+import { rid } from "../../common.js";
+import { DomHook } from "../../require/DomHook/DomHook.js";
+
 let anchorPocketData = {
   t: 0,
   list: []
 };
 
-async function initPkg_CheckAnchorPocket() {
+export async function initPkg_CheckAnchorPocket() {
   await updateAnchorPocketData();
   new DomHook(".FansMedalPanel-enter", false, async (m) => {
     const targetDom = document.querySelector(".FansMedalInfo-head");

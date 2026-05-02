@@ -1,8 +1,13 @@
+import { getStrMiddle, my_uid, rid, showMessage } from '../../../common.js';
+import { PostbirdAlertBox } from '../../../require/PostBirdAlertBox/postbirdAlertBox.js';
+import { sendBarrage } from '../../BarrageLoop/BarrageLoop.js';
+import { getType } from '../LiveTool.js';
+
 let isReplyOn = false;
 let replyWordList = {};
 let isReplyCD = false;
 let replyCd = 0;
-function initPkg_LiveTool_Reply() {
+export function initPkg_LiveTool_Reply() {
     LiveTool_Reply_insertDom();
     LiveTool_Reply_insertFunc();
     initPkg_Reply_Set();
@@ -38,7 +43,7 @@ function LiveTool_Reply_insertDom() {
         </div>
     `;
     a.innerHTML = cell + panel;
-    
+
     let b = document.getElementsByClassName("livetool")[0];
     b.insertBefore(a, b.childNodes[0]);
 }
@@ -107,7 +112,7 @@ function LiveTool_Reply_insertFunc() {
 			a.style.display = "none";
 		}
     });
-    
+
     document.getElementById("reply__select").onclick = function() {
         if (this.options.length == 0) {
             return;
@@ -188,7 +193,7 @@ function saveData_isReply() {
 function initPkg_Reply_Set() {
 	// 设置初始化
 	let ret = localStorage.getItem("ExSave_Reply");
-	
+
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         replyWordList = retJson;
@@ -199,9 +204,9 @@ function initPkg_Reply_Set() {
             }
         }
     }
-    
+
     ret = localStorage.getItem("ExSave_isReply");
-	
+
 	if (ret != null) {
         let retJson = JSON.parse(ret);
         let ridArr = [];
@@ -220,14 +225,14 @@ function initPkg_Reply_Set() {
     }
 
     ret = localStorage.getItem("ExSave_ReplyCd");
-	
+
 	if (ret != null) {
         document.getElementById("reply__time").value = ret;
 	}
-    
+
 }
 
-function initPkg_LiveTool_Reply_Handle(text) {
+export function initPkg_LiveTool_Reply_Handle(text) {
     if (isReplyOn == false) {
         return;
     }
@@ -284,6 +289,6 @@ function initPkg_LiveTool_Reply_Handle(text) {
             }
         }
     }
-    
+
 }
 

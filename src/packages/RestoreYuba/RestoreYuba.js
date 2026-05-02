@@ -1,4 +1,6 @@
-function initPkg_RestoreYuba() {
+import { responseHook } from '../../require/ResponseHook/ResponseHook.js';
+
+export function initPkg_RestoreYuba() {
   responseHook((url, text) => {
     if (url.indexOf("group/getBindGroup") !== -1) {
       return text.replace('"group_status":4', '"group_status":0');
@@ -7,7 +9,7 @@ function initPkg_RestoreYuba() {
   });
 }
 
-function initPkg_RestoreYuba_restore() {
+export function initPkg_RestoreYuba_restore() {
   // 恢复被关闭的鱼吧
   let oldId = null;
   let newId = null;
@@ -23,7 +25,7 @@ function initPkg_RestoreYuba_restore() {
   RestoreYuba_changeDom(oldId, newId);
 }
 
-function RestoreYuba_checkRedirect() {
+export function RestoreYuba_checkRedirect() {
   const oldId = RestoreYuba_getYubaId(window.location.href);
   if (!oldId) return;
   getYubaStatus(oldId).then((data) => {

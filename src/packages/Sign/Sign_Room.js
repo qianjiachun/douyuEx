@@ -1,5 +1,7 @@
 
-function initPkg_Sign_Room(isAll) {
+import { dyToken, showMessage } from '../../common.js';
+
+export function initPkg_Sign_Room(isAll) {
 	signAllRoom(isAll);
 }
 function signAllRoom(isAll) {
@@ -54,7 +56,7 @@ function signAllRoom(isAll) {
     })
 }
 
-function signRoom(r) {
+export function signRoom(r) {
 	GM_xmlhttpRequest({
 		method: "POST",
 		url: "https://apiv2.douyucdn.cn/japi/roomuserlevel/apinc/checkIn?client_sys=android",

@@ -1,5 +1,9 @@
+import { getValidDom, rid, showMessage } from "../../../common.js";
+import { getRealLive_Douyu } from "../../../require/RealLive/Douyu/RealLive_Douyu.js";
+import flvjs from 'flv.js'
+
 let videoMetaData = null;
-function initPkg_VideoTools_MetaData() {
+export function initPkg_VideoTools_MetaData() {
   MetaData_init();
 }
 

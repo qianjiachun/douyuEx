@@ -1,4 +1,10 @@
-function initPkg_BarragePanel() {
+import { openPage, rid, showMessage } from '../../common.js';
+import { DomHook } from '../../require/DomHook/DomHook.js';
+import { getImageDanmakuHtml } from '../ImageDanmaku/ImageDanmaku.js';
+import { addMuteUser } from '../LiveTool/Mute/Mute.js';
+import { initPkg_BarragePanel_Tip } from './BarragePanel_Tip.js';
+
+export function initPkg_BarragePanel() {
 	let timer = setInterval(() => {
         if (document.getElementsByClassName("danmuTips-1ee820").length > 0) {
             clearInterval(timer);
@@ -97,7 +103,7 @@ function setBarragePanelCallBack() {
             barragePanel__replaceImageDanmakuInPanel();
         });
     })
-    
+
 }
 
 function getUserFansMedal(userName) {
@@ -149,7 +155,7 @@ function setUserFansMedal(dom, userName) {
         a.id = "barragePanel__id";
         dom.insertBefore(a, dom.childNodes[0] || null);
     }
-    
+
 
     let fansMedal = getUserFansMedal(userName);
     if (fansMedal != false) {
@@ -251,7 +257,7 @@ function setBarrgePanelFunc(parentDom, id) {
             showMessage(ret.msg, "error");
         }
     };
-    
+
     document.getElementById("barragePanel__search").onclick = async () => {
         let uid = await getUserUid(id);
         if (uid !== "") {
@@ -268,13 +274,13 @@ function insertBarragePanel_SearchBarrage_Dom(parentDom) {
     } else {
         newMarginLeft = "237px";
     }
-    
+
     let a = document.createElement("div");
     a.className = "barragePanel__funcPanel";
     a.style = `margin-left:${newMarginLeft}`;
     a.innerHTML = `
     <ul class="layui-timeline" id="barragePanel__searchPanel">
-        
+
     </ul>
     `;
 

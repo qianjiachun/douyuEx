@@ -1,4 +1,7 @@
-function initPkg_Sign_Ad_Yuba() {
+import { dyToken, getUID, rid, showMessage, sleep } from '../../common.js';
+import { initPkg_Sign_Ad_Search } from './Sign_Ad_Search.js';
+
+export function initPkg_Sign_Ad_Yuba() {
 	getFishBall_Ad_Yuba();
 }
 

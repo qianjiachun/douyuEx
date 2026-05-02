@@ -1,8 +1,10 @@
+import { getTextareaPosition } from '../../../common.js';
+
 let barrageMemoryArr = [];
 let barrageMemoryIndex = 0; // 当前 指向索引
 let prevTextareaPosition = 0;
 const BARRAGE_MEMORY_LIMIT = 200;
-function initPkg_ChatMemory() {
+export function initPkg_ChatMemory() {
     initPkg_ChatMemory_Func();
 }
 

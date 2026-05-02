@@ -1,4 +1,7 @@
-async function initPkg_Sign_FansTree() {
+import { showMessage, getCCN } from '../../common.js';
+import { myFansBadgeList } from '../Lottery/Lottery.js';
+
+export async function initPkg_Sign_FansTree() {
   for (let i = 0; i < myFansBadgeList.length; i++) {
     const roomId = myFansBadgeList[i];
     let ret = await signRoomTree(roomId);

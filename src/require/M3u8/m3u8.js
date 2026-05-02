@@ -1,4 +1,4 @@
-function M3U8() {
+export function M3U8() {
     var _this = this; // access root scope
 
     this.ie = navigator.appVersion.toString().indexOf(".NET") > 0;
@@ -187,7 +187,7 @@ function M3U8() {
                                 type: "octet/stream"
                             })); // IE can't read Blob.arrayBuffer :(
 
-                            reader.addEventListener("loadend", function(event) { 
+                            reader.addEventListener("loadend", function(event) {
 
                                 resolve(reader.result);;
                                 (_this.onprogress && _this.onprogress({
@@ -210,10 +210,10 @@ function M3U8() {
                             data.push(d[n]);
                         }
                         let step = _this.step;
-                        var increment = arr[i + 2] ? 2 : 1; 
+                        var increment = arr[i + 2] ? 2 : 1;
 
                         if (_this.aborted) {
-                            data = null; 
+                            data = null;
                             _this.aborted();
                             return; // exit promise
                         } else if (arr[i + step]) {

@@ -2,10 +2,10 @@
     Get Huya Real Live URL (https)
     By: 小淳
 */
-function getRealLive_Huya(rid, qn, reallive_callback) {
+export function getRealLive_Huya(rid, qn, reallive_callback) {
     // 第一个参数传入string,表示房间号（注意是真实房间号）
     // 第二个参数传入string(1,2,3,4),表示清晰度 流畅_500(1) 超清_2500(2) 蓝光4M_4500(3) 原画(4)
-    // 第三个参数传入string(1,2,3,4),表示线路 1:主线路 2:备用线路1 3:备用线路2 4:备用线路3 
+    // 第三个参数传入string(1,2,3,4),表示线路 1:主线路 2:备用线路1 3:备用线路2 4:备用线路3
     // 第四个参数传入回调函数，最好是箭头函数，用于处理返回的地址，例: (url, msg) => {console.log(url, msg)}
     // 这个回调函数有2个参数，第一个是直播流地址，第二个是信息，用于判断错误
     let qn_data = "500";

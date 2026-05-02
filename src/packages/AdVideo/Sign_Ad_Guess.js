@@ -1,4 +1,8 @@
-function initPkg_Sign_Ad_Guess() {
+import { dyToken, getUID, rid, showMessage, sleep } from '../../common.js';
+import { DyWacthAd } from '../../require/DyWatchAd/DyWatchAd.js';
+import { initPkg_AdVideo_Xiaoxiaole } from './AdVideo_Xiaoxiaole.js';
+
+export function initPkg_Sign_Ad_Guess() {
 	getFishBall_Ad_Guess();
 }
 

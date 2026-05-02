@@ -1,10 +1,12 @@
+import { getCCN, rid, showMessage, sleep } from '../../common.js';
+
 let autoFishInfo = [];
 let baitId = null;
 let nextFishEndTime = 0;
 let isFishing = false;
 let timerAutoFish = 0;
 
-function initPkg_ExpandTool_AutoFish() {
+export function initPkg_ExpandTool_AutoFish() {
   ExpandTool_AutoFish_insertDom();
   ExpandTool_AutoFish_insertFunc();
   ExpandTool_AutoFish_Set();
@@ -26,7 +28,7 @@ function ExpandTool_AutoFish_insertFunc() {
   document.querySelectorAll('input[name="autofish_mode"]').forEach(radio => {
     radio.addEventListener("change", saveData_AutoFish);
   });
-  
+
   document.getElementById("extool__autofish_start").addEventListener("click", async () => {
     saveData_AutoFish();
     const isStart = document.getElementById("extool__autofish_start").checked;
@@ -81,7 +83,7 @@ function ExpandTool_AutoFish_insertFunc() {
     timerAutoFish = setInterval(async () => {
       // 检查是否在钓鱼大赛时间内
       if (!isInFishingTime()) return;
-      
+
       if (isFishing) {
         // 正在钓鱼中，检测是否到时间收杆
         const now = new Date().getTime();
@@ -162,7 +164,7 @@ function saveData_AutoFish() {
   let value = checkbox.checked;
   let mode = modeRadio.value;
   let data = AutoFish_getSave();
-  
+
   if (value) {
     if (!data.rids.includes(rid)) data.rids.push(rid);
     data.modes[rid] = mode;
@@ -170,7 +172,7 @@ function saveData_AutoFish() {
     data.rids = data.rids.filter((item) => item !== rid);
     delete data.modes[rid];
   }
-  
+
   localStorage.setItem("ExSave_AutoFish", JSON.stringify(data));
 }
 
@@ -181,11 +183,11 @@ function AutoFish_getRids() {
 function ExpandTool_AutoFish_Set() {
   let data = AutoFish_getSave();
   if (!data.rids.includes(rid)) return;
-  
+
   // 设置模式（兼容旧版本，默认全天）
   let mode = data.modes && data.modes[rid] ? data.modes[rid] : "all";
   document.querySelector(`input[name="autofish_mode"][value="${mode}"]`).checked = true;
-  
+
   document.getElementById("extool__autofish_start").click();
 }
 
@@ -279,11 +281,11 @@ function isInFishingTime() {
   let modeRadio = document.querySelector('input[name="autofish_mode"]:checked');
   let mode = modeRadio ? modeRadio.value : "all";
   if (mode === "all") return true;
-  
+
   let now = new Date();
   let hour = now.getHours();
   let minute = now.getMinutes();
-  
+
   // 钓鱼大赛：12:00-24:00，每个整点的前半小时（包括00:00-00:30）
   return (hour >= 12 && minute < 30) || (hour === 0 && minute < 30);
 }

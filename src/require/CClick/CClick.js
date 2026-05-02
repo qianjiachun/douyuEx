@@ -1,6 +1,6 @@
-/* 
+/*
     CClick
-    单双击/长按不冲突的解决方案 
+    单双击/长按不冲突的解决方案
     By: 小淳
 
     调用方法:
@@ -9,7 +9,7 @@
     a.dbClick((e) => {// TODO});
     a.longClick((e) => {// TODO});
 */
-class CClick {
+export class CClick {
     constructor(element) {
         const CONST_LONG_TIME = 700; // 长按多少ms执行
         const CONST_DOUBLE_TIME = 0; // 双击的间隔

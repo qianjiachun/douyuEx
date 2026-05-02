@@ -1,4 +1,6 @@
-function initPkg_Sign_Ad_Sign() {
+import { dyToken, getUID, showMessage } from '../../common.js';
+
+export function initPkg_Sign_Ad_Sign() {
 	getFishBall_Ad_Sign();
 }
 
@@ -39,7 +41,7 @@ function getFishBall_Ad_Sign() {
             }
 		}
 	});
-    
-    
-	
+
+
+
 }

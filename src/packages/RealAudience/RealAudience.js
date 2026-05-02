@@ -1,3 +1,6 @@
+import { dateFormat, formatSeconds, getValidDom, openPage, rid } from "../../common.js";
+import { StyleHook_set } from "../../require/StyleHook/StyleHook.js";
+
 let real_info = {
 	view: "",
 	showtime: 1428,
@@ -11,7 +14,7 @@ let real_info = {
 }
 let hasAvatarBottom = false;
 
-function initPkg_RealAudience() {
+export function initPkg_RealAudience() {
 	initPkg_RealAudience_StyleHook();
 	initPkg_RealAudience_Dom();
 	initPkg_RealAudience_Func();
@@ -61,7 +64,7 @@ function initPkg_RealAudience_Dom() {
 	html += '<span id="real-audience__time" style="white-space: nowrap;display: block;">' + "已播:" + "****" + "</span>";
 	html += '<span id="real-audience__watchtime" style="white-space: nowrap;display: none;">' + "已观看:" + "****" + "</span>";
 	a.innerHTML = html;
-	
+
 	let b = getValidDom([".layout-Player-announce", ".layout-Player-rankAll"]);
 	b.insertBefore(a, b.childNodes[0]);
 }
@@ -94,17 +97,17 @@ async function setRealViewer() {
 	real_info.paid_person_count = retData.data["gift.paid.uv"] || 0;
 	real_info.money_yc = Number(retData.data["gift.paid.price"] / 100 || 0).toFixed(2);
 	real_info.money_total = Number(retData.data["gift.all.price"] / 100 || 0).toFixed(2);
-	
+
 	document.getElementById("real-audience__total").innerText = real_info.view;
 	document.getElementById("real-audience__t").title = "今日累计活跃人数:" + real_info.view + " 弹幕人数:" + real_info.danmu_person_count + " 送礼人数:" + real_info.gift_person_count + " 付费人数:" + real_info.paid_person_count;
 	document.getElementById("real-audience__barrage").innerText = real_info.danmu_person_count;
 	// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
 	document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
 	document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
-	
+
 	document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
 	document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000")))) + "\n已观看:" + formatSeconds(todayWatchData.data.todayWatch);
-	
+
 	if (todayWatchData.error == 0) {
 		document.getElementById("real-audience__watchtime").innerText = "已观看:" + formatSeconds(todayWatchData.data.todayWatch);
 		document.getElementById("real-audience__watchtime").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000")))) + "\n已观看:" + formatSeconds(todayWatchData.data.todayWatch);
@@ -122,7 +125,7 @@ function setAvatarVideo() {
 	}
 	let videoUrl = homeDom.href + "?type=video";
 	let videoReplayUrl = homeDom.href + "?type=liveReplay";
-	
+
 	setAvatarVideo_Dom();
 	setAvatarYuba_Dom();
 	setAvatarVideo_Func(videoUrl, videoReplayUrl);

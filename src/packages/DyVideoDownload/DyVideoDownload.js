@@ -1,4 +1,10 @@
-function initPkg_DyVideoDownload() {
+import { dateFormat, downloadFile, exportJsonToExcel, formatSeconds2, showMessage } from "../../common.js";
+import { ASS } from "../../require/ASS/ASS.js";
+import { DyVideoSign } from "../../require/DyVideoSign/DyVideoSign.js";
+import { M3U8 } from "../../require/M3u8/m3u8.js";
+import { getVideoBarrageByTime, getVideoStreamUrl } from "./apis.js";
+
+export function initPkg_DyVideoDownload() {
     let timer = setInterval(() => {
         let toolBarShadow = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot;
         if (toolBarShadow) {
@@ -95,7 +101,7 @@ function initPkg_DyVideoDownload_Func() {
 
         let dyVideoSign = new DyVideoSign($DATA.ROOM.point_id);
         let sign = dyVideoSign.getSign();
-        
+
         dyVideoSign = null;
         let ret = await getVideoStreamUrl(vid, sign);
 
@@ -145,7 +151,7 @@ function initPkg_DyVideoDownload_Func() {
 
         let dyVideoSign = new DyVideoSign($DATA.ROOM.point_id);
         let sign = dyVideoSign.getSign();
-        
+
         dyVideoSign = null;
         let ret = await getVideoStreamUrl(vid, sign);
 
@@ -173,7 +179,7 @@ function initPkg_DyVideoDownload_Func() {
         let videoTitle = document.getElementsByTagName("demand-video-title")[0].shadowRoot.querySelector(".Title-Main").innerText;
         let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
         showMessage("正在获取弹幕数据，请勿切换页面...", "info");
-        
+
         let pre = 0;
         let header = ["vid", "hashid", "uid", "昵称", "弹幕", "时间", "发送时间"];
         let body = [];

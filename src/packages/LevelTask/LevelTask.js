@@ -1,4 +1,6 @@
-async function initPkg_LevelTask_Timer() {
+import { getCCN, rid, showMessage } from '../../common.js';
+
+export async function initPkg_LevelTask_Timer() {
   checkLevelTask();
   setInterval(checkLevelTask, 35 * 1000);
 }

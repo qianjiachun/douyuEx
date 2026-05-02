@@ -1,4 +1,7 @@
-function initPkg_CopyRealLive() {
+import { getValidDom, rid, showMessage } from "../../common.js";
+import { getRealLive_Douyu } from "../../require/RealLive/Douyu/RealLive_Douyu.js";
+
+export function initPkg_CopyRealLive() {
 	initPkg_CopyRealLive_Dom();
 	initPkg_CopyRealLive_Func();
 }

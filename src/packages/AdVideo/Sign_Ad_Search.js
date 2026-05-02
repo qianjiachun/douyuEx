@@ -1,4 +1,7 @@
-function initPkg_Sign_Ad_Search() {
+import { dyToken, getUID, rid, showMessage, sleep } from '../../common.js';
+import { initPkg_Sign_Ad_Guess } from './Sign_Ad_Guess.js';
+
+export function initPkg_Sign_Ad_Search() {
 	getFishBall_Ad_Search();
 }
 

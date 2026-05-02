@@ -1,4 +1,6 @@
-async function initPkg_Sign_ActqzsUserTask() {
+import { dateFormat, getCCN, showMessage } from '../../common.js';
+
+export async function initPkg_Sign_ActqzsUserTask() {
   const rids = ["5189167", "290935", "6979222", "5132174", "4042402"];
   let activityId = await getActivityId(dateFormat("yyyyMM", new Date()));
   if (!activityId) {

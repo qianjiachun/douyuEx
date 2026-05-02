@@ -1,6 +1,8 @@
+import { StyleHook_remove, StyleHook_set } from '../../require/StyleHook/StyleHook.js';
+
 let isRemoveDanmakuBackground = getLocalIsRemoveDanmakuBackground();
 if (isRemoveDanmakuBackground) removeDanmakuBackground();
-function initPkg_Shield_RemoveDanmakuBackground() {
+export function initPkg_Shield_RemoveDanmakuBackground() {
   const shieldTool = document.getElementsByClassName("FilterKeywords")[0];
   shieldTool.insertAdjacentHTML(
     "afterbegin",
@@ -14,7 +16,7 @@ function initPkg_Shield_RemoveDanmakuBackground() {
     </div>
   </div>`
   );
-  
+
   const dom = document.getElementById("ex-removeDanmakuBackground");
   const statusSpan = dom.querySelector(".FilterSwitchStatus-status");
   const switchSpan = dom.querySelector(".FilterSwitchStatus-switch");

@@ -1,8 +1,10 @@
+import { dyToken, showMessage, sleep } from '../../common.js';
+
 let signedYuba = 0;
 let totalYuba = 0;
 let doneYuba = 0;
 let signCountMap = {};
-function initPkg_Sign_Yuba() {
+export function initPkg_Sign_Yuba() {
     signYubaList();
 }
 
@@ -67,7 +69,7 @@ async function signYuba(group_id, t) {
                 // showMessage("【鱼吧】" + group_id + response.response.message, "warning");
                 // console.log("【鱼吧】" + group_id + response.response.message);
             }
-            
+
             signYubaSupplementary(group_id);
             if (doneYuba == totalYuba) {
                 // 完成全部签到
@@ -77,7 +79,7 @@ async function signYuba(group_id, t) {
                     } else {
                         showMessage("【鱼吧】" + String(signedYuba) + "个鱼吧签到完成，" + String(totalYuba - signedYuba) + "个鱼吧已签到", "success");
                     }
-                    
+
                 } else {
                     showMessage("【鱼吧】"+ String(totalYuba) + "个鱼吧已签到", "warning");
                 }
@@ -153,7 +155,7 @@ function getSupplementaryNums(group_id) {
     })
 }
 
-function signSupplementary(group_id) {   
+function signSupplementary(group_id) {
     return new Promise(resolve => {
         GM_xmlhttpRequest({
             method: "POST",

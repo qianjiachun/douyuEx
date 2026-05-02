@@ -1,5 +1,10 @@
+import { formatSeconds, getValidDom, openPage, showMessage } from "../../common.js";
+import { CClick } from "../../require/CClick/CClick.js";
+import { DomHook } from "../../require/DomHook/DomHook.js";
+import { createNewVideo, videoPlayerArr } from "../PopupPlayer/PopupPlayer.js";
+
 let followListHook;
-function initPkg_FollowList() {
+export function initPkg_FollowList() {
     let intID = setInterval(() => {
         if (getValidDom([".Header-follow-content", "#js-backpack-enter"])) {
             followListHook = new DomHook(".Header-follow-content", false, handleFollowList);

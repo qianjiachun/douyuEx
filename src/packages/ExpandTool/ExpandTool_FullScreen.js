@@ -1,4 +1,6 @@
-function initPkg_ExpandTool_FullScreen() {
+import { getValidDom, showMessage } from '../../common.js';
+
+export function initPkg_ExpandTool_FullScreen() {
     ExpandTool_FullScreen_insertDom();
     ExpandTool_FullScreen_insertFunc();
     ExpandTool_HighestVideoQuality_insertFunc();
@@ -10,7 +12,7 @@ function ExpandTool_FullScreen_insertDom() {
     let a = document.createElement("span");
     // a.className = "extool__bsize";
     a.innerHTML = '<label title="自动网页全屏"><input id="extool__fullscreen" type="checkbox">自动网页全屏</label><label title="自动最高画质"><input id="extool__highestvideoquality" type="checkbox">自动最高画质</label>';
-    
+
     let b = document.getElementsByClassName("extool")[0];
     b.insertBefore(a, b.childNodes[0]);
 }
@@ -46,7 +48,7 @@ function initPkg_ExpandTool_FullScreen_Set() {
 }
 
 
-function initFullScreen() {
+export function initFullScreen() {
 	let ret = localStorage.getItem("ExSave_FullScreen");
 	if (ret != null) {
 		let retJson = JSON.parse(ret);
@@ -106,7 +108,7 @@ function initPkg_ExpandTool_HighestVideoQuality_Set() {
 	}
 }
 
-function initHighestVideoQuality() {
+export function initHighestVideoQuality() {
 	let ret = localStorage.getItem("ExSave_HighestVideoQuality");
 	if (ret != null) {
 		let retJson = JSON.parse(ret);
@@ -127,7 +129,7 @@ function highestVideoQuality() {
             const highestQualityOption = qualityContainer.querySelector('ul > li:first-child');
             if (highestQualityOption) {
                 const isAlreadySelected = highestQualityOption.matches('[class^="selected-"]');
-                if (!isAlreadySelected) highestQualityOption.click(); 
+                if (!isAlreadySelected) highestQualityOption.click();
             }
         }
     }, 1000);

@@ -1,4 +1,6 @@
-function initPkg_Sign_Yuba_Like() {
+import { dyToken, showMessage } from '../../common.js';
+
+export function initPkg_Sign_Yuba_Like() {
     likeYuba();
 }
 

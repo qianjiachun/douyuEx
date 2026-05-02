@@ -61,10 +61,9 @@
 [项目地址](https://github.com/qianjiachun/douyuEx)
 
 1. 在`./src`下修改代码
-2. `npm run build`
-3. 把`./dist/douyuex.js`的代码复制到tampermonkey中去
-
-
+2. 执行 `npm install` 安装依赖（首次需要）
+3. 执行 `npm run build`（基于 `vite + vite-plugin-monkey` 构建）
+4. 产物位于 `./dist/douyuex.user.js`，可直接导入 Tampermonkey
 
 > [如何编译与维护（已过期）](https://qianjiachun.github.io/DouyuEx/compile)
 

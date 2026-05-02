@@ -1,4 +1,8 @@
-function initPkg_BarragePanel_Tip() {
+import { DomHook } from '../../require/DomHook/DomHook.js';
+import { sendBarrage } from '../BarrageLoop/BarrageLoop.js';
+import { getImageDanmakuFromImgSrc } from '../ImageDanmaku/ImageDanmaku.js';
+
+export function initPkg_BarragePanel_Tip() {
     setBarragePanelTipCallBack();
 }
 

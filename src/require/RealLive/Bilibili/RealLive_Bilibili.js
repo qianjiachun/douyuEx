@@ -2,7 +2,7 @@
     Get Bilibili Real Live URL (https)
     By: 小淳
 */
-function getRealLive_Bilibili(room_id, qn, cdn, reallive_callback) {
+export function getRealLive_Bilibili(room_id, qn, cdn, reallive_callback) {
     // 第一个参数传入string,表示房间号（注意是真实房间号）
     // 第二个参数传入string(1,2,3,4,5),表示清晰度 流畅_80(1) 高清_150(2) 超清_250(3) 蓝光_400p(4) 原画_10000p(5)
     // 第三个参数传入string(1,2,3,4),表示线路 1:主线路 2:备用线路1 3:备用线路2 4:备用线路3 此参数只对HTTPS有效

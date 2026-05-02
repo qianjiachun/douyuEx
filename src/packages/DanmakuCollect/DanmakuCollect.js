@@ -1,4 +1,7 @@
-function initPkg_DanmakuCollect() {
+import { responseHook } from '../../require/ResponseHook/ResponseHook.js';
+import { DomHook } from '../../require/DomHook/DomHook.js';
+
+export function initPkg_DanmakuCollect() {
   initPkg_DanmakuCollect_Dom();
   const textarea = document.getElementsByClassName("ChatSend-txt")[0];
   const collectButton = document.getElementsByClassName("ChatBarrageCollect")[0];

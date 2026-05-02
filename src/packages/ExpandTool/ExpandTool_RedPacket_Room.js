@@ -1,6 +1,8 @@
+import { getCCN, rid, showMessage, verifyFans } from '../../common.js';
+
 let redpackets_room_arr = [];
 let redpacket_room_timer; // 时钟句柄
-function initPkg_ExpandTool_RedPacket_Room() {
+export function initPkg_ExpandTool_RedPacket_Room() {
     ExpandTool_RedPacket_Room_insertDom();
     ExpandTool_RedPacket_Room_insertFunc();
     ExpandTool_RedPacket_Room_Set();
@@ -10,7 +12,7 @@ function initPkg_ExpandTool_RedPacket_Room() {
 function ExpandTool_RedPacket_Room_insertDom() {
     let html = "";
     html += '<label><input id="extool__redpacekt_room_start" type="checkbox">自动抢礼物红包</label>';
-    
+
     let a = document.createElement("div");
     a.className = "extool__redpacket_room";
     a.innerHTML = html;
