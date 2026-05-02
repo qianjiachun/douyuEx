@@ -63,14 +63,7 @@
 1. 在`./src`下修改代码
 2. 执行 `npm install` 安装依赖（首次需要）
 3. 执行 `npm run build`（基于 `vite + vite-plugin-monkey` 构建）
-4. 如需兼容历史发布文件名，执行 `npm run build:legacy`（已切换为 Vite 统一构建 + 兼容别名产物）
-5. 产物位于 `./dist/douyuex.user.js`，可直接导入 Tampermonkey
-
-### 🧭 ESM 迁移
-- 已提供详细迁移计划：`docs/esm-migration-plan.md`
-- 当前已完成 Phase 0：Node 构建脚本 `build.js` 从 CommonJS 迁移到 ESM
-
-
+4. 产物位于 `./dist/douyuex.user.js`，可直接导入 Tampermonkey
 
 > [如何编译与维护（已过期）](https://qianjiachun.github.io/DouyuEx/compile)
 

@@ -1,5 +1,3 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 import monkey, { cdn } from 'vite-plugin-monkey'
 
@@ -96,7 +94,6 @@ export default defineConfig(({ mode }) => {
     ],
     build: {
       outDir: 'dist',
-      emptyOutDir: false,
       cssCodeSplit: false,
       rollupOptions: {
         output: {
