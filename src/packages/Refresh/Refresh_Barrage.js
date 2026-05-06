@@ -68,16 +68,148 @@ function initPkg_Refresh_Barrage_Func(toolbar) {
             }
         }
     });
-    gHotkey.add({
-        "q": () => {
-            document.body.classList.toggle("is-prefixHidden");
-            saveData_Refresh();
-        },
-        "b": () => {
-            document.body.classList.toggle("is-rankHidden");
-            saveData_Refresh();
-        },
+
+    const KEY_DISPLAY = { 'space': '空格', 'arrowup': '↑', 'arrowdown': '↓', 'arrowleft': '←', 'arrowright': '→', 'escape': 'Esc' };
+    const KEY_STORE = Object.fromEntries(Object.entries(KEY_DISPLAY).map(([k, v]) => [v, k]));
+    const toDisplay = storeKey => KEY_DISPLAY[storeKey] ?? storeKey;
+    const toStore = displayKey => KEY_STORE[displayKey] ?? displayKey;
+
+    let currentPrefixKey = null, currentRankKey = null;
+    const prefixHandler = () => { document.body.classList.toggle('is-prefixHidden'); saveData_Refresh(); };
+    const rankHandler = () => { document.body.classList.toggle('is-rankHidden'); saveData_Refresh(); };
+
+    const bindShortcuts = () => {
+        if (currentPrefixKey) gHotkey.remove(currentPrefixKey, prefixHandler);
+        if (currentRankKey) gHotkey.remove(currentRankKey, rankHandler);
+        const newPrefixKey = loadData_Refresh('prefixHotkey', 'q');
+        const newRankKey = loadData_Refresh('rankHotkey', 'b');
+        if (newPrefixKey) {
+            gHotkey.add(newPrefixKey, prefixHandler);
+            currentPrefixKey = newPrefixKey;
+        } else currentPrefixKey = null;
+        if (newRankKey) {
+            gHotkey.add(newRankKey, rankHandler);
+            currentRankKey = newRankKey;
+        } else currentRankKey = null;
+    };
+
+    gDomObserver.waitForElement('.SettingsPannel__iUSKg').then(settingsPannel => {
+        new DomHook(settingsPannel, true, () => {
+            const panel = settingsPannel.querySelector('[id$="panel-shortcut"]');
+            if (!panel || panel.querySelector('.custom-shortcut-row')) return;
+            const form = panel.querySelector('form');
+            if (!form) return;
+
+            const html = `
+                <label class="row__Qxnba custom-shortcut-row" data-type="prefix">
+                    <span class="label__lkA6r">隐藏用户前缀</span>
+                    <span class="keyWrapper__kB1rx">
+                        <div class="input__tmEUI input__ok1-t">
+                            <input type="text" readonly class="shortcut-input"
+                                value="${toDisplay(loadData_Refresh('prefixHotkey', 'q'))}" placeholder="按下按键">
+                        </div>
+                        <a class="clear__1lxt4 clear-btn">✖</a>
+                    </span>
+                </label>
+                <label class="row__Qxnba custom-shortcut-row" data-type="rank">
+                    <span class="label__lkA6r">隐藏侧栏榜单</span>
+                    <span class="keyWrapper__kB1rx">
+                        <div class="input__tmEUI input__ok1-t">
+                            <input type="text" readonly class="shortcut-input"
+                                value="${toDisplay(loadData_Refresh('rankHotkey', 'b'))}" placeholder="按下按键">
+                        </div>
+                        <a class="clear__1lxt4 clear-btn">✖</a>
+                    </span>
+                </label>`;
+            const resetGroup = form.querySelector('.buttonGroup__qxbJd');
+            if (resetGroup) resetGroup.insertAdjacentHTML('beforebegin', html);
+            else form.insertAdjacentHTML('beforeend', html);
+
+            const prefixRow = panel.querySelector('.custom-shortcut-row[data-type="prefix"]');
+            const rankRow   = panel.querySelector('.custom-shortcut-row[data-type="rank"]');
+
+            const setupRow = (row, storageType, defaultKey, otherRow) => {
+                const input = row.querySelector('.shortcut-input');
+                const clearBtn = row.querySelector('.clear-btn');
+                let recording = false;
+                let tempHandler = null;
+                let offClickHandler = null;
+
+                const stopRecording = () => {
+                    if (!recording) return;
+                    recording = false;
+                    document.removeEventListener('keydown', tempHandler, true);
+                    if (offClickHandler) {
+                        document.removeEventListener('click', offClickHandler);
+                        offClickHandler = null;
+                    }
+                    input.style.background = '';
+                    if (input.value === '按下按键...') {
+                        input.value = toDisplay(loadData_Refresh(storageType, defaultKey));
+                    }
+                };
+
+                input.addEventListener('click', () => {
+                    if (recording) return;
+                    recording = true;
+                    input.value = '按下按键...';
+                    input.style.background = '#fff3cd';
+                    tempHandler = e => {
+                        if (e.key === 'Control' || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Meta') {
+                            return;
+                        }
+                        if (e.key === 'Escape') { stopRecording(); return; }
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const storeKey = e.key === ' ' ? 'space' : e.key.toLowerCase();
+                        const otherInputValue = otherRow.querySelector('.shortcut-input').value;
+                        if (otherInputValue !== '按下按键...') {
+                            const otherStoreKey = toStore(otherInputValue);
+                            if (storeKey === otherStoreKey) {
+                                alert(`快捷键"${toDisplay(storeKey)}"已被另一个功能使用，请更换。`);
+                                stopRecording();
+                                return;
+                            }
+                        }
+                        input.value = toDisplay(storeKey);
+                        saveData_Refresh(storageType, storeKey);
+                        bindShortcuts();
+                        stopRecording();
+                    };
+                    document.addEventListener('keydown', tempHandler, true);
+                    setTimeout(() => {
+                        offClickHandler = () => { if (recording) stopRecording(); };
+                        document.addEventListener('click', offClickHandler);
+                    }, 50);
+                });
+
+                clearBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    stopRecording();
+                    input.value = '';
+                    saveData_Refresh(storageType, '');
+                    bindShortcuts();
+                });
+            };
+
+            setupRow(prefixRow, 'prefixHotkey', 'q', rankRow);
+            setupRow(rankRow, 'rankHotkey', 'b', prefixRow);
+
+            const resetBtn = form.querySelector('.buttonGroup__qxbJd button');
+            if (resetBtn && !resetBtn.hasAttribute('data-custom-bound')) {
+                resetBtn.setAttribute('data-custom-bound', 'true');
+                resetBtn.addEventListener('click', () => {
+                    saveData_Refresh('prefixHotkey', 'q');
+                    saveData_Refresh('rankHotkey', 'b');
+                    bindShortcuts();
+                    prefixRow.querySelector('.shortcut-input').value = toDisplay('q');
+                    rankRow.querySelector('.shortcut-input').value = toDisplay('b');
+                });
+            }
+        }, false);
     });
+
+    bindShortcuts();
 }
 
 function initPkg_Refresh_Barrage_Set() {
