@@ -751,7 +751,7 @@ const gHotkey = (function () {
                item.ctrl === e.ctrlKey &&
                item.meta === e.metaKey &&
                item.shift === e.shiftKey &&
-               item.key === e.key.toLowerCase();
+               item.key === (e.key === ' ' ? 'space' : e.key.toLowerCase());
     }
     return {
         /*
@@ -781,7 +781,7 @@ const gHotkey = (function () {
                 throw new TypeError(`gHotkey.add: callback must be a function, got ${typeof callback}`);
             }
             keyOrCombo = keyOrCombo.toLowerCase().replace(/\s/g, "");
-            const keys = keyOrCombo.split("+");
+            const keys = keyOrCombo.split("+").map(k => k === "space" ? " " : k);
             // 快捷键相同时追加 callback
             if (_hotkeyMap.has(keyOrCombo)) {
                 const existing = _hotkeyMap.get(keyOrCombo).callbacks;
@@ -795,7 +795,7 @@ const gHotkey = (function () {
                     ctrl:     modSet.has("ctrl"),
                     meta:     modSet.has("meta"),
                     shift:    modSet.has("shift"),
-                    key:      key,
+                    key:      key === " " ? "space" : key,
                     callbacks: [callback],
                     enabled:  true
                 });
