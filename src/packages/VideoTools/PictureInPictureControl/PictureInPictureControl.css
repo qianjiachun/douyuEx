@@ -1,0 +1,12 @@
+#ex-pipcontrol {
+    float: left;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-size: contain;
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
