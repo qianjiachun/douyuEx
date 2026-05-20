@@ -1,4 +1,4 @@
-// 返回画中画独立窗口内部结构及对应控制器的完整 HTML 字符串模板
+// ?????????????????????? HTML ?????
 function PictureInPictureControl_getTemplate() {
     return `
         <style>
@@ -10,33 +10,49 @@ function PictureInPictureControl_getTemplate() {
             
             #combo-container {
                 position: absolute;
-                top: 10px;
-                left: 50%;
-                transform: translateX(-50%);
+                top: 6px;
+                left: 6px;
+                right: 6px;
                 display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 6px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                align-content: flex-start;
+                gap: 4px;
+                max-height: 44px;
+                overflow: hidden;
                 pointer-events: none;
                 z-index: 9999;
             }
             .combo-item {
-                background: rgba(0, 0, 0, 0.75);
+                background: rgba(0, 0, 0, 0.55);
                 color: #fff;
-                padding: 4px 14px;
-                border-radius: 20px;
-                font-size: 14px;
-                font-weight: bold;
+                padding: 2px 8px;
+                border-radius: 12px;
+                font-size: 11px;
+                font-weight: 600;
+                line-height: 1.3;
+                max-width: calc(50% - 4px);
+                overflow: hidden;
+                text-overflow: ellipsis;
                 white-space: nowrap;
-                border: 1px solid rgba(255, 193, 7, 0.7);
-                text-shadow: 1px 1px 2px #000;
+                border: 1px solid rgba(255, 193, 7, 0.45);
+                text-shadow: 0 1px 2px #000;
+                box-sizing: border-box;
+            }
+            .combo-item--more {
+                max-width: none;
+                flex-shrink: 0;
+                color: #d4d4d8;
+                border-color: rgba(255, 255, 255, 0.2);
+                background: rgba(0, 0, 0, 0.4);
+                font-size: 10px;
+                font-weight: 500;
             }
             .combo-count {
                 color: #ffeb3b;
-                font-style: italic;
-                margin-left: 6px;
-                display: inline-block;
-                transform: scale(1.1);
+                margin-left: 4px;
+                font-weight: 700;
             }
 
             .dm{
@@ -47,10 +63,11 @@ function PictureInPictureControl_getTemplate() {
                 font-weight: 700;
                 line-height: 1.2;
                 font-family: "SimHei", "Microsoft YaHei", "Arial Black", "Segoe UI Historic", sans-serif;
-                text-shadow: 
-                    -1px -1px 0 #000,  1px -1px 0 #000, -1px  1px 0 #000,  1px  1px 0 #000,
-                    -1px  0px 0 #000,  1px  0px 0 #000,  0px -1px 0 #000,  0px  1px 0 #000,
-                     0px  0px 2px rgba(0,0,0,0.8);
+                text-shadow:
+                    1px 0 1px rgba(0, 0, 0, 0.85),
+                    -1px 0 1px rgba(0, 0, 0, 0.85),
+                    0 1px 1px rgba(0, 0, 0, 0.85),
+                    0 -1px 1px rgba(0, 0, 0, 0.85);
             }
             
             .dm-self {
@@ -75,12 +92,18 @@ function PictureInPictureControl_getTemplate() {
             }
 
             .pip-btn {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                min-height: 36px;
+                padding: 0;
+                box-sizing: border-box;
+                flex-shrink: 0;
                 border: 2px solid #FFF;
                 border-radius: 50%;
                 display: flex;
-                align-content: center;
+                align-items: center;
                 justify-content: center;
-                padding: 4px;
                 background: #00000094;
                 cursor: pointer;
                 z-index: 1000;
@@ -88,7 +111,38 @@ function PictureInPictureControl_getTemplate() {
                 margin: 5px 0;
             }
 
+            .pip-btn img {
+                display: block;
+                width: 24px;
+                height: 24px;
+            }
+
             .pip-btn:hover {background:#000000c4;}
+            .pip-btn-danmaku {
+                position: relative;
+                font-size: 15px;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1;
+                font-family: "Microsoft YaHei", "SimHei", sans-serif;
+            }
+            .pip-btn-danmaku.is-off {
+                opacity: 0.65;
+                border-color: #999;
+                color: #ccc;
+            }
+            .pip-btn-danmaku.is-off::after {
+                content: "";
+                position: absolute;
+                left: 18%;
+                top: 50%;
+                width: 64%;
+                height: 2px;
+                background: rgba(255, 255, 255, 0.95);
+                transform: translateY(-50%) rotate(-45deg);
+                border-radius: 1px;
+                pointer-events: none;
+            }
             #wrap:hover #pip-btns {left:10px}
 
             #pip-toast{
@@ -156,6 +210,7 @@ function PictureInPictureControl_getTemplate() {
         <div id="wrap">
             <div id="main-view">
                 <div id="pip-btns">
+                    <div id="pip-danmaku-toggle" class="pip-btn pip-btn-danmaku"></div>
                     <div id="pip-set" class="pip-btn">${icon_pipcontrol_set}</div>
                     <div id="pip-send" class="pip-btn">${icon_pipcontrol_send}</div>
                 </div>
@@ -166,8 +221,8 @@ function PictureInPictureControl_getTemplate() {
             </div>
             
             <div id="input-panel">
-                <input type="text" id="pip-input-field" placeholder="发条弹幕吧..." maxlength="50" autocomplete="off" />
-                <button id="pip-submit-btn">发送</button>
+                <input type="text" id="pip-input-field" placeholder="" maxlength="50" autocomplete="off" />
+                <button id="pip-submit-btn" type="button"></button>
             </div>
         </div>
     `;

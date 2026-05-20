@@ -9,7 +9,14 @@ function PictureInPictureControl_openSettingPanel() {
         area: "full",
         trackHeight: 28,
         mergeMode: "combo",
-        lowPowerMode: false
+        lowPowerMode: false,
+        filterRobotDanmaku: true,
+        opacity: 1,
+        danmakuVisible: true,
+    };
+
+    const save = () => {
+        localStorage.setItem("ExSave_PipSet", JSON.stringify(pipConfig));
     };
 
     // 统一刷新面板 UI 显示的辅助函数
@@ -17,7 +24,8 @@ function PictureInPictureControl_openSettingPanel() {
         document.getElementById("pip-area").value = pipConfig.area;
         document.getElementById("pip-mergemode").value = pipConfig.mergeMode || "combo";
         document.getElementById("pip-lowpowermode").value = pipConfig.lowPowerMode !== false ? "on" : "off";
-        
+        document.getElementById("pip-filterrobot").value = pipConfig.filterRobotDanmaku !== false ? "on" : "off";
+
         document.getElementById("pip-fontsize").value = pipConfig.fontSize;
         document.getElementById("pip-fontsize-value").innerText = pipConfig.fontSize;
 
@@ -26,6 +34,10 @@ function PictureInPictureControl_openSettingPanel() {
 
         document.getElementById("pip-speed").value = pipConfig.speed;
         document.getElementById("pip-speed-value").innerText = pipConfig.speed;
+
+        const opacityPct = Math.round((pipConfig.opacity != null ? pipConfig.opacity : 1) * 100);
+        document.getElementById("pip-opacity").value = opacityPct;
+        document.getElementById("pip-opacity-value").innerText = opacityPct + "%";
     };
 
     if (panel) {
@@ -38,7 +50,13 @@ function PictureInPictureControl_openSettingPanel() {
     panel.id = "pip-setting-panel";
 
     panel.innerHTML = `
-        <div class="pip-setting-title">画中画弹幕设置</div>
+        <div class="pip-setting-header">
+            <div class="pip-setting-title">画中画弹幕设置</div>
+            <div class="pip-setting-header-actions">
+                <span class="pip-setting-reset">恢复默认</span>
+                <button type="button" class="pip-setting-dismiss" aria-label="关闭">×</button>
+            </div>
+        </div>
 
         <div class="pip-setting-item">
             <span>弹幕字号</span>
@@ -56,6 +74,12 @@ function PictureInPictureControl_openSettingPanel() {
             <span>弹幕速度</span>
             <input id="pip-speed" type="range" min="1" max="10" step="0.5" value="${pipConfig.speed}">
             <span id="pip-speed-value">${pipConfig.speed}</span>
+        </div>
+
+        <div class="pip-setting-item">
+            <span>弹幕透明度</span>
+            <input id="pip-opacity" type="range" min="30" max="100" value="${Math.round((pipConfig.opacity != null ? pipConfig.opacity : 1) * 100)}">
+            <span id="pip-opacity-value">${Math.round((pipConfig.opacity != null ? pipConfig.opacity : 1) * 100)}%</span>
         </div>
 
         <div class="pip-setting-item">
@@ -81,6 +105,17 @@ function PictureInPictureControl_openSettingPanel() {
 
         <div class="pip-setting-item item-vertical">
             <div class="item-label-row">
+                <span>屏蔽机器人弹幕</span>
+                <select id="pip-filterrobot">
+                    <option value="on">开启</option>
+                    <option value="off">关闭</option>
+                </select>
+            </div>
+            <div class="pip-setting-tip">开启后过滤无用户标识的机器人弹幕</div>
+        </div>
+
+        <div class="pip-setting-item item-vertical">
+            <div class="item-label-row">
                 <span>原网页低功耗</span>
                 <select id="pip-lowpowermode">
                     <option value="on">开启</option>
@@ -90,10 +125,6 @@ function PictureInPictureControl_openSettingPanel() {
             <div class="pip-setting-tip">开启后，拉起画中画时将切断并隐藏原网页的视频、礼物与网页弹幕，大幅压低 CPU 占用</div>
         </div>
 
-        <div class="pip-footer-row">
-            <span class="pip-setting-reset">恢复默认</span>
-            <div class="pip-setting-close">完成</div>
-        </div>
     `;
 
     // 避免重复追加相同的 <style> 标签
@@ -103,9 +134,6 @@ function PictureInPictureControl_openSettingPanel() {
         style.innerHTML = `
             #pip-setting-panel {
                 position: fixed;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
                 width: 440px;
                 background: rgba(255, 255, 255, 0.98);
                 border: 1px solid rgba(212, 212, 216, 1);
@@ -119,13 +147,68 @@ function PictureInPictureControl_openSettingPanel() {
                 backdrop-filter: blur(10px);
             }
 
+            .pip-setting-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: -24px -24px 24px;
+                padding: 24px 24px 0;
+                cursor: move;
+                user-select: none;
+            }
+
             .pip-setting-title {
+                flex: 1;
+                min-width: 0;
                 font-size: 16px;
                 font-weight: 600;
-                margin-bottom: 24px;
                 color: #000000;
-                text-align: center;
                 letter-spacing: 0.5px;
+                margin: 0;
+            }
+
+            .pip-setting-header-actions {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex-shrink: 0;
+            }
+
+            .pip-setting-reset {
+                font-size: 13px;
+                color: #71717a;
+                cursor: pointer;
+                transition: color 0.2s;
+                text-decoration: underline;
+                user-select: none;
+                font-weight: 500;
+                white-space: nowrap;
+            }
+
+            .pip-setting-reset:hover {
+                color: #ff5d23;
+            }
+
+            .pip-setting-dismiss {
+                flex-shrink: 0;
+                width: 28px;
+                height: 28px;
+                margin: 0;
+                padding: 0;
+                border: none;
+                border-radius: 6px;
+                background: transparent;
+                color: #71717a;
+                font-size: 22px;
+                line-height: 1;
+                cursor: pointer;
+                user-select: none;
+                transition: background 0.2s, color 0.2s;
+            }
+
+            .pip-setting-dismiss:hover {
+                background: #f4f4f5;
+                color: #18181b;
             }
 
             .pip-setting-item {
@@ -212,52 +295,18 @@ function PictureInPictureControl_openSettingPanel() {
                 line-height: 1.4;
             }
 
-            .pip-footer-row {
-                margin-top: 28px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .pip-setting-reset {
-                font-size: 13px;
-                color: #71717a;
-                cursor: pointer;
-                transition: color 0.2s;
-                text-decoration: underline;
-                user-select: none;
-                font-weight: 500;
-            }
-
-            .pip-setting-reset:hover {
-                color: #ff5d23;
-            }
-
-            .pip-setting-close {
-                background: #ff5d23;
-                color: #fff;
-                text-align: center;
-                padding: 8px 24px;
-                border-radius: 8px;
-                cursor: pointer;
-                font-weight: 600;
-                font-size: 14px;
-                transition: background 0.2s, transform 0.1s;
-                box-shadow: 0 4px 12px rgba(255, 93, 35, 0.15);
-            }
-
-            .pip-setting-close:hover {
-                background: #e04e1b;
-            }
-
-            .pip-setting-close:active {
-                transform: scale(0.98);
-            }
         `;
         document.head.appendChild(style);
     }
-    
+
     document.body.appendChild(panel);
+
+    const left = Math.max(8, (window.innerWidth - panel.offsetWidth) / 2);
+    const top = Math.max(8, (window.innerHeight - panel.offsetHeight) / 2);
+    panel.style.left = `${left}px`;
+    panel.style.top = `${top}px`;
+
+    PictureInPictureControl_initSettingPanelDrag(panel);
 
     const font = document.getElementById("pip-fontsize");
     const track = document.getElementById("pip-trackheight");
@@ -265,17 +314,14 @@ function PictureInPictureControl_openSettingPanel() {
     const area = document.getElementById("pip-area");
     const merge = document.getElementById("pip-mergemode");
     const lowPower = document.getElementById("pip-lowpowermode");
+    const filterRobot = document.getElementById("pip-filterrobot");
+    const opacity = document.getElementById("pip-opacity");
 
-    // 初始化载入值
     area.value = pipConfig.area;
     merge.value = pipConfig.mergeMode || "combo";
     lowPower.value = pipConfig.lowPowerMode !== false ? "on" : "off";
+    filterRobot.value = pipConfig.filterRobotDanmaku !== false ? "on" : "off";
 
-    const save = () => {
-        localStorage.setItem("ExSave_PipSet", JSON.stringify(pipConfig));
-    };
-
-    // 事件流绑定
     font.addEventListener("input", () => {
         pipConfig.fontSize = parseInt(font.value);
         document.getElementById("pip-fontsize-value").innerText = pipConfig.fontSize;
@@ -294,6 +340,15 @@ function PictureInPictureControl_openSettingPanel() {
         save();
     });
 
+    opacity.addEventListener("input", () => {
+        pipConfig.opacity = parseInt(opacity.value, 10) / 100;
+        document.getElementById("pip-opacity-value").innerText = opacity.value + "%";
+        save();
+        if (window.__pip_is_active__) {
+            PictureInPictureControl_applyDanmakuStyle();
+        }
+    });
+
     area.addEventListener("change", () => {
         pipConfig.area = area.value;
         save();
@@ -301,6 +356,11 @@ function PictureInPictureControl_openSettingPanel() {
 
     merge.addEventListener("change", () => {
         pipConfig.mergeMode = merge.value;
+        save();
+    });
+
+    filterRobot.addEventListener("change", () => {
+        pipConfig.filterRobotDanmaku = filterRobot.value === "on";
         save();
     });
 
@@ -317,14 +377,62 @@ function PictureInPictureControl_openSettingPanel() {
             Object.assign(pipConfig, defaultConfigs);
             save();
             refreshPanelUI();
-            
+
             if (window.__pip_is_active__) {
                 PictureInPictureControl_toggleSourcePagePower(pipConfig.lowPowerMode);
+                PictureInPictureControl_applyDanmakuStyle();
+                PictureInPictureControl_updateDanmakuToggleBtn();
             }
         }
     });
 
-    panel.querySelector(".pip-setting-close").addEventListener("click", () => {
+    panel.querySelector(".pip-setting-dismiss").addEventListener("click", () => {
         panel.style.display = "none";
+    });
+}
+
+function PictureInPictureControl_initSettingPanelDrag(panel) {
+    const header = panel.querySelector(".pip-setting-header");
+    if (!header) {
+        return;
+    }
+
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+
+    const onMouseMove = (e) => {
+        if (!dragging) {
+            return;
+        }
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        panel.style.left = `${Math.max(0, startLeft + dx)}px`;
+        panel.style.top = `${Math.max(0, startTop + dy)}px`;
+    };
+
+    const onMouseUp = () => {
+        dragging = false;
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+    };
+
+    header.addEventListener("mousedown", (e) => {
+        if (e.button !== 0 || e.target.closest(".pip-setting-dismiss, .pip-setting-reset")) {
+            return;
+        }
+        dragging = true;
+        const rect = panel.getBoundingClientRect();
+        panel.style.left = `${rect.left}px`;
+        panel.style.top = `${rect.top}px`;
+        startX = e.clientX;
+        startY = e.clientY;
+        startLeft = rect.left;
+        startTop = rect.top;
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
+        e.preventDefault();
     });
 }

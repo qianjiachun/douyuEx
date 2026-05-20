@@ -1,12 +1,150 @@
-#ex-pipcontrol {
-    float: left;
-    width: 32px;
-    height: 32px;
-    margin-right: 10px;
+#ex-pip-menu-panel.ex-pip-menu-root {
+    position: fixed;
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.12s ease, visibility 0.12s ease;
+}
+
+#ex-pip-menu-panel.ex-pip-menu-root.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#ex-pip-menu-panel.ex-pip-menu-root::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 8px;
+}
+
+.ex-pip-menu {
+    box-sizing: border-box;
+    width: 196px;
+    padding: 4px 0;
+    border-radius: 6px;
+    font-family: "Microsoft YaHei", "PingFang SC", -apple-system, sans-serif;
+    font-size: 12px;
+    color: #e8e8e8;
+    background: #2c2c30;
+    border: 1px solid #1a1a1c;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+    user-select: none;
+    pointer-events: auto;
+}
+
+.ex-pip-menu__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ex-pip-menu__list > li + li {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+#ex-pip-menu-panel.ex-pip-menu-root.is-measuring {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ex-pip-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
     cursor: pointer;
-    background-size: contain;
-    pointer-events: all;
+    outline: none;
+    line-height: 1.4;
+}
+
+.ex-pip-opt:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.ex-pip-opt:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    outline: 1px solid rgba(255, 255, 255, 0.2);
+    outline-offset: -1px;
+}
+
+.ex-pip-opt__icon {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: #9a9aa2;
+}
+
+.ex-pip-opt__icon svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+.ex-pip-opt--ex .ex-pip-opt__icon {
+    color: #c4c4cc;
+}
+
+.ex-pip-opt--ex:hover .ex-pip-opt__icon {
+    color: #e0e0e6;
+}
+
+.ex-pip-opt__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.ex-pip-opt__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.ex-pip-opt__label {
+    font-size: 12px;
+    color: #f0f0f0;
+}
+
+.ex-pip-opt__mark {
+    flex-shrink: 0;
+    font-size: 11px;
+    color: #8c8c94;
+}
+
+.ex-pip-opt--ex .ex-pip-opt__mark {
+    color: #ff7f3a;
+}
+
+.ex-pip-opt__hint {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    color: #7a7a82;
+    line-height: 1.35;
+}
+
+.ex-pip-opt--ex:hover .ex-pip-opt__mark {
+    color: #ff9555;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ex-pip-opt,
+    #ex-pip-menu-panel.ex-pip-menu-root {
+        transition: none;
+    }
 }

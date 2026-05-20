@@ -3,6 +3,92 @@
 const danmakuTracks = [];
 const comboMap = new Map();
 let comboCleanerTimer = null;
+const pipWsPacketDedup = new Map();
+const PIP_COMBO_MAX_VISIBLE = 2;
+const PIP_COMBO_TEXT_MAX = 18;
+const PIP_WS_DEDUP_MS = 3000;
+const PIP_WS_DEDUP_MAX = 800;
+
+function PictureInPictureControl_clearWsDedup() {
+    pipWsPacketDedup.clear();
+}
+
+function PictureInPictureControl_isDuplicateWsPacket(ret) {
+    const now = Date.now();
+    const last = pipWsPacketDedup.get(ret);
+    if (last != null && now - last < PIP_WS_DEDUP_MS) {
+        return true;
+    }
+    pipWsPacketDedup.set(ret, now);
+    if (pipWsPacketDedup.size > PIP_WS_DEDUP_MAX) {
+        for (const [key, ts] of pipWsPacketDedup) {
+            if (now - ts > PIP_WS_DEDUP_MS) {
+                pipWsPacketDedup.delete(key);
+            }
+        }
+    }
+    return false;
+}
+
+function PictureInPictureControl_getPipWindow() {
+    const w = window.__pip_window__;
+    return w && !w.closed ? w : null;
+}
+
+function PictureInPictureControl_truncateComboText(text, maxLen = PIP_COMBO_TEXT_MAX) {
+    if (!text || text.length <= maxLen) {
+        return text || "";
+    }
+    return text.slice(0, maxLen) + "…";
+}
+
+function PictureInPictureControl_refreshComboDisplay(pipWindow) {
+    const win = pipWindow || PictureInPictureControl_getPipWindow();
+    const container = win?.document.getElementById("combo-container");
+    if (!container) {
+        return;
+    }
+
+    const now = Date.now();
+    const active = [];
+
+    for (const [key, info] of comboMap.entries()) {
+        const count = info.timestamps.filter(t => now - t <= 8000).length;
+        if (count < 2) {
+            info.dom = null;
+            continue;
+        }
+        info.displayCount = count;
+        const lastTs = info.timestamps[info.timestamps.length - 1] || 0;
+        active.push({ key, info, count, lastTs });
+    }
+
+    active.sort((a, b) => b.count - a.count || b.lastTs - a.lastTs);
+
+    container.innerHTML = "";
+    for (const [, info] of comboMap) {
+        info.dom = null;
+    }
+
+    const visible = active.slice(0, PIP_COMBO_MAX_VISIBLE);
+    const overflow = active.length - visible.length;
+
+    for (const { key, info, count } of visible) {
+        const el = win.document.createElement("div");
+        el.className = "combo-item";
+        el.title = key;
+        el.innerHTML = `${PictureInPictureControl_truncateComboText(key)}<span class="combo-count">×${count}</span>`;
+        container.appendChild(el);
+        info.dom = el;
+    }
+
+    if (overflow > 0) {
+        const more = win.document.createElement("div");
+        more.className = "combo-item combo-item--more";
+        more.textContent = `+${overflow} 组重复`;
+        container.appendChild(more);
+    }
+}
 
 // 解析斗鱼原始 WebSocket 弹幕文本协议数据
 function PictureInPictureControl_parseWSMsg(ret) {
@@ -21,10 +107,17 @@ function PictureInPictureControl_parseWSMsg(ret) {
     const txt = obj.txt ? decodeURIComponent(obj.txt) : "";
     if (!txt) return null;
 
+    if (pipConfig.filterRobotDanmaku !== false && !obj.dms) {
+        return null;
+    }
+
+    const msgId = obj.hash || obj.cid || obj.dmid || "";
     return {
         text: txt,
         color: obj.col ? parseInt(obj.col) : 0,
         uid: obj.uid || "",
+        msgId,
+        dedupKey: msgId || `${obj.uid}|${txt}`,
     };
 }
 
@@ -162,14 +255,11 @@ function PictureInPictureControl_startComboCleaner() {
         for (const [key, info] of comboMap.entries()) {
             const recentCount = info.timestamps.filter(t => now - t <= 8000).length;
 
-            if (recentCount < 10) {
-                if (info.dom) {
-                    info.dom.remove();
-                    info.dom = null;
-                }
+            if (recentCount < 2) {
                 comboMap.delete(key);
             }
         }
+        PictureInPictureControl_refreshComboDisplay();
     }, 1000);
 }
 
@@ -177,6 +267,10 @@ function PictureInPictureControl_startComboCleaner() {
 // 核心决策方法：判定弹幕进入高能合并展示状态还是走普通轨道飘屏渲染
 function PictureInPictureControl_handleComboAndRender(msg, pipWindow, danmakuLayer) {
     if (!msg || !msg.text) return;
+
+    if (pipConfig.danmakuVisible === false) {
+        return;
+    }
 
     if (my_uid && msg.uid === my_uid) {
         return;
@@ -210,34 +304,19 @@ function PictureInPictureControl_handleComboAndRender(msg, pipWindow, danmakuLay
         return;
     }
 
-    // 合并显示模式
+    // 合并显示模式：飘屏仅第一条，重复时在顶部显示次数
     info.timestamps = info.timestamps.filter(t => now - t <= 8000);
     const recentFrequency = info.timestamps.length;
 
-    if (recentFrequency >= 10) {
-        if (info.displayCount === 0) {
-            info.displayCount = Math.max(10, recentFrequency);
-        } else {
-            info.displayCount += 1;
-        }
-
-        const container = pipWindow.document.getElementById("combo-container");
-        if (container) {
-            if (!info.dom) {
-                info.dom = pipWindow.document.createElement("div");
-                info.dom.className = "combo-item";
-                container.appendChild(info.dom);
-            }
-            info.dom.innerHTML = `${matchedKey} <span class="combo-count">X ${info.displayCount}</span>`;
-        }
-    } else {
-        if (info.dom) {
-            info.dom.remove();
-            info.dom = null;
-            info.displayCount = 0; 
-        }
+    if (recentFrequency === 1) {
+        info.displayCount = 0;
         PictureInPictureControl_renderDanmaku(msg, pipWindow, danmakuLayer);
+        PictureInPictureControl_refreshComboDisplay(pipWindow);
+        return;
     }
+
+    info.displayCount = recentFrequency;
+    PictureInPictureControl_refreshComboDisplay(pipWindow);
 }
 
 // 执行单条普通弹幕（或个人弹幕）在画中画独立图层上的 CSS 动画渲染与销毁
@@ -250,11 +329,7 @@ function PictureInPictureControl_renderDanmaku(msg, pipWindow, danmakuLayer, isS
 
     el.style.fontSize = pipConfig.fontSize + "px";
     el.style.color = isSelf ? "#00ff66" : PictureInPictureControl_getDanmakuColor(msg.color);
-    
-    if (!isSelf) {
-        el.style.textShadow = "1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000";
-    }
-    
+
     el.style.visibility = "hidden";
     danmakuLayer.appendChild(el);
     const textWidth = el.offsetWidth;
