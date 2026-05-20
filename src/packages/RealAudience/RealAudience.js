@@ -8,8 +8,20 @@ let real_info = {
 	money_yc: 0,
 	money_bag: 0,
 	money_total: 0,
+	noble_count: "",
 }
 let hasAvatarBottom = false;
+
+function formatNobleCount(vn) {
+	const n = Number(vn);
+	if (isNaN(n)) return vn;
+	if (n >= 10000) {
+		const wan = n / 10000;
+		if (Number.isInteger(wan)) return wan + "万";
+		return parseFloat(wan.toFixed(1)) + "万";
+	}
+	return String(n);
+}
 
 function initPkg_RealAudience() {
 	initPkg_RealAudience_StyleHook();
@@ -46,6 +58,7 @@ function initPkg_RealAudience_Dom() {
 	let real_danmuIcon = '<svg t="1587796804183" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20780" width="16" height="16"><path d="M811.8272 62.6176H212.1728c-79.9232 0-149.8624 69.9392-149.8624 149.9136v599.6032a150.3232 150.3232 0 0 0 149.8624 149.9136h599.6544a150.3232 150.3232 0 0 0 149.8624-149.9136V212.5312c0-79.9744-69.9392-149.9136-149.8624-149.9136zM263.5264 367.104c30.0032 0 49.9712 19.968 49.9712 49.9712s-19.968 49.92-49.9712 49.92-49.9712-19.968-49.9712-49.92 20.0192-49.9712 49.9712-49.9712z m449.6896 294.8096H263.5264c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h449.6896c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.9712-49.9712 49.9712z m99.9424-199.68H463.4112c-24.9856 0-49.9712-24.9856-49.9712-49.9712s24.9856-49.9712 49.9712-49.9712h349.7472c24.9856 0 49.9712 24.9856 49.9712 49.9712s-24.9856 49.7664-49.9712 49.7664z" p-id="20781" fill="#1296db"></path></svg>';
 	// let real_giftIcon = '<svg t="1576950815993" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3618" width="16" height="16"><path d="M554.957 829.848l-85.905 0 0-463.89c0-18.978 15.384-34.363 34.362-34.363l17.182 0c18.978 0 34.362 15.38499999 34.362 34.363l0 463.89z" fill="#d4237a" p-id="3619"></path><path d="M889.985 494.814l-755.97 0c-37.902 0-68.724-30.82999999-68.724-68.725L65.291 323.003c0-56.846 46.241-103.087 103.087-103.087l687.245 0c56.846 0 103.087 46.24 103.087 103.087l0 103.086c-0.001 37.894-30.823 68.725-68.725 68.725z m0-68.725l0 34.363 0.016-34.363-0.016 0zM168.377 288.64c-18.94300001 0-34.363 15.412-34.363 34.364l0 103.086 755.87 0 0.1-103.086c0-18.952-15.42-34.363-34.363-34.363L168.377 288.641z" fill="#d4237a" p-id="3620"></path><path d="M821.26 958.712L202.74 958.712c-37.903 0-68.725-30.838-68.725-68.732L134.015 494.814c0-37.89400001 30.822-68.725 68.724-68.725l618.522 0c37.902 0 68.724 30.82999999 68.724 68.725L889.985 889.98c0 37.89400001-30.822 68.73199999-68.724 68.732z m0-68.732l0 34.362 0.017-34.362-0.016 0zM202.74 494.814L202.74 889.98l618.42 0 0.1-395.166L202.74 494.814z m281.358-240.537c-9.93399999 0-19.78200001-4.278-26.578-12.55L358.728 121.46c-12.03-14.664-9.916-36.317 4.748-48.363 14.648-12.038 36.326-9.924 48.373 4.74l98.79199999 120.268c12.03 14.664 9.916 36.317-4.74799999 48.363a34.213 34.213 0 0 1-21.795 7.81z" fill="#d4237a" p-id="3621"></path><path d="M539.902 254.277a34.212 34.212 0 0 1-21.795-7.81c-14.664-12.047-16.778-33.7-4.748-48.363L612.15 77.836c12.047-14.664 33.708-16.101599999 48.373-4.74 14.664 12.047 16.778 33.7 4.748 48.363l-98.792 120.268c-6.795 8.272-16.644 12.55-26.577 12.55z" fill="#d4237a" p-id="3622"></path></svg>'
 	let real_money_yc = '<svg t="1579155265981" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6949" width="16" height="16"><path d="M136.96 67.413h181.76L512 452.693l193.28-385.28h181.76l-245.76 445.44h163.84v84.48h-211.2l-1.28 1.28v106.24h212.48v84.48H592.64v192H431.36v-192h-211.2v-84.48h211.2v-106.24l-1.28-1.28H220.16v-84.48h162.56z" fill="#F54330" p-id="6950"></path></svg>';
+	let real_nobleIcon = '<svg t="1779259940164" class="icon" viewBox="0 0 1026 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11399" width="16" height="16"><path d="M513.536 141.312c1.024 0 2.56 0 3.584 2.048l171.008 248.32c16.384 23.552 43.52 37.888 72.192 37.888 13.312 0 27.136-3.072 39.424-9.216l137.728-69.12c0.512-0.512 1.024-0.512 2.048-0.512h1.024c2.56 0.512 4.096 3.072 3.584 5.632l-95.744 481.28c-4.608 23.552-25.6 40.96-49.664 40.96H228.864c-24.064 0-45.056-17.408-49.664-40.96L83.968 357.376c0-1.024 0-2.048 0.512-3.072 1.024-2.56 3.584-2.56 4.096-2.56 0.512 0 1.024 0 2.048 0.512L222.72 419.84c12.288 6.144 26.112 9.728 39.936 9.728 28.16 0 55.296-13.824 71.68-36.864L509.952 143.36l1.024-1.024 1.024-0.512c0.512 0 1.024-0.512 1.536-0.512m0-81.92c-15.36 0-31.232 4.096-45.056 12.8l-4.096 2.56c-8.192 5.632-15.36 12.8-21.504 20.992L267.264 345.088c-1.024 1.536-3.072 2.56-4.608 2.56-1.024 0-1.536 0-2.56-0.512L127.488 279.552c-12.8-6.656-26.112-9.728-39.424-9.728-31.232 0-61.952 17.408-76.8 47.104-8.704 17.408-11.776 37.376-7.68 56.32l95.232 480.256c12.288 61.952 66.56 107.008 130.048 107.008H798.72c62.976 0 117.76-44.544 130.048-107.008l95.744-481.28c9.216-47.104-20.992-92.672-68.096-101.888-5.632-1.024-11.264-1.536-16.896-1.536-13.312 0-26.624 3.072-38.4 9.216l-137.728 69.12c-1.024 0.512-1.536 0.512-2.56 0.512-2.048 0-3.584-1.024-4.608-2.56l-171.008-248.32c-17.408-24.064-44.032-37.376-71.68-37.376z" fill="#e6a23c" p-id="11400"></path><path d="M615.936 691.712h-204.8c-22.528 0-40.96 18.432-40.96 40.96s18.432 40.96 40.96 40.96h204.8c22.528 0 40.96-18.432 40.96-40.96s-17.92-40.96-40.96-40.96z" fill="#e6a23c" p-id="11401"></path></svg>';
 	const videoEntry = document.getElementsByClassName("VideoEntry")[0];
 	if (videoEntry) videoEntry.style.display = "none";
 	// document.querySelector(".AnchorAnnounce > h3").style.display = "none";
@@ -55,6 +68,7 @@ function initPkg_RealAudience_Dom() {
 	html += "<div style='flex: 1;white-space: nowrap'>";
 	html += "<div id='real-audience__t' style='display: inline-block;margin-right:3px;' title='今日累计观看人数'>" + real_viewIcon + '<span id="real-audience__total" style="color:#ed5a65">****</span></div>';
 	html += "<div style='display: inline-block;margin-right:3px;' title='弹幕人数'>" + real_danmuIcon + '<span id="real-audience__barrage">****</span></div>';
+	html += "<div id='real-audience__noble-wrap' style='display: inline-block;margin-right:3px;' title='贵宾数'>" + real_nobleIcon + '<span id="real-audience__noble">****</span></div>';
 	// html += "<div style='display: inline-block;margin-right:3px;' title='送礼人数'>" + real_giftIcon + '<span id="real-audience__gift">****</span></div>';
 	html += "<div id='real-audience__money' style='display: inline-block;margin-right:3px;' title='今日累计礼物价值'>" + real_money_yc + '<span id="real-audience__money_yc">****</span></div>';
 	html += "</div>";
@@ -101,6 +115,9 @@ async function setRealViewer() {
 	// document.getElementById("real-audience__gift").innerText = real_info.gift_person_count;
 	document.getElementById("real-audience__money_yc").innerText = real_info.money_yc;
 	document.getElementById("real-audience__money").title = "总礼物价值:" + real_info.money_total + " 鱼翅礼物:" + real_info.money_yc;
+	if (real_info.noble_count !== "") {
+		document.getElementById("real-audience__noble").innerText = formatNobleCount(real_info.noble_count);
+	}
 	
 	document.getElementById("real-audience__time").innerText = "已播:" + formatSeconds(showedTime);
 	document.getElementById("real-audience__time").title = "开播时间:" + String(dateFormat("yyyy年MM月dd日hh时mm分ss秒 ",new Date(Number(real_info.showtime + "000")))) + "\n已观看:" + formatSeconds(todayWatchData.data.todayWatch);
@@ -230,6 +247,15 @@ function getRealViewer(rid) {
 			}
 		});
 	})
+}
+
+function initPkg_RealAudience_Handle(ret) {
+	if (getType(ret) != "oni") return;
+	let vn = getStrMiddle(ret, "vn@=", "/");
+	if (!vn) return;
+	real_info.noble_count = vn;
+	let el = document.getElementById("real-audience__noble");
+	if (el) el.innerText = formatNobleCount(vn);
 }
 
 function switchRealAndTodayWatch() {
