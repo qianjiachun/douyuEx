@@ -67,6 +67,7 @@ function init() {
   initKillP2P();
   initFullScreen();
   initHighestVideoQuality();
+  initPkg_NoLogin();
   removeAD();
   initPkg_Statistics();
   initPkg_Console();
