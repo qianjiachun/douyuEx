@@ -1,18 +1,47 @@
 let videoStartTime = 0;
 let videoTime_domhook_videoChange = null;
 let videoTime_domhook_showtime = null;
+let videoTime_domhook_hashidChange = null;
 let videoTime_timeout = 0;
+let videoTime_currentVid = "";
+
+function VideoTime_getVideoId() {
+    try {
+        let hashid = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover").getAttribute("hashid");
+        if (hashid) {
+            return hashid;
+        }
+    } catch (e) { }
+    let pathnameArr = String(window.location.pathname).split("/");
+    return pathnameArr[pathnameArr.length - 1];
+}
+
 function initPkg_VideoTime() {
     let timer = setInterval(() => {
-        VideoTime_setData();
-        let videoDom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("__video");
-        let showtimeDom = document.getElementsByTagName("demand-video")[0].shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview");
-        if (videoDom !== undefined && videoDom !== null) {
+        let demandVideo = document.getElementsByTagName("demand-video")[0];
+        if (!demandVideo || !demandVideo.shadowRoot) {
+            return;
+        }
+        let videoDom = demandVideo.shadowRoot.getElementById("__video");
+        let showtimeDom = demandVideo.shadowRoot.getElementById("demandcontroller-bar").shadowRoot.querySelector("demand-video-controller-progress").shadowRoot.querySelector("demand-video-controller-preview");
+        let shareHoverDom = document.getElementsByTagName("demand-video-toolbar")[0].shadowRoot.querySelector("share-hover");
+        if (videoDom !== undefined && videoDom !== null && showtimeDom && shareHoverDom) {
             clearInterval(timer);
+            VideoTime_setData();
             videoTime_domhook_videoChange = new MutationObserver(function(mutations) {
                 VideoTime_setData();
             });
             videoTime_domhook_videoChange.observe(videoDom, { attributes: true, childList: true, subtree: false });
+
+            videoTime_domhook_hashidChange = new MutationObserver(function(mutations) {
+                for (let i = 0; i < mutations.length; i++) {
+                    if (mutations[i].attributeName === "hashid") {
+                        VideoTime_setData();
+                        break;
+                    }
+                }
+            });
+            videoTime_domhook_hashidChange.observe(shareHoverDom, { attributes: true, childList: false, subtree: false });
 
             videoTime_domhook_showtime = new MutationObserver(function(mutations) {
                 for (let i = 0; i < mutations.length; i++) {
@@ -39,8 +68,12 @@ function initPkg_VideoTime() {
 }
 
 function VideoTime_setData() {
-    let pathnameArr = String(window.location.pathname).split("/");
-    let videoId = pathnameArr[pathnameArr.length - 1];
+    let videoId = VideoTime_getVideoId();
+    if (!videoId) {
+        return;
+    }
+    videoTime_currentVid = videoId;
+    let requestVid = videoId;
     fetch("https://v.douyu.com/video/video/getVideoUrl?vid=" + videoId, {
         method: 'GET',
         mode: 'no-cors',
@@ -49,6 +82,9 @@ function VideoTime_setData() {
     }).then(res => {
         return res.json();
     }).then(ret => {
+        if (requestVid !== videoTime_currentVid) {
+            return;
+        }
         let imgUrl = ret.data.viewthumb[0].url;
         let timeStr = getStrMiddle(imgUrl, "--", "/");
         videoStartTime = new Date(timeStr.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/, "$1-$2-$3 $4:$5:$6")).getTime();
