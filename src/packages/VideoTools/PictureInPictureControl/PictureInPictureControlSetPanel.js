@@ -23,8 +23,9 @@ function PictureInPictureControl_openSettingPanel() {
     const refreshPanelUI = () => {
         document.getElementById("pip-area").value = pipConfig.area;
         document.getElementById("pip-mergemode").value = pipConfig.mergeMode || "combo";
-        document.getElementById("pip-lowpowermode").value = pipConfig.lowPowerMode !== false ? "on" : "off";
+        document.getElementById("pip-lowpowermode").value = pipConfig.lowPowerMode === true ? "on" : "off";
         document.getElementById("pip-filterrobot").value = pipConfig.filterRobotDanmaku !== false ? "on" : "off";
+        document.getElementById("pip-tabswitch").value = isTabSwitchEnabled() ? "on" : "off";
 
         document.getElementById("pip-fontsize").value = pipConfig.fontSize;
         document.getElementById("pip-fontsize-value").innerText = pipConfig.fontSize;
@@ -122,7 +123,18 @@ function PictureInPictureControl_openSettingPanel() {
                     <option value="off">关闭</option>
                 </select>
             </div>
-            <div class="pip-setting-tip">开启后，拉起画中画时将切断并隐藏原网页的视频、礼物与网页弹幕，大幅压低 CPU 占用</div>
+            <div class="pip-setting-tip">开启后，拉起画中画时将隐藏原网页视频区、飘屏弹幕与礼物动画，保留右侧弹幕列表，以降低 CPU 占用</div>
+        </div>
+
+        <div class="pip-setting-item item-vertical">
+            <div class="item-label-row">
+                <span>页签防冻结</span>
+                <select id="pip-tabswitch">
+                    <option value="on">开启</option>
+                    <option value="off">关闭</option>
+                </select>
+            </div>
+            <div class="pip-setting-tip">与扩展工具「防页签冻结」共用设置；开启后画中画期间保持源页解码并自动缓解卡屏（关闭需刷新页面后完全生效）</div>
         </div>
 
     `;
@@ -315,12 +327,14 @@ function PictureInPictureControl_openSettingPanel() {
     const merge = document.getElementById("pip-mergemode");
     const lowPower = document.getElementById("pip-lowpowermode");
     const filterRobot = document.getElementById("pip-filterrobot");
+    const tabSwitch = document.getElementById("pip-tabswitch");
     const opacity = document.getElementById("pip-opacity");
 
     area.value = pipConfig.area;
     merge.value = pipConfig.mergeMode || "combo";
-    lowPower.value = pipConfig.lowPowerMode !== false ? "on" : "off";
+    lowPower.value = pipConfig.lowPowerMode === true ? "on" : "off";
     filterRobot.value = pipConfig.filterRobotDanmaku !== false ? "on" : "off";
+    tabSwitch.value = isTabSwitchEnabled() ? "on" : "off";
 
     font.addEventListener("input", () => {
         pipConfig.fontSize = parseInt(font.value);
@@ -369,6 +383,26 @@ function PictureInPictureControl_openSettingPanel() {
         save();
         if (window.__pip_is_active__) {
             PictureInPictureControl_toggleSourcePagePower(pipConfig.lowPowerMode);
+        }
+    });
+
+    tabSwitch.addEventListener("change", () => {
+        const enabled = tabSwitch.value === "on";
+        setTabSwitchEnabled(enabled);
+        if (enabled) {
+            enableTabSwitch();
+        } else {
+            showMessage("已关闭页签防冻结，请刷新页面后完全生效", "info");
+        }
+        if (window.__pip_is_active__) {
+            const pipWin = window.__pip_window__;
+            const pipVideo = pipWin?.document.getElementById("pip-video");
+            const sourceVideo = pipWin?.__pip_source_video__;
+            if (enabled) {
+                PictureInPictureControl_startTabAntiFreeze(sourceVideo, pipWin, pipVideo);
+            } else {
+                PictureInPictureControl_stopTabAntiFreeze();
+            }
         }
     });
 

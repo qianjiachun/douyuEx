@@ -15,25 +15,49 @@ function ExpandTool_TabSwitch_insertDom() {
 }
 
 
-function getTabSwitch() {
-  return document.getElementById("extool__tabSwitch").checked;
+function isTabSwitchEnabled() {
+  try {
+    const ret = localStorage.getItem("ExSave_TabSwitch");
+    if (ret != null) {
+      return !!JSON.parse(ret).isEnableTabSwitch;
+    }
+  } catch (e) { }
+  const el = document.getElementById("extool__tabSwitch");
+  return el ? el.checked : false;
 }
+
+function setTabSwitchEnabled(enabled) {
+  localStorage.setItem("ExSave_TabSwitch", JSON.stringify({ isEnableTabSwitch: !!enabled }));
+  const el = document.getElementById("extool__tabSwitch");
+  if (el) {
+    el.checked = !!enabled;
+  }
+  if (enabled) {
+    enableTabSwitch();
+  }
+}
+
+function getTabSwitch() {
+  return isTabSwitchEnabled();
+}
+
 function ExpandTool_TabSwitch_insertFunc() {
   document.getElementById("extool__tabSwitch").addEventListener("click", function() {
-      saveData_TabSwitch();
-      if (getTabSwitch()) {
+      const enabled = document.getElementById("extool__tabSwitch").checked;
+      setTabSwitchEnabled(enabled);
+      if (enabled) {
         enableTabSwitch();
       } else {
         showMessage("已关闭页面防挂机，请刷新页面生效", "info");
+        if (window.__pip_is_active__) {
+          PictureInPictureControl_stopTabAntiFreeze();
+        }
       }
   });
 }
 
 function saveData_TabSwitch() {
-  let data = {
-    isEnableTabSwitch: getTabSwitch()
-  }
-  localStorage.setItem("ExSave_TabSwitch", JSON.stringify(data)); // 存储弹幕列表
+  setTabSwitchEnabled(document.getElementById("extool__tabSwitch").checked);
 }
 function initPkg_ExpandTool_TabSwitch_Set() {
   // 设置初始化

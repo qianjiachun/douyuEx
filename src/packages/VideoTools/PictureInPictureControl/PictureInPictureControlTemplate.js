@@ -8,6 +8,33 @@ function PictureInPictureControl_getTemplate() {
             video{width:100%;height:100%;object-fit:contain;}
             #danmaku{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
             
+            #pip-back-opener {
+                position: absolute;
+                top: 10px;
+                left: -140px;
+                z-index: 10001;
+                padding: 6px 12px;
+                font-size: 15px;
+                font-weight: 600;
+                line-height: 1.25;
+                color: #fff;
+                background: rgba(0, 0, 0, 0.65);
+                border: 1px solid rgba(255, 255, 255, 0.35);
+                border-radius: 6px;
+                cursor: pointer;
+                font-family: "Microsoft YaHei", "SimHei", sans-serif;
+                transition: left 0.3s, background 0.2s, border-color 0.2s;
+                white-space: nowrap;
+                user-select: none;
+            }
+            #pip-back-opener:hover {
+                background: rgba(0, 0, 0, 0.88);
+                border-color: rgba(255, 255, 255, 0.55);
+            }
+            #wrap:hover #pip-back-opener {
+                left: 10px;
+            }
+
             #combo-container {
                 position: absolute;
                 top: 6px;
@@ -111,10 +138,12 @@ function PictureInPictureControl_getTemplate() {
                 margin: 5px 0;
             }
 
-            .pip-btn img {
+            .pip-btn img,
+            .pip-btn svg {
                 display: block;
                 width: 24px;
                 height: 24px;
+                color: #fff;
             }
 
             .pip-btn:hover {background:#000000c4;}
@@ -209,7 +238,9 @@ function PictureInPictureControl_getTemplate() {
 
         <div id="wrap">
             <div id="main-view">
+                <div id="pip-back-opener"></div>
                 <div id="pip-btns">
+                    <div id="pip-reload" class="pip-btn pip-btn-reload">${PIP_BTN_SVG_RELOAD}</div>
                     <div id="pip-danmaku-toggle" class="pip-btn pip-btn-danmaku"></div>
                     <div id="pip-set" class="pip-btn">${icon_pipcontrol_set}</div>
                     <div id="pip-send" class="pip-btn">${icon_pipcontrol_send}</div>
