@@ -64,8 +64,8 @@ function PictureInPictureControl_updateDanmakuToggleBtn(pipWindow) {
         return;
     }
     const visible = pipConfig.danmakuVisible !== false;
-    btn.textContent = "\u5f39";
-    btn.title = visible ? "\u9690\u85cf\u5f39\u5e55" : "\u663e\u793a\u5f39\u5e55";
+    btn.textContent = "弹";
+    btn.title = visible ? "隐藏弹幕" : "显示弹幕";
     btn.classList.toggle("is-off", !visible);
 }
 
@@ -74,19 +74,19 @@ function PictureInPictureControl_initPipUiText(pipWindow) {
     const inputField = doc.getElementById("pip-input-field");
     const submitBtn = doc.getElementById("pip-submit-btn");
     if (inputField) {
-        inputField.setAttribute("placeholder", "\u53d1\u6761\u5f39\u5e55\u5427...");
+        inputField.setAttribute("placeholder", "发条弹幕吧...");
     }
     if (submitBtn) {
-        submitBtn.textContent = "\u53d1\u9001";
+        submitBtn.textContent = "发送";
     }
     const reloadBtn = doc.getElementById("pip-reload");
     if (reloadBtn) {
-        reloadBtn.title = "\u5237\u65b0\u753b\u9762\uff08\u6062\u590d\u5361\u5c4f\uff09";
+        reloadBtn.title = "刷新画面（恢复卡屏）";
     }
     const backBtn = doc.getElementById("pip-back-opener");
     if (backBtn) {
-        backBtn.textContent = "\u56de\u5230\u7f51\u9875";
-        backBtn.title = "\u5207\u6362\u5230\u6597\u9c7c\u76f4\u64ad\u9875\u9762";
+        backBtn.textContent = "回到网页";
+        backBtn.title = "切换到斗鱼直播页面";
     }
     PictureInPictureControl_updateDanmakuToggleBtn(pipWindow);
 }
@@ -909,7 +909,7 @@ async function PictureInPictureControl_handle() {
         reloadBtn.addEventListener("click", async (e) => {
             e.stopPropagation();
             const ok = await PictureInPictureControl_reloadPipVideo(pipWindow, pipVideo);
-            toast.innerText = ok ? "\u753b\u9762\u5df2\u5237\u65b0" : "\u5237\u65b0\u5931\u8d25\uff0c\u8bf7\u68c0\u67e5\u4e3b\u9875\u89c6\u9891";
+            toast.innerText = ok ? "画面已刷新" : "刷新失败，请检查主页视频";
             toast.classList.add("show");
             clearTimeout(toast._timer);
             toast._timer = setTimeout(() => toast.classList.remove("show"), 2000);
