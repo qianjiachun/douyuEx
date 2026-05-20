@@ -10,6 +10,7 @@ class Ex_WebSocket_UnLogin {
             this.msgHandler = msgHandler;
             this.reconnectCount = 0;
             this.maxReconnect = 10;
+            this.closed = false;
             this.connect();
         }
     }
@@ -27,12 +28,23 @@ class Ex_WebSocket_UnLogin {
         };
 
         this.ws.onerror = () => {
-            this.close();
+            if (this.closed || !this.ws) {
+                return;
+            }
+            try {
+                this.ws.close();
+            } catch (e) { }
         };
 
         this.ws.onmessage = (e) => {
+            if (this.closed) {
+                return;
+            }
             let reader = new FileReader();
             reader.onload = () => {
+                if (this.closed) {
+                    return;
+                }
                 let arr = String(reader.result).split("\0"); // 分包
                 reader = null;
                 for (let i = 0; i < arr.length; i++) {
@@ -46,24 +58,47 @@ class Ex_WebSocket_UnLogin {
         };
 
         this.ws.onclose = () => {
-            this.close();
-            this.reconnect();
+            clearInterval(this.timer);
+            this.timer = 0;
+            this.ws = null;
+            if (!this.closed) {
+                this.reconnect();
+            }
         };
     }
 
     reconnect() {
-        if (this.reconnectCount >= this.maxReconnect) {
+        if (this.closed || this.reconnectCount >= this.maxReconnect) {
             return;
         }
         this.reconnectCount++;
         const delay = Math.min(3000 * Math.pow(1.5, this.reconnectCount - 1), 60000);
         setTimeout(() => {
-            this.connect();
+            if (!this.closed) {
+                this.connect();
+            }
         }, delay);
     }
 
     close() {
+        if (this.closed) {
+            return;
+        }
+        this.closed = true;
         clearInterval(this.timer);
-        this.ws.close();
+        this.timer = 0;
+        if (!this.ws) {
+            return;
+        }
+        const socket = this.ws;
+        this.ws = null;
+        socket.onclose = null;
+        socket.onerror = null;
+        socket.onmessage = null;
+        try {
+            if (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING) {
+                socket.close();
+            }
+        } catch (e) { }
     }
 }
