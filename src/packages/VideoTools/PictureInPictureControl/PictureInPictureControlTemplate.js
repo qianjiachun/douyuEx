@@ -11,7 +11,8 @@ function PictureInPictureControl_getTemplate() {
             #pip-back-opener {
                 position: absolute;
                 top: 10px;
-                left: -140px;
+                right: -140px;
+                left: auto;
                 z-index: 10001;
                 padding: 6px 12px;
                 font-size: 15px;
@@ -23,7 +24,7 @@ function PictureInPictureControl_getTemplate() {
                 border-radius: 6px;
                 cursor: pointer;
                 font-family: "Microsoft YaHei", "SimHei", sans-serif;
-                transition: left 0.3s, background 0.2s, border-color 0.2s;
+                transition: right 0.3s, background 0.2s, border-color 0.2s;
                 white-space: nowrap;
                 user-select: none;
             }
@@ -32,7 +33,7 @@ function PictureInPictureControl_getTemplate() {
                 border-color: rgba(255, 255, 255, 0.55);
             }
             #wrap:hover #pip-back-opener {
-                left: 10px;
+                right: 10px;
             }
 
             #combo-container {

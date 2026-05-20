@@ -86,25 +86,68 @@ function PictureInPictureControl_initPipUiText(pipWindow) {
     const backBtn = doc.getElementById("pip-back-opener");
     if (backBtn) {
         backBtn.textContent = "回到网页";
-        backBtn.title = "切换到斗鱼直播页面";
+        backBtn.title = "退出画中画并返回直播页";
     }
     PictureInPictureControl_updateDanmakuToggleBtn(pipWindow);
 }
 
-function PictureInPictureControl_returnToOpener(pipWindow) {
+function PictureInPictureControl_cleanupEnhancedPip(pipWindow, pipVideo) {
+    if (!window.__pip_is_active__) {
+        return;
+    }
+    window.__pip_is_active__ = false;
+    window.__pip_window__ = null;
+
+    if (pipWindow?.__pip_keydown_handler__) {
+        pipWindow.document.removeEventListener("keydown", pipWindow.__pip_keydown_handler__);
+        pipWindow.__pip_keydown_handler__ = null;
+    }
+
+    PictureInPictureControl_stopTabAntiFreeze();
+    PictureInPictureControl_toggleSourcePagePower(false);
+    PictureInPictureControl_toggleMainVideoVisibility(false);
+    PictureInPictureControl_closePipWebSocket();
+    PictureInPictureControl_clearWsDedup();
+    window.__pip_track_state__ = [];
+    if (comboCleanerTimer) {
+        clearInterval(comboCleanerTimer);
+        comboCleanerTimer = null;
+    }
+    comboMap.clear();
+    try {
+        if (pipVideo) {
+            pipVideo.srcObject = null;
+        }
+    } catch (e) { }
+    if (pipWindow && !pipWindow.closed) {
+        try {
+            pipWindow.close();
+        } catch (e) { }
+    }
+}
+
+function PictureInPictureControl_returnToOpener(pipWindow, exitPip = true) {
+    const win = pipWindow || window.__pip_window__;
+    const sourceVideo = win?.__pip_source_video__ || document.getElementById("__video2");
+
+    if (exitPip && window.__pip_is_active__) {
+        const pipVideo = win?.document?.getElementById("pip-video");
+        PictureInPictureControl_cleanupEnhancedPip(win, pipVideo);
+    }
+
     try {
         window.focus();
     } catch (e) { }
 
-    const sourceVideo = pipWindow?.__pip_source_video__ || document.getElementById("__video2");
     if (sourceVideo) {
         try {
             sourceVideo.scrollIntoView({ block: "nearest", behavior: "smooth" });
         } catch (e) { }
-    }
-
-    if (window.__pip_is_active__ && sourceVideo) {
-        PictureInPictureControl_wakeSourceVideo(sourceVideo).catch(() => { });
+        if (!exitPip && window.__pip_is_active__) {
+            PictureInPictureControl_wakeSourceVideo(sourceVideo).catch(() => { });
+        } else if (exitPip) {
+            sourceVideo.play().catch(() => { });
+        }
     }
 }
 
@@ -925,7 +968,7 @@ async function PictureInPictureControl_handle() {
 
     setBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        PictureInPictureControl_returnToOpener(pipWindow);
+        PictureInPictureControl_returnToOpener(pipWindow, false);
         PictureInPictureControl_openSettingPanel();
         toast.innerText = "已在斗鱼直播页面打开设置面板";
         toast.classList.add("show");
@@ -993,32 +1036,7 @@ function PictureInPictureControl_bindVideoSync(video, pipVideo) {
 function PictureInPictureControl_bindCleanup(video, pipWindow, pipVideo) {
     window.__pip_is_active__ = true;
 
-    function cleanup() {
-        window.__pip_is_active__ = false;
-        window.__pip_window__ = null;
-
-        if (pipWindow.__pip_keydown_handler__) {
-            pipWindow.document.removeEventListener("keydown", pipWindow.__pip_keydown_handler__);
-            pipWindow.__pip_keydown_handler__ = null;
-        }
-
-        PictureInPictureControl_stopTabAntiFreeze();
-
-        PictureInPictureControl_toggleSourcePagePower(false);
-        
-        PictureInPictureControl_toggleMainVideoVisibility(false);
-
-        PictureInPictureControl_closePipWebSocket();
-        PictureInPictureControl_clearWsDedup();
-        window.__pip_track_state__ = [];
-        if (comboCleanerTimer) {
-            clearInterval(comboCleanerTimer);
-            comboCleanerTimer = null;
-        }
-        comboMap.clear();
-        try { pipVideo.srcObject = null; } catch (e) { }
-        try { pipWindow.close(); } catch (e) { }
-    }
+    const cleanup = () => PictureInPictureControl_cleanupEnhancedPip(pipWindow, pipVideo);
 
     pipWindow.addEventListener("pagehide", cleanup);
     const timer = setInterval(() => {
