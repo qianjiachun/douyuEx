@@ -24,17 +24,15 @@ function initPkg_VideoTools_Filter() {
 }
 
 function initPkg_VideoTools_Filter_Dom() {
-    Filter_insertIcon();
+    Filter_insertPanel();
     // 只在 Edge 浏览器中插入画质增强 modal
     if (isEdgeBrowser()) {
         Filter_insertEnhanceModal();
     }
 }
 
-function Filter_insertIcon() {
-    let a = document.createElement("div");
-    a.id = "ex-filter";
-    a.innerHTML = `
+function Filter_getPanelHtml() {
+    return `
     <div class="filter__wrap">
         <div class="filter__panel">
             ${isEdgeBrowser() ? `<div class="filter__enhance">
@@ -94,12 +92,24 @@ function Filter_insertIcon() {
             </ul>
         </div>
     </div>
-    <svg t="1598941324196" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3146" width="24" height="24"><path d="M921.6 766.634667L257.365333 102.4a68.266667 68.266667 0 0 0-96.597333 0L102.4 160.768a68.266667 68.266667 0 0 0 0 96.597333L766.634667 921.6a68.266667 68.266667 0 0 0 96.597333 0L921.6 863.232a68.266667 68.266667 0 0 0 0-96.597333zM139.605333 199.338667l59.733334-59.733334A13.312 13.312 0 0 1 208.896 136.533333a13.653333 13.653333 0 0 1 9.898667 4.096l83.968 82.944-79.189334 79.189334-83.968-83.968a13.653333 13.653333 0 0 1 0-19.456z m744.789334 625.322666l-59.733334 59.733334a13.312 13.312 0 0 1-9.557333 4.096 13.653333 13.653333 0 0 1-9.898667-4.096L262.144 341.333333 341.333333 262.144l543.061334 543.061333a13.653333 13.653333 0 0 1 0 19.456zM230.058667 589.824l-50.517334 92.501333-92.842666 50.858667 92.842666 50.517333 50.517334 92.842667 50.517333-92.842667 92.842667-50.517333-92.842667-50.858667-50.517333-92.501333zM541.013333 270.336l31.061334-57.344 57.344-31.402667-57.344-31.402666-31.061334-57.002667-31.402666 57.002667-57.344 31.402666 57.344 31.402667 31.402666 57.344zM827.392 377.173333l21.162667-38.912L887.466667 317.098667l-38.912-21.504-21.162667-38.912-21.504 38.912-38.570667 21.504 38.570667 21.162666 21.504 38.912z" p-id="3147" fill="#ffffff"></path></svg>
     `;
-    let b = getValidDom([".right-e7ea5d", ".right-17e251"]);
-    b.insertBefore(a, b.childNodes[0]);
+}
 
-    b = document.getElementsByClassName("menu-da2a9e")[0];
+function Filter_insertPanel() {
+    const host = typeof VideoToolbarMenu_getFilterHost === "function"
+        ? VideoToolbarMenu_getFilterHost()
+        : null;
+    if (!host) {
+        return;
+    }
+    const wrap = document.createElement("div");
+    wrap.innerHTML = Filter_getPanelHtml();
+    host.appendChild(wrap.firstElementChild);
+
+    let b = document.getElementsByClassName("menu-da2a9e")[0];
+    if (!b) {
+        return;
+    }
 
     let domPanorama = document.createElement("li");
     domPanorama.id = "filter__panorama";
@@ -202,31 +212,6 @@ function initPkg_VideoTools_Filter_Func() {
         liveVideoNode.style.filter = `${ currentBrightness } ${ currentContrast } ${ currentSaturate }`;
     });
 
-    const filterButton = document.getElementById("ex-filter");
-    const filterPanel = document.getElementsByClassName("filter__wrap")[0];
-    let overPanel = false;
-    let timeout = null;
-
-    filterButton.addEventListener("mouseover", function () {
-        if (timeout) clearTimeout(timeout);
-        filterPanel.style.display = "block";
-        timeout = setTimeout(() => {
-            if(!overPanel) {
-                filterPanel.style.display = "none";
-            }
-        }, 1500);
-    });
-
-    filterPanel.addEventListener("mouseover", function() {
-        overPanel = true;
-    })
-    filterPanel.addEventListener("mouseleave", function () {
-        setTimeout(() => {
-            filterPanel.style.display = "none"
-            overPanel = false;
-        }, 500);
-    });
-    
     document.getElementById("filter__reset").addEventListener("click", () => {
         resetVideoFilter();
     });
@@ -347,6 +332,20 @@ function initPkg_VideoTools_Filter_Func() {
     })
 }
 
+function Filter_showPanel() {
+    const panel = document.querySelector("#ex-vtoolbar-filter-host .filter__wrap");
+    if (panel) {
+        panel.style.display = "block";
+    }
+}
+
+function Filter_hidePanel() {
+    const panel = document.querySelector("#ex-vtoolbar-filter-host .filter__wrap");
+    if (panel) {
+        panel.style.display = "none";
+    }
+}
+
 function resetVideoFilter() {
     StyleHook_remove("Ex_Style_Filter");
     document.getElementById("filter__select").selectedIndex = 0;
@@ -417,7 +416,7 @@ function setVideoFilter(style) {
     // liveVideoNode.style.webkitFilter = text;
     StyleHook_remove("Ex_Style_Filter");
     StyleHook_set("Ex_Style_Filter", style);
-    document.getElementsByClassName("filter__wrap")[0].style.display = "none";
+    Filter_hidePanel();
 }
 
 function setScrollFunc(scrollDom, barDom, maskDom, callback) {

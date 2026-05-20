@@ -141,6 +141,9 @@ function initPkg_Refresh_Video_Func() {
 
         if (dom_toolbar.style.visibility == "hidden") {
             dom_toolbar.style.visibility = "visible";
+            if (typeof ExPanel_onGiftBarShow === "function") {
+                ExPanel_onGiftBarShow();
+            }
             dom_video.style = "";
             if (dom_refresh3) {
                 dom_refresh3.style.opacity = "0";
@@ -153,6 +156,9 @@ function initPkg_Refresh_Video_Func() {
             refresh_Video_removeStyle();
         } else {
             dom_toolbar.style.visibility = "hidden";
+            if (typeof ExPanel_onGiftBarHide === "function") {
+                ExPanel_onGiftBarHide();
+            }
             dom_video.style = "bottom:0;z-index:25";
             dom_refresh.innerText = "✓ 隐藏礼物栏";
             if (dom_refresh3) dom_refresh3.title = "点击显示礼物栏";

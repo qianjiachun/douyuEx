@@ -1,0 +1,263 @@
+#ex-vtoolbar-menu {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    position: relative;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+    overflow: visible;
+}
+
+.vtoolbar-menu__trigger {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.vtoolbar-menu__trigger:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.vtoolbar-menu__trigger:focus-visible {
+    outline: 2px solid #ff7700;
+    outline-offset: 2px;
+}
+
+#ex-vtoolbar-menu.is-open .vtoolbar-menu__trigger {
+    background-color: rgba(255, 119, 0, 0.2);
+}
+
+.vtoolbar-menu__trigger .icon {
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.vtoolbar-menu__trigger:hover .icon {
+    transform: scale(1.08);
+}
+
+.vtoolbar-menu__dropdown {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 18px);
+    transform: translateX(-50%);
+    min-width: 188px;
+    padding: 4px;
+    border-radius: 10px;
+    background: rgba(15, 15, 35, 0.96);
+    border: 1px solid rgba(67, 56, 202, 0.35);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    z-index: 2;
+    pointer-events: auto;
+    backdrop-filter: blur(8px);
+}
+
+/* 仅连接菜单与精灵球之间的空隙，不遮挡工具条其他按钮 */
+.vtoolbar-menu__dropdown::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    width: 200px;
+    height: 22px;
+    pointer-events: auto;
+}
+
+#ex-vtoolbar-menu.is-open .vtoolbar-menu__dropdown {
+    display: block;
+    animation: vtoolbar-menu-fade-in 0.2s ease;
+}
+
+@keyframes vtoolbar-menu-fade-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #ex-vtoolbar-menu.is-open .vtoolbar-menu__dropdown {
+        animation: none;
+    }
+    .vtoolbar-menu__trigger,
+    .vtoolbar-menu__pokeball,
+    .vtoolbar-menu__item,
+    .vtoolbar-menu__switch {
+        transition: none;
+    }
+}
+
+.vtoolbar-menu__dropdown::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -7px;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background: rgba(15, 15, 35, 0.96);
+    border-right: 1px solid rgba(67, 56, 202, 0.35);
+    border-bottom: 1px solid rgba(67, 56, 202, 0.35);
+    pointer-events: none;
+}
+
+.vtoolbar-menu__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #f8fafc;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.vtoolbar-menu__item:hover {
+    background-color: rgba(67, 56, 202, 0.35);
+}
+
+.vtoolbar-menu__item:focus-visible {
+    outline: 2px solid #ff7700;
+    outline-offset: -2px;
+}
+
+.vtoolbar-menu__item-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: #a5b4fc;
+}
+
+.vtoolbar-menu__item-icon .icon,
+.vtoolbar-menu__item-icon svg,
+.vtoolbar-menu__item-icon img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    flex-shrink: 0;
+}
+
+.vtoolbar-menu__item-label {
+    flex: 1;
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.vtoolbar-menu__item--filter.is-active {
+    background-color: rgba(255, 119, 0, 0.15);
+}
+
+.vtoolbar-menu__item--filter.is-active .vtoolbar-menu__chevron {
+    transform: rotate(90deg);
+    color: #ff7700;
+}
+
+.vtoolbar-menu__chevron {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    color: #94a3b8;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.vtoolbar-menu__switch {
+    flex-shrink: 0;
+    width: 32px;
+    height: 18px;
+    border-radius: 10px;
+    background: #475569;
+    position: relative;
+    transition: background-color 0.2s ease;
+    pointer-events: none;
+}
+
+.vtoolbar-menu__switch.is-on {
+    background: linear-gradient(90deg, #f0cb95, #e9be80);
+}
+
+.vtoolbar-menu__switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: left 0.2s ease;
+}
+
+.vtoolbar-menu__switch.is-on .vtoolbar-menu__switch-thumb {
+    left: 16px;
+}
+
+.vtoolbar-menu__filter-host {
+    display: none;
+    position: absolute;
+    left: 100%;
+    bottom: 0;
+    margin-left: -6px;
+    padding-left: 12px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.vtoolbar-menu__filter-host.is-visible {
+    pointer-events: auto;
+}
+
+.vtoolbar-menu__filter-host.is-visible {
+    display: block;
+}
+
+.vtoolbar-menu__filter-host .filter__wrap {
+    display: block;
+    position: static;
+    float: none;
+    right: auto;
+    bottom: auto;
+    margin: 0;
+    height: auto;
+}
+
+.vtoolbar-menu__filter-host .filter__panel {
+    position: relative;
+    transform: none;
+    left: auto;
+    opacity: 0.92;
+}
+
+.vtoolbar-menu__divider {
+    height: 1px;
+    margin: 4px 8px;
+    background: rgba(148, 163, 184, 0.2);
+}

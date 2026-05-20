@@ -7,6 +7,44 @@
 	z-index: 1428;
 	user-select: none;
 	display: none;
+	overflow: visible;
+}
+
+.ex-panel__close {
+	position: absolute;
+	top: -9px;
+	right: -9px;
+	z-index: 3;
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	margin: 0;
+	border: none;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.95);
+	color: #64748b;
+	font-size: 14px;
+	line-height: 16px;
+	text-align: center;
+	cursor: pointer;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+	transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.ex-panel__close:hover {
+	color: #fff;
+	background: #f60;
+}
+
+.ex-panel__close:focus-visible {
+	outline: 2px solid #ff7700;
+	outline-offset: 1px;
+}
+
+/* 隐藏礼物栏时挂到播放器层，位置由 ExPanel_updateFloatingPosition 计算（视频工具条上方） */
+.ex-panel.ex-panel--floating {
+	position: fixed;
+	z-index: 10000;
 }
 .ex-panel__wrap {
 	display: flex;
@@ -14,6 +52,8 @@
 	justify-content: center;
 	width: 100%;
 	height: 100%;
+	position: relative;
+	z-index: 1;
 }
 .ex-panel__icon {
 	margin: 0 10px;

@@ -1,11 +1,4 @@
-function initPkg_ExIcon() {
-	initPkg_ExIcon_insertDom();
-	initPkg_ExIcon_Func();
-}
-function initPkg_ExIcon_insertDom() {
-	let a = document.createElement("div");
-	a.className = "ex-icon";
-	a.innerHTML = `<a title="DouyuEx ver.${curVersion}"><svg class="icon" width="24" height="24" viewBox="0 0 108 108" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+const PokeballIcon_svg = `<svg class="icon" width="24" height="24" viewBox="0 0 108 108" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="精灵球" transform="translate(0.830769, 0.830769)" fill-rule="nonzero">
             <path d="M53.1692307,106.338461 C23.8276922,106.338461 0,82.5107692 0,53.1692307 C0,51.0030769 1.77230775,49.2307692 3.9384615,49.2307692 L33.476923,49.2307692 C35.6430769,49.2307692 37.4153845,51.003077 37.4153846,53.1692307 C37.4153846,61.8338461 44.5046154,68.9230769 53.1692307,68.9230769 C61.8338461,68.9230769 68.9230769,61.8338461 68.9230769,53.1692307 C68.9230769,51.0030769 70.6953846,49.2307692 72.8615385,49.2307692 L102.4,49.2307692 C104.566154,49.2307692 106.338461,51.003077 106.338461,53.1692307 C106.338461,82.5107692 82.5107692,106.338461 53.1692307,106.338461 Z" id="路径" fill="#33363A"></path>
@@ -18,7 +11,16 @@ function initPkg_ExIcon_insertDom() {
             <path d="M43.3230769,53.1692307 C43.3230769,58.6071114 47.7313501,63.0153846 53.1692307,63.0153846 C58.6071114,63.0153846 63.0153846,58.6071114 63.0153846,53.1692307 C63.0153846,47.7313501 58.6071114,43.3230769 53.1692307,43.3230769 C47.7313501,43.3230769 43.3230769,47.7313501 43.3230769,53.1692307 Z" id="路径" fill="#33363A"></path>
         </g>
     </g>
-</svg><i id="ex-icon__tip" class="ex-panel__tip"></i></a>`;
+</svg>`;
+
+function initPkg_ExIcon() {
+	initPkg_ExIcon_insertDom();
+	initPkg_ExIcon_Func();
+}
+function initPkg_ExIcon_insertDom() {
+	let a = document.createElement("div");
+	a.className = "ex-icon";
+	a.innerHTML = `<a title="DouyuEx ver.${curVersion}">${PokeballIcon_svg}<i id="ex-icon__tip" class="ex-panel__tip"></i></a>`;
 	let b = document.querySelector(".PlayerToolbar-ContentCell .PlayerToolbar-Wealth");
 	if (b) {
 		b.insertBefore(a, b.childNodes[0]);

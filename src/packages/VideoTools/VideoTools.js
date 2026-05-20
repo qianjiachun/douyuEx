@@ -20,6 +20,7 @@ function initPkg_VideoTools() {
 
 function initPkg_VideoTools_Module() {
     // 添加模块
+    initPkg_VideoTools_VideoToolbarMenu();
     initPkg_VideoTools_Joysound();
     initPkg_VideoTools_VideoSpeed();
     initPkg_VideoTools_Cinema();
@@ -33,12 +34,15 @@ function initPkg_VideoTools_Module() {
 }
 
 function initPkg_VideoTools_Func() {
-    document.getElementById("js-player-toolbar").addEventListener("mouseover", () => {
-        document.getElementsByClassName("filter__wrap")[0].style.display = "none";
-    });
-    document.getElementById("js-player-asideMain").addEventListener("mouseover", () => {
-        document.getElementsByClassName("filter__wrap")[0].style.display = "none";
-    });
+    const hideFilterOnLeave = () => {
+        if (typeof VideoToolbarMenu_hideFilterPanel === "function") {
+            VideoToolbarMenu_hideFilterPanel();
+        } else if (typeof Filter_hidePanel === "function") {
+            Filter_hidePanel();
+        }
+    };
+    document.getElementById("js-player-toolbar").addEventListener("mouseover", hideFilterOnLeave);
+    document.getElementById("js-player-asideMain").addEventListener("mouseover", hideFilterOnLeave);
     getValidDom([".inputView-2a65aa", ".inputView-620ab7"]).addEventListener("focus", () => {
         isInput = true;
     });
