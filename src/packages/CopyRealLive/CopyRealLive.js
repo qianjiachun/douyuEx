@@ -41,18 +41,20 @@ function CopyRealLive_copyUrl(qn) {
     })
 }
 
+function CopyRealLive_copySelected() {
+    if (document.querySelectorAll(".tipItem-898596 > ul > li").length > 0) {
+        document.querySelectorAll(".tipItem-898596 > ul > li").forEach(item => {
+            if (item.className.includes("selected")) {
+                CopyRealLive_copyUrl(CopyRealLive_getQn(item.innerText));
+            }
+        });
+    } else {
+        CopyRealLive_copyUrl(0);
+    }
+}
+
 function initPkg_CopyRealLive_Func() {
-	document.getElementById("copy-real-live").addEventListener("click", function() {
-        if (document.querySelectorAll(".tipItem-898596 > ul > li").length > 0) {
-            document.querySelectorAll(".tipItem-898596 > ul > li").forEach(item => {
-                if (item.className.includes("selected")) {
-                    CopyRealLive_copyUrl(CopyRealLive_getQn(item.innerText));
-                }
-            })
-        } else {
-            CopyRealLive_copyUrl(0);
-        }
-    });
+	document.getElementById("copy-real-live").addEventListener("click", CopyRealLive_copySelected);
 
     let titNode = document.getElementsByClassName("RecommendViewTit-04ebd8");
     let tit = "";
