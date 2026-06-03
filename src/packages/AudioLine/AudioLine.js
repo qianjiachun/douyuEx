@@ -20,12 +20,14 @@ function AudioLine_insertIcon() {
     }
 }
 
-function initPkg_AudioLine_Func() {
-	document.getElementById("ex-audio-line").addEventListener("click", function() {
-        let pause = getValidDom([".pause-c594e8", ".icon-c8be96"]);
-        if (pause) pause.click(); // 暂停视频播放
-        getRealLive_Douyu(rid, true, false, "1428", (lurl) => {
-            createNewAudio_Douyu(videoPlayerArr.length, rid);
-        })
+function AudioLine_switch() {
+    let pause = getValidDom([".pause-c594e8", ".icon-c8be96"]);
+    if (pause) pause.click(); // 暂停视频播放
+    getRealLive_Douyu(rid, true, false, "1428", (lurl) => {
+        createNewAudio_Douyu(videoPlayerArr.length, rid);
     });
+}
+
+function initPkg_AudioLine_Func() {
+	document.getElementById("ex-audio-line").addEventListener("click", AudioLine_switch);
 }
