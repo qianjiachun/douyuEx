@@ -28,6 +28,18 @@ function VideoToolbarMenu_insertDom() {
                 <span class="vtoolbar-menu__item-label">画面滤镜</span>
                 ${VideoToolbarMenu_iconChevron}
             </button>
+            <button type="button" class="vtoolbar-menu__item" id="vtoolbar-menu-copy-live" role="menuitem">
+                <span class="vtoolbar-menu__item-icon">${VideoToolbarMenu_iconCopyLive}</span>
+                <span class="vtoolbar-menu__item-label">复制直播流地址</span>
+            </button>
+            <button type="button" class="vtoolbar-menu__item" id="vtoolbar-menu-audio-line" role="menuitem">
+                <span class="vtoolbar-menu__item-icon vtoolbar-menu__item-icon--compact">${VideoToolbarMenu_iconAudioLine}</span>
+                <span class="vtoolbar-menu__item-label">切换音频线路</span>
+            </button>
+            <button type="button" class="vtoolbar-menu__item" id="vtoolbar-menu-enhanced-pip" role="menuitem">
+                <span class="vtoolbar-menu__item-icon">${VideoToolbarMenu_iconEnhancedPip}</span>
+                <span class="vtoolbar-menu__item-label">加强版画中画</span>
+            </button>
             <div class="vtoolbar-menu__divider" role="separator"></div>
             <button type="button" class="vtoolbar-menu__item" id="vtoolbar-menu-expanel" role="menuitem">
                 <span class="vtoolbar-menu__item-icon">${VideoToolbarMenu_pokeballSvg}</span>
@@ -99,6 +111,9 @@ function VideoToolbarMenu_bindEvents() {
     const dropdown = root.querySelector(".vtoolbar-menu__dropdown");
     const filterHost = document.getElementById("ex-vtoolbar-filter-host");
     const filterBtn = document.getElementById("vtoolbar-menu-filter");
+    const copyLiveBtn = document.getElementById("vtoolbar-menu-copy-live");
+    const audioLineBtn = document.getElementById("vtoolbar-menu-audio-line");
+    const enhancedPipBtn = document.getElementById("vtoolbar-menu-enhanced-pip");
     const expanelBtn = document.getElementById("vtoolbar-menu-expanel");
 
     VideoToolbarMenu_bindHoverTarget(trigger, true);
@@ -108,6 +123,28 @@ function VideoToolbarMenu_bindEvents() {
     filterBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         VideoToolbarMenu_toggleFilterPanel();
+    });
+
+    copyLiveBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (typeof CopyRealLive_copySelected === "function") {
+            CopyRealLive_copySelected();
+        }
+    });
+
+    audioLineBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (typeof AudioLine_switch === "function") {
+            AudioLine_switch();
+        }
+    });
+
+    enhancedPipBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        VideoToolbarMenu_close();
+        if (typeof PictureInPictureControl_launchEnhanced === "function") {
+            PictureInPictureControl_launchEnhanced();
+        }
     });
 
     expanelBtn.addEventListener("click", (e) => {
