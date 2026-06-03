@@ -2,38 +2,78 @@
  * 拦截并修改特定 Script 标签的内容
  * 数组结构：
  * [
- *  { url: "", callback: (content: string) => string }
+ *  { url: "", callback: (content: string) => string },
+ *  { inline: true, callback: (content: string) => string }
  * ]
  * 支持多个 callback，会按注册顺序依次执行，前一个 callback 的输出作为下一个 callback 的输入
  */
 let scriptHookCallbackList = [];
 
+function applyInlineScriptHooks(node) {
+  if (node.tagName !== "SCRIPT" || node.src || !node.textContent) {
+    return node;
+  }
+
+  const inlineCallbacks = scriptHookCallbackList.filter((item) => item.inline);
+  if (inlineCallbacks.length === 0) {
+    return node;
+  }
+
+  let content = node.textContent;
+  for (let i = 0; i < inlineCallbacks.length; i++) {
+    content = inlineCallbacks[i].callback(content);
+  }
+
+  if (content !== node.textContent) {
+    node.textContent = content;
+  }
+
+  return node;
+}
+
+function handleExternalScript(node, insertFn, targetNode) {
+  const src = node.src;
+  const callbacks = [];
+
+  for (let k = 0; k < scriptHookCallbackList.length; k++) {
+    const item = scriptHookCallbackList[k];
+    if (!item.inline && src.includes(item.url)) {
+      callbacks.push(item);
+    }
+  }
+
+  if (callbacks.length === 0) {
+    return false;
+  }
+
+  fetchAndReplace(src, callbacks, targetNode);
+  return true;
+}
+
 function initScriptHook() {
   const originalAppendChild = Node.prototype.appendChild;
+  const originalInsertBefore = Node.prototype.insertBefore;
 
-  // 覆盖原生的 appendChild 方法
   Node.prototype.appendChild = function (node) {
-    // 1. 检查节点是否是 SCRIPT 标签
-    if (node.tagName === "SCRIPT" && node.src) {
-      const src = node.src;
-
-      // 找到所有匹配的 callback
-      const callbacks = [];
-      for (let k = 0; k < scriptHookCallbackList.length; k++) {
-        const item = scriptHookCallbackList[k];
-        // 检查是否包含目标 URL
-        if (src.includes(item.url)) callbacks.push(item);
-      }
-
-      if (callbacks.length > 0) {
-        fetchAndReplace(src, callbacks, this);
-        // 返回一个空节点，防止网站报错，且不插入原脚本
+    if (node.tagName === "SCRIPT") {
+      if (node.src && handleExternalScript(node, originalAppendChild, this)) {
         return document.createDocumentFragment();
       }
+      node = applyInlineScriptHooks(node);
     }
 
-    // 如果不是目标脚本，或者没有 src (例如内联脚本或样式)，则执行原始方法
     return originalAppendChild.call(this, node);
+  };
+
+  Node.prototype.insertBefore = function (node, referenceNode) {
+    if (node.tagName === "SCRIPT") {
+      if (node.src && handleExternalScript(node, originalInsertBefore, this)) {
+        return document.createDocumentFragment();
+      }
+      node = applyInlineScriptHooks(node);
+    }
+
+    return originalInsertBefore.call(this, node, referenceNode);
   };
 }
 
@@ -50,18 +90,13 @@ function fetchAndReplace(url, callbacks, targetNode) {
     onload: function (response) {
       let modifiedContent = response.responseText;
 
-      // 依次执行所有匹配的 callback
       for (let m = 0; m < callbacks.length; m++) {
-        const callback = callbacks[m];
-        modifiedContent = callback.callback(modifiedContent);
+        modifiedContent = callbacks[m].callback(modifiedContent);
       }
 
-      // 创建新的可执行脚本
       const newScript = document.createElement("script");
       newScript.type = "text/javascript";
       newScript.textContent = modifiedContent;
-
-      // 注入回原始目标节点
       targetNode.appendChild(newScript);
     },
     onerror: function (err) {
