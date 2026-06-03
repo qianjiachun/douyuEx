@@ -165,6 +165,17 @@
     flex-shrink: 0;
 }
 
+.vtoolbar-menu__item-icon--compact svg,
+.vtoolbar-menu__item-icon--compact .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.vtoolbar-menu__item-icon .vtoolbar-menu__icon-pip {
+    width: 18px;
+    height: 18px;
+}
+
 .vtoolbar-menu__item-label {
     flex: 1;
     white-space: nowrap;
