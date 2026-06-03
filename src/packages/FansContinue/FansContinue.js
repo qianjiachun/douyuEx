@@ -18,16 +18,19 @@ function FansContinue_insertIcon() {
 
 function initPkg_FansContinue_Func() {
   document.getElementsByClassName("fans-continue")[0].addEventListener("click", function () {
+    const saved = localStorage.getItem("ExSave_FansContinue");
+    const defValue = saved != null ? saved : "1";
     PostbirdAlertBox.prompt({
       title: "每个直播间赠送几根荧光棒？(输入0则平均赠送)",
       okBtn: "确定",
       cancelBtn: "取消",
-      defaultValue: "1",
+      defaultValue: defValue,
       contentColor: "rgb(51,51,51)",
       onConfirm: function (res) {
         if (res == null) return;
         let sendNum = Number(res);
         if (Number.isNaN(sendNum) || sendNum < 0) return;
+        localStorage.setItem("ExSave_FansContinue", String(res));
         FansContinue_startSend(sendNum);
       },
       onCancel: function () {}
