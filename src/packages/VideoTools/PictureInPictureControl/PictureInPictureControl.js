@@ -25,6 +25,7 @@ let pipKeepAliveHandle = null;
 let pipKeepAliveCanvas = null;
 let pipVisRecoverHandler = null;
 let pipFrameStallTimer = null;
+let pipFullscreenListenerBound = false;
 
 const PIP_MENU_SVG_NATIVE = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="13" width="7" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>`;
 const PIP_MENU_SVG_ENHANCED = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10h5.5M7 13h3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
@@ -50,10 +51,18 @@ function PictureInPictureControl_applyDanmakuStyle(pipWindow) {
     if (layer) {
         layer.style.opacity = String(opacity);
         layer.style.visibility = visible ? "visible" : "hidden";
+        if (!visible) {
+            while (layer.firstChild) {
+                layer.removeChild(layer.firstChild);
+            }
+        }
     }
     if (combo) {
         combo.style.opacity = String(opacity);
         combo.style.display = visible ? "" : "none";
+        if (!visible) {
+            combo.textContent = "";
+        }
     }
 }
 
@@ -414,15 +423,27 @@ function initPkg_PictureInPictureControl() {
 function initPkg_PictureInPictureControl_Dom() {
     PictureInPictureControl_ensureMenuPanel();
     PictureInPictureControl_startDocObserver();
+    if (!pipFullscreenListenerBound) {
+        pipFullscreenListenerBound = true;
+        document.addEventListener("fullscreenchange", PictureInPictureControl_onFullscreenChange, true);
+        document.addEventListener("webkitfullscreenchange", PictureInPictureControl_onFullscreenChange, true);
+        document.addEventListener("mozfullscreenchange", PictureInPictureControl_onFullscreenChange, true);
+        document.addEventListener("MSFullscreenChange", PictureInPictureControl_onFullscreenChange, true);
+    }
+    PictureInPictureControl_resetControlbarHook();
+    PictureInPictureControl_tryBindPipButton();
+}
+
+function PictureInPictureControl_resetControlbarHook() {
     if (pipControlbarHook) {
         pipControlbarHook.closeHook();
+        pipControlbarHook = null;
     }
     const controlbar = document.getElementById("js-player-controlbar");
     if (!controlbar) {
         return;
     }
     pipControlbarHook = new DomHook("#js-player-controlbar", true, PictureInPictureControl_onControlbarMutation);
-    PictureInPictureControl_tryBindPipButton();
 }
 
 function PictureInPictureControl_isPipBindingValid() {
@@ -432,7 +453,11 @@ function PictureInPictureControl_isPipBindingValid() {
 
 function PictureInPictureControl_stopDocObserver() {
     if (pipDocObserver) {
-        pipDocObserver.disconnect();
+        if (typeof pipDocObserver.closeHook === "function") {
+            pipDocObserver.closeHook();
+        } else {
+            pipDocObserver.disconnect?.();
+        }
         pipDocObserver = null;
     }
     if (pipDocSyncRaf != null) {
@@ -445,7 +470,7 @@ function PictureInPictureControl_startDocObserver() {
     if (pipDocObserver || PictureInPictureControl_isPipBindingValid()) {
         return;
     }
-    pipDocObserver = new MutationObserver((records) => {
+    pipDocObserver = new DomHook("body", true, (records) => {
         if (PictureInPictureControl_isPipBindingValid()) {
             PictureInPictureControl_stopDocObserver();
             return;
@@ -481,7 +506,6 @@ function PictureInPictureControl_startDocObserver() {
         }
         PictureInPictureControl_scheduleDocSync();
     });
-    pipDocObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 function PictureInPictureControl_isPipTooltipNode(node) {
@@ -538,12 +562,14 @@ function PictureInPictureControl_onControlbarMutation(mutations) {
     if (PictureInPictureControl_isPipBindingValid()) {
         return;
     }
+    PictureInPictureControl_resetControlbarHook();
     if (pipNativeTriggerBtn && !pipNativeTriggerBtn.isConnected) {
         pipNativeTriggerBtn = null;
     }
     if (mutations && !PictureInPictureControl_mutationsMayAffectPip(mutations)) {
         return;
     }
+    PictureInPictureControl_startDocObserver();
     PictureInPictureControl_scheduleControlbarSync();
 }
 
@@ -684,7 +710,18 @@ function PictureInPictureControl_onPipBtnEnter(e) {
     PictureInPictureControl_showMenu(pipMenuAnchorBtn);
 }
 
+function PictureInPictureControl_onFullscreenChange() {
+    PictureInPictureControl_ensureMenuPanel();
+    PictureInPictureControl_resetControlbarHook();
+    PictureInPictureControl_startDocObserver();
+    PictureInPictureControl_scheduleDocSync();
+    setTimeout(() => {
+        PictureInPictureControl_scheduleDocSync();
+    }, 250);
+}
+
 function PictureInPictureControl_showMenu(anchorBtn) {
+    PictureInPictureControl_ensureMenuPanel();
     PictureInPictureControl_cancelHideMenu();
     const panel = document.getElementById("ex-pip-menu-panel");
     if (!panel || !anchorBtn) {
