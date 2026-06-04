@@ -16,6 +16,7 @@ function FansContinue_insertIcon() {
   b.insertBefore(a, b.childNodes[0]);
 }
 
+// 在初始化函数中从 localStorage 加载 ID
 function initPkg_FansContinue_Func() {
   document.getElementsByClassName("fans-continue")[0].addEventListener("click", function () {
     const saved = localStorage.getItem("ExSave_FansContinue");
